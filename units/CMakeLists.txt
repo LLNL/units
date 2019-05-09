@@ -17,7 +17,7 @@ if (UNITS_HEADER_ONLY)
   # add this directory to the include path
 else (UNITS_HEADER_ONLY)
   add_library(unitslib STATIC ${units_source_files} ${units_header_files})
-  target_include_directories(unitslib PUBLIC ${UNITS_SOURCE_DIR})
+  target_include_directories(unitslib PUBLIC  $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>)
 endif (UNITS_HEADER_ONLY)
 
 #install(FILES ${units_headers_files} DESTINATION units)

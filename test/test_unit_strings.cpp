@@ -292,6 +292,11 @@ TEST(stringToUnits, equivalents2)
     //   EXPECT_EQ(unit_from_string("lumen meters squared"), unit_from_string("lm.m2"));
 }
 
+TEST(stringToUnits, equivalents3)
+{
+    EXPECT_EQ(unit_from_string("grams per hour per metre sq"), unit_from_string("g/h/m2"));
+}
+
 class roundTripString : public ::testing::TestWithParam<std::string>
 {
 };

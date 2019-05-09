@@ -223,6 +223,8 @@ TEST(UCUM, TestMatchingName)
 
 TEST(UCUM, TestClass)
 {
+    static const std::set<std::string> ignore{"[h]", "[MET]", "[S]", "b", "[CCID_50]", "[TCID_50]", "[EID_50]"};
+
     std::ifstream i(TEST_FILE_FOLDER "/ucumDefs.json");
     nlohmann::json defs;
     i >> defs;
@@ -243,6 +245,10 @@ TEST(UCUM, TestClass)
             continue;
         }
         if (csact.is_equation())
+        {
+            continue;
+        }
+        if (ignore.find(csCode) != ignore.end())
         {
             continue;
         }

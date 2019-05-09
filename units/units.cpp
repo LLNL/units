@@ -1191,7 +1191,7 @@ enum class modifier : int
 using modSeq = std::tuple<const char *, const char *, size_t, modifier>;
 static bool wordModifiers(std::string &unit)
 {
-    static constexpr std::array<modSeq, 24> modifiers{
+    static constexpr std::array<modSeq, 26> modifiers{
       modSeq{"cubic", "^3", 5, modifier::start_tail},
       modSeq{"reciprocal", "^-1", 10, modifier::start_tail},
       modSeq{"reciprocal", "^-1", 10, modifier::tail_replace},
@@ -1216,6 +1216,8 @@ static bool wordModifiers(std::string &unit)
       modSeq{"tothesixthpower", "^6", 15, modifier::anywhere_replace},
       modSeq{"square", "^2", 6, modifier::anywhere_tail},
       modSeq{"cubic", "^3", 5, modifier::anywhere_tail},
+      modSeq{"sq", "^2", 2, modifier::tail_replace},
+      modSeq{"cu", "^3", 2, modifier::tail_replace},
     };
     if (unit.compare(0, 3, "cup") == 0)
     {  // this causes too many issues so skip it
@@ -2326,6 +2328,7 @@ static const smap base_unit_vals{
   {"[ACR_BR]", precise::imp::acre},
   {"acr_br", precise::imp::acre},
   {"acre_br", precise::imp::acre},
+  {"acres_br", precise::imp::acre},
   {"Gasolineat15.5C", precise_unit(739.33, precise::kg / precise::m.pow(3))},
   {"rood", precise_unit(0.25, precise::imp::acre)},
   {"are", precise::area::are},
@@ -2774,6 +2777,7 @@ static const smap base_unit_vals{
   {"dr_av", precise::av::dram},
   {"dr_i", precise::av::dram},
   {"dram_av", precise::av::dram},
+  {"dram_i", precise::av::dram},
   {"[DR_AV]", precise::av::dram},
   {"drammassunit", precise::av::dram},
   {"scwt", precise::av::hundredweight},
@@ -2807,11 +2811,13 @@ static const smap base_unit_vals{
   {"shortton", precise::av::ton},
   {"shortton_us", precise::av::ton},
   {"ton_us", precise::av::ton},
+  {"ton_av", precise::av::ton},
   {"stone", precise::av::stone},
   {"stone_br", precise::av::stone},
   {"lton_av", precise::av::longton},
   {"[LTON_AV]", precise::av::longton},
   {"longton", precise::av::longton},
+  {"longton_av", precise::av::longton},
   {"ton(long)", precise::av::longton},
   {"longton_br", precise::av::longton},
   {"ton_br", precise::av::longton},
@@ -2917,6 +2923,7 @@ static const smap base_unit_vals{
   {"teaspoon-metric", precise::metric::tsp},
   {"teaspoon_m", precise::metric::tsp},
   {"tbs_m", precise::metric::tbsp},
+  {"tbsm", precise::metric::tbsp},
   {"[TBS_M]", precise::metric::tbsp},
   {"tablespoon-metric", precise::metric::tbsp},
   {"tablespoon_m", precise::metric::tbsp},
@@ -3887,7 +3894,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
 {
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
-    static constexpr std::array<ckpair, 33> ucodeReplacements{
+    static constexpr std::array<ckpair, 35> ucodeReplacements{
       ckpair{u8"\u00d7", "*"},
       ckpair{u8"\u00f7", "/"},  // division sign
       ckpair{u8"\u00b7", "*"},
@@ -3918,6 +3925,8 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"\xb9", "*"},  // superscript 1 which doesn't do anything, replace with multiply
       ckpair{"\xb2", "^(2)"},
       ckpair{"\xf7", "/"},
+      ckpair{"\xB7", "*"},
+      ckpair{"\xD7", "*"},
       ckpair{"\xBD", "(0.5)"},  //(1/2) fraction
       ckpair{"\xBC", "(0.25)"},  //(1/4) fraction
       ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
@@ -4700,7 +4709,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
         }
     }
 
-    auto sep = findOperatorSep(unit_string, "*/\xB7\xFA\xD7");
+    auto sep = findOperatorSep(unit_string, "*/");
     if (sep != std::string::npos)
     {
         precise_unit a_unit, b_unit;
@@ -5303,6 +5312,8 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"vcnt", precise::L / precise::kg},
   {"currentdensity", precise::A / precise::m.pow(2)},
   {"magneticfieldstrength", precise::A / precise::m},
+  {"magneticfieldintensity", precise::A / precise::m},
+  {"magnetictension", precise::Pa / precise::m},
   {"concentration", precise::mol / precise::m.pow(3)},
   {"luminance", precise::cd / precise::m.pow(2)},
   {"brightness", precise::cd / precise::m.pow(2)},
@@ -5351,6 +5362,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"electricconductance", precise::siemens},
   {"conductance", precise::siemens},
   {"magneticflux", precise::Wb},
+  {"fluxofmagneticinduction", precise::Wb},
   {"magneticfluxdensity", precise::T},
   {"inductance", precise::H},
   {"luminousflux", precise::lm},
@@ -5409,21 +5421,42 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"lineicvolume", precise::m.pow(3) / precise::m},
   {"lineicnumber", precise::one / precise::m},
   {"refraction", precise::one / precise::m},
+  {"naric", precise::one / precise::m.pow(2)},
   {"nlen", precise::one / precise::m},
   {"acidity", precise::laboratory::pH},
   {"cact", precise::kat},
   {"doseequivalent", precise::Sv},
   {"equivalentdose", precise::Sv},
   {"acidity", precise::laboratory::pH},
-  {"magneticField", precise::T},
+  {"magneticfield", precise::T},
+  {"magnetic", precise::T},
   {"absorbeddose", precise::Gy},
   {"ionizingradiationdose", precise::Gy},
+  {"iondose", precise::Gy},
+  {"exposure", precise::C / precise::kg},
+  {"fluence", precise::one / precise::m.pow(2)},
+  {"activity", precise::Bq},
   {"mcnt", precise::pu *precise::m},
   {"ccnt", precise::kat / precise::kg},
   {"ccnc", precise::kat / precise::L},
+  {"acnc", precise::one / precise::L},
   {"velcnc", precise::m / precise::s / precise::L},
   {"mrat", precise::kg / precise::s},
   {"osmol", precise_unit(1.0, precise::mol, commodities::particles)},
+  {"massfraction", precise::pu *precise::kg},
+  {"mfr", precise::pu *precise::kg},
+  {"amplitudespectraldensity", precise::special::ASD},
+  {"fluidresistance", precise::Pa *precise::s / precise::m.pow(3)},
+  {"signaltransmissionrate", precise::bit / precise::s},
+  {"engmass", precise::J / precise::m.pow(3)},
+  {"massicenergy", precise::J / precise::m.pow(3)},
+  {"entsub", precise::mol},
+  {"mnum", precise::kg},
+  {"cmass", precise::kg / precise::kat},
+  {"stiffness", precise::N / precise::m},
+  {"elasticity", precise::N / precise::m.pow(2)},
+  {"compliance", precise::m / precise::N},
+  {"compli", precise::m / precise::N},
 };
 
 precise_unit default_unit(std::string unit_type)
@@ -5453,7 +5486,12 @@ precise_unit default_unit(std::string unit_type)
             return tunit.inv();
         }
     }
-    if (unit_type.compare(1, 3, "rto") == 0)
+    if (ends_with(unit_type, "rto"))
+    {
+        // ratio of some kind
+        return precise::one;
+    }
+    if (ends_with(unit_type, "fr"))
     {
         // ratio of some kind
         return precise::one;
