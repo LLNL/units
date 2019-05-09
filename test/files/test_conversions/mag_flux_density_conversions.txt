@@ -1,0 +1,120 @@
+1. tesla [T]:
+1
+2. millitesla [mT]:
+1000
+3. microtesla [uT]:
+1000000
+4. gauss [Gs]:
+10000
+5. gamma(geo):
+1e+9
+6. weber/square meter [Wb/m2]:
+1
+7. weber/square kilometer:
+1000000
+8. weber/square decimeter:
+0.01
+9. weber/square centimeter:
+0.0001
+10. weber/square millimeter:
+0.000001
+11. weber/square micrometer:
+1e-12
+12. weber/square nanometer:
+1e-18
+13. weber/square mile [Wb/mi2]:
+2589988.110336
+14. weber/square yard [Wb/yd2]:
+0.836127
+15. weber/square foot [Wb/ft2]:
+0.09290304
+16. weber/square inch [Wb/in2]:
+0.00064516
+17. milliweber/square meter:
+1000
+18. milliweber/square kilometer:
+1e+9
+19. milliweber/square decimeter:
+10
+20. milliweber/square centimeter:
+0.1
+21. milliweber/square millimeter:
+0.001
+22. milliweber/square micrometer:
+1e-9
+23. milliweber/square nanometer:
+1e-15
+24. milliweber/square mile:
+2.589988e+9
+25. milliweber/square yard:
+836.12736
+26. milliweber/square foot:
+92.90304
+27. milliweber/square inch:
+0.64516
+28. microweber/square meter:
+1000000
+29. microweber/square kilometer:
+1e+12
+30. microweber/square decimeter:
+10000
+31. microweber/square centimeter:
+100
+32. microweber/square millimeter:
+1
+33. microweber/square micrometer:
+0.000001
+34. microweber/square nanometer:
+1e-12
+35. microweber/square mile:
+2.589988e+12
+36. microweber/square yard:
+836127.36
+37. microweber/square foot:
+92903.04
+38. microweber/square inch:
+645.16
+39. unit pole/square meter:
+7957747.155
+40. unit pole/square kilometer:
+7.96e+12
+41. unit pole/square decimeter:
+79577.47155
+42. unit pole/square centimeter:
+795.774716
+43. unit pole/square millimeter:
+7.957747
+44. unit pole/square micrometer:
+0.00000796
+45. unit pole/square nanometer:
+7.96e-12
+46. unit pole/square mile:
+2.061047e+13
+47. unit pole/square yard:
+6653690.12088
+48. unit pole/square foot:
+739298.90232
+49. unit pole/square inch:
+5134.020155
+51. maxwell/square kilometer:
+1e+14
+52. maxwell/square decimeter:
+1000000
+53. maxwell/square centimeter:
+10000
+54. maxwell/square millimeter:
+100
+55. maxwell/square micrometer:
+0.0001
+56. maxwell/square nanometer:
+1e-10
+57. maxwell/square mile:
+258998811033599.97
+58. maxwell/square yard:
+83612736
+59. maxwell/square foot:
+9290304
+60. maxwell/square inch:
+64516
+61. maxwell/square meter:
+100000000

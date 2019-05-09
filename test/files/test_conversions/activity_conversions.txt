@@ -1,0 +1,29 @@
+1. becquerel [Bq]:
+1
+2. terabecquerel [TBq]:
+1e-12
+3. gigabecquerel [GBq]:
+1e-9
+4. megabecquerel [MBq]:
+0.000001
+5. kilobecquerel [kBq]:
+0.001
+6. millibecquerel [mBq]:
+1000
+7. curie [Ci]:
+2.702703e-11
+8. kilocurie [kCi]:
+2.702703e-14
+9. millicurie [mCi]:
+2.702703e-8
+10. microcurie [uCi]:
+0.000027027027
+11. nanocurie [nCi]:
+0.02702703
+12. picocurie [pCi]:
+27.027027
+13. rutherford:
+0.000001
+14. {#}/minute:
+60
+

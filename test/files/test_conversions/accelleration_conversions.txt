@@ -1,0 +1,102 @@
+1. meter/square second [m/s2]:
+1
+2. meter/square millisecond:
+0.000001
+3. meter/square microsecond:
+1e-12
+4. meter/square nanosecond:
+1e-18
+5. meter/square minute [m/min2]:
+3599.999856
+6. meter/square hour [m/h2]:
+12960000
+7. kilometer/square second:
+0.001
+8. kilometer/square millisecond:
+1e-9
+9. kilometer/square microsecond:
+1e-15
+10. kilometer/square nanosecond:
+1e-21
+11. kilometer/square minute:
+3.6
+12. kilometer/square hour:
+12960
+13. centimeter/square second:
+100
+14. centimeter/square millisecond:
+0.0001
+15. millimeter/square second:
+1000
+16. millimeter/square millisecond:
+0.001
+17. millimeter/square microsecond:
+1e-9
+18. millimeter/square nanosecond:
+1e-15
+19. micrometer/square second:
+1000000
+20. micrometer/square millisecond:
+1
+21. micrometer/square microsecond:
+0.000001
+22. micrometer/square nanosecond:
+1e-12
+23. nanometer/square second:
+1e+9
+24. nanometer/square millisecond:
+1000
+25. nanometer/square microsecond:
+0.001
+26. nanometer/square nanosecond:
+1e-9
+27. league/square second:
+0.0002071237
+28. league/square hour [lea/h2]:
+2.68432315200e+03
+29. mile/square second [mi/s2]: 
+0.0006213712
+30. mile/square millisecond:
+6.2137119223733385e-10
+31. mile/square microsecond:
+6.2137119223733385e-16
+32. mile/square nanosecond:
+6.2137119223733385e-22
+33. mile/square minute [mi/min2]:
+2.236936
+34. mile/square hour [mi/h2]:
+8052.97065
+35. yard/square second [yd/s2]:
+1.093613
+36. yard/square millisecond:
+1.0936132983377078e-06
+37. yard/square microsecond:
+1.0936132983377078e-12
+38. yard/square nanosecond:
+1.0936132983377078e-18
+39. yard/square minute [yd/min2]:
+3937.007874
+40. foot/square second [ft/s2]:
+3.28084
+41. foot/square millisecond:
+3.2808398950131226e-06
+42. foot/square microsecond:
+3.2808398950131226e-12
+43. foot/square nanosecond:
+3.2808398950131226e-18
+44. foot/square minute [ft/min2]:
+11811.023622
+45. foot/square hour [ft/h2]:
+42519685.039199
+46. inch/square second [in/s2]:
+39.370079
+47. inch/square millisecond:
+3.9370078740157478e-05
+48. inch/square microsecond:
+3.9370078740157478e-11
+49. inch/square nanosecond:
+3.9370078740157478e-17
+50. Gal [Gal]:
+100
+51. acceleration of gravity:
+0.101972

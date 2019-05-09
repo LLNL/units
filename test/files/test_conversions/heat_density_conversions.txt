@@ -1,0 +1,172 @@
+1. joule/square meter [J/m2]:
+1
+2. langley [Ly]:
+0.000023900574
+3. joule/square kilometer:
+1000000
+4. joule/square hectometer:
+10000
+5. joule/square dekameter:
+100
+6. joule/square decimeter:
+0.01
+7. joule/square centimeter:
+0.0001
+8. joule/square millimeter:
+0.000001
+9. joule/square micrometer:
+1e-12
+10. joule/square nanometer:
+1e-18
+11. joule/hectare [J/ha]:
+10000
+12. megajoule/square meter:
+0.000001
+13. kilojoule/square meter:
+0.001
+14. kilojoule/square centimeter:
+1e-7
+15. millijoule/square millimeter:
+0.001
+16. millijoule/square micrometer:
+1e-9
+17. microjoule/square meter:
+1000000
+18. microjoule/square micrometer:
+0.000001
+19. nanojoule/square meter:
+1e+9
+20. nanojoule/square millimeter:
+1000
+21. nanojoule/square micrometer:
+0.001
+22. attojoule/square meter:
+1e+18
+23. megaelectron-volt/square meter:
+6.24e+12
+24. kiloelectron-volt/square micrometer:
+6240
+25. kiloelectron-volt/square nanometer:
+0.00624
+26. electron-volt/square nanometer:
+6.24
+27. erg/square meter:
+10000000
+28. erg/square micrometer:
+0.00001
+29. kilowatt-second/square meter:
+0.001
+30. horsepower hour/square meter:
+3.73e-7
+31. watt-hour/square meter:
+0.000277778
+32. watt-second/square meter:
+1
+33. newton meter/square meter:
+1
+34. horsepower (metric) hour/square meter:
+3.78e-7
+35. gigawatt-hour/square kilometer:
+2.78e-7
+36. megawatt-hour/square meter:
+2.78e-10
+37. megawatt-hour/square kilometer:
+0.000278
+38. kilowatt-hour/square meter:
+2.78e-7
+39. kilocalorie (IT)/square meter:
+0.000238846
+40. kilocalorie (th)/square meter:
+0.000239006
+41. calorie (IT)/square meter:
+0.238846
+42. calorie (th)/square meter:
+0.239006
+43. Btu (IT)/square meter:
+0.000947817
+44. Btu (th)/square meter:
+0.000948452
+45. mega Btu (IT)/square meter:
+9.48e-10
+46. ton-hour (refrigeration)/square meter:
+7.9e-8
+47. gigaton/square meter:
+2.39e-19
+48. megaton/square meter:
+2.39e-16
+49. joule/square inch [J/in2]:
+0.00064516
+50. joule/square foot [J/ft2]:
+0.09290304
+51. joule/square yard [J/yd2]:
+0.836127
+52. joule/square mile [J/mi2]:
+2589988.110336
+53. joule/acre [J/ac]:
+4046.856422
+54. megajoule/square yard:
+8.361274e-7
+55. kilojoule/square yard:
+0.0008361274
+56. kilojoule/square foot:
+0.00009290304
+57. kilojoule/square inch:
+6.4516e-7
+58. millijoule/square inch:
+0.64516
+59. microjoule/square inch:
+645.16
+60. attojoule/square inch:
+6.4516e+14
+61. erg/square inch:
+6451.6
+62. gigawatt-hour/square mile:
+7.1944114175999999e-07
+63. megawatt-hour/square mile:
+7.1944114175999999e-04
+64. megawatt-hour/square yard:
+2.3225759999999997e-10
+65. kilowatt-hour/square yard:
+2.3225759999999997e-7
+66. kilowatt-second/square yard:
+0.00083612736 
+67. watt-hour/square yard:
+2.3225759999999997e-4
+68. watt-second/square yard:
+0.836127
+69. watt-second/square foot:
+0.09290304
+70. watt-second/square inch:
+0.00064516
+71. newton meter/square yard:
+0.836127
+72. newton meter/square foot:
+0.09290304
+73. horsepower hour/square yard:
+3.12e-7
+74. horsepower (metric) hour/square yard:
+3.16e-7
+75. megaelectron-volt/square inch:
+4.025798e+9
+76. megaelectron-volt/acre:
+2.53e+16
+77. kilocalorie (IT)/square yard:
+0.000199706
+78. kilocalorie (th)/square yard:
+0.000199839
+79. calorie (IT)/square yard:
+0.199706
+80. calorie (th)/square yard:
+0.199839
+81. Btu (IT)/square yard:
+0.000792496
+82. Btu (th)/square yard:
+0.000793027
+83. mega Btu (IT)/square yard:
+7.93e-10
+84. ton-hour (refrigeration)/square yard:
+6.61e-8
+85. gigaton/square yard [Gton/yd2]:
+2e-19
+86. megaton/square yard [Mton/yd2]:
+2e-16

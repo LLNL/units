@@ -1,0 +1,54 @@
+1. watt/square meter [W/m2]:
+1
+2. watt/square centimeter:
+0.0001
+3. milliwatt/square centimeter:
+0.1
+4. kilowatt/square meter:
+0.001
+5. joule/second/square meter:
+1
+6. kilocalorie (IT)/hour/square meter:
+0.85986
+7. calorie (IT)/second/square centimeter:
+0.000023885
+8. calorie (IT)/minute/square centimeter:
+0.0014331
+9. calorie (IT)/hour/square centimeter:
+0.085986
+10. calorie (th)/second/square centimeter:
+0.000023900574
+11. calorie (th)/minute/square centimeter:
+0.0014340344
+12. calorie (th)/hour/square centimeter:
+0.08604206
+13. dyne/hour/centimeter:
+3600000
+14. erg/hour/square millimeter:
+36000
+15. foot pound force/minute/square foot:
+4.111306
+16. horsepower/square foot:
+0.000124585
+17. horsepower (metric)/square foot:
+0.000126313
+18. Btu (IT)/second/square foot:
+0.000088055
+19. Btu (IT)/minute/square foot:
+0.0052833
+20. Btu (IT)/hour/square foot:
+0.316998
+21. Btu (th)/second/square inch:
+6.119029e-7
+22. Btu (th)/second/square foot:
+0.000088114017
+23. Btu (th)/minute/square foot:
+0.005286841
+24. Btu (th)/hour/square inch:
+0.0022028504
+25. CHU/hour/square foot:
+0.17611
+26. watt/square inch [W/in2]:
+0.00064516
+27. kilocalorie (th)/hour/square foot:
+0.07988224

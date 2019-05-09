@@ -1,0 +1,40 @@
+1. farad [F]:
+1
+2. exafarad [EF]:
+1e-18
+3. petafarad [PF]:
+1e-15
+4. terafarad [TF]:
+1e-12
+5. gigafarad :
+1e-9
+6. megafarad [MF]:
+0.000001
+7. kilofarad [kF]:
+0.001
+8. hectofarad [hF]:
+0.01
+9. dekafarad [daF]:
+0.1
+10. decifarad [dF]:
+10
+11. centifarad [cF]:
+100
+12. millifarad [mF]:
+1000
+13. microfarad [uF]:
+1000000
+14. nanofarad [nF]:
+1e+9
+15. picofarad [pF]:
+1e+12
+16. femtofarad [fF]:
+1e+15
+17. attofarad [aF]:
+1e+18
+18. coulomb/volt [C/V]:
+1
+19. abfarad [abF]:
+1e-9
+21. statfarad [stF]:
+8.99e+11

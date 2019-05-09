@@ -1,0 +1,40 @@
+1. henry [H]:
+1
+2. exahenry [EH]:
+1e-18
+3. petahenry [PH]:
+1e-15
+4. terahenry [TH]:
+1e-12
+5. gigahenry [GH]:
+1e-9
+6. megahenry [MH]:
+0.000001
+7. kilohenry [kH]:
+0.001
+8. hectohenry [hH]:
+0.01
+9. dekahenry [daH]:
+0.1
+10. decihenry [dH]:
+10
+11. centihenry [cH]:
+100
+12. millihenry [mH]:
+1000
+13. microhenry [uH]:
+1000000
+14. nanohenry [nH]:
+1e+9
+15. picohenry:
+1e+12
+16. femtohenry [fH]:
+1e+15
+17. attohenry [aH]:
+1e+18
+18. weber/ampere [Wb/A]:
+1
+19. abhenry [abH]:
+1e+9
+21. stathenry [stH]:
+1.11e-12

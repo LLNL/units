@@ -1,0 +1,26 @@
+1. one:
+1
+2. dozen:
+0.08333333
+3. pair:
+0.5
+10. ten:
+0.1
+11. twenty:
+0.05
+12. fifty:
+0.02
+13. hundred:
+0.01
+14. thousand:
+0.001
+15. million:
+0.000001
+16. billion:
+1e-9
+17. trillion:
+1e-12
+22. quarter:
+4
+23. half:
+2

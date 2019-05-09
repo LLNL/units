@@ -1,0 +1,116 @@
+1. volt/meter [V/m]:
+1
+2. volt/kilometer [V/km]:
+1000
+3. volt/centimeter [V/cm]:
+0.01
+4. volt/millimeter [V/mm]:
+0.001
+5. volt/micrometer [V/um]:
+0.000001
+6. volt/nanometer [V/nm]:
+1e-9
+7. watt/ampere/meter [W/A/m]:
+1
+8. watt/ampere/kilometer:
+1000
+9. watt/ampere/centimeter:
+0.01
+10. watt/ampere/millimeter:
+0.001
+11. watt/ampere/micrometer:
+0.000001
+12. watt/ampere/nanometer:
+1e-9
+13. kilovolt/meter [kV/m]:
+0.001
+14. kilovolt/kilometer [kV/km]:
+1
+15. megavolt/meter [MV/m]:
+0.000001
+16. megavolt/kilometer [MV/km]:
+0.001
+17. millivolt/meter [mV/m]:
+1000
+18. millivolt/millimeter:
+1
+19. millivolt/micrometer:
+0.001
+20. millivolt/nanometer [mV/nm]:
+0.000001
+21. microvolt/meter [uV/m]:
+1000000
+22. microvolt/kilometer [uV/km]:
+1e+9
+23. microvolt/centimeter:
+10000
+24. microvolt/millimeter:
+1000
+25. microvolt/micrometer:
+1
+26. microvolt/nanometer [uV/nm]:
+0.001
+27. abvolt/meter [abV/m]:
+100000000
+28. abvolt/centimeter [abV/cm]:
+1000000
+29. abvolt/millimeter [abV/mm]:
+100000
+30. abvolt/micrometer [abV/um]:
+100
+31. abvolt/nanometer [abV/nm]:
+0.1
+32. statvolt/meter [stV/m]:
+0.00333564
+33. statvolt/millimeter [stV/mm]:
+0.00000334
+34. statvolt/micrometer [stV/um]:
+3.34e-9
+35. statvolt/nanometer [stV/nm]:
+3.34e-12
+36. watt/ampere/yard [W/A/yd]:
+0.9144
+37. watt/ampere/foot [W/A/ft]:
+0.3048
+38. watt/ampere/inch [W/A/in]:
+0.0254
+39. kilovolt/mile [kV/mi]:
+1.609344
+40. kilovolt/yard [kV/yd]:
+0.0009144
+41. kilovolt/foot [kV/ft]:
+0.0003048
+42. kilovolt/inch [kV/in]:
+0.0000254
+43. megavolt/mile [MV/mi]:
+0.001609344
+44. megavolt/yard [MV/yd]:
+9.14e-7
+45. megavolt/foot [MV/ft]:
+3.05e-7
+46. megavolt/inch [MV/in]:
+2.54e-8
+47. millivolt/yard [mV/yd]:
+914.4
+48. millivolt/foot [mV/ft]:
+304.8
+49. millivolt/inch [mV/in]:
+25.4
+50. microvolt/yard [uV/yd]:
+914400.0003
+51. microvolt/foot [uV/ft]:
+304800
+52. microvolt/inch [uV/in]:
+25400
+53. abvolt/yard [abV/yd]:
+91440000.030001
+54. abvolt/foot [abV/ft]:
+30480000
+55. abvolt/inch [abV/in]:
+2540000
+56. volt/yard [V/yd]:
+0.9144
+57. volt/foot [V/ft]:
+0.3048
+58. volt/inch [V/in]:
+0.0254

@@ -1,0 +1,10 @@
+degree Celsius [oC]:
+54
+degree Fahrenheit [oF]:
+129.2
+kelvin [K]:
+327.15
+degree Rankine [degR]:
+588.87
+degree Reaumur [degRe]:
+43.2

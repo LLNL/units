@@ -1,0 +1,22 @@
+1. meter [m]:
+1
+2. decimeter [dm]:
+10
+3. centimeter [cm]:
+100
+4. millimeter [mm]:
+1000
+8. inch [in]:
+39.370079
+9. feet [ft]:
+3.28084
+10. pica:
+236.220472
+11. pica - printer:
+237.106299
+12. point:
+2834.645669
+13. point - printer:
+2845.275591
+15. twip:
+56692.91339

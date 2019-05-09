@@ -1,0 +1,158 @@
+1. joule/cubic meter [J/m3]:
+1
+2. joule/cubic kilometer:
+1e+9
+3. joule/cubic decimeter:
+0.001
+4. joule/cubic centimeter:
+0.000001
+5. joule/cubic millimeter:
+1e-9
+6. joule/liter [J/L]:
+0.001
+7. joule/milliliter [J/mL]:
+0.000001
+8. joule/microliter [J/uL]:
+1e-9
+9. kilojoule/cubic meter:
+0.001
+10. kilojoule/cubic kilometer:
+1000000
+11. kilojoule/cubic decimeter:
+0.000001
+12. kilojoule/cubic centimeter:
+1e-9
+13. kilojoule/liter [kJ/L]:
+0.000001
+14. millijoule/milliliter:
+0.001
+15. millijoule/microliter:
+0.000001
+16. microjoule/milliliter:
+1
+17. microjoule/microliter:
+0.001
+18. nanojoule/microliter:
+1
+19. erg/milliliter:
+10
+20. erg/microliter:
+0.01
+21. kilowatt-hour/cubic meter:
+2.7777777777777776e-07
+22. kilowatt-hour/liter [kW.h/L]:
+2.7777777777777776e-10
+23. kilowatt-second/cubic meter:
+0.001
+24. kilowatt-second/liter:
+0.000001
+25. watt-hour/cubic meter:
+2.7777777777777776e-04
+26. watt-hour/cubic kilometer:
+277777.777777777776
+27. watt-hour/liter [W.h/L]:
+2.7777777777777776e-07
+28. watt-second/cubic meter:
+1
+29. watt-second/liter [W.s/L]:
+0.001
+30. newton meter/cubic meter:
+1
+31. newton meter/liter [N.m/L]:
+0.001
+32. newton meter/milliliter:
+0.000001
+33. watt-second/cubic inch:
+0.0000164
+34. newton meter/cubic yard:
+0.764555
+35. newton meter/cubic foot:
+0.02831685
+36. joule/cubic yard [J/yd3]:
+0.765158
+37. joule/cubic foot [J/ft3]:
+0.0283392
+38. joule/cubic inch [J/in3]:
+0.0000164
+39. kilojoule/cubic yard:
+0.0007651584
+40. kilojoule/cubic foot:
+0.0000283392
+41. kilojoule/cubic inch:
+1.64e-8
+42. kilowatt-hour/cubic yard:
+2.1237634944000002e-07
+43. kilowatt-hour/cubic foot:
+7.8657907200000015e-09
+44. kilowatt-hour/cubic inch:
+4.5519622222222225e-12
+45. kilowatt-second/cubic yard:
+0.0007651584
+46. kilowatt-second/cubic foot:
+0.0000283392
+47. kilowatt-second/cubic inch:
+1.64e-8
+48. watt-hour/cubic yard:
+2.1237634944000002e-04
+49. watt-hour/cubic foot:
+7.8657907200000015e-06
+50. watt-hour/cubic inch:
+4.5519622222222225e-9
+51. watt-second/cubic yard:
+0.765158
+52. watt-second/cubic foot:
+0.0283392
+53. calorie (th)/cubic yard:
+0.182733
+54. kilocalorie (th)/cubic yard:
+0.000182733
+55. horsepower hour/cubic meter:
+3.73e-7
+56. horsepower hour/liter:
+3.73e-10
+57. horsepower hour/cubic yard:
+2.85e-7
+58. horsepower hour/cubic foot:
+1.0548e-8
+59. kilocalorie (IT)/liter:
+2.39e-7
+60. kilocalorie (IT)/cubic yard:
+0.000182611
+61. kilocalorie (th)/liter:
+2.392344e-7
+62. calorie (IT)/liter [cal(IT)/L]:
+0.000238846
+63. calorie (IT)/cubic foot:
+0.006763363
+64. calorie (th)/cubic meter:
+0.239006
+65. calorie (th)/liter [cal/L]:
+0.0002390057
+66. Btu (IT)/liter [Btu/L]:
+9.48e-7
+67. Btu (IT)/cubic yard [Btu/yd3]:
+0.000724658
+68. Btu (th)/liter [Btu (th)/L]:
+9.48e-7
+69. Btu (th)/cubic yard [Btu (th)/yd3]:
+0.000725144
+70. joule/gallon (US) [J/gal (US)]:
+0.0037854121
+71. joule/gallon (UK) [J/gal (UK)]:
+0.00454609
+72. watt-hour/gallon (US):
+1.0515032733333334e-06
+73. watt-hour/gallon (UK):
+1.2628027777777776e-06
+74. kilocalorie (IT)/gallon (US):
+9.041301e-7
+75. kilocalorie (th)/gallon (US):
+9.047352e-7
+76. kilocalorie (IT)/gallon (UK):
+0.000001085815
+77. kilocalorie (th)/gallon (UK):
+0.000001086542
+78. horsepower hour/gallon (US):
+1.410089e-9
+79. horsepower hour/gallon (UK):
+1.693446e-9

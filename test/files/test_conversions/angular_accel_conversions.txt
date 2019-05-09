@@ -1,0 +1,84 @@
+1. degree/square second:
+1
+2. degree/square millisecond:
+0.000001
+3. degree/square microsecond:
+1e-12
+4. degree/square nanosecond:
+1e-18
+5. degree/square minute:
+3599.999856
+6. degree/square hour:
+12960000
+7. degree/square day:
+7.46496e+9
+11. radian/square second:
+0.01745329
+12. radian/square millisecond:
+1.745329e-8
+13. radian/square microsecond:
+1.745329e-14
+14. radian/square nanosecond:
+1.745329e-20
+15. radian/square minute:
+62.831852
+16. radian/square hour [rad/h2]:
+226194.67728
+17. radian/square day [rad/d2]:
+1.302881e+8
+21. grad/square second:
+1.111111
+22. grad/square millisecond:
+0.000001111111
+23. grad/square microsecond:
+1.111111e-12
+24. grad/square nanosecond:
+1.111111e-18
+25. gon/square second:
+1.111111
+26. arcminute/square second:
+60
+27. arcminute/square millisecond:
+0.00006
+28. arcminute/square microsecond:
+6e-11
+29. arcminute/square nanosecond:
+6e-17
+30. arcsecond/square second:
+3600
+31. arcsecond/square millisecond:
+0.0036
+32. arcsecond/square microsecond:
+3.6e-9
+33. arcsecond/square nanosecond:
+3.6e-15
+44. mil(angle)/square second:
+17.774618
+45. mil(angle)/square millisecond:
+0.000017774618
+46. mil(angle)/square microsecond:
+1.777462e-11
+47. mil(angle)/square nanosecond:
+1.776199e-17
+48. mil(angle)/square minute:
+63988.62424
+49. mil(angle)/square hour:
+2.30359e+8
+50. mil(angle)/square day:
+1.33e+11
+54. revolution/square second:
+0.0027777778
+55. revolution/square millisecond:
+2.777778e-9
+56. revolution/square microsecond:
+2.777778e-15
+57. revolution/square nanosecond:
+2.777778e-21
+58. revolution/square minute:
+10
+59. revolution/square hour:
+36000
+60. revolution/square day:
+20736000
+64. circle/square second:
+0.0027777778

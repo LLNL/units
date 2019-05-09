@@ -1,0 +1,98 @@
+1. pascal [pa]:
+100
+2. exapascal [Epa]:
+1e-16
+3. petapascal [Ppa]:
+1e-13
+4. terapascal [Tpa]:
+1e-10
+5. gigapascal [Gpa]:
+1e-7
+6. megapascal [Mpa]:
+0.0001
+7. kilopascal [kPa]:
+0.1
+8. hectopascal [hPa]:
+1
+9. dekapascal [daPa]:
+10
+10. decipascal [dPa]:
+1000
+11. centipascal [cPa]:
+10000
+12. millipascal [mPa]:
+100000
+13. micropascal [uPa]:
+100000000
+14. nanopascal [nPa]:
+1e+11
+15. picopascal [pPa]:
+1e+14
+16. femtopascal [fPa]:
+1e+17
+17. attopascal [aPa]:
+1e+20
+18. newton/square meter [N/m2]:
+100
+19. newton/square centimeter:
+0.01
+20. newton/square millimeter:
+0.0001
+21. kilonewton/square meter:
+0.1
+22. bar:
+0.001
+23. millibar [mbar]:
+1
+24. microbar [ubar]:
+1000
+25. dyne/square centimeter:
+1000
+26. kilogram-force/square meter:
+10.197162
+27. kilogram-force/square centimeter:
+0.0010197
+28. kilogram-force/square millimeter:
+0.0000102
+29. gram-force/square centimeter:
+1.019716
+30. ton-force(metric)/square meter:
+0.0101972
+31. ton-force (short)/square foot:
+0.0010443
+32. ton-force (short)/square inch:
+0.0000072518
+33. ton-force (long)/square foot:
+0.0009324
+34. ton-force (long)/square inch:
+0.000006475
+35. poundal/square foot [pdl/ft2]:
+67.196898
+36. psi [psi]:
+0.0145038
+37. pound-force/square inch:
+0.0145038
+38. kip-force/square inch: 
+0.0000145038
+39. ksi [ksi]:
+0.0000145038
+41. kip-force/square foot:
+0.0020885472
+42. pound-force/square foot:
+2.088547
+43. pound-force/square yard:
+18.796925
+44. kip-force/square yard:
+0.01879692
+45. torr [torr]:
+0.750062
+48. inch mercury [inHg]:
+0.0295301
+52. inch water [inH2O]:
+0.401474
+53. foot water [ftH2O]:
+0.0334562
+56. atmosphere technical[att]:
+0.0010197162
+57. Standard atmosphere [atm]:
+0.0009869233

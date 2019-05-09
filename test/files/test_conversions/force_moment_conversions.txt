@@ -1,0 +1,62 @@
+1. centinewton meter [cN.m]:
+1000
+2. dyne meter [dyn.m]:
+1000000
+3. kilonewton centimeter:
+1
+4. kilonewton decimeter:
+0.1
+5. kilonewton meter [kN.m]:
+0.01
+6. kilonewton micrometer[kN.um]:
+10000
+7. kilonewton micron:
+10000
+8. kilonewton millimeter:
+10
+9. newton meter [N.m]:
+10
+10. newton millimeter [N.mm]:
+10000
+11. millinewton meter [mN.m]:
+10000
+12. gram-force meter [gf.m]:
+1019.716213
+13. tonne-force meter [tf.m]:
+0.0010197162
+14. kilogram-force meter:
+1.019716
+15. kilonewton foot [kN.ft]:
+0.0328084
+16. kilonewton inch [kN.in]:
+0.39370079
+17. kilonewton yard [kN.yd]:
+0.01093613298
+18. newton yard [N.yd]:
+010.93613298
+19. newton foot [N.ft]:
+32.8084
+20. newton inch [N.in]:
+393.70079
+21. kilopound-force meter:
+0.00224809
+22. ounce-force meter [ozf.m]:
+35.969431
+23. pound-force meter [lbf.m]:
+2.248089
+24. ounce-force yard [ozf.yd]:
+39.336648
+25. ounce-force foot [ozf.ft]:
+118.009944
+26. ounce-force inch [ozf.in]:
+1416.119328
+27. pound-force yard [lbf.yd]:
+2.458541
+28. pound-force foot [lbf.ft]:
+7.375622
+29. pound-force inch [lbf.in]:
+88.507458
+30. newton mile [N.mi]:
+0.00621371
+31. poundal meter [pdl.m]:
+72.330139

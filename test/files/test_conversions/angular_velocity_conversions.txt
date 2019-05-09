@@ -1,0 +1,94 @@
+1. degree/second:
+57.295778
+2. degree/millisecond:
+0.05729578
+3. degree/microsecond:
+0.000057295778
+4. degree/nanosecond:
+5.729578e-8
+5. degree/minute:
+3437.746676
+6. degree/hour:
+206264.800574
+7. degree/day:
+4950355.21377
+8. radian/second [rad/s]:
+1
+9. radian/millisecond [rad/ms]:
+0.001
+10. radian/microsecond [rad/us]:
+1e-6
+11. radian/nanosecond [rad/ns]:
+1e-9
+12. radian/minute [rad/min]:
+60
+13. radian/hour [rad/h]:
+3600
+14. radian/day [rad/d]:
+86400
+15. grad/second:
+63.661975
+16. grad/millisecond:
+0.06366198
+17. grad/microsecond:
+0.000063661975
+18. grad/nanosecond:
+6.366198e-8
+19. grad/minute:
+3819.718529
+20. grad/hour:
+229183.111749
+21. gon/second:
+63.661975
+22. gon/millisecond:
+0.06366198
+23. gon/microsecond:
+0.000063661975
+24. gon/nanosecond:
+6.366198e-8
+25. gon/minute:
+3819.718529
+26. gon/hour:
+229183.111749
+27. arcminute/second:
+3437.746676
+28. arcminute/millisecond:
+3.437747
+29. arcminute/microsecond:
+0.0034377467
+30. arcminute/nanosecond:
+0.000003437747
+31. arcminute/minute:
+206264.800574
+32. arcminute/hour:
+12375888.034424
+33. arcminute/day:
+2.970213e+8
+34. arcsecond/second:
+206264.800574
+35. arcsecond/millisecond:
+206.264801
+36. arcsecond/microsecond:
+0.206265
+37. arcsecond/nanosecond:
+0.0002062648
+39. mil(angle)/second:
+1018.591608
+40. circle/second:
+0.159155
+41. circle/millisecond:
+0.0001591549
+42. circle/microsecond:
+1.591549e-7
+43. circle/nanosecond:
+1.591549e-10
+44. circle/minute:
+9.549296
+45. circle/hour:
+572.957779
+46. circle/day:
+13750.986705
+47. circle/week:
+96256.906934
+49. circle/year:
+5019110.147294

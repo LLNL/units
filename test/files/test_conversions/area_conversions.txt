@@ -1,0 +1,68 @@
+1. square meter [m2]:
+1
+2. square kilometer [km2]:
+0.000001
+3. square hectometer [hm2]:
+0.0001
+4. square dekameter [dam2]:
+0.01
+5. square decimeter [dm2]:
+100
+6. square centimeter [cm2]:
+10000
+7. square millimeter [mm2]:
+1000000
+8. square micrometer [um2]:
+1e+12
+9. square nanometer [nm2]:
+1e+18
+10. hectare [ha]:
+0.0001
+11. are:
+0.01
+12. barn [b]:
+1e+28
+14. circular inch:
+1973.525241
+15. circular mil:
+1.973525e+9
+17. square inch [in2]:
+1550.0031
+18. square foot [ft2]:
+10.76391
+19. square yard [yd2]:
+1.19599
+20. square mile [mi2]:
+3.861022e-7
+21. acre [ac]:
+0.0002471054
+22. township:
+1.072667e-8
+23. homestead:
+0.000001543828
+24. rood:
+0.0009885224
+25. square perch:
+0.0395409
+26. square rod:
+0.0395409
+27. section:
+3.861022e-7
+28. square pole:
+0.0395409
+29. square chain [ch2]:
+0.0024710538
+30. square mil [mil2]:
+1.550003e+9
+33. square foot (US survey):
+10.763867
+34. square mile (US survey):
+3.861006e-7
+35. acre (US survey):
+0.0002471044
+36. square rod (US survey):
+0.0395367
+37. square yard (US survey):
+1.195985
+38. square inch (US survey):
+1549.9969

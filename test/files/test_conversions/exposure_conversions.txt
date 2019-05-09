@@ -1,0 +1,16 @@
+1. coulomb/kilogram [C/kg]:
+1
+2. millicoulomb/kilogram:
+1000
+3. microcoulomb/kilogram:
+1000000
+4. coulomb/gram [C/g]:
+0.001
+5. coulomb/milligram [C/mg]:
+0.000001
+6. coulomb/microgram [C/ug]:
+1e-9
+7. roentgen [R]:
+3875.968992
+9. parker:
+3875.968992

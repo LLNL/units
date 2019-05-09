@@ -1,0 +1,92 @@
+1. siemens/meter [S/m]:
+1
+2. siemens/kilometer [S/km]:
+1000
+3. siemens/centimeter [S/cm]:
+0.01
+4. siemens/millimeter [S/mm]:
+0.001
+5. siemens/micrometer [S/um]:
+0.000001
+6. siemens/nanometer [S/nm]:
+1e-9
+7. megasiemens/meter [MS/m]:
+0.000001
+8. megasiemens/kilometer:
+0.001
+9. megasiemens/centimeter:
+1e-8
+10. megasiemens/millimeter:
+1e-9
+11. megasiemens/micrometer:
+1e-12
+12. megasiemens/nanometer:
+1e-15
+13. kilosiemens/meter [kS/m]:
+0.001
+14. kilosiemens/kilometer:
+1
+15. kilosiemens/centimeter:
+0.00001
+16. kilosiemens/millimeter:
+0.000001
+17. kilosiemens/micrometer:
+1e-9
+18. kilosiemens/nanometer:
+1e-12
+19. millisiemens/meter [mS/m]:
+1000
+20. microsiemens/meter [uS/m]:
+1000000
+21. microsiemens/centimeter:
+10000
+22. ampere/volt/meter [A/V/m]:
+1
+23. ampere/volt/kilometer:
+1000
+24. ampere/volt/centimeter:
+0.01
+25. ampere/volt/millimeter:
+0.001
+26. ampere/volt/micrometer:
+0.000001
+27. ampere/volt/nanometer:
+1e-9
+28. mho/meter:
+1
+29. gemmho/meter:
+1000000
+30. micromho/meter:
+1000000
+31. abmho/meter:
+1e-9
+32. abmho/millimeter:
+1e-12
+33. abmho/micrometer:
+1e-15
+34. abmho/nanometer:
+1e-18
+35. siemens/yard [S/yd]:
+0.9144
+36. siemens/foot [S/ft]:
+0.3048
+37. siemens/inch [S/in]:
+0.0254
+38. megasiemens/yard [MS/yd]:
+9.144e-7
+39. megasiemens/foot [MS/ft]:
+3.048e-7
+40. megasiemens/inch [MS/in]:
+2.54e-8
+41. kilosiemens/yard [kS/yd]:
+0.0009144
+42. kilosiemens/foot [kS/ft]:
+0.0003048
+43. kilosiemens/inch [kS/in]:
+0.0000254
+44. ampere/volt/yard [A/V/yd]:
+0.9144
+45. ampere/volt/foot [A/V/ft]:
+0.3048
+46. ampere/volt/inch [A/V/in]:
+0.0254

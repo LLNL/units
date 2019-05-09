@@ -1,0 +1,32 @@
+1. meter/liter [m/L]:
+14454.885028
+2. kilometer/liter [km/L]:
+14.454885
+3. nautical mile/liter [nmi/L]:
+7.805014
+4. meter/cubic meter [m/m3]:
+14454885.028395
+5. meter/cubic yard [m/yd3]:
+11051552.57006
+6. meter/cubic foot [m/ft3]:
+409316.761854
+7. meter/cubic inch [m/in3]:
+236.873126
+8. mile/liter [mi/L]:
+8.981846
+9. mile/gallon (US) [mi/gal (US)]:
+34
+10. mile/gallon (UK) [mi/gal (UK)]:
+40.832289
+11. nautical mile/gallon (UK):
+35.482366
+12. kilometer/gallon (UK):
+65.713343
+13. meter/gallon (US) [m/gal (US)]:
+54717.692108
+14. meter/quart (US) [m/qt (US)]:
+13679.423
+15. meter/gallon (UK) [m/gal (UK)]:
+65713.342622
+16. meter/quart (UK) [m/qt (UK)]:
+16428.335656

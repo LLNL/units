@@ -1,0 +1,122 @@
+1. abcoulomb/meter [abC/m]:
+0.1
+2. ampere-hour/centimeter:
+0.000002778
+3. ampere-hour/kilometer:
+0.2777778
+4. ampere-hour/meter [A.h/m]:
+0.0002777778
+5. ampere-hour/micrometer:
+2.777778e-10
+6. ampere-hour/millimeter:
+2.77778e-7
+7. ampere-second/centimeter:
+0.01
+8. ampere-second/kilometer:
+1000
+9. ampere-second/meter [A.s/m]:
+1
+10. ampere-second/micrometer:
+0.000001
+11. ampere-second/millimeter:
+0.001
+12. ampere-second/nanometer:
+1e-9
+13. coulomb/centimeter [C/cm]:
+0.01
+14. coulomb/meter [C/m]:
+1
+15. coulomb/micrometer [C/um]:
+0.000001
+16. coulomb/millimeter [C/mm]:
+0.001
+17. coulomb/nanometer [C/nm]:
+1e-9
+18. kilocoulomb/kilometer:
+1
+19. kilocoulomb/meter [kC/m]:
+0.001
+20. kilocoulomb/micrometer:
+1e-9
+21. megacoulomb/kilometer:
+0.001
+22. megacoulomb/meter [MC/m]:
+0.000001
+23. microcoulomb/meter [uC/m]:
+1000000
+24. microcoulomb/micrometer:
+1
+25. microcoulomb/millimeter:
+1000
+26. microcoulomb/nanometer:
+0.001
+27. millicoulomb/meter [mC/m]:
+1000
+28. nanocoulomb/meter [nC/m]:
+1e+9
+29. elementary charge/nanometer:
+6.25e+9
+32. farady/yard:
+0.000009504
+33. farady/foot:
+0.000003168
+34. farady/inch:
+2.64e-7
+35. farady/kilometer:
+0.01036
+36. farady/meter:
+0.00001036
+37. farady/millimeter:
+1.036e-8
+38. franklin/yard [Fr/yd]:
+2.737725e+9
+39. franklin/foot [Fr/ft]:
+9.125749e+8
+40. franklin/inch [Fr/in]:
+76047904.22222
+41. franklin/meter [Fr/m]:
+2.994012e+9
+42. franklin/centimeter [Fr/cm]:
+29940119.76
+43. franklin/micrometer [Fr/um]:
+2994.011976
+44. franklin/millimeter [Fr/mm]:
+2994011.976
+45. franklin/nanometer [Fr/nm]:
+2.994012
+46. kilocoulomb/foot [kC/ft]:
+0.0003048
+47. kilocoulomb/inch [kC/in]:
+0.0000254
+48. kilocoulomb/yard [kC/yd]:
+0.0009144
+49. megacoulomb/yard [MC/yd]:
+9.144e-7
+50. microcoulomb/foot [uC/ft]:
+304800
+51. microcoulomb/inch [uC/in]:
+25400
+52. microcoulomb/yard [uC/yd]:
+914400
+53. millicoulomb/yard [mC/yd]:
+914.4
+54. ampere-second/foot [A.s/ft]:
+0.3048
+55. ampere-second/inch [A.s/in]:
+0.0254
+56. ampere-hour/yard [A.h/yd]:
+0.000254
+57. ampere-hour/foot [A.h/ft]:
+8.4666666666666674e-05
+58. ampere-hour/inch [A.h/in]:
+0.000007055556
+59. ampere-second/yard [A.s/yd]:
+0.9144
+60. coulomb/foot [C/ft]:
+0.3048
+61. coulomb/inch [C/in]:
+0.0254
+62. coulomb/yard [C/yd]:
+0.9144
+63. statcoulomb/meter [stC/m]:
+2.994012e+9

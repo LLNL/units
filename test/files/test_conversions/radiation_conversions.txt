@@ -1,0 +1,92 @@
+1. RAD/second [RAD/s]:
+1
+2. RAD/millisecond [RAD/ms]:
+0.001
+3. RAD/microsecond [RAD/us]:
+0.000001
+4. RAD/nanosecond [RAD/ns]:
+1e-9
+5. RAD/minute [RAD/min]:
+59.999999
+6. RAD/hour [RAD/hr]:
+3600
+7. RAD/day [RAD/d]:
+86400
+8. RAD/week:
+604800
+9. RAD/month:
+2628000
+10. RAD/year [RAD/y]:
+31536000
+11. milliRAD/second [mRAD/s]:
+1000
+12. joule/kilogram/second:
+0.01
+13. joule/kilogram/millisecond:
+0.00001
+14. joule/kilogram/microsecond:
+1e-8
+15. joule/kilogram/nanosecond:
+1e-11
+16. joule/kilogram/minute:
+0.6
+17. joule/kilogram/hour [J/kg/hr]:
+36
+18. joule/kilogram/day [J/kg/d]:
+864
+19. joule/kilogram/week:
+6048
+20. joule/kilogram/month:
+26280
+21. joule/kilogram/year [J/kg/y]:
+315360
+22. joule/gram/second [J/g/s]:
+0.00001
+23. joule/gram/millisecond:
+1e-8
+24. joule/gram/microsecond:
+1e-11
+25. joule/gram/nanosecond:
+1e-14
+26. joule/milligram/second:
+1e-8
+27. joule/milligram/millisecond:
+1e-11
+28. joule/milligram/microsecond:
+1e-14
+29. joule/milligram/nanosecond:
+1e-17
+30. joule/milligram/minute:
+6e-7
+31. gray/second [Gy/s]:
+0.01
+32. gray/millisecond [Gy/ms]:
+0.00001
+33. gray/microsecond [Gy/us]:
+1e-8
+34. gray/nanosecond [Gy/ns]:
+1e-11
+35. gigagray/second [Ggy/s]:
+1e-11
+36. megagray/second [Mgy/s]:
+1e-8
+37. megagray/minute [Mgy/min]:
+6e-7
+38. kilogray/second [kGy/s]:
+0.00001
+39. centigray/second [cGy/s]:
+1
+40. milligray/second [mGy/s]:
+10
+41. microgray/second [uGy/s]:
+10000
+42. nanogray/second [nGy/s]:
+10000000
+43. picogray/second [pGy/s]:
+1e+10
+44. watt/kilogram [W/kg]:
+0.01
+45. sievert/second [Sv/s]:
+0.01
+46. rem/second [rem/s]:
+1

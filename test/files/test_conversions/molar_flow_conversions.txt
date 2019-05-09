@@ -1,0 +1,56 @@
+1. mole/second [mol/s]:
+1
+2. examole/second [Emol/s]:
+1e-18
+3. petamole/second [Pmol/s]:
+1e-15
+4. teramole/second [Tmol/s]:
+1e-12
+5. gigamole/second [Gmol/s]:
+1e-9
+6. megamole/second [Mmol/s]:
+0.000001
+7. kilomole/second [kmol/s]:
+0.001
+8. hectomole/second [hmol/s]:
+0.01
+9. dekamole/second [damol/s]:
+0.1
+10. decimole/second [dmol/s]:
+10
+11. centimole/second [cmol/s]:
+100
+12. millimole/second [mmol/s]:
+1000
+13. micromole/second [umol/s]:
+1000000
+14. nanomole/second [nmol/s]:
+1e+9
+15. picomole/second [pmol/s]:
+1e+12
+16. femtomole/second [fmol/s]:
+1e+15
+17. attomole/second [amol/s]:
+1e+18
+18. mole/minute [mol/min]:
+60
+19. mole/hour [mol/h]:
+3600
+20. mole/day [mol/d]:
+86400
+21. millimole/minute [mmol/min]:
+60000
+22. millimole/hour [mmol/h]:
+3600000
+23. millimole/day [mmol/d]:
+86400000.000001
+24. nanomole/day [nmol/d]:
+8.64e+13
+25. kilomole/minute [kmol/min]:
+0.06
+26. kilomole/hour [kmol/h]:
+3.6
+27. kilomole/day [kmol/d]:
+86.4
+28. atom/second [atom/s]:
+6.02e+23

@@ -1,0 +1,72 @@
+1. kilogram/liter [kg/L]:
+1
+2. gram/liter [g/L]:
+1000
+3. kilogram/m^3 [kg/m3]:
+1000
+4. gram/cubic meter [g/m3]:
+1000000
+5. microgram/cubic meter:
+1e+12
+6. gram/cubic centimeter:
+1
+7. milligram/liter [mg/L]:
+1000000
+8. milligram/mL [mg/mL]:
+1000
+9. milligram/teaspoon(metric) [mg/tsp_m]:
+5000
+10. microgram/uL [ug/uL]:
+1000
+11. picogram/microliter [pg/uL]:
+1e+9
+12. nanogram/microliter [ng/uL]:
+1e6
+13. picogram/milliliter [pg/mL]:
+1e+12
+14. picogram/liter [pg/L]:
+1e+15
+15. picogram/deciliter [pg/dL]:
+1e+14
+16. microgram/mL [ug/mL]:
+1000000
+17. microgram/deciliter [ug/dL]:
+100000000
+18. microgram/liter [ug/L]:
+1e+9
+19. nanogram/liter [ng/L]:
+1e+12
+20. nanogram/deciliter [ng/dL]:
+1e+11
+21. nanogram/milliliter [ng/ml]:
+1e+9
+22. gram/deciliter [g/dL]:
+100
+23. milligram/deciliter [mg/dL]:
+100000
+24. tonne/cubic meter [t/m3]:
+1
+25. pound/cubic yard [lb/yd3]:
+1685.554936
+26. pound/gallon (UK) [lb/gal (UK)]:
+10.02241
+27. pound/cubic foot [lb/ft3]:
+62.427961
+28. pound/gallon (US) [lb/gal (US)]:
+8.345404
+29. ounce/cubic inch [oz/in3]:
+0.578037
+30. ounce/cubic foot [oz/ft3]:
+998.847369
+31. ounce/cubic yard [oz/yd3]:
+26968.878976
+32. tonne/cubic yard [t/yd3]:
+0.7646
+33. pound/cubic inch [lbs/in3]:
+0.03612729
+38. slug/cubic foot [slug/ft3]:
+1.94032
+39. slug/cubic inch [slug/in3]:
+0.00112287
+40. slug/cubic yard [slug/yd3]:
+52.388649

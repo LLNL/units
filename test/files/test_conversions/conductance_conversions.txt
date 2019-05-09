@@ -1,0 +1,22 @@
+1. siemens [S]:
+1
+2. megasiemens [MS]:
+0.000001
+3. kilosiemens [kS]:
+0.001
+4. millisiemens [mS]:
+1000
+5. microsiemens [uS]:
+1000000
+6. ampere/volt [A/V]:
+1
+7. mho:
+1
+8. gemmho:
+1000000
+9. micromho:
+1000000
+10. abmho:
+1e-9
+11. statmho:
+8.99e+11

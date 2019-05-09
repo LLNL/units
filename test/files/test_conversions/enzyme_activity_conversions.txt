@@ -1,0 +1,46 @@
+1. katal [kat]:
+1
+2. dkatal [dkat]:
+10
+3. centikatal [ckat]:
+100
+4. millikatal [mkat]:
+1000
+5. microkatal [ukat]:
+1000000
+6. nanokatal [nkat]:
+1e+9
+7. picokatal [pkat]:
+1e+12
+8. femtokatal [fkat]:
+1e+15
+9. attokatal [akat]:
+1e+18
+10. zeptokatal [zkat]:
+1e+21
+11. yoctokatal [ykat]:
+1e+24
+12. decakatal [dakat]:
+0.1
+13. hectokatal [hkat]:
+0.01
+14. kilokatal [kkat]:
+0.001
+15. megakatal [Mkat]:
+0.000001
+16. gigakatal [Gkat]:
+1e-9
+17. mole/second [mol/s]:
+1
+18. millimole/second [mmol/s]:
+1000
+19. kilomole/second [kmol/s]:
+0.001
+20. micromole/s [umol/s]:
+1000000
+21. mole/minute [mol/min]:
+60
+22. micromole/min [umol/min]:
+60000000
+23. millimole/min [mmol/min]:
+60000

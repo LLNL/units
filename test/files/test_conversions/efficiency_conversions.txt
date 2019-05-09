@@ -1,0 +1,136 @@
+1. joule/gram [J/g]:
+1
+2. joule/kilogram [J/kg]:
+1000
+3. millijoule/kilogram [mJ/kg]:
+1000000
+4. joule/milligram [J/mg]:
+0.001
+5. joule/microgram [J/ug]:
+0.000001
+6. joule/nanogram [J/ng]:
+1e-9
+7. joule/tonne [J/t]:
+1000000
+8. joule/carat [J/ct]:
+0.2
+9. joule/grain:
+0.06479891
+10. joule/gamma:
+0.000001
+11. joule/slug:
+14593.85307
+12. kilojoule/gram [kJ/g]:
+0.001
+13. kilojoule/kilogram [kJ/kg]:
+1
+14. kilojoule/tonne [kJ/t]:
+1000
+15. millijoule/gram [mJ/g]:
+1000
+16. millijoule/milligram:
+1
+17. millijoule/microgram:
+0.001
+18. millijoule/nanogram [mJ/ng]:
+0.000001
+19. microjoule/gram [uJ/g]:
+1000000
+20. microjoule/milligram:
+1000
+21. microjoule/microgram:
+1
+22. microjoule/nanogram [uJ/ng]:
+0.001
+23. microjoule/picogram [uJ/pg]:
+0.000001
+24. nanojoule/nanogram [nJ/ng]:
+1
+25. erg/microgram:
+10
+26. newton meter/gram [N.m/g]:
+1
+27. kilowatt-second/gram:
+0.001
+28. kilowatt-second/kilogram:
+1
+29. kilowatt-hour/gram [kW.h/g]:
+2.777778e-7
+30. kilowatt-hour/kilogram:
+0.0002777778
+31. watt-hour/gram [W.h/g]:
+0.0002777778
+32. watt-hour/kilogram [W.h/kg]:
+0.277778
+33. watt-second/gram [W.s/g]:
+1
+34. watt-second/kilogram:
+1000
+35. joule/ounce [J/oz]:
+28.349523
+36. joule/kilopound [J/kip]:
+453592.36928
+37. joule/pound [J/lb]:
+453.592369
+39. kilojoule/kilopound [kJ/kip]:
+453.592369
+40. kilojoule/pound [kJ/lb]:
+0.453592
+42. kilowatt-hour/kilopound:
+0.125997
+43. kilowatt-hour/pound [kW.h/lb]:
+0.000125997
+44. kilowatt-second/kilopound:
+453.592369
+45. kilowatt-second/pound:
+0.453592
+46. watt-hour/kilopound [W.h/kip]:
+125.997
+47. watt-hour/pound [W.h/lb]:
+0.125997
+48. watt-second/kilopound:
+453592.36928
+49. watt-second/pound [W.s/lb]:
+453.592369
+50. horsepower hour/kilopound:
+0.169161
+51. horsepower hour/pound:
+0.000169161
+52. horsepower hour/gram:
+3.73e-7
+53. horsepower hour/kilogram:
+0.000373
+54. kilocalorie/kilopound:
+108.338676
+55. kilocalorie/pound [kcal/lb]:
+0.108339
+56. calorie/pound [cal/lb]:
+108.338676
+57. calorie/ounce [cal/oz]:
+6.771167
+58. kilocalorie/ounce [kcal/oz]:
+0.0067711673
+59. kilocalorie/gram [kcal/g]:
+0.0002388459
+60. kilocalorie/kilogram:
+0.238846
+61. kilocalorie/milligram:
+2.388459e-7
+62. kilocalorie/microgram:
+2.388459e-10
+63. calorie/gram [cal/g]:
+0.238846
+64. calorie/milligram [cal/mg]:
+0.0002388459
+65. calorie/microgram [cal/ug]:
+2.388459e-7
+66. Btu/gram [Btu/g]:
+0.000947817
+67. Btu/kilogram [Btu/kg]:
+0.947817
+68. Btu/kilopound [Btu/kip]:
+429.92256
+69. Btu/pound [Btu/lb]:
+0.429923
+70. Btu/ounce [Btu/oz]:
+0.02687016

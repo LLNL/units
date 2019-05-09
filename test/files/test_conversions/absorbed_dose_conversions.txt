@@ -1,0 +1,12 @@
+11. sievert [Sv]:
+36.161487
+12. millisievert [mSv]:
+36161.48708
+13. microsievert [uSv]:
+36161487.08
+14. rem [rem]:
+3616.148708
+15. millirem [mrem]:
+3616148.708
+16. microrem [urem]:
+3.616149e+9

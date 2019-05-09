@@ -1,0 +1,24 @@
+1. Kilogram/meter [kg/m]:
+1
+2. Kilogram/centimeter [kg/cm]:
+0.01
+3. Kilogram/millimeter [kg/mm]:
+0.001
+4. gram/meter [g/m]:
+1000
+5. gram/centimeter [g/cm]:
+10
+6. gram/millimeter [g/mm]:
+1
+7. pound/foot [lb/ft]:
+0.671969
+8. pound/inch [lb/in]:
+0.05599741
+9. pound/yard [lb/yd]:
+2.015907
+10. ounces/foot [oz/ft]:
+10.751504
+11. ounces/inch [oz/in]:
+0.895959
+12. ounces/yard [oz/yd]:
+32.254511

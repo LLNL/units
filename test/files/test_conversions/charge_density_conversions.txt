@@ -1,0 +1,104 @@
+1. coulomb/cubic meter [C/m3]:
+1
+2. coulomb/liter [C/L]:
+0.001
+3. coulomb/milliliter [C/mL]:
+0.000001
+4. coulomb/microliter [C/uL]:
+1e-9
+5. abcoulomb/cubic meter:
+0.1
+6. abcoulomb/liter [abC/L]:
+0.0001
+7. abcoulomb/milliliter:
+0.0000001
+8. abcoulomb/microliter:
+1e-10
+9. ampere-second/cubic meter:
+1
+10. ampere-second/liter [A.s/L]:
+0.001
+11. ampere-hour/cubic kilometer:
+277777.777778
+12. ampere-hour/cubic meter:
+0.0002777778
+13. ampere-minute/cubic meter:
+0.01666667
+14. ampere-minute/liter [A.min/L]:
+0.000016666667
+15. ESU of charge/microliter:
+2.994012
+16. ESU of charge/milliliter:
+2994.011976
+17. franklin/microliter [Fr/uL]:
+2.994012
+18. franklin/milliliter [Fr/mL]:
+2994.011976
+19. kilocoulomb/cubic meter:
+0.001
+20. megacoulomb/cubic kilometer:
+1000
+21. microcoulomb/microliter:
+0.001
+22. microcoulomb/milliliter:
+1
+23. millicoulomb/cubic meter:
+1000
+24. millicoulomb/liter [mC/L]:
+1
+25. millicoulomb/cubic centimeter:
+0.001
+26. nanocoulomb/cubic centimeter:
+1000
+27. nanocoulomb/microliter:
+1
+28. nanocoulomb/milliliter:
+1000
+29. picocoulomb/microliter:
+1000
+30. statcoulomb/microliter:
+2.994012
+31. statcoulomb/milliliter:
+2994.011976
+32. statcoulomb/cubic inch:
+49063.06587
+33. abcoulomb/cubic foot:
+0.002831685
+34. abcoulomb/cubic yard:
+0.07645549
+35. coulomb/cubic foot [C/ft3]:
+0.02831685
+36. coulomb/cubic inch [C/in3]:
+0.0000164
+37. coulomb/cubic yard [C/yd3]:
+0.764555
+38. ampere-second/cubic foot:
+0.02831685
+39. ampere-second/cubic inch:
+0.0000164
+40. ampere-second/cubic yard:
+0.764555
+41. ampere-hour/cubic yard:
+0.000212377
+42. ampere-minute/cubic foot:
+0.000471947
+43. ampere-minute/cubic yard:
+0.01274258
+44. kilocoulomb/cubic foot:
+0.0000283
+45. kilocoulomb/cubic yard:
+0.000764555
+46. microcoulomb/cubic foot:
+28316.84659
+47. microcoulomb/cubic inch:
+16.387064
+48. microcoulomb/cubic yard:
+764554.8582
+49. millicoulomb/cubic foot:
+28.316847
+50. millicoulomb/cubic inch:
+0.01638706
+51. millicoulomb/cubic yard:
+764.554858
+52. nanocoulomb/cubic inch:
+16387.064

@@ -1,0 +1,48 @@
+1. RAD:
+1
+2. milliRAD [mRAD]:
+1000
+3. microRAD [uRAD]:
+1000000
+4. joule/kilogram [J/kg]:
+0.01
+5. joule/gram [J/g]:
+0.00001
+6. joule/centigram [J/cg]:
+1e-7
+7. joule/milligram [J/mg]:
+1e-8
+8. gray [Gy]:
+0.01
+9. exagray [Egy]:
+1e-20
+10. petagray [Pgy]:
+1e-17
+11. teragray [Tgy]:
+1e-14
+12. gigagray [Ggy]:
+1e-11
+13. megagray [Mgy]:
+1e-8
+14. kilogray [kGy]:
+0.00001
+15. hectogray [hGy]:
+0.0001
+16. dekagray [daGy]:
+0.001
+17. decigray [dGy]:
+0.1
+18. centigray [cGy]:
+1
+19. milligray [mGy]:
+10
+20. microgray [uGy]:
+10000
+21. nanogray [nGy]:
+10000000
+22. picogray [pGy]:
+1e+10
+23. femtogray [fGy]:
+1e+13
+24. attogray [aGy]:
+1e+16

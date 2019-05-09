@@ -1,0 +1,14 @@
+ampere turn [At]:
+1
+kiloampere turn:
+0.001
+megaampere turn:
+0.000001
+milliampere turn:
+1000
+microampere turn:
+1000000
+gilbert [Gb]:
+1.256637
+milligilbert [mGi]:
+1256.637062

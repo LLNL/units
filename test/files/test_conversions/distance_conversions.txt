@@ -1,0 +1,130 @@
+1. meter [m]:
+1
+2. kilometer [km]:
+0.001
+3. centimeter [cm]:
+100
+4. millimeter [mm]:
+1000
+5. micrometer [um]:
+1000000
+6. micron:
+1000000
+7. nanometer [nm]:
+1e+9
+8. picometer [pm]:
+1e+12
+9. decimeter [dm]:
+10
+10. nautical league (international):
+0.0001799856
+11. nautical mile (international):
+0.0005399568
+12. inch [in]:
+39.370079
+13. yard [yd]:
+1.093613
+14. foot [ft]:
+3.28084
+15. league [lea]:
+0.0002071237
+16. mile [mi]:
+0.0006213712
+17. light year [ly]:
+1.06e-16
+18. exameter [Em]:
+1e-18
+19. petameter [Pm]:
+1e-15
+20. terameter [Tm]:
+1e-12
+21. gigameter [Gm]:
+1e-9
+22. megameter [Mm]:
+0.000001
+23. hectometer [hm]:
+0.01
+24. dekameter [dam]:
+0.1
+25. femtometer [fm]:
+1e+15
+26. attometer:
+1e+18
+27. parsec [pc]:
+3.24e-17
+28. astronomical unit [AU]:
+6.68e-12
+30. mil:
+39370.07874
+31. microinch:
+39370078.739999
+32. nautical league (UK):
+0.0001798706
+33. nautical mile (UK):
+0.0005396118
+35. furlong [fur]:
+0.0049709695
+36. chain [ch]:
+0.0497097
+38. rod [rd]:
+0.198839
+39. perch:
+0.198839
+40. pole:
+0.198839
+41. fathom [fath]:
+0.546807
+42. link [li]:
+4.97097
+43. cubit (UK):
+2.187227
+44. hand:
+9.84252
+45. span (cloth):
+4.374453
+46. finger (cloth):
+8.748906
+47. nail (cloth):
+17.497813
+49. ken:
+0.550055
+50. caliber:
+3937.007874
+51. centiinch:
+3937.007874
+52. pica:
+236.220472
+53. point:
+2834.645669
+54. twip:
+56692.913386
+55. barleycorn:
+118.110236
+56. inch (US Survey):
+39.37
+57. league (statute) [lea (US)]:
+0.0002071233
+58. mile (statute) [mi (US)]:
+0.0006213699
+59. foot (US Survey) [ft (US)]:
+3.280833
+60. link (US Survey) [li (US)]:
+4.97096
+63. angstrom:
+1e+10
+65. x-unit [X]:
+9.98e+12
+66. fermi:
+1e+15
+67. arpent:
+0.01708771
+73. long cubit:
+1.874766
+74. li (Chinese):
+0.002
+75. zhang (Chinese):
+0.3
+76. chi (Chinese):
+3
+77. cun (Chinese):
+30

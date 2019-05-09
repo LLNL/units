@@ -1,0 +1,14 @@
+kelvin/watt [K/W]:
+1
+degreeCelsius/watt [degC/W]:
+1
+Fahrenheit/watt [degF/W]:
+1.8
+Fahrenheit hour/Btu (IT):
+0.527528
+Fahrenheit hour/Btu (th):
+0.527175
+Fahrenheit second/Btu (IT):
+1899.100535
+Fahrenheit second/Btu (th):
+1897.830476

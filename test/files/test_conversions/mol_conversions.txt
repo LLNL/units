@@ -1,0 +1,16 @@
+moles [mol]:
+1
+millimole [mmol]:
+1000
+micromole [umol]:
+1000000
+nanomole [nmol]:
+1e+9
+picomole [pmol]:
+1e+12
+femtomole [fmol]:
+1e+15
+kilomole [kmol]:
+0.001
+atoms [atoms]:
+6.02e+23

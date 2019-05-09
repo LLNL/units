@@ -1,0 +1,14 @@
+floating point operations per second [flops]:
+1e+9
+kiloflops:
+1000000
+megaflops:
+1000
+gigaflops:
+1
+teraflops:
+0.001
+petaflops:
+0.000001
+exaflops:
+1e-9

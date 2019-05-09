@@ -1,0 +1,126 @@
+1. gram square meter [g.m2]:
+1
+2. gram square decimeter:
+100
+3. gram square centimeter:
+10000
+4. gram square millimeter:
+1000000
+5. gram square micrometer:
+1e+12
+6. kilogram square meter:
+0.001
+7. kilogram square kilometer:
+1e-9
+8. kilogram square decimeter:
+0.1
+9. kilogram square centimeter:
+10
+10. milligram square meter:
+1000
+11. milligram square decimeter:
+100000
+12. milligram square centimeter:
+10000000
+13. milligram square millimeter:
+1e+9
+14. microgram square micrometer:
+1e+18
+15. microgram square nanometer:
+1e+24
+16. ton (metric) square meter:
+0.000001
+17. ton (metric) square kilometer:
+1e-12
+18. ton (metric) square decimeter:
+0.0001
+19. ton (metric) square centimeter:
+0.01
+20. ton (metric) square millimeter:
+1
+21. ton (metric) square micrometer:
+1000000
+22. ton (metric) square nanometer:
+1e+12
+23. carat square meter [ct.m2]:
+5
+24. carat square centimeter:
+50000
+25. carat square millimeter:
+5000000
+26. grain square centimeter:
+154323.5835
+27. grain square millimeter:
+15432358.35
+28. gamma square meter:
+1000000
+29. slug square meter:
+0.0000685
+30. slug square decimeter:
+0.0068522
+31. slug square centimeter:
+0.68522
+32. slug square millimeter:
+68.522
+33. slug square yard:
+0.000082
+34. slug square foot:
+0.000737565
+35. slug square inch:
+0.106209
+36. gram square inch [g.in2]:
+1550.0031
+37. gram square yard [g.yd2]:
+1.19599
+38. gram square foot [g.ft2]:
+10.76391
+39. kilogram square mile:
+3.861493e-10
+40. kilogram square yard:
+0.00119599
+41. kilogram square foot:
+0.01076391
+42. kilogram square inch:
+1.550003
+43. milligram square yard:
+1195.990046
+44. milligram square foot:
+10763.910417
+45. milligram square inch:
+1550003.1
+46. microgram square inch:
+1.550003e+9
+47. ton (metric) square yard:
+0.00000119599
+48. ton (metric) square foot:
+0.00001076391
+49. ton (metric) square inch:
+0.0015500031
+50. carat square foot [ct.ft2]:
+53.819552
+51. carat square inch [ct.in2]:
+7750.0155
+52. ounce square inch [oz.in2]:
+54.67475
+53. ounce square yard [oz.yd2]:
+0.04218731
+54. ounce square foot [oz.ft2]:
+0.379686
+55. kilopound square yard:
+0.000002636707
+56. kilopound square foot:
+0.00002373036
+57. kilopound square inch:
+0.0034171719
+58. pound square yard [lb.yd2]:
+0.0026367067
+59. pound square foot [lb.ft2]:
+0.02373036
+60. pound square inch [lb.in2]:
+3.417172
+64. ounce square meter [oz.m2]:
+0.03527396
+65. pound square meter [lb.m2]:
+0.0022046226
+67. kilopound square meter:
+0.0000022046226

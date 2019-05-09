@@ -1,0 +1,405 @@
+#include "units/units.hpp"
+
+#include <algorithm>
+#include <array>
+#include <atomic>
+#include <cctype>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+
+/*
+// https://en.wikipedia.org/wiki/List_of_traded_commodities
+enum commodity : uint32_t
+{
+    water", 1,
+    // metals
+    gold", 2,
+    copper", 4,
+    silver", 6,
+    platinum", 7,
+    palladium", 8,
+    zinc", 9,
+    tin", 10,
+    lead", 11,
+    aluminum", 12,
+    alluminum_alloy", 13,
+    nickel", 14,
+    cobolt", 15,
+    molybdenum", 16,
+
+    // energy
+    oil", 101,
+    heat_oil", 102,
+    nat_gas", 103,
+    brent_crude", 104,
+    ethanol", 105,
+    propane", 107,
+    // grains
+    wheat", 404,
+    corn", 405,
+    soybeans", 406,
+    soybean_meal", 407,
+    soybean_oil", 408,
+    oats", 409,
+    rice", 410,
+    red_wheat", 411,
+    spring_wheat", 412,
+    canola", 413,
+    rough_rice", 414,
+    rapeseed", 415,
+    adzuci", 418,
+    barley", 420,
+    // meats
+    live_cattle", 601,
+    feeder_cattle", 602,
+    lean_hogs", 603,
+    milk", 604,
+
+    // soft
+    cotton", 945,
+    orange_juice", 947,
+    sugar", 948,
+    sugar_11", 949,
+    sugar_14", 950,
+    coffee", 952,
+    cocoa", 961,
+    palm_oil", 971,
+    rubber", 999,
+    wool", 946,
+    lumber", 5007,
+
+    // other common unit blocks
+    people", 115125,
+    particles", 117463,
+    cars", 43567,
+
+    // clinical
+    tissue", 4622626,
+    cell", 45236884,
+    embryo", 52632253,
+    Hahnemann", 2352622,
+    Korsakov", 262626562,
+};
+
+*/
+
+namespace units
+{
+namespace commodities
+{
+    using commodityMap = std::unordered_map<unsigned int, const char *>;
+    static const commodityMap commodity_names{
+      {water, "water"},
+      // metals
+      {gold, "gold"},
+      {copper, "copper"},
+      {silver, "silver"},
+      {platinum, "platinum"},
+      {palladium, "palladium"},
+      {zinc, "zinc"},
+      {tin, "tin"},
+      {lead, "lead"},
+      {aluminum, "aluminum"},
+      {alluminum_alloy, "alluminum_alloy"},
+      {nickel, "nickel"},
+      {cobolt, "cobolt"},
+      {molybdenum, "molybdenum"},
+
+      // energy
+      {oil, "oil"},
+      {heat_oil, "heat_oil"},
+      {nat_gas, "nat_gas"},
+      {brent_crude, "brent_crude"},
+      {ethanol, "ethanol"},
+      {propane, "propane"},
+      // grains
+      {wheat, "wheat"},
+      {corn, "corn"},
+      {soybeans, "soybeans"},
+      {soybean_meal, "soybean_meal"},
+      {soybean_oil, "soybean_oil"},
+      {oats, "oats"},
+      {rice, "rice"},
+      {red_wheat, "red_wheat"},
+      {spring_wheat, "spring_wheat"},
+      {canola, "canola"},
+      {rough_rice, "rough_rice"},
+      {rapeseed, "rapeseed"},
+      {adzuci, "adzuci"},
+      {barley, "barley"},
+      // meats
+      {live_cattle, "live_cattle"},
+      {feeder_cattle, "feeder_cattle"},
+      {lean_hogs, "lean_hogs"},
+      {milk, "milk"},
+
+      // soft
+      {cotton, "cotton"},
+      {orange_juice, "orange_juice"},
+      {sugar, "sugar"},
+      {sugar_11, "sugar_11"},
+      {sugar_14, "sugar_14"},
+      {coffee, "coffee"},
+      {cocoa, "cocoa"},
+      {palm_oil, "palm_oil"},
+      {rubber, "rubber"},
+      {wool, "wool"},
+      {lumber, "lumber"},
+
+      // other common unit blocks
+      {people, "people"},
+      {particles, "particles"},
+      {cars, "cars"},
+
+      // clinical
+      {tissue, "tissue"},
+      {cell, "cell"},
+      {embryo, "embryo"},
+      {Hahnemann, "Hahnemann"},
+      {Korsakov, "Korsakov"},
+      {creatinine, "creatinine"},
+      {protein, "protein"},
+
+      {pixel, "pixel"},
+      {voxel, "voxel"},
+    };
+
+    using commodityNameMap = std::unordered_map<std::string, unsigned int>;
+    static const commodityNameMap commodity_codes{
+      {"water", water},
+      // metals
+      {"gold", gold},
+      {"copper", copper},
+      {"silver", silver},
+      {"platinum", platinum},
+      {"palladium", palladium},
+      {"zinc", zinc},
+      {"tin", tin},
+      {"lead", lead},
+      {"aluminum", aluminum},
+      {"alluminum_alloy", alluminum_alloy},
+      {"nickel", nickel},
+      {"cobolt", cobolt},
+      {"molybdenum", molybdenum},
+
+      // energy
+      {"oil", oil},
+      {"heat_oil", heat_oil},
+      {"nat_gas", nat_gas},
+      {"brent_crude", brent_crude},
+      {"ethanol", ethanol},
+      {"propane", propane},
+      // grains
+      {"wheat", wheat},
+      {"corn", corn},
+      {"soybeans", soybeans},
+      {"soybean_meal", soybean_meal},
+      {"soybean_oil", soybean_oil},
+      {"oats", oats},
+      {"rice", rice},
+      {"red_wheat", red_wheat},
+      {"spring_wheat", spring_wheat},
+      {"canola", canola},
+      {"rough_rice", rough_rice},
+      {"rapeseed", rapeseed},
+      {"adzuci", adzuci},
+      {"barley", barley},
+      // meats
+      {"live_cattle", live_cattle},
+      {"feeder_cattle", feeder_cattle},
+      {"lean_hogs", lean_hogs},
+      {"milk", milk},
+
+      // soft
+      {"cotton", cotton},
+      {"orange_juice", orange_juice},
+      {"sugar", sugar},
+      {"sugar_11", sugar_11},
+      {"sugar_14", sugar_14},
+      {"coffee", coffee},
+      {"cocoa", cocoa},
+      {"palm_oil", palm_oil},
+      {"rubber", rubber},
+      {"wool", wool},
+      {"lumber", lumber},
+
+      // other common unit blocks
+      {"people", people},
+      {"particles", particles},
+      {"cars", cars},
+
+      // clinical
+      {"tissue", tissue},
+      {"cell", cell},
+      {"cells", cell},
+      {"embryo", embryo},
+      {"hahnemann", Hahnemann},
+      {"korsakov", Korsakov},
+      {"protein", protein},
+      {"creatinine", creatinine},
+      {"prot", protein},
+      {"creat", creatinine},
+      // computer
+      {"voxel", voxel},
+      {"pixel", pixel},
+      {"vox", voxel},
+      {"pix", pixel},
+      {"dot", pixel},
+    };
+}  // namespace commodities
+
+#define A 54059 /* a prime */
+#define B 76963 /* another prime */
+#define C 86969 /* yet another prime */
+#define FIRSTH 37 /* also prime */
+uint32_t stringHash(const std::string &str)
+{
+    uint32_t h = FIRSTH;
+    for (auto c : str)
+    {
+        h = (h * A) ^ (c * B);
+    }
+    return h;  // or return h % C;
+}
+
+static std::atomic<bool> allowCustomCommodities{true};
+
+bool disableCustomCommodities()
+{
+    allowCustomCommodities.store(false);
+    return false;
+}
+bool enableCustomCommodities()
+{
+    allowCustomCommodities.store(true);
+    return true;
+}
+static commodities::commodityNameMap customCommodityCodes;
+static std::unordered_map<unsigned int, std::string> customCommodityNames;
+/// remove some escaped characters from a string mainly the escape character and (){}[]
+static void removeEscapeSequences(std::string &str)
+{
+    auto eloc = str.find_first_of('\\');
+    while (eloc < str.size() - 1)
+    {
+        auto nc = str[eloc + 1];
+        switch (nc)
+        {
+        case '\\':
+        case '{':
+        case '}':
+        case '(':
+        case ')':
+        case '[':
+        case ']':
+            str.erase(eloc, 1);
+            break;
+        default:
+            break;
+        }
+        eloc = str.find_first_of('\\', eloc + 1);
+    }
+}
+// get the code to use for a particular commodity
+unsigned int getCommodity(std::string comm)
+{
+    removeEscapeSequences(comm);
+    std::transform(comm.begin(), comm.end(), comm.begin(), ::tolower);
+    auto fnd = commodities::commodity_codes.find(comm);
+    if (fnd != commodities::commodity_codes.end())
+    {
+        return fnd->second;
+    }
+    if (!customCommodityCodes.empty())
+    {
+        auto fnd2 = customCommodityCodes.find(comm);
+        if (fnd2 != customCommodityCodes.end())
+        {
+            return fnd2->second;
+        }
+    }
+    if (comm.compare(0, 7, "cxcomm[") == 0)
+    {
+        return static_cast<int32_t>(atoi(comm.c_str() + 7));
+    }
+    if ((comm.size() < 5) &&
+        std::all_of(comm.begin(), comm.end(), [](char x) { return (x == ' ' || (x >= '_' && x <= '}')); }))
+    {
+        uint32_t hkey = 0x40000000;
+        int shift = 0;
+        for (auto c : comm)
+        {
+            if (c == ' ')
+            {
+                c = '_';
+            }
+            c -= '_';
+            hkey += c << shift;
+            shift += 5;
+        }
+        return hkey;
+    }
+    // generate a hash code for a custom string
+    auto hcode = stringHash(comm);
+    hcode &= 0x1FFFFFFF;
+    hcode |= 0x60000000;
+    addCustomCommodity(comm, hcode);
+
+    return hcode;
+}
+
+// get the code to use for a particular commodity
+std::string getCommodityName(unsigned int commodity)
+{
+    auto fnd = commodities::commodity_names.find(commodity);
+    if (fnd != commodities::commodity_names.end())
+    {
+        return fnd->second;
+    }
+    if (!customCommodityNames.empty())
+    {
+        auto fnd2 = customCommodityNames.find(commodity);
+        if (fnd2 != customCommodityNames.end())
+        {
+            return fnd2->second;
+        }
+    }
+    if ((commodity & 0x60000000) == 0x40000000)
+    {
+        std::string ret;
+        ret.push_back((commodity & 0X1F) + '_');
+        ret.push_back(((commodity >> 5) & 0X1F) + '_');
+        ret.push_back(((commodity >> 10) & 0X1F) + '_');
+        ret.push_back(((commodity >> 15) & 0X1F) + '_');
+        ret.push_back(((commodity >> 20) & 0X1F) + '_');
+        while (ret.back() == '_')
+        {
+            ret.pop_back();
+        }
+        return ret;
+    }
+    return std::string("CXCOMM[") + std::to_string(commodity) + "]";
+}
+
+// add a custom commodity for later retrieval
+void addCustomCommodity(std::string comm, unsigned int code)
+{
+    if (allowCustomCommodities.load())
+    {
+        std::transform(comm.begin(), comm.end(), comm.begin(), ::tolower);
+        customCommodityNames.emplace(code, comm);
+        customCommodityCodes.emplace(comm, code);
+    }
+}
+
+void clearCustomCommodities()
+{
+    customCommodityNames.clear();
+    customCommodityCodes.clear();
+}
+}  // namespace units

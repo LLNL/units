@@ -1,0 +1,102 @@
+1. joule [J]:
+10.5
+2. gigajoule [GJ]:
+1.05e-8
+3. megajoule [MJ]:
+0.0000105
+4. kilojoule [kJ]:
+0.0105
+5. millijoule [mJ]:
+10500
+6. microjoule [uJ]:
+10500000
+7. nanojoule [nJ]:
+1.05e+10
+8. attojoule [aJ]:
+1.05e+19
+9. erg:
+1.05e+8
+10. dyne centimeter [dyn.cm]:
+1.05e+8
+11. newton meter [N.m]:
+10.5
+12. megaelectron-volt [MeV]:
+6.552e+13
+13. kiloelectron-volt [keV]:
+6.552e+16
+14. electron-volt [eV]:
+6.552e+19
+15. watt-second [W.s]:
+10.5
+16. gigawatt-hour [GW.h]:
+2.916667e-12
+17. megawatt-hour [MW.h]:
+2.916667e-9
+18. kilowatt-hour [kwh]:
+0.000002916667
+19. kilowatt-second [kW.s]:
+0.0105
+20. watt-hour [W.h]:
+0.0029166667
+21. horsepower hour [hp.h]:
+0.0000039165
+22. horsepower (metric) hour:
+0.000003969
+23. kilocalorie (IT):
+0.002507883
+24. kilocalorie (th) [kcal (th)]:
+0.002509563
+25. MMKcal:
+2.5095e-9
+26. calorie (IT):
+2.507883
+27. calorie (th) [cal (th)]:
+2.50956
+28. calorie (nutritional):
+2.507883
+29. kilocalorie (nutritional):
+0.002507883
+30. Btu (IT) [Btu]:
+0.0099520785
+31. Btu (th) [Btu (th)]:
+0.009958746
+32. Mbtu:
+0.000009952079
+33. mega Btu (IT) [MMBtu]:
+9.952079e-9
+34. ton-hour (refrigeration):
+8.295e-7
+35. fuel oil equivalent of 1 kiloliter:
+2.6145e-10
+36. fuel oil equivalent of 1 barrel:
+1.6485e-9
+37. gigaton [Gton]:
+2.5095e-18
+38. megaton [Mton]:
+2.5095e-15
+39. kiloton [kton]:
+2.5095e-12
+40. ton (explosives):
+2.5095e-9
+41. poundal foot [pdl.ft]:
+249.168785
+42. gram-force meter [gf.m]:
+1070.702024
+43. gram-force centimeter:
+107070.202365
+44. kilogram-force centimeter:
+107.070202
+45. kilogram-force meter:
+1.070702
+46. kilopond meter [kp.m]:
+1.070702
+47. ounce-force inch [ozf.in]:
+1486.925293
+48. pound-force foot [lbf.ft]:
+7.744403
+49. pound-force inch [lbf.in]:
+92.932831
+50. therm (EC):
+9.952078e-8
+51. therm (US):
+9.954456e-8

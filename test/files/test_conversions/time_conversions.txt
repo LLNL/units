@@ -1,0 +1,50 @@
+1. second [s]:
+1
+2. millisecond [ms]:
+1000
+3. microsecond [us]:
+1000000
+4. nanosecond [ns]:
+1e+9
+5. picosecond [ps]:
+1e+12
+6. femtosecond [fs]:
+1e+15
+7. attosecond:
+1e+18
+8. shake:
+100000000
+9. minute [min]:
+0.01666667
+10. hour [h]:
+0.0002777778
+11. day [d]:
+0.000011574074
+12. week:
+0.000001653439
+13. month:
+3.805175e-7
+14. month (synodic):
+3.919349e-7
+15. year [y]:
+3.170979e-8
+16. year (Julian):
+3.168809e-8
+17. year (leap):
+3.162315e-8
+18. year (tropical):
+3.168876e-8
+19. year (sidereal):
+3.168754e-8
+20. day (sidereal):
+0.000011605763
+24. fortnight:
+8.267196e-7
+25. decade:
+3.170979e-9
+27. century:
+3.170979e-10
+28. millennium:
+3.174603e-11
+34. Planck time:
+1.86e+43

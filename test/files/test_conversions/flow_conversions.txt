@@ -1,0 +1,122 @@
+1. cubic meter/second [m3/s]:
+1
+2. cubic meter/day [m3/d]:
+86400
+3. cubic meter/hour [m3/h]:
+3600
+4. cubic meter/minute [m3/min]:
+60
+5. cubic centimeter/day:
+8.64e+10
+6. cubic centimeter/hour:
+3.6e+9
+7. cubic centimeter/minute:
+59999999.999999
+8. cubic centimeter/second:
+1000000
+9. cubic nanometer/hour:
+3.6e30
+10. liter/day [L/d]:
+86400000.000001
+11. liter/hour [L/h]:
+3600000
+12. liter/minute [L/min]:
+60000
+13. liter/second [L/s]:
+1000
+14. milliliter/day [mL/d]:
+8.64e+10
+15. milliliter/hour [mL/h]:
+3.6e+9
+16. milliliter/minute [mL/min]:
+59999999.999999
+17. milliliter/second [mL/s]:
+1000000
+18. gallon (US)/day [gal (US)/d]:
+22824465.32
+19. gallon (US)/hour [gal (US)/h]:
+951019.3885
+20. gallon (US)/minute [gal (US)/min]:
+15850.32314
+21. gallon (US)/second [gal (US)/s]:
+264.172052
+22. gallon (UK)/day [gal (UK)/d]:
+19005343.05
+23. gallon (UK)/hour [gal (UK)/h]:
+791889.2939
+24. gallon (UK)/minute [gal (UK)/min]:
+13198.1549
+25. gallon (UK)/second [gal (UK)/s]:
+219.969248
+26. kilobarrel (US)/day [kbbl (US)/d]:
+543.439651
+27. barrel (US)/day [bbl (US)/d]:
+543439.6506
+28. barrel (US)/hour [bbl (US)/h]:
+22643.31877
+29. barrel (US)/minute [bbl (US)/min]:
+377.388646
+30. barrel (US)/second [bbl (US)/s]:
+6.289811
+31. acre-foot/year [ac.ft/y]:
+25566.54901
+32. acre-foot/day [ac.ft/d]:
+70.04534
+33. acre-foot/hour [ac.ft/h]:
+2.918556
+34. hundred-cubic foot/day:
+30511.87205
+35. hundred-cubic foot/hour:
+1271.328002
+36. hundred-cubic foot/minute:
+21.1888
+37. fluid ounce/hour [foz/h]:
+1.217305e+8
+38. fluid ounce/minute [foz/min]:
+2028841.362
+39. fluid ounce/second [foz/s]:
+33814.0227
+40. fluid ounce (UK)/hour [foz (UK)/h]:
+1.267023e+8
+41. fluid ounce (UK)/minute [foz (UK)/min]:
+2111704.653
+42. fluid ounce (UK)/second [foz (UK)/s]:
+35195.07755
+43. cubic yard/hour [yd3/h]:
+4708.622229
+44. cubic yard/minute [yd3/min]:
+78.477037
+45. cubic yard/second [yd3/s]:
+1.307951
+46. cubic foot/second [ft3/s]:
+35.314667
+47. cubic foot/minute [ft3/min]:
+2118.880003
+48. cubic foot/hour [ft3/h]:
+127132.800192
+49. cubic foot/day [ft3/d]:
+3051187.204608
+50. million cubic foot/day:
+3.051187
+51. cubic inch/hour [in3/h]:
+2.196855e+8
+52. cubic inch/minute [in3/min]:
+3661424.646
+53. cubic inch/second [in3/s]:
+61023.74409
+54. pound/second (Gasoline at 15.5 C):
+1629.941563
+55. pound/minute (Gasoline at 15.5 C):
+97796.49378
+56. pound/hour (Gasoline at 15.5 C):
+5867789.625
+57. pound/day (Gasoline at 15.5 C):
+1.40827e+8
+58. kilogram/second (Gasoline at 15.5 C):
+739.329056
+59. kilogram/minute (Gasoline at 15.5 C):
+44359.74339
+60. kilogram/hour (Gasoline at 15.5 C):
+2661584.603
+61. kilogram/day (Gasoline at 15.5 C):
+63878030.480002

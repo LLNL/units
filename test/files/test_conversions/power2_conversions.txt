@@ -1,0 +1,140 @@
+1. watt [W]:
+5.7
+2. exawatt [EW]:
+5.7e-18
+3. petawatt [PW]:
+5.7e-15
+4. terawatt [TW]:
+5.7e-12
+5. gigawatt [GW]:
+5.7e-9
+6. megawatt [MW]:
+0.0000057
+7. kilowatt [kW]:
+0.0057
+8. hectowatt [hW]:
+0.057
+9. dekawatt [daW]:
+0.57
+10. deciwatt [dW]:
+57
+11. centiwatt [cW]:
+570
+12. milliwatt [mW]:
+5700
+13. microwatt [uW]:
+5700000
+14. nanowatt [nW]:
+5.7e+9
+15. picowatt [pW]:
+5.7e+12
+16. femtowatt [fW]:
+5.7e+15
+17. attowatt [aW]:
+5.7e+18
+18. Btu (IT)/hour [Btu/h]:
+19.449207
+19. Btu (IT)/minute [Btu/min]:
+0.324153
+20. Btu (IT)/second [Btu/s]:
+0.0054025576
+21. mega Btu (IT)/hour:
+0.000019449207
+22. Btu (th)/hour [Btu (th)/h]:
+19.462228
+23. Btu (th)/minute [Btu (th)/min]:
+0.32437
+24. Btu (th)/second [Btu (th)/s]:
+0.0054061744
+25. kilocalorie (IT)/hour:
+4.90112
+26. kilocalorie (IT)/minute:
+0.08168533
+27. kilocalorie (IT)/second:
+0.0013614222
+28. calorie (IT)/hour [cal_IT/h]:
+4901.11992
+29. calorie (IT)/minute [cal_IT/min]:
+81.685332
+30. calorie (IT)/second [cal_IT/s]:
+1.361422
+31. kilocalorie (th)/hour:
+4.904403
+32. kilocalorie (th)/minute:
+0.08174005
+33. kilocalorie (th)/second:
+0.0013623342
+34. calorie (th)/hour [cal (th)/h]:
+4904.40312
+35. calorie (th)/minute [cal (th)/min]:
+81.740052
+36. calorie (th)/second [cal (th)/s]:
+1.362334
+37. poundforce-foot/hour [lbf.ft/h]:
+15134.775301
+38. poundforce-foot/minute [lbf.ft/min]:
+252.246255
+39. poundforce-foot/second [lbf.ft/s]:
+4.204104
+40. erg/second [erg/s]:
+57000000
+41. kilovolt ampere [kV.A]:
+0.0057
+42. volt ampere [V.A]:
+5.7
+43. newton meter/second [N.m/s]:
+5.7
+44. joule/second [J/s]:
+5.7
+45. exajoule/second [EJ/s]:
+5.7e-18
+46. petajoule/second [PJ/s]:
+5.7e-15
+47. terajoule/second [TJ/s]:
+5.7e-12
+48. gigajoule/second [GJ/s]:
+5.7e-9
+49. megajoule/second [MJ/s]:
+0.0000057
+50. kilojoule/second [kJ/s]:
+0.0057
+51. hectojoule/second [hJ/s]:
+0.057
+52. dekajoule/second [daJ/s]:
+0.57
+53. decijoule/second [dJ/s]:
+57
+54. centijoule/second [cJ/s]:
+570
+55. millijoule/second [mJ/s]:
+5700
+56. microjoule/second [uJ/s]:
+5700000
+57. nanojoule/second [nJ/s]:
+5.7e+9
+58. picojoule/second [pJ/s]:
+5.7e+12
+59. femtojoule/second [fJ/s]:
+5.7e+15
+60. attojoule/second [aJ/s]:
+5.7e+18
+61. joule/hour [J/h]:
+20520
+62. joule/minute [J/min]:
+342
+63. kilojoule/hour [kJ/h]:
+20.52
+64. kilojoule/minute [kJ/min]:
+0.342
+65. horsepower [hp]:
+0.0076438254
+66. horsepower (metric) [hp (metric)]:
+0.0077498454
+67. horsepower (boiler) [hp (boiler)]:
+0.0005810694
+68. horsepower (electric):
+0.0076407531
+69. horsepower (water) [hp (water)]:
+0.0076403085
+70. ton(refrigeration) [TR]:
+0.00162185233

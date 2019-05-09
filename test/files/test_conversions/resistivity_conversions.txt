@@ -1,0 +1,108 @@
+1. ohm meter [ohm.m]:
+1000
+2. ohm kilometer [ohm.km]:
+1
+3. ohm centimeter [ohm.cm]:
+100000
+4. ohm millimeter [ohm.mm]:
+1000000
+5. ohm micrometer [ohm.um]:
+1e+9
+6. ohm nanometer [ohm.nm]:
+1e+12
+7. milliohm meter [mohm.m]:
+1000000
+8. milliohm centimeter [mohm.cm]:
+100000000
+9. milliohm millimeter [mohm.mm]:
+1e+9
+10. milliohm micrometer [mohm.um]:
+1e+12
+11. milliohm nanometer [mohm.nm]:
+1e+15
+12. kiloohm meter [Kohm.m]:
+1
+13. kiloohm kilometer [Kohm.km]:
+0.001
+14. megaohm meter [Mohm.m]:
+0.001
+15. microohm meter [uohm.m]:
+1e+9
+16. microohm centimeter [uohm.cm]:
+1e+11
+17. microohm millimeter [uohm.mm]:
+1e+12
+18. microohm micrometer [uohm.um]:
+1e+15
+19. microohm nanometer [uohm.nm]:
+1e+18
+20. volt/ampere meter [V/A.m]:
+1000
+21. volt/ampere kilometer:
+1
+22. volt/ampere centimeter:
+100000
+23. volt/ampere millimeter:
+1000000
+24. volt/ampere micrometer:
+1e+9
+25. volt/ampere nanometer:
+1e+12
+26. meter/siemens [m/S]:
+1000
+27. kilometer/siemens [km/S]:
+1
+28. centimeter/siemens [cm/S]:
+100000
+29. millimeter/siemens [mm/S]:
+1000000
+30. micrometer/siemens [um/S]:
+1e+9
+31. nanometer/siemens [nm/S]:
+1e+12
+32. abohm meter:
+1e+12
+33. abohm centimeter:
+1e+14
+34. abohm millimeter:
+1e+15
+35. abohm micrometer:
+1e+18
+36. abohm nanometer:
+1e+21
+41. statohm micrometer:
+0.00111
+42. statohm nanometer:
+1.11
+44. ohm yard [ohm.yd]:
+1093.613298
+45. ohm foot [ohm.ft]:
+3280.839895
+46. ohm inch [ohm.in]:
+39370.07874
+47. kiloohm yard [Kohm.yd]:
+1.093613
+48. kiloohm foot [Kohm.ft]:
+3.28084
+49. kiloohm inch [Kohm.in]:
+39.370079
+50. megaohm yard [Mohm.yd]:
+0.0010936133
+51. megaohm foot [Mohm.ft]:
+0.0032808399
+52. megaohm inch [Mohm.in]:
+0.03937008
+53. volt/ampere yard [V/A.yd]:
+1093.613298
+54. volt/ampere foot [V/A.ft]:
+3280.839895
+55. volt/ampere inch [V/A.in]:
+39370.07874
+56. kiloohm mile [Kohm.mi]:
+0.0006213712
+57. yard/siemens [yd/S]:
+1093.613298
+58. foot/siemens [ft/S]:
+3280.839895
+59. inch/siemens [in/S]:
+39370.07874

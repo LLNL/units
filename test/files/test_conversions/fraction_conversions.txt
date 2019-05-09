@@ -1,0 +1,32 @@
+1. unit:
+1
+2. pair:
+0.5
+3. percent [%]:
+100
+4. permille:
+1000
+5. parts per million [ppm]:
+1000000
+6. parts per billion [ppb]:
+1e+9
+7. half:
+2
+8. one third:
+3
+9. one fourth:
+4
+10. one fifth:
+5
+11. one sixth:
+6
+13. one eighth:
+8
+15. one tenth:
+10
+9. quarter:
+4
+23. dozen:
+0.08333333
+24. gross:
+0.0069444444

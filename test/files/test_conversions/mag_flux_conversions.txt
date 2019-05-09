@@ -1,0 +1,42 @@
+1. weber [Wb]:
+1
+2. milliweber [mWb]:
+1000
+3. microweber [uWb]:
+1000000
+4. kiloweber [kWb]:
+0.001
+5. megaweber [MWb]:
+0.000001
+6. volt second [V.s]:
+1
+7. unit pole:
+7957747.155
+8. megamaxwell:
+100
+9. kilomaxwell:
+100000
+11. maxwell [Mx]:
+100000000
+13. tesla square meter [T.m2]:
+1
+14. tesla square centimeter:
+10000
+15. tesla square micrometer:
+1e12
+16. gauss square meter:
+10000
+17. gauss square centimeter:
+100000000
+18. Gauss square yard:
+11959.900463
+19. Gauss square foot:
+107639.104167
+20. Gauss square inch:
+15500031
+21. tesla square yard [T.yd2]:
+1.19599
+22. tesla square foot [T.ft2]:
+10.76391
+23. tesla square inch [T.in2]:
+1550.0031

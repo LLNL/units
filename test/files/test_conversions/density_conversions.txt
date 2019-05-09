@@ -1,0 +1,122 @@
+1. kilogram/cubic meter:
+1
+2. kilogram/cubic kilometer:
+1e+9
+3. kilogram/cubic decimeter:
+0.001
+4. kilogram/cubic centimeter:
+0.000001
+5. kilogram/liter [kg/L]:
+0.001
+6. gram/cubic meter [g/m3]:
+1000
+7. gram/cubic kilometer:
+1e+12
+8. gram/cubic decimeter:
+1
+9. gram/cubic centimeter:
+0.001
+10. gram/cubic millimeter:
+0.000001
+11. gram/liter [g/L]:
+1
+12. gram/milliliter [g/mL]:
+0.001
+13. gram/microliter [g/uL]:
+0.000001
+14. gram/cc [g/cc]:
+0.001
+15. gram/drop:
+0.00005
+16. milligram/cubic centimeter:
+1
+17. milligram/cubic millimeter:
+0.001
+18. milligram/liter [mg/L]:
+1000
+19. milligram/milliliter:
+1
+20. milligram/microliter:
+0.001
+21. microgram/cubic meter:
+1e+9
+22. microgram/cubic millimeter:
+1
+23. microgram/liter [ug/L]:
+1000000
+24. microgram/milliliter:
+1000
+25. microgram/microliter:
+1
+26. nanogram/milliliter [ng/mL]:
+1000000
+27. nanogram/microliter [ng/uL]:
+1000
+28. picogram/milliliter [pg/mL]:
+1e+9
+29. picogram/microliter [pg/uL]:
+1000000
+30. ton (metric)/cubic meter:
+0.001
+31. ton (metric)/cubic kilometer:
+1000000
+32. carat/cubic centimeter:
+0.005
+33. gamma/cubic millimeter:
+1
+34. gamma/milliliter:
+1000
+35. gamma/microliter:
+1
+36. slug/cubic meter:
+0.0685
+37. pound/L [lb/L]:
+0.00220462
+38. kilopound/L:
+0.00000220462
+39. ounce/L [oz/L]:
+0.03527392
+41. grain/L [gr/L]:
+15.43234
+42. milligram/deciliter [mg/dL]:
+100
+43. microgram/deciliter [ug/dL]:
+100000
+44. milligram/cubic inch [mg/in3]:
+16.387064
+45. gram/cubic inch [g/in3]:
+0.01638706
+46. microgram/cubic inch:
+16387.064
+47. kilogram/cubic yard [kg/yd3]:
+0.764554
+48. kilogram/cubic foot [kg/ft3]:
+0.028317
+49. ton (metric)/cubic yard:
+0.000764554
+50. gamma/cubic inch:
+16387.064
+51. carat/cubic inch [ct/in3]:
+0.08193532
+52. kilopound/cubic yard:
+0.001685448
+53. kilopound/cubic foot:
+0.000062424
+54. kilopound/cubic inch:
+3.6125e-8
+55. pound/cubic yard [lb/yd3]:
+1.685448
+56. pound/cubic foot [lb/ft3]:
+0.062424
+57. pound/cubic inch [lb/in3]:
+0.000036125
+58. ounce/cubic yard [oz/yd3]:
+26.967168
+59. ounce/cubic foot [oz/ft3]:
+0.998784
+60. ounce/cubic inch [oz/in3]:
+0.000578
+64. grain/cubic foot:
+436.968
+65. grain/cubic inch:
+0.252875

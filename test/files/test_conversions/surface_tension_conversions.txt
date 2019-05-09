@@ -1,0 +1,84 @@
+1. newton/meter [N/m]:
+1
+2. newton/centimeter [N/cm]:
+0.01
+3. newton/millimeter [N/mm]:
+0.001
+4. kilonewton/meter [kN/m]:
+0.001
+5. millinewton/millimeter:
+1
+6. millinewton/meter [mN/m]:
+1000
+7. millinewton/micrometer:
+0.001
+8. millinewton/nanometer:
+0.000001
+9. micronewton/millimeter:
+1000
+10. micronewton/micrometer:
+1
+11. micronewton/nanometer:
+0.001
+12. dyne/meter [dyn/m]:
+100000
+13. erg/square centimeter:
+1000
+14. erg/square millimeter:
+10
+15. gram-force/meter [gf/m]:
+101.971621
+16. gram-force/centimeter:
+1.019716
+17. gram-force/millimeter:
+0.101972
+18. gram-force/micrometer:
+0.0001019716
+19. gram-force/nanometer:
+1.019716e-7
+20. kilogram-force/meter:
+0.101972
+21. kilogram-force/centimeter:
+0.0010197162
+22. pond/meter:
+101.971621
+23. kilopond/meter [kp/m]:
+0.101972
+24. pound-force/meter [lbf/m]:
+0.224809
+25. ounce-force/meter [ozf/m]:
+3.596943
+26. poundal/meter [pdl/m]:
+7.233014
+27. poundal/yard [pdl/yd]:
+6.613868
+28. ounce-force/yard [ozf/yd]:
+3.289045
+29. ounce-force/foot [ozf/ft]:
+1.096348253708
+30. ounce-force/inch [ozf/in]:
+0.09136235
+31. pound-force/yard [lbf/yd]:
+0.205565
+32. kilogram-force/yard [kgf/yd]:
+0.09324285
+33. gram-force/yard [gf/yd]:
+93.242851
+34. gram-force/foot [gf/ft]:
+31.08095017156
+35. gram-force/inch [gf/in]:
+2.590079
+36. millinewton/yard [mN/yd]:
+914.4
+37. millinewton/foot [mN/ft]:
+304.8
+38. millinewton/inch [mN/in]:
+25.4
+39. kilonewton/yard [kN/yd]:
+0.0009144
+40. newton/yard [N/yd]:
+0.9144
+41. newton/foot [N/ft]:
+0.3048
+42. newton/inch [N/in]:
+0.0254

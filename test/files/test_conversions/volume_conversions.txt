@@ -1,0 +1,140 @@
+1. cubic meter [m3]:
+1
+2. cubic kilometer [km3]:
+1e-9
+3. cubic decimeter [dm3]:
+1000
+4. cubic centimeter [cm3]:
+1000000
+5. cubic millimeter [mm3]:
+1e+9
+6. cubic micrometer [um3]:
+1e+18
+7. cubic nanometer [nm3]:
+1e+27
+8. liter [L]:
+1000
+9. exaliter [EL]:
+1e-15
+10. petaliter [PL]:
+1e-12
+11. teraliter [TL]:
+1e-9
+12. gigaliter [GL]:
+0.000001
+13. megaliter [ML]:
+0.001
+14. kiloliter [kL]:
+1
+15. hectoliter [hL]:
+10
+16. dekaliter [daL]:
+100
+17. deciliter [dL]:
+10000
+18. centiliter [cL]:
+100000
+19. milliliter [mL]:
+1000000
+20. microliter [uL]:
+1e+9
+21. nanoliter [nL]:
+1e+12
+22. picoliter [pL]:
+1e+15
+23. femtoliter [fL]:
+1e+18
+24. attoliter [aL]:
+1e+21
+25. cc:
+1000000
+26. drop:
+20000000
+27. cup(metric):
+4000
+28. teaspoon (metric):
+200000
+29. dekastere:
+0.1
+30. stere [st]:
+1
+31. decistere:
+10
+32. tablespoon (metric):
+66666.66667
+33. fluid ounce (UK) [fl oz (UK)]:
+35195.07973
+34. barrel (UK) [bbl (UK)]:
+6.110257
+35. gallon (UK) [gal (UK)]:
+219.969248
+36. quart (UK) [qt (UK)]:
+879.876993
+37. pint (UK) [pt (UK)]:
+1759.753987
+38. cup (UK):
+3519.507973
+39. gill (UK) [gi (UK)]:
+7039.015946
+40. tablespoon (UK):
+70390.1594557
+42. teaspoon (UK):
+211170.478367
+43. minim (UK):
+16893638.2704
+44. cubic inch [in3]:
+61023.74409
+45. cubic foot [ft3]:
+35.314667
+46. cubic yard [yd3]:
+1.307951
+47. cubic mile [mi3]:
+2.40251e-10
+48. ccf:
+0.353147
+49. ton register [ton reg]:
+0.353147
+50. hundred-cubic foot:
+0.353147
+51. acre-foot [ac.ft]:
+0.0008107132
+52. acre-inch [ac.in]:
+0.0097285583
+53. cord [crd]:
+0.275896
+55. hogshead:
+4.193207
+56. board foot:
+423.776001
+57. fluid ounces [fl oz (US)]:
+33814.0227
+58. barrel (oil) [bbl (oil)]:
+6.289814
+59. fluid barrel (US):
+8.386419
+60. gallon (US) [gal (US)]:
+264.172052
+61. quart (US) [qt (US)]:
+1056.688209
+62. pint (US) [pt (US)]:
+2113.376419
+63. cup (US):
+4226.752838
+64. gill (US) [gi]:
+8453.505675
+65. tablespoon (US):
+67628.0454
+67. teaspoon (US):
+202884.1362
+68. minim (US):
+16230730.896
+69. dram [dr]:
+270512.1816
+70. drum:
+4.803113
+71. twenty foot equivalent [TEU]:
+0.0259587
+72. forty foot equivalent [FEU]:
+0.0129794
+73. 1000 cubic feet [mcf]:
+0.03531467

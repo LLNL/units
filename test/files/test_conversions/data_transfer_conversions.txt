@@ -1,0 +1,62 @@
+1. bit/second [bps]:
+1000
+2. bit/microsecond [bit/us]:
+0.001
+3. bit/millisecond [bit/ms]:
+1
+4. bit/nanosecond [bit/ns]:
+0.000001
+5. byte/microsecond [By/us]:
+0.000125
+6. byte/millisecond [By/ms]:
+0.125
+7. byte/nanosecond [By/ns]:
+1.25e-7
+8. byte/second [By/s]:
+125
+12. terabit/second [Tbps]:
+1e-9
+13. gigabit/second [Gbps]:
+1e-6
+14. kilobit/microsecond [kb/us]:
+1e-6
+14. kibibit/microsecond [Kib/us]:
+9.765625e-7
+15. kilobit/millisecond [kb/ms]:
+0.001
+16. kilobit/second [Kbps]:
+1
+17. kilobyte/millisecond:
+0.000125
+18. kilobyte/second [kB/s]:
+0.125
+19. megabit/millisecond [Mb/ms]:
+1e-6
+20. mebibit/second [Mibps]:
+0.0009536743
+20. megabit/second [Mbps]:
+0.001
+21. megabyte/second [MB/s]:
+0.000125
+22. gibibit/day [Gib/d]:
+0.08046627
+23. tebibit/day [Tib/d]:
+0.000078580
+24. gibibyte/day [GiB/d]:
+0.010058284
+25. kibibit/minute [Kib/min]:
+58.59375
+26. kibibyte/minute [KiB/min]:
+7.324219
+27. mebibit/minute [Mib/min]:
+0.05722046
+28. mebibyte/minute [MiB/min]:
+0.0071525574
+29. gibibit/minute [Gib/min]:
+0.000055879354
+30. gibibyte/minute [GiB/min]:
+0.000006984919
+31. kibibit/hour [Kib/h]:
+3515.625
+32. kibibyte/hour [KiB/h]:
+439.453125

@@ -1,0 +1,16 @@
+gram/second/square meter:
+1
+kilogram/hour/square meter:
+3.6
+kilogram/hour/square foot:
+0.334451
+kilogram/second/square meter:
+0.001
+gram/second/square centimeter:
+0.0001
+pound/hour/square foot:
+0.737338
+pound/second/square foot:
+0.000204816
+pound/minute/square foot:
+0.01228896

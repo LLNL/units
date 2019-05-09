@@ -1,0 +1,40 @@
+1. percentage:
+1
+2. part per million [ppm]:
+10000
+3. part per billion [ppb]:
+10000000
+4. part per trillion [ppt]:
+1e+10
+5. part per quadrillion:
+1e+13
+6. gram/kilogram [g/kg]:
+10
+7. microgram/gram [ug/g]:
+10000
+8. nanogram/microgram [ng/ug]:
+10
+9. nanogram/gram [ng/g]:
+10000000
+10. nanogram/kilogram [ng/kg]:
+1e+10
+11. milligram/kilogram [mg/kg]:
+10000
+12. milligram/gram [mg/g]:
+10
+14. microgram/kilogram [ug/kg]:
+10000000
+15. microliter/liter [ul/l]:
+10000
+16. nanoliter/microliter:
+10
+17. milliliter/m3 [ml/m3]:
+10000
+18. milliliter/liter [ml/l]:
+10
+19. microliter/m3 [ul/m3]:
+10000000
+20. microgram/milligram [ug/mg]:
+10
+21. gram/tonne [g/t]:
+10000

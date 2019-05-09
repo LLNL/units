@@ -1,0 +1,56 @@
+1. square meter/second [m2/s]:
+1
+2. square centimeter/second:
+10000
+3. square millimeter/second:
+1000000
+4. square micrometer/second:
+1e+12
+5. square meter/minute [m2/min]:
+60
+6. square meter/hour [m2/h]:
+3600
+7. stokes [St]:
+10000
+8. exastokes [ESt]:
+1e-14
+9. petastokes [PSt]:
+1e-11
+10. terastokes [TSt]:
+1e-8
+11. gigastokes [GSt]:
+0.00001
+12. megastokes [MSt]:
+0.01
+13. kilostokes [kSt]:
+10
+14. hectostokes [hSt]:
+100
+15. dekastokes [daSt]:
+1000
+16. decistokes [dSt]:
+100000
+17. centistokes [cSt]:
+1000000
+18. millistokes [mSt]:
+10000000
+19. microstokes [uSt]:
+1e+10
+20. nanostokes [nSt]:
+1e+13
+21. picostokes [pSt]:
+1e+16
+22. femtostokes [fSt]:
+1e+19
+23. attostokes [aSt]:
+1e+22
+24. square foot/second [ft2/s]:
+10.76391
+25. square foot/hour [ft2/h]:
+38750.077512
+26. square foot/minute [ft2/min]:
+645.834625
+27. square inch/second [in2/s]:
+1550.0031
+28. square yard/second [yd2/s]:
+1.19599

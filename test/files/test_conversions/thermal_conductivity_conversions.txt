@@ -1,0 +1,26 @@
+1. watt/meter/K [W/(m.K)]:
+1
+2. watt/centimeter/degC [W/(cm.oC)]:
+0.01
+3. kilowatt/meter/K [kW/(m.K)]:
+0.001
+4. calorie (IT)/second/centimeter/degC:
+0.002388459
+5. calorie (th)/second/centimeter/oC:
+0.002390057
+6. kilocalorie (IT)/hour/meter/degC:
+0.859845
+7. kilocalorie (th)/hour/meter/degC:
+0.860421
+8. Btu (IT) inch/second/square foot/degF:
+0.001925964
+9. Btu (th) inch/second/square foot/degF:
+0.001927253
+10. Btu (IT) foot/hour/square foot/degF:
+0.577789
+11. Btu (th) foot/hour/square foot/degF:
+0.578176
+12. Btu (IT) inch/hour/square foot/oF:
+6.933472
+13. Btu (th) inch/hour/square foot/degF:
+6.938112

@@ -1,0 +1,7 @@
+1. candle [CP]:
+1.019
+10. lumen/steradian [lm/sr]:
+1
+11. candela:
+1
+

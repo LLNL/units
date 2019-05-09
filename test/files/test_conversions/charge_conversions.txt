@@ -1,0 +1,28 @@
+1. coulomb [C]:
+1
+2. kilocoulomb [kC]:
+0.001
+3. millicoulomb [mC]:
+1000
+4. microcoulomb [uC]:
+1000000
+5. nanocoulomb [nC]:
+1e+9
+6. picocoulomb [pC]:
+1e+12
+7. elementary charge [e]:
+6.25e+18
+11. franklin [Fr]:
+2.994012e+9
+12. megacoulomb [MC]:
+0.000001
+13. statcoulomb [stC]:
+2.994012e+9
+14. abcoulomb [abC]:
+0.1
+15. ampere-hour [A.h]:
+0.0002777778
+16. ampere-minute [A.min]:
+0.01666667
+17. ampere-second [A.s]:
+1

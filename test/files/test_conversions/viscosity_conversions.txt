@@ -1,0 +1,58 @@
+1. pascal second [Pa.s]:
+1
+2. kilogram-force second/square meter:
+0.101972
+3. newton second/square meter:
+1
+4. millinewton second/square meter:
+1000
+5. dyne second/square centimeter:
+10
+6. poise [P]:
+10
+7. exapoise [EP]:
+1e-17
+8. petapoise [PP]:
+1e-14
+9. terapoise [TP]:
+1e-11
+10. gigapoise [GP]:
+1e-8
+11. megapoise [MP]:
+0.00001
+12. kilopoise [kP]:
+0.01
+13. hectopoise [hP]:
+0.1
+14. dekapoise [daP]:
+1
+15. decipoise [dP]:
+100
+16. centipoise [cP]:
+1000
+17. millipoise [mP]:
+10000
+18. micropoise [uP]:
+10000000
+19. nanopoise [nP]:
+1e+10
+20. picopoise [pP]:
+1e+13
+21. femtopoise [fP]:
+1e+16
+22. attopoise [aP]:
+1e+19
+23. pound-force second/square inch:
+0.000145038
+24. pound-force second/square foot:
+0.02088543
+25. poundal second/square foot:
+0.671969
+26. gram/centimeter/second:
+10
+27. slug/foot/second [slug/(ft.s)]:
+0.02088543
+28. pound/foot/second [lb/(ft.s)]:
+0.671969
+29. pound/foot/hour [lb/(ft.h)]:
+2419.08831

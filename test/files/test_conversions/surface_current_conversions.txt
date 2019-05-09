@@ -1,0 +1,52 @@
+1. ampere/square meter [A/m2]:
+1
+2. ampere/square kilometer:
+1000000
+3. ampere/square decimeter:
+0.01
+4. ampere/square centimeter:
+0.0001
+5. ampere/square millimeter:
+0.000001
+6. ampere/square micrometer:
+1e-12
+7. ampere/square nanometer:
+1e-18
+8. kiloampere/square meter:
+0.001
+9. kiloampere/square decimeter:
+0.00001
+10. kiloampere/square centimeter:
+1e-7
+11. kiloampere/square millimeter:
+1e-9
+12. kiloampere/square micrometer:
+1e-15
+13. kiloampere/square nanometer:
+1e-21
+14. milliampere/square meter:
+1000
+15. microampere/square meter:
+1000000
+16. megaampere/square meter:
+0.000001
+17. biot/square meter [Bi/m2]:
+0.1
+18. abampere/square meter:
+0.1
+19. statampere/square micrometer:
+0.002997925
+20. statampere/square nanometer:
+3e-9
+21. kiloampere/square yard:
+0.0008361274
+22. kiloampere/square foot:
+0.00009290304
+23. kiloampere/square inch:
+6.4516e-7
+24. ampere/square yard [A/yd2]:
+0.836127
+25. ampere/square foot [A/ft2]:
+0.09290304
+26. ampere/square inch [A/in2]:
+0.00064516

@@ -1,0 +1,36 @@
+1. candela/square meter:
+1
+2. candela/square centimeter:
+0.0001
+3. kilocandela/square meter:
+0.001
+4. stilb [sb]:
+0.0001
+5. lumen/square meter/steradian:
+1
+6. lumen/square centimeter/steradian:
+0.0001
+8. nit [nt]:
+1
+9. millinit [mnt]:
+1000
+10. lambert:
+0.000314159
+11. millilambert :
+0.314159
+12. foot-lambert [fl]:
+0.291864
+13. apostilb:
+3.14159
+14. blondel:
+3.14159
+15. bril:
+31415900
+16. skot:
+3141.59
+17. lumen/square foot/steradian:
+0.09290304
+18. candela/square foot [cd/ft2]:
+0.09290304
+19. candela/square inch [cd/in2]:
+0.00064516

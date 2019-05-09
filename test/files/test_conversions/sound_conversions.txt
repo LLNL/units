@@ -1,0 +1,6 @@
+bel [B]:
+34.5
+decibel [dB]:
+345
+neper [Np]:
+39.719088

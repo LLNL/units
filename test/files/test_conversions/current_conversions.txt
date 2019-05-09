@@ -1,0 +1,38 @@
+1. ampere [A]:
+1
+2. kiloampere [kA]:
+0.001
+3. deciampere [dA]:
+10
+4. centiampere [cA]:
+100
+5. milliampere [mA]:
+1000
+6. microampere [uA]:
+1000000
+7. dekaampere:
+0.1
+8. hectoampere:
+0.01
+9. megaampere [MA]:
+0.000001
+10. biot [Bi]:
+0.1
+11. gilbert:
+1.256637
+12. abampere [abA]:
+0.1
+14. statampere [stA]:
+2.997925e+9
+18. volt/ohm:
+1
+19. watt/volt:
+1
+20. weber/henry:
+1
+21. siemens volt:
+1
+22. coulomb/second [C/s]:
+1
+23. franklin/second [Fr/s]:
+2.994012e+9

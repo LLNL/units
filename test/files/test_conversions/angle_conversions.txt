@@ -1,0 +1,20 @@
+1. degree:
+1
+2. radian [rad]:
+0.01745329
+3. grad:
+1.111111
+4. gon:
+1.111111
+5. arcminute:
+60
+6. arcsecond:
+3600
+8. mil(angle):
+17.777778
+9. revolution [r]:
+0.0027777778
+10. circle:
+0.0027777778
+12. quadrant:
+0.01111111

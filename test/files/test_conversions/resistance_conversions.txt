@@ -1,0 +1,18 @@
+1. ohm [ohm]:
+10
+2. megaohm [Mohm]:
+0.00001
+3. microohm [uohm]:
+10000000
+4. milliohm [mohm]:
+10000
+5. kiloohm [kohm]:
+0.01
+6. volt/ampere [V/A]:
+10
+7. reciprocal siemens [1/S]:
+10
+8. abohm:
+1e+10
+10. statohm:
+1.11e-11

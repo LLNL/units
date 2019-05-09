@@ -1,0 +1,70 @@
+1. meter/second [mps]:
+1
+2. meter/millisecond [m/ms]:
+0.001
+3. meter/microsecond [m/us]:
+0.000001
+4. meter/nanosecond [m/ns]:
+1e-9
+5. meter/minute [m/min]:
+59.999999
+6. centimeter/minute [cm/min]:
+6000
+7. kilometer/second [km/s]:
+0.001
+8. kilometer/millisecond:
+0.000001
+9. kilometer/microsecond:
+1e-9
+10. kilometer/nanosecond:
+1e-12
+11. kilometer/minute [km/min]:
+0.06
+12. kilometer/hour [kph]:
+3.6
+13. kilometer/day [km/d]:
+86.4
+14. hectometer/second [hm/s]:
+0.01
+15. decimeter/second [dm/s]:
+10
+16. centimeter/second [cm/s]:
+100
+17. millimeter/second [mm/s]:
+1000
+18. micrometer/second [um/s]:
+1000000
+19. nanometer/second [nm/s]:
+1e+9
+20. picometer/second [pm/s]:
+1e+12
+21. mile/second [mi/s]:
+0.000621371
+22. mile/minute [mi/min]:
+0.03728226
+23. mile/hour [mph]:
+2.236934
+24. mile/day [mi/d]:
+53.686798
+25. nautical mile (international)/hour:
+1.943844
+26. nautical league (international)/hour:
+0.647948
+27. kiloyard/second [kyd/s]:
+0.001093613
+28. yard/second [yd/s]:
+1.093613
+29. yard/minute [yd/min]:
+65.616798
+30. yard/hour [yd/h]:
+3937.007874
+31. foot/second [fps]:
+3.28084
+32. foot/minute [fpm]:
+196.850394
+33. foot/hour [fph]:
+11811.023622
+34. inch/second [in/s]:
+39.370079
+35. knot [kn]:
+1.943844

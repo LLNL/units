@@ -1,0 +1,66 @@
+1. kilogram/second [kg/s]:
+1
+2. kilogram/minute [kg/min]:
+60
+3. kilogram/hour [kg/h]:
+3600
+4. kilogram/day [kg/d]:
+86400
+5. milligram/day [mg/d]:
+8.64e+10
+6. gram/day [g/d]:
+86400000.000001
+7. gram/second [g/s]:
+1000
+8. gram/minute [g/min]:
+60000
+9. gram/hour [g/h]:
+3600000
+10. milligram/second [mg/s]:
+1000000
+11. milligram/minute [mg/min]:
+59999999.999999
+12. milligram/hour [mg/h]:
+3.6e+9
+13. exagram/second [Eg/s]:
+1e-15
+14. petagram/second [Pg/s]:
+1e-12
+15. teragram/second [Tg/s]:
+1e-9
+16. gigagram/second [Gg/s]:
+0.000001
+17. megagram/second [Mg/s]:
+0.001
+18. hectogram/second [hg/s]:
+10
+19. dekagram/second [dag/s]:
+100
+20. decigram/second [dg/s]:
+10000
+21. centigram/second [cg/s]:
+100000
+22. microgram/second [ug/s]:
+1e+9
+23. ton (metric)/second [t/s]:
+0.001
+24. ton (metric)/minute [t/min]:
+0.06
+25. ton (metric)/hour [t/h]:
+3.6
+26. ton (metric)/day [t/d]:
+86.4
+27. ton (short)/hour [ton (US)/h]:
+3.968321
+28. pound/day [lb/d]:
+190479.3945
+29. pound/second [lb/s]:
+2.204623
+30. pound/minute [lb/min]:
+132.277357
+31. pound/hour [lb/h]:
+7936.641438
+32. ounce/second [oz/s]:
+35.273962
+33. ounce/minute [oz/min]:
+2116.437717

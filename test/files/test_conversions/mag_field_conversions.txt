@@ -1,0 +1,25 @@
+1. ampere/meter [A/m]:
+1
+2. ampere/millimeter [A/mm]:
+0.001
+3. milliampere/meter [mA/m]:
+1000
+4. milliampere/millimeter:
+1
+5. microampere/meter [uA/m]:
+1000000
+6. microampere/millimeter:
+1000
+7. ampere/yard [A/yd]:
+0.9144
+8. ampere/foot [A/ft]:
+0.3048
+9. ampere/inch [A/in]:
+0.0254
+10. ampere turn/meter [At/m]:
+1
+11. kiloampere/meter [kA/m]:
+0.001
+12. oersted [Oe]:
+0.01256637
+

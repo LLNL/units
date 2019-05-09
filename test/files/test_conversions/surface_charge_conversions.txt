@@ -1,0 +1,86 @@
+1. coulomb/square meter:
+1
+2. coulomb/square decimeter:
+0.01
+3. coulomb/square centimeter:
+0.0001
+4. coulomb/square millimeter:
+0.000001
+5. coulomb/square micrometer:
+1e-12
+6. coulomb/square nanometer:
+1e-18
+7. kilocoulomb/square meter:
+0.001
+8. millicoulomb/square meter:
+1000
+9. millicoulomb/square millimeter:
+0.001
+10. millicoulomb/square micrometer:
+1e-9
+11. millicoulomb/square nanometer:
+1e-15
+12. microcoulomb/square nanometer:
+1e-12
+13. nanocoulomb/square nanometer:
+1e-9
+14. picocoulomb/square nanometer:
+0.000001
+15. elementary charge/square nanometer:
+6.25
+16. faraday/square meter:
+0.00001036427
+18. franklin/square meter:
+2.994012e+9
+19. megacoulomb/square meter:
+0.000001
+20. megacoulomb/square kilometer:
+1
+21. statcoulomb/square nanometer:
+2.99e-9
+22. abcoulomb/square nanometer:
+1e-19
+23. ampere hour/square meter:
+0.0002777778
+24. ampere hour/square decimeter:
+0.000002777778
+25. ampere hour/square centimeter:
+2.777778e-8
+26. ampere minute/square meter:
+0.01666667
+27. ampere minute/square decimeter:
+0.0001666667
+28. ampere second/square meter:
+1
+29. coulomb/square yard [C/yd2]:
+0.83592
+30. coulomb/square foot [C/ft2]:
+0.09288
+31. coulomb/square inch [C/in2]:
+0.000645
+32. kilocoulomb/square yard:
+0.00083592
+33. millicoulomb/square yard:
+835.92
+34. millicoulomb/square foot:
+92.88
+35. millicoulomb/square inch:
+0.645
+36. megacoulomb/square mile:
+2.589346
+37. megacoulomb/square yard:
+8.3612735999999996e-07
+38. ampere hour/square yard:
+0.0002322576
+39. ampere hour/square foot:
+0.0000258064
+40. ampere hour/square inch:
+1.792111e-7
+41. ampere minute/square yard:
+0.01393546
+42. ampere minute/square foot:
+0.001548384
+43. ampere minute/square inch:
+0.000010752667
+44. ampere second/square inch:
+0.00064516

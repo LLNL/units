@@ -1,0 +1,128 @@
+1. ampere/meter [A/m]:
+1
+2. ampere/centimeter [A/cm]:
+0.01
+3. ampere/millimeter [A/mm]:
+0.001
+4. ampere/micrometer [A/um]:
+0.000001
+5. ampere/nanometer [A/nm]:
+1e-9
+6. ampere/yard [A/yd]:
+0.9144
+7. ampere/foot [A/ft]:
+0.3048
+8. ampere/inch [A/in]:
+0.0254
+9. kiloampere/meter [kA/m]:
+0.001
+10. kiloampere/centimeter:
+0.00001
+11. kiloampere/millimeter:
+0.000001
+12. kiloampere/micrometer:
+1e-9
+13. kiloampere/nanometer:
+1e-12
+14. kiloampere/yard [kA/yd]:
+0.0009144
+15. kiloampere/foot [kA/ft]:
+0.0003048
+16. kiloampere/inch [kA/in]:
+0.0000254
+17. milliampere/meter [mA/m]:
+1000
+18. milliampere/centimeter:
+10
+19. milliampere/millimeter:
+1
+20. milliampere/micrometer:
+0.001
+21. milliampere/nanometer:
+0.000001
+22. milliampere/yard [mA/yd]:
+914.4
+23. milliampere/foot [mA/ft]:
+304.8
+24. milliampere/inch [mA/in]:
+25.4
+25. microampere/meter [uA/m]:
+1000000
+26. microampere/centimeter:
+10000
+27. microampere/millimeter:
+1000
+28. microampere/micrometer:
+1
+29. microampere/nanometer:
+0.001
+30. microampere/yard [uA/yd]:
+914400
+31. microampere/foot [uA/ft]:
+304800
+32. microampere/inch [uA/in]:
+25400
+33. megaampere/meter [MA/m]:
+0.000001
+34. megaampere/centimeter:
+1e-8
+35. megaampere/millimeter:
+1e-9
+36. megaampere/micrometer:
+1e-12
+37. megaampere/nanometer:
+1e-15
+38. megaampere/yard [MA/yd]:
+0.0000009144
+39. megaampere/foot [MA/ft]:
+0.0000003048
+40. megaampere/inch [MA/in]:
+2.54e-8
+41. biot/meter [Bi/m]:
+0.1
+42. biot/centimeter [Bi/cm]:
+0.001
+43. biot/millimeter [Bi/mm]:
+0.0001
+44. biot/micrometer [Bi/um]:
+1e-7
+45. biot/nanometer [Bi/nm]:
+1e-10
+46. biot/yard [Bi/yd]:
+0.09144
+47. biot/foot [Bi/ft]:
+0.03048
+48. biot/inch [Bi/in]:
+0.00254
+49. abampere/meter [abA/m]:
+0.1
+50. abampere/centimeter [abA/cm]:
+0.001
+51. abampere/millimeter [abA/mm]:
+0.0001
+52. abampere/micrometer [abA/um]:
+1e-7
+53. abampere/nanometer [abA/nm]:
+1e-10
+54. abampere/yard [abA/yd]:
+0.09144
+55. abampere/foot [abA/ft]:
+0.03048
+56. abampere/inch [abA/in]:
+0.00254
+57. statampere/meter [stA/m]:
+2.997925e+9
+58. statampere/centimeter:
+29979245.37
+59. statampere/millimeter:
+2997924.537
+60. statampere/micrometer:
+2997.924537
+61. statampere/nanometer:
+2.997925
+62. statampere/yard [stA/yd]:
+2.741302e+9
+63. statampere/foot [stA/ft]:
+9.137674e+8
+64. statampere/inch [stA/in]:
+76147283.240001

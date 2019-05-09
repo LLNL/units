@@ -1,0 +1,58 @@
+1. mol/cubic meter [mol/m3]:
+1
+2. mol/liter [mol/L]:
+0.001
+3. mol/cubic decimeter [mol/dm3]:
+0.001
+4. mol/cubic centimeter:
+0.000001
+5. mol/cubic millimeter:
+1e-9
+6. kilomol/cubic meter [kmol/m3]:
+0.001
+7. kilomol/liter [kmol/L]:
+0.000001
+8. kilomol/cubic centimeter:
+1e-9
+9. kilomol/cubic millimeter:
+1e-12
+10. millimole/cubic meter:
+1000
+11. millimole/liter [mmol/L]:
+1
+12. millimole/cubic centimeter:
+0.001
+13. millimole/cubic millimeter:
+0.000001
+14. millimole/milliliter:
+0.001
+15. micromole/liter [umol/l]:
+1000
+16. micromol/milliliter [umol/mL]:
+1
+17. micromol/microliter [umol/uL]:
+0.001
+18. picomol/microliter [pmol/uL]:
+1000
+19. picomol/milliliter [pmol/mL]:
+1000000
+20. picomole/liter [pmol/l]:
+1e+9
+21. nanomole/liter [nmol/l]:
+1000000
+22. nanomole/milliliter [nmol/mL]:
+1000
+23. nanomole/microliter [nmol/uL]:
+1
+24. Molar [M]:
+0.001
+25. milliMolar [mM]:
+1
+26. microMolar [uM]:
+1000
+27. nanoMolar [nM]:
+1000000
+28. picoMolar [pM]:
+1e+9
+29. femtoMolar [fM]:
+1e+12

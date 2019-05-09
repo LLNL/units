@@ -1,0 +1,100 @@
+1. joule/kilogram/K [J/(kg.K)]:
+1
+2. joule/kilogram/degC [J/(kg.degC)]:
+1
+3. joule/gram/degC [J/(g.degC)]:
+0.001
+4. kilojoule/kilogram/K:
+0.001
+5. kilojoule/kilogram/degC:
+0.001
+6. kilojoule/gram/degC [kJ/(g.degC)]:
+0.000001
+7. calorie (IT)/gram/degC [cal_IT/(g.degC)]:
+0.000238846
+8. calorie (IT)/gram/K [cal_IT/(g.K)]:
+0.000238846
+9. calorie (th)/gram/degC [cal (th)/(g.degC)]:
+0.000239006
+10. calorie (th)/gram/K [cal (th)/(g.K)]:
+0.000239006
+11. kilocalorie (IT)/kilogram/degC:
+0.000238846
+12. kilocalorie (th)/kilogram/degC:
+0.000239006
+13. kilocalorie (IT)/kilogram/K:
+0.000238846
+14. kilocalorie (th)/kilogram/K:
+0.000239006
+15. kilogram-force meter/kilogram/K:
+0.101972
+16. kilogram-force meter/kilogram/degC:
+0.101972
+17. kilogram-force meter/gram/K:
+0.000101972
+18. kilogram-force meter/gram/degC:
+0.000101972
+19. pound-force foot/pound/degR:
+0.185863
+20. pound-force foot/pound/degF:
+0.185863
+21. Btu (IT)/pound/degF [Btu/(lb.degF)]:
+0.000238846
+22. Btu (th)/pound/degF [Btu (th)/(lb.oF)]:
+0.000239006
+23. Btu (IT)/pound/degR [Btu/(lb.degR)]:
+0.000238846
+24. Btu (th)/pound/degR [Btu (th)/(lb.degR)]:
+0.000239006
+25. calorie (IT)/pound/degR:
+0.06018815
+26. calorie (IT)/pound/degF:
+0.06018815
+27. kilocalorie (IT)/pound/degF:
+0.00006018815
+28. kilocalorie (IT)/pound/degR:
+0.00006018815
+29. calorie (th)/pound/degR:
+0.06022843
+30. calorie (th)/pound/degF:
+0.06022843
+31. kilocalorie (th)/pound/degF:
+0.00006022843
+32. kilocalorie (th)/pound/degR:
+0.00006022843
+33. joule/pound/degF [J/(lb.degF)]:
+0.251995761
+34. joule/pound/degR [J/(lb.degR)]:
+0.251995761
+35. kilojoule/pound/degF [kJ/(lb.degF)]:
+0.000251995761
+36. kilojoule/pound/degF [kJ/(lb.degF)]:
+0.000251995761
+37. calorie (IT)/ounce/degR:
+0.00376175959
+38. calorie (IT)/ounce/degF:
+0.00376175959
+39. kilocalorie (IT)/ounce/degF:
+0.00000376175959
+40. kilocalorie (IT)/ounce/degR:
+0.00000376175959
+41. calorie (th)/ounce/degR:
+0.0037642770
+42. calorie (th)/ounce/degF:
+0.0037642770
+43. kilocalorie (th)/ounce/degF:
+0.0000037642770
+44. kilocalorie (th)/ounce/degR:
+0.0000037642770
+45. joule/ounce/degF [J/(oz.degF)]:
+0.015749735
+46. joule/ounce/degR [J/(oz.degR)]:
+0.015749735
+47. kilojoule/ounce/degF [kJ/(oz.degF)]:
+0.000015749735
+48. kilojoule/ounce/degR:
+0.000015749735
+49. Btu (IT)/pound/degC [Btu/(lb.degC)]:
+0.000429923
+50. CHU/pound/degC [CHU/(lb.degC)]:
+0.000238846
