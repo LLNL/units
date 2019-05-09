@@ -1,4 +1,10 @@
-#include "units/units.hpp"
+/*
+Copyright © 2019,
+Lawrence Livermore National Security, LLC;
+See the top-level NOTICE for additional details. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+*/
+#include "units.hpp"
 
 #include <algorithm>
 #include <array>
@@ -305,12 +311,16 @@ static constexpr std::array<ustr, 4> creduceUnits{ustr{precise::V.inv(), "V*"}, 
 // same as compile time floats
 // so really this map needs to be generated at run-time once
 // multiplier prefixes commonly used
-static const std::unordered_map<float, char> si_prefixes{
-  {0.001f, 'm'},     {1.0f / 1000.0f, 'm'},  {1000.0f, 'k'},       {1.0f / 0.001f, 'k'},
-  {1e-6f, 'u'},      {0.01f, 'c'},           {1.0f / 100.0f, 'c'}, {1.0f / 1e6f, 'u'},
-  {1000000.0f, 'M'}, {1.0 / 0.000001f, 'M'}, {1000000000.0f, 'G'}, {1.0f / 0.000000001f, 'G'},
-  {1e-9f, 'n'},      {1.0f / 1e9f, 'n'},     {1e-12f, 'p'},        {1.0f / 1e12f, 'p'},
-  {1e-15f, 'f'},     {1.0f / 1e15f, 'f'},    {1e12f, 'T'},         {1.0f / 1e-12f, 'T'}};
+static const std::unordered_map<float, char> si_prefixes{{0.001f, 'm'},        {1.0f / 1000.0f, 'm'},
+                                                         {1000.0f, 'k'},       {1.0f / 0.001f, 'k'},
+                                                         {1e-6f, 'u'},         {0.01f, 'c'},
+                                                         {1.0f / 100.0f, 'c'}, {1.0f / 1e6f, 'u'},
+                                                         {1000000.0f, 'M'},    {1.0f / 0.000001f, 'M'},
+                                                         {1000000000.0f, 'G'}, {1.0f / 0.000000001f, 'G'},
+                                                         {1e-9f, 'n'},         {1.0f / 1e9f, 'n'},
+                                                         {1e-12f, 'p'},        {1.0f / 1e12f, 'p'},
+                                                         {1e-15f, 'f'},        {1.0f / 1e15f, 'f'},
+                                                         {1e12f, 'T'},         {1.0f / 1e-12f, 'T'}};
 
 // check if the character is something that could begin a number
 static inline bool isNumericalCharacter(char X)

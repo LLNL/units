@@ -1,3 +1,9 @@
+/*
+Copyright © 2019,
+Lawrence Livermore National Security, LLC;
+See the top-level NOTICE for additional details. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+*/
 #pragma once
 
 #include <ctgmath>
@@ -137,7 +143,7 @@ namespace detail
             return equivalent_non_counting(other) && mole_ == other.mole_ && count_ == other.count_ &&
                    radians_ == other.radians_;
         }
-        // Check equivalency for non-counting base units
+        // Check equivalence for non-counting base units
         constexpr bool equivalent_non_counting(unit_data other) const
         {
             return meter_ == other.meter_ && second_ == other.second_ && kilogram_ == other.kilogram_ &&
@@ -177,7 +183,7 @@ namespace detail
                    candela_ == 0 && kelvin_ % power == 0 && mole_ == 0 && radians_ % power == 0 &&
                    currency_ == 0 && count_ == 0 && equation_ == 0 && e_flag_ == 0;
         }
-        // needs to be defined for the full 32 bits even if they aren't used
+        // needs to be defined for the full 32 bits
         signed int meter_ : 4;
         signed int second_ : 4;  // 8
         signed int kilogram_ : 3;
@@ -193,6 +199,7 @@ namespace detail
         unsigned int e_flag_ : 1;  //
         unsigned int equation_ : 1;  // 32
     };
+    // We want this to be exactly 4 bytes by design
     static_assert(sizeof(unit_data) == 4, "Unit data is too large");
 
 }  // namespace detail
@@ -228,8 +235,8 @@ namespace detail
     {
         int exp;
         auto f = frexpf(val, &exp);
-        f = roundf(f * 1e6);
-        return ldexpf(f * 1e-6, exp);
+        f = roundf(f * 1e6f);
+        return ldexpf(f * 1e-6f, exp);
     }
 
     /// Round a value to the expected level of precision of a double
@@ -314,6 +321,7 @@ class unit
     {
         return base_units_.equivalent_non_counting(other.base_units_);
     }
+    /// Check if the base units are in some way convertible to one another
     constexpr bool is_convertible(detail::unit_data base) const
     {
         return base_units_.equivalent_non_counting(base);
@@ -444,8 +452,8 @@ class precise_unit
     constexpr bool has_same_base(precise_unit other) const { return base_units_.has_same_base(other.base_units_); }
     bool operator==(unit other) const
     {
-        return base_units_ == other.base_units_ &&
-               detail::cround(multiplier()) == detail::cround(other.multiplier());
+        return base_units_ == other.base_units_ && detail::cround(static_cast<float>(multiplier())) ==
+                                                     detail::cround(static_cast<float>(other.multiplier()));
     }
     bool operator!=(unit other) const { return !operator==(other); }
     /// Check if the units have the same base unit (ie they measure the same thing)
@@ -483,8 +491,8 @@ class precise_unit
     /// Check unit equality (base units equal and equivalent multipliers to specified precision
     friend bool operator==(unit val1, precise_unit val2)
     {
-        return val1.base_units() == val2.base_units() &&
-               detail::cround(val1.multiplier()) == detail::cround(val2.multiplier());
+        return val1.base_units() == val2.base_units() && detail::cround(static_cast<float>(val1.multiplier())) ==
+                                                           detail::cround(static_cast<float>(val2.multiplier()));
     }
     /// Check if the unit is the default unit
     constexpr bool is_default() const { return base_units_.empty() && base_units_.is_flag(); }
@@ -505,7 +513,7 @@ class precise_unit
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return multiplier_; }
     /// Generate a rounded value of the multiplier rounded to the defined precision
-    float cround() const { return detail::cround_precise(multiplier_); }
+    double cround() const { return detail::cround_precise(multiplier_); }
     /// Get the base units
     constexpr detail::unit_data base_units() const { return base_units_; }
     /// set all the flags to 0;

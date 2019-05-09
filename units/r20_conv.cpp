@@ -1,4 +1,10 @@
-#include "units/units.hpp"
+/*
+Copyright © 2019,
+Lawrence Livermore National Security, LLC;
+See the top-level NOTICE for additional details. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+*/
+#include "units.hpp"
 #include <algorithm>
 #include <array>
 #include <cstring>

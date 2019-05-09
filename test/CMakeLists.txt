@@ -1,4 +1,4 @@
-include(UnitTestingHelpers)
+include(AddGoogletest)
 
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
 add_unit_test(test_measurement.cpp)

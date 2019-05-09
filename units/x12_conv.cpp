@@ -1,4 +1,10 @@
-#include "units/units.hpp"
+/*
+Copyright © 2019,
+Lawrence Livermore National Security, LLC;
+See the top-level NOTICE for additional details. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+*/
+#include "units.hpp"
 #include <algorithm>
 #include <array>
 #include <cstring>
@@ -901,10 +907,10 @@ static constexpr std::array<unitD, 486> dod_units = {
   unitD{"SV", "SLEEVE", precise::one},
   unitD{"SW", "STANDARD ADVERTISING UNIT", precise::one},
   unitD{"SX", "STICK", precise::one},
-  unitD{"SY", "SQUARE YARD", precise::one},
+  unitD{"SY", "SQUARE YARD", precise::yd.pow(2)},
   unitD{"SZ", "SYRINGE", precise::one},
   unitD{"T1", "THOUSAND POUNDS GROSS", precise::one},
-  unitD{"T2", "TEASPOON", precise::one},
+  unitD{"T2", "TEASPOON", precise::us::tsp},
   unitD{"T3", "THOUSAND PIECES", precise::one},
   unitD{"T4", "THOUSAND BAGS", precise::one},
   unitD{"T5", "THOUSAND CASINGS", precise::one},
@@ -915,19 +921,19 @@ static constexpr std::array<unitD, 486> dod_units = {
   unitD{"TA", "TENTH CUBIC FOOT", precise::one},
   unitD{"TB", "TABLESPOON", precise::one},
   unitD{"TC", "TRUCK LOAD", precise::one},
-  unitD{"TD", "TWENTY-FOUR", precise::one},
-  unitD{"TE", "TEN", precise::one},
-  unitD{"TF", "TWENTY-FIVE", precise::one},
+  unitD{"TD", "TWENTY-FOUR", precise_unit(24.0, precise::one)},
+  unitD{"TE", "TEN", precise::ten},
+  unitD{"TF", "TWENTY-FIVE", precise_unit(25.0, precise::one)},
   unitD{"TG", "GROSS TON", precise::one},
-  unitD{"TH", "THOUSAND KILOGRAMS", precise::one},
+  unitD{"TH", "THOUSAND KILOGRAMS", precise::kilo *precise::kilogram},
   unitD{"TI", "THOUSAND SQUARE INCHES", precise::one},
   unitD{"TJ", "THOUSAND SQUARE CENTIMETERS", precise::one},
   unitD{"TK", "TANK", precise::one},
   unitD{"TL", "THOUSAND LINEAR METERS", precise::one},
   unitD{"TM", "THOUSAND FEET (BOARD)", precise::one},
   unitD{"TN", "NET TON (2,000 POUNDS)", precise::one},
-  unitD{"TO", "TROY OUNCE", precise::one},
-  unitD{"TP", "TROY POUND", precise::one},
+  unitD{"TO", "TROY OUNCE", precise::troy::oz},
+  unitD{"TP", "TROY POUND", precise::troy::pound},
   unitD{"TQ", "THOUSAND FEET", precise::one},
   unitD{"TR", "TEN SQUARE FEET", precise::one},
   unitD{"TS", "THIRTY-SIX", precise::one},
@@ -941,7 +947,7 @@ static constexpr std::array<unitD, 486> dod_units = {
   unitD{"U1", "TREATMENT", precise::one},
   unitD{"U5", "TWO HUNDRED FIFTY", precise::one},
   unitD{"U6", "UNITED STATES GALLONS @ 60 DEGREES FAHRENHEIT", precise::one},
-  unitD{"UH", "TEN THOUSAND YARDS", precise::one},
+  unitD{"UH", "TEN THOUSAND YARDS", precise_unit(10000.0, precise::yd)},
   unitD{"UL", "UNITLESS", precise::one},
   unitD{"UM", "MILLION UNITS", precise::one},
   unitD{"UN", "UNIT", precise::one},
@@ -975,8 +981,8 @@ static constexpr std::array<unitD, 486> dod_units = {
   unitD{"Y4", "TUB", precise::one},
   unitD{"YD", "YARD", precise::yd},
   unitD{"YL", "100 LINEAL YARDS", precise::one},
-  unitD{"YR", "YEAR", precise::one},
-  unitD{"YT", "BYTE", precise::one},
+  unitD{"YR", "YEAR", precise::yr},
+  unitD{"YT", "BYTE", precise::data::byte},
   unitD{"Z1", "LIFT VAN", precise::one},
   unitD{"Z2", "CHEST", precise::one},
   unitD{"Z3", "CASK", precise::one},

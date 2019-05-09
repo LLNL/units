@@ -1,3 +1,9 @@
+/*
+Copyright © 2019,
+Lawrence Livermore National Security, LLC;
+See the top-level NOTICE for additional details. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+*/
 #pragma once
 #include "unit_definitions.hpp"
 #include <string>
@@ -355,17 +361,20 @@ class measurement_type
     /// Equality operator
     bool operator==(measurement_type other) const
     {
-        return detail::cround(value_) == detail::cround(other.value_as(units_));
+        return detail::cround(static_cast<float>(value_)) ==
+               detail::cround(static_cast<float>(other.value_as(units_)));
     }
     bool operator>(measurement_type other) const { return value_ > other.value_as(units_); }
     bool operator<(measurement_type other) const { return value_ < other.value_as(units_); }
     bool operator>=(measurement_type other) const
     {
-        return detail::cround(value_) >= detail::cround(other.value_as(units_));
+        return detail::cround(static_cast<float>(value_)) >=
+               detail::cround(static_cast<float>(other.value_as(units_)));
     }
     bool operator<=(measurement_type other) const
     {
-        return detail::cround(value_) <= detail::cround(other.value_as(units_));
+        return detail::cround(static_cast<float>(value_)) <=
+               detail::cround(static_cast<float>(other.value_as(units_)));
     }
     /// Not equal operator
     bool operator!=(measurement_type other) const { return !operator==(other); }
@@ -383,6 +392,7 @@ class measurement_type
 using measurement = measurement_type<double>;
 /// Measurement using a float as the value type
 using measurement_f = measurement_type<float>;
+
 /// The design requirement is for this to fit in the space of 2 doubles
 static_assert(sizeof(measurement) <= 16, "Measurement class is too large");
 
@@ -485,6 +495,7 @@ constexpr inline precision_measurement operator/(precise_unit unit_base, double 
 static_assert(sizeof(precision_measurement) <= 24, "precision measurement is too large");
 
 #ifndef UNITS_HEADER_ONLY
+
 enum unit_conversion_flags : uint32_t
 {
     case_insensitive = 1u,  //!< perform case insensitive matching for UCUM case insensitive matching
@@ -557,8 +568,12 @@ bool enableCustomCommodities();
 #define EXTRA_UNIT_STANDARDS
 // Some specific unit code standards
 #ifdef EXTRA_UNIT_STANDARDS
+/// generate a unit from a string as defined by the X12 standard
 precise_unit x12_unit(std::string x12_string);
-
+/// generate a unit from a string as defined by the US DOD
+precise_unit dod_unit(std::string dod_string);
+/// generate a unit from a string as defined by the r20 standard
+precise_unit r20_unit(std::string r20_string);
 #endif
 
 #endif  // UNITS_HEADER_ONLY
