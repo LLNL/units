@@ -4,12 +4,12 @@ project(UNITS LANGUAGES CXX VERSION 0.1.0)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # User settable
-    set(UNITS_CXX_STD "14"  CACHE STRING "The CMake standard to require")
+    set(UNITS_CXX_STD "11"  CACHE STRING "The CMake standard to require")
 
   #  set(CUR_PROJ ON)
     set(CMAKE_CXX_STANDARD ${UNITS_CXX_STD})
     set(CMAKE_CXX_EXTENSIONS OFF)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 endif()
 
 

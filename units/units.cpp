@@ -1170,7 +1170,7 @@ static UPTCONST std::array<utup, 27> prefixWords{{
 
 bool clearEmptySegments(std::string &unit)
 {
-    static const std::array<std::string, 4> Esegs{"()", "[]", "{}", "<>"};
+    static const std::array<std::string, 4> Esegs{{"()", "[]", "{}", "<>"}};
     bool changed = false;
     for (auto &seg : Esegs)
     {

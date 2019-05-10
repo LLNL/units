@@ -19,7 +19,7 @@ SPDX-License-Identifier: BSD-3-Clause
 namespace units
 {
 using unitD = std::tuple<const char *, const char *, precise_unit>;
-static UPTCONST std::array<unitD, 486> x12_units{
+static UPTCONST std::array<unitD, 486> x12_units{{
   unitD{"03", "SECOND", precise::s},
   unitD{"05", "LIFT", precise::one},
   unitD{"07", "STRAND", precise::one},
@@ -506,9 +506,9 @@ static UPTCONST std::array<unitD, 486> x12_units{
   unitD{"ZW", "BARREL, DRY", precise::one},
   unitD{"ZX", "BARREL, LIQUID", precise::one},
   unitD{"ZY", "APOTHECARY SCRUPLE", precise::one},
-};
+}};
 
-static UPTCONST std::array<unitD, 486> dod_units = {
+static UPTCONST std::array<unitD, 486> dod_units = {{
   unitD{"05", "LIFT", precise::one},
   unitD{"07", "STRAND", precise::one},
   unitD{"09", "TIRE", precise::one},
@@ -996,7 +996,7 @@ static UPTCONST std::array<unitD, 486> dod_units = {
   unitD{"Z5", "LUG", precise::one},
   unitD{"ZF", "MILLION BTUS/DEKATHERM",
         precise::mega *precise::btu / precise_unit(10.0, precise::energy::therm_ec)},
-};
+}};
 
 precise_unit x12_unit(std::string x12_string)
 {
