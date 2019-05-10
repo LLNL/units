@@ -1039,7 +1039,7 @@ static constexpr uint16_t charindex(char ch1, char ch2) { return ch1 * 256 + ch2
 static double getPrefixMultiplier2Char(char c1, char c2)
 {
     using cpair = std::pair<uint16_t, double>;
-    static UPTCONST std::array<cpair, 21> char2prefix{
+    static UPTCONST std::array<cpair, 21> char2prefix{{
       cpair{charindex('D', 'A'), 10.0},
       cpair{charindex('E', 'X'), 1e18},
       cpair{charindex('E', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
@@ -1061,7 +1061,7 @@ static double getPrefixMultiplier2Char(char c1, char c2)
       cpair{charindex('m', 'A'), 1e6},
       cpair{charindex('m', 'c'), 1e-6},
       cpair{charindex('p', 'T'), 1e15},
-    };
+    }};
     auto code = charindex(c1, c2);
     auto fnd = std::lower_bound(char2prefix.begin(), char2prefix.end(), cpair{code, 0.0},
                                 [](const cpair &p, const cpair &test) { return (p.first < test.first); });
@@ -1138,7 +1138,7 @@ https://physics.nist.gov/cuu/Units/prefixes.html
 https://physics.nist.gov/cuu/Units/binary.html
 */
 using utup = std::tuple<const char *, double, int>;
-static UPTCONST std::array<utup, 27> prefixWords{
+static UPTCONST std::array<utup, 27> prefixWords{{
   utup{"atto", 1e-18, 4},
   utup{"centi", 0.01, 5},
   utup{"deca", 10.0, 4},
@@ -1166,7 +1166,7 @@ static UPTCONST std::array<utup, 27> prefixWords{
   utup{"yotta", 1e24, 4},
   utup{"zepto", 1e-21, 5},
   utup{"zetta", 1e21, 5},
-};
+}};
 
 bool clearEmptySegments(std::string &unit)
 {
@@ -1205,7 +1205,7 @@ enum class modifier : int
 using modSeq = std::tuple<const char *, const char *, size_t, modifier>;
 static bool wordModifiers(std::string &unit)
 {
-    static UPTCONST std::array<modSeq, 26> modifiers{
+    static UPTCONST std::array<modSeq, 26> modifiers{{
       modSeq{"cubic", "^3", 5, modifier::start_tail},
       modSeq{"reciprocal", "^-1", 10, modifier::start_tail},
       modSeq{"reciprocal", "^-1", 10, modifier::tail_replace},
@@ -1232,7 +1232,7 @@ static bool wordModifiers(std::string &unit)
       modSeq{"cubic", "^3", 5, modifier::anywhere_tail},
       modSeq{"sq", "^2", 2, modifier::tail_replace},
       modSeq{"cu", "^3", 2, modifier::tail_replace},
-    };
+    }};
     if (unit.compare(0, 3, "cup") == 0)
     {  // this causes too many issues so skip it
         return false;
@@ -1349,7 +1349,7 @@ using ckpair = std::pair<const char *, const char *>;
 
 static precise_unit localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UPTCONST std::array<ckpair, 34> internationlReplacements{
+    static UPTCONST std::array<ckpair, 34> internationlReplacements{{
       ckpair{"internationaltable", "_IT"},
       ckpair{"international", "_i"},
       ckpair{"USandBritish", "_av"},
@@ -1384,8 +1384,7 @@ static precise_unit localityModifiers(std::string unit, std::uint32_t match_flag
       ckpair{"Br", "_br"},
       ckpair{"BR", "_br"},
       ckpair{"UK", "_br"},
-
-    };
+    }};
     bool changed = false;
     for (const auto &irep : internationlReplacements)
     {
@@ -3912,7 +3911,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
 {
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
-    static UPTCONST std::array<ckpair, 35> ucodeReplacements{
+    static UPTCONST std::array<ckpair, 35> ucodeReplacements{{
       ckpair{u8"\u00d7", "*"},
       ckpair{u8"\u00f7", "/"},  // division sign
       ckpair{u8"\u00b7", "*"},
@@ -3948,15 +3947,23 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"\xBD", "(0.5)"},  //(1/2) fraction
       ckpair{"\xBC", "(0.25)"},  //(1/4) fraction
       ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
-    };
+    }};
 
-    static UPTCONST std::array<ckpair, 13> allCodeReplacements{
-      ckpair{"sq.", "square"},     ckpair{"cu.", "cubic"},   ckpair{"(US)", "US"},
-      ckpair{"10^", "1e"},         ckpair{"10-", "1e-"},     ckpair{"^+", "^"},
-      ckpair{"ampere", "amp"},     ckpair{"Ampere", "amp"},  ckpair{"-US", "US"},
-      ckpair{"perunit", "pu"},     ckpair{"per-unit", "pu"}, ckpair{"/square*", "/square"},
+    static UPTCONST std::array<ckpair, 13> allCodeReplacements{{
+      ckpair{"sq.", "square"},
+      ckpair{"cu.", "cubic"},
+      ckpair{"(US)", "US"},
+      ckpair{"10^", "1e"},
+      ckpair{"10-", "1e-"},
+      ckpair{"^+", "^"},
+      ckpair{"ampere", "amp"},
+      ckpair{"Ampere", "amp"},
+      ckpair{"-US", "US"},
+      ckpair{"perunit", "pu"},
+      ckpair{"per-unit", "pu"},
+      ckpair{"/square*", "/square"},
       ckpair{"/cubic*", "/cubic"},
-    };
+    }};
 
     static const std::string spchar = std::string(" \t\n\r") + '\0';
     bool changed = false;
