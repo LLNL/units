@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(UNITS VERSION 0.0.1)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
 list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")
 
