@@ -1,6 +1,9 @@
 # Units
 
+[![Build Status](https://travis-ci.com/LLNL/units.svg?branch=master)](https://travis-ci.com/LLNL/units)
+[![codecov](https://codecov.io/gh/LLNL/units/branch/master/graph/badge.svg)](https://codecov.io/gh/LLNL/units)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0b5367026f34c4a9dc94ca4c19c770a)](https://app.codacy.com/app/phlptp/units?utm_source=github.com&utm_medium=referral&utm_content=LLNL/units&utm_campaign=Badge_Grade_Settings)
+[![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE)
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
 
