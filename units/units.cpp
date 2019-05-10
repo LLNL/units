@@ -24,13 +24,17 @@ unit unit::root(int power) const
 {
     if (power == 0)
     {
-        return {};
+        return one;
     }
+    if (multiplier_ < 0.0 && power % 2 == 0)
+    {
+        return error;
+    }
+    auto bunits = base_units_.root(power);
     if (multiplier_ == 1.0f)
     {
         return {base_units_.root(power), 1.0};
     }
-    auto bunits = base_units_.root(power);
     switch (power)
     {
     case 1:
@@ -62,13 +66,18 @@ precise_unit precise_unit::root(int power) const
 {
     if (power == 0)
     {
-        return {};
+        return precise::one;
     }
-    if (multiplier_ == 1.0f)
+    if (multiplier_ < 0.0 && power % 2 == 0)
     {
-        return {base_units_.root(power), 1.0};
+        return precise::error;
     }
     auto bunits = base_units_.root(power);
+    if (multiplier_ == 1.0f)
+    {
+        return {bunits, 1.0};
+    }
+
     switch (power)
     {
     case 1:
@@ -3246,6 +3255,10 @@ static char getMatchCharacter(char mchar)
 // do a segment check in the reverse direction
 static bool segmentcheckReverse(const std::string &unit, char closeSegment, int &index)
 {
+    if (index >= unit.size())
+    {
+        return false;
+    }
     while (index >= 0)
     {
         char current = unit[index];

@@ -27,7 +27,7 @@ option(
   OFF
 )
 
-#include(compiler_flags)
+include(compiler_flags)
 
 if (UNITS_HEADER_ONLY)
   target_compile_definitions(units PUBLIC UNITS_HEADER_ONLY)
