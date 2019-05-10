@@ -20,4 +20,10 @@ else (UNITS_HEADER_ONLY)
   target_include_directories(unitslib PUBLIC  $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>)
 endif (UNITS_HEADER_ONLY)
 
-#install(FILES ${units_headers_files} DESTINATION units)
+install(TARGETS unitslib
+  EXPORT unitsConfig
+  RUNTIME DESTINATION bin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  INCLUDES DESTINATION include/units
+)

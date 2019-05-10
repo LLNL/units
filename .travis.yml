@@ -19,9 +19,9 @@ matrix:
     # Default clang
   - compiler: clang
     script:
-#    - .ci/make_and_test.sh 11
+#    - bash .ci/make_and_test.sh 11
     - bash .ci/make_and_test.sh 14
-#    - .ci/make_and_test.sh 17
+#    - bash .ci/make_and_test.sh 17
 
     # Check style/tidy
   - compiler: clang
@@ -29,8 +29,8 @@ matrix:
     - CHECK_STYLE=yes
     script:
     - cd "${TRAVIS_BUILD_DIR}"
-    - scripts/check_style.sh
-    - .ci/check_tidy.sh
+    - bash scripts/check_style.sh
+    - bash .ci/check_tidy.sh
 
     # Docs and clang 3.5
   - compiler: clang
@@ -44,7 +44,7 @@ matrix:
     - export CC=clang-3.5
     - export CXX=clang++-3.5
     script:
-    - .ci/make_and_test.sh 11
+    - bash .ci/make_and_test.sh 11
     after_success:
     - export DOXYFILE=$TRAVIS_BUILD_DIR/docs/Doxyfile
     - export DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
@@ -72,12 +72,12 @@ matrix:
     - export CXX=g++-7
     - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
     - cd $TRAVIS_BUILD_DIR
-    - ". .ci/build_lcov.sh"
-    - ".ci/run_codecov.sh"
+    - "bash . .ci/build_lcov.sh"
+    - "bash .ci/run_codecov.sh"
     script:
- #   - .ci/make_and_test.sh 11 
-    - .ci/make_and_test.sh 14 
- #   - .ci/make_and_test.sh 17 
+ #   - bash .ci/make_and_test.sh 11 
+    - bash .ci/make_and_test.sh 14 
+ #   - bash .ci/make_and_test.sh 17 
 
 
     # GCC 4.8
@@ -92,10 +92,10 @@ matrix:
     - export CC=gcc-4.8
     - export CXX=g++-4.8
     script:
-    - .ci/make_and_test.sh 11
+    - bash .ci/make_and_test.sh 11
 
 install: skip
 
 script:
 #- .ci/make_and_test.sh 11
-- .ci/make_and_test.sh 14
+- bash .ci/make_and_test.sh 14

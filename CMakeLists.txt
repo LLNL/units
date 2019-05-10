@@ -44,15 +44,6 @@ elseif (UNITS_ENABLE_TESTS)
 endif ()
 
 
-
-install(TARGETS unitslib
-  EXPORT unitsConfig
-  RUNTIME DESTINATION bin
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  INCLUDES DESTINATION include/units
-)
-
 install(EXPORT unitsConfig
   NAMESPACE units::
   DESTINATION lib/cmake/units
