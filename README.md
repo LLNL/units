@@ -1,4 +1,7 @@
 # Units
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0b5367026f34c4a9dc94ca4c19c770a)](https://app.codacy.com/app/phlptp/units?utm_source=github.com&utm_medium=referral&utm_content=LLNL/units&utm_campaign=Badge_Grade_Settings)
+
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
 
 This software was developed for use in LLNL/GridDyn, and is currently a work in progress.  Namespaces, function names, and code organization is subject to change, input is welcome.    
