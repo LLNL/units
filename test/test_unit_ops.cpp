@@ -1,3 +1,10 @@
+/*
+Copyright © 2019,
+Lawrence Livermore National Security, LLC;
+See the top-level NOTICE for additional details. All rights reserved.
+SPDX-License-Identifier: BSD-3-Clause
+*/
+
 #include "test.hpp"
 #include "units/unit_definitions.hpp"
 #include "units/units_decl.hpp"
