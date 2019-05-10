@@ -52,9 +52,9 @@ TEST(logUnits, base10)
     EXPECT_EQ(convert(precise::femto, precise::log::bel), -30.0);
     EXPECT_EQ(convert(2.0, precise::log::bel, precise::ten), 1.0);
     EXPECT_EQ(convert(6.0, precise::log::bel, precise::kilo), 1.0);
-    EXPECT_EQ(convert(-6.0, precise::log::bel, precise::milli), 1.0);
-    EXPECT_EQ(convert(36.0, precise::log::bel, precise::exa), 1.0);
-    EXPECT_EQ(convert(-30.0, precise::log::bel, precise::femto), 1.0);
+    EXPECT_DOUBLE_EQ(convert(-6.0, precise::log::bel, precise::milli), 1.0);
+    EXPECT_DOUBLE_EQ(convert(36.0, precise::log::bel, precise::exa), 1.0);
+    EXPECT_NEAR(convert(-30.0, precise::log::bel, precise::femto), 1.0, test::precise_tolerance);
 
     EXPECT_EQ(convert(precise::ten, precise::log::belP), 1.0);
     EXPECT_EQ(convert(precise::kilo, precise::log::belP), 3.0);
@@ -63,9 +63,9 @@ TEST(logUnits, base10)
     EXPECT_EQ(convert(precise::femto, precise::log::belP), -15.0);
     EXPECT_EQ(convert(1.0, precise::log::belP, precise::ten), 1.0);
     EXPECT_EQ(convert(3.0, precise::log::belP, precise::kilo), 1.0);
-    EXPECT_EQ(convert(-3.0, precise::log::belP, precise::milli), 1.0);
-    EXPECT_EQ(convert(18.0, precise::log::belP, precise::exa), 1.0);
-    EXPECT_EQ(convert(-15.0, precise::log::belP, precise::femto), 1.0);
+    EXPECT_DOUBLE_EQ(convert(-3.0, precise::log::belP, precise::milli), 1.0);
+    EXPECT_DOUBLE_EQ(convert(18.0, precise::log::belP, precise::exa), 1.0);
+    EXPECT_NEAR(convert(-15.0, precise::log::belP, precise::femto), 1.0, test::precise_tolerance);
 }
 
 TEST(logUnits, negbase10)
@@ -77,9 +77,9 @@ TEST(logUnits, negbase10)
     EXPECT_EQ(convert(precise::femto, precise::log::neglog10), 15.0);
     EXPECT_EQ(convert(-1.0, precise::log::neglog10, precise::ten), 1.0);
     EXPECT_EQ(convert(-3.0, precise::log::neglog10, precise::kilo), 1.0);
-    EXPECT_EQ(convert(3.0, precise::log::neglog10, precise::milli), 1.0);
-    EXPECT_EQ(convert(-18.0, precise::log::neglog10, precise::exa), 1.0);
-    EXPECT_EQ(convert(15.0, precise::log::neglog10, precise::femto), 1.0);
+    EXPECT_DOUBLE_EQ(convert(3.0, precise::log::neglog10, precise::milli), 1.0);
+    EXPECT_DOUBLE_EQ(convert(-18.0, precise::log::neglog10, precise::exa), 1.0);
+    EXPECT_NEAR(convert(15.0, precise::log::neglog10, precise::femto), 1.0, test::precise_tolerance);
 }
 
 TEST(logUnits, dB)
@@ -91,23 +91,23 @@ TEST(logUnits, dB)
     EXPECT_EQ(convert(precise::femto, precise::log::dB), -300.0);
     EXPECT_EQ(convert(20.0, precise::log::dB, precise::ten), 1.0);
     EXPECT_EQ(convert(60.0, precise::log::dB, precise::kilo), 1.0);
-    EXPECT_EQ(convert(-60.0, precise::log::dB, precise::milli), 1.0);
-    EXPECT_EQ(convert(360.0, precise::log::dB, precise::exa), 1.0);
-    EXPECT_EQ(convert(-300.0, precise::log::dB, precise::femto), 1.0);
+    EXPECT_DOUBLE_EQ(convert(-60.0, precise::log::dB, precise::milli), 1.0);
+    EXPECT_DOUBLE_EQ(convert(360.0, precise::log::dB, precise::exa), 1.0);
+    EXPECT_NEAR(convert(-300.0, precise::log::dB, precise::femto), 1.0, test::precise_tolerance);
 }
 
 TEST(logUnits, negbase100)
 {
-    EXPECT_EQ(convert(precise::hundred, precise::log::neglog100), -1.0);
-    EXPECT_EQ(convert(precise::mega, precise::log::neglog100), -3.0);
-    EXPECT_EQ(convert(precise::micro, precise::log::neglog100), 3.0);
-    EXPECT_EQ(convert(precise::exa, precise::log::neglog100), -9.0);
-    EXPECT_EQ(convert(precise::atto, precise::log::neglog100), 9.0);
-    EXPECT_EQ(convert(-1.0, precise::log::neglog100, precise::hundred), 1.0);
-    EXPECT_EQ(convert(-3.0, precise::log::neglog100, precise::mega), 1.0);
-    EXPECT_EQ(convert(3.0, precise::log::neglog100, precise::micro), 1.0);
-    EXPECT_EQ(convert(-9.0, precise::log::neglog100, precise::exa), 1.0);
-    EXPECT_EQ(convert(6.0, precise::log::neglog100, precise::pico), 1.0);
+    EXPECT_DOUBLE_EQ(convert(precise::hundred, precise::log::neglog100), -1.0);
+    EXPECT_DOUBLE_EQ(convert(precise::mega, precise::log::neglog100), -3.0);
+    EXPECT_DOUBLE_EQ(convert(precise::micro, precise::log::neglog100), 3.0);
+    EXPECT_DOUBLE_EQ(convert(precise::exa, precise::log::neglog100), -9.0);
+    EXPECT_DOUBLE_EQ(convert(precise::atto, precise::log::neglog100), 9.0);
+    EXPECT_DOUBLE_EQ(convert(-1.0, precise::log::neglog100, precise::hundred), 1.0);
+    EXPECT_DOUBLE_EQ(convert(-3.0, precise::log::neglog100, precise::mega), 1.0);
+    EXPECT_DOUBLE_EQ(convert(3.0, precise::log::neglog100, precise::micro), 1.0);
+    EXPECT_DOUBLE_EQ(convert(-9.0, precise::log::neglog100, precise::exa), 1.0);
+    EXPECT_DOUBLE_EQ(convert(6.0, precise::log::neglog100, precise::pico), 1.0);
 }
 
 TEST(logUnits, negbase1000)
@@ -131,7 +131,7 @@ TEST(logUnits, negbase50000)
     EXPECT_EQ(convert(-1.0, precise::log::neglog50000, precise::one), 50000.0);
     EXPECT_EQ(convert(1.0, precise::log::neglog50000, precise::one), 1.0 / 50000.0);
     EXPECT_EQ(convert(-2.0, precise::log::neglog50000, precise::one), (50000.0 * 50000.0));
-    EXPECT_EQ(convert(2.0, precise::log::neglog50000, precise::one), 1.0 / (50000.0 * 50000.0));
+    EXPECT_DOUBLE_EQ(convert(2.0, precise::log::neglog50000, precise::one), 1.0 / (50000.0 * 50000.0));
 }
 
 TEST(logUnits, neper)

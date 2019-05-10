@@ -1,0 +1,18 @@
+steps:
+
+- checkout: self
+  fetchDepth: 50
+  submodules: true
+
+- task: CMake@1
+  inputs:
+    cmakeArgs: .. -DCMAKE_BUILD_TYPE=Debug
+  displayName: 'Configure'
+
+- script: cmake --build . -j
+  displayName: 'Build'
+  workingDirectory: build
+
+- script: ctest --output-on-failure -C Debug
+  displayName: 'Test'
+  workingDirectory: build

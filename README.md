@@ -105,6 +105,10 @@ There are two parts of the library  a header only portion that can simply be cop
 
 # How to use the library
 
+# Available function
+
+`unit_from_string( string, flags)`: convert a string representation of units into a unit value.  
+
 
 # Release
 This units library is distributed under the terms of the BSD-3 clause license. All new
