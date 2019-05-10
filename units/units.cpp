@@ -294,32 +294,32 @@ static const umap base_unit_names{{m, "m"},
 
 using ustr = std::pair<precise_unit, const char *>;
 // units to divide into tests to explore common multiplier units
-static UPTCONST std::array<ustr, 22> testUnits{ustr{precise::m, "m"},
-                                               ustr{precise::s, "s"},
-                                               ustr{precise::ms, "ms"},
-                                               ustr{precise::min, "min"},
-                                               ustr{precise::hr, "hr"},
-                                               ustr{precise::time::day, "day"},
-                                               ustr{precise::lb, "lb"},
-                                               ustr{precise::ft, "ft"},
-                                               ustr{precise::ft.pow(2), "ft^2"},
-                                               ustr{precise::ft.pow(3), "ft^3"},
-                                               ustr{precise::m.pow(2), "m^2"},
-                                               ustr{precise::L, "L"},
-                                               ustr{precise::kg, "kg"},
-                                               ustr{precise::km, "km"},
-                                               ustr{precise::currency, "$"},
-                                               ustr{precise::volt, "V"},
-                                               ustr{precise::watt, "W"},
-                                               ustr{precise::kW, "kW"},
-                                               ustr{precise::mW, "mW"},
-                                               ustr{precise::MW, "MW"},
-                                               ustr{precise::s.pow(2), "s^2"},
-                                               ustr{precise::count, "item"}};
+static UPTCONST std::array<ustr, 22> testUnits{{ustr{precise::m, "m"},
+                                                ustr{precise::s, "s"},
+                                                ustr{precise::ms, "ms"},
+                                                ustr{precise::min, "min"},
+                                                ustr{precise::hr, "hr"},
+                                                ustr{precise::time::day, "day"},
+                                                ustr{precise::lb, "lb"},
+                                                ustr{precise::ft, "ft"},
+                                                ustr{precise::ft.pow(2), "ft^2"},
+                                                ustr{precise::ft.pow(3), "ft^3"},
+                                                ustr{precise::m.pow(2), "m^2"},
+                                                ustr{precise::L, "L"},
+                                                ustr{precise::kg, "kg"},
+                                                ustr{precise::km, "km"},
+                                                ustr{precise::currency, "$"},
+                                                ustr{precise::volt, "V"},
+                                                ustr{precise::watt, "W"},
+                                                ustr{precise::kW, "kW"},
+                                                ustr{precise::mW, "mW"},
+                                                ustr{precise::MW, "MW"},
+                                                ustr{precise::s.pow(2), "s^2"},
+                                                ustr{precise::count, "item"}}};
 
 // complex units used to reduce unit complexity
-static UPTCONST std::array<ustr, 4> creduceUnits{ustr{precise::V.inv(), "V*"}, ustr{precise::V, "V^-1*"},
-                                                 ustr{precise::W, "W^-1*"}, ustr{precise::W.inv(), "W*"}};
+static UPTCONST std::array<ustr, 4> creduceUnits{{ustr{precise::V.inv(), "V*"}, ustr{precise::V, "V^-1*"},
+                                                  ustr{precise::W, "W^-1*"}, ustr{precise::W.inv(), "W*"}}};
 
 // thought about making this constexpr array, but the problem is that runtime floats are not guaranteed to be the
 // same as compile time floats
@@ -593,10 +593,10 @@ static void escapeString(std::string &str)
 std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 {
     using spair = std::pair<const char *, const char *>;
-    static UPTCONST std::array<spair, 2> powerseq{
+    static UPTCONST std::array<spair, 2> powerseq{{
       spair{"^2^2", "^4"},
       spair{"^3^2", "^6"},
-    };
+    }};
     // run a few checks for unusual conditions
     for (auto &pseq : powerseq)
     {
@@ -1033,7 +1033,7 @@ static double getPrefixMultiplier(char p)
     }
 }
 
-static constexpr uint16_t charindex(char ch1, char ch2) { return ch1 * 256 + ch2; };
+static constexpr uint16_t charindex(char ch1, char ch2) { return ch1 * 256 + ch2; }
 
 /// Generate the prefix multiplier for SI units and binary prefixes
 static double getPrefixMultiplier2Char(char c1, char c2)

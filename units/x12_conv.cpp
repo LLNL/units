@@ -9,10 +9,17 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <array>
 #include <cstring>
 #include <tuple>
+
+#if __cplusplus >= 201402L || (_MSC_VER >= 1300)
+#define UPTCONST constexpr
+#else
+#define UPTCONST const
+#endif
+
 namespace units
 {
 using unitD = std::tuple<const char *, const char *, precise_unit>;
-static constexpr std::array<unitD, 486> x12_units{
+static UPTCONST std::array<unitD, 486> x12_units{
   unitD{"03", "SECOND", precise::s},
   unitD{"05", "LIFT", precise::one},
   unitD{"07", "STRAND", precise::one},
@@ -501,7 +508,7 @@ static constexpr std::array<unitD, 486> x12_units{
   unitD{"ZY", "APOTHECARY SCRUPLE", precise::one},
 };
 
-static constexpr std::array<unitD, 486> dod_units = {
+static UPTCONST std::array<unitD, 486> dod_units = {
   unitD{"05", "LIFT", precise::one},
   unitD{"07", "STRAND", precise::one},
   unitD{"09", "TIRE", precise::one},
