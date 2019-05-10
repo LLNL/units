@@ -1,7 +1,7 @@
 codecov:
   notify:
     require_ci_to_pass: no
-  branch: develop
+  branch: master
 
 coverage:
   precision: 2
@@ -29,5 +29,5 @@ comment:
 ignore:
   - "ThirdParty"
   - "examples"
-  - "tests"
+  - "test"
   - "FuzzTargets"
