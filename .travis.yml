@@ -72,7 +72,7 @@ matrix:
     - export CXX=g++-7
     - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
     - cd $TRAVIS_BUILD_DIR
-    - "bash . .ci/build_lcov.sh"
+    - "bash .ci/build_lcov.sh"
     - "bash .ci/run_codecov.sh"
     script:
  #   - bash .ci/make_and_test.sh 11 
