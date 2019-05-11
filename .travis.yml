@@ -21,9 +21,9 @@ matrix:
     env:
     - CCACHE_CPP2=yes
     script:
-    - bash .ci/make_and_test.sh 11
-#    - bash .ci/make_and_test.sh 14
-#    - bash .ci/make_and_test.sh 17
+    - .ci/make_and_test.sh 11
+#    - .ci/make_and_test.sh 14
+#    - .ci/make_and_test.sh 17
 
     # Check style/tidy
   - compiler: clang
@@ -78,9 +78,9 @@ matrix:
     - ". .ci/build_lcov.sh"
     - "bash .ci/run_codecov.sh"
     script:
-    - bash .ci/make_and_test.sh 11 
-    - bash .ci/make_and_test.sh 14 
- #   - bash .ci/make_and_test.sh 17 
+    - .ci/make_and_test.sh 11 
+    - .ci/make_and_test.sh 14 
+ #   - .ci/make_and_test.sh 17 
 
 
     # GCC 4.8
@@ -95,10 +95,10 @@ matrix:
     - export CC=gcc-4.8
     - export CXX=g++-4.8
     script:
-    - bash .ci/make_and_test.sh 11
+    - .ci/make_and_test.sh 11
 
 install: skip
 
 script:
-- bash .ci/make_and_test.sh 11
-- bash .ci/make_and_test.sh 14
+- .ci/make_and_test.sh 11
+- .ci/make_and_test.sh 14
