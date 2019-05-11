@@ -570,6 +570,100 @@ constexpr inline precision_measurement operator/(precise_unit unit_base, double 
 /// Design requirement this must fit in space of 3 doubles
 static_assert(sizeof(precision_measurement) <= 24, "precision measurement is too large");
 
+/// Class using precise units and double precision
+class fixed_precision_measurement
+{
+  public:
+    constexpr fixed_precision_measurement(double val, precise_unit base) : value_(val), units_(base) {}
+
+    explicit constexpr fixed_precision_measurement(precision_measurement val)
+        : value_(val.value()), units_(val.units())
+    {
+    }
+
+    constexpr fixed_precision_measurement(const fixed_precision_measurement &val)
+        : value_(val.value()), units_(val.units())
+    {
+    }
+
+    fixed_precision_measurement operator=(precision_measurement val)
+    {
+        value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+    }
+
+    // direct conversion operator
+    operator precision_measurement() { return precision_measurement(value_, units_); }
+
+    constexpr double value() const { return value_; }
+    constexpr precise_unit units() const { return units_; }
+
+    // convert the measurement to a single unit
+    constexpr precise_unit as_unit() const { return {value_, units_}; }
+
+    constexpr precision_measurement operator*(precision_measurement other) const
+    {
+        return {value_ * other.value(), units_ * other.units()};
+    }
+    constexpr precision_measurement operator*(double val) const { return {value_ * val, units_}; }
+    constexpr precision_measurement operator/(precision_measurement other) const
+    {
+        return {value_ / other.value(), units_ / other.units()};
+    }
+    constexpr precision_measurement operator/(double val) const { return {value_ / val, units_}; }
+
+    precision_measurement operator+(precision_measurement other) const
+    {
+        return {value_ + other.value_as(units_), units_};
+    }
+    precision_measurement operator-(precision_measurement other) const
+    {
+        return {value_ - other.value_as(units_), units_};
+    }
+    /// Add a double assuming the same units
+    constexpr precision_measurement operator+(double val) const { return {value_ + val, units_}; }
+    /// Subtract a double assuming the same units
+    constexpr precision_measurement operator-(double val) const { return {value_ - val, units_}; }
+    /// Convert a unit to have a new base
+    precision_measurement convert_to(precise_unit newUnits) const
+    {
+        return {units::convert(value_, units_, newUnits), newUnits};
+    }
+
+    /// Convert a unit into its base units
+    constexpr precision_measurement convert_to_base() const
+    {
+        return {value_ * units_.multiplier(), precise_unit(units_.base_units())};
+    }
+
+    /// Equality operator
+    bool operator==(precision_measurement other) const
+    {
+        return detail::cround_precise(value_) == detail::cround_precise(other.value_as(units_));
+    }
+    /// Not equal operator
+    bool operator!=(precision_measurement other) const { return !operator==(other); }
+
+    bool operator>(precision_measurement other) const { return value_ > other.value_as(units_); }
+    bool operator<(precision_measurement other) const { return value_ < other.value_as(units_); }
+    bool operator>=(precision_measurement other) const
+    {
+        return detail::cround_precise(value_) >= detail::cround_precise(other.value_as(units_));
+    }
+    bool operator<=(precision_measurement other) const
+    {
+        return detail::cround_precise(value_) <= detail::cround_precise(other.value_as(units_));
+    }
+    /// Get the numerical value as a particular unit type
+    double value_as(precise_unit units) const
+    {
+        return (units_ == units) ? value_ : units::convert(value_, units_, units);
+    }
+
+  private:
+    double value_{0.0};
+    const precise_unit units_;
+};
+
 #ifndef UNITS_HEADER_ONLY
 
 enum unit_conversion_flags : uint32_t
