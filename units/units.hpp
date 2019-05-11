@@ -411,9 +411,11 @@ class fixed_measurement_type
     /// construct from a value and unit
     constexpr fixed_measurement_type(X val, unit base) : value_(val), units_(base) {}
 
-    explicit constexpr fixed_measurement_type(measurement_type<X> val) : value_(val.value()), unit_(val.units()) {}
+    explicit constexpr fixed_measurement_type(measurement_type<X> val) : value_(val.value()), units_(val.units())
+    {
+    }
 
-    constexpr fixed_measurement_type(const fixed_measurement_type &val) : value_(val.value()), unit_(val.units())
+    constexpr fixed_measurement_type(const fixed_measurement_type &val) : value_(val.value()), units_(val.units())
     {
     }
 
