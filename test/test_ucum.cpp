@@ -589,7 +589,6 @@ TEST(UCUM, TestRoundTrip2)
 {
     std::ifstream i(TEST_FILE_FOLDER "/example_ucum_codes.csv");
     std::string line;
-    int nameMismatch = 0;
     int ciFail = 0;
     int ceqFail = 0;
     while (std::getline(i, line))
@@ -618,12 +617,12 @@ TEST(UCUM, TestRoundTrip2)
             ++ceqFail;
         }
     }
-    if (nameMismatch > 0)
+    if (ceqFail > 0)
     {
-        std::cout << nameMismatch << "test unit name mismatches between unit and description\n";
+        std::cout << ceqFail << "test unit name mismatches between unit and description\n";
     }
+    EXPECT_EQ(ceqFail, 0);
     EXPECT_EQ(ciFail, 0);
-    EXPECT_EQ(nameMismatch, 0);
 }
 
 TEST(UCUMConversions, Interpret1)
@@ -673,7 +672,7 @@ TEST(UCUMConversions, convert1)
         std::string unitToString = cs->FindAttribute("dstUnit")->Value();
         double value = cs->FindAttribute("value")->DoubleValue();
         double outcome = cs->FindAttribute("outcome")->DoubleValue();
-        std::string id = cs->FindAttribute("id")->Value();
+        // std::string id = cs->FindAttribute("id")->Value();
         auto fromUnit = units::unit_from_string(unitFromString);
         auto toUnit = units::unit_from_string(unitToString);
 

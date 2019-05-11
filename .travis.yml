@@ -22,7 +22,7 @@ matrix:
     - CCACHE_CPP2=yes
     script:
     - bash .ci/make_and_test.sh 11
-    - bash .ci/make_and_test.sh 14
+#    - bash .ci/make_and_test.sh 14
 #    - bash .ci/make_and_test.sh 17
 
     # Check style/tidy

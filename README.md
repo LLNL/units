@@ -15,24 +15,24 @@ A unit library was needed to be able to represent units of a wide range of disci
 It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units.  The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that.  It does NOT provide compile time checking of units.  The units library provides a library that supports units where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time. 
 ### Limitations
   - The powers represented by units are limited see [Unit representation](#unit_representation) but only normal physical units are supported.
- - The library uses floating point and double precision for the multipliers which is generally good enough for most engineering contexts, but does come with the limits and associated loss of precision for long series of calculations.
- - Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So if you are doing a lot of financial calculations use something more specific for currency manipulations.  
- - Fractional unit powers are not supported in general.  While some mathematical operations on units are supported any root operations `sqrt` or `cbrt` will only produce valid results if the result is integral powers of the root.  One exception is limited support for root Hz operations in measurements of Amplitude spectral density.  so a specific definition of a unit representing square root of Hz is available.  
- - While conversions of various temperature definitions are supported, there is no generalized support for datums and bias shifts.  It may be possible to add some specific cases in the future for common uses cases but the space requirement limits such use.  Some of the other libraries have general support for this.
- - some number of equation like units is supported  these include logarithms, nepers, and some things like Saffir-Simpson, Beaufort, and Richter scales for wind and earthquakes.  There is capacity within the framework to add a few more equation like units if a need arises
- - The unit `rad` in the natures of absorbed dose is not recognized as it would conflicts with `rad` in terms of radians. So `rad` means radians
+  - The library uses floating point and double precision for the multipliers which is generally good enough for most engineering contexts, but does come with the limits and associated loss of precision for long series of calculations.
+  - Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So if you are doing a lot of financial calculations use something more specific for currency manipulations.  
+  - Fractional unit powers are not supported in general.  While some mathematical operations on units are supported any root operations `sqrt` or `cbrt` will only produce valid results if the result is integral powers of the root.  One exception is limited support for root Hz operations in measurements of Amplitude spectral density.  so a specific definition of a unit representing square root of Hz is available.  
+  - While conversions of various temperature definitions are supported, there is no generalized support for datums and bias shifts.  It may be possible to add some specific cases in the future for common uses cases but the space requirement limits such use.  Some of the other libraries have general support for this.
+  - some number of equation like units is supported  these include logarithms, nepers, and some things like Saffir-Simpson, Beaufort, and Richter scales for wind and earthquakes.  There is capacity within the framework to add a few more equation like units if a need arises
+  - The unit `rad` in the natures of absorbed dose is not recognized as it would conflicts with `rad` in terms of radians. So `rad` means radians
    
 
 ###  Alternatives
 If you are looking for compile time and prevention of unit errors in equations for dimensional analysis one of these libraries might work for you.  
-* [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) - Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
-* [Units](https://github.com/nholthaus/units) -A compile-time, header-only, dimensional analysis library built on `c++14` with no dependencies.
-* [Units](https://github.com/VincentDucharme/Units) -Another compile time library
-* [PhysUnits-CT](https://github.com/martinmoene/PhysUnits-CT-Cpp11) A C++ library for compile-time dimensional analysis and unit/quantity manipulation and conversion.
-* [PhysUnits-RT](https://github.com/martinmoene/PhysUnits-RT)-A C++ library for run-time dimensional analysis and unit/quantity manipulation and conversion.
-* [Libunits](https://sourceforge.net/projects/libunits/) - The ultimate shared library to do calculations(!) and conversions with any units!
+ * [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) - Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
+ * [Units](https://github.com/nholthaus/units) -A compile-time, header-only, dimensional analysis library built on `c++14` with no dependencies.
+ * [Units](https://github.com/VincentDucharme/Units) -Another compile time library
+ * [PhysUnits-CT](https://github.com/martinmoene/PhysUnits-CT-Cpp11) A C++ library for compile-time dimensional analysis and unit/quantity manipulation and conversion.
+ * [PhysUnits-RT](https://github.com/martinmoene/PhysUnits-RT)-A C++ library for run-time dimensional analysis and unit/quantity manipulation and conversion.
+ * [Libunits](https://sourceforge.net/projects/libunits/) - The ultimate shared library to do calculations(!) and conversions with any units!
 Includes all SI and pseudo SI units and thousands of US, Imperial and other units.
-* [unitscpp](http://code.google.com/p/unitscpp/) - A lightweight C++ library for physical calculation with units.
+ * [unitscpp](http://code.google.com/p/unitscpp/) - A lightweight C++ library for physical calculation with units.
 
 These libraries will work well if the number of units being dealt with is known at compile time.  Many also produce zero overhead operations and checking.  Therefore in situations where this is possible other libraries are a preferred alternative.  
 ### Types
@@ -42,6 +42,9 @@ There are only a few types in the library
  * `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The float has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal. 
  * `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement. `measurement` is an alias to a `measurement_base<double>` so the quantity type can be templated.  `measurement_f` is an alias for `measurement_base<float>` but others could be defined
  * `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
+ * `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`s are implicitly convertable to a `measurement` of the same value type.  
+* `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base 
+
 
 ### Unit representation
 The unit class consists of a multiplier and a representation of base units. 

@@ -71,3 +71,29 @@ TEST(Measurement, comparison)
     EXPECT_FALSE(1 * in < 2 * cm);
     EXPECT_TRUE((1 * in) == (2.54 * cm));
 }
+
+using namespace units;
+TEST(fixedMeasurement, ops)
+{
+    fixed_measurement_type<double> d1(45.0, m);
+    fixed_measurement_type<double> d2(79, m);
+
+    auto area = d1 * d2;
+    EXPECT_EQ(area.value(), 45.0 * 79);
+    EXPECT_TRUE(area.units() == m * m);
+
+    EXPECT_TRUE(d1 * d2 == d2 * d1);
+
+    auto sum = d1 + d2;
+    EXPECT_EQ(sum.value(), 45.0 + 79.0);
+    EXPECT_TRUE(sum.units() == m);
+    EXPECT_TRUE(d1 + d2 == d2 + d1);
+
+    auto diff = d2 - d1;
+    EXPECT_EQ(diff.value(), 79.0 - 45);
+    EXPECT_TRUE(diff.units() == m);
+
+    auto rat = d1 / d2;
+    EXPECT_EQ(rat.value(), 45.0 / 79);
+    EXPECT_TRUE(rat.units() == ratio);
+}
