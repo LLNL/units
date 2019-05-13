@@ -293,3 +293,33 @@ TEST(otherUnits, digits)
     EXPECT_NEAR(convert(6.0, precise::data::digits, precise::data::bit_s), 19.93, 0.01);
     EXPECT_NEAR(convert(1.0, precise::data::digits, precise::one), 10.0, 0.01);
 }
+
+TEST(otherUnits, Richter)
+{
+    auto conv5 = convert(5.0, precise::special::moment_magnitude, precise::N * precise::m);
+    EXPECT_FALSE(std::isnan(conv5));
+
+    EXPECT_NEAR(convert(conv5, precise::N * precise::m, precise::special::moment_magnitude), 5.0, 0.0001);
+
+    auto conv7 = convert(7.0, precise::special::moment_magnitude, precise::N * precise::m);
+    EXPECT_FALSE(std::isnan(conv7));
+
+    EXPECT_NEAR(convert(conv7, precise::N * precise::m, precise::special::moment_magnitude), 7.0, 0.0001);
+
+    EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
+}
+
+TEST(otherUnits, moment_energy)
+{
+    auto conv5 = convert(5.0, precise::special::moment_energy, precise::J);
+    EXPECT_FALSE(std::isnan(conv5));
+
+    EXPECT_NEAR(convert(conv5, precise::J, precise::special::moment_energy), 5.0, 0.0001);
+
+    auto conv7 = convert(7.0, precise::special::moment_energy, precise::J);
+    EXPECT_FALSE(std::isnan(conv7));
+
+    EXPECT_NEAR(convert(conv7, precise::J, precise::special::moment_energy), 7.0, 0.0001);
+
+    EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
+}
