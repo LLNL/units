@@ -1202,6 +1202,7 @@ namespace precise
         constexpr precise_unit bit = count;
         constexpr precise_unit nibble(4, count);
         constexpr precise_unit byte(8, count);
+
         constexpr precise_unit kB(1000.0, byte);
         constexpr precise_unit MB(1000.0, kB);
         constexpr precise_unit GB(1000.0, MB);
@@ -1219,6 +1220,8 @@ namespace precise
         constexpr precise_unit nat = precise::log::neper * precise::count;
 
         constexpr precise_unit trit = precise_unit(precise::custom::equation_unit(14));
+        // compute the number of digits
+        constexpr precise_unit digits = precise_unit(custom::equation_unit(10));
     }  // namespace data
 
     constexpr precise_unit bit = data::bit;

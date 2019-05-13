@@ -274,3 +274,22 @@ TEST(otherUnits, saffirSimpson2Sfujita)
     EXPECT_NEAR(convert(1.0, precise::special::fujita, precise::special::sshws), 1.00, 0.05);
     EXPECT_NEAR(convert(1.0, precise::special::sshws, precise::special::fujita), 1.0, 0.05);
 }
+
+TEST(otherUnits, trits)
+{
+    EXPECT_NEAR(convert(1.0, precise::data::trit, precise::data::bit_s), 1.58496, 0.00001);
+    EXPECT_NEAR(convert(6.0, precise::data::trit, precise::data::bit_s), 9.5, 0.01);
+    EXPECT_NEAR(convert(20.19, precise::data::trit, precise::data::bit_s), 32.0, 0.01);
+    EXPECT_NEAR(convert(40.38, precise::data::trit, precise::data::digits), 19.27, 0.01);
+
+    EXPECT_NEAR(convert(1.58496, precise::data::bit_s, precise::data::trit), 1.0, 0.00001);
+    EXPECT_NEAR(convert(9.5, precise::data::bit_s, precise::data::trit), 6.0, 0.01);
+    EXPECT_NEAR(convert(9, precise::data::digits, precise::data::trit), 18.86, 0.01);
+}
+
+TEST(otherUnits, digits)
+{
+    EXPECT_NEAR(convert(12.0, precise::data::digits, precise::data::bit_s), 39.86, 0.01);
+    EXPECT_NEAR(convert(6.0, precise::data::digits, precise::data::bit_s), 19.93, 0.01);
+    EXPECT_NEAR(convert(1.0, precise::data::digits, precise::one), 10.0, 0.01);
+}
