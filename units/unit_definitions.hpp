@@ -12,6 +12,9 @@ SPDX-License-Identifier: BSD-3-Clause
 namespace units
 {
 /// Constants used in definitions of units
+
+static_assert(std::numeric_limits<double>::has_signaling_NaN, "nan is used to signify invalid values");
+static_assert(std::numeric_limits<double>::has_infinity, "nan is used to signify invalid values");
 namespace constants
 {
     constexpr double pi = 3.141592653589793;
@@ -1055,7 +1058,7 @@ namespace precise
                 return out;
             }
             case 24:  // Fujita scale
-                return 141.0 * pow(val + 2.0, 1.5);
+                return 14.1 * pow(val + 2.0, 1.5);
             case 27:  // prism diopter
                 return atan(val / 100.0);
             case 29:  // moment magnitude scale
@@ -1126,7 +1129,7 @@ namespace precise
                 return out;
             }
             case 24:  // fujita scale
-                return pow(val / 141.0, 2.0 / 3.0) - 2.0;
+                return pow(val / 14.1, 2.0 / 3.0) - 2.0;
             case 27:
                 return 100.0 * tan(val);
             case 29:  // moment magnitude scale
@@ -1199,6 +1202,7 @@ namespace precise
         constexpr precise_unit bit = count;
         constexpr precise_unit nibble(4, count);
         constexpr precise_unit byte(8, count);
+
         constexpr precise_unit kB(1000.0, byte);
         constexpr precise_unit MB(1000.0, kB);
         constexpr precise_unit GB(1000.0, MB);
@@ -1216,6 +1220,8 @@ namespace precise
         constexpr precise_unit nat = precise::log::neper * precise::count;
 
         constexpr precise_unit trit = precise_unit(precise::custom::equation_unit(14));
+        // compute the number of digits
+        constexpr precise_unit digits = precise_unit(custom::equation_unit(10));
     }  // namespace data
 
     constexpr precise_unit bit = data::bit;

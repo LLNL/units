@@ -3926,7 +3926,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
 {
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
-    static UPTCONST std::array<ckpair, 35> ucodeReplacements{{
+    static UPTCONST std::array<ckpair, 39> ucodeReplacements{{
       ckpair{u8"\u00d7", "*"},
       ckpair{u8"\u00f7", "/"},  // division sign
       ckpair{u8"\u00b7", "*"},
@@ -3934,6 +3934,9 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{u8"\u00B5", "u"},
       ckpair{u8"\u03BC", "u"},
       ckpair{u8"\u2212", "-"},
+      ckpair{u8"\u2009", ""},  // thin space
+      ckpair{u8"\u2007", ""},  // thin space
+      ckpair{u8"\u202f", ""},  // narrow no break space
       ckpair{u8"\u207B\u00B9", "^(-1)"},
       ckpair{u8"\u207B\u00B2", "^(-2)"},
       ckpair{u8"\u207B\u00B3", "^(-3)"},
@@ -3950,6 +3953,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{u8"\u2153", "(1/3)"},  //(1/3) fraction
       ckpair{u8"\u2154", "(2/3)"},  //(2/3) fraction
       ckpair{u8"\u215B", "0.125"},  //(1/8) fraction
+      ckpair{u8"\u215F", "1/"},  //(1/ numerator operator
       ckpair{"-\xb3", "^(-3)"},
       ckpair{"-\xb9", "^(-1)"},
       ckpair{"-\xb2", "^(-2)"},

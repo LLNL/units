@@ -47,3 +47,21 @@ TEST(PU, Conversions_just_pu)
     EXPECT_NEAR(convert(136.0, kV, pu, 500, 138000), 0.9855, test::tolerance * 100);
     EXPECT_EQ(convert(2.7, pu, puMW), 2.7);
 }
+
+TEST(PU, pu_base_assumptions)
+{
+    EXPECT_NEAR(convert(1.0, puHz, Hz), 60.0, 0.0001);
+    EXPECT_NEAR(convert(60.05, Hz, puHz), 60.05 / 60.0, 0.0001);
+
+    EXPECT_NEAR(convert(1.0, puMW, W), 100000000, 0.01);
+    EXPECT_NEAR(convert(450.0, MW, puMW), 4.5, 0.01);
+}
+
+TEST(PU, machNumber)
+{
+    EXPECT_NEAR(convert(1.0, precise::special::mach, m / s), 341.25, 0.0001);
+    EXPECT_NEAR(convert(350.0, m / s, precise::special::mach), 1.0256, 0.001);
+
+    // TODO:: figure out how this might work
+    // EXPECT_NEAR(convert(1.0, precise::special::mach, precise::special::fujita), 12.0, 0.01);
+}

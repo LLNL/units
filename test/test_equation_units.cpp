@@ -188,8 +188,138 @@ TEST(logUnits, pH)
     EXPECT_NEAR(convert(4.82e-5, precise::laboratory::molarity, precise::laboratory::pH), 4.32, 0.005);
 }
 
+TEST(logUnits, error) { EXPECT_TRUE(std::isnan(convert(-20.0, precise::one, precise::log::bel))); }
+
 TEST(otherUnits, prism_diopter)
 {
     EXPECT_NEAR(convert(1, precise::deg, precise::clinical::prism_diopter), 1.75, 0.005);
     EXPECT_NEAR(convert(1.75, precise::clinical::prism_diopter, precise::deg), 1.0, 0.005);
+}
+
+TEST(otherUnits, saffirSimpson)
+{
+    EXPECT_EQ(std::floor(convert(44.0, precise::m / precise::s, precise::special::sshws)), 2.0);
+    EXPECT_EQ(std::floor(convert(77.0, precise::mph, precise::special::sshws)), 1.0);
+
+    EXPECT_EQ(std::floor(convert(268.0, precise::km / precise::hr, precise::special::sshws)), 5.0);
+    EXPECT_EQ(std::floor(convert(116.0, precise::nautical::knot, precise::special::sshws)), 4.0);
+
+    EXPECT_EQ(std::floor(convert(44.0, precise::mph, precise::special::sshws)), 0.0);
+    EXPECT_EQ(std::floor(convert(56.0, precise::m / precise::s, precise::special::sshws)), 3.0);
+}
+
+TEST(otherUnits, saffirSimpson2Speed)
+{
+    EXPECT_NEAR(convert(3.0, precise::special::sshws, precise::m / precise::s), 50.0, 1.0);
+    EXPECT_NEAR(convert(2.0, precise::special::sshws, precise::mph), 96.0, 1.0);
+    EXPECT_NEAR(convert(1.0, precise::special::sshws, precise::km / precise::hr), 119.0, 1.0);
+    EXPECT_NEAR(convert(5.0, precise::special::sshws, precise::nautical::knot), 135.0, 1.0);
+    EXPECT_NEAR(convert(0.5, precise::special::sshws, precise::m / precise::s), 26.0, 1.0);
+    EXPECT_NEAR(convert(0.0, precise::special::sshws, precise::mph), 39.0, 1.0);
+}
+
+class beaufort : public ::testing::TestWithParam<std::pair<double, double>>
+{
+};
+
+TEST_P(beaufort, beaufortTests)
+{
+    auto p = GetParam();
+    auto bnumber = p.first;
+    auto wspeed = p.second;
+
+    auto conv = convert(wspeed, precise::mph, precise::special::beaufort);
+
+    EXPECT_EQ(std::round(conv), std::floor(bnumber));
+    EXPECT_NEAR(convert(conv, precise::special::beaufort, precise::mph), wspeed, 0.5);
+}
+
+static const std::vector<std::pair<double, double>> testBValues{
+  {0.0, 0.0},  {1.5, 2.0},  {2.0, 4.0},  {3.0, 8.0},   {4.0, 13.0},  {5.0, 19.0},  {6.0, 25.0},
+  {7.0, 32.0}, {8.0, 39.0}, {9.0, 47.0}, {10.0, 55.0}, {11.0, 64.0}, {12.0, 73.0},
+};
+
+INSTANTIATE_TEST_SUITE_P(beaufortConversionTests, beaufort, ::testing::ValuesIn(testBValues));
+
+TEST(otherUnits, saffirSimpson2Sbeaufort)
+{
+    EXPECT_NEAR(convert(12.1, precise::special::beaufort, precise::special::sshws), 1.05, 0.05);
+    EXPECT_NEAR(convert(0.0, precise::special::sshws, precise::special::beaufort), 8.0, 0.05);  // tropical storm
+}
+
+class fujita : public ::testing::TestWithParam<std::pair<double, double>>
+{
+};
+
+TEST_P(fujita, fujitaTests)
+{
+    auto p = GetParam();
+    auto fnumber = p.first;
+    auto wspeed = p.second;
+
+    auto conv = convert(wspeed, precise::mph, precise::special::fujita);
+
+    EXPECT_EQ(std::round(conv), std::floor(fnumber));
+    EXPECT_NEAR(convert(conv, precise::special::fujita, precise::mph), wspeed, 0.5);
+}
+
+static const std::vector<std::pair<double, double>> testFValues{
+  {0.0, 40.0}, {1.0, 73.0}, {2.0, 113}, {3.0, 158.0}, {4.0, 207.0}, {5.0, 261},
+};
+
+INSTANTIATE_TEST_SUITE_P(fujitaConversionTests, fujita, ::testing::ValuesIn(testFValues));
+
+TEST(otherUnits, saffirSimpson2Sfujita)
+{
+    EXPECT_NEAR(convert(1.0, precise::special::fujita, precise::special::sshws), 1.00, 0.05);
+    EXPECT_NEAR(convert(1.0, precise::special::sshws, precise::special::fujita), 1.0, 0.05);
+}
+
+TEST(otherUnits, trits)
+{
+    EXPECT_NEAR(convert(1.0, precise::data::trit, precise::data::bit_s), 1.58496, 0.00001);
+    EXPECT_NEAR(convert(6.0, precise::data::trit, precise::data::bit_s), 9.5, 0.01);
+    EXPECT_NEAR(convert(20.19, precise::data::trit, precise::data::bit_s), 32.0, 0.01);
+    EXPECT_NEAR(convert(40.38, precise::data::trit, precise::data::digits), 19.27, 0.01);
+
+    EXPECT_NEAR(convert(1.58496, precise::data::bit_s, precise::data::trit), 1.0, 0.00001);
+    EXPECT_NEAR(convert(9.5, precise::data::bit_s, precise::data::trit), 6.0, 0.01);
+    EXPECT_NEAR(convert(9, precise::data::digits, precise::data::trit), 18.86, 0.01);
+}
+
+TEST(otherUnits, digits)
+{
+    EXPECT_NEAR(convert(12.0, precise::data::digits, precise::data::bit_s), 39.86, 0.01);
+    EXPECT_NEAR(convert(6.0, precise::data::digits, precise::data::bit_s), 19.93, 0.01);
+    EXPECT_NEAR(convert(1.0, precise::data::digits, precise::one), 10.0, 0.01);
+}
+
+TEST(otherUnits, Richter)
+{
+    auto conv5 = convert(5.0, precise::special::moment_magnitude, precise::N * precise::m);
+    EXPECT_FALSE(std::isnan(conv5));
+
+    EXPECT_NEAR(convert(conv5, precise::N * precise::m, precise::special::moment_magnitude), 5.0, 0.0001);
+
+    auto conv7 = convert(7.0, precise::special::moment_magnitude, precise::N * precise::m);
+    EXPECT_FALSE(std::isnan(conv7));
+
+    EXPECT_NEAR(convert(conv7, precise::N * precise::m, precise::special::moment_magnitude), 7.0, 0.0001);
+
+    EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
+}
+
+TEST(otherUnits, moment_energy)
+{
+    auto conv5 = convert(5.0, precise::special::moment_energy, precise::J);
+    EXPECT_FALSE(std::isnan(conv5));
+
+    EXPECT_NEAR(convert(conv5, precise::J, precise::special::moment_energy), 5.0, 0.0001);
+
+    auto conv7 = convert(7.0, precise::special::moment_energy, precise::J);
+    EXPECT_FALSE(std::isnan(conv7));
+
+    EXPECT_NEAR(convert(conv7, precise::J, precise::special::moment_energy), 7.0, 0.0001);
+
+    EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
 }

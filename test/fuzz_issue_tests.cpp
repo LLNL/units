@@ -97,7 +97,7 @@ TEST_P(oomProblems, oomFiles)
     EXPECT_NO_THROW(unit_from_string(cdata));
 }
 
-INSTANTIATE_TEST_SUITE_P(oomFiles, oomProblems, ::testing::Range(62, 63));
+INSTANTIATE_TEST_SUITE_P(oomFiles, oomProblems, ::testing::Range(1, 63));
 
 TEST(fuzzFailures, rtripconversions)
 {
