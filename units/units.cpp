@@ -441,8 +441,15 @@ static std::string generateUnitSequence(double mux, std::string seq)
     {
         if (mux <= 0.1)
         {
-            seq.replace(0, 2, "g");
-            mux *= 1000.0;
+            if (seq.size() > 3 && seq[2] == '^')
+            {
+                noPrefix = true;
+            }
+            else
+            {
+                seq.replace(0, 2, "g");
+                mux *= 1000.0;
+            }
         }
         else
         {
@@ -4336,6 +4343,11 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
                 break;
             }
             default:
+                if (unit_string[fnd - 1] == '\\')
+                {  // ignore escape sequences
+                    fnd = unit_string.find_first_of(")]}", fnd + 1);
+                    break;
+                }
                 unit_string.insert(fnd + 1, 1, '*');
                 fnd = unit_string.find_first_of(")]}", fnd + 2);
                 break;

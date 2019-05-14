@@ -133,7 +133,7 @@ namespace precise
     constexpr precise_unit eflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
     constexpr precise_unit rad(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0));
     // define a specialized default unit
-    constexpr precise_unit defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0));
+    constexpr precise_unit defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0));
     constexpr precise_unit invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
     /// Define a unitless number

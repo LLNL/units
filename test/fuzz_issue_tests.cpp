@@ -127,7 +127,9 @@ TEST_P(rtripProblems, rtripFiles)
     auto u1 = unit_from_string(cdata);
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);
-    EXPECT_FALSE(unit_from_string(str).is_error());
+    auto u2 = unit_from_string(str);
+    EXPECT_FALSE(u2.is_error());
+    EXPECT_EQ(u2, u1);
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(3, 4));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(4, 5));
