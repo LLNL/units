@@ -333,7 +333,7 @@ unsigned int getCommodity(std::string comm)
     {
         return static_cast<int32_t>(atoi(comm.c_str() + 7));
     }
-    if ((comm.size() < 5) &&
+    if ((comm.size() < 6) &&
         std::all_of(comm.begin(), comm.end(), [](char x) { return (x == ' ' || (x >= '_' && x <= '}')); }))
     {
         uint32_t hkey = 0x40000000;

@@ -11,6 +11,7 @@ set(UNITS_TESTS
    test_ucum
     test_unit_ops
     test_unit_strings
+	test_commodities
     )
 	
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
