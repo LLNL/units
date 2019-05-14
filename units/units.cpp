@@ -698,7 +698,7 @@ static std::string to_string_internal(precise_unit un, uint32_t /*match_flags*/)
         return std::string("1/") + fnd->second;
     }
     /// Check for squared units
-    if (!un.base_units().root(2).has_e_flag())
+    if (!un.base_units().root(2).has_e_flag() && un.multiplier() > 0.0)
     {
         auto squ = llunit.root(2);
         fnd = base_unit_names.find(squ);
@@ -710,6 +710,21 @@ static std::string to_string_internal(precise_unit un, uint32_t /*match_flags*/)
         if (fnd != base_unit_names.end())
         {
             return std::string("1/") + fnd->second + "^2";
+        }
+    }
+    /// Check for squared units
+    if (!un.base_units().root(3).has_e_flag())
+    {
+        auto cub = llunit.root(3);
+        fnd = base_unit_names.find(cub);
+        if (fnd != base_unit_names.end())
+        {
+            return std::string(fnd->second) + "^3";
+        }
+        fnd = base_unit_names.find(cub.inv());
+        if (fnd != base_unit_names.end())
+        {
+            return std::string("1/") + fnd->second + "^3";
         }
     }
     // lets try converting to pure base unit

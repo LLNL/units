@@ -99,12 +99,22 @@ TEST_P(oomProblems, oomFiles)
 
 INSTANTIATE_TEST_SUITE_P(oomFiles, oomProblems, ::testing::Range(62, 63));
 
-TEST(fuzzFailues, rtripconversions)
+TEST(fuzzFailures, rtripconversions)
 {
     auto u1 = unit_from_string("^");
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);
     EXPECT_FALSE(unit_from_string(str).is_error());
+}
+
+TEST(fuzzFailures, rtripconversions2)
+{
+    auto u1 = unit_from_string("10*6.-10*6.-");
+    EXPECT_FALSE(u1.is_error());
+    auto str = to_string(u1);
+    auto u2 = unit_from_string(str);
+    EXPECT_FALSE(u2.is_error());
+    EXPECT_EQ(u2, u1);
 }
 
 class rtripProblems : public ::testing::TestWithParam<int>

@@ -419,9 +419,10 @@ class fixed_measurement_type
     {
     }
 
-    fixed_measurement_type operator=(measurement_type<X> val)
+    fixed_measurement_type &operator=(measurement_type<X> val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+        return *this;
     }
     // direct conversion operator
     operator measurement_type<X>() { return measurement_type<X>(value_, units_); }
@@ -586,9 +587,10 @@ class fixed_precision_measurement
     {
     }
 
-    fixed_precision_measurement operator=(precision_measurement val)
+    fixed_precision_measurement &operator=(precision_measurement val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+        return *this;
     }
 
     // direct conversion operator
@@ -698,7 +700,7 @@ inline std::string to_string(unit units, uint32_t match_flags = 0)
 
 /** Generate a unit object from a string representation of it
 @param unit_string the string to convert
-@param ciMatch set to true if the string is a case insensitive string
+@param match_flags see /ref unit_conversion_flags to control the matching process somewhat
 @return a precise unit corresponding to the string if no match was found the unit will be an error unit
 */
 precise_unit unit_from_string(std::string unit_string, uint32_t match_flags = 0);
