@@ -127,6 +127,16 @@ TEST(fuzzFailures, rtripconversions3)
     EXPECT_EQ(u2, u1);
 }
 
+TEST(fuzzFailures, rtripconversions4)
+{
+    auto u1 = unit_from_string("mm-5");
+    EXPECT_FALSE(u1.is_error());
+    auto str = to_string(u1);
+    auto u2 = unit_from_string(str);
+    EXPECT_FALSE(u2.is_error());
+    EXPECT_EQ(u2, u1);
+}
+
 class rtripProblems : public ::testing::TestWithParam<int>
 {
 };

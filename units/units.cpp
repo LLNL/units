@@ -385,6 +385,56 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     return str;
 }
 
+static std::string getMultiplierString(double multiplier, char tail)
+{
+    switch (tail)
+    {
+    case '2':
+    {
+        std::string mx = (multiplier >= 0.0) ? getMultiplierString(std::sqrt(multiplier)) :
+                                               getMultiplierString(std::sqrt(-multiplier));
+        if (mx.size() == 1)
+        {
+            if (multiplier < 0.0)
+            {
+                mx = "-" + mx;
+            }
+            return mx;
+        }
+        else
+        {
+            return getMultiplierString(multiplier, true);
+        }
+    }
+    break;
+    case '3':
+    {
+        std::string mx = (multiplier >= 0.0) ? getMultiplierString(std::cbrt(multiplier)) :
+                                               getMultiplierString(std::cbrt(-multiplier));
+        if (mx.size() == 1)
+        {
+            if (multiplier < 0.0)
+            {
+                mx = "-" + mx;
+            }
+            return mx;
+        }
+        else
+        {
+            return getMultiplierString(multiplier, true);
+        }
+    }
+    break;
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+        return getMultiplierString(multiplier, true);
+    default:
+        return getMultiplierString(multiplier);
+    }
+}
+
 static std::string generateUnitSequence(double mux, std::string seq)
 {
     bool noPrefix = false;
@@ -936,8 +986,9 @@ static std::string to_string_internal(precise_unit un, uint32_t /*match_flags*/)
         fnd = base_unit_names.find(base.inv());
         if (fnd != base_unit_names.end())
         {
-            auto prefix = getMultiplierString(1.0 / ext.multiplier());
-            auto str = std::string("1/(") + prefix + fnd->second + '*' + tu.second + ')';
+            std::string secondaryUnit(fnd->second);
+            auto prefix = getMultiplierString(1.0 / ext.multiplier(), secondaryUnit.back());
+            auto str = std::string("1/(") + prefix + secondaryUnit + '*' + tu.second + ')';
             if (prefix.length() == 1)
             {
                 return str;
