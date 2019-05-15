@@ -3289,13 +3289,13 @@ static bool segmentcheckReverse(const std::string &unit, char closeSegment, int 
     {
         char current = unit[index];
         --index;
+        if (index >= 0 && unit[index] == '\\')
+        {
+            --index;
+            continue;
+        }
         if (current == closeSegment)
         {
-            if (index >= 0 && unit[index] == '\\')
-            {
-                --index;
-                continue;
-            }
             return true;
         }
         switch (current)
@@ -4682,10 +4682,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             {
                 return precise::error;
             }
-            if (front == 0.0)
-            {  // if the multiplier is 0 the rest doesn't matter
-                return {0.0, one};
-            }
+
             if (index == std::string::npos)
             {
                 return {front, precise::one};
@@ -5168,35 +5165,36 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             }
         }
     }
-    if (looksLikeNumber(unit_string))
-    {
-        try
-        {
-            size_t loc;
-            auto number = std::stod(unit_string, &loc);
-            if (loc >= unit_string.length())
-            {
-                return {number, one};
-            }
-            unit_string = unit_string.substr(loc);
-            if (unit_string.front() == '{')
-            {
-                return {number, commoditizedUnit(unit_string, match_flags)};
-            }
-            retunit = unit_from_string(unit_string, match_flags);
-            if (!retunit.is_error())
-            {
-                return {number, retunit};
-            }
-            unit_string.insert(unit_string.begin(), '{');
-            unit_string.push_back('}');
-            return {number, commoditizedUnit(unit_string, match_flags)};
-        }
-        catch (const std::out_of_range &)
-        {
-            return precise::error;
-        }
-    }
+    /*  if (looksLikeNumber(unit_string))
+      {
+          try
+          {
+              size_t loc;
+              auto number = std::stod(unit_string, &loc);
+              if (loc >= unit_string.length())
+              {
+                  return {number, one};
+              }
+              unit_string = unit_string.substr(loc);
+              if (unit_string.front() == '{')
+              {
+                  return {number, commoditizedUnit(unit_string, match_flags)};
+              }
+              retunit = unit_from_string(unit_string, match_flags);
+              if (!retunit.is_error())
+              {
+                  return {number, retunit};
+              }
+              unit_string.insert(unit_string.begin(), '{');
+              unit_string.push_back('}');
+              return {number, commoditizedUnit(unit_string, match_flags)};
+          }
+          catch (const std::out_of_range &)
+          {
+              return precise::error;
+          }
+      }
+      */
     // remove trailing 's'
     if (unit_string.back() == 's')
     {
