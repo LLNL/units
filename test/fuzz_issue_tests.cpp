@@ -157,6 +157,17 @@ TEST(fuzzFailures, rtripconversions6)
     EXPECT_TRUE(u1.is_error());
 }
 
+TEST(fuzzFailures, rtripconversions7)
+{
+    std::string tstring = "D/am";
+    auto u1 = unit_from_string(tstring);
+    EXPECT_FALSE(u1.is_error());
+    auto str = to_string(u1);
+    auto u2 = unit_from_string(str);
+    EXPECT_FALSE(u2.is_error());
+    EXPECT_EQ(u2, u1);
+}
+
 class rtripProblems : public ::testing::TestWithParam<int>
 {
 };
@@ -174,4 +185,4 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(3, 7));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 7));
