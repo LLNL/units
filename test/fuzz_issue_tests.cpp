@@ -207,6 +207,18 @@ TEST(fuzzFailures, rtripconversions11)
     EXPECT_TRUE(u1.is_error());
 }
 
+TEST(fuzzFailures, rtripconversions12)
+{
+    std::string tstring = "\\\xbd";
+    tstring += "2";
+    auto u1 = unit_from_string(tstring);
+    EXPECT_FALSE(u1.is_error());
+    auto str = to_string(u1);
+    auto u2 = unit_from_string(str);
+    EXPECT_FALSE(u2.is_error());
+    EXPECT_EQ(u2, u1);
+}
+
 class rtripProblems : public ::testing::TestWithParam<int>
 {
 };

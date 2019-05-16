@@ -4290,6 +4290,11 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
                 {
                     changed = true;
                     unit_string.replace(fnd, strlen(ucode.first), ucode.second);
+                    if (fnd > 0 && unit_string[fnd - 1] == '\\')
+                    {
+                        unit_string.erase(fnd - 1, 1);
+                        --fnd;
+                    }
                     fnd = unit_string.find(ucode.first, fnd + strlen(ucode.second));
                 }
             }
