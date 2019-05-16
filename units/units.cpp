@@ -744,11 +744,19 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     if (un.multiplier() == 0.0)
     {
         un = precise_unit(un.base_units(), 1.0);
+        if (un == precise::one)
+        {
+            return "0";
+        }
         return "0*" + to_string_internal(un, match_flags);
     }
     else if (std::isinf(un.multiplier()))
     {
         un = precise_unit(un.base_units(), 1.0);
+        if (un == precise::one)
+        {
+            return "INF";
+        }
         return "INF*" + to_string_internal(un, match_flags);
     }
     else if (std::isnan(un.multiplier()))
@@ -757,6 +765,10 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         if (un.is_error())
         {
             return "ERROR";
+        }
+        if (un == precise::one)
+        {
+            return "NaN";
         }
         return "NaN*" + to_string_internal(un, match_flags);
     }
