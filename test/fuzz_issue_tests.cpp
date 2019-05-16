@@ -149,6 +149,14 @@ TEST(fuzzFailures, rtripconversions5)
     EXPECT_EQ(u2, u1);
 }
 
+TEST(fuzzFailures, rtripconversions6)
+{
+    std::string tstring = "V\xb2";
+    tstring += "+*";
+    auto u1 = unit_from_string(tstring);
+    EXPECT_TRUE(u1.is_error());
+}
+
 class rtripProblems : public ::testing::TestWithParam<int>
 {
 };
@@ -157,11 +165,13 @@ TEST_P(rtripProblems, rtripFiles)
 {
     auto cdata = loadFailureFile("rtrip_fail", GetParam());
     auto u1 = unit_from_string(cdata);
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(u2, u1);
+    if (!u1.is_error())
+    {
+        auto str = to_string(u1);
+        auto u2 = unit_from_string(str);
+        EXPECT_FALSE(u2.is_error());
+        EXPECT_EQ(u2, u1);
+    }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 7));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(3, 7));

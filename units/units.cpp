@@ -5072,6 +5072,15 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
     {
         return unit_quick_match(unit_string, match_flags);
     }
+    if (unit_string.size() <= 2)
+    {
+        if (isDigitCharacter(unit_string.back()))
+        {
+            unit_string.insert(1, 1, '^');
+            return unit_from_string(unit_string, match_flags);
+        }
+        return precise::error;
+    }
     if ((unit_string.size() >= 3) && (!containsPer) && (!isDigitCharacter(unit_string.back())))
     {
         if (unit_string[0] >= 'A' && unit_string[0] <= 'Z')
@@ -5192,12 +5201,20 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
         }
     }
     // try some other cleaning steps
+    ustring = unit_string;
     if (cleanUnitStringPhase2(unit_string))
     {
-        retunit = get_unit(unit_string);
-        if (!retunit.is_error())
+        if (!unit_string.empty())
         {
-            return retunit;
+            retunit = get_unit(unit_string);
+            if (!retunit.is_error())
+            {
+                return retunit;
+            }
+        }
+        else
+        {  // if we erased everything this could lead to strange units so just go back to the original
+            unit_string = ustring;
         }
     }
     if (unit_string.front() == '[' && unit_string.back() == ']')
@@ -5592,6 +5609,7 @@ precise_unit default_unit(std::string unit_type)
     {
         return fnd->second;
     }
+
     auto fof = unit_type.rfind("of");
     if (fof != std::string::npos)
     {
@@ -5619,6 +5637,10 @@ precise_unit default_unit(std::string unit_type)
     {
         // ratio of some kind
         return precise::one;
+    }
+    if (unit_type.back() == 's' && unit_type.size() > 1)
+    {
+        return default_unit(unit_type.substr(0, unit_type.size() - 1));
     }
     return precise::error;
 }
