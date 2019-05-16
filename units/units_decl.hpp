@@ -106,15 +106,15 @@ namespace detail
                     count_ * power,
                     radians_ * power,
                     per_unit_,
+                    flag_,
                     0,  // zero out e_flag
-                    0,  // zero out flag
                     equation_};
         }
         constexpr unit_data root(int power) const
         {
             return (hasValidRoot(power)) ?
                      unit_data(meter_ / power, kilogram_ / power, second_ / power, ampere_ / power,
-                               kelvin_ / power, 0, 0, 0, 0, radians_ / power, per_unit_, 0, e_flag_, 0) :
+                               kelvin_ / power, 0, 0, 0, 0, radians_ / power, per_unit_, flag_, 0, 0) :
                      unit_data(nullptr);
         }
         // comparison operators
