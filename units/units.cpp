@@ -4993,7 +4993,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             }
 
             retunit = get_unit(ustring);
-            if (!isnan(retunit))
+            if (!retunit.is_error())
             {
                 if (power == 1)
                 {

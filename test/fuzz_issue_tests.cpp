@@ -200,6 +200,13 @@ TEST(fuzzFailures, rtripconversions10)
     EXPECT_EQ(u2, u1);
 }
 
+TEST(fuzzFailures, rtripconversions11)
+{
+    std::string tstring = "br0";
+    auto u1 = unit_from_string(tstring);
+    EXPECT_TRUE(u1.is_error());
+}
+
 class rtripProblems : public ::testing::TestWithParam<int>
 {
 };
