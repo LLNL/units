@@ -17,7 +17,7 @@ TEST(randomRoundTrip, basic)
     std::default_random_engine generator;
     std::uniform_int_distribution<unsigned int> distribution(0, std::numeric_limits<unsigned int>::max());
 
-    for (auto ii = 0; ii < 3000; ++ii)
+    for (auto ii = 0; ii < 6000; ++ii)
     {
         auto start = distribution(generator);
         detail::unit_data unitdata(nullptr);
