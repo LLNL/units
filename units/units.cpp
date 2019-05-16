@@ -1450,8 +1450,9 @@ using ckpair = std::pair<const char *, const char *>;
 
 static precise_unit localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UPTCONST std::array<ckpair, 34> internationlReplacements{{
+    static UPTCONST std::array<ckpair, 35> internationlReplacements{{
       ckpair{"internationaltable", "_IT"},
+      ckpair{"internationalsteamtable", "_IT"},
       ckpair{"international", "_i"},
       ckpair{"USandBritish", "_av"},
       ckpair{"US&British", "_av"},
@@ -2554,6 +2555,7 @@ static const smap base_unit_vals{
   {"electronvolt", precise::energy::eV},
   {"electronVolt", precise::energy::eV},
   {"cal", precise::cal},
+  {"smallcalorie", precise::cal},
   {"Cal", precise::energy::kcal},
   {"CAL", precise::cal},
   {"[Cal]", precise::energy::kcal},
@@ -3326,6 +3328,7 @@ static const smap base_unit_vals{
   {"[kp_Q]", precise_unit(1.0, precise::log::neglog50000, commodities::Korsakov)},
   {"[KP_Q]", precise_unit(1.0, precise::log::neglog50000, commodities::Korsakov)},
   {"pH", precise::laboratory::pH},
+  {"pHscale", precise::laboratory::pH},
   {"[PH]", precise::laboratory::pH},
 };
 
@@ -4107,6 +4110,30 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
             unit_string.replace(fndP, 5, "/");
             fndP = unit_string.find(" per ", fndP + 1);
         }
+        fndP = unit_string.find(" s");
+        while (fndP != std::string::npos)
+        {
+            if (fndP + 2 == unit_string.size())
+            {
+                unit_string[fndP] = '*';
+            }
+            else
+            {
+                switch (unit_string[fndP + 2])
+                {
+                case ' ':
+                case '*':
+                case '/':
+                case '^':
+                case '.':
+                    unit_string[fndP] = '*';
+                    break;
+                default:
+                    break;
+                }
+            }
+            fndP = unit_string.find(" s", fndP + 1);
+        }
         fndP = unit_string.find(" of ");
         while (fndP != std::string::npos)
         {
@@ -4571,7 +4598,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
 
     // a newton(N) in front is somewhat common
     // try a round with just a quick partition
-    size_t part = (unit_string.front() == 'N') ? 1 : 2;
+    size_t part = (unit_string.front() == 'N') ? 1 : 3;
     ustring = unit_string.substr(0, part);
     if (ustring.back() == '(' || ustring.back() == '[' || ustring.back() == '{')
     {
@@ -4617,6 +4644,17 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
                 ++part;
             }
         }
+    }
+    // now do a quick check with a 2 character string since we skipped that earlier
+    auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
+    if (!qm2.is_error())
+    {
+        valid.insert(valid.begin(), unit_string.substr(0, 2));
+    }
+    // now pick off a couple 1 character units
+    if (unit_string.front() == 'V' || unit_string.front() == 'A')
+    {
+        valid.insert(valid.begin(), unit_string.substr(0, 1));
     }
     // start with the biggest
     std::reverse(valid.begin(), valid.end());
@@ -5439,6 +5477,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"time", precise::s},
   {"duration", precise::s},
   {"mass", precise::kg},
+  {"weight", precise::kg},
   {"current", precise::A},
   {"electriccurrent", precise::A},
   {"temperature", precise::K},
@@ -5582,7 +5621,6 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"cact", precise::kat},
   {"doseequivalent", precise::Sv},
   {"equivalentdose", precise::Sv},
-  {"acidity", precise::laboratory::pH},
   {"magneticfield", precise::T},
   {"magnetic", precise::T},
   {"absorbeddose", precise::Gy},
