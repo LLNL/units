@@ -117,6 +117,7 @@ static int order(unit val)
 
 static constexpr auto dol = currency;
 
+// no units with '/' in it this can cause issues when converting to string with out of order operations
 using umap = std::unordered_map<unit, const char *>;
 static const umap base_unit_names{{m, "m"},
                                   {m * m, "m^2"},
@@ -219,8 +220,6 @@ static const umap base_unit_names{{m, "m"},
                                   {Sv, "Sv"},
                                   {Hz, "Hz"},
                                   {rpm, "rpm"},
-                                  {s / rad, "s/rad"},
-                                  {rad / s, "rad/s"},
                                   {kat, "kat"},
                                   {sr, "sr"},
                                   {W, "W"},
@@ -240,8 +239,6 @@ static const umap base_unit_names{{m, "m"},
                                   {unit_cast(precise::area::are), "are"},
                                   {unit_cast(precise::area::hectare), "hectare"},
                                   {unit_cast(precise::area::barn), "barn"},
-                                  {dol / gal, "$/gal"},
-                                  {gal / dol, "gal/$"},
                                   {pu * ohm, "puOhm"},
                                   {puHz, "puHz"},
                                   {hp, "hp"},
