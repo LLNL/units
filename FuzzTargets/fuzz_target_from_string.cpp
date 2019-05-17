@@ -23,10 +23,18 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
         {
             throw(6);
         }
-        // if (units::unit_cast(u2)!=units::unit_cast(unit))
-        // {
-        //    throw(5);
-        //}
+        if (units::unit_cast(u2)!=units::unit_cast(unit))
+        {
+            if (std::isnormal(u2.multiplier())&& std::isnormal(unit.multiplier()))
+            {
+                throw(5);
+            }
+            else if (u2.base_units()!=unit.base_units())
+            {
+
+                throw(7);
+            }
+        }
     }
     // its::clearCustomCommodities();
     return 0;  // Non-zero return values are reserved for future use.
