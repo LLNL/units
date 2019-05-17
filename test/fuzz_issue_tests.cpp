@@ -230,6 +230,17 @@ TEST(fuzzFailures, rtripconversions13)
     EXPECT_EQ(u2, u1);
 }
 
+TEST(fuzzFailures, rtripconversions14)
+{
+    std::string tstring = "Bs1";
+    auto u1 = unit_from_string(tstring);
+    EXPECT_FALSE(u1.is_error());
+    auto str = to_string(u1);
+    auto u2 = unit_from_string(str);
+    EXPECT_FALSE(u2.is_error());
+    EXPECT_EQ(u2, u1);
+}
+
 class rtripProblems : public ::testing::TestWithParam<int>
 {
 };

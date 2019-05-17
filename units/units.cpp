@@ -127,6 +127,7 @@ static const umap base_unit_names{{m, "m"},
                                   {A, "A"},
                                   {V, "V"},
                                   {s, "s"},
+                                  {giga * s, "Bs"},  // this is so Gs doesn't get used which can cause issues
                                   {cd, "cd"},
                                   {K, "K"},
                                   {N, "N"},
