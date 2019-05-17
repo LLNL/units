@@ -650,19 +650,21 @@ static void escapeString(std::string &str)
 // clean up the unit string and add a commodity if necessary
 std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 {
-    using spair = std::pair<const char *, const char *>;
-    static UPTCONST std::array<spair, 2> powerseq{{
-      spair{"^2^2", "^4"},
-      spair{"^3^2", "^6"},
+    using spair = std::tuple<const char *, const char *, int>;
+    static UPTCONST std::array<spair, 4> powerseq{{
+      spair{"^2^2", "^4", 4},
+      spair{"^3^2", "^6", 4},
+      spair{"Gs", "Bs", 2},
+      spair{"K*flag", "oC", 6},
     }};
     // run a few checks for unusual conditions
     for (auto &pseq : powerseq)
     {
-        auto fnd = propUnitString.find(pseq.first);
+        auto fnd = propUnitString.find(std::get<0>(pseq));
         while (fnd != std::string::npos)
         {
-            propUnitString.replace(fnd, 4, pseq.second);
-            fnd = propUnitString.find(pseq.first);
+            propUnitString.replace(fnd, std::get<2>(pseq), std::get<1>(pseq));
+            fnd = propUnitString.find(std::get<0>(pseq));
         }
     }
     // no cleaning necessary

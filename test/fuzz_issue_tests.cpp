@@ -113,8 +113,8 @@ TEST_P(roundTripString, rtripconversions)
     EXPECT_EQ(u2, u1);
 }
 
-static const std::vector<std::string> testStrings{"10*6.-10*6.-", "Au0m", "mm-5", "D/am", "/0j",  "BQfr",
-                                                  "oCoC",         "1_",   "Bs1",  "l-Ym", "--0-5"};
+static const std::vector<std::string> testStrings{"10*6.-10*6.-", "Au0m", "mm-5", "D/am", "/0j",   "BQfr",
+                                                  "oCoC",         "1_",   "Bs1",  "l-Ym", "--0-5", "oCC0"};
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
 
@@ -167,7 +167,7 @@ TEST(fuzzFailures, rtripconversions12)
 
 TEST(fuzzFailures, rtripconversions15)
 {
-    std::string tstring = "oCC0";
+    std::string tstring = "oCGC";
     auto u1 = unit_from_string(tstring);
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);
