@@ -51,39 +51,21 @@ namespace detail
         constexpr unit_data operator+(unit_data other) const
         {
             return {
-              meter_ + other.meter_,
-              kilogram_ + other.kilogram_,
-              second_ + other.second_,
-              ampere_ + other.ampere_,
-              kelvin_ + other.kelvin_,
-              mole_ + other.mole_,
-              candela_ + other.candela_,
-              currency_ + other.currency_,
-              count_ + other.count_,
-              radians_ + other.radians_,
-              (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-              (flag_ != 0 || other.flag_ != 0) ? 1u : 0,
-              (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
-              (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
+              meter_ + other.meter_,     kilogram_ + other.kilogram_, second_ + other.second_,
+              ampere_ + other.ampere_,   kelvin_ + other.kelvin_,     mole_ + other.mole_,
+              candela_ + other.candela_, currency_ + other.currency_, count_ + other.count_,
+              radians_ + other.radians_, per_unit_ | other.per_unit_, flag_ | other.flag_,
+              e_flag_ | other.e_flag_,   equation_ | other.equation_,
             };
         }
         /// Division equivalent operator
         constexpr unit_data operator-(unit_data other) const
         {
-            return {meter_ - other.meter_,
-                    kilogram_ - other.kilogram_,
-                    second_ - other.second_,
-                    ampere_ - other.ampere_,
-                    kelvin_ - other.kelvin_,
-                    mole_ - other.mole_,
-                    candela_ - other.candela_,
-                    currency_ - other.currency_,
-                    count_ - other.count_,
-                    radians_ - other.radians_,
-                    (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                    (flag_ != 0 || other.flag_ != 0) ? 1u : 0,
-                    (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
-                    (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
+            return {meter_ - other.meter_,     kilogram_ - other.kilogram_, second_ - other.second_,
+                    ampere_ - other.ampere_,   kelvin_ - other.kelvin_,     mole_ - other.mole_,
+                    candela_ - other.candela_, currency_ - other.currency_, count_ - other.count_,
+                    radians_ - other.radians_, per_unit_ | other.per_unit_, flag_ ^ other.flag_,
+                    e_flag_ ^ other.e_flag_,   equation_ | other.equation_};
         }
         constexpr unit_data inv() const
         {
@@ -257,6 +239,7 @@ class unit
   public:
     /// Default constructor
     constexpr unit() noexcept {};
+    /// construct from base unit data assuming multiplier is 1.0
     explicit constexpr unit(detail::unit_data base_unit) : base_units_(base_unit) {}
     /// Construct unit from base unit and a multiplier
     constexpr unit(detail::unit_data base_unit, double multiplier)
