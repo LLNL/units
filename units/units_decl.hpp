@@ -47,7 +47,7 @@ namespace detail
         {
         }
 
-        // compose data -- saturating multiply equivalent operator
+        // perform a multiply operation by adding the powers together
         constexpr unit_data operator+(unit_data other) const
         {
             return {
@@ -81,10 +81,11 @@ namespace detail
                     count_ - other.count_,
                     radians_ - other.radians_,
                     (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                    (flag_ != 0 || other.flag_ != 0) ? 1u : 0,
-                    (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
+                    ((flag_ != 0) ^ (other.flag_ != 0)) ? 1u : 0,
+                    ((e_flag_ != 0) ^ (other.e_flag_ != 0)) ? 1u : 0,
                     (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
         }
+        /// invert the unit
         constexpr unit_data inv() const
         {
             return {-meter_,    -kilogram_, -second_,  -ampere_,  -kelvin_, -mole_,  -candela_,
@@ -156,15 +157,33 @@ namespace detail
             return meter_ == 0 && second_ == 0 && kilogram_ == 0 && ampere_ == 0 && candela_ == 0 &&
                    kelvin_ == 0 && mole_ == 0 && radians_ == 0 && currency_ == 0 && count_ == 0 && equation_ == 0;
         }
+        /// Get the number of different base units used
+        constexpr int unit_type_count() const
+        {
+            return ((meter_ != 0) ? 1 : 0) + ((second_ != 0) ? 1 : 0) + ((kilogram_ != 0) ? 1 : 0) +
+                   ((ampere_ != 0) ? 1 : 0) + ((candela_ != 0) ? 1 : 0) + ((kelvin_ != 0) ? 1 : 0) +
+                   ((mole_ != 0) ? 1 : 0) + ((radians_ != 0) ? 1 : 0) + ((currency_ != 0) ? 1 : 0) +
+                   ((count_ != 0) ? 1 : 0);
+        }
+        /// Get the meter power
         constexpr int meter() const { return meter_; }
+        /// Get the kilogram power
         constexpr int kg() const { return kilogram_; }
+        /// Get the second power
         constexpr int second() const { return second_; }
+        /// Get the ampere power
         constexpr int ampere() const { return ampere_; }
+        /// Get the Kelvin power
         constexpr int kelvin() const { return kelvin_; }
+        /// Get the mole power
         constexpr int mole() const { return mole_; }
+        /// Get the candela power
         constexpr int candela() const { return candela_; }
+        /// Get the currency power
         constexpr int currency() const { return currency_; }
+        /// Get the count power
         constexpr int count() const { return count_; }
+        /// Get the radian power
         constexpr int radian() const { return radians_; }
 
         /// set all the flags to 0;
@@ -326,6 +345,8 @@ class unit
     {
         return base_units_.equivalent_non_counting(base);
     }
+    /// Get the number of different base units used
+    constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is a temperature value
     constexpr bool is_temperature() const { return base_units_.is_temperature(); }
     /// Check if the unit is the default unit
@@ -495,6 +516,8 @@ class precise_unit
         return val1.base_units() == val2.base_units() && detail::cround(static_cast<float>(val1.multiplier())) ==
                                                            detail::cround(static_cast<float>(val2.multiplier()));
     }
+    /// Get the number of different base units used
+    constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is the default unit
     constexpr bool is_default() const { return base_units_.empty() && base_units_.is_flag(); }
     /// Check if the unit is a temperature

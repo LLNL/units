@@ -81,7 +81,7 @@ TEST(unitStrings, numerical)
     auto odd = unit(0.125, m);
     EXPECT_EQ(to_string(odd), "0.125m");
 
-    EXPECT_EQ(to_string(odd.inv()), "8/m");
+    EXPECT_EQ(to_string(odd.inv()), "8m^-1");
 }
 
 TEST(unitStrings, prefixes)

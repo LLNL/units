@@ -99,42 +99,32 @@ TEST_P(oomProblems, oomFiles)
 
 INSTANTIATE_TEST_SUITE_P(oomFiles, oomProblems, ::testing::Range(1, 63));
 
+class roundTripString : public ::testing::TestWithParam<std::string>
+{
+};
+
+TEST_P(roundTripString, rtripconversions)
+{
+    auto u1 = unit_from_string(GetParam());
+    EXPECT_FALSE(u1.is_error());
+    auto str = to_string(u1);
+    auto u2 = unit_from_string(str);
+    EXPECT_FALSE(u2.is_error());
+    EXPECT_EQ(u2, u1);
+}
+
+static const std::vector<std::string> testStrings{"10*6.-10*6.-", "Au0m", "mm-5", "D/am", "/0j",
+                                                  "BQfr",         "oCoC", "1_",   "Bs1",  "l-Ym",
+                                                  "--0-5",        "oCC0", "oCGC", "(G)1", "Km6"};
+
+INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
+
 TEST(fuzzFailures, rtripconversions)
 {
     auto u1 = unit_from_string("^");
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);
     EXPECT_FALSE(unit_from_string(str).is_error());
-}
-
-TEST(fuzzFailures, rtripconversions2)
-{
-    auto u1 = unit_from_string("10*6.-10*6.-");
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(u2, u1);
-}
-
-TEST(fuzzFailures, rtripconversions3)
-{
-    auto u1 = unit_from_string("Au0m");
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(u2, u1);
-}
-
-TEST(fuzzFailures, rtripconversions4)
-{
-    auto u1 = unit_from_string("mm-5");
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(u2, u1);
 }
 
 TEST(fuzzFailures, rtripconversions5)
@@ -157,49 +147,6 @@ TEST(fuzzFailures, rtripconversions6)
     EXPECT_TRUE(u1.is_error());
 }
 
-TEST(fuzzFailures, rtripconversions7)
-{
-    std::string tstring = "D/am";
-    auto u1 = unit_from_string(tstring);
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(u2, u1);
-}
-
-TEST(fuzzFailures, rtripconversions8)
-{
-    std::string tstring = "/0j";
-    auto u1 = unit_from_string(tstring);
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(u2, u1);
-}
-
-TEST(fuzzFailures, rtripconversions9)
-{
-    std::string tstring = "BQfr";
-    auto u1 = unit_from_string(tstring);
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(u2, u1);
-}
-TEST(fuzzFailures, rtripconversions10)
-{
-    std::string tstring = "oCoC";
-    auto u1 = unit_from_string(tstring);
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(u2, u1);
-}
-
 TEST(fuzzFailures, rtripconversions11)
 {
     std::string tstring = "br0";
@@ -219,15 +166,16 @@ TEST(fuzzFailures, rtripconversions12)
     EXPECT_EQ(u2, u1);
 }
 
-TEST(fuzzFailures, rtripconversions13)
+TEST(fuzzFailures, rtripconversions15)
 {
-    std::string tstring = "1_";
+    std::string tstring = "FU7\xb2t";
     auto u1 = unit_from_string(tstring);
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);
     auto u2 = unit_from_string(str);
     EXPECT_FALSE(u2.is_error());
     EXPECT_EQ(u2, u1);
+    EXPECT_EQ(unit_cast(u2), unit_cast(u1));
 }
 
 class rtripProblems : public ::testing::TestWithParam<int>
@@ -247,4 +195,4 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 7));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(9, 10));
