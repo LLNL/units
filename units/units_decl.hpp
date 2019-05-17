@@ -47,26 +47,45 @@ namespace detail
         {
         }
 
-        // compose data -- saturating multiply equivalent operator
+        // perform a multiply operation by adding the powers together
         constexpr unit_data operator+(unit_data other) const
         {
             return {
-              meter_ + other.meter_,     kilogram_ + other.kilogram_, second_ + other.second_,
-              ampere_ + other.ampere_,   kelvin_ + other.kelvin_,     mole_ + other.mole_,
-              candela_ + other.candela_, currency_ + other.currency_, count_ + other.count_,
-              radians_ + other.radians_, per_unit_ | other.per_unit_, flag_ | other.flag_,
-              e_flag_ | other.e_flag_,   equation_ | other.equation_,
+              meter_ + other.meter_,
+              kilogram_ + other.kilogram_,
+              second_ + other.second_,
+              ampere_ + other.ampere_,
+              kelvin_ + other.kelvin_,
+              mole_ + other.mole_,
+              candela_ + other.candela_,
+              currency_ + other.currency_,
+              count_ + other.count_,
+              radians_ + other.radians_,
+              (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
+              (flag_ != 0 || other.flag_ != 0) ? 1u : 0,
+              (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
+              (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
             };
         }
         /// Division equivalent operator
         constexpr unit_data operator-(unit_data other) const
         {
-            return {meter_ - other.meter_,     kilogram_ - other.kilogram_, second_ - other.second_,
-                    ampere_ - other.ampere_,   kelvin_ - other.kelvin_,     mole_ - other.mole_,
-                    candela_ - other.candela_, currency_ - other.currency_, count_ - other.count_,
-                    radians_ - other.radians_, per_unit_ | other.per_unit_, flag_ ^ other.flag_,
-                    e_flag_ ^ other.e_flag_,   equation_ | other.equation_};
+            return {meter_ - other.meter_,
+                    kilogram_ - other.kilogram_,
+                    second_ - other.second_,
+                    ampere_ - other.ampere_,
+                    kelvin_ - other.kelvin_,
+                    mole_ - other.mole_,
+                    candela_ - other.candela_,
+                    currency_ - other.currency_,
+                    count_ - other.count_,
+                    radians_ - other.radians_,
+                    (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
+                    ((flag_ != 0) ^ (other.flag_ != 0)) ? 1u : 0,
+                    ((e_flag_ != 0) ^ (other.e_flag_ != 0)) ? 1u : 0,
+                    (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
         }
+        /// invert the unit
         constexpr unit_data inv() const
         {
             return {-meter_,    -kilogram_, -second_,  -ampere_,  -kelvin_, -mole_,  -candela_,
@@ -138,15 +157,25 @@ namespace detail
             return meter_ == 0 && second_ == 0 && kilogram_ == 0 && ampere_ == 0 && candela_ == 0 &&
                    kelvin_ == 0 && mole_ == 0 && radians_ == 0 && currency_ == 0 && count_ == 0 && equation_ == 0;
         }
+        /// Get the meter power
         constexpr int meter() const { return meter_; }
+        /// Get the kilogram power
         constexpr int kg() const { return kilogram_; }
+        /// Get the second power
         constexpr int second() const { return second_; }
+        /// Get the ampere power
         constexpr int ampere() const { return ampere_; }
+        /// Get the Kelvin power
         constexpr int kelvin() const { return kelvin_; }
+        /// Get the mole power
         constexpr int mole() const { return mole_; }
+        /// Get the candela power
         constexpr int candela() const { return candela_; }
+        /// Get the currency power
         constexpr int currency() const { return currency_; }
+        /// Get the count power
         constexpr int count() const { return count_; }
+        /// Get the radian power
         constexpr int radian() const { return radians_; }
 
         /// set all the flags to 0;
@@ -239,7 +268,6 @@ class unit
   public:
     /// Default constructor
     constexpr unit() noexcept {};
-    /// construct from base unit data assuming multiplier is 1.0
     explicit constexpr unit(detail::unit_data base_unit) : base_units_(base_unit) {}
     /// Construct unit from base unit and a multiplier
     constexpr unit(detail::unit_data base_unit, double multiplier)
