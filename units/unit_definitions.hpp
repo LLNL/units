@@ -962,9 +962,13 @@ namespace precise
         // base 10 logarithm bel auto detect power
         constexpr precise_unit bel = precise_unit(custom::equation_unit(2));
         // base 10 logarithm of Power levels (assume power always)
-        constexpr precise_unit belP = precise_unit(custom::equation_unit(0));
+        constexpr precise_unit belP = precise_unit(custom::equation_unit(10));
         // base 10 logarithm of Power levels (assume power always)
         constexpr precise_unit dBP = precise_unit(custom::equation_unit(11));
+        // base 10 logarithm of Power levels (assume power always)
+        constexpr precise_unit belA = precise_unit(custom::equation_unit(12));
+        // base 10 logarithm of Power levels (assume power always)
+        constexpr precise_unit dBA = precise_unit(custom::equation_unit(13));
         // base 2 logarithm
         constexpr precise_unit logbase2 = precise_unit(custom::equation_unit(8));
         // 10*base10 logarithm
@@ -1032,11 +1036,11 @@ namespace precise
             case 9:
                 return exp(val);
             case 11:
-                return pow(10.0, val) / 10.0;
+                return pow(10.0, val / 10.0);
             case 12:
-                return pow(10.0, val) / 2.0;
+                return pow(10.0, val / 2.0);
             case 13:
-                return pow(10.0, val) / 20.0;
+                return pow(10.0, val / 20.0);
             case 14:
                 return pow(3.0, val);
             case 22:  // saffir simpson hurricane wind scale
@@ -1106,6 +1110,10 @@ namespace precise
                 return (std::log)(val);
             case 11:
                 return 10.0 * log10(val);
+            case 12:
+                return 2.0 * log10(val);
+            case 13:
+                return 20.0 * log10(val);
             case 14:
                 return log10(val) / log10(3);
             case 22:  // saffir simpson hurricane scale from wind speed
