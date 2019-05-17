@@ -159,7 +159,6 @@ static const umap base_unit_names{{m, "m"},
                                   {unit_cast(precise::imp::nautical_mile), "nmi_br"},
                                   {unit_cast(precise::imp::knot), "kn_br"},
                                   {unit_cast(precise::cgs::curie), "Ci"},
-                                  {unit_cast(precise::cgs::gauss), "Gs"},
                                   {(mega * m).pow(3), "ZL"},  // another one of those units that can be confused
                                   {bar, "bar"},
                                   {unit_cast(precise::nautical::knot), "knot"},
