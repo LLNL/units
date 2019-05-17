@@ -650,9 +650,10 @@ static void escapeString(std::string &str)
 std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 {
     using spair = std::tuple<const char *, const char *, int>;
-    static UPTCONST std::array<spair, 4> powerseq{{
+    static UPTCONST std::array<spair, 5> powerseq{{
       spair{"^2^2", "^4", 4},
       spair{"^3^2", "^6", 4},
+      spair{"^2^3", "^6", 4},
       spair{"Gs", "Bs", 2},
       spair{"K*flag", "oC", 6},
     }};
