@@ -751,12 +751,13 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     }
     else if (std::isinf(un.multiplier()))
     {
+        std::string inf = (un.multiplier() > 0) ? "INF" : "-INF";
         un = precise_unit(un.base_units(), 1.0);
         if (un == precise::one)
         {
-            return "INF";
+            return inf;
         }
-        return "INF*" + to_string_internal(un, match_flags);
+        return inf + '*' + to_string_internal(un, match_flags);
     }
     else if (std::isnan(un.multiplier()))
     {
@@ -1570,9 +1571,16 @@ static const smap base_unit_vals{
   {"1", precise::one},
   {"one", precise::one},
   {"inf", precise::infinite},
+  {"INF", precise::infinite},
   {"infinity", precise::infinite},
+  {"INFINITY", precise::infinite},
+  {"-inf", precise_unit(precise::infinite, -1.0)},
+  {"-INF", precise_unit(precise::infinite, -1.0)},
+  {"-infinity", precise_unit(precise::infinite, -1.0)},
+  {"-INFINITY", precise_unit(precise::infinite, -1.0)},
   {"infinite", precise::infinite},
   {u8"\u221e", precise::infinite},
+  {u8"-\u221e", precise_unit(precise::infinite, -1.0)},
   {"nan", precise::nan},
   {"NaN", precise::nan},
   {"NaN%", precise::nan},

@@ -167,7 +167,8 @@ TEST(fuzzFailures, rtripconversions12)
 
 TEST(fuzzFailures, rtripconversions15)
 {
-    std::string tstring = "l-Ym";
+    std::string tstring = "--0-5";
+    tstring.push_back('\0');
     auto u1 = unit_from_string(tstring);
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);
