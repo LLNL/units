@@ -157,6 +157,14 @@ namespace detail
             return meter_ == 0 && second_ == 0 && kilogram_ == 0 && ampere_ == 0 && candela_ == 0 &&
                    kelvin_ == 0 && mole_ == 0 && radians_ == 0 && currency_ == 0 && count_ == 0 && equation_ == 0;
         }
+        /// Get the number of different base units used
+        constexpr int unit_type_count() const
+        {
+            return ((meter_ != 0) ? 1 : 0) + ((second_ != 0) ? 1 : 0) + ((kilogram_ != 0) ? 1 : 0) +
+                   ((ampere_ != 0) ? 1 : 0) + ((candela_ != 0) ? 1 : 0) + ((kelvin_ != 0) ? 1 : 0) +
+                   ((mole_ != 0) ? 1 : 0) + ((radians_ != 0) ? 1 : 0) + ((currency_ != 0) ? 1 : 0) +
+                   ((count_ != 0) ? 1 : 0);
+        }
         /// Get the meter power
         constexpr int meter() const { return meter_; }
         /// Get the kilogram power
@@ -337,6 +345,8 @@ class unit
     {
         return base_units_.equivalent_non_counting(base);
     }
+    /// Get the number of different base units used
+    constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is a temperature value
     constexpr bool is_temperature() const { return base_units_.is_temperature(); }
     /// Check if the unit is the default unit
@@ -506,6 +516,8 @@ class precise_unit
         return val1.base_units() == val2.base_units() && detail::cround(static_cast<float>(val1.multiplier())) ==
                                                            detail::cround(static_cast<float>(val2.multiplier()));
     }
+    /// Get the number of different base units used
+    constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is the default unit
     constexpr bool is_default() const { return base_units_.empty() && base_units_.is_flag(); }
     /// Check if the unit is a temperature

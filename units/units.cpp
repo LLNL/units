@@ -819,6 +819,10 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
             return std::string("1/") + fnd->second + "^3";
         }
     }
+    if (!un.is_equation() && un.unit_type_count() == 1)
+    {
+        return generateUnitSequence(un.multiplier(), generateRawUnitString(un));
+    }
     // lets try converting to pure base unit
     auto bunit = unit(un.base_units());
     fnd = base_unit_names.find(bunit);
