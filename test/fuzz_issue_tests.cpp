@@ -194,4 +194,4 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 10));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(10, 11));

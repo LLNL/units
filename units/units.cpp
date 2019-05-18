@@ -1749,6 +1749,7 @@ static const smap base_unit_vals{
   {"second-time", precise::s},
   {"shake", precise_unit(10.0, precise::ns)},
   {"cd", precise::cd},
+  {"mcd", precise::milli *precise::cd},  // prefer milli candela to micro-day
   {"CD", precise::cd},
   {"candela", precise::cd},
   {"candle", precise::candle},
