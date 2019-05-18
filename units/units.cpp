@@ -738,37 +738,40 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 
 static std::string to_string_internal(precise_unit un, uint32_t match_flags)
 {
-    if (un.multiplier() == 0.0)
+    if (!std::isnormal(un.multiplier()))
     {
-        un = precise_unit(un.base_units(), 1.0);
-        if (un == precise::one)
+        if (std::isinf(un.multiplier()))
         {
-            return "0";
+            std::string inf = (un.multiplier() > 0) ? "INF" : "-INF";
+            un = precise_unit(un.base_units(), 1.0);
+            if (un == precise::one)
+            {
+                return inf;
+            }
+            return inf + '*' + to_string_internal(un, match_flags);
         }
-        return "0*" + to_string_internal(un, match_flags);
-    }
-    else if (std::isinf(un.multiplier()))
-    {
-        std::string inf = (un.multiplier() > 0) ? "INF" : "-INF";
-        un = precise_unit(un.base_units(), 1.0);
-        if (un == precise::one)
+        else if (std::isnan(un.multiplier()))
         {
-            return inf;
+            un = precise_unit(un.base_units(), 1.0);
+            if (un.is_error())
+            {
+                return "ERROR";
+            }
+            if (un == precise::one)
+            {
+                return "NaN";
+            }
+            return "NaN*" + to_string_internal(un, match_flags);
         }
-        return inf + '*' + to_string_internal(un, match_flags);
-    }
-    else if (std::isnan(un.multiplier()))
-    {
-        un = precise_unit(un.base_units(), 1.0);
-        if (un.is_error())
+        else  // either denormal or 0.0 in either case close enough to 0
         {
-            return "ERROR";
+            un = precise_unit(un.base_units(), 1.0);
+            if (un == precise::one)
+            {
+                return "0";
+            }
+            return "0*" + to_string_internal(un, match_flags);
         }
-        if (un == precise::one)
-        {
-            return "NaN";
-        }
-        return "NaN*" + to_string_internal(un, match_flags);
     }
     auto llunit = unit_cast(un);
     auto fnd = base_unit_names.find(llunit);
