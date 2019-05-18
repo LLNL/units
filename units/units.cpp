@@ -200,21 +200,25 @@ static const umap base_unit_names{
   {nm, "nm"},
   {unit_cast(precise::distance::ly), "ly"},
   {unit_cast(precise::distance::au), "au"},
-  {milli, "milli"},
-  {micro, "micro"},
-  {nano, "nano"},
-  {pico, "pico"},
-  {unit_cast(precise::ten), "ten"},
-  {unit_cast(precise::hundred), "hundred"},
-  {femto, "femto"},
-  {atto, "atto"},
-  {kilo, "kilo"},
-  {mega, "mega"},
-  {giga, "giga"},
-  {tera, "tera"},
+  //{milli, "milli"},
+  //{micro, "micro"},
+  //{nano, "nano"},
+  //{pico, "pico"},
+  //{unit_cast(precise::ten), "ten"},
+  //{unit_cast(precise::hundred), "hundred"},
+  //{femto, "femto"},
+  //{atto, "atto"},
+  //{kilo, "kilo"},
+  //{one / (milli), "kilo"},
+  //{mega, "mega"},
+  // {one / (milli.pow(2)), "mega"},
+  //{giga, "giga"},
+  //{one / (milli.pow(3)), "giga"},
+  //{tera, "tera"},
+  //{one / (milli.pow(4)), "tera"},
   {percent, "%"},
   {unit_cast(precise::special::ASD), "ASD"},
-  {exa, "exa"},
+  //{exa, "exa"},
   {dol, "$"},
   {count, "item"},
   {ratio, ""},
@@ -683,8 +687,11 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
     if (commodity != 0)
     {
         std::string cString = getCommodityName(((commodity & 0x80000000) == 0) ? commodity : (~commodity));
-        // add some escapes for problematic sequences
-        escapeString(cString);
+        if (cString.compare(0, 7, "cxcomm[") != 0)
+        {
+            // add some escapes for problematic sequences
+            escapeString(cString);
+        }
         // make it look like a commodity sequence
         cString.insert(cString.begin(), '{');
         cString.push_back('}');
@@ -780,7 +787,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         return "NaN*" + to_string_internal(un, match_flags);
     }
     auto llunit = unit_cast(un);
-    auto fnd = base_unit_names.find(unit_cast(llunit));
+    auto fnd = base_unit_names.find(llunit);
     if (fnd != base_unit_names.end())
     {
         return fnd->second;
@@ -791,6 +798,16 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     if (fnd != base_unit_names.end())
     {
         return std::string("1/") + fnd->second;
+    }
+    if (un.base_units().empty())
+    {
+        auto mstring = getMultiplierString(un.multiplier(), true);
+        un = precise_unit(un.base_units(), 1.0);
+        if (un == precise::one)
+        {
+            return mstring;
+        }
+        return mstring + "*" + to_string_internal(un, match_flags);
     }
     /// Check for squared units
     if (!un.base_units().root(2).has_e_flag() && un.multiplier() > 0.0)

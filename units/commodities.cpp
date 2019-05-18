@@ -173,6 +173,7 @@ namespace commodities
 
       {pixel, "pixel"},
       {voxel, "voxel"},
+      {1073741824, "cxcomm[1073741824]"},  // this is a _____ string commodity that might somehow get generated
     };
 
     using commodityNameMap = std::unordered_map<std::string, unsigned int>;
