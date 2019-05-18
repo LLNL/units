@@ -1295,6 +1295,8 @@ constexpr unit cd = unit_cast(precise::cd);
 constexpr unit currency = unit_cast(precise::currency);
 constexpr unit count = unit_cast(precise::count);
 constexpr unit pu = unit_cast(precise::pu);
+constexpr unit flag = unit_cast(precise::flag);
+constexpr unit eflag = unit_cast(precise::eflag);
 constexpr unit rad = unit_cast(precise::rad);
 
 constexpr unit defunit = unit_cast(precise::defunit);
