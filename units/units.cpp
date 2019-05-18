@@ -5306,6 +5306,35 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             {
                 return retunit;
             }
+            if (looksLikeNumber(unit_string))
+            {
+                try
+                {
+                    size_t loc;
+                    auto number = std::stod(unit_string, &loc);
+                    if (loc >= unit_string.length())
+                    {
+                        return {number, one};
+                    }
+                    unit_string = unit_string.substr(loc);
+                    if (unit_string.front() == '{')
+                    {
+                        return {number, commoditizedUnit(unit_string, match_flags)};
+                    }
+                    retunit = unit_from_string(unit_string, match_flags);
+                    if (!retunit.is_error())
+                    {
+                        return {number, retunit};
+                    }
+                    unit_string.insert(unit_string.begin(), '{');
+                    unit_string.push_back('}');
+                    return {number, commoditizedUnit(unit_string, match_flags)};
+                }
+                catch (const std::out_of_range &)
+                {
+                    return precise::error;
+                }
+            }
         }
         else
         {  // if we erased everything this could lead to strange units so just go back to the original
@@ -5347,36 +5376,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             }
         }
     }
-    /*  if (looksLikeNumber(unit_string))
-      {
-          try
-          {
-              size_t loc;
-              auto number = std::stod(unit_string, &loc);
-              if (loc >= unit_string.length())
-              {
-                  return {number, one};
-              }
-              unit_string = unit_string.substr(loc);
-              if (unit_string.front() == '{')
-              {
-                  return {number, commoditizedUnit(unit_string, match_flags)};
-              }
-              retunit = unit_from_string(unit_string, match_flags);
-              if (!retunit.is_error())
-              {
-                  return {number, retunit};
-              }
-              unit_string.insert(unit_string.begin(), '{');
-              unit_string.push_back('}');
-              return {number, commoditizedUnit(unit_string, match_flags)};
-          }
-          catch (const std::out_of_range &)
-          {
-              return precise::error;
-          }
-      }
-      */
+
     // remove trailing 's'
     if (unit_string.back() == 's')
     {
