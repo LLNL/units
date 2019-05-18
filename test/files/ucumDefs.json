@@ -11242,7 +11242,7 @@
       "isSpecial_": true,
       "isArbitrary_": false,
       "moleExp_": 0,
-      "synonyms_": "bel mV; B mV; millivolt bels; 10^-3V bels; 10*-3V ",
+      "synonyms_": "bel mV; B mV; millivolt bels; 10^-3V bels; 10*-3V  bel",
       "source_": "UCUM",
       "loincProperty_": "LogRtoElp",
       "category_": "Clinical",

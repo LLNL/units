@@ -60,10 +60,13 @@ TEST(logUnits, base10)
     EXPECT_EQ(convert(2.0, precise::log::bel, precise::ten), 1.0);
     EXPECT_EQ(convert(6.0, precise::log::bel, precise::kilo), 1.0);
     EXPECT_DOUBLE_EQ(convert(-6.0, precise::log::bel, precise::milli), 1.0);
+    EXPECT_DOUBLE_EQ(convert(-6.0, precise::log::belA, precise::milli), 1.0);
+    EXPECT_DOUBLE_EQ(convert(-3.0, precise::log::belP, precise::milli), 1.0);
     EXPECT_DOUBLE_EQ(convert(36.0, precise::log::bel, precise::exa), 1.0);
     EXPECT_NEAR(convert(-30.0, precise::log::bel, precise::femto), 1.0, test::precise_tolerance);
 
     EXPECT_EQ(convert(precise::ten, precise::log::belP), 1.0);
+    EXPECT_EQ(convert(precise::ten, precise::log::belA), 2.0);
     EXPECT_EQ(convert(precise::kilo, precise::log::belP), 3.0);
     EXPECT_EQ(convert(precise::milli, precise::log::belP), -3.0);
     EXPECT_EQ(convert(precise::exa, precise::log::belP), 18.0);
@@ -92,12 +95,18 @@ TEST(logUnits, negbase10)
 TEST(logUnits, dB)
 {
     EXPECT_EQ(convert(precise::ten, precise::log::dB), 20.0);
+    EXPECT_EQ(convert(precise::ten, precise::log::dBA), 20.0);
+    EXPECT_EQ(convert(precise::ten, precise::log::dBP), 10.0);
     EXPECT_EQ(convert(precise::kilo, precise::log::dB), 60.0);
     EXPECT_EQ(convert(precise::milli, precise::log::dB), -60.0);
     EXPECT_EQ(convert(precise::exa, precise::log::dB), 360.0);
     EXPECT_EQ(convert(precise::femto, precise::log::dB), -300.0);
     EXPECT_EQ(convert(20.0, precise::log::dB, precise::ten), 1.0);
     EXPECT_EQ(convert(60.0, precise::log::dB, precise::kilo), 1.0);
+    EXPECT_EQ(convert(20.0, precise::log::dBA, precise::ten), 1.0);
+    EXPECT_EQ(convert(60.0, precise::log::dBA, precise::kilo), 1.0);
+    EXPECT_EQ(convert(10.0, precise::log::dBP, precise::ten), 1.0);
+    EXPECT_EQ(convert(30.0, precise::log::dBP, precise::kilo), 1.0);
     EXPECT_DOUBLE_EQ(convert(-60.0, precise::log::dB, precise::milli), 1.0);
     EXPECT_DOUBLE_EQ(convert(360.0, precise::log::dB, precise::exa), 1.0);
     EXPECT_NEAR(convert(-300.0, precise::log::dB, precise::femto), 1.0, test::precise_tolerance);
@@ -188,7 +197,24 @@ TEST(logUnits, pH)
     EXPECT_NEAR(convert(4.82e-5, precise::laboratory::molarity, precise::laboratory::pH), 4.32, 0.005);
 }
 
-TEST(logUnits, error) { EXPECT_TRUE(std::isnan(convert(-20.0, precise::one, precise::log::bel))); }
+TEST(logUnits, general)
+{
+    double res = convert(20.0, precise::log::dBA * precise::m / precise::s, precise::m / precise::s);
+    EXPECT_DOUBLE_EQ(res, 10.0);
+    res = convert(100.0, precise::m / precise::s, precise::log::dBA * precise::m / precise::s);
+    EXPECT_DOUBLE_EQ(res, 40.0);
+
+    res = convert(10.0, precise::log::dBP * precise::km / precise::hr, precise::m / precise::s);
+    EXPECT_DOUBLE_EQ(res, 10000.0 / 3600.0);
+    res = convert(100000.0 / 3600.0, precise::m / precise::s, precise::log::dBP * precise::km / precise::hr);
+    EXPECT_DOUBLE_EQ(res, 20.0);
+}
+
+TEST(logUnits, error)
+{
+    EXPECT_TRUE(std::isnan(convert(-20.0, precise::one, precise::log::bel)));
+    EXPECT_TRUE(std::isnan(convert(20.0, precise::log::dBA * precise::m / precise::s, precise::m)));
+}
 
 TEST(otherUnits, prism_diopter)
 {
