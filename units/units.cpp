@@ -1296,9 +1296,14 @@ bool clearEmptySegments(std::string &unit)
         auto fnd = unit.find(seg);
         while (fnd != std::string::npos)
         {
+            if (fnd > 0 && unit[fnd - 1] == '\\')
+            {
+                fnd = unit.find(seg, fnd + 2);
+                continue;
+            }
             unit.erase(fnd, seg.size());
             changed = true;
-            fnd = unit.find(seg);
+            fnd = unit.find(seg, fnd + 1);
         }
     }
     return changed;
