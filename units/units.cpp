@@ -4962,7 +4962,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
         return (unit_string[sep] == '/') ? (a_unit / b_unit) : (a_unit * b_unit);
     }
     // flag that is used to circumvent a few checks
-    bool containsPer = (unit_string.find("per") != std::string::npos);
+    bool containsPer = (findWordOperatorSep(unit_string, "per") != std::string::npos);
     sep = findOperatorSep(unit_string, "^");
     if (sep != std::string::npos)
     {
@@ -5091,8 +5091,8 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
                 }
                 return retunit.pow(power);
             }
-            auto fnd = unit_string.rfind("per", pchar);
-            if (fnd == std::string::npos)
+            // auto fnd = findWordOperatorSep(unit_string, "per");
+            if (!containsPer)
             {
                 retunit = unit_from_string(unit_string.substr(0, pchar + 1), match_flags - recursion_modifier);
                 if (retunit.is_error())
