@@ -113,10 +113,11 @@ TEST_P(roundTripString, rtripconversions)
     EXPECT_EQ(unit_cast(u2), unit_cast(u1));
 }
 // these are all strings that at one point produced issues
-static const std::vector<std::string> testStrings{"10*6.-10*6.-", "Au0m",     "mm-5",       "D/am",      "/0j",
-                                                  "BQfr",         "oCoC",     "1_",         "Bs1",       "l-Ym",
-                                                  "--0-5",        "oCC0",     "oCGC",       "(G)1",      "Km6",
-                                                  "{A}999999`",   "FU7\xb2t", "FU7-C\xb2t", "A\\-\xb2ps"};
+static const std::vector<std::string> testStrings{"10*6.-10*6.-", "Au0m",       "mm-5",       "D/am",
+                                                  "/0j",          "BQfr",       "oCoC",       "1_",
+                                                  "Bs1",          "l-Ym",       "--0-5",      "oCC0",
+                                                  "oCGC",         "(G)1",       "Km6",        "{A}999999`",
+                                                  "FU7\xb2t",     "FU7-C\xb2t", "A\\-\xb2ps", "{inDex}"};
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
 
@@ -169,13 +170,9 @@ TEST(fuzzFailures, rtripconversions12)
 
 TEST(fuzzFailures, rtripconversions15)
 {
-    std::string tstring = "{inDex}";
+    std::string tstring = "\\\\{U}";
     auto u1 = unit_from_string(tstring);
-    EXPECT_FALSE(u1.is_error());
-    auto str = to_string(u1);
-    auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
-    EXPECT_EQ(unit_cast(u2), unit_cast(u1));
+    EXPECT_TRUE(u1.is_error());
 }
 
 class rtripProblems : public ::testing::TestWithParam<int>

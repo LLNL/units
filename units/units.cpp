@@ -4107,7 +4107,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
     }};
 
-    static UPTCONST std::array<ckpair, 16> allCodeReplacements{{
+    static UPTCONST std::array<ckpair, 17> allCodeReplacements{{
       ckpair{"sq.", "square"},
       ckpair{"cu.", "cubic"},
       ckpair{"(US)", "US"},
@@ -4120,6 +4120,8 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"B.Th.U.", "BTU"},
       ckpair{"BThU", "BTU"},
       ckpair{"-US", "US"},
+      ckpair{"\\\\", "\\\\*"},  // \\ is always considered a segment terminator so it won't be misinterpreted as a
+                                // known escape sequence
       ckpair{"perunit", "pu"},
       ckpair{"per-unit", "pu"},
       ckpair{"/square*", "/square"},
