@@ -142,6 +142,7 @@ static const umap base_unit_names{
   {Wb, "Wb"},
   {T, "T"},
   {H, "H"},
+  {pico * H, "pJ*A^-2"},  // deal with pico henry which is interpreted as acidity (pH)
   {lm, "lm"},
   {lx, "lux"},
   {Bq, "Bq"},
