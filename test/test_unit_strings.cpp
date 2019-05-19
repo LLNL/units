@@ -253,6 +253,12 @@ TEST(stringToUnits, interestingUnits)
     auto unit = unit_from_string("cubit (UK)");
     EXPECT_TRUE(precise::m.has_same_base(unit));
 }
+
+TEST(stringToUnits, customUnitforms)
+{
+    auto unit = unit_from_string("{APS'U}");
+    EXPECT_TRUE(precise::custom::is_custom_unit(unit.base_units()));
+}
 TEST(stringToUnits, equivalents)
 {
     EXPECT_EQ(unit_from_string("dB"), unit_from_string("decibels"));

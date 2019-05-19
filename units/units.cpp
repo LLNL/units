@@ -2822,6 +2822,7 @@ static const smap base_unit_vals{
   {"[GAL_WI]", precise::us::dry::gallon},
   {"gallon-historical", precise::us::dry::gallon},
   {"bbl", precise::us::barrel},
+  {"barrel", precise::us::barrel},
   {"bbl(oil)", precise::us::barrel},
   {"barrel(oil)", precise::us::barrel},
   {"bbl_us", precise::us::barrel},
@@ -2863,8 +2864,11 @@ static const smap base_unit_vals{
   {"tonc", precise::energy::tonc},  // ton cooling
   {"ton(refrigeration)", precise::energy::tonc},  // ton cooling
   {"ton(cooling)", precise::energy::tonc},  // ton cooling
+  {"ton{refrigeration}", precise::energy::tonc},  // ton cooling
+  {"ton{cooling}", precise::energy::tonc},  // ton cooling
   {"tonhour", precise::energy::tonhour},
   {"tonhour(refrigeration)", precise::energy::tonhour},
+  {"tonhour{refrigeration}", precise::energy::tonhour},
   {"RT", precise::energy::tonc},  // ton cooling
   {"TR", precise::energy::tonc},  // ton cooling
   {"tons", precise::energy::tonc *precise::s},
@@ -4485,6 +4489,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
             case ')':
             case ']':
             case '}':
+            case '>':
                 fnd = unit_string.find_first_of(")]}", fnd + 1);
                 break;
             case 'o':
@@ -4520,6 +4525,24 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
         unit_string.insert(unit_string.begin(), '1');
         changed = true;
         skipMultiply = true;
+    }
+    if (!skipcodereplacement)
+    {  // make everything inside {} lower case
+        auto bloc = unit_string.find_first_of('{');
+        while (bloc != std::string::npos)
+        {
+            size_t ind = bloc + 1;
+            if (segmentcheck(unit_string, '}', ind))
+            {
+                std::transform(unit_string.begin() + bloc + 1, unit_string.begin() + ind - 1,
+                               unit_string.begin() + bloc + 1, ::tolower);
+                bloc = unit_string.find_first_of('{', ind);
+            }
+            else
+            {
+                bloc = std::string::npos;
+            }
+        }
     }
     return (changed || unit_string.size() != slen);
 }
@@ -4741,7 +4764,7 @@ static precise_unit checkForCustomUnit(const std::string &unit_string)
     }
     else if (unit_string.front() == '{' && unit_string.back() == '}')
     {
-        loc = unit_string.find("U}");
+        loc = unit_string.find("u}");
         if (loc == std::string::npos)
         {
             loc = unit_string.find("index}");
