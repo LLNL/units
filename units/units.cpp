@@ -689,6 +689,11 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
             }
             else if (propUnitString.compare(0, 2, "1/") == 0)
             {
+                auto rs = checkForCustomUnit(cString);
+                if (!rs.is_error())
+                {
+                    cString.insert(0, 1, '1');
+                }
                 propUnitString.replace(0, 1, cString.c_str());
             }
             else
@@ -718,6 +723,11 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
             auto loc = propUnitString.find_last_of('/');
             if (loc == std::string::npos)
             {
+                auto rs = checkForCustomUnit(cString);
+                if (!rs.is_error())
+                {
+                    cString.insert(0, 1, '1');
+                }
                 propUnitString.push_back('/');
                 propUnitString.append(cString);
             }
