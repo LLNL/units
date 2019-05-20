@@ -118,7 +118,7 @@ static const std::vector<std::string> testStrings{"10*6.-10*6.-", "Au0m",       
                                                   "Bs1",          "l-Ym",       "--0-5",      "oCC0",
                                                   "oCGC",         "(G)1",       "Km6",        "{A}999999`",
                                                   "FU7\xb2t",     "FU7-C\xb2t", "A\\-\xb2ps", "{inDex}",
-                                                  "F{U}{U}",      "PD-Np0pVcU"};
+                                                  "F{U}{U}",      "PD-Np0pVcU","per2rUkUper2U+UK" };
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
 
@@ -177,7 +177,7 @@ TEST(fuzzFailures, rtripconversions12)
 
 TEST(fuzzFailures, rtripconversions13)
 {
-    std::string tstring = "per2rUkUper2U+UK";
+    std::string tstring = ".1.1.1.1e0.1.NNU";
     auto u1 = unit_from_string(tstring);
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);

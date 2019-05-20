@@ -4814,9 +4814,9 @@ static precise_unit checkForCustomUnit(const std::string &unit_string)
     }
     else if (unit_string.front() == '{' && unit_string.back() == '}')
     {
-        if (ends_with(unit_string, "u}"))
+        if (ends_with(unit_string, "'u}"))
         {
-            loc = unit_string.size() - 2;
+            loc = unit_string.size() - 3;
         }
         else if (ends_with(unit_string, "index}"))
         {
