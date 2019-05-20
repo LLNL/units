@@ -385,7 +385,7 @@ static std::string getMultiplierString(double multiplier, char tail)
     {
         std::string mx = (multiplier >= 0.0) ? getMultiplierString(std::sqrt(multiplier)) :
                                                getMultiplierString(std::sqrt(-multiplier));
-        if (mx.size() == 1)
+        if (mx.empty() || !isNumericalCharacter(mx.front()))
         {
             if (multiplier < 0.0)
             {
@@ -403,7 +403,7 @@ static std::string getMultiplierString(double multiplier, char tail)
     {
         std::string mx = (multiplier >= 0.0) ? getMultiplierString(std::cbrt(multiplier)) :
                                                getMultiplierString(std::cbrt(-multiplier));
-        if (mx.size() == 1)
+        if (mx.empty() || !isNumericalCharacter(mx.front()))
         {
             if (multiplier < 0.0)
             {
@@ -1051,7 +1051,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
             std::string secondaryUnit(fnd->second);
             auto prefix = getMultiplierString(1.0 / ext.multiplier(), secondaryUnit.back());
             auto str = std::string("1/(") + prefix + secondaryUnit + '*' + tu.second + ')';
-            if (prefix.length() == 1)
+            if (!isNumericalCharacter(prefix.front()))
             {
                 return str;
             }

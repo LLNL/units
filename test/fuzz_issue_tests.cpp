@@ -113,12 +113,30 @@ TEST_P(roundTripString, rtripconversions)
     EXPECT_EQ(unit_cast(u2), unit_cast(u1));
 }
 // these are all strings that at one point produced issues
-static const std::vector<std::string> testStrings{"10*6.-10*6.-", "Au0m",       "mm-5",       "D/am",
-                                                  "/0j",          "BQfr",       "oCoC",       "1_",
-                                                  "Bs1",          "l-Ym",       "--0-5",      "oCC0",
-                                                  "oCGC",         "(G)1",       "Km6",        "{A}999999`",
-                                                  "FU7\xb2t",     "FU7-C\xb2t", "A\\-\xb2ps", "{inDex}",
-                                                  "F{U}{U}",      "PD-Np0pVcU","per2rUkUper2U+UK" };
+static const std::vector<std::string> testStrings{"10*6.-10*6.-",
+                                                  "Au0m",
+                                                  "mm-5",
+                                                  "D/am",
+                                                  "/0j",
+                                                  "BQfr",
+                                                  "oCoC",
+                                                  "1_",
+                                                  "Bs1",
+                                                  "l-Ym",
+                                                  "--0-5",
+                                                  "oCC0",
+                                                  "oCGC",
+                                                  "(G)1",
+                                                  "Km6",
+                                                  "{A}999999`",
+                                                  "FU7\xb2t",
+                                                  "FU7-C\xb2t",
+                                                  "A\\-\xb2ps",
+                                                  "{inDex}",
+                                                  "F{U}{U}",
+                                                  "PD-Np0pVcU",
+                                                  "per2rUkUper2U+UK",
+                                                  ".1.1.1.1e0.1.NNU"};
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
 
@@ -177,7 +195,7 @@ TEST(fuzzFailures, rtripconversions12)
 
 TEST(fuzzFailures, rtripconversions13)
 {
-    std::string tstring = ".1.1.1.1e0.1.NNU";
+    std::string tstring = "/-3Mh/L";
     auto u1 = unit_from_string(tstring);
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);
