@@ -61,6 +61,9 @@ TEST(unitOps, power)
 
 TEST(unitOps, root)
 {
+    auto m1 = m.pow(1);
+    EXPECT_EQ(m, m1.root(1));
+    EXPECT_EQ(m.inv(), m1.root(-1));
     auto m2 = m.pow(2);
     EXPECT_EQ(m, m2.root(2));
     auto m4 = m.pow(4);
@@ -69,9 +72,17 @@ TEST(unitOps, root)
 
     auto ft2 = ft.pow(2);
     EXPECT_EQ(ft, ft2.root(2));
+    EXPECT_EQ(ft.inv(), ft2.root(-2));
+    auto ft3 = ft.pow(3);
+    EXPECT_EQ(ft, ft3.root(3));
+    EXPECT_EQ(ft.inv(), ft3.root(-3));
     auto ft4 = ft.pow(4);
     EXPECT_EQ(ft * ft, ft4.root(2));
     EXPECT_EQ(ft, ft4.root(4));
+
+    auto ft5 = ft.pow(5);
+    EXPECT_EQ(ft, ft5.root(5));
+    EXPECT_EQ(ft.inv(), ft5.root(-5));
 }
 
 TEST(unitOps, nan)
@@ -146,6 +157,32 @@ TEST(preciseUnitOps, Power)
     auto m4_b = m2.pow(2);
     EXPECT_EQ(m4_b, precise::m * precise::m * precise::m * precise::m);
     EXPECT_EQ(m4_b, m2 * m2);
+}
+
+TEST(preciseUnitOps, root)
+{
+    auto m1 = precise::m.pow(1);
+    EXPECT_EQ(precise::m, m1.root(1));
+    EXPECT_EQ(precise::m.inv(), m1.root(-1));
+    auto m2 = precise::m.pow(2);
+    EXPECT_EQ(precise::m, m2.root(2));
+    auto m4 = precise::m.pow(4);
+    EXPECT_EQ(precise::m * precise::m, m4.root(2));
+    EXPECT_EQ(precise::m, m4.root(4));
+
+    auto ft2 = precise::ft.pow(2);
+    EXPECT_EQ(precise::ft, ft2.root(2));
+    EXPECT_EQ(precise::ft.inv(), ft2.root(-2));
+    auto ft3 = precise::ft.pow(3);
+    EXPECT_EQ(precise::ft, ft3.root(3));
+    EXPECT_EQ(precise::ft.inv(), ft3.root(-3));
+    auto ft4 = precise::ft.pow(4);
+    EXPECT_EQ(precise::ft * precise::ft, ft4.root(2));
+    EXPECT_EQ(precise::ft, ft4.root(4));
+
+    auto ft5 = precise::ft.pow(5);
+    EXPECT_EQ(precise::ft, ft5.root(5));
+    EXPECT_EQ(precise::ft.inv(), ft5.root(-5));
 }
 
 TEST(preciseUnitOps, nan)

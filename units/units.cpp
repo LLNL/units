@@ -47,19 +47,19 @@ unit unit::root(int power) const
     case -1:
         return this->inv();
     case 2:
-        return {bunits, std::sqrt(multiplier_)};
+        return {bunits, std::sqrt(multiplier())};
     case -2:
-        return unit(bunits, std::sqrt(multiplier_)).inv();
+        return {bunits, std::sqrt(1.0 / multiplier())};
     case 3:
-        return {bunits, std::cbrt(multiplier_)};
+        return {bunits, std::cbrt(multiplier())};
     case -3:
-        return unit(bunits, std::cbrt(multiplier_)).inv();
+        return {bunits, std::cbrt(1.0 / multiplier())};
     case 4:
-        return {bunits, std::sqrt(std::sqrt(multiplier_))};
+        return {bunits, std::sqrt(std::sqrt(multiplier()))};
     case -4:
-        return unit(bunits, std::sqrt(std::sqrt(multiplier_))).inv();
+        return {bunits, std::sqrt(std::sqrt(1.0 / multiplier()))};
     default:
-        return {bunits, std::pow(multiplier_, 1.0 / static_cast<double>(power))};
+        return {bunits, std::pow(multiplier(), 1.0 / static_cast<double>(power))};
     }
 }
 
@@ -92,15 +92,15 @@ precise_unit precise_unit::root(int power) const
     case 2:
         return {bunits, std::sqrt(multiplier_)};
     case -2:
-        return precise_unit(bunits, std::sqrt(multiplier_)).inv();
+        return {bunits, std::sqrt(1.0 / multiplier_)};
     case 3:
         return {bunits, std::cbrt(multiplier_)};
     case -3:
-        return precise_unit(bunits, std::cbrt(multiplier_)).inv();
+        return {bunits, std::cbrt(1.0 / multiplier_)};
     case 4:
         return {bunits, std::sqrt(std::sqrt(multiplier_))};
     case -4:
-        return precise_unit(bunits, std::sqrt(std::sqrt(multiplier_))).inv();
+        return {bunits, std::sqrt(std::sqrt(1.0 / multiplier_))};
     default:
         return {bunits, std::pow(multiplier_, 1.0 / static_cast<double>(power))};
     }
