@@ -3586,6 +3586,7 @@ static precise_unit get_unit(const std::string &unit_string)
     if ((c == 'C' || c == 'E') && unit_string.size() >= 6)
     {
         size_t index;
+        // we want to make sure there are no operations before the commodity
         if (unit_string.find_last_of("*^(/", unit_string.find_last_of('{')) == std::string::npos)
         {
             if (unit_string.compare(0, 5, "CXUN[") == 0)
@@ -4539,6 +4540,13 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
                 fnd = unit_string.find_first_of(")]}", fnd + 3);
                 break;
             }
+            case '{':
+                if (unit_string[fnd] != '}')
+                {
+                    fnd = unit_string.find_first_of(")]}", fnd + 1);
+                    break;
+                }
+                // FALLTHROUGH
             default:
                 if (unit_string[fnd - 1] == '\\')
                 {  // ignore escape sequences
