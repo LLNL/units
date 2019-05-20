@@ -115,8 +115,6 @@ static int order(unit val)
     return order;
 }
 
-static constexpr auto dol = currency;
-
 // no units with '/' in it this can cause issues when converting to string with out of order operations
 using umap = std::unordered_map<unit, const char *>;
 static const umap base_unit_names{
@@ -203,7 +201,7 @@ static const umap base_unit_names{
   {unit_cast(precise::distance::au), "au"},
   {percent, "%"},
   {unit_cast(precise::special::ASD), "ASD"},
-  {dol, "$"},
+  {currency, "$"},
   {count, "item"},
   {ratio, ""},
   {error, "ERROR"},
@@ -335,6 +333,8 @@ static inline bool isNumericalCharacter(char X)
 }
 // forward declaration of the quick find function
 static precise_unit unit_quick_match(std::string unit_string, uint32_t match_flags);
+// forward declaration of the function to check for custom units
+static precise_unit checkForCustomUnit(const std::string &unit_string);
 
 // check if the character is an ascii digit
 static inline bool isDigitCharacter(char X) { return (X >= '0' && X <= '9'); }
@@ -704,6 +704,11 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
                 }
                 else
                 {
+                    auto rs = checkForCustomUnit(cString);
+                    if (!rs.is_error())
+                    {
+                        cString.insert(0, 1, '1');
+                    }
                     propUnitString = cString + "*" + propUnitString;
                 }
             }
@@ -1474,7 +1479,7 @@ using ckpair = std::pair<const char *, const char *>;
 
 static precise_unit localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UPTCONST std::array<ckpair, 35> internationlReplacements{{
+    static UPTCONST std::array<ckpair, 37> internationlReplacements{{
       ckpair{"internationaltable", "_IT"},
       ckpair{"internationalsteamtable", "_IT"},
       ckpair{"international", "_i"},
@@ -1492,8 +1497,10 @@ static precise_unit localityModifiers(std::string unit, std::uint32_t match_flag
       ckpair{"julian", "_j"},
       ckpair{"Julian", "_j"},
       ckpair{"thermochemical", "_th"},
+      ckpair{"Th", "_th"},
       ckpair{"(th)", "_th"},
       ckpair{"metric", "_m"},
+      ckpair{"mean", "_m"},
       ckpair{"imperial", "_br"},
       ckpair{"imp", "_br"},
       ckpair{"US", "_us"},
@@ -2656,6 +2663,7 @@ static const smap base_unit_vals{
   {u8"britishthermalunitat60\u00B0F", precise::energy::btu_60},
   {u8"btu_60\u00B0F", precise::energy::btu_60},
   {"Btu_m", precise::energy::btu_mean},
+  {"BTU_m", precise::energy::btu_mean},
   {"BTU_M", precise::energy::btu_mean},
   {"meanBritishthermalunit", precise::energy::btu_mean},
   {"Btu_IT", precise::energy::btu_it},
@@ -2894,6 +2902,8 @@ static const smap base_unit_vals{
   {"bit_s", precise::data::bit_s},
   {"BIT_S", precise::data::bit_s},
   {"bit-logarithmic", precise::data::bit_s},
+  {"bitlogarithmic", precise::data::bit_s},
+  {"logbit", precise::data::bit_s},
   // b is for unit barn
   // B is for bel
   {"Bps", precise::B / precise::s},
@@ -3016,6 +3026,7 @@ static const smap base_unit_vals{
   {"ct_m", precise::metric::carat},
   {"[CAR_M]", precise::metric::carat},
   {"carat_m", precise::metric::carat},
+  {"photometriccarat", precise::metric::carat},
   {"car_Au", precise_unit{1.0 / 24.0, precise::one, commodities::gold}},
   {"carau", precise_unit{1.0 / 24.0, precise::one, commodities::gold}},
   {"[CAR_AU]", precise_unit{1.0 / 24.0, precise::one, commodities::gold}},
@@ -3025,7 +3036,15 @@ static const smap base_unit_vals{
   {"g", precise::g},
   {"gm", precise::g},
   {"gamma", precise::micro *precise::g},
+  {u8"\u1D6FE", precise::micro *precise::g},
+  {"gamma{mass}", precise::micro *precise::g},
+  {"gamma(mass)", precise::micro *precise::g},
+  {"gamma{volume}", precise::micro *precise::L},
+  {"gamma(volume)", precise::micro *precise::L},
+  {"lambda{volume}", precise::micro *precise::L},
+  {"lambda(volume)", precise::micro *precise::L},
   {"gamma(geo)", precise::nano *precise::T},  // two different uses of gamma
+  {"gamma{geo}", precise::nano *precise::T},  // two different uses of gamma
   {"gf", precise::g *constants::g0.as_unit()},
   {"gramforce", precise::g *constants::g0.as_unit()},
   {"kp", precise::kilo *precise::gm::pond},  // this is probably more common than kilopoise
@@ -3528,15 +3547,22 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
     int ccindex = static_cast<int>(finish) - 1;
     segmentcheckReverse(unit_string, '{', ccindex);
 
+    auto cstring = unit_string.substr(ccindex + 2, finish - ccindex - 2);
+
     if (ccindex < 0)
     {
-        return {1.0, precise::one, getCommodity(unit_string.substr(ccindex + 2, finish - ccindex - 2))};
+        auto runit = checkForCustomUnit(cstring);
+        if (!runit.is_error())
+        {
+            return runit;
+        }
+        return {1.0, precise::one, getCommodity(cstring)};
     }
 
     auto bunit = unit_from_string(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
     if (!bunit.is_error())
     {
-        return {1.0, bunit, getCommodity(unit_string.substr(ccindex + 2, finish - ccindex - 2))};
+        return {1.0, bunit, getCommodity(cstring)};
     }
     return precise::error;
 }
@@ -4758,26 +4784,26 @@ static precise_unit checkForCustomUnit(const std::string &unit_string)
     bool index = false;
     if (unit_string.front() == '[' && unit_string.back() == ']')
     {
-        loc = unit_string.find("U]");
-        if (loc == std::string::npos)
+        if (ends_with(unit_string, "U]"))
         {
-            loc = unit_string.find("index]");
-            if (loc != std::string::npos)
-            {
-                index = true;
-            }
+            loc = unit_string.size() - 2;
+        }
+        else if (ends_with(unit_string, "index]"))
+        {
+            loc = unit_string.size() - 6;
+            index = true;
         }
     }
     else if (unit_string.front() == '{' && unit_string.back() == '}')
     {
-        loc = unit_string.find("u}");
-        if (loc == std::string::npos)
+        if (ends_with(unit_string, "u}"))
         {
-            loc = unit_string.find("index}");
-            if (loc != std::string::npos)
-            {
-                index = true;
-            }
+            loc = unit_string.size() - 2;
+        }
+        else if (ends_with(unit_string, "index}"))
+        {
+            loc = unit_string.size() - 6;
+            index = true;
         }
     }
     if (loc != std::string::npos)
