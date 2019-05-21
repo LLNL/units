@@ -47,19 +47,19 @@ unit unit::root(int power) const
     case -1:
         return this->inv();
     case 2:
-        return {bunits, std::sqrt(multiplier_)};
+        return {bunits, std::sqrt(multiplier())};
     case -2:
-        return unit(bunits, std::sqrt(multiplier_)).inv();
+        return {bunits, std::sqrt(1.0 / multiplier())};
     case 3:
-        return {bunits, std::cbrt(multiplier_)};
+        return {bunits, std::cbrt(multiplier())};
     case -3:
-        return unit(bunits, std::cbrt(multiplier_)).inv();
+        return {bunits, std::cbrt(1.0 / multiplier())};
     case 4:
-        return {bunits, std::sqrt(std::sqrt(multiplier_))};
+        return {bunits, std::sqrt(std::sqrt(multiplier()))};
     case -4:
-        return unit(bunits, std::sqrt(std::sqrt(multiplier_))).inv();
+        return {bunits, std::sqrt(std::sqrt(1.0 / multiplier()))};
     default:
-        return {bunits, std::pow(multiplier_, 1.0 / static_cast<double>(power))};
+        return {bunits, std::pow(multiplier(), 1.0 / static_cast<double>(power))};
     }
 }
 
@@ -92,15 +92,15 @@ precise_unit precise_unit::root(int power) const
     case 2:
         return {bunits, std::sqrt(multiplier_)};
     case -2:
-        return precise_unit(bunits, std::sqrt(multiplier_)).inv();
+        return {bunits, std::sqrt(1.0 / multiplier_)};
     case 3:
         return {bunits, std::cbrt(multiplier_)};
     case -3:
-        return precise_unit(bunits, std::cbrt(multiplier_)).inv();
+        return {bunits, std::cbrt(1.0 / multiplier_)};
     case 4:
         return {bunits, std::sqrt(std::sqrt(multiplier_))};
     case -4:
-        return precise_unit(bunits, std::sqrt(std::sqrt(multiplier_))).inv();
+        return {bunits, std::sqrt(std::sqrt(1.0 / multiplier_))};
     default:
         return {bunits, std::pow(multiplier_, 1.0 / static_cast<double>(power))};
     }
@@ -1489,7 +1489,7 @@ using ckpair = std::pair<const char *, const char *>;
 
 static precise_unit localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UPTCONST std::array<ckpair, 37> internationlReplacements{{
+    static UPTCONST std::array<ckpair, 38> internationlReplacements{{
       ckpair{"internationaltable", "_IT"},
       ckpair{"internationalsteamtable", "_IT"},
       ckpair{"international", "_i"},
@@ -1512,6 +1512,7 @@ static precise_unit localityModifiers(std::string unit, std::uint32_t match_flag
       ckpair{"metric", "_m"},
       ckpair{"mean", "_m"},
       ckpair{"imperial", "_br"},
+      ckpair{"Imperial", "_br"},
       ckpair{"imp", "_br"},
       ckpair{"US", "_us"},
       ckpair{"(IT)", "_IT"},
@@ -2656,33 +2657,30 @@ static const smap base_unit_vals{
   {"MBTU", precise_unit(1000.0, precise::energy::btu_it)},
   {"[Btu]", precise::energy::btu_th},
   {"[BTU]", precise::energy::btu_th},
-  {"britishthermalunit", precise::energy::btu_th},
+  {"British thermal unit", precise::energy::btu_th},  // this is for name matching with the UCUM standard
   {"Btu_39", precise::energy::btu_39},
   {"BTU_39", precise::energy::btu_39},
   {"BTU39F", precise::energy::btu_39},
-  {u8"britishthermalunitat39\u00B0F", precise::energy::btu_39},
+  {u8"BTU39\u00B0F", precise::energy::btu_39},
   {u8"btu_39\u00B0F", precise::energy::btu_39},
   {"Btu_59", precise::energy::btu_59},
   {"BTU_59", precise::energy::btu_59},
   {"BTU59F", precise::energy::btu_59},
-  {u8"britishthermalunitat59\u00B0F", precise::energy::btu_59},
+  {u8"BTU59\u00B0F", precise::energy::btu_59},
   {u8"btu_59\u00B0F", precise::energy::btu_59},
   {"Btu_60", precise::energy::btu_60},
   {"BTU_60", precise::energy::btu_60},
   {"BTU60F", precise::energy::btu_60},
-  {u8"britishthermalunitat60\u00B0F", precise::energy::btu_60},
+  {u8"BTU60\u00B0F", precise::energy::btu_60},
   {u8"btu_60\u00B0F", precise::energy::btu_60},
   {"Btu_m", precise::energy::btu_mean},
   {"BTU_m", precise::energy::btu_mean},
   {"BTU_M", precise::energy::btu_mean},
-  {"meanBritishthermalunit", precise::energy::btu_mean},
   {"Btu_IT", precise::energy::btu_it},
   {"BTU_IT", precise::energy::btu_it},
-  {"Britishthermalunit_IT", precise::energy::btu_it},
   {"Btu_th", precise::energy::btu_th},
   {"[BTU_TH]", precise::energy::btu_th},
   {"BTU_th", precise::energy::btu_th},
-  {"Britishthermalunit_th", precise::energy::btu_th},
   {"CHU", precise_unit(1899.0, precise::J)},
   {"tontnt", precise::energy::ton_tnt},
   {"tonoftnt", precise::energy::ton_tnt},
@@ -2755,9 +2753,11 @@ static const smap base_unit_vals{
   {"inchwater", precise::pressure::inH2O},
   {"inch(international)ofwater", precise::pressure::inH2O},
   {"inchofwater", precise::pressure::inH2O},
+  {"inchofwaterguage", precise::pressure::inH2O},
   {"inchofwater_i", precise::pressure::inH2O},
   {"inch{water}", precise::pressure::inH2O},
   {"inchofwatercolumn", precise::pressure::inH2O},
+  {"iwg", precise::pressure::inH2O},
   {"mmHg", precise::pressure::mmHg},
   {"mm[Hg]", precise::pressure::mmHg},
   {"MM[HG]", precise::pressure::mmHg},
@@ -2780,6 +2780,8 @@ static const smap base_unit_vals{
   {"metresofmercury", precise::kilo *precise::pressure::mmHg},
   {"meterofmercurycolumn", precise::kilo *precise::pressure::mmHg},
   {"metreofmercurycolumn", precise::kilo *precise::pressure::mmHg},
+  {"metersofmercurycolumn", precise::kilo *precise::pressure::mmHg},
+  {"metresofmercurycolumn", precise::kilo *precise::pressure::mmHg},
   {"mmH2O", precise::pressure::mmH2O},
   {"mm[H2O]", precise::pressure::mmH2O},
   {"MM[H2O]", precise::pressure::mmH2O},
@@ -2910,6 +2912,7 @@ static const smap base_unit_vals{
   {"bit", precise::bit},
   {"BIT", precise::bit},
   {"bit_s", precise::data::bit_s},
+  {"bit-s", precise::data::bit_s},
   {"BIT_S", precise::data::bit_s},
   {"bit-logarithmic", precise::data::bit_s},
   {"bitlogarithmic", precise::data::bit_s},
@@ -2937,7 +2940,7 @@ static const smap base_unit_vals{
   {"foz", precise::us::floz},
   {"[FOZ_US]", precise::us::floz},
   {"fluidounce", precise::us::floz},
-  {"fluidounces_us", precise::us::floz},
+  //{"fluidounces_us", precise::us::floz},
   {"fluidounce_us", precise::us::floz},
   {"fdr_us", precise::us::dram},
   {"[FDR_US]", precise::us::dram},
@@ -3205,6 +3208,7 @@ static const smap base_unit_vals{
   {"[lne]", precise::typographic::american::line},
   {"[LNE]", precise::typographic::american::line},
   {"line", precise::typographic::american::line},
+  {"line_br", precise::typographic::american::line},
   {"pnt", precise::typographic::american::point},
   {"[PNT]", precise::typographic::american::point},
   {"point", precise::typographic::american::point},
@@ -3248,6 +3252,8 @@ static const smap base_unit_vals{
   {"metabolicEquivalentofTask", precise::clinical::met},
   {"metabolicequivalents", precise::clinical::met},
   {"[wood'U]", precise::clinical::woodu},
+  {"HRU", precise::clinical::woodu},
+  {"hybridreferenceunit", precise::clinical::woodu},
   {"[WOOD'U]", precise::clinical::woodu},
   {"woodunit", precise::clinical::woodu},
   {"dpt", precise::clinical::diopter},
@@ -4148,7 +4154,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
     }};
 
-    static UPTCONST std::array<ckpair, 17> allCodeReplacements{{
+    static UPTCONST std::array<ckpair, 20> allCodeReplacements{{
       ckpair{"sq.", "square"},
       ckpair{"cu.", "cubic"},
       ckpair{"(US)", "US"},
@@ -4159,6 +4165,9 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"Ampere", "amp"},
       ckpair{"B.T.U.", "BTU"},
       ckpair{"B.Th.U.", "BTU"},
+      ckpair{"Britishthermalunits", "BTU"},
+      ckpair{"Britishthermalunitat", "BTU"},
+      ckpair{"Britishthermalunit", "BTU"},
       ckpair{"BThU", "BTU"},
       ckpair{"-US", "US"},
       ckpair{"\\\\", "\\\\*"},  // \\ is always considered a segment terminator so it won't be misinterpreted as a
@@ -5680,21 +5689,28 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"electricreactance", precise::ohm},
   {"electricalconductance", precise::siemens},
   {"electricconductance", precise::siemens},
-  {"conductance", precise::siemens},
+  {"conduction", precise::siemens},
   {"magneticflux", precise::Wb},
   {"fluxofmagneticinduction", precise::Wb},
   {"magneticfluxdensity", precise::T},
   {"magneticinduction", precise::T},
   {"inductance", precise::H},
+  {"induction", precise::H},
   {"luminousflux", precise::lm},
   {"illuminance", precise::lx},
   {"illumination", precise::lx},
   {"radioactivity", precise::Bq},
   {"activity", precise::Bq},
+  {"activities", precise::Bq},
   {"absorbeddose", precise::Gy},
+  {"kerma", precise::Gy},
   {"energydose", precise::Gy},
   {"engcnt", precise::Gy},
   {"equivalentdose", precise::Sv},
+  {"radiationdose", precise::Sv},
+  {"effectivedose", precise::Sv},
+  {"operationaldose", precise::Sv},
+  {"commiteddose", precise::Sv},
   {"catalyticactivity", precise::kat},
   {"specificenergy", precise::J / precise::kg},
   {"engcnc", precise::J / precise::m.pow(3)},
@@ -5726,6 +5742,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"number", precise::one},
   {"nfr", precise::one},
   {"num", precise::one},
+  {"age", precise::time::ag},
   {"impulse", precise::N *precise::s},
   {"imp", precise::N *precise::s},
   {"absorbeddoserate", precise::Gy / precise::s},
@@ -5779,6 +5796,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"elasticity", precise::N / precise::m.pow(2)},
   {"compliance", precise::m / precise::N},
   {"compli", precise::m / precise::N},
+  {"vascularresistance", precise::Pa *precise::s / precise::m.pow(3)},
 };
 
 precise_unit default_unit(std::string unit_type)
@@ -5818,6 +5836,14 @@ precise_unit default_unit(std::string unit_type)
     {
         // ratio of some kind
         return precise::one;
+    }
+    if (ends_with(unit_type, "quantity"))
+    {
+        return default_unit(unit_type.substr(0, unit_type.size() - 8));
+    }
+    if (ends_with(unit_type, "quantities"))
+    {
+        return default_unit(unit_type.substr(0, unit_type.size() - 10));
     }
     if (unit_type.back() == 's' && unit_type.size() > 1)
     {
