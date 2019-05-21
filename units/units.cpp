@@ -1708,7 +1708,6 @@ static const smap base_unit_vals{
   {"m", precise::m},
   {"Sm", precise::m},  // standard meter used in oil and gas usually Sm^3
   {"meter", precise::m},
-  {"metre", precise::m},
   {"micron", precise::micro *precise::m},
   {"fermi", precise::femto *precise::m},
   {"xunit", precise::distance::xu},
@@ -1746,8 +1745,9 @@ static const smap base_unit_vals{
   {"grampercent", precise_unit(10.0, precise::g / precise::L)},
   {"G%", precise_unit(10.0, precise::g / precise::L)},
   {"U", precise::laboratory::enzyme_unit},
+  {"units", precise::laboratory::enzyme_unit},  // this may not be best but it doesn't actually conflict with
+                                                // anything else right now
   {"enzymeunit", precise::laboratory::enzyme_unit},
-  {"enzymaticactivity", precise::laboratory::enzyme_unit},
   {"A", precise::A},
   {"amp", precise::A},
   {"amps", precise::A},
@@ -1791,6 +1791,8 @@ static const smap base_unit_vals{
   {"kelvins", precise::K},
   {"degreeKelvin", precise::K},
   {"N", precise::N},
+  {"Ns", precise::N *precise::s},  // this would not pass through to the separation functions
+  {"Nm", precise::N *precise::m},  // this would not pass through to the separation functions
   {"newton", precise::N},
   {"Pa", precise::Pa},
   {"pa", precise::Pa},
@@ -2428,6 +2430,7 @@ static const smap base_unit_vals{
   {"Gb", precise::cgs::gilbert},
   {"Gi", precise::cgs::gilbert},
   {"p", precise::cgs::poise},
+  {"cps", precise_unit(0.01, precise::cgs::poise)},  // centipoise doesn't conflict with ps
   {"P", precise::cgs::poise},
   {"poise", precise::cgs::poise},
   {"Ba", precise::cgs::barye},
@@ -2773,17 +2776,11 @@ static const smap base_unit_vals{
   {"m[HG]", precise::kilo *precise::pressure::mmHg},
   {"metermercury", precise::kilo *precise::pressure::mmHg},
   {"meterofmercury", precise::kilo *precise::pressure::mmHg},
-  {"metreofmercury", precise::kilo *precise::pressure::mmHg},
   {"meter{mercury}", precise::kilo *precise::pressure::mmHg},
   {"meter(mercury)", precise::kilo *precise::pressure::mmHg},
   {"metersofmercury", precise::kilo *precise::pressure::mmHg},
-  {"metre{mercury}", precise::kilo *precise::pressure::mmHg},
-  {"metre(mercury)", precise::kilo *precise::pressure::mmHg},
-  {"metresofmercury", precise::kilo *precise::pressure::mmHg},
   {"meterofmercurycolumn", precise::kilo *precise::pressure::mmHg},
-  {"metreofmercurycolumn", precise::kilo *precise::pressure::mmHg},
   {"metersofmercurycolumn", precise::kilo *precise::pressure::mmHg},
-  {"metresofmercurycolumn", precise::kilo *precise::pressure::mmHg},
   {"mmH2O", precise::pressure::mmH2O},
   {"mm[H2O]", precise::pressure::mmH2O},
   {"MM[H2O]", precise::pressure::mmH2O},
@@ -2796,7 +2793,6 @@ static const smap base_unit_vals{
   {"M[H2O]", precise::kilo *precise::pressure::mmH2O},
   {"meterwater", precise::kilo *precise::pressure::mmH2O},
   {"meterofwater", precise::kilo *precise::pressure::mmH2O},
-  {"metreofwater", precise::kilo *precise::pressure::mmH2O},
   {"metersofwater", precise::kilo *precise::pressure::mmH2O},
   {"meters{water}", precise::kilo *precise::pressure::mmH2O},
   {"meter{water}", precise::kilo *precise::pressure::mmH2O},
@@ -2804,12 +2800,6 @@ static const smap base_unit_vals{
   {"meter(water)", precise::kilo *precise::pressure::mmH2O},
   {"meterofwatercolumn", precise::kilo *precise::pressure::mmH2O},
   {"metersofwatercolumn", precise::kilo *precise::pressure::mmH2O},
-  {"metresofwater", precise::kilo *precise::pressure::mmH2O},
-  {"metres{water}", precise::kilo *precise::pressure::mmH2O},
-  {"metre{water}", precise::kilo *precise::pressure::mmH2O},
-  {"metres(water)", precise::kilo *precise::pressure::mmH2O},
-  {"metre(water)", precise::kilo *precise::pressure::mmH2O},
-  {"metreofwatercolumn", precise::kilo *precise::pressure::mmH2O},
   {"torr", precise::pressure::torr},
   {"Torr", precise::pressure::torr},
   {"TORR", precise::pressure::torr},
@@ -4114,13 +4104,17 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
 {
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
-    static UPTCONST std::array<ckpair, 39> ucodeReplacements{{
+    static UPTCONST std::array<ckpair, 45> ucodeReplacements{{
       ckpair{u8"\u00d7", "*"},
       ckpair{u8"\u00f7", "/"},  // division sign
       ckpair{u8"\u00b7", "*"},
       ckpair{u8"\u2215", "*"},  // asterisk operator
       ckpair{u8"\u00B5", "u"},
       ckpair{u8"\u03BC", "u"},
+      ckpair{u8"\u00E9", "e"},
+      ckpair{u8"\u00E8", "e"},
+      ckpair{u8"\u0301", ""},  // just get rid of the accent
+      ckpair{u8"\u0300", ""},  // just get rid of the accent
       ckpair{u8"\u2212", "-"},
       ckpair{u8"\u2009", ""},  // thin space
       ckpair{u8"\u2007", ""},  // thin space
@@ -4151,12 +4145,14 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"\xf7", "/"},
       ckpair{"\xB7", "*"},
       ckpair{"\xD7", "*"},
+      ckpair{"\xE9", "e"},  // remove accent
+      ckpair{"\xE8", "e"},  // remove accent
       ckpair{"\xBD", "(0.5)"},  //(1/2) fraction
       ckpair{"\xBC", "(0.25)"},  //(1/4) fraction
       ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
     }};
 
-    static UPTCONST std::array<ckpair, 21> allCodeReplacements{{
+    static UPTCONST std::array<ckpair, 23> allCodeReplacements{{
       ckpair{"sq.", "square"},
       ckpair{"cu.", "cubic"},
       ckpair{"(US)", "US"},
@@ -4165,6 +4161,8 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"^+", "^"},
       ckpair{"ampere", "amp"},
       ckpair{"Ampere", "amp"},
+      ckpair{"metre", "meter"},
+      ckpair{"litre", "liter"},
       ckpair{"B.T.U.", "BTU"},
       ckpair{"B.Th.U.", "BTU"},
       ckpair{"Britishthermalunits", "BTU"},
@@ -5815,6 +5813,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"compliance", precise::m / precise::N},
   {"compli", precise::m / precise::N},
   {"vascularresistance", precise::Pa *precise::s / precise::m.pow(3)},
+  {"enzymaticactivity", precise::kat},
 };
 
 precise_unit default_unit(std::string unit_type)

@@ -308,6 +308,7 @@ TEST(stringToUnits, equivalents3)
 {
     EXPECT_EQ(unit_from_string("grams per hour per metre sq"), unit_from_string("g/h/m2"));
     EXPECT_EQ(unit_from_string("dyn sec per cm"), unit_from_string("dyn.s/cm"));
+    EXPECT_EQ(unit_from_string("Ns"), precise::N * precise::s);
 }
 
 class roundTripString : public ::testing::TestWithParam<std::string>

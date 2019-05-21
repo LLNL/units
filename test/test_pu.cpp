@@ -55,6 +55,12 @@ TEST(PU, pu_base_assumptions)
 
     EXPECT_NEAR(convert(1.0, puMW, W), 100000000, 0.01);
     EXPECT_NEAR(convert(450.0, MW, puMW), 4.5, 0.01);
+
+    EXPECT_NEAR(convert(0.2, puOhm, puMW), 5.0, 0.0001);
+    EXPECT_NEAR(convert(5.0, puMW, puOhm), 0.2, 0.0001);
+    EXPECT_NEAR(convert(4.5, puMW, puA), 4.5, 0.00001);
+    EXPECT_NEAR(convert(4.5, puA, puMW), 4.5, 0.00001);
+    EXPECT_NEAR(convert(10.0, puA, puOhm), 0.1, 0.00001);
 }
 
 TEST(PU, machNumber)
@@ -64,4 +70,17 @@ TEST(PU, machNumber)
 
     // TODO:: figure out how this might work
     // EXPECT_NEAR(convert(1.0, precise::special::mach, precise::special::fujita), 12.0, 0.01);
+}
+
+TEST(PU, failures)
+{
+    EXPECT_TRUE(std::isnan(convert(0.76, precise::special::mach, puMW)));
+    EXPECT_TRUE(std::isnan(convert(0.262, puV, puMW)));
+}
+
+TEST(PU, conversions)
+{
+    EXPECT_NEAR(convert(1.0, puMW, kilo * pu * W, 100.0), 1000.0, 0.0001);
+    // the 100 has nothing to do with this just testing the function call
+    EXPECT_NEAR(convert(1.0, inch, cm, 100.0), 2.54, 0.0001);
 }
