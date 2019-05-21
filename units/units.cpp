@@ -5136,6 +5136,10 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
                         return precise::error;
                     }
                 }
+                else
+                {
+                    return precise::error;
+                }
             }
 
             if (power == -1)
