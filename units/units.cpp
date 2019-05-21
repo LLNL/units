@@ -121,6 +121,7 @@ static const umap base_unit_names{
   {m, "m"},
   {m * m, "m^2"},
   {m * m * m, "m^3"},
+  {(mega * m).pow(3), "1e9km^3"},  // Mm^3 is a unit in gas industry for 1000 m^3 not mega meters cubed
   {kg, "kg"},
   {mol, "mol"},
   {A, "A"},
@@ -642,12 +643,13 @@ static void escapeString(std::string &str)
 std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 {
     using spair = std::tuple<const char *, const char *, int>;
-    static UPTCONST std::array<spair, 5> powerseq{{
+    static UPTCONST std::array<spair, 6> powerseq{{
       spair{"^2^2", "^4", 4},
       spair{"^3^2", "^6", 4},
       spair{"^2^3", "^6", 4},
       spair{"Gs", "Bs", 2},
-      spair{"K*flag", "oC", 6},
+      spair{"K*flag", "degC", 6},
+      spair{"Mm^3", "1e9km^3", 4},
     }};
     // run a few checks for unusual conditions
     for (auto &pseq : powerseq)
@@ -4154,7 +4156,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
     }};
 
-    static UPTCONST std::array<ckpair, 20> allCodeReplacements{{
+    static UPTCONST std::array<ckpair, 21> allCodeReplacements{{
       ckpair{"sq.", "square"},
       ckpair{"cu.", "cubic"},
       ckpair{"(US)", "US"},
@@ -4170,6 +4172,8 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"Britishthermalunit", "BTU"},
       ckpair{"BThU", "BTU"},
       ckpair{"-US", "US"},
+      ckpair{"--", "*"},  // -- is either a double negative or a separator, so make it a multiplier so it doesn't
+                          // get erased and then converted to a power
       ckpair{"\\\\", "\\\\*"},  // \\ is always considered a segment terminator so it won't be misinterpreted as a
                                 // known escape sequence
       ckpair{"perunit", "pu"},
@@ -4740,6 +4744,14 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     while (part < unit_string.size() - 1)
     {
         auto res = unit_quick_match(ustring, match_flags);
+        if (res.is_error() && ustring.size() >= 3)
+        {
+            if (ustring.front() >= 'A' && ustring.front() <= 'Z')
+            {  // check the lower case version since we skipped partitioning when we did this earlier
+                ustring[0] += 32;
+                res = unit_quick_match(ustring, match_flags);
+            }
+        }
         if (!res.is_error())
         {
             auto bunit = unit_from_string(unit_string.substr(part), match_flags | skip_partition_check);
@@ -5268,6 +5280,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
         }
         return precise::error;
     }
+    // in a few select cases make the first character lower case
     if ((unit_string.size() >= 3) && (!containsPer) && (!isDigitCharacter(unit_string.back())))
     {
         if (unit_string[0] >= 'A' && unit_string[0] <= 'Z')
@@ -5277,8 +5290,9 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
                 if (unit_string.find_first_of("*/^") == std::string::npos)
                 {
                     ustring = unit_string;
-                    ustring[0] = ustring[0] + 32;
-                    retunit = unit_from_string(ustring, match_flags & (~case_insensitive));
+                    ustring[0] += 32;
+                    retunit =
+                      unit_from_string(ustring, (match_flags & (~case_insensitive)) | skip_partition_check);
                     if (!retunit.is_error())
                     {
                         return retunit;
@@ -5540,7 +5554,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
     // check for some international modifiers
     if ((match_flags & no_locality_modifiers) == 0)
     {
-        retunit = localityModifiers(unit_string, match_flags);
+        retunit = localityModifiers(unit_string, match_flags | skip_partition_check);
         if (!retunit.is_error())
         {
             return retunit;

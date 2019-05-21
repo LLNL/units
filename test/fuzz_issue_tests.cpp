@@ -114,7 +114,6 @@ TEST_P(roundTripString, rtripconversions)
 }
 // these are all strings that at one point produced issues
 static const std::vector<std::string> testStrings{"10*6.-10*6.-",
-                                                  "Au0m",
                                                   "mm-5",
                                                   "D/am",
                                                   "/0j",
@@ -136,9 +135,24 @@ static const std::vector<std::string> testStrings{"10*6.-10*6.-",
                                                   "F{U}{U}",
                                                   "PD-Np0pVcU",
                                                   "per2rUkUper2U+UK",
-                                                  ".1.1.1.1e0.1.NNU"};
+                                                  ".1.1.1.1e0.1.NNU",
+                                                  "/-3Mh/L"};
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
+
+class errorString : public ::testing::TestWithParam<std::string>
+{
+};
+
+TEST_P(errorString, conversionErrors)
+{
+    auto u1 = unit_from_string(GetParam());
+    EXPECT_TRUE(u1.is_error());
+}
+// these are all strings that at one point produced issues
+static const std::vector<std::string> errorStrings{"Au0m", "br0", "\\\\{U}"};
+
+INSTANTIATE_TEST_SUITE_P(fuzzFailure, errorString, ::testing::ValuesIn(errorStrings));
 
 TEST(fuzzFailures, rtripconversions)
 {
@@ -168,19 +182,6 @@ TEST(fuzzFailures, rtripconversions6)
     EXPECT_TRUE(u1.is_error());
 }
 
-TEST(fuzzFailures, rtripconversions11)
-{
-    std::string tstring = "br0";
-    auto u1 = unit_from_string(tstring);
-    EXPECT_TRUE(u1.is_error());
-}
-
-TEST(fuzzFailures, rtripconversions7)
-{
-    std::string tstring = "\\\\{U}";
-    auto u1 = unit_from_string(tstring);
-    EXPECT_TRUE(u1.is_error());
-}
 TEST(fuzzFailures, rtripconversions12)
 {
     std::string tstring = "\\\xbd";
@@ -195,7 +196,7 @@ TEST(fuzzFailures, rtripconversions12)
 
 TEST(fuzzFailures, rtripconversions13)
 {
-    std::string tstring = "/-3Mh/L";
+    std::string tstring = "NpmeterUS--3";
     auto u1 = unit_from_string(tstring);
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);
@@ -221,4 +222,4 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(13, 14));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 14));
