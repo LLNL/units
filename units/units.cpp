@@ -115,13 +115,13 @@ static int order(unit val)
     return order;
 }
 
-// no units with '/' in it this can cause issues when converting to string with out of order operations
+// NOTE no units with '/' in it this can cause issues when converting to string with out of order operations
 using umap = std::unordered_map<unit, const char *>;
 static const umap base_unit_names{
   {m, "m"},
   {m * m, "m^2"},
   {m * m * m, "m^3"},
-  {(mega * m).pow(3), "1e9km^3"},  // Mm^3 is a unit in gas industry for 1000 m^3 not mega meters cubed
+  {(mega * m).pow(3), "(1e9km^3)"},  // Mm^3 is a unit in gas industry for 1000 m^3 not mega meters cubed
   {kg, "kg"},
   {mol, "mol"},
   {A, "A"},
@@ -136,12 +136,12 @@ static const umap base_unit_names{
   {C, "C"},
   {F, "F"},
   // because GF is gram force not giga Farad which is a ridiculous unit otherwise generates confusion
-  {giga * F, "1000MF"},
+  {giga * F, "(1000MF)"},
   {S, "S"},
   {Wb, "Wb"},
   {T, "T"},
   {H, "H"},
-  {pico * H, "pJ*A^-2"},  // deal with pico henry which is interpreted as acidity (pH)
+  {pico * H, "A^-2*pJ"},  // deal with pico henry which is interpreted as acidity (pH)
   {lm, "lm"},
   {lx, "lux"},
   {Bq, "Bq"},
@@ -644,12 +644,13 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 {
     using spair = std::tuple<const char *, const char *, int>;
     static UPTCONST std::array<spair, 6> powerseq{{
+      spair{"Mm^3", "(1e9km^3)", 4},  // this needs to happen before ^3^2 conversions
       spair{"^2^2", "^4", 4},
       spair{"^3^2", "^6", 4},
       spair{"^2^3", "^6", 4},
       spair{"Gs", "Bs", 2},
       spair{"K*flag", "degC", 6},
-      spair{"Mm^3", "1e9km^3", 4},
+
     }};
     // run a few checks for unusual conditions
     for (auto &pseq : powerseq)
@@ -4880,6 +4881,10 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
     if (unit_string.empty())
     {
         return precise::one;
+    }
+    if (unit_string.size() > 1024)
+    {  // there is no reason whatsoever that a unit string would be longer than 1024 characters
+        return precise::error;
     }
     precise_unit retunit;
     if ((match_flags & case_insensitive) == 0)
