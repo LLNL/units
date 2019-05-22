@@ -86,31 +86,31 @@ double convert(double val, UX start, UX2 result)
         {  // generic pu just means the units are equivalent since the the other is puXX already
             return val;
         }
-        if (unit_cast(start) == puOhm)
+        if (start.has_same_base(puOhm.base_units()))
         {
-            if (unit_cast(result) == puMW || unit_cast(result) == puA)
+            if (result.has_same_base(puMW.base_units()) || result.has_same_base(puA.base_units()))
             {  // V^2/R assuming voltage=1.0 pu; or //I=V/R
                 return 1.0 / val;
             }
         }
-        else if (unit_cast(start) == puA)
+        else if (start.has_same_base(puA.base_units()))
         {
-            if (unit_cast(result) == puMW)
+            if (result.has_same_base(puMW.base_units()))
             {  // P=IV assuming voltage=1.0 pu or //R=V/I
                 return val;
             }
-            if (unit_cast(result) == puOhm)
+            if (result.has_same_base(puOhm.base_units()))
             {  // P=IV assuming voltage=1.0 pu or //R=V/I
                 return 1.0 / val;
             }
         }
-        else if (unit_cast(start) == puMW)
+        else if (start.has_same_base(puMW.base_units()))
         {  // P=IV, or P=V^2/R
-            if (unit_cast(result) == puA)
+            if (result.has_same_base(puA.base_units()))
             {  // IV assuming voltage=1.0 pu or
                 return val;
             }
-            if (unit_cast(result) == puOhm)
+            if (result.has_same_base(puOhm.base_units()))
             {
                 return 1.0 / val;
             }
@@ -301,6 +301,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
     }
     // start must be per unit
     auto base = generate_base(result.base_units(), basePower, baseVoltage);
+    base *= start.multiplier();
     if (pu == unit_cast(start))
     {  // if start is generic pu
         return val * base / result.multiplier();

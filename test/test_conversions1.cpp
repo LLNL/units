@@ -211,12 +211,19 @@ TEST(countConversions, rotations)
     EXPECT_NEAR(convert(rad, one), 1.0 / (2.0 * constants::pi), test::tolerance);
     EXPECT_NEAR(convert(2.0 * constants::pi, rad / s, Hz), 1.0, test::tolerance);
     EXPECT_NEAR(convert(1.0 / (2.0 * constants::pi), one, rad), 1.0, test::tolerance);
+    // failed conversion
+    EXPECT_TRUE(std::isnan(convert(rad.pow(2), count)));
+    EXPECT_TRUE(std::isnan(convert(rad.pow(3), one)));
 }
 
 TEST(countConversions, mols)
 {
     using namespace units;
     EXPECT_NEAR(convert(mol, count), 6.02214076e23, test::precise_tolerance);
+    EXPECT_NEAR(convert(mol.inv(), one), 1.0 / 6.02214076e23, test::precise_tolerance);
+    // failed conversion
+    EXPECT_TRUE(std::isnan(convert(mol.pow(2), count)));
+    EXPECT_TRUE(std::isnan(convert(mol.pow(2), count.pow(2))));
 }
 
 TEST(ImperialTranslations, Correctness)

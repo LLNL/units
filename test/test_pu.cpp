@@ -26,19 +26,21 @@ TEST(PU, Ops)
 
 TEST(PU, Example1)
 {
-    EXPECT_EQ(convert(1.0, puMW, ohm, 10000.0, 100.0), 1.0);
+    EXPECT_EQ(convert(1.0, pu * watt, ohm, 10000.0, 100.0), 1.0);
     EXPECT_NEAR(convert(136.0, kV, puV, 500, 138000), 0.9855, test::tolerance * 100);
     // problem from text book
-    auto basePower = 100000000;
+    auto basePower = 100000000.0;
+    auto baseVoltage = 80000.0;
 
     EXPECT_NEAR(convert(1.0, ohm, puOhm, basePower, 8000), 1.56, 0.01);
-    EXPECT_NEAR(convert(24.0, ohm, puOhm, basePower, 80000), 0.375, 0.01);
+    EXPECT_NEAR(convert(24.0, ohm, puOhm, basePower, baseVoltage), 0.375, 0.01);
     EXPECT_NEAR(convert(1.0, ohm, puOhm, basePower, 16000), 0.39, 0.01);
     EXPECT_NEAR(convert(1.0, puOhm, ohm, basePower, 8000), 0.64, 0.01);
-    EXPECT_NEAR(convert(1.0, puOhm, ohm, basePower, 80000), 64, 0.01);
+    EXPECT_NEAR(convert(1.0, puOhm, ohm, basePower, baseVoltage), 64, 0.01);
     EXPECT_NEAR(convert(1.0, puOhm, ohm, basePower, 16000), 2.56, 0.01);
-
-    EXPECT_NEAR(convert(0.22, puA, A, 100000000, 80000), 275, 0.1);
+    EXPECT_NEAR(convert(1.0, pu * S, S, basePower, 16000), 1.0 / 2.56, 0.01);
+    EXPECT_NEAR(convert(0.22, puA, A, basePower, baseVoltage), 275, 0.1);
+    EXPECT_NEAR(convert(2.5, puMW, A, 100, baseVoltage), 2.5 * basePower / baseVoltage, 0.1);
 }
 
 TEST(PU, Conversions_just_pu)
@@ -76,11 +78,16 @@ TEST(PU, failures)
 {
     EXPECT_TRUE(std::isnan(convert(0.76, precise::special::mach, puMW)));
     EXPECT_TRUE(std::isnan(convert(0.262, puV, puMW)));
+    EXPECT_TRUE(std::isnan(convert(1.3, puV, ft)));
+    EXPECT_TRUE(std::isnan(convert(1.0, puV, ft, 10000)));
 }
 
 TEST(PU, conversions)
 {
     EXPECT_NEAR(convert(1.0, puMW, kilo * pu * W, 100.0), 1000.0, 0.0001);
+    EXPECT_NEAR(convert(1.0, puMW, defunit, 100.0), 1.0, 0.0001);
     // the 100 has nothing to do with this just testing the function call
     EXPECT_NEAR(convert(1.0, inch, cm, 100.0), 2.54, 0.0001);
+
+    EXPECT_NEAR(convert(0.2, puOhm, puMW, 100.0), 5.0, 0.0001);
 }
