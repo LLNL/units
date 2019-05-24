@@ -6,6 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 
 #include "units/units.hpp"
+#include <cstring>
 #include <exception>
 #include <string>
 
@@ -13,13 +14,13 @@ static bool cflag = units::disableCustomCommodities();
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
 {
-    if (Size < 4)
+    if (Size <= 4)
     {
         return 0;
     }
     std::string test1(reinterpret_cast<const char *>(Data + 4), Size - 4);
     uint32_t flags;
-    memcpy(&flags, Data, 4);
+    std::memcpy(&flags, Data, 4);
     auto unit = units::unit_from_string(test1, flags);
     if (!unit.is_error())
     {
