@@ -120,6 +120,33 @@ TEST(unitOps, cast)
     EXPECT_FALSE(is_unit_cast_lossless(precise::gal));
 }
 
+TEST(unitOps, equality1)
+{
+    int eqFail = 0;
+    double start = 1.0;
+    while (start < (1.0 + 2e-6))
+    {
+        double diff = 0.0;
+        while (diff < 5e-7)
+        {
+            diff += 1e-9;
+            auto u1 = unit(start, V);
+            auto u2 = unit(start + diff, V);
+            auto u3 = unit(start - diff, V);
+            if (u1 != u2)
+            {
+                ++eqFail;
+            }
+            if (u1 != u3)
+            {
+                ++eqFail;
+            }
+        }
+        start += 1e-9;
+    }
+    EXPECT_EQ(eqFail, 0);
+}
+
 TEST(preciseUnitOps, Simple)
 {
     EXPECT_EQ(precise::m, precise::m);

@@ -113,3 +113,40 @@ TEST(commodities, custom_cx_number)
 
     enableCustomCommodities();
 }
+
+TEST(commodities, escape_strings)
+{
+    auto hcode = getCommodity("c\\{a");
+    auto cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "c{a");
+
+    hcode = getCommodity("c\\}ab");
+    cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "c}ab");
+
+    hcode = getCommodity("c\\(a");
+    cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "c(a");
+
+    hcode = getCommodity("c\\)abc");
+    cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "c)abc");
+
+    hcode = getCommodity("c\\[a");
+    cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "c[a");
+
+    hcode = getCommodity("c\\]abc");
+    cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "c]abc");
+
+    hcode = getCommodity("c\\\\abc");
+    cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "c\\abc");
+
+    hcode = getCommodity("c\\%ab");
+    cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "c\\%ab");
+
+    clearCustomCommodities();
+}

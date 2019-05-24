@@ -308,8 +308,28 @@ class unit
     /// Test for unit equivalence to within nominal numerical tolerance (6 decimal digits)
     bool operator==(unit other) const
     {
-        return base_units_ == other.base_units_ &&
-               detail::cround(multiplier_) == detail::cround(other.multiplier_);
+        if (base_units_ != other.base_units_)
+        {
+            return false;
+        }
+        if (multiplier_ == other.multiplier_)
+        {
+            return true;
+        }
+        auto c1 = detail::cround(other.multiplier_);
+        if (detail::cround(multiplier_) == c1)
+        {
+            return true;
+        }
+        if (detail::cround(multiplier_ * (1.0f + 6e-7f)) == c1)
+        {
+            return true;
+        }
+        if (detail::cround(multiplier_ * (1.0f - 6e-7f)) == c1)
+        {
+            return true;
+        }
+        return false;
     }
     bool operator!=(unit other) const { return !operator==(other); }
     /// Check if the unit has an error
@@ -460,8 +480,29 @@ class precise_unit
     /// Overloaded equality operator
     bool operator==(precise_unit other) const
     {
-        return base_units_ == other.base_units_ && commodity_ == other.commodity_ &&
-               detail::cround_precise(multiplier_) == detail::cround_precise(other.multiplier_);
+        if (base_units_ != other.base_units_ || commodity_ != other.commodity_)
+        {
+            return false;
+        }
+        if (multiplier_ == other.multiplier_)
+        {
+            return true;
+        }
+        auto c1 = detail::cround_precise(other.multiplier_);
+
+        if (detail::cround_precise(multiplier_) == c1)
+        {
+            return true;
+        }
+        if (detail::cround_precise(multiplier_ * (1.0 + 5.05e-13)) == c1)
+        {
+            return true;
+        }
+        if (detail::cround_precise(multiplier_ * (1.0 - 5.05e-13)) == c1)
+        {
+            return true;
+        }
+        return false;
     }
     bool operator!=(precise_unit other) const { return !operator==(other); }
     // Test for exact numerical equivalence
