@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/unit_definitions.hpp"
 #include "units/units_decl.hpp"
+#include <memory>
 
 using namespace units;
 TEST(unitOps, Simple)
@@ -118,6 +119,19 @@ TEST(unitOps, cast)
     EXPECT_EQ(gal, unit_cast(precise::gal));
     EXPECT_TRUE(is_unit_cast_lossless(precise::m));
     EXPECT_FALSE(is_unit_cast_lossless(precise::gal));
+}
+
+TEST(unitOps, assignment)
+{
+    unit U1;
+
+    EXPECT_NE(U1, ft);
+    U1 = ft;
+    EXPECT_EQ(U1, ft);
+    auto U2 = std::make_unique<unit>();
+    EXPECT_NE(*U2, mile);
+    *U2 = mile;
+    EXPECT_EQ(*U2, mile);
 }
 
 TEST(unitOps, equality1)
@@ -311,6 +325,10 @@ TEST(preciseUnitOps, assignment)
     EXPECT_NE(U1, precise::ft);
     U1 = precise::ft;
     EXPECT_EQ(U1, precise::ft);
+    auto U2 = std::make_unique<precise_unit>();
+    EXPECT_NE(*U2, precise::mile);
+    *U2 = precise::mile;
+    EXPECT_EQ(*U2, precise::mile);
 }
 
 TEST(preciseunitOps, equality1)

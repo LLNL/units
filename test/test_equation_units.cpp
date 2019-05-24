@@ -160,6 +160,15 @@ TEST(logUnits, neper)
     EXPECT_EQ(convert(-3.685, precise::log::neper, precise::one), exp(-3.685));
     EXPECT_EQ(convert(-2.0, precise::log::neper, precise::one), exp(-2));
     EXPECT_EQ(convert(2.0, precise::log::neper, precise::one), exp(2));
+
+    EXPECT_EQ(convert(exp(1.0), precise::one, precise::log::neperA), 1.0);
+    EXPECT_EQ(convert(exp(3.0), precise::one, precise::log::neperA), 3.0);
+    EXPECT_EQ(convert(exp(-1.0), precise::one, precise::log::neperA), -1.0);
+    EXPECT_EQ(convert(exp(-3.65), precise::one, precise::log::neperA), -3.65);
+    EXPECT_EQ(convert(1.0, precise::log::neperA, precise::one), exp(1));
+    EXPECT_EQ(convert(-3.685, precise::log::neperA, precise::one), exp(-3.685));
+    EXPECT_EQ(convert(-2.0, precise::log::neperA, precise::one), exp(-2));
+    EXPECT_EQ(convert(2.0, precise::log::neperA, precise::one), exp(2));
 }
 
 TEST(logUnits, log2)
@@ -179,6 +188,26 @@ TEST(logUnits, dBNeperConversions)
     EXPECT_EQ(convert(1.0, precise::log::bel, precise::log::dB), 10.0);
     EXPECT_NEAR(convert(1.0, precise::log::bel, precise::log::neper), 1.1512925465, test::tolerance);
     EXPECT_NEAR(convert(10.0, precise::log::dB, precise::log::neper), 1.1512925465, test::tolerance);
+
+    EXPECT_NEAR(convert(10.0, precise::log::dB * precise::V, precise::log::neper * precise::V), 1.1512925465,
+                test::tolerance);
+    EXPECT_NEAR(convert(10.0, precise::log::dB * precise::W, precise::log::neper * precise::W), 1.1512925465,
+                test::tolerance);
+
+    EXPECT_NEAR(convert(10.0, precise::log::dB * precise::V, precise::log::neperA * precise::V), 1.1512925465,
+                test::tolerance);
+    EXPECT_NEAR(convert(10.0, precise::log::dB * precise::W, precise::log::neperP * precise::W), 1.1512925465,
+                test::tolerance);
+
+    EXPECT_NEAR(convert(1.1512925465, precise::log::neper * precise::V, precise::log::dB * precise::V), 10.0,
+                test::tolerance);
+    EXPECT_NEAR(convert(1.1512925465, precise::log::neper * precise::W, precise::log::dB * precise::W), 10.0,
+                test::tolerance);
+
+    EXPECT_NEAR(convert(1.1512925465, precise::log::neperA * precise::V, precise::log::dB * precise::V), 10.0,
+                test::tolerance);
+    EXPECT_NEAR(convert(1.1512925465, precise::log::neperP * precise::W, precise::log::dB * precise::W), 10.0,
+                test::tolerance);
 
     EXPECT_EQ(convert(10.0, precise::log::bel, precise::log::dB), 100.0);
     EXPECT_NEAR(convert(10.0, precise::log::bel, precise::log::neper), 11.512925465, test::tolerance);

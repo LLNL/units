@@ -955,8 +955,13 @@ namespace precise
 
     namespace log
     {
-        // natural logarithm
+        // nepers
         constexpr precise_unit neper = precise_unit(custom::equation_unit(1));
+        // natural logarithm
+        constexpr precise_unit logE = precise_unit(custom::equation_unit(9));
+        constexpr precise_unit neperA = precise_unit(custom::equation_unit(9));
+        // neper of power unit
+        constexpr precise_unit neperP = precise_unit(custom::equation_unit(15));
         // base 10 logarithm
         constexpr precise_unit logbase10 = precise_unit(custom::equation_unit(0));
         // base 10 logarithm bel auto detect power
@@ -1018,7 +1023,7 @@ namespace precise
             case 10:
                 return pow(10.0, val);
             case 1:
-                return exp(val) * ((is_power_unit(UT)) ? 2.0 : 1.0);
+                return exp(val / ((is_power_unit(UT)) ? 0.5 : 1.0));
             case 2:
                 return pow(10.0, val / ((is_power_unit(UT)) ? 1.0 : 2.0));
             case 3:
@@ -1043,6 +1048,8 @@ namespace precise
                 return pow(10.0, val / 20.0);
             case 14:
                 return pow(3.0, val);
+            case 15:
+                return exp(val / 0.5);
             case 22:  // saffir simpson hurricane wind scale
             {
                 double out = -0.17613636364;
@@ -1116,6 +1123,8 @@ namespace precise
                 return 20.0 * log10(val);
             case 14:
                 return log10(val) / log10(3);
+            case 15:
+                return 0.5 * (std::log)(val);
             case 22:  // saffir simpson hurricane scale from wind speed
             {  // using horners method on polynomial approximation of saffir-simpson wind speed scale
                 double out = 1.75748569529e-10;
