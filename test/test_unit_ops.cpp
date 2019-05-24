@@ -128,7 +128,7 @@ TEST(unitOps, assignment)
     EXPECT_NE(U1, ft);
     U1 = ft;
     EXPECT_EQ(U1, ft);
-    auto U2 = std::make_unique<unit>();
+    auto U2 = std::make_shared<unit>();
     EXPECT_NE(*U2, mile);
     *U2 = mile;
     EXPECT_EQ(*U2, mile);
@@ -325,7 +325,7 @@ TEST(preciseUnitOps, assignment)
     EXPECT_NE(U1, precise::ft);
     U1 = precise::ft;
     EXPECT_EQ(U1, precise::ft);
-    auto U2 = std::make_unique<precise_unit>();
+    auto U2 = std::make_shared<precise_unit>();
     EXPECT_NE(*U2, precise::mile);
     *U2 = precise::mile;
     EXPECT_EQ(*U2, precise::mile);
