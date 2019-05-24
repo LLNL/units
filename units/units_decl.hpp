@@ -321,11 +321,11 @@ class unit
         {
             return true;
         }
-        if (detail::cround(multiplier_ * (1.0f + 6e-7f)) == c1)
+        if (detail::cround(multiplier_ * (1.0f + 5.4e-7f)) == c1)
         {
             return true;
         }
-        if (detail::cround(multiplier_ * (1.0f - 6e-7f)) == c1)
+        if (detail::cround(multiplier_ * (1.0f - 5.1e-7f)) == c1)
         {
             return true;
         }
@@ -494,11 +494,11 @@ class precise_unit
         {
             return true;
         }
-        if (detail::cround_precise(multiplier_ * (1.0 + 5.05e-13)) == c1)
+        if (detail::cround_precise(multiplier_ * (1.0 + 5.000e-13)) == c1)
         {
             return true;
         }
-        if (detail::cround_precise(multiplier_ * (1.0 - 5.05e-13)) == c1)
+        if (detail::cround_precise(multiplier_ * (1.0 - 5.000e-13)) == c1)
         {
             return true;
         }

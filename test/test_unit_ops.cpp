@@ -122,29 +122,82 @@ TEST(unitOps, cast)
 
 TEST(unitOps, equality1)
 {
-    int eqFail = 0;
+    int eqFailPos = 0;
+    int eqFailNeg = 0;
     double start = 1.0;
     while (start < (1.0 + 2e-6))
     {
         double diff = 0.0;
         while (diff < 5e-7)
         {
-            diff += 1e-9;
             auto u1 = unit(start, V);
             auto u2 = unit(start + diff, V);
             auto u3 = unit(start - diff, V);
             if (u1 != u2)
             {
-                ++eqFail;
+                ++eqFailPos;
             }
             if (u1 != u3)
             {
-                ++eqFail;
+                ++eqFailNeg;
             }
+            diff += 1e-9;
         }
         start += 1e-9;
     }
-    EXPECT_EQ(eqFail, 0);
+    EXPECT_EQ(eqFailPos, 0);
+    EXPECT_EQ(eqFailNeg, 0);
+}
+/*
+TEST(unitOps, equalitytest)
+{
+    int eqFailPos = 0;
+    int eqFailNeg = 0;
+    double start = 0.1;
+
+    double diff = 0.0;
+    while (diff < 2.75e-6)
+    {
+        auto u1 = unit(start, V);
+        auto u2 = unit(start + diff, V);
+        auto u3 = unit(start - diff, V);
+
+        std::cout << "diff (" << diff << ") compares "
+                  << ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
+        std::cout << "diff (-" << diff << ") compares "
+                  << ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
+
+        diff += 1e-8;
+    }
+}
+*/
+TEST(unitOps, inequality1)
+{
+    int eqFailPos = 0;
+    int eqFailNeg = 0;
+    double start = 1.0;
+    while (start < (1.0 + 2e-6))
+    {
+        double diff = 1e-5;
+        while (diff > 2.501e-6)
+        {
+            auto u1 = unit(start, V);
+            auto u2 = unit(start + diff, V);
+            auto u3 = unit(start - diff, V);
+            if (u1 == u2)
+            {
+                ++eqFailPos;
+            }
+            if (u1 == u3)
+            {
+                ++eqFailNeg;
+            }
+            diff -= 1e-8;
+        }
+        start += 1e-9;
+    }
+    EXPECT_EQ(eqFailPos, 0);
+    EXPECT_EQ(eqFailNeg, 0);
 }
 
 TEST(preciseUnitOps, Simple)
@@ -249,6 +302,95 @@ TEST(preciseUnitOps, cast)
 {
     EXPECT_NE(precise_unit(ft), precise::ft);
     EXPECT_EQ(precise_unit(m), precise::m);
+}
+
+TEST(preciseUnitOps, assignment)
+{
+    precise_unit U1;
+
+    EXPECT_NE(U1, precise::ft);
+    U1 = precise::ft;
+    EXPECT_EQ(U1, precise::ft);
+}
+
+TEST(preciseunitOps, equality1)
+{
+    int eqFailPos = 0;
+    int eqFailNeg = 0;
+    double start = 1.0;
+    while (start < (1.0 + 2e-12))
+    {
+        double diff = 0.0;
+        while (diff < 5e-13)
+        {
+            auto u1 = precise_unit(start, precise::V);
+            auto u2 = precise_unit(start + diff, precise::V);
+            auto u3 = precise_unit(start - diff, precise::V);
+            if (u1 != u2)
+            {
+                ++eqFailPos;
+            }
+            if (u1 != u3)
+            {
+                ++eqFailNeg;
+            }
+            diff += 1e-15;
+        }
+        start += 1e-15;
+    }
+    EXPECT_EQ(eqFailPos, 0);
+    EXPECT_EQ(eqFailNeg, 0);
+}
+/*
+TEST(unitOps, equalitytest)
+{
+int eqFailPos = 0;
+int eqFailNeg = 0;
+double start = 0.1;
+
+double diff = 0.0;
+while (diff < 2.75e-6)
+{
+auto u1 = unit(start, V);
+auto u2 = unit(start + diff, V);
+auto u3 = unit(start - diff, V);
+
+std::cout << "diff (" << diff << ") compares "
+<< ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
+std::cout << "diff (-" << diff << ") compares "
+<< ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
+
+diff += 1e-8;
+}
+}
+*/
+TEST(preciseunitOps, inequality1)
+{
+    int eqFailPos = 0;
+    int eqFailNeg = 0;
+    double start = 1.0;
+    while (start < (1.0 + 2e-12))
+    {
+        double diff = 1e-11;
+        while (diff > 2.501e-12)
+        {
+            auto u1 = precise_unit(start, precise::V);
+            auto u2 = precise_unit(start + diff, precise::V);
+            auto u3 = precise_unit(start - diff, precise::V);
+            if (u1 == u2)
+            {
+                ++eqFailPos;
+            }
+            if (u1 == u3)
+            {
+                ++eqFailNeg;
+            }
+            diff -= 1e-14;
+        }
+        start += 1e-15;
+    }
+    EXPECT_EQ(eqFailPos, 0);
+    EXPECT_EQ(eqFailNeg, 0);
 }
 
 TEST(invalidOps, saturate)
