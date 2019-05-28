@@ -378,3 +378,15 @@ TEST(otherUnits, moment_energy)
 
     EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
 }
+
+TEST(otherUnits, unknownEQ)
+{
+    auto eq18 = precise_unit(precise::custom::equation_unit(18));
+    auto eq19 = precise_unit(precise::custom::equation_unit(19));
+    EXPECT_EQ(convert(1.92, eq18, precise::one), 1.92);
+
+    auto conv7 = convert(7.0, eq18, eq19 * precise::W);
+    EXPECT_TRUE(std::isnan(conv7));
+
+    EXPECT_EQ(convert(1.927, eq18 * precise::W, eq19 * precise::W), 1.927);
+}
