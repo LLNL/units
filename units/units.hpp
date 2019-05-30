@@ -264,14 +264,26 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
                   "convert argument types must be unit or precise_unit");
     static_assert(std::is_same<UX2, unit>::value || std::is_same<UX2, precise_unit>::value,
                   "convert argument types must be unit or precise_unit");
-    if (start == result || start.is_default() || result.is_default())
+    if (start.is_default() || result.is_default())
     {
         return val;
     }
     /// if it isn't per unit or both are per unit give it to the other function since bases aren't needed
     if (start.is_per_unit() == result.is_per_unit())
-        return convert(val, start, result);
-
+    {
+        if (start.is_per_unit() && start == result)
+        {
+            return val * basePower / baseVoltage;
+        }
+        else if (start.is_per_unit() && start.has_same_base(result.base_units()))
+        {
+            return val * basePower * start.multiplier() / baseVoltage / result.multiplier();
+        }
+        else
+        {
+            return convert(val, start, result);
+        }
+    }
     /// now we get into some power system specific conversions
     // deal with situations of same base in different quantities
     if (start.has_same_base(result.base_units()))

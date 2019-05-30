@@ -23,6 +23,11 @@ TEST(PU, Ops)
     EXPECT_EQ(puV * puA, pu * W);
     EXPECT_EQ(puV / puA, puOhm);
 }
+TEST(PU, base_generation)
+{
+    EXPECT_EQ(generate_base(W.base_units(), 100.0, 34.7), 100.0);
+    EXPECT_TRUE(std::isnan(generate_base(m.base_units(), 45.8, 99.34)));
+}
 
 TEST(PU, Example1)
 {
@@ -41,6 +46,16 @@ TEST(PU, Example1)
     EXPECT_NEAR(convert(1.0, pu * S, S, basePower, 16000), 1.0 / 2.56, 0.01);
     EXPECT_NEAR(convert(0.22, puA, A, basePower, baseVoltage), 275, 0.1);
     EXPECT_NEAR(convert(2.5, puMW, A, 100, baseVoltage), 2.5 * basePower / baseVoltage, 0.1);
+}
+
+TEST(PU, two_base_values)
+{
+    EXPECT_EQ(convert(1.47, ohm, defunit, 24.7, 92.3), 1.47);
+    EXPECT_NEAR(convert(1.0, in, cm, 5.7, 19.36), 2.54, test::tolerance);
+
+    EXPECT_NEAR(convert(4.5, puMW, puA, 100, 80000), 4.5, 0.00001);
+
+    EXPECT_NEAR(convert(4.5, puMW, puMW, 100, 80), 4.5 * 10.0 / 8.0, 0.00001);
 }
 
 TEST(PU, Conversions_just_pu)
