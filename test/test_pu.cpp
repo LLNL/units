@@ -56,6 +56,8 @@ TEST(PU, two_base_values)
     EXPECT_NEAR(convert(4.5, puMW, puA, 100, 80000), 4.5, 0.00001);
 
     EXPECT_NEAR(convert(4.5, puMW, puMW, 100, 80), 4.5 * 10.0 / 8.0, 0.00001);
+
+    EXPECT_NEAR(convert(4.5, pu * m, pu * m, 100, 80), 4.5 * 10.0 / 8.0, 0.00001);
 }
 
 TEST(PU, Conversions_just_pu)

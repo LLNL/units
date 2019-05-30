@@ -370,3 +370,11 @@ TEST(UnitDefinitions, conversions)
 
     EXPECT_NEAR(res, 3.28084, test::tolerance);
 }
+
+TEST(UnitDefinitions, inversionConversion)
+{
+    using namespace units;
+    EXPECT_NEAR(convert(0.5, m, m.inv()), 2.0, test::tolerance);
+
+    EXPECT_NEAR(convert(10, Hz, s), 0.1, test::tolerance);
+}

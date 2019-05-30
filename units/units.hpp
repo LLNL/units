@@ -188,6 +188,11 @@ double convert(double val, UX start, UX2 result)
         // radians converted to mole is kind of dumb, theoretically possible but probably shouldn't be
         // supported
     }
+    // check for inverse units
+    if (base_start.has_same_base(base_result.inv()))
+    {  // ignore flag and e flag  special cases have been dealt with already, so those are just markers
+        return result.multiplier() / (val * start.multiplier());
+    }
     return constants::invalid_conversion;
 }
 
