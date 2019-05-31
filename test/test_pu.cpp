@@ -46,6 +46,7 @@ TEST(PU, Example1)
     EXPECT_NEAR(convert(1.0, pu * S, S, basePower, 16000), 1.0 / 2.56, 0.01);
     EXPECT_NEAR(convert(0.22, puA, A, basePower, baseVoltage), 275, 0.1);
     EXPECT_NEAR(convert(2.5, puMW, A, 100, baseVoltage), 2.5 * basePower / baseVoltage, 0.1);
+    EXPECT_NEAR(convert(24.0, A, puMW, 100, baseVoltage), 24.0 * baseVoltage / 100000000, 0.000001);
 }
 
 TEST(PU, two_base_values)
@@ -55,9 +56,11 @@ TEST(PU, two_base_values)
 
     EXPECT_NEAR(convert(4.5, puMW, puA, 100, 80000), 4.5, 0.00001);
 
-    EXPECT_NEAR(convert(4.5, puMW, puMW, 100, 80), 4.5 * 10.0 / 8.0, 0.00001);
+    EXPECT_NEAR(convert(4.5, puMW, puMW, 100, 80), 4.5, 0.00001);
 
     EXPECT_NEAR(convert(4.5, pu * m, pu * m, 100, 80), 4.5 * 10.0 / 8.0, 0.00001);
+
+    EXPECT_NEAR(convert(0.1, pu * m, pu * mm, 1.0, 10), 10.0, 0.00001);
 }
 
 TEST(PU, Conversions_just_pu)
@@ -65,6 +68,8 @@ TEST(PU, Conversions_just_pu)
     EXPECT_EQ(convert(1.0, pu, ohm, 5.0), 5.0);
     EXPECT_NEAR(convert(136.0, kV, pu, 500, 138000), 0.9855, test::tolerance * 100);
     EXPECT_EQ(convert(2.7, pu, puMW), 2.7);
+
+    EXPECT_NEAR(convert(3.0, pu, MW, 100, 25000), 300, test::tolerance * 300);
 }
 
 TEST(PU, pu_base_assumptions)

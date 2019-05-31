@@ -276,18 +276,19 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
     /// if it isn't per unit or both are per unit give it to the other function since bases aren't needed
     if (start.is_per_unit() == result.is_per_unit())
     {
-        if (start.is_per_unit() && start == result)
+        auto base = generate_base(start.base_units(), basePower, baseVoltage);
+        if (std::isnan(base))
         {
-            return val * basePower / baseVoltage;
+            if (start.is_per_unit() && start == result)
+            {
+                return val * basePower / baseVoltage;
+            }
+            if (start.is_per_unit() && start.has_same_base(result.base_units()))
+            {
+                return val * basePower * start.multiplier() / baseVoltage / result.multiplier();
+            }
         }
-        else if (start.is_per_unit() && start.has_same_base(result.base_units()))
-        {
-            return val * basePower * start.multiplier() / baseVoltage / result.multiplier();
-        }
-        else
-        {
-            return convert(val, start, result);
-        }
+        return convert(val, start, result);
     }
     /// now we get into some power system specific conversions
     // deal with situations of same base in different quantities
@@ -314,14 +315,14 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
             return puVal * start.multiplier();
         }
         // let the first function deal with both as PU
-        return convert(puVal, start * pu, result);
+        return convert(puVal, start * pu, result) / result.multiplier();
     }
     // start must be per unit
     auto base = generate_base(result.base_units(), basePower, baseVoltage);
     base *= start.multiplier();
     if (pu == unit_cast(start))
     {  // if start is generic pu
-        return val * base / result.multiplier();
+        return val * base;
     }
     return convert(val, start, result * pu) * base;
 }
