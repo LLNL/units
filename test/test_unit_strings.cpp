@@ -437,3 +437,28 @@ TEST(stringToUnits, invalid)
     EXPECT_TRUE(u1.is_error());
     EXPECT_FALSE(unit_from_string("{\\(test}").is_error());
 }
+
+TEST(userDefinedUnits, definitions)
+{
+    precise_unit clucks(19.3, precise::m * precise::A);
+    addUserDefinedUnit("clucks", clucks);
+
+    EXPECT_EQ(unit_from_string("clucks/A"), precise_unit(19.3, precise::m));
+
+    EXPECT_EQ(to_string(clucks), "clucks");
+}
+
+TEST(userDefinedUnits, clearDefs)
+{
+    precise_unit clucks(19.3, precise::m * precise::A);
+    addUserDefinedUnit("clucks", clucks);
+
+    EXPECT_EQ(unit_from_string("clucks/A"), precise_unit(19.3, precise::m));
+
+    EXPECT_EQ(to_string(clucks), "clucks");
+
+    clearUserDefinedUnits();
+    EXPECT_EQ(unit_from_string("clucks/A"), precise::error);
+
+    EXPECT_NE(to_string(clucks), "clucks");
+}
