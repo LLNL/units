@@ -462,3 +462,10 @@ TEST(userDefinedUnits, clearDefs)
 
     EXPECT_NE(to_string(clucks), "clucks");
 }
+
+TEST(defaultUnits, unitTypes)
+{
+    EXPECT_EQ(default_unit("impedance quantity"), precise::ohm);
+    EXPECT_EQ(default_unit("distance"), precise::m);
+    EXPECT_EQ(default_unit("Quantity of distance"), precise::m);
+}

@@ -1259,6 +1259,7 @@ static double generateLeadingNumber(const std::string &ustring, size_t &index);
 /** generate a value from a single numerical block */
 static double getNumberBlock(const std::string &ustring, size_t &index)
 {
+    double val;
     if (ustring.front() == '(')
     {
         size_t ival = 1;
@@ -1296,7 +1297,6 @@ static double getNumberBlock(const std::string &ustring, size_t &index)
             }
             auto substr = ustring.substr(1, ival - 2);
             size_t ind;
-            double val;
             if (hasOp)
             {
                 val = generateLeadingNumber(substr, ind);
@@ -1310,7 +1310,6 @@ static double getNumberBlock(const std::string &ustring, size_t &index)
                 return constants::invalid_conversion;
             }
             index = ival;
-            return val;
         }
         else
         {
@@ -1319,8 +1318,23 @@ static double getNumberBlock(const std::string &ustring, size_t &index)
     }
     else
     {
-        return std::stod(ustring, &index);
+        val = std::stod(ustring, &index);
     }
+    if (index < ustring.size())
+    {
+        if (ustring[index] == '^')
+        {
+            size_t nindex;
+            double pval = getNumberBlock(ustring.substr(index + 1), nindex);
+            if (!std::isnan(pval))
+            {
+                index += nindex + 1;
+                return pow(val, pval);
+            }
+            return constants::invalid_conversion;
+        }
+    }
+    return val;
 }
 
 double generateLeadingNumber(const std::string &ustring, size_t &index)
@@ -1353,13 +1367,9 @@ double generateLeadingNumber(const std::string &ustring, size_t &index)
                         {
                             val *= res;
                         }
-                        else if (ustring[index] == '/')
-                        {
-                            val /= res;
-                        }
                         else
                         {
-                            val = pow(val, res);
+                            val /= res;
                         }
 
                         index = oindex + index + 1;
@@ -1371,7 +1381,20 @@ double generateLeadingNumber(const std::string &ustring, size_t &index)
                 }
                 break;
             case '(':
+            {
+                size_t oindex;
+                double res = getNumberBlock(ustring.substr(index), oindex);
+                if (!std::isnan(res))
+                {
+                    val *= res;
+                    index = oindex + index + 1;
+                }
+                else
+                {
+                    return val;
+                }
                 break;
+            }
             default:
                 return val;
             }
@@ -5983,7 +6006,10 @@ precise_unit default_unit(std::string unit_type)
     {
         return fnd->second;
     }
-
+    if (unit_type.compare(0, 10, "quantityof") == 0)
+    {
+        return default_unit(unit_type.substr(10));
+    }
     auto fof = unit_type.rfind("of");
     if (fof != std::string::npos)
     {
@@ -6028,9 +6054,3 @@ precise_unit default_unit(std::string unit_type)
 }
 
 }  // namespace units
-
-std::ostream &operator<<(std::ostream &stream, units::unit const &u)
-{
-    stream << units::to_string(u);
-    return stream;
-}
