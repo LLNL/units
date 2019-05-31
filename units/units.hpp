@@ -826,4 +826,13 @@ namespace constants
     }  // namespace atomic
 }  // namespace constants
 
+namespace detail
+{
+    namespace testing
+    {
+        // generate a number from a number sequence
+        double testLeadingNumber(const std::string &test, size_t &index);
+    }  // namespace testing
+}  // namespace detail
+
 }  // namespace units

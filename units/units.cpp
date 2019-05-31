@@ -1210,13 +1210,86 @@ static double getPrefixMultiplier2Char(char c1, char c2)
     }
     return 0.0;
 }
+
+// do a segment check in the forward direction
+static bool segmentcheck(const std::string &unit, char closeSegment, size_t &index);
+
 /** generate a number representing the leading portion of a string
 the index of the first non-converted character is returned in index*/
-static double generateLeadingNumber(const std::string &ustring, size_t &index)
+static double generateLeadingNumber(const std::string &ustring, size_t &index);
+
+/** generate a value from a single numerical block */
+static double getNumberBlock(const std::string &ustring, size_t &index)
+{
+    if (ustring.front() == '(')
+    {
+        size_t ival = 1;
+        if (segmentcheck(ustring, ')', ival))
+        {
+            if (ival == 2)
+            {
+                index = ival;
+                return 1.0;
+            }
+            bool hasOp = false;
+            for (size_t ii = 1; ii < ival - 1; ++ii)
+            {
+                auto c = ustring[ii];
+                if (c >= '0' && c <= '9')
+                {
+                    continue;
+                }
+                switch (c)
+                {
+                case '-':
+                case '.':
+                case 'e':
+                    break;
+                case '*':
+                case '/':
+                case '^':
+                case '(':
+                case ')':
+                    hasOp = true;
+                    break;
+                default:
+                    return constants::invalid_conversion;
+                }
+            }
+            auto substr = ustring.substr(1, ival - 2);
+            size_t ind;
+            double val;
+            if (hasOp)
+            {
+                val = generateLeadingNumber(substr, ind);
+            }
+            else
+            {
+                val = std::stod(substr, &ind);
+            }
+            if (ind < substr.size())
+            {
+                return constants::invalid_conversion;
+            }
+            index = ival;
+            return val;
+        }
+        else
+        {
+            return constants::invalid_conversion;
+        }
+    }
+    else
+    {
+        return std::stod(ustring, &index);
+    }
+}
+
+double generateLeadingNumber(const std::string &ustring, size_t &index)
 {
     try
     {
-        double val = std::stod(ustring, &index);
+        double val = getNumberBlock(ustring, index);
 
         while (true)
         {
@@ -1230,28 +1303,28 @@ static double generateLeadingNumber(const std::string &ustring, size_t &index)
             case '-':
             case '+':
                 return constants::invalid_conversion;
-            case '^':
-                if (isNumericalCharacter(ustring[index + 1]))
-                {
-                    double res = generateLeadingNumber(ustring.substr(index + 1), index);
-                    if (!std::isnan(res))
-                    {
-                        val = pow(val, res);
-                    }
-                    else
-                    {
-                        return val;
-                    }
-                }
-                break;
             case '/':
             case '*':
-                if (isNumericalCharacter(ustring[index + 1]))
+                if (isNumericalCharacter(ustring[index + 1]) || ustring[index + 1] == '(')
                 {
-                    double res = generateLeadingNumber(ustring.substr(index + 1), index);
+                    size_t oindex;
+                    double res = getNumberBlock(ustring.substr(index + 1), oindex);
                     if (!std::isnan(res))
                     {
-                        val *= res;
+                        if (ustring[index] == '*')
+                        {
+                            val *= res;
+                        }
+                        else if (ustring[index] == '/')
+                        {
+                            val /= res;
+                        }
+                        else
+                        {
+                            val = pow(val, res);
+                        }
+
+                        index = oindex + index + 1;
                     }
                     else
                     {
@@ -1259,6 +1332,10 @@ static double generateLeadingNumber(const std::string &ustring, size_t &index)
                     }
                 }
                 break;
+            case '(':
+                break;
+            default:
+                return val;
             }
         }
     }
@@ -1271,6 +1348,19 @@ static double generateLeadingNumber(const std::string &ustring, size_t &index)
         return constants::invalid_conversion;
     }
 }
+
+namespace detail
+{
+    namespace testing
+    {
+        // generate a number from a number sequence
+        double testLeadingNumber(const std::string &test, size_t &index)
+        {
+            return generateLeadingNumber(test, index);
+        }
+    }  // namespace testing
+}  // namespace detail
+
 /** Words of SI prefixes
 https://physics.nist.gov/cuu/Units/prefixes.html
 https://physics.nist.gov/cuu/Units/binary.html
@@ -4196,10 +4286,10 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"Britishthermalunit", "BTU"},
       ckpair{"BThU", "BTU"},
       ckpair{"-US", "US"},
-      ckpair{"--", "*"},  // -- is either a double negative or a separator, so make it a multiplier so it doesn't
-                          // get erased and then converted to a power
-      ckpair{"\\\\", "\\\\*"},  // \\ is always considered a segment terminator so it won't be misinterpreted as a
-                                // known escape sequence
+      ckpair{"--", "*"},  // -- is either a double negative or a separator, so make it a multiplier so it
+                          // doesn't get erased and then converted to a power
+      ckpair{"\\\\", "\\\\*"},  // \\ is always considered a segment terminator so it won't be misinterpreted
+                                // as a known escape sequence
       ckpair{"perunit", "pu"},
       ckpair{"per-unit", "pu"},
       ckpair{"/square*", "/square"},
@@ -4795,8 +4885,8 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
             {
                 if (unit_string.find_first_of("({[*/", start) < part)
                 {
-                    // this implies that the contents of the parenthesis must be a standalone segment and should
-                    // not be included in a check
+                    // this implies that the contents of the parenthesis must be a standalone segment and
+                    // should not be included in a check
                     break;
                 }
             }
@@ -4892,15 +4982,13 @@ static precise_unit checkForCustomUnit(const std::string &unit_string)
 }
 
 // Step 1.  Check if the string matches something in the map
-// Step 2.  clean the string, remove spaces, '_' and detect dot notation, check for some unicode stuff, check again
-// Step 3. Find multiplication of division operators and split the string into two starting from the last operator
-// Step 4.  If found Goto step 1 for each of the two parts, then operate on the results
-// Step 5.  Check for ^ and if found goto to step 1 for interior portion then do a power
-// Step 6.  Remove parenthesis and if found goto step 1
-// Step 7.  Check for a SI prefix on the unit
-// Step 8.  Check if the first character is upper case and if so and the string is long make it lower case
-// Step 9.  Check to see if it is a number of some kind and make numerical unit
-// Step 10.  Return an error unit
+// Step 2.  clean the string, remove spaces, '_' and detect dot notation, check for some unicode stuff, check
+// again Step 3. Find multiplication of division operators and split the string into two starting from the last
+// operator Step 4.  If found Goto step 1 for each of the two parts, then operate on the results Step 5.  Check
+// for ^ and if found goto to step 1 for interior portion then do a power Step 6.  Remove parenthesis and if
+// found goto step 1 Step 7.  Check for a SI prefix on the unit Step 8.  Check if the first character is upper
+// case and if so and the string is long make it lower case Step 9.  Check to see if it is a number of some
+// kind and make numerical unit Step 10.  Return an error unit
 precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
 {
     if (unit_string.empty())
