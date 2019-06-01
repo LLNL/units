@@ -4,7 +4,7 @@
 
 The following is a set of guidelines for contributing to UNITS. These are suggested guidelines. Use your best judgment.
 
-#### Table Of Contents
+## Table Of Contents
 
 ## Licensing
 UNITS is distributed under the terms of the BSD-3 clause license. All new
@@ -12,8 +12,7 @@ contributions must be made under this [LICENSE](LICENSE) in accordance with the 
 
 ##  [Code of Conduct](.github/CODE_OF_CONDUCT.md)
 
-
-## How Can I Contribute?
+## How Can I Contribute
 
 ### Reporting Bugs
 
@@ -31,12 +30,10 @@ This section guides you through submitting a feature request, or enhancement for
 
  A pull request including a bug fix or feature will always be welcome.
 
-
 #### Before Submitting An Enhancement Suggestion
 
 * check the issue list for any similar issues
 * take a look at the [RoadMap](ROADMAP.md) or projects to see if the feature is already planned, and if so feel free to add some feedback if it could be improved.
-
 
 ### Your First Code Contribution
 
@@ -47,4 +44,3 @@ Typically you would want to submit a pull request against the develop branch.  T
 
 ## Styleguides
 Code formatting is controlled via clang-format
-
