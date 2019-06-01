@@ -85,10 +85,13 @@ TEST(unitOps, root)
     auto ft4 = ft.pow(4);
     EXPECT_EQ(ft * ft, ft4.root(2));
     EXPECT_EQ(ft, ft4.root(4));
+    EXPECT_EQ(ft.inv(), ft4.root(-4));
 
     auto ft5 = ft.pow(5);
     EXPECT_EQ(ft, ft5.root(5));
     EXPECT_EQ(ft.inv(), ft5.root(-5));
+
+    EXPECT_EQ(unit(-4.5, m).root(2), error);
 }
 
 TEST(unitOps, nan)
@@ -283,10 +286,13 @@ TEST(preciseUnitOps, root)
     auto ft4 = precise::ft.pow(4);
     EXPECT_EQ(precise::ft * precise::ft, ft4.root(2));
     EXPECT_EQ(precise::ft, ft4.root(4));
+    EXPECT_EQ(precise::ft.inv(), ft4.root(-4));
 
     auto ft5 = precise::ft.pow(5);
     EXPECT_EQ(precise::ft, ft5.root(5));
     EXPECT_EQ(precise::ft.inv(), ft5.root(-5));
+
+    EXPECT_EQ(precise_unit(-4.5, m).root(2), precise::error);
 }
 
 TEST(preciseUnitOps, nan)

@@ -739,7 +739,14 @@ std::string to_string(measurement measure, uint32_t match_flags = 0);
 /// Convert a floating point measurement to a string
 std::string to_string(measurement_f measure, uint32_t match_flags = 0);
 /// Add a custom unit to be included in any string processing
-void addCustomUnit(std::string name, precise_unit un);
+void addUserDefinedUnit(std::string name, precise_unit un);
+// Clear all user defined units from memory
+void clearUserDefinedUnits();
+
+/// Turn off the ability to add custom commodities for later access
+bool disableUserDefinedUnits();
+/// Enable the ability to add custom commodities for later access
+bool enableUserDefinedUnits();
 
 /// get the code to use for a particular commodity
 unsigned int getCommodity(std::string comm);

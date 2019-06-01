@@ -5,9 +5,9 @@ See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
 #include "units.hpp"
-
 #include <algorithm>
 #include <array>
+#include <atomic>
 #include <cctype>
 #include <cstring>
 #include <iomanip>
@@ -614,15 +614,37 @@ static std::string generateRawUnitString(precise_unit un)
     return val;
 }
 
+static std::atomic<bool> allowUserDefinedUnits{true};
+
+bool disableUserDefinedUnits()
+{
+    allowUserDefinedUnits.store(false);
+    return false;
+}
+bool enableUserDefinedUnits()
+{
+    allowUserDefinedUnits.store(true);
+    return true;
+}
+
 using smap = std::unordered_map<std::string, precise_unit>;
 
-static std::unordered_map<unit, std::string> custom_unit_names;
-static smap custom_units;
+static std::unordered_map<unit, std::string> user_defined_unit_names;
+static smap user_defined_units;
 
-void addCustomUnit(std::string name, precise_unit un)
+void addUserDefinedUnit(std::string name, precise_unit un)
 {
-    custom_unit_names[unit_cast(un)] = name;
-    custom_units[name] = un;
+    if (allowUserDefinedUnits.load())
+    {
+        user_defined_unit_names[unit_cast(un)] = name;
+        user_defined_units[name] = un;
+    }
+}
+
+void clearUserDefinedUnits()
+{
+    user_defined_unit_names.clear();
+    user_defined_units.clear();
 }
 
 // add escapes for some particular sequences
@@ -755,6 +777,23 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
     return propUnitString;
 }
 
+static std::string find_unit(unit un)
+{
+    if (!user_defined_unit_names.empty())
+    {
+        auto fndud = user_defined_unit_names.find(un);
+        if (fndud != user_defined_unit_names.end())
+        {
+            return fndud->second;
+        }
+    }
+    auto fnd = base_unit_names.find(un);
+    if (fnd != base_unit_names.end())
+    {
+        return fnd->second;
+    }
+    return std::string{};
+}
 static std::string to_string_internal(precise_unit un, uint32_t match_flags)
 {
     if (!std::isnormal(un.multiplier()))
@@ -793,17 +832,17 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         }
     }
     auto llunit = unit_cast(un);
-    auto fnd = base_unit_names.find(llunit);
-    if (fnd != base_unit_names.end())
+    auto fnd = find_unit(llunit);
+    if (!fnd.empty())
     {
-        return fnd->second;
+        return fnd;
     }
 
     // lets try inverting it
-    fnd = base_unit_names.find(llunit.inv());
-    if (fnd != base_unit_names.end())
+    fnd = find_unit(llunit.inv());
+    if (!fnd.empty())
     {
-        return std::string("1/") + fnd->second;
+        return std::string("1/") + fnd;
     }
     if (un.base_units().empty())
     {
@@ -819,30 +858,30 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     if (!un.base_units().root(2).has_e_flag() && un.multiplier() > 0.0)
     {
         auto squ = llunit.root(2);
-        fnd = base_unit_names.find(squ);
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(squ);
+        if (!fnd.empty())
         {
-            return std::string(fnd->second) + "^2";
+            return fnd + "^2";
         }
-        fnd = base_unit_names.find(squ.inv());
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(squ.inv());
+        if (!fnd.empty())
         {
-            return std::string("1/") + fnd->second + "^2";
+            return std::string("1/") + fnd + "^2";
         }
     }
     /// Check for squared units
     if (!un.base_units().root(3).has_e_flag())
     {
         auto cub = llunit.root(3);
-        fnd = base_unit_names.find(cub);
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(cub);
+        if (!fnd.empty())
         {
-            return std::string(fnd->second) + "^3";
+            return fnd + "^3";
         }
-        fnd = base_unit_names.find(cub.inv());
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(cub.inv());
+        if (!fnd.empty())
         {
-            return std::string("1/") + fnd->second + "^3";
+            return std::string("1/") + fnd + "^3";
         }
     }
     if (!un.is_equation() && un.unit_type_count() == 1)
@@ -851,16 +890,16 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     }
     // lets try converting to pure base unit
     auto bunit = unit(un.base_units());
-    fnd = base_unit_names.find(bunit);
-    if (fnd != base_unit_names.end())
+    fnd = find_unit(bunit);
+    if (!fnd.empty())
     {
-        return generateUnitSequence(un.multiplier(), fnd->second);
+        return generateUnitSequence(un.multiplier(), fnd);
     }
     // let's try inverting the pure base unit
-    fnd = base_unit_names.find(bunit.inv());
-    if (fnd != base_unit_names.end())
+    fnd = find_unit(bunit.inv());
+    if (!fnd.empty())
     {
-        auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd->second);
+        auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
         if (isNumericalCharacter(prefix.front()))
         {
             size_t cut;
@@ -873,10 +912,10 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     for (auto &tu : testUnits)
     {
         auto ext = un * tu.first;
-        fnd = base_unit_names.find(unit_cast(ext));
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(unit_cast(ext));
+        if (!fnd.empty())
         {
-            return std::string(fnd->second) + '/' + tu.second;
+            return fnd + '/' + tu.second;
         }
     }
 
@@ -884,30 +923,30 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     for (auto &tu : testUnits)
     {
         auto ext = un / tu.first;
-        fnd = base_unit_names.find(unit_cast(ext));
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(unit_cast(ext));
+        if (!fnd.empty())
         {
-            return std::string(fnd->second) + '*' + tu.second;
+            return fnd + '*' + tu.second;
         }
     }
     // let's try common divisor with inv units
     for (auto &tu : testUnits)
     {
         auto ext = un / tu.first;
-        fnd = base_unit_names.find(unit_cast(ext.inv()));
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(unit_cast(ext.inv()));
+        if (!fnd.empty())
         {
-            return std::string(tu.second) + '/' + fnd->second;
+            return std::string(tu.second) + '/' + fnd;
         }
     }
     // let's try inverse of common multiplier units
     for (auto &tu : testUnits)
     {
         auto ext = un * tu.first;
-        fnd = base_unit_names.find(unit_cast(ext.inv()));
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(unit_cast(ext.inv()));
+        if (!fnd.empty())
         {
-            return std::string("1/(") + fnd->second + '*' + tu.second + ')';
+            return std::string("1/(") + fnd + '*' + tu.second + ')';
         }
     }
     if (un.is_equation())
@@ -980,10 +1019,10 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     {
         auto ext = un * tu.first;
         auto base = unit(ext.base_units());
-        fnd = base_unit_names.find(base);
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(base);
+        if (!fnd.empty())
         {
-            auto prefix = generateUnitSequence(ext.multiplier(), fnd->second);
+            auto prefix = generateUnitSequence(ext.multiplier(), fnd);
 
             auto str = prefix + '/' + tu.second;
             if (!isNumericalCharacter(str.front()))
@@ -1002,10 +1041,10 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     {
         auto ext = un / tu.first;
         auto base = unit(ext.base_units());
-        fnd = base_unit_names.find(base);
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(base);
+        if (!fnd.empty())
         {
-            auto prefix = generateUnitSequence(ext.multiplier(), fnd->second);
+            auto prefix = generateUnitSequence(ext.multiplier(), fnd);
             auto str = prefix + '*' + tu.second;
             if (!isNumericalCharacter(str.front()))
             {
@@ -1023,10 +1062,10 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         auto ext = un / tu.first;
         auto base = unit(ext.base_units());
 
-        fnd = base_unit_names.find(base.inv());
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(base.inv());
+        if (!fnd.empty())
         {
-            auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd->second);
+            auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
             if (isNumericalCharacter(prefix.front()))
             {
                 size_t cut;
@@ -1048,12 +1087,11 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     {
         auto ext = un * tu.first;
         auto base = unit(ext.base_units());
-        fnd = base_unit_names.find(base.inv());
-        if (fnd != base_unit_names.end())
+        fnd = find_unit(base.inv());
+        if (!fnd.empty())
         {
-            std::string secondaryUnit(fnd->second);
-            auto prefix = getMultiplierString(1.0 / ext.multiplier(), secondaryUnit.back());
-            auto str = std::string("1/(") + prefix + secondaryUnit + '*' + tu.second + ')';
+            auto prefix = getMultiplierString(1.0 / ext.multiplier(), fnd.back());
+            auto str = std::string("1/(") + prefix + fnd + '*' + tu.second + ')';
             if (!isNumericalCharacter(prefix.front()))
             {
                 return str;
@@ -1221,6 +1259,7 @@ static double generateLeadingNumber(const std::string &ustring, size_t &index);
 /** generate a value from a single numerical block */
 static double getNumberBlock(const std::string &ustring, size_t &index)
 {
+    double val;
     if (ustring.front() == '(')
     {
         size_t ival = 1;
@@ -1258,7 +1297,6 @@ static double getNumberBlock(const std::string &ustring, size_t &index)
             }
             auto substr = ustring.substr(1, ival - 2);
             size_t ind;
-            double val;
             if (hasOp)
             {
                 val = generateLeadingNumber(substr, ind);
@@ -1272,7 +1310,6 @@ static double getNumberBlock(const std::string &ustring, size_t &index)
                 return constants::invalid_conversion;
             }
             index = ival;
-            return val;
         }
         else
         {
@@ -1281,8 +1318,23 @@ static double getNumberBlock(const std::string &ustring, size_t &index)
     }
     else
     {
-        return std::stod(ustring, &index);
+        val = std::stod(ustring, &index);
     }
+    if (index < ustring.size())
+    {
+        if (ustring[index] == '^')
+        {
+            size_t nindex;
+            double pval = getNumberBlock(ustring.substr(index + 1), nindex);
+            if (!std::isnan(pval))
+            {
+                index += nindex + 1;
+                return pow(val, pval);
+            }
+            return constants::invalid_conversion;
+        }
+    }
+    return val;
 }
 
 double generateLeadingNumber(const std::string &ustring, size_t &index)
@@ -1315,13 +1367,9 @@ double generateLeadingNumber(const std::string &ustring, size_t &index)
                         {
                             val *= res;
                         }
-                        else if (ustring[index] == '/')
-                        {
-                            val /= res;
-                        }
                         else
                         {
-                            val = pow(val, res);
+                            val /= res;
                         }
 
                         index = oindex + index + 1;
@@ -1333,7 +1381,20 @@ double generateLeadingNumber(const std::string &ustring, size_t &index)
                 }
                 break;
             case '(':
+            {
+                size_t oindex;
+                double res = getNumberBlock(ustring.substr(index), oindex);
+                if (!std::isnan(res))
+                {
+                    val *= res;
+                    index = oindex + index + 1;
+                }
+                else
+                {
+                    return val;
+                }
                 break;
+            }
             default:
                 return val;
             }
@@ -3693,10 +3754,10 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
 
 static precise_unit get_unit(const std::string &unit_string)
 {
-    if (!custom_units.empty())
+    if (!user_defined_units.empty())
     {
-        auto fnd2 = custom_units.find(unit_string);
-        if (fnd2 != custom_units.end())
+        auto fnd2 = user_defined_units.find(unit_string);
+        if (fnd2 != user_defined_units.end())
         {
             return fnd2->second;
         }
@@ -5945,7 +6006,10 @@ precise_unit default_unit(std::string unit_type)
     {
         return fnd->second;
     }
-
+    if (unit_type.compare(0, 10, "quantityof") == 0)
+    {
+        return default_unit(unit_type.substr(10));
+    }
     auto fof = unit_type.rfind("of");
     if (fof != std::string::npos)
     {
@@ -5990,9 +6054,3 @@ precise_unit default_unit(std::string unit_type)
 }
 
 }  // namespace units
-
-std::ostream &operator<<(std::ostream &stream, units::unit const &u)
-{
-    stream << units::to_string(u);
-    return stream;
-}
