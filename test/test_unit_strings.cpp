@@ -352,7 +352,7 @@ TEST(CommodityStrings, simple)
 {
     auto u1 = unit_from_string("{absorbance}");
     EXPECT_FALSE(u1.is_error());
-    EXPECT_NE(u1.commodity(), 0);
+    EXPECT_NE(u1.commodity(), 0u);
 }
 
 #include <fstream>
@@ -503,4 +503,30 @@ TEST(commoditizedUnits, prefixed)
     auto u2 = unit_from_string("KB{info}");
     EXPECT_EQ(getCommodityName(u2.commodity()), "info");
     EXPECT_TRUE(u2.has_same_base(precise::data::byte));
+}
+
+TEST(commoditizedUnits, numericalWords)
+{
+    auto u = unit_from_string("20{unicorns}");
+    EXPECT_EQ(getCommodityName(u.commodity()), "unicorns");
+
+    auto u2 = unit_from_string("twenty{unicorns}");
+    EXPECT_EQ(getCommodityName(u2.commodity()), "unicorns");
+    EXPECT_EQ(u2, u);
+
+    auto u3 = unit_from_string("two-million{unicorns}");
+    EXPECT_EQ(u3.multiplier(), 2000000);
+
+    auto u4 = unit_from_string("two-million{unicorns}{_}");
+    EXPECT_EQ(u3, u4);
+}
+
+TEST(funnyStrings, underscore)
+{
+    EXPECT_EQ(precise::error, unit_from_string("_45_625_252_22524_252452_25242522562_E522_"));
+
+    EXPECT_EQ(precise_unit(45625252.0, precise::m), unit_from_string("_45_625_252_m_"));
+
+    auto ukittens = unit_from_string("_45_625_252_kittens_");
+    EXPECT_EQ(ukittens.commodity(), getCommodity("kittens"));
 }

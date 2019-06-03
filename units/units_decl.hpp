@@ -415,7 +415,7 @@ class precise_unit
     }
     /// Copy constructor with a multiplier
     constexpr precise_unit(precise_unit other, double multiplier) noexcept
-        : precise_unit(other.base_units_, multiplier * other.multiplier_)
+        : precise_unit(other.base_units_, other.commodity_, multiplier * other.multiplier_)
     {
     }
     /// Constructor for a double and other unit
@@ -424,7 +424,7 @@ class precise_unit
     {
     }
     constexpr precise_unit(double multiplier, precise_unit other) noexcept
-        : precise_unit(other.base_units_, multiplier * other.multiplier_)
+        : precise_unit(other.base_units_, other.commodity_, multiplier * other.multiplier_)
     {
     }
     /// Build a unit from another with a multiplier and commodity
@@ -574,7 +574,7 @@ class precise_unit
     /// Check if the unit is a per_unit notation
     constexpr bool is_equation() const { return base_units_.is_equation(); }
     /// Get the commodity code
-    constexpr int32_t commodity() const { return commodity_; }
+    constexpr uint32_t commodity() const { return commodity_; }
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return multiplier_; }
     /// Generate a rounded value of the multiplier rounded to the defined precision
@@ -592,7 +592,7 @@ class precise_unit
 
   private:
     detail::unit_data base_units_{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    unsigned int commodity_{0};  //!< a commodity specifier
+    uint32_t commodity_{0};  //!< a commodity specifier
     double multiplier_{1.0};  //!< unit multiplier
 };
 /// Check if a unit down cast is lossless

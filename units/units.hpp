@@ -753,13 +753,13 @@ bool disableUserDefinedUnits();
 bool enableUserDefinedUnits();
 
 /// get the code to use for a particular commodity
-unsigned int getCommodity(std::string comm);
+uint32_t getCommodity(std::string comm);
 
 /// get the code to use for a particular commodity
-std::string getCommodityName(unsigned int commodity);
+std::string getCommodityName(uint32_t commodity);
 
 /// add a custom commodity for later retrieval
-void addCustomCommodity(std::string comm, unsigned int code);
+void addCustomCommodity(std::string comm, uint32_t code);
 /// clear all custom commodities
 void clearCustomCommodities();
 /// Turn off the ability to add custom commodities for later access

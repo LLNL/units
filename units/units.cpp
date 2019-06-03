@@ -3744,7 +3744,7 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
         {
             return runit;
         }
-        return {1.0, precise::one, getCommodity(cstring)};
+        return {1.0, precise::one, getCommodity(cstring), };
     }
 
     auto bunit = unit_from_string_internal(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
@@ -5630,10 +5630,6 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                         return {number, one};
                     }
                     unit_string = unit_string.substr(loc);
-                    if (unit_string.front() == '{')
-                    {
-                        return {number, commoditizedUnit(unit_string, match_flags)};
-                    }
                     retunit = unit_from_string_internal(unit_string, match_flags);
                     if (!retunit.is_error())
                     {
@@ -5725,15 +5721,6 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 ustring.insert(sloc, 1, '}');
             }
             auto cunit = commoditizedUnit(ustring, match_flags);
-            if (!cunit.is_error())
-            {
-                return cunit;
-            }
-        }
-
-        if (unit_string.front() != '{' && unit_string.back() == '}')
-        {
-            auto cunit = commoditizedUnit(unit_string, match_flags);
             if (!cunit.is_error())
             {
                 return cunit;
