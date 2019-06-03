@@ -84,7 +84,7 @@ TEST_P(slowProblems, slowFiles)
     EXPECT_NO_THROW(unit_from_string(cdata));
 }
 
-INSTANTIATE_TEST_SUITE_P(slowFiles, slowProblems, ::testing::Range(1, 37));
+INSTANTIATE_TEST_SUITE_P(slowFiles, slowProblems, ::testing::Range(1, 40));
 
 class oomProblems : public ::testing::TestWithParam<int>
 {

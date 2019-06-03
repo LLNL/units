@@ -4759,6 +4759,28 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
                 break;
             }
         }
+        // insert multiplies after ^#
+        fnd = unit_string.find_first_of('^');
+        while (fnd < unit_string.size() - 3)
+        {
+            if (unit_string[fnd + 1] == '-')
+            {
+                ++fnd;
+            }
+            if (fnd < unit_string.size() - 3)
+            {
+                auto p = unit_string[fnd + 1];
+                if (p >= '0' && p <= '9')
+                {
+                    auto c2 = unit_string[fnd + 2];
+                    if ((c2 < '0' || c2 > '9') && c2 && c2 != '*' && c2 != '/' && c2 != '^')
+                    {
+                        unit_string.insert(fnd + 2, 1, '*');
+                    }
+                }
+            }
+            fnd = unit_string.find_first_of('^', fnd + 2);
+        }
     }
     // this still might occur from code replacements or other removal
     if (!unit_string.empty() && unit_string.front() == '/')
@@ -4834,10 +4856,6 @@ static precise_unit unit_quick_match(std::string unit_string, uint32_t match_fla
         {
             return retunit;
         }
-    }
-    else if ((match_flags & no_commodities) == 0 && unit_string.back() == '}')
-    {
-        return commoditizedUnit(unit_string, match_flags);
     }
     else if (unit_string.front() == '[' && unit_string.back() == ']')
     {

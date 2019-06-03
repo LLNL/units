@@ -469,3 +469,38 @@ TEST(defaultUnits, unitTypes)
     EXPECT_EQ(default_unit("distance"), precise::m);
     EXPECT_EQ(default_unit("Quantity of distance"), precise::m);
 }
+
+TEST(commoditizedUnits, basic)
+{
+    auto u = unit_from_string("meter{cloth}");
+    EXPECT_EQ(getCommodityName(u.commodity()), "cloth");
+
+    auto u2 = unit_from_string("meter{Cloth}");
+    EXPECT_EQ(getCommodityName(u2.commodity()), "cloth");
+
+    auto u3 = unit_from_string("meter{CLOTH}");
+    EXPECT_EQ(getCommodityName(u3.commodity()), "cloth");
+
+    auto u4 = unit_from_string("meter of cloth");
+    EXPECT_EQ(getCommodityName(u4.commodity()), "cloth");
+
+    EXPECT_EQ(u4, u);
+
+    auto u5 = unit_from_string("metre{CLOTH}");
+    EXPECT_EQ(getCommodityName(u5.commodity()), "cloth");
+
+    auto u6 = unit_from_string("metre of cloth");
+    EXPECT_EQ(getCommodityName(u6.commodity()), "cloth");
+
+    EXPECT_EQ(u6, u);
+}
+
+TEST(commoditizedUnits, prefixed)
+{
+    auto u = unit_from_string("millimeter{cloth}");
+    EXPECT_EQ(getCommodityName(u.commodity()), "cloth");
+
+    auto u2 = unit_from_string("KB{info}");
+    EXPECT_EQ(getCommodityName(u2.commodity()), "info");
+    EXPECT_TRUE(u2.has_same_base(precise::data::byte));
+}
