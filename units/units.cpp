@@ -332,6 +332,9 @@ static inline bool isNumericalCharacter(char X)
 {
     return ((X >= '0' && X <= '9') || X == '-' || X == '+' || X == '.');
 }
+// forward declaration of the internal from_string function
+static precise_unit unit_from_string_internal(std::string unit_string, uint32_t match_flags);
+
 // forward declaration of the quick find function
 static precise_unit unit_quick_match(std::string unit_string, uint32_t match_flags);
 // forward declaration of the function to check for custom units
@@ -1704,7 +1707,7 @@ static precise_unit localityModifiers(std::string unit, std::uint32_t match_flag
     changed |= clearEmptySegments(unit);
     if (changed)
     {
-        return unit_from_string(unit, match_flags | no_locality_modifiers | no_of_operator);
+        return unit_from_string_internal(unit, match_flags | no_locality_modifiers | no_of_operator);
     }
     if (unit.size() < 4)
     {
@@ -3744,7 +3747,7 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
         return {1.0, precise::one, getCommodity(cstring)};
     }
 
-    auto bunit = unit_from_string(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
+    auto bunit = unit_from_string_internal(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
     if (!bunit.is_error())
     {
         return {1.0, bunit, getCommodity(cstring)};
@@ -4859,12 +4862,12 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     auto lastParen = unit_string.find_last_of("}])");
     if (lastParen != std::string::npos && lastParen < unit_string.size() - 1)
     {
-        auto bunit = unit_from_string(unit_string.substr(lastParen + 1), match_flags);
+        auto bunit = unit_from_string_internal(unit_string.substr(lastParen + 1), match_flags);
         if (bunit.is_error())
         {
             return precise::error;
         }
-        auto aunit = unit_from_string(unit_string.substr(0, lastParen + 1), match_flags);
+        auto aunit = unit_from_string_internal(unit_string.substr(0, lastParen + 1), match_flags);
         if (aunit.is_error())
         {
             return precise::error;
@@ -4878,7 +4881,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     {
         ustring = unit_string;
         ustring.erase(fnd, 5);
-        auto bunit = unit_from_string(ustring, match_flags);
+        auto bunit = unit_from_string_internal(ustring, match_flags);
         if (!bunit.is_error())
         {
             return precise::m * bunit;
@@ -4887,7 +4890,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     // detect another somewhat common situation often amphour or ampsecond
     if (unit_string.compare(0, 3, "amp") == 0)
     {
-        auto bunit = unit_from_string(unit_string.substr(3), match_flags);
+        auto bunit = unit_from_string_internal(unit_string.substr(3), match_flags);
         if (!bunit.is_error())
         {
             return precise::A * bunit;
@@ -4898,7 +4901,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     {
         ustring = unit_string.substr(mret.second);
 
-        auto retunit = unit_from_string(ustring, match_flags);
+        auto retunit = unit_from_string_internal(ustring, match_flags);
         if (!retunit.is_error())
         {
             return {mret.first, retunit};
@@ -4929,7 +4932,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
         }
         if (!res.is_error())
         {
-            auto bunit = unit_from_string(unit_string.substr(part), match_flags | skip_partition_check);
+            auto bunit = unit_from_string_internal(unit_string.substr(part), match_flags | skip_partition_check);
             if (!bunit.is_error())
             {
                 return res * bunit;
@@ -4980,7 +4983,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     {
         auto res = unit_quick_match(vd, match_flags);
 
-        auto bunit = unit_from_string(unit_string.substr(vd.size()), match_flags);
+        auto bunit = unit_from_string_internal(unit_string.substr(vd.size()), match_flags);
         if (!bunit.is_error())
         {
             return res * bunit;
@@ -5042,6 +5045,13 @@ static precise_unit checkForCustomUnit(const std::string &unit_string)
     return precise::error;
 }
 
+precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
+{
+    // always allow the code replacements on first run
+    match_flags &= (~skip_code_replacements);
+    return unit_from_string_internal(std::move(unit_string), match_flags);
+}
+
 // Step 1.  Check if the string matches something in the map
 // Step 2.  clean the string, remove spaces, '_' and detect dot notation, check for some unicode stuff, check
 // again Step 3. Find multiplication of division operators and split the string into two starting from the last
@@ -5050,7 +5060,7 @@ static precise_unit checkForCustomUnit(const std::string &unit_string)
 // found goto step 1 Step 7.  Check for a SI prefix on the unit Step 8.  Check if the first character is upper
 // case and if so and the string is long make it lower case Step 9.  Check to see if it is a number of some
 // kind and make numerical unit Step 10.  Return an error unit
-precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
+static precise_unit unit_from_string_internal(std::string unit_string, uint32_t match_flags)
 {
     if (unit_string.empty())
     {
@@ -5167,7 +5177,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
                 }
             }
             // don't do as many partition check levels for this
-            retunit = unit_from_string(unit_string.substr(index), match_flags + partition_check1);
+            retunit = unit_from_string_internal(unit_string.substr(index), match_flags + partition_check1);
             if (retunit.is_error())
             {
                 if (unit_string[index] == '(' || unit_string[index] == '[')
@@ -5182,7 +5192,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
                     front_unit.commodity(commodity);
                     if (cparen < unit_string.size())
                     {
-                        retunit = unit_from_string(unit_string.substr(cparen), match_flags);
+                        retunit = unit_from_string_internal(unit_string.substr(cparen), match_flags);
                         if (retunit.is_error())
                         {
                             return precise::error;
@@ -5210,12 +5220,12 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
         precise_unit a_unit, b_unit;
         if (sep + 1 > unit_string.size() / 2)
         {
-            b_unit = unit_from_string(unit_string.substr(sep + 1), match_flags - recursion_modifier);
+            b_unit = unit_from_string_internal(unit_string.substr(sep + 1), match_flags - recursion_modifier);
             if (b_unit.is_error())
             {
                 return precise::error;
             }
-            a_unit = unit_from_string(unit_string.substr(0, sep), match_flags - recursion_modifier);
+            a_unit = unit_from_string_internal(unit_string.substr(0, sep), match_flags - recursion_modifier);
 
             if (a_unit.is_error())
             {
@@ -5224,13 +5234,13 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
         }
         else
         {
-            a_unit = unit_from_string(unit_string.substr(0, sep), match_flags - recursion_modifier);
+            a_unit = unit_from_string_internal(unit_string.substr(0, sep), match_flags - recursion_modifier);
 
             if (a_unit.is_error())
             {
                 return precise::error;
             }
-            b_unit = unit_from_string(unit_string.substr(sep + 1), match_flags - recursion_modifier);
+            b_unit = unit_from_string_internal(unit_string.substr(sep + 1), match_flags - recursion_modifier);
             if (b_unit.is_error())
             {
                 return precise::error;
@@ -5305,15 +5315,15 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             segmentcheckReverse(unit_string, '(', index);
 
             ustring = unit_string.substr(index + 2, pchar - index - 2);
-            retunit = unit_from_string(ustring, match_flags - recursion_modifier);
+            retunit = unit_from_string_internal(ustring, match_flags - recursion_modifier);
             if (retunit.is_error())
             {
                 if (index >= 0)
                 {
                     if (ustring.find_first_of("(*/^{[") == std::string::npos)
                     {
-                        retunit =
-                          unit_from_string(unit_string.substr(0, pchar + 1), match_flags - recursion_modifier);
+                        retunit = unit_from_string_internal(unit_string.substr(0, pchar + 1),
+                                                            match_flags - recursion_modifier);
                         if (retunit.is_error())
                         {
                             return precise::error;
@@ -5344,7 +5354,8 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             {
                 return retunit;
             }
-            auto a_unit = unit_from_string(unit_string.substr(0, index), match_flags - recursion_modifier);
+            auto a_unit =
+              unit_from_string_internal(unit_string.substr(0, index), match_flags - recursion_modifier);
             if (!a_unit.is_error())
             {
                 return a_unit * retunit;
@@ -5375,7 +5386,8 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             // auto fnd = findWordOperatorSep(unit_string, "per");
             if (!containsPer)
             {
-                retunit = unit_from_string(unit_string.substr(0, pchar + 1), match_flags - recursion_modifier);
+                retunit =
+                  unit_from_string_internal(unit_string.substr(0, pchar + 1), match_flags - recursion_modifier);
                 if (retunit.is_error())
                 {
                     return precise::error;
@@ -5453,7 +5465,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
         if (isDigitCharacter(unit_string.back()))
         {
             unit_string.insert(1, 1, '^');
-            return unit_from_string(unit_string, match_flags);
+            return unit_from_string_internal(unit_string, match_flags);
         }
         return precise::error;
     }
@@ -5468,8 +5480,8 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
                 {
                     ustring = unit_string;
                     ustring[0] += 32;
-                    retunit =
-                      unit_from_string(ustring, (match_flags & (~case_insensitive)) | skip_partition_check);
+                    retunit = unit_from_string_internal(ustring, (match_flags & (~case_insensitive)) |
+                                                                   skip_partition_check);
                     if (!retunit.is_error())
                     {
                         return retunit;
@@ -5570,7 +5582,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             }
             if (ustring != unit_string)
             {
-                retunit = unit_from_string(ustring, match_flags | skip_partition_check);
+                retunit = unit_from_string_internal(ustring, match_flags | skip_partition_check);
                 if (!retunit.is_error())
                 {
                     return retunit;
@@ -5604,7 +5616,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
                     {
                         return {number, commoditizedUnit(unit_string, match_flags)};
                     }
-                    retunit = unit_from_string(unit_string, match_flags);
+                    retunit = unit_from_string_internal(unit_string, match_flags);
                     if (!retunit.is_error())
                     {
                         return {number, retunit};
@@ -5652,7 +5664,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
             {
                 ustring.replace(fnd, 3, "/");
             }
-            retunit = unit_from_string(ustring, match_flags + per_operator1);
+            retunit = unit_from_string_internal(ustring, match_flags + per_operator1);
             if (!retunit.is_error())
             {
                 return retunit;
@@ -5674,7 +5686,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
 
     if (wordModifiers(unit_string))
     {
-        return unit_from_string(unit_string, match_flags);
+        return unit_from_string_internal(unit_string, match_flags);
     }
     if ((match_flags & no_commodities) == 0 && (match_flags & no_of_operator) == 0)
     {
@@ -5753,21 +5765,33 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags)
 
 precision_measurement measurement_from_string(std::string measurement_string, uint32_t match_flags)
 {
-    if (measurement_string[0] == '$')
-    {  // currency notation with the dollar sign first
-        return {std::stod(measurement_string.substr(1)), precise::currency};
-    }
+    // do a cleaning first to get rid of spaces and other issues
+    match_flags &= (~skip_code_replacements);
+    cleanUnitString(measurement_string, match_flags);
+    match_flags |= skip_code_replacements;
+
     size_t loc;
-    auto val = std::stod(measurement_string, &loc);
+
+    auto val = generateLeadingNumber(measurement_string, loc);
     if (loc >= measurement_string.length())
     {
         return {val, precise::defunit};
     }
-    auto un = unit_from_string(measurement_string.substr(loc), match_flags);
+    bool checkCurrency = (loc == 0);
+
+    auto un = unit_from_string_internal(measurement_string.substr(loc), match_flags);
     if (!un.is_error())
     {
+        if (checkCurrency)
+        {
+            if (un.base_units() == precise::currency.base_units())
+            {
+                return {un.multiplier(), precise::currency};
+            }
+        }
         return {val, un};
     }
+
     // deal with ft in notation
     if (measurement_string[loc] == '\'')
     {
@@ -5777,7 +5801,6 @@ precision_measurement measurement_from_string(std::string measurement_string, ui
             return precision_measurement(val, precise::ft) + precision_measurement(v2, precise::in);
         }
     }
-    // deal with ft in notation in unicode
     return {val, precise::error};
 }
 

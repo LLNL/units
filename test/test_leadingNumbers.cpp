@@ -117,3 +117,28 @@ TEST(leadingNumbers, parenthesis_dual)
     EXPECT_EQ(res, 2.0);
     EXPECT_EQ(index, 3);
 }
+
+TEST(leadingNumbers, complex)
+{
+    size_t index = 0;
+    auto res = testLeadingNumber("4.1*0.7/9.5*8.6", index);
+    EXPECT_EQ(res, 4.1 * 0.7 / 9.5 * 8.6);
+
+    res = testLeadingNumber("4.1*0.7/(9.5*8.6)", index);
+    EXPECT_EQ(res, 4.1 * 0.7 / (9.5 * 8.6));
+
+    res = testLeadingNumber("(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2", index);
+    EXPECT_NEAR(res, pow(0.5, 18), 1e-20);
+}
+
+TEST(leadingNumbers, invalid)
+{
+    size_t index = 0;
+    auto res = testLeadingNumber("(45*7*m)", index);
+    EXPECT_TRUE(isnan(res));
+    EXPECT_EQ(index, 0);
+
+    res = testLeadingNumber("meter", index);
+    EXPECT_TRUE(isnan(res));
+    EXPECT_EQ(index, 0);
+}
