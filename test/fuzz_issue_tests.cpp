@@ -123,7 +123,6 @@ static const std::vector<std::string> testStrings{
   "1_",
   "Bs1",
   "l-Ym",
-  "--0-5",
   "oCC0",
   "oCGC",
   "(G)1",
@@ -139,6 +138,7 @@ static const std::vector<std::string> testStrings{
   ".1.1.1.1e0.1.NNU",
   "/-3Mh/L",
   "NpmeterUS--3",
+  "sqZ+l",
 };
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
@@ -153,7 +153,7 @@ TEST_P(errorString, conversionErrors)
     EXPECT_TRUE(u1.is_error());
 }
 // these are all strings that at one point produced issues
-static const std::vector<std::string> errorStrings{"Au0m", "br0", "\\\\{U}"};
+static const std::vector<std::string> errorStrings{"Au0m", "br0", "\\\\{U}", "--0-5"};
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, errorString, ::testing::ValuesIn(errorStrings));
 
@@ -199,7 +199,7 @@ TEST(fuzzFailures, rtripconversions12)
 
 TEST(fuzzFailures, rtripconversions13)
 {
-    std::string tstring = "sqZ+l";
+    std::string tstring = "m";
     auto u1 = unit_from_string(tstring);
     EXPECT_FALSE(u1.is_error());
     auto str = to_string(u1);

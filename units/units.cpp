@@ -1259,6 +1259,9 @@ static bool segmentcheck(const std::string &unit, char closeSegment, size_t &ind
 the index of the first non-converted character is returned in index*/
 static double generateLeadingNumber(const std::string &ustring, size_t &index);
 
+// Detect if a string looks like a number
+static bool looksLikeNumber(const std::string &string, size_t index = 0);
+
 /** generate a value from a single numerical block */
 static double getNumberBlock(const std::string &ustring, size_t &index)
 {
@@ -1360,7 +1363,7 @@ double generateLeadingNumber(const std::string &ustring, size_t &index)
                 return constants::invalid_conversion;
             case '/':
             case '*':
-                if (isNumericalCharacter(ustring[index + 1]) || ustring[index + 1] == '(')
+                if (looksLikeNumber(ustring, index + 1) || ustring[index + 1] == '(')
                 {
                     size_t oindex;
                     double res = getNumberBlock(ustring.substr(index + 1), oindex);
@@ -1381,6 +1384,10 @@ double generateLeadingNumber(const std::string &ustring, size_t &index)
                     {
                         return val;
                     }
+                }
+                else
+                {
+                    return val;
                 }
                 break;
             case '(':
@@ -3751,11 +3758,7 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
         {
             return runit;
         }
-        return {
-          1.0,
-          precise::one,
-          getCommodity(cstring),
-        };
+        return {1.0, precise::one, getCommodity(cstring)};
     }
 
     auto bunit = unit_from_string_internal(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
@@ -3809,31 +3812,32 @@ static precise_unit get_unit(const std::string &unit_string)
 }
 
 // Detect if a string looks like a number
-static bool looksLikeNumber(const std::string &string)
+static bool looksLikeNumber(const std::string &string, size_t index)
 {
     if (string.empty())
     {
         return false;
     }
-    if (isDigitCharacter(string[0]))
+    if (isDigitCharacter(string[index]))
     {
         return true;
     }
-    if (string.size() < 2)
+    if (string.size() < index + 2)
     {
         return false;
     }
-    if (string[0] == '.' && (string[1] >= '0' && string[1] <= '9'))
+    if (string[index] == '.' && (string[index + 1] >= '0' && string[index + 1] <= '9'))
     {
         return true;
     }
-    if (string[0] == '-' || string[0] == '+')
+    if (string[index] == '-' || string[index] == '+')
     {
-        if (string[1] >= '0' && string[1] <= '9')
+        if (string[index + 1] >= '0' && string[index + 1] <= '9')
         {
             return true;
         }
-        if (string.size() >= 3 && string[1] == '.' && (string[2] >= '0' && string[2] <= '9'))
+        if (string.size() >= index + 3 && string[index + 1] == '.' &&
+            (string[index + 2] >= '0' && string[index + 2] <= '9'))
         {
             return true;
         }
@@ -4681,12 +4685,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
         fndP = unit_string.find("(1)^");
         while (fndP != std::string::npos)
         {
-            if (unit_string.size() <= fndP + 4)
-            {
-                unit_string.erase(fndP, 4);
-                break;
-            }
-
+            // string cannot end in '^' from a previous check
             size_t eraseCnt = 4;
             auto ch = unit_string[fndP + 4];
             if (ch == '+' || ch == '-')
@@ -4888,27 +4887,11 @@ this function will progressively try to split apart units and combine them.
 */
 static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t match_flags)
 {
-    auto lastParen = unit_string.find_last_of("}])");
-    if (lastParen != std::string::npos && lastParen < unit_string.size() - 1)
-    {
-        auto bunit = unit_from_string_internal(unit_string.substr(lastParen + 1), match_flags);
-        if (bunit.is_error())
-        {
-            return precise::error;
-        }
-        auto aunit = unit_from_string_internal(unit_string.substr(0, lastParen + 1), match_flags);
-        if (aunit.is_error())
-        {
-            return precise::error;
-        }
-        return aunit * bunit;
-    }
     std::string ustring = unit_string;
     // lets try checking for meter next which is one of the most common reasons for getting here
     auto fnd = findWordOperatorSep(unit_string, "meter");
     if (fnd != std::string::npos)
     {
-        ustring = unit_string;
         ustring.erase(fnd, 5);
         auto bunit = unit_from_string_internal(ustring, match_flags);
         if (!bunit.is_error())
@@ -5154,44 +5137,17 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         if (unit_string.front() != '1' || unit_string[1] != '/')
         {  // this catches 1/ which should be handled differently
             size_t index;
-            double front;
-            try
-            {
-                front = stod(unit_string, &index);
-            }
-            catch (const std::out_of_range &)
-            {
+            double front = generateLeadingNumber(unit_string, index);
+            if (std::isnan(front))
+            {  // out of range
                 return precise::error;
             }
 
-            if (index == std::string::npos)
+            if (index >= unit_string.size())
             {
                 return {front, precise::one};
             }
-            // deal with some random number raised to a power 2.6^2 or something like that
-            while (unit_string[index] == '^')
-            {
-                ustring.assign(unit_string.begin() + index + 1, unit_string.end());
-                if (!looksLikeNumber(ustring))
-                {
-                    return precise::error;
-                }
-                try
-                {
-                    size_t offset;
-                    double power = stod(ustring, &offset);
-                    if (offset >= ustring.size())
-                    {
-                        return {pow(front, power), precise::one};
-                    }
-                    index = index + 1 + offset;
-                    front = pow(front, power);
-                }
-                catch (const std::out_of_range &)
-                {
-                    return precise::error;
-                }
-            }
+
             auto front_unit = precise_unit(front, precise::one);
             if (unit_string[index] == '*')
             {  // for division just keep the slash
@@ -5282,14 +5238,6 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
     sep = findOperatorSep(unit_string, "^");
     if (sep != std::string::npos)
     {
-        if (sep == 2)
-        {
-            if (unit_string[0] == '1' && unit_string[1] == '0')
-            {  // dealing with 10^ of something
-                int power = atoi(unit_string.c_str() + 3);
-                return {pow(10, power), precise::one};
-            }
-        }
         auto pchar = static_cast<int>(sep) - 1;
         bool openparen = false;
         if (unit_string[sep + 1] == '(')
@@ -5322,17 +5270,6 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 power = (c1 - '0');
             }
             else
-            {
-                return precise::error;
-            }
-        }
-        if (openparen)
-        {
-            if (unit_string.length() < sep + 2)
-            {
-                return precise::error;
-            }
-            if (unit_string[sep + 2] != ')')
             {
                 return precise::error;
             }

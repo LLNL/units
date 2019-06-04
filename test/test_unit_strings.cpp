@@ -529,4 +529,25 @@ TEST(funnyStrings, underscore)
 
     auto ukittens = unit_from_string("_45_625_252_kittens_");
     EXPECT_EQ(ukittens.commodity(), getCommodity("kittens"));
+
+    EXPECT_EQ(precise_unit(45.0, precise::one), unit_from_string("45"));
+
+    EXPECT_EQ(precise::error, unit_from_string("_____-_____"));
+}
+
+TEST(funnyStrings, outofrange)
+{  // these are mainly testing that it doesn't throw
+    EXPECT_EQ(precise::error, unit_from_string("1532^34e505"));  // out of range error
+    EXPECT_EQ(precise::error, unit_from_string("34e505"));  // out of range
+}
+
+TEST(funnyStrings, powersof1)
+{  // check the power of 1 removals
+    EXPECT_EQ(precise::m, unit_from_string("m*(1)^5"));
+    EXPECT_EQ(precise::m, unit_from_string("m*(1)^"));
+    EXPECT_EQ(precise::m.pow(2), unit_from_string("m*(1)^2*m"));  // invalid
+
+    EXPECT_EQ(precise::m, unit_from_string("m*(1)^-1"));
+    EXPECT_EQ(precise::m, unit_from_string("m*(1)^-1*(1)^7"));
+    EXPECT_EQ(precise::m, unit_from_string("m*(1)^+*(1)^+"));
 }
