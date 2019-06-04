@@ -3744,7 +3744,7 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
         {
             return runit;
         }
-        return {1.0, precise::one, getCommodity(cstring), };
+        return {1.0, precise::one, getCommodity(cstring)};
     }
 
     auto bunit = unit_from_string_internal(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
