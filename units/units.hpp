@@ -515,11 +515,13 @@ class precision_measurement
     {
         return {value_ * other.value_, units_ * other.units_};
     }
+    constexpr precision_measurement operator*(precise_unit other) const { return {value_, units_ * other}; }
     constexpr precision_measurement operator*(double val) const { return {value_ * val, units_}; }
     constexpr precision_measurement operator/(precision_measurement other) const
     {
         return {value_ / other.value_, units_ / other.units_};
     }
+    constexpr precision_measurement operator/(precise_unit other) const { return {value_, units_ / other}; }
     constexpr precision_measurement operator/(double val) const { return {value_ / val, units_}; }
 
     precision_measurement operator+(precision_measurement other) const

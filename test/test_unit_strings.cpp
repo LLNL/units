@@ -550,4 +550,7 @@ TEST(funnyStrings, powersof1)
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^-1"));
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^-1*(1)^7"));
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^+*(1)^+"));
+    EXPECT_EQ(precise::m, unit_from_string("m^1^1"));
+    EXPECT_EQ(precise::m, unit_from_string("m^(1)^1"));
+    EXPECT_EQ(precise::m, unit_from_string("m^(1)^-"));
 }

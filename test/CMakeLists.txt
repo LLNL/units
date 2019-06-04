@@ -11,6 +11,7 @@ set(UNITS_TESTS
    test_ucum
     test_unit_ops
     test_unit_strings
+	test_measurement_strings
 	test_commodities
 	test_leadingNumbers
     )

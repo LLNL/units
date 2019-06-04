@@ -1347,6 +1347,7 @@ double generateLeadingNumber(const std::string &ustring, size_t &index)
 {
     try
     {
+        index = 0;
         double val = getNumberBlock(ustring, index);
 
         while (true)
@@ -4273,6 +4274,10 @@ static void multiplyRep(std::string &unit_string, size_t loc, size_t sz)
     if (unit_string.size() <= loc + sz)
     {
         unit_string.erase(loc, sz);
+        if (unit_string.back() == '^' || unit_string.back() == '*' || unit_string.back() == '/')
+        {
+            unit_string.pop_back();
+        }
         return;
     }
     auto tchar = unit_string[loc - 1];
@@ -4629,37 +4634,8 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
             }
         }
 
-        // get rid of ^1 sequences
-        auto fndP = unit_string.find("^1");
-        while (fndP != std::string::npos)
-        {
-            if (unit_string.size() > fndP + 2)
-            {
-                if (!isDigitCharacter(unit_string[fndP + 2]))
-                {
-                    unit_string.erase(fndP, 2);
-                }
-                else
-                {
-                    fndP = unit_string.find("^1", fndP + 2);
-                    continue;
-                }
-            }
-            else
-            {
-                unit_string.erase(fndP, 2);
-            }
-            fndP = unit_string.find("^1", fndP);
-        }
-        // get rid of ^1 sequences
-        fndP = unit_string.find("^(1)");
-        while (fndP != std::string::npos)
-        {
-            multiplyRep(unit_string, fndP, 4);
-            fndP = unit_string.find("^(1)", fndP);
-        }
         // clear empty parenthesis
-        fndP = unit_string.find("()");
+        auto fndP = unit_string.find("()");
         while (fndP != std::string::npos)
         {
             if (unit_string.size() > fndP + 2)
@@ -4693,7 +4669,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
                 ++eraseCnt;
                 if (unit_string.size() <= fndP + eraseCnt)
                 {
-                    unit_string.erase(fndP, eraseCnt);
+                    multiplyRep(unit_string, fndP, eraseCnt);
                     break;
                 }
                 ch = unit_string[fndP + eraseCnt];
@@ -4703,13 +4679,41 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
                 ++eraseCnt;
                 if (unit_string.size() <= fndP + eraseCnt)
                 {
-                    unit_string.erase(fndP, eraseCnt);
                     break;
                 }
                 ch = unit_string[fndP + eraseCnt];
             }
             multiplyRep(unit_string, fndP, eraseCnt);
             fndP = unit_string.find("(1)^", fndP);
+        }
+        // get rid of ^1 sequences
+        fndP = unit_string.find("^1");
+        while (fndP != std::string::npos)
+        {
+            if (unit_string.size() > fndP + 2)
+            {
+                if (!isDigitCharacter(unit_string[fndP + 2]))
+                {
+                    unit_string.erase(fndP, 2);
+                }
+                else
+                {
+                    fndP = unit_string.find("^1", fndP + 2);
+                    continue;
+                }
+            }
+            else
+            {
+                unit_string.erase(fndP, 2);
+            }
+            fndP = unit_string.find("^1", fndP);
+        }
+        // get rid of ^1 sequences
+        fndP = unit_string.find("^(1)");
+        while (fndP != std::string::npos)
+        {
+            multiplyRep(unit_string, fndP, 4);
+            fndP = unit_string.find("^(1)", fndP);
         }
     }
     // remove leading *})],  equivalent of 1* but we don't need to process that further
@@ -5255,7 +5259,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 return precise::error;
             }
             if (isDigitCharacter(unit_string[sep + 1]))
-            {
+            {  // the - ',' is a +/- sign
                 power = -(c1 - ',') * (unit_string[sep + 1] - '0');
             }
             else
@@ -5728,7 +5732,7 @@ precision_measurement measurement_from_string(std::string measurement_string, ui
     auto val = generateLeadingNumber(measurement_string, loc);
     if (loc >= measurement_string.length())
     {
-        return {val, precise::defunit};
+        return {val, precise::one};
     }
     bool checkCurrency = (loc == 0);
 
@@ -5744,8 +5748,18 @@ precision_measurement measurement_from_string(std::string measurement_string, ui
         }
         return {val, un};
     }
+    else if (checkCurrency)
+    {
+        auto c = get_unit(measurement_string.substr(0, 1));
+        if (c == precise::currency)
+        {
+            auto mstr = measurement_from_string(measurement_string.substr(1), match_flags);
+            return mstr * c;
+        }
+    }
 
-    // deal with ft in notation
+    // deal with some specifics
+    /*
     if (measurement_string[loc] == '\'')
     {
         double v2 = std::stod(measurement_string.substr(loc + 1), &loc);
@@ -5754,6 +5768,7 @@ precision_measurement measurement_from_string(std::string measurement_string, ui
             return precision_measurement(val, precise::ft) + precision_measurement(v2, precise::in);
         }
     }
+    */
     return {val, precise::error};
 }
 
