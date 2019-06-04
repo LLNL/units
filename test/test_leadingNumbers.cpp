@@ -142,3 +142,18 @@ TEST(leadingNumbers, invalid)
     EXPECT_TRUE(isnan(res));
     EXPECT_EQ(index, 0);
 }
+
+TEST(leadingNumbers, strange)
+{
+    size_t index = 0;
+    auto res = testLeadingNumber("()", index);
+    EXPECT_EQ(res, 1.0);
+    EXPECT_GE(index, 2);
+
+    res = testLeadingNumber("5*(45+)", index);
+    EXPECT_EQ(res, 5.0);
+    EXPECT_EQ(index, 1);
+
+    res = testLeadingNumber("56*(45.6*34.2", index);
+    EXPECT_EQ(res, 56.0);
+}
