@@ -2395,11 +2395,17 @@ static const smap base_unit_vals{
   {"degR", precise::temperature::degR},
   {"[DEGR]", precise::temperature::degR},
   {u8"\u00B0R", precise::temperature::degR},
+  {u8"\u00B0r", precise::temperature::reaumur},
+  {"\xB0R", precise::temperature::degR},
+  {"\xB0r", precise::temperature::reaumur},
   {"[DEGRE]", precise::temperature::reaumur},
   {"degRe", precise::temperature::reaumur},
   {u8"degreesR\u00e9aumur", precise::temperature::reaumur},
   {u8"\u00B0R\u00e9", precise::temperature::reaumur},
   {u8"\u00B0Re", precise::temperature::reaumur},
+  {u8"\u00B0Ra", precise::temperature::degR},
+  {"\xB0Re", precise::temperature::reaumur},
+  {"\xB0Ra", precise::temperature::degR},
   {"degreesReaumur", precise::temperature::reaumur},
   {"reaumur", precise::temperature::reaumur},
   {u8"r\u00e9aumur", precise::temperature::reaumur},
@@ -2792,6 +2798,7 @@ static const smap base_unit_vals{
   {u8"calorieat15\u00B0C", precise::energy::cal_15},
   {"caloriesat15C", precise::energy::cal_15},
   {"calories15C", precise::energy::cal_15},
+  {"calorie15C", precise::energy::cal_15},
   {"cal_[20]", precise::energy::cal_20},
   {u8"calorieat20\u00B0C", precise::energy::cal_20},
   {"caloriesat20C", precise::energy::cal_20},
@@ -3744,7 +3751,11 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
         {
             return runit;
         }
-        return {1.0, precise::one, getCommodity(cstring), };
+        return {
+          1.0,
+          precise::one,
+          getCommodity(cstring),
+        };
     }
 
     auto bunit = unit_from_string_internal(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
