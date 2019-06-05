@@ -448,6 +448,24 @@ TEST(userDefinedUnits, definitions)
     EXPECT_EQ(to_string(clucks), "clucks");
 }
 
+TEST(userDefinedUnits, disableUserDefinitions)
+{
+    clearUserDefinedUnits();
+    precise_unit clucks(19.3, precise::m * precise::A);
+    disableUserDefinedUnits();
+    addUserDefinedUnit("clucks", clucks);
+
+    EXPECT_EQ(unit_from_string("clucks/A"), precise::error);
+
+    enableUserDefinedUnits();
+    addUserDefinedUnit("clucks", clucks);
+
+    EXPECT_EQ(unit_from_string("clucks/A"), precise_unit(19.3, precise::m));
+
+    EXPECT_EQ(to_string(clucks), "clucks");
+    clearUserDefinedUnits();
+}
+
 TEST(userDefinedUnits, clearDefs)
 {
     precise_unit clucks(19.3, precise::m * precise::A);

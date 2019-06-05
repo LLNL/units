@@ -361,24 +361,7 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     std::stringstream ss;
     ss << std::setprecision(18);
     ss << multiplier;
-    auto str = ss.str();
-    if (str.find_first_of('.') != std::string::npos)
-    {
-        if (str.find_first_of('e') == std::string::npos)
-        {
-            while (str.back() == '0')
-            {
-                str.pop_back();
-            }
-
-            if (str.back() == '0')
-            {
-                str.push_back('0');
-            }
-        }
-    }
-
-    return str;
+    return ss.str();
 }
 
 static std::string getMultiplierString(double multiplier, char tail)
