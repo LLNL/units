@@ -153,20 +153,46 @@ TEST(Temperature, ConversionsUnitPrecise2Unit)
 TEST(Temperature, Detection)
 {
     using namespace units;
-    EXPECT_TRUE(degF.is_temperature());
-    EXPECT_TRUE(precise::degF.is_temperature());
-    EXPECT_TRUE(degC.is_temperature());
-    EXPECT_TRUE(precise::degC.is_temperature());
-    EXPECT_FALSE(K.is_temperature());
-    EXPECT_FALSE(precise::K.is_temperature());
+    EXPECT_TRUE(is_temperature(degF));
+    EXPECT_TRUE(is_temperature(precise::degF));
+    EXPECT_TRUE(is_temperature(degC));
+    EXPECT_TRUE(is_temperature(precise::degC));
+    EXPECT_FALSE(is_temperature(K));
+    EXPECT_FALSE(is_temperature(precise::K));
 
-    EXPECT_FALSE(degF.inv().is_temperature());
-    EXPECT_FALSE(precise::degF.inv().is_temperature());
+    EXPECT_FALSE(is_temperature(degF.inv()));
+    EXPECT_FALSE(is_temperature(precise::degF.inv()));
     // this is correct since 1 C != 1 K in absolute temperature
     // but per deg C is equal to per Kelvin so this is the desired behavior
     EXPECT_FALSE(degC == K);
     EXPECT_FALSE(precise::degC == precise::K);
     EXPECT_TRUE(precise::degC.inv().inv() == precise::degC);
+}
+
+TEST(Temperature, Rankine)
+{
+    using namespace units;
+    auto rankine = precise::temperature::rankine;
+
+    EXPECT_FALSE(is_temperature(rankine));
+    EXPECT_NEAR(convert(0.0, K, rankine), 0.0, test::tolerance);
+    EXPECT_NEAR(convert(459.67, rankine, precise::degC), -17.7777777, test::tolerance);
+    EXPECT_NEAR(convert(0.0, precise::degC, rankine), 491.67, test::tolerance);
+    EXPECT_NEAR(convert(100, precise::degC, rankine), 671.67, test::tolerance);
+    EXPECT_NEAR(convert(0, rankine, degF), -459.67, test::tolerance);
+}
+
+TEST(Temperature, Reaumur)
+{
+    using namespace units;
+    auto re = precise::temperature::reaumur;
+
+    EXPECT_TRUE(is_temperature(re));
+    EXPECT_NEAR(convert(313.15, K, re), 32.0, test::tolerance);
+    EXPECT_NEAR(convert(32.0, re, precise::degC), 40.0, test::tolerance);
+    EXPECT_NEAR(convert(40.0, precise::degC, re), 32.0, test::tolerance);
+    EXPECT_NEAR(convert(563.67, precise::temperature::rankine, re), 32.0, test::tolerance);
+    EXPECT_NEAR(convert(32.0, re, degF), 104.0, test::tolerance);
 }
 
 TEST(TimeConversions, Correctness)

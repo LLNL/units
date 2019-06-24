@@ -129,12 +129,6 @@ namespace detail
 
         // support for specific unitConversion calls
         constexpr bool is_per_unit() const { return per_unit_ != 0; }
-        constexpr bool is_temperature() const
-        {
-            return (flag_ == 1 && kelvin_ == 1 && meter_ == 0 && second_ == 0 && kilogram_ == 0 && ampere_ == 0 &&
-                    candela_ == 0 && mole_ == 0 && radians_ == 0 && currency_ == 0 && count_ == 0 &&
-                    equation_ == 0);
-        }
         constexpr bool is_flag() const { return (flag_ != 0); }
         constexpr bool has_e_flag() const { return e_flag_ != 0; }
         constexpr bool is_equation() const { return equation_ != 0; }
@@ -367,8 +361,6 @@ class unit
     }
     /// Get the number of different base units used
     constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
-    /// Check if the unit is a temperature value
-    constexpr bool is_temperature() const { return base_units_.is_temperature(); }
     /// Check if the unit is the default unit
     constexpr bool is_default() const { return base_units_.empty() && base_units_.is_flag(); }
     /// Check if the unit is a per_unit notation
@@ -561,8 +553,6 @@ class precise_unit
     constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is the default unit
     constexpr bool is_default() const { return base_units_.empty() && base_units_.is_flag(); }
-    /// Check if the unit is a temperature
-    constexpr bool is_temperature() const { return base_units_.is_temperature(); }
     /// Check if the unit is a per unit value
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
     /// Check if the unit has an error

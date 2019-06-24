@@ -30,9 +30,9 @@ double convert(double val, UX start, UX2 result)
     {
         return val;
     }
-    if ((start.is_temperature() || result.is_temperature()) && start.has_same_base(result.base_units()))
+    if ((is_temperature(start) || is_temperature(result)) && start.has_same_base(result.base_units()))
     {
-        if (start.is_temperature())
+        if (is_temperature(start))
         {
             if (units::degF == unit_cast(start))
             {
@@ -49,7 +49,7 @@ double convert(double val, UX start, UX2 result)
         {
             val = val * start.multiplier();
         }
-        if (result.is_temperature())
+        if (is_temperature(result))
         {
             val -= 273.15;
             if (units::degF == unit_cast(result))

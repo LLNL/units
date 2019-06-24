@@ -672,7 +672,6 @@ namespace precise
         constexpr precise_unit degR = rankine;
 
         constexpr precise_unit reaumur{5.0 / 4.0, celsius};
-
     }  // namespace temperature
 
     constexpr precise_unit degC = temperature::celsius;
@@ -1402,6 +1401,10 @@ constexpr unit deg = unit_cast(precise::deg);
 // temperature
 constexpr unit degC = unit_cast(precise::degC);
 constexpr unit degF = unit_cast(precise::degF);
+
+constexpr bool is_temperature(precise_unit unit) { return (unit.has_same_base(K) && unit.base_units().is_flag()); }
+constexpr bool is_temperature(unit unit) { return (unit.has_same_base(K) && unit.base_units().is_flag()); }
+
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
 constexpr unit CFM = unit_cast(precise::CFM);

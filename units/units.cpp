@@ -2097,6 +2097,7 @@ static const smap base_unit_vals{
   {"circularmil", precise::i::circ_mil},
   {"circularinch", precise_unit{constants::pi / 4.0, precise::i::inch.pow(2)}},
   {"cml_i", precise::i::circ_mil},
+  {"circularmil_i", precise::i::circ_mil},
   {"[CML_I]", precise::i::circ_mil},
   {"hd", precise::i::hand},
   {"hd_i", precise::i::hand},
@@ -2117,6 +2118,7 @@ static const smap base_unit_vals{
   {"[BF_I]", precise::i::board_foot},
   {"boardfoot", precise::i::board_foot},
   {"boardfeet", precise::i::board_foot},
+  {"boardfeet_i", precise::i::board_foot},
   {"cr", precise::i::cord},
   {"crd", precise::i::cord},
   {"cord", precise::i::cord},
@@ -2998,9 +3000,11 @@ static const smap base_unit_vals{
   {"gal_us", precise::us::gallon},
   {"[GAL_US]", precise::us::gallon},
   {"gallon_us", precise::us::gallon},
+  {"liquidgallon_us", precise::us::gallon},
   {"gal_wi", precise::us::dry::gallon},
   {"wigal", precise::us::dry::gallon},
   {"[GAL_WI]", precise::us::dry::gallon},
+  {"drygallon_us", precise::us::dry::gallon},
   {"gallon-historical", precise::us::dry::gallon},
   {"bbl", precise::us::barrel},
   {"barrel", precise::us::barrel},
@@ -5782,6 +5786,9 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"electriccurrent", precise::A},
   {"magnetomotiveforce", precise::A},
   {"temperature", precise::K},
+  {u8"\u2C90", precise::K},
+  {u8"\u03F4", precise::K},
+  {u8"\u0398", precise::K},
   {"celsiustemperature", precise::degC},
   {"temp", precise::K},
   {"thermodynamictemperature", precise::K},
@@ -5973,6 +5980,26 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
 
 precise_unit default_unit(std::string unit_type)
 {
+    if (unit_type.size() == 1)
+    {
+        switch (unit_type[0])
+        {
+        case 'L':
+            return precise::m;
+        case 'M':
+            return precise::kg;
+        case 'T':
+            return precise::second;
+        case '\xC8':
+            return precise::Kelvin;
+        case 'I':
+            return precise::A;
+        case 'N':
+            return precise::mol;
+        case 'J':
+            return precise::cd;
+        }
+    }
     std::transform(unit_type.begin(), unit_type.end(), unit_type.begin(), ::tolower);
     unit_type.erase(std::remove(unit_type.begin(), unit_type.end(), ' '), unit_type.end());
     auto fnd = measurement_types.find(unit_type);
