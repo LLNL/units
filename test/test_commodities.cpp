@@ -150,3 +150,14 @@ TEST(commodities, escape_strings)
 
     clearCustomCommodities();
 }
+
+TEST(commodities, unusual_to_string)
+{
+    precise_unit com(1.0, precise::kg.inv(), getCommodity("happy'u"));
+    auto str = to_string(com);
+    EXPECT_EQ(unit_from_string(str), com);
+
+    precise_unit com2(12.0, precise::kg.pow(-2), getCommodity("happy'u"));
+    str = to_string(com2);
+    EXPECT_EQ(unit_from_string(str), com2);
+}

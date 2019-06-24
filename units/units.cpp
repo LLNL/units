@@ -434,31 +434,11 @@ static std::string generateUnitSequence(double mux, std::string seq)
             mux /= 1000.0;
         }
     }
-    else if (seq.compare(0, 4, "/m^3") == 0)
-    {
-        if (mux > 10.0)
-        {
-            seq.replace(0, 4, "L^-1");
-            mux /= 1000.0;
-        }
-    }
     else if (seq.compare(0, 5, "kg^-1") == 0)
     {
         if (mux > 100.0)
         {
             seq.replace(0, 4, "g^-1");
-            mux /= 1000.0;
-        }
-        else
-        {
-            noPrefix = true;
-        }
-    }
-    else if (seq.compare(0, 3, "/kg") == 0)
-    {
-        if (mux > 100.0)
-        {
-            seq.replace(0, 3, "g^-1");
             mux /= 1000.0;
         }
         else
@@ -503,9 +483,6 @@ static std::string generateUnitSequence(double mux, std::string seq)
     std::string muxstr;
     switch (pw)
     {
-    case 1:
-        muxstr = getMultiplierString(mux, noPrefix);
-        break;
     case -1:
         muxstr = getMultiplierString(1.0 / mux, noPrefix);
         if (isNumericalCharacter(muxstr.front()))
@@ -683,7 +660,7 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
     if (commodity != 0)
     {
         std::string cString = getCommodityName(((commodity & 0x80000000) == 0) ? commodity : (~commodity));
-        if (cString.compare(0, 7, "cxcomm[") != 0)
+        if (cString.compare(0, 7, "CXCOMM[") != 0)
         {
             // add some escapes for problematic sequences
             escapeString(cString);
@@ -736,7 +713,10 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
             {
                 auto rs = checkForCustomUnit(cString);
                 if (!rs.is_error())
-                {
+                {  // this check is needed because it is possible to define a commodity that would look like a form
+                   // of custom unit
+                    // The '1' forces the interpreter to interpret it as purely a commodity, but is only needed in
+                    // very particular circumstances
                     cString.insert(0, 1, '1');
                 }
                 propUnitString.push_back('/');

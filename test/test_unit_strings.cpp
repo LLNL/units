@@ -98,6 +98,8 @@ TEST(unitStrings, prefixes)
     EXPECT_EQ(to_string(precise::micro * precise::L), "uL");
 }
 
+TEST(unitStrings, downconvert) { EXPECT_EQ(to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g");}
+
 TEST(unitStrings, crazyunits)
 {
     unit cz{detail::unit_data(1, 2, 3, 1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0)};
