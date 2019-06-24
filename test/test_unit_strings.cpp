@@ -98,7 +98,7 @@ TEST(unitStrings, prefixes)
     EXPECT_EQ(to_string(precise::micro * precise::L), "uL");
 }
 
-TEST(unitStrings, downconvert) { EXPECT_EQ(to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g");}
+TEST(unitStrings, downconvert) { EXPECT_EQ(to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g"); }
 
 TEST(unitStrings, crazyunits)
 {
@@ -573,4 +573,15 @@ TEST(funnyStrings, powersof1)
     EXPECT_EQ(precise::m, unit_from_string("m^1^1"));
     EXPECT_EQ(precise::m, unit_from_string("m^(1)^1"));
     EXPECT_EQ(precise::m, unit_from_string("m^(1)^-"));
+}
+
+TEST(defaultUnits, singleCharacter)
+{
+    EXPECT_EQ(precise::m, default_unit("L"));
+    EXPECT_EQ(precise::kg, default_unit("M"));
+    EXPECT_EQ(precise::s, default_unit("T"));
+    EXPECT_EQ(precise::A, default_unit("I"));
+    EXPECT_EQ(precise::mol, default_unit("N"));
+    EXPECT_EQ(precise::cd, default_unit("J"));
+    EXPECT_EQ(precise::K, default_unit("\xC8"));
 }
