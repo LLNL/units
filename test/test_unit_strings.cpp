@@ -98,6 +98,41 @@ TEST(unitStrings, prefixes)
     EXPECT_EQ(to_string(precise::micro * precise::L), "uL");
 }
 
+TEST(unitStrings, infinite)
+{
+    EXPECT_EQ(to_string(precise_unit(std::numeric_limits<double>::infinity(), precise::m / precise::s)),
+              "INF*m/s");
+
+    EXPECT_EQ(to_string(unit(-std::numeric_limits<double>::infinity(), m / s)), "-INF*m/s");
+}
+
+TEST(unitStrings, nan)
+{
+    EXPECT_EQ(to_string(precise::error), "ERROR");
+
+    auto nanunit = precise_unit(std::numeric_limits<double>::quiet_NaN(), precise::one);
+    auto res = to_string(nanunit);
+    EXPECT_EQ(res, "NaN");
+    auto nanresult = unit_from_string(res);
+    EXPECT_TRUE(isnan(nanresult));
+    EXPECT_EQ(to_string(nanunit * precise::m / precise::s), "NaN*m/s");
+
+    EXPECT_EQ(to_string(unit(std::numeric_limits<double>::signaling_NaN(), m / s)), "NaN*m/s");
+
+    EXPECT_EQ(nanunit * precise::m / precise::s, unit_from_string("NaN*m/s"));
+}
+
+TEST(unitStrings, zero)
+{
+    auto zunit = precise_unit(0.0, precise::one);
+    auto res = to_string(zunit);
+    EXPECT_EQ(res, "0");
+    auto zresult = unit_from_string(res);
+    EXPECT_EQ(zresult, zunit);
+
+    EXPECT_EQ(to_string(zunit * precise::m / precise::s), "0*m/s");
+}
+
 TEST(unitStrings, downconvert) { EXPECT_EQ(to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g"); }
 
 TEST(unitStrings, powerunits)
@@ -463,7 +498,7 @@ TEST(userDefinedUnits, disableUserDefinitions)
     disableUserDefinedUnits();
     addUserDefinedUnit("clucks", clucks);
 
-    EXPECT_EQ(unit_from_string("clucks/A"), precise::error);
+    EXPECT_EQ(unit_from_string("clucks/A"), precise::invalid);
 
     enableUserDefinedUnits();
     addUserDefinedUnit("clucks", clucks);

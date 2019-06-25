@@ -160,4 +160,13 @@ TEST(commodities, unusual_to_string)
     precise_unit com2(12.0, precise::kg.pow(-2), getCommodity("happy'u"));
     str = to_string(com2);
     EXPECT_EQ(unit_from_string(str), com2);
+
+    precise_unit cominv = com.inv();
+    str = to_string(cominv);
+    EXPECT_EQ(unit_from_string(str), cominv);
+
+    precise_unit com2inv(12.0, precise::m.pow(-2) * precise::kg, getCommodity("happy'u"));
+    com2inv = com2inv.inv();
+    str = to_string(com2inv);
+    EXPECT_EQ(unit_from_string(str), com2inv);
 }

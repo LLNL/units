@@ -6,6 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #include "test.hpp"
 #include "units/units.hpp"
+#include <cmath>
 
 using namespace units::detail::testing;
 
