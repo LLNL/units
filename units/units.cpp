@@ -170,6 +170,7 @@ static const umap base_unit_names{
   {unit_cast(precise::ft.pow(2)), "ft^2"},
   {unit_cast(precise::ft.pow(3)), "ft^3"},
   {yd, "yd"},
+  {unit_cast(precise::us::rod), "rd"},
   {yd * yd, "yd^2"},
   {yd.pow(3), "yd^3"},
   {unit_cast(precise::yd.pow(2)), "yd^2"},
@@ -785,7 +786,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
             return std::string("1/") + fnd + "^2";
         }
     }
-    /// Check for squared units
+    /// Check for cubed units
     if (!un.base_units().root(3).has_e_flag())
     {
         auto cub = llunit.root(3);

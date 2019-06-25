@@ -110,6 +110,7 @@ TEST(unitStrings, nan)
 {
     EXPECT_EQ(to_string(precise::error), "ERROR");
 
+    EXPECT_EQ(to_string(precise::invalid), "ERROR");
     auto nanunit = precise_unit(std::numeric_limits<double>::quiet_NaN(), precise::one);
     auto res = to_string(nanunit);
     EXPECT_EQ(res, "NaN");
@@ -132,6 +133,20 @@ TEST(unitStrings, zero)
     EXPECT_EQ(zresult, zunit);
 
     EXPECT_EQ(to_string(zunit * precise::m / precise::s), "0*m/s");
+}
+
+TEST(unitStrings, one)
+{
+    auto funit = precise_unit(4.5, precise::flag * precise::pu);
+    auto res = to_string(funit);
+    EXPECT_EQ(res, "4.5*defunit");
+}
+
+TEST(unitStrings, invcube)
+{
+    auto funit = precise::us::rod.pow(-3);
+    auto res = to_string(funit);
+    EXPECT_EQ(res, "1/rd^3");
 }
 
 TEST(unitStrings, downconvert) { EXPECT_EQ(to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g"); }
