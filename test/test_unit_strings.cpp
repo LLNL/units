@@ -100,6 +100,12 @@ TEST(unitStrings, prefixes)
 
 TEST(unitStrings, downconvert) { EXPECT_EQ(to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g"); }
 
+TEST(unitStrings, powerunits)
+{
+    EXPECT_EQ(to_string((precise::giga * precise::m).pow(2)), "Gm^2");
+    EXPECT_EQ(to_string(precise_unit(1000000000, s.inv() * m.pow(-3))), "1/(uL*s)");
+}
+
 TEST(unitStrings, crazyunits)
 {
     unit cz{detail::unit_data(1, 2, 3, 1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0)};

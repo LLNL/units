@@ -364,56 +364,6 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     return ss.str();
 }
 
-static std::string getMultiplierString(double multiplier, char tail)
-{
-    switch (tail)
-    {
-    case '2':
-    {
-        std::string mx = (multiplier >= 0.0) ? getMultiplierString(std::sqrt(multiplier)) :
-                                               getMultiplierString(std::sqrt(-multiplier));
-        if (mx.empty() || !isNumericalCharacter(mx.front()))
-        {
-            if (multiplier < 0.0)
-            {
-                mx = "-" + mx;
-            }
-            return mx;
-        }
-        else
-        {
-            return getMultiplierString(multiplier, true);
-        }
-    }
-    break;
-    case '3':
-    {
-        std::string mx = (multiplier >= 0.0) ? getMultiplierString(std::cbrt(multiplier)) :
-                                               getMultiplierString(std::cbrt(-multiplier));
-        if (mx.empty() || !isNumericalCharacter(mx.front()))
-        {
-            if (multiplier < 0.0)
-            {
-                mx = "-" + mx;
-            }
-            return mx;
-        }
-        else
-        {
-            return getMultiplierString(multiplier, true);
-        }
-    }
-    break;
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-        return getMultiplierString(multiplier, true);
-    default:
-        return getMultiplierString(multiplier);
-    }
-}
-
 static std::string generateUnitSequence(double mux, std::string seq)
 {
     bool noPrefix = false;
@@ -1056,7 +1006,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         fnd = find_unit(base.inv());
         if (!fnd.empty())
         {
-            auto prefix = getMultiplierString(1.0 / ext.multiplier(), fnd.back());
+            auto prefix = getMultiplierString(1.0 / ext.multiplier(), isDigitCharacter(fnd.back()));
             auto str = std::string("1/(") + prefix + fnd + '*' + tu.second + ')';
             if (!isNumericalCharacter(prefix.front()))
             {
