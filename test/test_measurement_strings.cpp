@@ -28,3 +28,13 @@ TEST(MeasurementStrings, currency)
     auto pm = measurement_from_string("$9.99");
     EXPECT_EQ(pm, 9.99 * precise::currency);
 }
+
+TEST(MeasurementToString, simple)
+{
+    auto pm = precision_measurement(45.0, precise::m);
+    EXPECT_EQ(to_string(pm), "45 m");
+    auto meas = 45.0 * m;
+    EXPECT_EQ(to_string(meas), "45 m");
+    auto meas_f = 45.0f * m;
+    EXPECT_EQ(to_string(meas), "45 m");
+}

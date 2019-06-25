@@ -1055,18 +1055,28 @@ std::string to_string(precision_measurement measure, uint32_t match_flags)
     ss.precision(12);
     ss << measure.value();
     ss << ' ';
-    ss << to_string(unit_cast(measure.units()), match_flags);
+    ss << to_string(measure.units(), match_flags);
     return ss.str();
 }
 
 std::string to_string(measurement measure, uint32_t match_flags)
 {
-    return std::to_string(measure.value()) + ' ' + to_string(measure.units(), match_flags);
+    std::stringstream ss;
+    ss.precision(12);
+    ss << measure.value();
+    ss << ' ';
+    ss << to_string(measure.units(), match_flags);
+    return ss.str();
 }
 
 std::string to_string(measurement_f measure, uint32_t match_flags)
 {
-    return std::to_string(measure.value()) + ' ' + to_string(measure.units(), match_flags);
+    std::stringstream ss;
+    ss.precision(7);
+    ss << measure.value();
+    ss << ' ';
+    ss << to_string(measure.units(), match_flags);
+    return ss.str();
 }
 
 /// Generate the prefix multiplier for SI units
@@ -1251,6 +1261,7 @@ static double getNumberBlock(const std::string &ustring, size_t &index)
                 index += nindex + 1;
                 return pow(val, pval);
             }
+            index = 0;
             return constants::invalid_conversion;
         }
     }

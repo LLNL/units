@@ -142,6 +142,15 @@ TEST(leadingNumbers, invalid)
     res = testLeadingNumber("meter", index);
     EXPECT_TRUE(isnan(res));
     EXPECT_EQ(index, 0);
+
+    res = testLeadingNumber("92*(452.252.34)", index);
+    EXPECT_FALSE(isnan(res));
+    EXPECT_EQ(res, 92);
+    EXPECT_EQ(index, 2);
+
+    res = testLeadingNumber("2.3^(12m)", index);
+    EXPECT_TRUE(isnan(res));
+    EXPECT_EQ(index, 0);
 }
 
 TEST(leadingNumbers, strange)

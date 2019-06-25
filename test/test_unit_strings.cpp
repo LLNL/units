@@ -149,6 +149,13 @@ TEST(unitStrings, invcube)
     EXPECT_EQ(res, "1/rd^3");
 }
 
+TEST(unitStrings, invtestUnits)
+{
+    auto funit = precise_unit(0.000001, precise::one / precise::cd / precise::time::day);
+    auto res = to_string(funit);
+    EXPECT_EQ(res, "1/(Mcd*day)");
+}
+
 TEST(unitStrings, downconvert) { EXPECT_EQ(to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g"); }
 
 TEST(unitStrings, powerunits)
