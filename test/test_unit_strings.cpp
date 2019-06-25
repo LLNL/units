@@ -118,8 +118,9 @@ TEST(unitStrings, nan)
     EXPECT_EQ(to_string(nanunit * precise::m / precise::s), "NaN*m/s");
 
     EXPECT_EQ(to_string(unit(std::numeric_limits<double>::signaling_NaN(), m / s)), "NaN*m/s");
-
-    EXPECT_EQ(nanunit * precise::m / precise::s, unit_from_string("NaN*m/s"));
+    auto retunit = unit_from_string("NaN*m/s");
+    EXPECT_EQ(retunit.base_units(), (precise::m / precise::s).base_units());
+    EXPECT_TRUE(isnan(retunit));
 }
 
 TEST(unitStrings, zero)
@@ -352,6 +353,8 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(unit_from_string("grams per hour per metre sq"), unit_from_string("g/h/m2"));
     EXPECT_EQ(unit_from_string("dyn sec per cm"), unit_from_string("dyn.s/cm"));
     EXPECT_EQ(unit_from_string("Ns"), precise::N * precise::s);
+    EXPECT_EQ(unit_from_string("N.s"), precise::N * precise::s);
+    EXPECT_EQ(unit_from_string("Newton second"), precise::N * precise::s);
 }
 
 class roundTripString : public ::testing::TestWithParam<std::string>
@@ -498,7 +501,7 @@ TEST(userDefinedUnits, disableUserDefinitions)
     disableUserDefinedUnits();
     addUserDefinedUnit("clucks", clucks);
 
-    EXPECT_EQ(unit_from_string("clucks/A"), precise::invalid);
+    EXPECT_FALSE(is_valid_unit(unit_from_string("clucks/A")));
 
     enableUserDefinedUnits();
     addUserDefinedUnit("clucks", clucks);
@@ -519,7 +522,7 @@ TEST(userDefinedUnits, clearDefs)
     EXPECT_EQ(to_string(clucks), "clucks");
 
     clearUserDefinedUnits();
-    EXPECT_EQ(unit_from_string("clucks/A"), precise::error);
+    EXPECT_FALSE(is_valid_unit(unit_from_string("clucks/A")));
 
     EXPECT_NE(to_string(clucks), "clucks");
 }
@@ -584,7 +587,7 @@ TEST(commoditizedUnits, numericalWords)
 
 TEST(funnyStrings, underscore)
 {
-    EXPECT_EQ(precise::error, unit_from_string("_45_625_252_22524_252452_25242522562_E522_"));
+    EXPECT_FALSE(is_valid_unit(unit_from_string("_45_625_252_22524_252452_25242522562_E522_")));
 
     EXPECT_EQ(precise_unit(45625252.0, precise::m), unit_from_string("_45_625_252_m_"));
 
@@ -593,13 +596,13 @@ TEST(funnyStrings, underscore)
 
     EXPECT_EQ(precise_unit(45.0, precise::one), unit_from_string("45"));
 
-    EXPECT_EQ(precise::error, unit_from_string("_____-_____"));
+    EXPECT_FALSE(is_valid_unit(unit_from_string("_____-_____")));
 }
 
 TEST(funnyStrings, outofrange)
 {  // these are mainly testing that it doesn't throw
-    EXPECT_EQ(precise::error, unit_from_string("1532^34e505"));  // out of range error
-    EXPECT_EQ(precise::error, unit_from_string("34e505"));  // out of range
+    EXPECT_FALSE(is_valid_unit(unit_from_string("1532^34e505")));  // out of range error
+    EXPECT_FALSE(is_valid_unit(unit_from_string("34e505")));  // out of range
 }
 
 TEST(funnyStrings, powersof1)

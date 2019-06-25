@@ -2679,7 +2679,7 @@ static const smap base_unit_vals{
   {"nauticalleague", precise::nautical::league},
   {"nauticalleage_i", precise::nautical::league},
   {"nauticalleague_i", precise::nautical::league},
-  {"br", precise::error},  // this prevents some other issues with the string "br"
+  {"br", precise::invalid},  // this prevents some other issues with the string "br"
   {"nmi", precise::nautical::mile},
   {"nmi_i", precise::nautical::mile},
   {"[NMI_I]", precise::nautical::mile},
@@ -4855,7 +4855,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     while (part < unit_string.size() - 1)
     {
         auto res = unit_quick_match(ustring, match_flags);
-        if (is_valid_unit(res) && ustring.size() >= 3)
+        if (!is_valid_unit(res) && ustring.size() >= 3)
         {
             if (ustring.front() >= 'A' && ustring.front() <= 'Z')
             {  // check the lower case version since we skipped partitioning when we did this earlier
