@@ -1483,10 +1483,6 @@ static bool wordModifiers(std::string &unit)
         {
             if (ends_with(unit, std::get<0>(mod)))
             {
-                if (unit.size() == std::get<2>(mod))
-                {
-                    return false;
-                }
                 unit.replace(unit.size() - std::get<2>(mod), std::get<2>(mod), std::get<1>(mod));
                 return true;
             }
@@ -1524,10 +1520,11 @@ static bool wordModifiers(std::string &unit)
             auto fnd = unit.find(std::get<0>(mod));
             if (fnd != std::string::npos)
             {
-                if (unit.size() == std::get<2>(mod))
-                {
-                    return false;
-                }
+                // this will need to be added in again if more string are added to the search list with this type
+                // if (unit.size() == std::get<2>(mod))
+                //{
+                //    return false;
+                //}
                 if (fnd != 0)
                 {
                     unit.replace(fnd, std::get<2>(mod), "*");

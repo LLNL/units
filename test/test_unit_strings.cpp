@@ -504,6 +504,15 @@ TEST(stringToUnits, invalid)
     auto u1 = unit_from_string("{(test}");
     EXPECT_TRUE(u1.is_error());
     EXPECT_FALSE(unit_from_string("{\\(test}").is_error());
+
+    auto u2 = unit_from_string("cubed");
+    EXPECT_TRUE(u2.is_error());
+
+    u2 = unit_from_string("tothethirdpower");
+    EXPECT_TRUE(u2.is_error());
+
+    u2 = unit_from_string("cubic");
+    EXPECT_TRUE(u2.is_error());
 }
 
 TEST(userDefinedUnits, definitions)
