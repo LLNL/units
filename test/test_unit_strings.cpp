@@ -318,6 +318,9 @@ TEST(stringToUnits, interestingUnits)
 {
     auto unit = unit_from_string("cubit (UK)");
     EXPECT_TRUE(precise::m.has_same_base(unit));
+
+    unit = unit_from_string("ZAM", case_insensitive);
+    EXPECT_EQ(unit, precise_unit(1e21, precise::m));
 }
 
 TEST(stringToUnits, customUnitforms)

@@ -3671,7 +3671,11 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
     auto finish = unit_string.find_last_of('}');
     if (finish == std::string::npos)
     {
+        // there are checks before this would get called that would catch that error but it is left in place just
+        // in case
+        // LCOV_EXCL_START
         return precise::invalid;
+        // LCOV_EXCL_END
     }
     int ccindex = static_cast<int>(finish) - 1;
     segmentcheckReverse(unit_string, '{', ccindex);
@@ -3680,11 +3684,6 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
 
     if (ccindex < 0)
     {
-        auto runit = checkForCustomUnit(cstring);
-        if (!runit.is_error())
-        {
-            return runit;
-        }
         return {1.0, precise::one, getCommodity(cstring)};
     }
 
@@ -3741,7 +3740,7 @@ static precise_unit get_unit(const std::string &unit_string)
 // Detect if a string looks like a number
 static bool looksLikeNumber(const std::string &string, size_t index)
 {
-    if (string.empty())
+    if (string.size() <= index)
     {
         return false;
     }
@@ -3777,7 +3776,9 @@ static bool looksLikeInteger(const std::string &string)
 {
     if (string.empty())
     {
+        // LCOV_EXCL_START
         return false;
+        // LCOV_EXCL_END
     }
     size_t index = 0;
     if (string[0] == '-' || string[0] == '+')
@@ -3865,7 +3866,10 @@ static size_t findOperatorSep(const std::string &ustring, std::string operators)
     }
     if (sep == 0)
     {
+        // this should not happen
+        // LCOV_EXCL_START
         sep = std::string::npos;
+        // LCOV_EXCL_END
     }
     return sep;
 }
@@ -3903,7 +3907,10 @@ static size_t findWordOperatorSep(const std::string &ustring, const std::string 
         }
         if (lbrack < sep)
         {
+            // this should not happen as it would mean the operator separator didn't function properly
+            // LCOV_EXCL_START
             return sep;
+            // LCOV_EXCL_END
         }
         auto cchar = getMatchCharacter(ustring[lbrack]);
         --lbrack;

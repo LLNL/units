@@ -170,3 +170,10 @@ TEST(commodities, unusual_to_string)
     str = to_string(com2inv);
     EXPECT_EQ(unit_from_string(str), com2inv);
 }
+
+TEST(commodities, unusual_from_string)
+{
+    auto punit = unit_from_string("{happy'u}");
+    EXPECT_EQ(punit.commodity(), 0u);
+    EXPECT_TRUE(precise::custom::is_custom_unit(punit.base_units()));
+}

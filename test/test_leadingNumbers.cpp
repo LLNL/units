@@ -84,6 +84,12 @@ TEST(leadingNumbers, parenthesis_single)
     res = testLeadingNumber("3.1^(4.3)houses", index);
     EXPECT_EQ(res, pow(3.1, 4.3));
     EXPECT_GE(index, 9);
+
+    res = testLeadingNumber("1.2*-.9", index);
+    EXPECT_EQ(res, 1.2 * -0.9);
+
+    res = testLeadingNumber("1.2*", index);
+    EXPECT_EQ(res, 1.2);
 }
 
 TEST(leadingNumbers, power_cascade)
