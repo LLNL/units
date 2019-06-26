@@ -590,27 +590,27 @@ TEST(defaultUnits, unitTypes)
 
 TEST(commoditizedUnits, basic)
 {
-    auto u = unit_from_string("meter{cloth}");
-    EXPECT_EQ(getCommodityName(u.commodity()), "cloth");
+    auto commu = unit_from_string("meter{cloth}");
+    EXPECT_EQ(getCommodityName(commu.commodity()), "cloth");
 
-    auto u2 = unit_from_string("meter{Cloth}");
-    EXPECT_EQ(getCommodityName(u2.commodity()), "cloth");
+    auto commu2 = unit_from_string("meter{Cloth}");
+    EXPECT_EQ(getCommodityName(commu2.commodity()), "cloth");
 
-    auto u3 = unit_from_string("meter{CLOTH}");
-    EXPECT_EQ(getCommodityName(u3.commodity()), "cloth");
+    auto commu3 = unit_from_string("meter{CLOTH}");
+    EXPECT_EQ(getCommodityName(commu3.commodity()), "cloth");
 
-    auto u4 = unit_from_string("meter of cloth");
-    EXPECT_EQ(getCommodityName(u4.commodity()), "cloth");
+    auto commu4 = unit_from_string("meter of cloth");
+    EXPECT_EQ(getCommodityName(commu4.commodity()), "cloth");
 
-    EXPECT_EQ(u4, u);
+    EXPECT_EQ(commu4, u);
 
-    auto u5 = unit_from_string("metre{CLOTH}");
-    EXPECT_EQ(getCommodityName(u5.commodity()), "cloth");
+    auto commu5 = unit_from_string("metre{CLOTH}");
+    EXPECT_EQ(getCommodityName(commu5.commodity()), "cloth");
 
-    auto u6 = unit_from_string("metre of cloth");
-    EXPECT_EQ(getCommodityName(u6.commodity()), "cloth");
+    auto commu6 = unit_from_string("metre of cloth");
+    EXPECT_EQ(getCommodityName(commu6.commodity()), "cloth");
 
-    EXPECT_EQ(u6, u);
+    EXPECT_EQ(commu6, commu);
 }
 
 TEST(commoditizedUnits, prefixed)
@@ -625,18 +625,18 @@ TEST(commoditizedUnits, prefixed)
 
 TEST(commoditizedUnits, numericalWords)
 {
-    auto u = unit_from_string("20{unicorns}");
-    EXPECT_EQ(getCommodityName(u.commodity()), "unicorns");
+    auto commu = unit_from_string("20{unicorns}");
+    EXPECT_EQ(getCommodityName(commu.commodity()), "unicorns");
 
-    auto u2 = unit_from_string("twenty{unicorns}");
-    EXPECT_EQ(getCommodityName(u2.commodity()), "unicorns");
-    EXPECT_EQ(u2, u);
+    auto commu2 = unit_from_string("twenty{unicorns}");
+    EXPECT_EQ(getCommodityName(commu2.commodity()), "unicorns");
+    EXPECT_EQ(commu2, commu);
 
-    auto u3 = unit_from_string("two-million{unicorns}");
-    EXPECT_EQ(u3.multiplier(), 2000000);
+    auto commu3 = unit_from_string("two-million{unicorns}");
+    EXPECT_EQ(commu3.multiplier(), 2000000);
 
-    auto u4 = unit_from_string("two-million{unicorns}{_}");
-    EXPECT_EQ(u3, u4);
+    auto commu4 = unit_from_string("two-million{unicorns}{_}");
+    EXPECT_EQ(commu3, commu4);
 }
 
 TEST(funnyStrings, underscore)
