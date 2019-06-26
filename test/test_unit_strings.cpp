@@ -602,7 +602,7 @@ TEST(commoditizedUnits, basic)
     auto commu4 = unit_from_string("meter of cloth");
     EXPECT_EQ(getCommodityName(commu4.commodity()), "cloth");
 
-    EXPECT_EQ(commu4, u);
+    EXPECT_EQ(commu4, commu);
 
     auto commu5 = unit_from_string("metre{CLOTH}");
     EXPECT_EQ(getCommodityName(commu5.commodity()), "cloth");
@@ -615,12 +615,12 @@ TEST(commoditizedUnits, basic)
 
 TEST(commoditizedUnits, prefixed)
 {
-    auto u = unit_from_string("millimeter{cloth}");
-    EXPECT_EQ(getCommodityName(u.commodity()), "cloth");
+    auto commu = unit_from_string("millimeter{cloth}");
+    EXPECT_EQ(getCommodityName(commu.commodity()), "cloth");
 
-    auto u2 = unit_from_string("KB{info}");
-    EXPECT_EQ(getCommodityName(u2.commodity()), "info");
-    EXPECT_TRUE(u2.has_same_base(precise::data::byte));
+    auto commu2 = unit_from_string("KB{info}");
+    EXPECT_EQ(getCommodityName(commu2.commodity()), "info");
+    EXPECT_TRUE(commu2.has_same_base(precise::data::byte));
 }
 
 TEST(commoditizedUnits, numericalWords)
