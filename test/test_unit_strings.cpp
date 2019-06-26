@@ -293,6 +293,8 @@ TEST(stringToUnits, exponentForms)
 
     EXPECT_EQ(precise::cm.pow(2), unit_from_string("cm2"));
     EXPECT_EQ(precise::mm.pow(2), unit_from_string("mm2"));
+    EXPECT_EQ(precise::mm.pow(2), unit_from_string("mm<sup>2</sup>"));
+    EXPECT_EQ(precise::mm.pow(2), unit_from_string("mm<sup>2<\\/sup>"));
     EXPECT_EQ((precise::micro * precise::meter).pow(2), unit_from_string("um2"));
     EXPECT_EQ(precise::cm.pow(5), unit_from_string("cm5"));
     EXPECT_EQ(unit_from_string("CM2", true), unit_from_string("cm2"));
@@ -355,6 +357,7 @@ TEST(stringToUnits, equivalents2)
     EXPECT_EQ(unit_from_string("us in"), unit_from_string("in_us"));
     EXPECT_EQ(unit_from_string("CXCUN[1]^-1"), unit_from_string("/[arb'U]"));
     EXPECT_EQ(unit_from_string("[CCID_50]"), unit_from_string("CCID<sub>50</sub> "));
+    EXPECT_EQ(unit_from_string("[CCID_50]"), unit_from_string("CCID<sub>50<\\/sub> "));
     EXPECT_EQ(unit_from_string("/100 neutrophils"), unit_from_string("/100{neutrophils}"));
     EXPECT_EQ(unit_from_string("carat/cubic inch"), unit_from_string("ct/in3"));
     EXPECT_EQ(unit_from_string("10.(UN.S)/(CM5.M2)", case_insensitive), unit_from_string("10.uN.s/(cm5.m2)"));

@@ -5214,7 +5214,10 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             }
             else
             {
+                // the check function should catch this but it would be problematic if not not caught
+                // LCOV_EXCL_START
                 return precise::invalid;
+                // LCOV_EXCL_END
             }
         }
         else
@@ -5693,7 +5696,7 @@ precision_measurement measurement_from_string(std::string measurement_string, ui
         {
             if (un.base_units() == precise::currency.base_units())
             {
-                return {un.multiplier(), precise::currency};
+                return {un.multiplier(), precise_unit(1.0, precise::currency, un.commodity())};
             }
         }
         return {val, un};

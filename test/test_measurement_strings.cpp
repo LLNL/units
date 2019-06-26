@@ -23,9 +23,18 @@ TEST(MeasurementStrings, basic)
     EXPECT_EQ(pm, 99.9 * precise::N * precise::m);
 }
 
+TEST(MeasurementStrings, invalid)
+{
+    auto pm = measurement_from_string("345 blarg");
+    EXPECT_FALSE(is_valid_unit(pm.units()));
+}
+
 TEST(MeasurementStrings, currency)
 {
     auto pm = measurement_from_string("$9.99");
+    EXPECT_EQ(pm, 9.99 * precise::currency);
+
+    pm = measurement_from_string("$ 9.99");
     EXPECT_EQ(pm, 9.99 * precise::currency);
 }
 
