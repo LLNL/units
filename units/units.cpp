@@ -1543,10 +1543,6 @@ static bool wordModifiers(std::string &unit)
         {
             if (unit.compare(0, std::get<2>(mod), std::get<0>(mod)) == 0)
             {
-                if (unit.size() == std::get<2>(mod))
-                {
-                    return false;
-                }
                 unit.replace(0, std::get<2>(mod), std::get<1>(mod));
                 return true;
             }
@@ -3534,6 +3530,8 @@ static const smap base_unit_vals{
   {"[PH]", precise::laboratory::pH},
 };
 
+// this function is pulled from elsewhere and the coverage is not important for error control
+// LCOV_EXCL_START
 // get a matching character for the sequence
 static char getMatchCharacter(char mchar)
 {
@@ -3562,12 +3560,20 @@ static char getMatchCharacter(char mchar)
     }
     return mchar;
 }
+// LCOV_EXCL_END
+
+// This function is only used in a few locations which is after a primary segment check which should catch the fail
+// checks before this function is called
+// so coverage isn't expected or required.
+
 // do a segment check in the reverse direction
 static bool segmentcheckReverse(const std::string &unit, char closeSegment, int &index)
 {
     if (index >= static_cast<int>(unit.size()))
     {
+        // LCOV_EXCL_START
         return false;
+        // LCOV_EXCL_END
     }
     while (index >= 0)
     {
@@ -3589,7 +3595,9 @@ static bool segmentcheckReverse(const std::string &unit, char closeSegment, int 
         case ']':
             if (!segmentcheckReverse(unit, getMatchCharacter(current), index))
             {
+                // LCOV_EXCL_START
                 return false;
+                // LCOV_EXCL_END
             }
             break;
         case '{':
@@ -3600,7 +3608,9 @@ static bool segmentcheckReverse(const std::string &unit, char closeSegment, int 
             break;
         }
     }
+    // LCOV_EXCL_START
     return false;
+    // LCOV_EXCL_END
 }
 
 // do a segment check in the forward direction
@@ -4182,7 +4192,7 @@ static bool checkValidUnitString(const std::string &unit_string, uint32_t match_
                 }
                 break;
             case 5:  // checking for ^(-D)^
-                if (unit_string[prev + 1] == '(' && unit_string[prev + 1] == '-')
+                if (unit_string[prev + 1] == '(' && unit_string[prev + 2] == '-')
                 {
                     return false;
                 }
@@ -4391,7 +4401,9 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
         changed |= cleanSpaces(unit_string, skipMultiply);
         if (unit_string.empty())
         {
+            // LCOV_EXCL_START
             return true;
+            // LCOV_EXCL_END
         }
 
         // 10*num usually means a power of 10
@@ -4640,6 +4652,11 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
                 unit_string.erase(fndP, 2);
             }
             fndP = unit_string.find("^1", fndP);
+        }
+        if (unit_string.empty())
+        {
+            unit_string.push_back('1');
+            return true;
         }
         // get rid of ^1 sequences
         fndP = unit_string.find("^(1)");

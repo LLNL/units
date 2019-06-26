@@ -380,6 +380,11 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(unit_from_string("Ns"), precise::N * precise::s);
     EXPECT_EQ(unit_from_string("N.s"), precise::N * precise::s);
     EXPECT_EQ(unit_from_string("Newton second"), precise::N * precise::s);
+    auto u2 = unit_from_string("molcubicfoot");
+    EXPECT_FALSE(u2.is_error());
+    EXPECT_EQ(u2, precise::mol * precise::ft.pow(3));
+    EXPECT_EQ(unit_from_string("(1)^345"), precise::one);
+    EXPECT_EQ(unit_from_string("\t\t\t\t \r\n\n"), precise::defunit);
 }
 
 class roundTripString : public ::testing::TestWithParam<std::string>
@@ -515,6 +520,18 @@ TEST(stringToUnits, invalid)
     EXPECT_TRUE(u2.is_error());
 
     u2 = unit_from_string("cubic");
+    EXPECT_TRUE(u2.is_error());
+
+    u2 = unit_from_string("m^-t");
+    EXPECT_TRUE(u2.is_error());
+    u2 = unit_from_string("m^4^-4");
+    EXPECT_TRUE(u2.is_error());
+    u2 = unit_from_string("m^(4)^-4");
+    EXPECT_TRUE(u2.is_error());
+    u2 = unit_from_string("m^-4^4");
+    EXPECT_TRUE(u2.is_error());
+
+    u2 = unit_from_string("m^(-4)^4");
     EXPECT_TRUE(u2.is_error());
 }
 
