@@ -1531,7 +1531,11 @@ static bool wordModifiers(std::string &unit)
                 }
                 else
                 {
+                    // this path cannot currently be executed due to the limited use of the type but others may be
+                    // added in the fugure that might trigger it
+                    // LCOV_EXCL_START
                     unit.erase(0, std::get<2>(mod));
+                    // LCOV_EXCL_END
                 }
                 unit.append(std::get<1>(mod));
                 return true;
