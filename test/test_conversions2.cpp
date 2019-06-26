@@ -67,11 +67,11 @@ TEST_P(converterApp, fileConversions)
     for (auto &convcode : unit_conv)
     {
         auto unit = units::unit_from_string(convcode.name);
-        EXPECT_FALSE(unit.is_error()) << "error converting " << convcode.name;
+        EXPECT_FALSE(is_error(unit)) << "error converting " << convcode.name;
         if (!convcode.short_name.empty())
         {
             auto unit_short = units::unit_from_string(convcode.short_name);
-            EXPECT_FALSE(unit_short.is_error()) << "error converting " << convcode.short_name;
+            EXPECT_FALSE(is_error(unit_short)) << "error converting " << convcode.short_name;
             EXPECT_EQ(unit, unit_short)
               << convcode.name << " and " << convcode.short_name << " do not produce the same unit";
         }

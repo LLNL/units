@@ -1310,11 +1310,23 @@ constexpr unit rad = unit_cast(precise::rad);
 constexpr unit defunit = unit_cast(precise::defunit);
 constexpr unit invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
-constexpr inline bool is_valid_unit(precise_unit u)
+/// Check if the unit has an error
+constexpr inline bool is_error(precise_unit u)
+{
+    return (u.multiplier() != u.multiplier() ||
+            (u.base_units().has_e_flag() && u.base_units().is_flag() && u.base_units().empty()));
+}
+constexpr inline bool is_error(unit u)
+{
+    return (u.multiplier() != u.multiplier() ||
+            (u.base_units().has_e_flag() && u.base_units().is_flag() && u.base_units().empty()));
+}
+
+constexpr inline bool is_valid(precise_unit u)
 {
     return !((u.multiplier() != u.multiplier()) && (u.base_units() == precise::invalid.base_units()));
 }
-constexpr inline bool is_valid_unit(unit u)
+constexpr inline bool is_valid(unit u)
 {
     return !((u.multiplier() != u.multiplier()) && (u.base_units() == invalid.base_units()));
 }

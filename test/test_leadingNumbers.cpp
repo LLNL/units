@@ -122,7 +122,7 @@ TEST(leadingNumbers, parenthesis_dual)
 
     res = testLeadingNumber("(2)(m)", index);
     EXPECT_EQ(res, 2.0);
-    EXPECT_EQ(index, 3);
+    EXPECT_EQ(index, 3u);
 }
 
 TEST(leadingNumbers, complex)

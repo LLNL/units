@@ -629,7 +629,7 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
             else if (propUnitString.compare(0, 2, "1/") == 0)
             {
                 auto rs = checkForCustomUnit(cString);
-                if (!rs.is_error())
+                if (!is_error(rs))
                 {
                     cString.insert(0, 1, '1');
                 }
@@ -649,7 +649,7 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
                 else
                 {
                     auto rs = checkForCustomUnit(cString);
-                    if (!rs.is_error())
+                    if (!is_error(rs))
                     {
                         cString.insert(0, 1, '1');
                     }
@@ -663,7 +663,7 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
             if (loc == std::string::npos)
             {
                 auto rs = checkForCustomUnit(cString);
-                if (!rs.is_error())
+                if (!is_error(rs))
                 {  // this check is needed because it is possible to define a commodity that would look like a form
                    // of custom unit
                     // The '1' forces the interpreter to interpret it as purely a commodity, but is only needed in
@@ -728,7 +728,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         else if (std::isnan(un.multiplier()))
         {
             un = precise_unit(un.base_units(), 1.0);
-            if (un.is_error())
+            if (is_error(un))
             {
                 return "ERROR";
             }
@@ -3702,7 +3702,7 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
     }
 
     auto bunit = unit_from_string_internal(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
-    if (!bunit.is_error())
+    if (!is_error(bunit))
     {
         return {1.0, bunit, getCommodity(cstring)};
     }
@@ -4812,7 +4812,7 @@ static precise_unit unit_quick_match(std::string unit_string, uint32_t match_fla
         cleanUnitString(unit_string, match_flags);
     }
     auto retunit = get_unit(unit_string);
-    if (is_valid_unit(retunit))
+    if (is_valid(retunit))
     {
         return retunit;
     }
@@ -4820,7 +4820,7 @@ static precise_unit unit_quick_match(std::string unit_string, uint32_t match_fla
     {  // if the string is of length two this is too risky to try since there would be many incorrect matches
         unit_string.pop_back();
         retunit = get_unit(unit_string);
-        if (is_valid_unit(retunit))
+        if (is_valid(retunit))
         {
             return retunit;
         }
@@ -4832,7 +4832,7 @@ static precise_unit unit_quick_match(std::string unit_string, uint32_t match_fla
         {
             unit_string.erase(unit_string.begin());
             retunit = get_unit(unit_string);
-            if (is_valid_unit(retunit))
+            if (is_valid(retunit))
             {
                 return retunit;
             }
@@ -4852,7 +4852,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     {
         ustring.erase(fnd, 5);
         auto bunit = unit_from_string_internal(ustring, match_flags);
-        if (is_valid_unit(bunit))
+        if (is_valid(bunit))
         {
             return precise::m * bunit;
         }
@@ -4861,7 +4861,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     if (unit_string.compare(0, 3, "amp") == 0)
     {
         auto bunit = unit_from_string_internal(unit_string.substr(3), match_flags);
-        if (is_valid_unit(bunit))
+        if (is_valid(bunit))
         {
             return precise::A * bunit;
         }
@@ -4872,7 +4872,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
         ustring = unit_string.substr(mret.second);
 
         auto retunit = unit_from_string_internal(ustring, match_flags);
-        if (is_valid_unit(retunit))
+        if (is_valid(retunit))
         {
             return {mret.first, retunit};
         }
@@ -4892,7 +4892,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     while (part < unit_string.size() - 1)
     {
         auto res = unit_quick_match(ustring, match_flags);
-        if (!is_valid_unit(res) && ustring.size() >= 3)
+        if (!is_valid(res) && ustring.size() >= 3)
         {
             if (ustring.front() >= 'A' && ustring.front() <= 'Z')
             {  // check the lower case version since we skipped partitioning when we did this earlier
@@ -4900,10 +4900,10 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
                 res = unit_quick_match(ustring, match_flags);
             }
         }
-        if (is_valid_unit(res))
+        if (is_valid(res))
         {
             auto bunit = unit_from_string_internal(unit_string.substr(part), match_flags | skip_partition_check);
-            if (is_valid_unit(bunit))
+            if (is_valid(bunit))
             {
                 return res * bunit;
             }
@@ -4938,7 +4938,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
     }
     // now do a quick check with a 2 character string since we skipped that earlier
     auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
-    if (is_valid_unit(qm2))
+    if (is_valid(qm2))
     {
         valid.insert(valid.begin(), unit_string.substr(0, 2));
     }
@@ -4954,7 +4954,7 @@ static precise_unit tryUnitPartitioning(const std::string &unit_string, uint32_t
         auto res = unit_quick_match(vd, match_flags);
 
         auto bunit = unit_from_string_internal(unit_string.substr(vd.size()), match_flags);
-        if (is_valid_unit(bunit))
+        if (is_valid(bunit))
         {
             return res * bunit;
         }
@@ -5044,7 +5044,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
     if ((match_flags & case_insensitive) == 0)
     {  // if not a ci matching process just do a quick scan first
         retunit = get_unit(unit_string);
-        if (is_valid_unit(retunit))
+        if (is_valid(retunit))
         {
             return retunit;
         }
@@ -5052,7 +5052,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
     if (cleanUnitString(unit_string, match_flags))
     {
         retunit = get_unit(unit_string);
-        if (is_valid_unit(retunit))
+        if (is_valid(retunit))
         {
             return retunit;
         }
@@ -5080,7 +5080,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         if (unit_string.find_last_of("}", unit_string.size() - 2) == std::string::npos)
         {
             retunit = checkForCustomUnit(unit_string);
-            if (!retunit.is_error())
+            if (!is_error(retunit))
             {
                 return retunit;
             }
@@ -5121,7 +5121,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             }
             // don't do as many partition check levels for this
             retunit = unit_from_string_internal(unit_string.substr(index), match_flags + partition_check1);
-            if (retunit.is_error())
+            if (is_error(retunit))
             {
                 if (unit_string[index] == '(' || unit_string[index] == '[')
                 {
@@ -5136,7 +5136,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                     if (cparen < unit_string.size())
                     {
                         retunit = unit_from_string_internal(unit_string.substr(cparen), match_flags);
-                        if (!is_valid_unit(retunit))
+                        if (!is_valid(retunit))
                         {
                             return precise::invalid;
                         }
@@ -5164,13 +5164,13 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         if (sep + 1 > unit_string.size() / 2)
         {
             b_unit = unit_from_string_internal(unit_string.substr(sep + 1), match_flags - recursion_modifier);
-            if (!is_valid_unit(b_unit))
+            if (!is_valid(b_unit))
             {
                 return precise::invalid;
             }
             a_unit = unit_from_string_internal(unit_string.substr(0, sep), match_flags - recursion_modifier);
 
-            if (!is_valid_unit(a_unit))
+            if (!is_valid(a_unit))
             {
                 return precise::invalid;
             }
@@ -5179,12 +5179,12 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         {
             a_unit = unit_from_string_internal(unit_string.substr(0, sep), match_flags - recursion_modifier);
 
-            if (!is_valid_unit(a_unit))
+            if (!is_valid(a_unit))
             {
                 return precise::invalid;
             }
             b_unit = unit_from_string_internal(unit_string.substr(sep + 1), match_flags - recursion_modifier);
-            if (!is_valid_unit(b_unit))
+            if (!is_valid(b_unit))
             {
                 return precise::invalid;
             }
@@ -5241,7 +5241,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
 
             ustring = unit_string.substr(index + 2, pchar - index - 2);
             retunit = unit_from_string_internal(ustring, match_flags - recursion_modifier);
-            if (!is_valid_unit(retunit))
+            if (!is_valid(retunit))
             {
                 if (index >= 0)
                 {
@@ -5249,7 +5249,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                     {
                         retunit = unit_from_string_internal(unit_string.substr(0, pchar + 1),
                                                             match_flags - recursion_modifier);
-                        if (!is_valid_unit(retunit))
+                        if (!is_valid(retunit))
                         {
                             return precise::invalid;
                         }
@@ -5281,7 +5281,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             }
             auto a_unit =
               unit_from_string_internal(unit_string.substr(0, index), match_flags - recursion_modifier);
-            if (!a_unit.is_error())
+            if (!is_error(a_unit))
             {
                 return a_unit * retunit;
             }
@@ -5296,7 +5296,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             }
 
             retunit = get_unit(ustring);
-            if (is_valid_unit(retunit))
+            if (is_valid(retunit))
             {
                 if (power == 1)
                 {
@@ -5313,7 +5313,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             {
                 retunit =
                   unit_from_string_internal(unit_string.substr(0, pchar + 1), match_flags - recursion_modifier);
-                if (!is_valid_unit(retunit))
+                if (!is_valid(retunit))
                 {
                     return precise::invalid;
                 }
@@ -5348,7 +5348,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 return {mux, precise::data::bit};
             }
             retunit = unit_quick_match(ustring, match_flags);
-            if (is_valid_unit(retunit))
+            if (is_valid(retunit))
             {
                 return {mux, retunit};
             }
@@ -5374,7 +5374,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 return {mux, precise::data::bit};
             }
             retunit = unit_quick_match(ustring, match_flags);
-            if (!retunit.is_error())
+            if (!is_error(retunit))
             {
                 return {mux, retunit};
             }
@@ -5407,7 +5407,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                     ustring[0] += 32;
                     retunit = unit_from_string_internal(ustring, (match_flags & (~case_insensitive)) |
                                                                    skip_partition_check);
-                    if (!retunit.is_error())
+                    if (!is_error(retunit))
                     {
                         return retunit;
                     }
@@ -5422,7 +5422,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         ustring = unit_string.substr(mret.second);
 
         retunit = unit_quick_match(ustring, match_flags);
-        if (!retunit.is_error())
+        if (!is_error(retunit))
         {
             return {mret.first, retunit};
         }
@@ -5434,7 +5434,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 {
                     ustring[0] += 32;
                     retunit = unit_quick_match(ustring, match_flags);
-                    if (!retunit.is_error())
+                    if (!is_error(retunit))
                     {
                         return {mret.first, retunit};
                     }
@@ -5449,7 +5449,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         if (ustring.back() != 'U')  // this means custom unit code
         {
             retunit = get_unit(ustring);
-            if (!retunit.is_error())
+            if (!is_error(retunit))
             {
                 return retunit;
             }
@@ -5461,7 +5461,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         ustring = unit_string;
         ustring.replace(s_, 2, "_");
         retunit = get_unit(ustring);
-        if (!retunit.is_error())
+        if (!is_error(retunit))
         {
             return retunit;
         }
@@ -5479,7 +5479,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 ustring = unit_string;
                 ustring.erase(fd, 1);
                 retunit = unit_quick_match(ustring, match_flags);
-                if (!retunit.is_error())
+                if (!is_error(retunit))
                 {
                     return retunit;
                 }
@@ -5508,7 +5508,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             if (ustring != unit_string)
             {
                 retunit = unit_from_string_internal(ustring, match_flags | skip_partition_check);
-                if (!retunit.is_error())
+                if (!is_error(retunit))
                 {
                     return retunit;
                 }
@@ -5522,7 +5522,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         if (!unit_string.empty())
         {
             retunit = get_unit(unit_string);
-            if (!retunit.is_error())
+            if (!is_error(retunit))
             {
                 return retunit;
             }
@@ -5538,7 +5538,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                     }
                     unit_string = unit_string.substr(loc);
                     retunit = unit_from_string_internal(unit_string, match_flags);
-                    if (!retunit.is_error())
+                    if (!is_error(retunit))
                     {
                         return {number, retunit};
                     }
@@ -5564,7 +5564,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         if (ustring.back() != 'U')  // this means custom unit code
         {
             retunit = get_unit(ustring);
-            if (!retunit.is_error())
+            if (!is_error(retunit))
             {
                 return retunit;
             }
@@ -5586,7 +5586,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 ustring.replace(fnd, 3, "/");
             }
             retunit = unit_from_string_internal(ustring, match_flags + per_operator1);
-            if (!retunit.is_error())
+            if (!is_error(retunit))
             {
                 return retunit;
             }
@@ -5599,7 +5599,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         ustring = unit_string;
         ustring.pop_back();
         retunit = get_unit(ustring);
-        if (!retunit.is_error())
+        if (!is_error(retunit))
         {
             return retunit;
         }
@@ -5628,7 +5628,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 ustring.insert(sloc, 1, '}');
             }
             auto cunit = commoditizedUnit(ustring, match_flags);
-            if (!cunit.is_error())
+            if (!is_error(cunit))
             {
                 return cunit;
             }
@@ -5641,14 +5641,14 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         if (ustring != unit_string)
         {
             retunit = unit_quick_match(ustring, match_flags);
-            if (!retunit.is_error())
+            if (!is_error(retunit))
             {
                 return retunit;
             }
         }
     }
     retunit = checkForCustomUnit(unit_string);
-    if (!retunit.is_error())
+    if (!is_error(retunit))
     {
         return retunit;
     }
@@ -5656,7 +5656,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
     if ((match_flags & no_locality_modifiers) == 0)
     {
         retunit = localityModifiers(unit_string, match_flags | skip_partition_check);
-        if (!retunit.is_error())
+        if (!is_error(retunit))
         {
             return retunit;
         }
@@ -5667,7 +5667,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
         // maybe some things got merged together so lets try splitting them up in various ways
         // but only allow 3 layers deep
         retunit = tryUnitPartitioning(unit_string, match_flags + partition_check1);
-        if (!retunit.is_error())
+        if (!is_error(retunit))
         {
             return retunit;
         }
@@ -5692,7 +5692,7 @@ precision_measurement measurement_from_string(std::string measurement_string, ui
     bool checkCurrency = (loc == 0);
 
     auto un = unit_from_string_internal(measurement_string.substr(loc), match_flags);
-    if (!un.is_error())
+    if (!is_error(un))
     {
         if (checkCurrency)
         {
@@ -5992,7 +5992,7 @@ precise_unit default_unit(std::string unit_type)
     if (unit_type.compare(0, 3, "inv") == 0)
     {
         auto tunit = default_unit(unit_type.substr(3));
-        if (!tunit.is_error())
+        if (!is_error(tunit))
         {
             return tunit.inv();
         }

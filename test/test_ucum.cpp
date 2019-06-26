@@ -30,14 +30,14 @@ TEST(UCUM, TestAllUnits)
 
         auto csact = units::unit_from_string(csCode);
 
-        if (csact.is_error())
+        if (is_error(csact))
         {
             std::cout << csCode << " does not result in a valid cs unit for " << junit["name_"] << '\n';
             units::unit_from_string(csCode, 0);
             ++csFail;
         }
         auto ciact = units::unit_from_string(ciCode, units::case_insensitive);
-        if (ciact.is_error())
+        if (is_error(ciact))
         {
             std::cout << ciCode << " does not result in a valid ci unit for " << junit["name_"] << '\n';
 
@@ -267,7 +267,7 @@ TEST(UCUM, TestClass)
                 if (propertyCode.find("Rat") == std::string::npos)
                 {
                     auto defMUnit = units::default_unit(propertyCode);
-                    if (defMUnit.is_error())
+                    if (is_error(defMUnit))
                     {
                         std::cout << propertyCode << " does not produce a valid unit LPROP for "
                                   << junit["csCode_"].get<std::string>() << '\n';
@@ -280,7 +280,7 @@ TEST(UCUM, TestClass)
         {
             auto propertyCode = junit["property_"].get<std::string>();
             auto defMUnit = units::default_unit(propertyCode);
-            if (defMUnit.is_error())
+            if (is_error(defMUnit))
             {
                 std::cout << propertyCode << " does not produce a valid unit for "
                           << junit["csCode_"].get<std::string>() << "\n";
@@ -456,7 +456,7 @@ TEST(UCUM, TestMatchingSynonym)
                         continue;
                     }
                     auto defMUnit = units::default_unit(synonym);
-                    if (!defMUnit.is_error())
+                    if (!is_error(defMUnit))
                     {
                         if (csact.has_same_base(defMUnit))
                         {
@@ -488,7 +488,7 @@ TEST(UCUM, TestExampleCodes)
         auto ustring = line.substr(fc + 1, fc2 - fc - 1);
         auto name = line.substr(fc2 + 1);
         auto csact = units::unit_from_string(ustring);
-        if (csact.is_error())
+        if (is_error(csact))
         {
             std::cout << ustring << " did not produce a valid defined unit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
         }
@@ -506,7 +506,7 @@ TEST(UCUM, TestExampleCodes)
         }
         auto nameact = units::unit_from_string(name);
         bool hasCommodity = (csact.commodity() != 0);
-        if (nameact.is_error())
+        if (is_error(nameact))
         {
             if (!hasCommodity)
             {
@@ -561,7 +561,7 @@ TEST(UCUM, TestRoundTrip)
         std::string ustring = to_string(csact);
         auto uact = units::unit_from_string(ustring);
 
-        if (uact.is_error())
+        if (is_error(uact))
         {
             std::cout << csCode << "->" << ustring << " does not result in a valid ustring unit for "
                       << junit["name_"] << '\n';
@@ -601,7 +601,7 @@ TEST(UCUM, TestRoundTrip2)
         std::string genstring = to_string(csact);
         auto uact = units::unit_from_string(genstring);
 
-        if (uact.is_error())
+        if (is_error(uact))
         {
             std::cout << ustring << "->" << genstring << " does not result in a valid ustring unit for " << name
                       << '\n';
@@ -638,7 +638,7 @@ TEST(UCUMConversions, Interpret1)
         bool valid = cs->FindAttribute("valid")->BoolValue();
         std::string id = cs->FindAttribute("id")->Value();
         auto prodUnit = units::unit_from_string(unit);
-        if (prodUnit.is_error())
+        if (is_error(prodUnit))
         {
             if (valid)
             {

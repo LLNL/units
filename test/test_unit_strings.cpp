@@ -272,7 +272,7 @@ TEST(stringToUnits, words)
     EXPECT_EQ(precise::Hz * precise::milli * precise::micro * precise::m,
               unit_from_string("millihertz micrometer"));
 
-    EXPECT_TRUE(unit_from_string("bob and harry").is_error());
+    EXPECT_TRUE(is_error(unit_from_string("bob and harry")));
     EXPECT_EQ(precise::pico * precise::T, unit_from_string("picotesla"));
     EXPECT_EQ(precise::pico * precise::A, unit_from_string("picoampere"));
     EXPECT_EQ(precise::pressure::psi, unit_from_string("pound per square inch"));
@@ -384,7 +384,7 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(unit_from_string("N.s"), precise::N * precise::s);
     EXPECT_EQ(unit_from_string("Newton second"), precise::N * precise::s);
     auto u2 = unit_from_string("molcubicfoot");
-    EXPECT_FALSE(u2.is_error());
+    EXPECT_FALSE(is_error(u2));
     EXPECT_EQ(u2, precise::mol * precise::ft.pow(3));
     EXPECT_EQ(unit_from_string("(1)^345"), precise::one);
     EXPECT_EQ(unit_from_string("\t\t\t\t \r\n\n"), precise::defunit);
@@ -430,7 +430,7 @@ TEST(roundTrip, DebugTest)
 TEST(CommodityStrings, simple)
 {
     auto u1 = unit_from_string("{absorbance}");
-    EXPECT_FALSE(u1.is_error());
+    EXPECT_FALSE(is_error(u1));
     EXPECT_NE(u1.commodity(), 0u);
 }
 
@@ -513,29 +513,29 @@ TEST(fileops, UnicodeFile)
 TEST(stringToUnits, invalid)
 {
     auto u1 = unit_from_string("{(test}");
-    EXPECT_TRUE(u1.is_error());
-    EXPECT_FALSE(unit_from_string("{\\(test}").is_error());
+    EXPECT_TRUE(is_error(u1));
+    EXPECT_FALSE(is_error(unit_from_string("{\\(test}")));
 
     auto u2 = unit_from_string("cubed");
-    EXPECT_TRUE(u2.is_error());
+    EXPECT_TRUE(is_error(u2));
 
     u2 = unit_from_string("tothethirdpower");
-    EXPECT_TRUE(u2.is_error());
+    EXPECT_TRUE(is_error(u2));
 
     u2 = unit_from_string("cubic");
-    EXPECT_TRUE(u2.is_error());
+    EXPECT_TRUE(is_error(u2));
 
     u2 = unit_from_string("m^-t");
-    EXPECT_TRUE(u2.is_error());
+    EXPECT_TRUE(is_error(u2));
     u2 = unit_from_string("m^4^-4");
-    EXPECT_TRUE(u2.is_error());
+    EXPECT_TRUE(is_error(u2));
     u2 = unit_from_string("m^(4)^-4");
-    EXPECT_TRUE(u2.is_error());
+    EXPECT_TRUE(is_error(u2));
     u2 = unit_from_string("m^-4^4");
-    EXPECT_TRUE(u2.is_error());
+    EXPECT_TRUE(is_error(u2));
 
     u2 = unit_from_string("m^(-4)^4");
-    EXPECT_TRUE(u2.is_error());
+    EXPECT_TRUE(is_error(u2));
 }
 
 TEST(userDefinedUnits, definitions)
@@ -555,7 +555,7 @@ TEST(userDefinedUnits, disableUserDefinitions)
     disableUserDefinedUnits();
     addUserDefinedUnit("clucks", clucks);
 
-    EXPECT_FALSE(is_valid_unit(unit_from_string("clucks/A")));
+    EXPECT_FALSE(is_valid(unit_from_string("clucks/A")));
 
     enableUserDefinedUnits();
     addUserDefinedUnit("clucks", clucks);
@@ -576,7 +576,7 @@ TEST(userDefinedUnits, clearDefs)
     EXPECT_EQ(to_string(clucks), "clucks");
 
     clearUserDefinedUnits();
-    EXPECT_FALSE(is_valid_unit(unit_from_string("clucks/A")));
+    EXPECT_FALSE(is_valid(unit_from_string("clucks/A")));
 
     EXPECT_NE(to_string(clucks), "clucks");
 }
@@ -641,7 +641,7 @@ TEST(commoditizedUnits, numericalWords)
 
 TEST(funnyStrings, underscore)
 {
-    EXPECT_FALSE(is_valid_unit(unit_from_string("_45_625_252_22524_252452_25242522562_E522_")));
+    EXPECT_FALSE(is_valid(unit_from_string("_45_625_252_22524_252452_25242522562_E522_")));
 
     EXPECT_EQ(precise_unit(45625252.0, precise::m), unit_from_string("_45_625_252_m_"));
 
@@ -650,13 +650,13 @@ TEST(funnyStrings, underscore)
 
     EXPECT_EQ(precise_unit(45.0, precise::one), unit_from_string("45"));
 
-    EXPECT_FALSE(is_valid_unit(unit_from_string("_____-_____")));
+    EXPECT_FALSE(is_valid(unit_from_string("_____-_____")));
 }
 
 TEST(funnyStrings, outofrange)
 {  // these are mainly testing that it doesn't throw
-    EXPECT_FALSE(is_valid_unit(unit_from_string("1532^34e505")));  // out of range error
-    EXPECT_FALSE(is_valid_unit(unit_from_string("34e505")));  // out of range
+    EXPECT_FALSE(is_valid(unit_from_string("1532^34e505")));  // out of range error
+    EXPECT_FALSE(is_valid(unit_from_string("34e505")));  // out of range
 }
 
 TEST(funnyStrings, powersof1)

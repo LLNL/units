@@ -555,12 +555,6 @@ class precise_unit
     constexpr bool is_default() const { return base_units_.empty() && base_units_.is_flag(); }
     /// Check if the unit is a per unit value
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
-    /// Check if the unit has an error
-    constexpr bool is_error() const
-    {
-        return (multiplier_ != multiplier_ ||
-                (base_units_.has_e_flag() && base_units_.is_flag() && base_units_.empty()));
-    }
     /// Check if the unit is a per_unit notation
     constexpr bool is_equation() const { return base_units_.is_equation(); }
     /// Get the commodity code

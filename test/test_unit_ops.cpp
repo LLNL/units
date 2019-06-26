@@ -292,7 +292,7 @@ TEST(preciseUnitOps, root)
     EXPECT_EQ(precise::ft, ft5.root(5));
     EXPECT_EQ(precise::ft.inv(), ft5.root(-5));
 
-    EXPECT_TRUE((precise_unit(-4.5, m).root(2)).is_error());
+    EXPECT_TRUE(is_error((precise_unit(-4.5, m).root(2))));
 }
 
 TEST(preciseUnitOps, nan)
@@ -432,7 +432,7 @@ TEST(specialOps, rootHertz)
 {
     auto res = precise::special::ASD.pow(2);
     EXPECT_EQ(res, precise::m.pow(2) / precise::s.pow(4) / precise::Hz);
-    EXPECT_FALSE(precise::special::ASD.is_error());
+    EXPECT_FALSE(is_error(precise::special::ASD));
 }
 
 TEST(customUnits, definition)

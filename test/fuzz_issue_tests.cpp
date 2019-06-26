@@ -106,10 +106,10 @@ class roundTripString : public ::testing::TestWithParam<std::string>
 TEST_P(roundTripString, rtripconversions)
 {
     auto u1 = unit_from_string(GetParam());
-    EXPECT_FALSE(u1.is_error());
+    EXPECT_FALSE(is_error(u1));
     auto str = to_string(u1);
     auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
+    EXPECT_FALSE(is_error(u2));
     EXPECT_EQ(unit_cast(u2), unit_cast(u1));
 }
 // these are all strings that at one point produced issues
@@ -150,7 +150,7 @@ class errorString : public ::testing::TestWithParam<std::string>
 TEST_P(errorString, conversionErrors)
 {
     auto u1 = unit_from_string(GetParam());
-    EXPECT_TRUE(u1.is_error());
+    EXPECT_TRUE(is_error(u1));
 }
 // these are all strings that at one point produced issues
 static const std::vector<std::string> errorStrings{"Au0m", "br0", "\\\\{U}", "--0-5"};
@@ -160,9 +160,9 @@ INSTANTIATE_TEST_SUITE_P(fuzzFailure, errorString, ::testing::ValuesIn(errorStri
 TEST(fuzzFailures, rtripconversions)
 {
     auto u1 = unit_from_string("^");
-    EXPECT_FALSE(u1.is_error());
+    EXPECT_FALSE(is_error(u1));
     auto str = to_string(u1);
-    EXPECT_FALSE(unit_from_string(str).is_error());
+    EXPECT_FALSE(is_error(unit_from_string(str)));
 }
 
 TEST(fuzzFailures, rtripconversions5)
@@ -170,10 +170,10 @@ TEST(fuzzFailures, rtripconversions5)
     std::string tstring = "ya\xb2";
     tstring += '0';
     auto u1 = unit_from_string(tstring);
-    EXPECT_FALSE(u1.is_error());
+    EXPECT_FALSE(is_error(u1));
     auto str = to_string(u1);
     auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
+    EXPECT_FALSE(is_error(u2));
     EXPECT_EQ(u2, u1);
 }
 
@@ -182,7 +182,7 @@ TEST(fuzzFailures, rtripconversions6)
     std::string tstring = "V\xb2";
     tstring += "+*";
     auto u1 = unit_from_string(tstring);
-    EXPECT_TRUE(u1.is_error());
+    EXPECT_TRUE(is_error(u1));
 }
 
 TEST(fuzzFailures, rtripconversions12)
@@ -190,10 +190,10 @@ TEST(fuzzFailures, rtripconversions12)
     std::string tstring = "\\\xbd";
     tstring += "2";
     auto u1 = unit_from_string(tstring);
-    EXPECT_FALSE(u1.is_error());
+    EXPECT_FALSE(is_error(u1));
     auto str = to_string(u1);
     auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
+    EXPECT_FALSE(is_error(u2));
     EXPECT_EQ(u2, u1);
 }
 
@@ -201,10 +201,10 @@ TEST(fuzzFailures, rtripconversions13)
 {
     std::string tstring = "m";
     auto u1 = unit_from_string(tstring);
-    EXPECT_FALSE(u1.is_error());
+    EXPECT_FALSE(is_error(u1));
     auto str = to_string(u1);
     auto u2 = unit_from_string(str);
-    EXPECT_FALSE(u2.is_error());
+    EXPECT_FALSE(is_error(u2));
     EXPECT_EQ(u2, u1);
 }
 
@@ -216,11 +216,11 @@ TEST_P(rtripProblems, rtripFiles)
 {
     auto cdata = loadFailureFile("rtrip_fail", GetParam());
     auto u1 = unit_from_string(cdata);
-    if (!u1.is_error())
+    if (!is_error(u1))
     {
         auto str = to_string(u1);
         auto u2 = unit_from_string(str);
-        EXPECT_FALSE(u2.is_error());
+        EXPECT_FALSE(is_error(u2));
         EXPECT_EQ(u2, u1);
     }
 }

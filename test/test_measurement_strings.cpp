@@ -26,7 +26,7 @@ TEST(MeasurementStrings, basic)
 TEST(MeasurementStrings, invalid)
 {
     auto pm = measurement_from_string("345 blarg");
-    EXPECT_FALSE(is_valid_unit(pm.units()));
+    EXPECT_FALSE(is_valid(pm.units()));
 }
 
 TEST(MeasurementStrings, currency)
