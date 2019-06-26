@@ -5197,11 +5197,9 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
     if (sep != std::string::npos)
     {
         auto pchar = static_cast<int>(sep) - 1;
-        bool openparen = false;
         if (unit_string[sep + 1] == '(')
         {
             ++sep;
-            openparen = true;
         }
         char c1 = unit_string[sep + 1];
         int power;

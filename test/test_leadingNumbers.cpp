@@ -142,20 +142,20 @@ TEST(leadingNumbers, invalid)
 {
     size_t index = 0;
     auto res = testLeadingNumber("(45*7*m)", index);
-    EXPECT_TRUE(isnan(res));
+    EXPECT_TRUE((std::isnan)(res));
     EXPECT_EQ(index, 0);
 
     res = testLeadingNumber("meter", index);
-    EXPECT_TRUE(isnan(res));
+    EXPECT_TRUE((std::isnan)(res));
     EXPECT_EQ(index, 0);
 
     res = testLeadingNumber("92*(452.252.34)", index);
-    EXPECT_FALSE(isnan(res));
+    EXPECT_FALSE((std::isnan)(res));
     EXPECT_EQ(res, 92);
     EXPECT_EQ(index, 2);
 
     res = testLeadingNumber("2.3^(12m)", index);
-    EXPECT_TRUE(isnan(res));
+    EXPECT_TRUE((std::isnan)(res));
     EXPECT_EQ(index, 0);
 }
 
