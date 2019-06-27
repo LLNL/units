@@ -27,27 +27,27 @@ It was desired that the unit representation be a compact type(<=8 bytes) that is
 
 ###  Alternatives
 If you are looking for compile time and prevention of unit errors in equations for dimensional analysis one of these libraries might work for you.  
- - [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) - Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
- - [Units](https://github.com/nholthaus/units) -A compile-time, header-only, dimensional analysis library built on `c++14` with no dependencies.
- - [Units](https://github.com/VincentDucharme/Units) -Another compile time library
- - [PhysUnits-CT](https://github.com/martinmoene/PhysUnits-CT-Cpp11) A C++ library for compile-time dimensional analysis and unit/quantity manipulation and conversion.
- - [PhysUnits-RT](https://github.com/martinmoene/PhysUnits-RT)-A C++ library for run-time dimensional analysis and unit/quantity manipulation and conversion.
- - [Libunits](https://sourceforge.net/projects/libunits/) - The ultimate shared library to do calculations(!) and conversions with any units!
+-  [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) - Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
+-  [Units](https://github.com/nholthaus/units) -A compile-time, header-only, dimensional analysis library built on `c++14` with no dependencies.
+-  [Units](https://github.com/VincentDucharme/Units) -Another compile time library
+-  [PhysUnits-CT](https://github.com/martinmoene/PhysUnits-CT-Cpp11) A C++ library for compile-time dimensional analysis and unit/quantity manipulation and conversion.
+-  [PhysUnits-RT](https://github.com/martinmoene/PhysUnits-RT)-A C++ library for run-time dimensional analysis and unit/quantity manipulation and conversion.
+-  [Libunits](https://sourceforge.net/projects/libunits/) - The ultimate shared library to do calculations(!) and conversions with any units!
 Includes all SI and pseudo SI units and thousands of US, Imperial and other units.
- - [unitscpp](http://code.google.com/p/unitscpp/) - A lightweight C++ library for physical calculation with units.
- - [mpusz/units](https://github.com/mpusz/units) -A compile-time enabled Modern C++ library that provides compile-time dimensional analysis and unit/quantity manipulation.
+-  [unitscpp](http://code.google.com/p/unitscpp/) - A lightweight C++ library for physical calculation with units.
+-  [mpusz/units](https://github.com/mpusz/units) -A compile-time enabled Modern C++ library that provides compile-time dimensional analysis and unit/quantity manipulation.
 
 These libraries will work well if the number of units being dealt with is known at compile time.  Many also produce zero overhead operations and checking.  Therefore in situations where this is possible other libraries are a preferred alternative.  
 
 ### Types
 There are only a few types in the library
- - `detail::unit_base` is the base representation of physical units and powers.  It uses a bitfield to store the base unit representation in a 4 byte representation.  It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
- - `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type.  The float has an accuracy of around 6 decimal digits.  Units within that tolerance will compare equal.  
- - `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The float has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal.
- - `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement. `measurement` is an alias to a `measurement_base<double>` so the quantity type can be templated.  `measurement_f` is an alias for `measurement_base<float>` but others could be defined
- - `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
- - `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`s are implicitly convertable to a `measurement` of the same value type.  
- - `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base
+-  `detail::unit_base` is the base representation of physical units and powers.  It uses a bitfield to store the base unit representation in a 4 byte representation.  It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
+-  `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type.  The float has an accuracy of around 6 decimal digits.  Units within that tolerance will compare equal.  
+-  `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The float has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal.
+-  `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement. `measurement` is an alias to a `measurement_base<double>` so the quantity type can be templated.  `measurement_f` is an alias for `measurement_base<float>` but others could be defined
+- `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
+-  `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`s are implicitly convertable to a `measurement` of the same value type.  
+-  `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base
 
 
 ### Unit representation
