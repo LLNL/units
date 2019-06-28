@@ -15,7 +15,7 @@ A unit library was needed to be able to represent units of a wide range of disci
 
 It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units.  The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that.  It does NOT provide compile time checking of units.  The units library provides a library that supports units where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time.
 
-### Limitations
+## Limitations
 -   The powers represented by units are limited see [Unit representation](#unit_representation) but only normal physical units are supported.
 -   The library uses floating point and double precision for the multipliers which is generally good enough for most engineering contexts, but does come with the limits and associated loss of precision for long series of calculations.
 -   Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So if you are doing a lot of financial calculations use something more specific for currency manipulations.  
@@ -24,22 +24,28 @@ It was desired that the unit representation be a compact type(<=8 bytes) that is
 -   some number of equation like units is supported  these include logarithms, nepers, and some things like Saffir-Simpson, Beaufort, and Richter scales for wind and earthquakes.  There is capacity within the framework to add a few more equation like units if a need arises
 -   The unit `rad` in the natures of absorbed dose is not recognized as it would conflicts with `rad` in terms of radians. So `rad` means radians
 
-
-### Alternatives
+## Alternatives
 If you are looking for compile time and prevention of unit errors in equations for dimensional analysis one of these libraries might work for you.  
 -   [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
+
 -   [Units](https://github.com/nholthaus/units) -A compile-time, header-only, dimensional analysis library built on `c++14` with no dependencies.
+
 -   [Units](https://github.com/VincentDucharme/Units) -Another compile time library
+
 -   [PhysUnits-CT](https://github.com/martinmoene/PhysUnits-CT-Cpp11) A C++ library for compile-time dimensional analysis and unit/quantity manipulation and conversion.
+
 -   [PhysUnits-RT](https://github.com/martinmoene/PhysUnits-RT)-A C++ library for run-time dimensional analysis and unit/quantity manipulation and conversion.
+
 -   [Libunits](https://sourceforge.net/projects/libunits/) - The ultimate shared library to do calculations(!) and conversions with any units!
 Includes all SI and pseudo SI units and thousands of US, Imperial and other units.
+
 -   [unitscpp](http://code.google.com/p/unitscpp/) - A lightweight C++ library for physical calculation with units.
+
 -   [mpusz/units](https://github.com/mpusz/units) -A compile-time enabled Modern C++ library that provides compile-time dimensional analysis and unit/quantity manipulation.
 
 These libraries will work well if the number of units being dealt with is known at compile time.  Many also produce zero overhead operations and checking.  Therefore in situations where this is possible other libraries are a preferred alternative.  
 
-### Types
+## Types
 There are only a few types in the library
 -   `detail::unit_base` is the base representation of physical units and powers.  It uses a bitfield to store the base unit representation in a 4 byte representation.  It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
 -   `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type.  The float has an accuracy of around 6 decimal digits.  Units within that tolerance will compare equal.  
@@ -49,8 +55,7 @@ There are only a few types in the library
 -   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`s are implicitly convertable to a `measurement` of the same value type.  
 -   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base
 
-
-### Unit representation
+## Unit representation
 The unit class consists of a multiplier and a representation of base units.
 The seven SI units + radians + currency units + count units.  in addition a unit has 4 flags,  per-unit for per unit or ratio units. two flags for a variety of purposes and to differentiate otherwise similar units. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4 byte type the represented powers of the units are limited.  The list below shows the bit representation range and observed range of use in equations and observed usage
 
@@ -67,7 +72,7 @@ The seven SI units + radians + currency units + count units.  in addition a unit
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.  
 
-#### Discussion points
+### Discussion points
 -   Currency may seem like a unusual choice in units but numbers involving prices are encountered often enough in various disciplines that it is useful to include as part of a unit.  
 -   Technically count and radians are not units, they are representations of real things. A radian is a representation of rotation around a circle and is therefore distinct from a true unitless quantity even though there are no physical measurements associated with either.
 -   And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605*10^-15 mol of data.  So they are used in different context and don't mix very often
@@ -76,7 +81,7 @@ These ranges were chosen to represent nearly all physical quantities that could 
 -   In general with string conversions there are many units that can be interpreted in multiple ways.  In general the priority was given to units in more common use.  
 -   The unit `yr` has different meanings in different contexts.  Currently the following notation has been adopted for string conversions `yr`=`365*day`=`8760*hr`,  `a`=`365.25*day`, `annum`=`365.25*day`, `syr`=`365.24*day`.  The typical usage was distinct in different contexts so this is the compromise.  
 
-# Defined units
+## Defined units
 There are 2 sets of defined units
 they are in the namespace `units`  these are the lower precision types
 the high precision units are in the namespace `units::precise`.
@@ -113,17 +118,16 @@ constexpr precision_measurement sigma{5.67036713e-8,
 
 ```
 
-# Building the library
+## Building the library
 There are two parts of the library  a header only portion that can simply be copied and used.  And a few cpp file that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   
 
-# How to use the library
+## How to use the library
 
-# Available functions
+## Available functions
 
 -   `unit_from_string( string, flags)`: convert a string representation of units into a unit value.  
 
-
-# Release
+## Release
 This units library is distributed under the terms of the BSD-3 clause license. All new
 contributions must be made under this license. [LICENSE](LICENSE)
 
