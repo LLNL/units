@@ -1223,7 +1223,7 @@ namespace precise
         constexpr precise_unit MB(1000.0, kB);
         constexpr precise_unit GB(1000.0, MB);
 
-        constexpr precise_unit kiB(1024.0, count);
+        constexpr precise_unit KiB(1024.0, byte);
         constexpr precise_unit MiB(1024.0, kB);
         constexpr precise_unit GiB(1024.0, MB);
 

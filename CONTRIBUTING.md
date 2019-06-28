@@ -32,7 +32,7 @@ This section guides you through submitting a feature request, or enhancement for
 
 #### Before Submitting An Enhancement Suggestion
 
--  check the issue list for any similar issues
+-   check the issue list for any similar issues
 
 ### Your First Code Contribution
 

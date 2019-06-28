@@ -696,12 +696,15 @@ enum unit_conversion_flags : uint32_t
       2u,  //!< specify that there is a single numerator and denominator only a single slash in the unit operations
     recursion_depth1 = (1u << 15),  // skip checking for SI prefixes
     // don't put anything at   16, 15 through 17 are connected to limit recursion depth
-    no_recursion = (1u << 17),  // skip checking for SI prefixes
+    no_recursion = (1u << 17),  // don't recurse through the string
     not_first_pass = (1u << 18),  // indicate that is not the first pass
-    per_operator1 = (1u << 21),  // skip matching per
-    no_per_operators = (1u << 23),  // skip matching per
-    no_locality_modifiers = (1u << 24),  // skip locality modifiers
-    no_of_operator = (1u << 25),  // skip dealing with "of"
+    per_operator1 = (1u << 19),  // skip matching per
+    // don't put anything at 20, 19 and 21 are connected to limit per operations
+    no_per_operators = (1u << 21),  // skip matching per
+    no_locality_modifiers = (1u << 22),  // skip locality modifiers
+    no_of_operator = (1u << 23),  // skip dealing with "of"
+    commodity_check1 = (1u << 24),  // counter for skipping commodity check vi of
+    // don't put anything at 25 24 and 26 are connected
     no_commodities = (1u << 26),  // skip commodity checks
     partition_check1 = (1u << 27),  // skip checking for SI prefixes
     // don't put anything at 28, 27 and 28 are connected to limit partition depth

@@ -268,7 +268,7 @@ static const umap base_unit_names{
   {kB, "kB"},
   {MB, "MB"},
   {GB, "GB"},
-  {unit_cast(precise::data::kiB), "kiB"},
+  {unit_cast(precise::data::KiB), "KiB"},
   {unit_cast(precise::data::MiB), "MiB"},
   {unit_cast(precise::us::dry::bushel), "bu"},
   {unit_cast(precise::us::floz), "fl oz"},
@@ -5627,8 +5627,8 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             {
                 ustring.insert(sloc, 1, '}');
             }
-            auto cunit = commoditizedUnit(ustring, match_flags);
-            if (!is_error(cunit))
+            auto cunit = commoditizedUnit(ustring, match_flags + commodity_check1);
+            if (is_valid(cunit))
             {
                 return cunit;
             }
