@@ -612,6 +612,7 @@ namespace precise
     {
         constexpr precise_unit ly(9.4607304725808e15, m);
         constexpr precise_unit au(149597870700.0, m);
+        constexpr precise_unit au_old(1.495979e11, m);
         constexpr precise_unit angstrom(1e-10, m);
         constexpr precise_unit parsec{3.085678e16, m};
         constexpr precise_unit smoot{67.0, precise::i::inch};
@@ -733,7 +734,7 @@ namespace precise
     {
         constexpr precise_unit kWh(3600000.0, J);
         constexpr precise_unit MWh(1000.0, kWh);
-        constexpr precise_unit eV(1.602176634e-19, J);
+        constexpr precise_unit eV(1.602176634e-19, J);  // updated to 2019 exact definition
 
         constexpr precise_unit kcal(4184.0, J);
         constexpr precise_unit cal_4(4.204, J);

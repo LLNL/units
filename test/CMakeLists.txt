@@ -9,6 +9,7 @@ set(UNITS_TESTS
 	test_pu
     test_random_round_trip
    test_ucum
+   test_udunits
     test_unit_ops
     test_unit_strings
 	test_measurement_strings
@@ -32,6 +33,10 @@ target_compile_definitions(fuzz_issue_tests PUBLIC -DTEST_FILE_FOLDER="${TEST_FI
 target_sources(test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h)
 target_include_directories(test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_ucum PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
+
+target_sources(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h)
+target_include_directories(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
+target_compile_definitions(test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
 
 if(CMAKE_BUILD_TYPE STREQUAL Coverage)
     include(CodeCoverage)

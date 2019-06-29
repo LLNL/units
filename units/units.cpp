@@ -2044,8 +2044,6 @@ static const smap base_unit_vals{
   {"hand", precise::i::hand},
   {"jansky", precise_unit(1e-26, precise::W / precise::m / precise::m / precise::Hz)},
   {"Jy", precise_unit(1e-26, precise::W / precise::m / precise::m / precise::Hz)},
-  {"\"", precise::in},
-  {u8"\u2033", precise::in},  // double prime
   {"ft", precise::ft},
   {"ft_i", precise::ft},
   {"[FT_I]", precise::ft},
@@ -2073,7 +2071,6 @@ static const smap base_unit_vals{
   {"[FT_US]", precise::ft},
   {"foot_us", precise::ft},
   {"feet_us", precise::ft},
-  {u8"\u2032", precise::ft},  // prime
   {"ft^2", precise::ft *precise::ft},
   {"sin", precise::in *precise::in},
   {"sin_i", precise::in *precise::in},
@@ -2268,8 +2265,10 @@ static const smap base_unit_vals{
   {"degrees", precise::deg},
   {"degree", precise::deg},
   {"arcdegree", precise::deg},
+  {"arcdeg", precise::deg},
   {"degree-planeangle", precise::deg},
   {"degree(planeangle)", precise::deg},
+  {"angulardegree", precise::deg},
   {"deg", precise::deg},
   {"DEG", precise::deg},
   {"o", precise::deg},
@@ -2281,14 +2280,19 @@ static const smap base_unit_vals{
   {"arcmin", precise::angle::arcmin},
   {"amin", precise::angle::arcmin},
   {"am", precise::angle::arcmin},  // as opposed to attometer
+  {"angularminute", precise::angle::arcmin},  // as opposed to attometer
   {"'", precise::angle::arcmin},
   {"'", precise::angle::arcmin},
+  {u8"\u2032", precise::angle::arcmin},  // double prime
   {"arcsecond", precise::angle::arcsec},
   {"''", precise::angle::arcsec},
   {"''", precise::angle::arcsec},
   {"arcsec", precise::angle::arcsec},
   {"asec", precise::angle::arcsec},
-  {"as", precise::angle::arcsec},
+  {"as", precise::angle::arcsec},  // as opposed to attosecond
+  {"angularsecond", precise::angle::arcsec},  // as opposed to attosecond
+  {"\"", precise::angle::arcsec},
+  {u8"\u2033", precise::angle::arcsec},  // double prime
   {"mas", precise_unit(0.001, precise::angle::arcsec)},  // milliarcsec
   {"rad", precise::rad},
   {"radian", precise::rad},
@@ -2435,6 +2439,9 @@ static const smap base_unit_vals{
   {"ASU", precise::distance::au},
   {"astronomicalunit", precise::distance::au},
   {"astronomicunit", precise::distance::au},
+  {"astronomicalunitBIPM2006", precise::distance::au_old},
+  {"auold", precise::distance::au_old},
+  {"ua", precise::distance::au_old},
   {"$", precise::currency},
   {"dollar", precise::currency},
   {"currency", precise::currency},
@@ -2999,6 +3006,8 @@ static const smap base_unit_vals{
   {"tonh", precise::energy::tonc *precise::hr},
   {"angstrom", precise::distance::angstrom},
   {u8"\u00C5ngstr\u00F6m", precise::distance::angstrom},
+  {"\xE5ngstr\xF6m", precise::distance::angstrom},
+  {u8"\u00E5ngstr\u00F6m", precise::distance::angstrom},
   {"Ao", precise::distance::angstrom},
   {"AO", precise::distance::angstrom},
   {u8"\u00C5", precise::distance::angstrom},
