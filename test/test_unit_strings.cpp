@@ -586,6 +586,7 @@ TEST(defaultUnits, unitTypes)
     EXPECT_EQ(default_unit("impedance quantity"), precise::ohm);
     EXPECT_EQ(default_unit("distance"), precise::m);
     EXPECT_EQ(default_unit("Quantity of distance"), precise::m);
+    EXPECT_EQ(default_unit("frequency measure"), precise::Hz);
 }
 
 TEST(commoditizedUnits, basic)

@@ -1874,7 +1874,12 @@ static const smap base_unit_vals{
   {"K", precise::K},
   {"kelvin", precise::K},
   {"kelvins", precise::K},
-  {"degreeKelvin", precise::K},
+  {"degKelvin", precise::K},
+  {"degsKelvin", precise::K},
+  {"degkelvin", precise::K},
+  {"degskelvin", precise::K},
+  {"degK", precise::K},
+  {"degsK", precise::K},
   {"N", precise::N},
   {"Ns", precise::N *precise::s},  // this would not pass through to the separation functions
   {"Nm", precise::N *precise::m},  // this would not pass through to the separation functions
@@ -2262,13 +2267,10 @@ static const smap base_unit_vals{
   {"month_g", precise::time::mog},  //
   {"mO_G", precise::time::mog},  //
   {"meanmonth_g", precise::time::mog},  //
-  {"degrees", precise::deg},
-  {"degree", precise::deg},
-  {"arcdegree", precise::deg},
   {"arcdeg", precise::deg},
-  {"degree-planeangle", precise::deg},
-  {"degree(planeangle)", precise::deg},
-  {"angulardegree", precise::deg},
+  {"deg-planeangle", precise::deg},
+  {"deg(planeangle)", precise::deg},
+  {"angulardeg", precise::deg},
   {"deg", precise::deg},
   {"DEG", precise::deg},
   {"o", precise::deg},
@@ -2303,6 +2305,7 @@ static const smap base_unit_vals{
   {"^g", precise::angle::gon},
   {"grad", precise::angle::grad},
   {"gradians", precise::angle::grad},
+  {"grade", precise::angle::grad},
   {"mil(angle)", precise_unit(0.0625, precise::angle::grad)},
   {"circ", precise_unit(constants::tau, precise::rad)},
   {"CIRC", precise_unit(constants::tau, precise::rad)},
@@ -2321,14 +2324,21 @@ static const smap base_unit_vals{
    "C",
    precise::degC},
   {u8"\u00B0C", precise::degC},
+  {"\xB0"
+   "K",
+   precise::K},
+  {u8"\u00B0K", precise::K},
   {"degC", precise::degC},
   {"oC", precise::degC},
   {"Cel", precise::degC},
   {"CEL", precise::degC},
+  {"K@273.15", precise::degC},
   {"celsius", precise::degC},
   {"degF", precise::degF},
+  {"degsF", precise::degF},
   {"[DEGF]", precise::degF},
   {"degR", precise::temperature::degR},
+  {"degsR", precise::temperature::degR},
   {"[DEGR]", precise::temperature::degR},
   {u8"\u00B0R", precise::temperature::degR},
   {u8"\u00B0r", precise::temperature::reaumur},
@@ -2336,23 +2346,23 @@ static const smap base_unit_vals{
   {"\xB0r", precise::temperature::reaumur},
   {"[DEGRE]", precise::temperature::reaumur},
   {"degRe", precise::temperature::reaumur},
-  {u8"degreesR\u00e9aumur", precise::temperature::reaumur},
+  {"degsRe", precise::temperature::reaumur},
+  {u8"degR\u00e9aumur", precise::temperature::reaumur},
   {u8"\u00B0R\u00e9", precise::temperature::reaumur},
   {u8"\u00B0Re", precise::temperature::reaumur},
   {u8"\u00B0Ra", precise::temperature::degR},
   {"\xB0Re", precise::temperature::reaumur},
   {"\xB0Ra", precise::temperature::degR},
-  {"degreesReaumur", precise::temperature::reaumur},
+  {"degReaumur", precise::temperature::reaumur},
   {"reaumur", precise::temperature::reaumur},
   {u8"r\u00e9aumur", precise::temperature::reaumur},
-  {"degreesCelsius", precise::degC},
-  {"degreesFahrenheit", precise::degF},
-  {"degreesRankine", precise::temperature::degR},
+  {"degCelsius", precise::degC},
+  {"degC", precise::degC},
+  {"degsC", precise::degC},
+  {"degFahrenheit", precise::degF},
+  {"degRankine", precise::temperature::degR},
   {"rankine", precise::temperature::degR},
-  {"degreeCelsius", precise::degC},
-  {"degreeFahrenheit", precise::degF},
-  {"degreeRankine", precise::temperature::degR},
-  {"degreeReaumur", precise::temperature::reaumur},
+  {"degReaumur", precise::temperature::reaumur},
   {"oF", precise::degF},
   // this is two strings since F could be interpreted as hex and I don't want it to be
   {"\xB0"
@@ -3312,18 +3322,24 @@ static const smap base_unit_vals{
   {"ppth", precise::ppm *precise::kilo},
   {"PPTH", precise::ppm *precise::kilo},
   {"ppm", precise::ppm},
+  {"ppmv", precise::ppm},
   {"PPM", precise::ppm},
   {"[PPM]", precise::ppm},
   {"partspermillion", precise::ppm},
   {"ppb", precise::ppb},
+  {"ppbv", precise::ppb},
   {"PPB", precise::ppb},
   {"[PPB]", precise::ppb},
   {"partsperbillion", precise::ppb},
   {"ppt", precise::ppb *precise::milli},
+  {"pptv", precise::ppb *precise::milli},
   {"pptr", precise::ppb *precise::milli},
   {"PPTR", precise::ppb *precise::milli},
   {"[PPTR]", precise::ppb *precise::milli},
   {"partspertrillion", precise::ppb *precise::milli},
+  {"ppq", precise::ppb *precise::micro},
+  {"ppqv", precise::ppb *precise::micro},
+  {"partsperquadrillion", precise::ppb *precise::micro},
   {"[lne]", precise::typographic::american::line},
   {"[LNE]", precise::typographic::american::line},
   {"line", precise::typographic::american::line},
@@ -4308,7 +4324,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
     }};
 
-    static UPTCONST std::array<ckpair, 23> allCodeReplacements{{
+    static UPTCONST std::array<ckpair, 25> allCodeReplacements{{
       ckpair{"sq.", "square"},
       ckpair{"cu.", "cubic"},
       ckpair{"(US)", "US"},
@@ -4334,6 +4350,8 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"per-unit", "pu"},
       ckpair{"/square*", "/square"},
       ckpair{"/cubic*", "/cubic"},
+      ckpair{"degrees", "deg"},
+      ckpair{"degree", "deg"},
     }};
 
     static const std::string spchar = std::string(" \t\n\r") + '\0';
@@ -5801,6 +5819,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"planeangle", precise::rad},
   {"angle", precise::rad},
   {"solidangle", precise::rad.pow(2)},
+  {"angular", precise::rad},
   {"frequency", precise::Hz},
   {"freq", precise::Hz},
   {"frequencies", precise::Hz},
@@ -5824,6 +5843,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"voltage", precise::V},
   {"electricalpotential", precise::V},
   {"potentialdifference", precise::V},
+  {"electricpotentialdifference", precise::V},
   {"elpot", precise::V},
   {"electricpotential", precise::V},
   {"electricpotentiallevel", precise::V *precise::log::neper},
@@ -5848,21 +5868,26 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
   {"fluxofmagneticinduction", precise::Wb},
   {"magneticfluxdensity", precise::T},
   {"magneticinduction", precise::T},
+  {"fluxdensity", precise::T},
   {"inductance", precise::H},
   {"induction", precise::H},
   {"luminousflux", precise::lm},
   {"illuminance", precise::lx},
   {"illumination", precise::lx},
+  {"luminousemittance", precise::lx},
+  {"intensityoflight", precise::lx},
   {"radioactivity", precise::Bq},
   {"radiation", precise::Bq},
   {"activity", precise::Bq},
   {"activities", precise::Bq},
   {"absorbeddose", precise::Gy},
+  {"ionizingradiation", precise::Gy},
   {"kerma", precise::Gy},
   {"energydose", precise::Gy},
   {"engcnt", precise::Gy},
   {"equivalentdose", precise::Sv},
   {"radiationdose", precise::Sv},
+  {"ionizingradiationdose", precise::Sv},
   {"effectivedose", precise::Sv},
   {"operationaldose", precise::Sv},
   {"committeddose", precise::Sv},
@@ -6023,6 +6048,10 @@ precise_unit default_unit(std::string unit_type)
     if (ends_with(unit_type, "quantities"))
     {
         return default_unit(unit_type.substr(0, unit_type.size() - 10));
+    }
+    if (ends_with(unit_type, "measure"))
+    {
+        return default_unit(unit_type.substr(0, unit_type.size() - 7));
     }
     if (unit_type.back() == 's' && unit_type.size() > 1)
     {
