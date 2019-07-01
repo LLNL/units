@@ -404,3 +404,31 @@ TEST(UnitDefinitions, inversionConversion)
 
     EXPECT_NEAR(convert(10, Hz, s), 0.1, test::tolerance);
 }
+
+TEST(quickConvert, simple)
+{
+    using namespace units;
+    auto u1 = precise::cm;
+    auto u2 = precise::in;
+    EXPECT_EQ(quick_convert(u2, u1), 2.54);
+    EXPECT_EQ(quick_convert(2.0, u2, u1), 2.0 * 2.54);
+}
+
+TEST(quickConvert, invalid)
+{
+    using namespace units;
+    auto u1 = precise::cm;
+    auto u2 = precise::lb;
+    EXPECT_TRUE(std::isnan(quick_convert(u2, u1)));
+    u1 = precise::cm * precise::log::bel;
+    u2 = precise::cm * precise::log::bel;
+    EXPECT_TRUE(std::isnan(quick_convert(u2, u1)));
+}
+
+TEST(quickConvert, const_constexpr)
+{
+    using namespace units;
+    static_assert(quick_convert(precise::in, precise::cm) == 2.54, "results of quick_convert not correct");
+    static_assert(quick_convert(2.0, precise::in, precise::cm) == 2.0 * 2.54,
+                  "results of quick_convert 2 not correct");
+}

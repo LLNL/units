@@ -3012,6 +3012,8 @@ static const smap base_unit_vals{
   {"longton", precise_unit(2240.0, precise::lb)},
   {"tonc", precise::energy::tonc},  // ton cooling
   {"ton(refrigeration)", precise::energy::tonc},  // ton cooling
+  {"tonofrefrigeration", precise::energy::tonc},  // ton cooling
+  {"tonsofrefrigeration", precise::energy::tonc},  // ton cooling
   {"ton(cooling)", precise::energy::tonc},  // ton cooling
   {"ton{refrigeration}", precise::energy::tonc},  // ton cooling
   {"ton{cooling}", precise::energy::tonc},  // ton cooling
@@ -3363,11 +3365,13 @@ static const smap base_unit_vals{
   {"pica", precise::typographic::american::pica},
   {"twip", precise::typographic::american::twip},
   {"printer'spoint", precise::typographic::printers::point},
+  {"printerspoint", precise::typographic::printers::point},
   {"pointprinter", precise::typographic::printers::point},
   {"pnt_pr", precise::typographic::printers::point},
   {"pntpr", precise::typographic::printers::point},
   {"[PNT_PR]", precise::typographic::printers::point},
   {"printer'spica", precise::typographic::printers::pica},
+  {"printerspica", precise::typographic::printers::pica},
   {"picaprinter", precise::typographic::printers::pica},
   {"pca_pr", precise::typographic::printers::pica},
   {"pcapr", precise::typographic::printers::pica},

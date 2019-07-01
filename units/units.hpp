@@ -11,9 +11,31 @@ SPDX-License-Identifier: BSD-3-Clause
 
 namespace units
 {
+/// Generate a conversion factor between two units in a constexpr function, the units will only convert if they
+/// have the same base unit
+template <typename UX, typename UX2>
+constexpr double quick_convert(UX start, UX2 result)
+{
+    return quick_convert(1.0, start, result);
+}
+
+/// Generate a conversion factor between two units in a constexpr function, the units will only convert if they
+/// have the same base unit
+template <typename UX, typename UX2>
+constexpr double quick_convert(double val, UX start, UX2 result)
+{
+    static_assert(std::is_same<UX, unit>::value || std::is_same<UX, precise_unit>::value,
+                  "convert argument types must be unit or precise_unit");
+    static_assert(std::is_same<UX2, unit>::value || std::is_same<UX2, precise_unit>::value,
+                  "convert argument types must be unit or precise_unit");
+    return (start.base_units() == result.base_units() && !start.is_equation() && !result.is_equation()) ?
+             val * start.multiplier() / result.multiplier() :
+             constants::invalid_conversion;
+}
+
 /// Generate a conversion factor between two units
 template <typename UX, typename UX2>
-double convert(UX start, UX2 result)
+constexpr double convert(UX start, UX2 result)
 {
     return convert(1.0, start, result);
 }

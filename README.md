@@ -76,7 +76,7 @@ These ranges were chosen to represent nearly all physical quantities that could 
 -   Currency may seem like a unusual choice in units but numbers involving prices are encountered often enough in various disciplines that it is useful to include as part of a unit.  
 -   Technically count and radians are not units, they are representations of real things. A radian is a representation of rotation around a circle and is therefore distinct from a true unitless quantity even though there are no physical measurements associated with either.
 -   And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605*10^-15 mol of data.  So they are used in different context and don't mix very often
--   This library CANNOT represent fractional unit powers, and it follows the order of operation in C++ so IF you have equations that any portion of the operation may exceed the numerical limits on powers even if the result does not BE CAREFUL.
+-   This library CANNOT represent fractional unit powers( except for sqrt Hz used in noise density units), and it follows the order of operation in C++ so IF you have equations that any portion of the operation may exceed the numerical limits on powers even if the result does not, BE CAREFUL.
 -   The normal rules about floating point operations losing precision also apply to unit representations with non integral multipliers.
 -   In general with string conversions there are many units that can be interpreted in multiple ways.  In general the priority was given to units in more common use.  
 -   The unit `yr` has different meanings in different contexts.  Currently the following notation has been adopted for string conversions `yr`=`365*day`=`8760*hr`,  `a`=`365.25*day`, `annum`=`365.25*day`, `syr`=`365.24*day`.  The typical usage was distinct in different contexts so this is the compromise.  
@@ -119,13 +119,30 @@ constexpr precision_measurement sigma{5.67036713e-8,
 ```
 
 ## Building the library
-There are two parts of the library  a header only portion that can simply be copied and used.  And a few cpp file that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   
+There are two parts of the library  a header only portion that can simply be copied and used. There are 3 headers `units_decl.hpp` declares the underlying classes.  `unit_defintions.hpp` declares constants for many of the units, and `units.hpp` which is the primary public interface to units.  If `units.hpp` is included in another file and the variable `UNITS_HEADER_ONLY` is defined then none of the functions that require the cpp files are defined. These header files can simply be included in your project and used with no additional building required.  
+
+  And a few cpp file that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   
 
 ## How to use the library
+Many units are defined as `constexpr` objects and can be used directly
+
+```cpp
+#include "units.hpp"
+using namespace units
+
+measurement length1=45.0*m;
+measurement length2=20.0*m;
+
+measurement area=length1*length2;
+
+std::cout<<"the area is "<<area<< " or "<<area.convert_to(ft.pow(2))<<".\n";
+```
+
 
 ## Available functions
 
--   `unit_from_string( string, flags)`: convert a string representation of units into a unit value.  
+-   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a unit value.  
+- `precision_measurement measurement_from_string(string,flags)`: convert a string to a measurement
 
 ## Release
 This units library is distributed under the terms of the BSD-3 clause license. All new
