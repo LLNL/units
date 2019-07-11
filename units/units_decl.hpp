@@ -15,7 +15,7 @@ namespace detail
 {
     /** Class representing base unit data
     @details the seven SI base units https://en.m.wikipedia.org/wiki/SI_base_unit
-    + currency, count, and radians, with flags for per_unit and temperature
+    + currency, count, and radians, 4 flags: per_unit, flag1, flag2, equation
     */
     class unit_data
     {
@@ -129,7 +129,7 @@ namespace detail
 
         // support for specific unitConversion calls
         constexpr bool is_per_unit() const { return per_unit_ != 0; }
-        constexpr bool is_flag() const { return (flag_ != 0); }
+        constexpr bool has_flag() const { return (flag_ != 0); }
         constexpr bool has_e_flag() const { return e_flag_ != 0; }
         constexpr bool is_equation() const { return equation_ != 0; }
         /// Check if the unit bases are the same
@@ -330,7 +330,7 @@ class unit
     constexpr bool is_error() const
     {
         return (multiplier_ != multiplier_ ||
-                (base_units_.has_e_flag() && base_units_.is_flag() && base_units_.empty()));
+                (base_units_.has_e_flag() && base_units_.has_flag() && base_units_.empty()));
     }
     // Test for exact numerical equivalence
     constexpr bool is_exactly_the_same(unit other) const
@@ -354,7 +354,7 @@ class unit
     {
         return base_units_.equivalent_non_counting(other.base_units_);
     }
-    /// Check if the base units are in some way convertible to one another
+    /// Check if the base units are in some way directly convertible to one another
     constexpr bool is_convertible(detail::unit_data base) const
     {
         return base_units_.equivalent_non_counting(base);
@@ -362,11 +362,15 @@ class unit
     /// Get the number of different base units used
     constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is the default unit
-    constexpr bool is_default() const { return base_units_.empty() && base_units_.is_flag(); }
+    constexpr bool is_default() const { return base_units_.empty() && base_units_.has_flag(); }
     /// Check if the unit is a per_unit notation
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
     /// Check if the unit is a per_unit notation
     constexpr bool is_equation() const { return base_units_.is_equation(); }
+    /// Check if the unit has the flag triggered
+    constexpr bool has_flag() const { return base_units_.has_flag(); }
+    /// Check if the unit has the e flag triggered
+    constexpr bool has_e_flag() const { return base_units_.has_e_flag(); }
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return static_cast<double>(multiplier_); }
     /// generate a rounded version of the multiplier
@@ -552,11 +556,15 @@ class precise_unit
     /// Get the number of different base units used
     constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is the default unit
-    constexpr bool is_default() const { return base_units_.empty() && base_units_.is_flag(); }
+    constexpr bool is_default() const { return base_units_.empty() && base_units_.has_flag(); }
     /// Check if the unit is a per unit value
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
     /// Check if the unit is a per_unit notation
     constexpr bool is_equation() const { return base_units_.is_equation(); }
+    /// Check if the unit has the flag triggered
+    constexpr bool has_flag() const { return base_units_.has_flag(); }
+    /// Check if the unit has the e flag triggered
+    constexpr bool has_e_flag() const { return base_units_.has_e_flag(); }
     /// Get the commodity code
     constexpr uint32_t commodity() const { return commodity_; }
     /// Extract the base unit Multiplier

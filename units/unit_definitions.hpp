@@ -817,7 +817,7 @@ namespace precise
 
         inline int custom_unit_number(detail::unit_data UT)
         {
-            int num = (UT.has_e_flag() ? 1 : 0) + (UT.is_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
+            int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
             num += (std::abs(UT.meter()) < 4) ? 256 : 0;
             num += (std::abs(UT.second()) >= 6) ? 512 : 0;
             num += (std::abs(UT.kg()) <= 1) ? 128 : 0;
@@ -904,7 +904,7 @@ namespace precise
         /// Get the number code for the custom count unit
         inline int custom_count_unit_number(detail::unit_data UT)
         {
-            int num = (UT.has_e_flag() ? 1 : 0) + (UT.is_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
+            int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
             num += (UT.candela() == 0) ? 0 : 8;
             return num;
         }
@@ -938,7 +938,7 @@ namespace precise
         inline constexpr int eq_type(detail::unit_data UT)
         {
             return ((UT.radian() != 0) ? 16 : 0) + ((UT.count() != 0) ? 8 : 0) + (UT.is_per_unit() ? 4 : 0) +
-                   (UT.is_flag() ? 2 : 0) + (UT.has_e_flag() ? 1 : 0);
+                   (UT.has_flag() ? 2 : 0) + (UT.has_e_flag() ? 1 : 0);
         }
     }  // namespace custom
 
@@ -1315,12 +1315,12 @@ constexpr unit invalid(detail::unit_data(nullptr), constants::invalid_conversion
 constexpr inline bool is_error(precise_unit u)
 {
     return (u.multiplier() != u.multiplier() ||
-            (u.base_units().has_e_flag() && u.base_units().is_flag() && u.base_units().empty()));
+            (u.base_units().has_e_flag() && u.base_units().has_flag() && u.base_units().empty()));
 }
 constexpr inline bool is_error(unit u)
 {
     return (u.multiplier() != u.multiplier() ||
-            (u.base_units().has_e_flag() && u.base_units().is_flag() && u.base_units().empty()));
+            (u.base_units().has_e_flag() && u.base_units().has_flag() && u.base_units().empty()));
 }
 
 constexpr inline bool is_valid(precise_unit u)
@@ -1424,8 +1424,11 @@ constexpr unit deg = unit_cast(precise::deg);
 constexpr unit degC = unit_cast(precise::degC);
 constexpr unit degF = unit_cast(precise::degF);
 
-constexpr bool is_temperature(precise_unit unit) { return (unit.has_same_base(K) && unit.base_units().is_flag()); }
-constexpr bool is_temperature(unit unit) { return (unit.has_same_base(K) && unit.base_units().is_flag()); }
+constexpr bool is_temperature(precise_unit unit)
+{
+    return (unit.has_same_base(K) && unit.base_units().has_flag());
+}
+constexpr bool is_temperature(unit unit) { return (unit.has_same_base(K) && unit.base_units().has_flag()); }
 
 // others
 constexpr unit rpm = unit_cast(precise::rpm);

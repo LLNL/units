@@ -165,27 +165,40 @@ TEST(unitOps, equality1)
     EXPECT_EQ(eqFailPos, 0);
     EXPECT_EQ(eqFailNeg, 0);
 }
+
+TEST(unitOps, flags)
+{
+    auto e1 = error;
+    EXPECT_TRUE(e1.has_flag());
+    EXPECT_TRUE(e1.has_e_flag());
+    static_assert(error.has_flag(), "Error flag should be constexpr and allowable in compile time constants");
+    static_assert(error.has_e_flag(), "Error flag should be constexpr and allowable in compile time constants");
+
+    e1.clear_flags();
+    EXPECT_FALSE(e1.has_flag());
+    EXPECT_FALSE(e1.has_e_flag());
+}
 /*
 TEST(unitOps, equalitytest)
 {
-    int eqFailPos = 0;
-    int eqFailNeg = 0;
-    double start = 0.1;
+int eqFailPos = 0;
+int eqFailNeg = 0;
+double start = 0.1;
 
-    double diff = 0.0;
-    while (diff < 2.75e-6)
-    {
-        auto u1 = unit(start, V);
-        auto u2 = unit(start + diff, V);
-        auto u3 = unit(start - diff, V);
+double diff = 0.0;
+while (diff < 2.75e-6)
+{
+    auto u1 = unit(start, V);
+    auto u2 = unit(start + diff, V);
+    auto u3 = unit(start - diff, V);
 
-        std::cout << "diff (" << diff << ") compares "
-                  << ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
-        std::cout << "diff (-" << diff << ") compares "
-                  << ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
+    std::cout << "diff (" << diff << ") compares "
+              << ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
+    std::cout << "diff (-" << diff << ") compares "
+              << ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
 
-        diff += 1e-8;
-    }
+    diff += 1e-8;
+}
 }
 */
 TEST(unitOps, inequality1)
@@ -365,6 +378,22 @@ TEST(preciseunitOps, equality1)
     EXPECT_EQ(eqFailPos, 0);
     EXPECT_EQ(eqFailNeg, 0);
 }
+
+TEST(preciseunitOps, flags)
+{
+    auto e1 = precise::error;
+    EXPECT_TRUE(e1.has_flag());
+    EXPECT_TRUE(e1.has_e_flag());
+    static_assert(precise::error.has_flag(),
+                  "Error flag should be constexpr and allowable in compile time constants");
+    static_assert(precise::error.has_e_flag(),
+                  "Error flag should be constexpr and allowable in compile time constants");
+
+    e1.clear_flags();
+    EXPECT_FALSE(e1.has_flag());
+    EXPECT_FALSE(e1.has_e_flag());
+}
+
 /*
 TEST(unitOps, equalitytest)
 {

@@ -513,7 +513,7 @@ static std::string generateRawUnitString(precise_unit un)
     addUnitPower(val, "item", un.base_units().count());
     addUnitPower(val, "$", un.base_units().currency());
     addUnitPower(val, "rad", un.base_units().radian());
-    if (un.base_units().is_flag())
+    if (un.base_units().has_flag())
     {
         val.append("*flag");
     }
@@ -2868,9 +2868,11 @@ static const smap base_unit_vals{
   {"[PSI]", precise::pressure::psi},
   {"[psi]", precise::pressure::psi},
   {"inHg", precise::pressure::inHg},
+  {"inchHg", precise::pressure::inHg},
   {"ftH2O", precise_unit(12.0, precise::pressure::inH2O)},
   {"footwater", precise_unit(12.0, precise::pressure::inH2O)},
   {"inH2O", precise::pressure::inH2O},
+  {"inchH2O", precise::pressure::inH2O},
   {"inAq", precise::pressure::inH2O},
   {"in[Hg]", precise::pressure::inHg},
   {"in[H2O]", precise::pressure::inH2O},
