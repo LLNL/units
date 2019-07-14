@@ -107,7 +107,7 @@ namespace detail
                     count_ * power,
                     radians_ * power,
                     per_unit_,
-                    i_flag_ * power,
+                    i_flag_ * ((power % 2 == 0) ? 0u : 1u),
                     0,  // zero out e_flag
                     equation_};
         }
@@ -115,7 +115,7 @@ namespace detail
         {
             return (hasValidRoot(power)) ?
                      unit_data(meter_ / power, kilogram_ / power, second_ / power, ampere_ / power,
-                               kelvin_ / power, 0, 0, 0, 0, radians_ / power, per_unit_, i_flag_, 0, 0) :
+                               kelvin_ / power, 0, 0, 0, 0, radians_ / power, per_unit_, 0, e_flag_, 0) :
                      unit_data(nullptr);
         }
         // comparison operators

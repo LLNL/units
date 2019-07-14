@@ -8,7 +8,7 @@
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
 
-This software was developed for use in LLNL/GridDyn, and is currently a work in progress.  Namespaces, function names, and code organization is subject to change, input is welcome.    
+This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress.  Namespaces, function names, and code organization is subject to change, input is welcome.    
 
 ## Purpose
 A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Because sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
@@ -57,7 +57,7 @@ There are only a few types in the library
 
 ## Unit representation
 The unit class consists of a multiplier and a representation of base units.
-The seven SI units + radians + currency units + count units.  in addition a unit has 4 flags,  per-unit for per unit or ratio units. two flags for a variety of purposes and to differentiate otherwise similar units. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4 byte type the represented powers of the units are limited.  The list below shows the bit representation range and observed range of use in equations and observed usage
+The seven SI units + radians + currency units + count units.  in addition a unit has 4 flags,  per-unit for per unit or ratio units. One flag\[i_flag\] that is a representation of imaginary units, one flags for a variety of purposes and to differentiate otherwise similar units\[e_flag\]. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4 byte type the represented powers of the units are limited.  The list below shows the bit representation range and observed range of use in equations and observed usage
 
 -   meter:\[-8,+7\]  :normal range \[-4,+4\], intermediate ops \[-6,+6\]
 -   kilogram:\[-4,+3\] :normal range \[-1,+1\], intermediate ops \[-2,+2\]
@@ -80,6 +80,7 @@ These ranges were chosen to represent nearly all physical quantities that could 
 -   The normal rules about floating point operations losing precision also apply to unit representations with non integral multipliers.
 -   In general with string conversions there are many units that can be interpreted in multiple ways.  In general the priority was given to units in more common use.  
 -   The unit `yr` has different meanings in different contexts.  Currently the following notation has been adopted for string conversions `yr`=`365*day`=`8760*hr`,  `a`=`365.25*day`, `annum`=`365.25*day`, `syr`=`365.24*day`.  The typical usage was distinct in different contexts so this is the compromise.  
+-   The i_flag functions such that when squared it goes to 0, similar to the imaginary number.   This is useful for directional units such as compass directions and reactive power in power systems.  
 
 ## Defined units
 There are 2 sets of defined units
@@ -99,7 +100,7 @@ constexpr precision_measurement e(1.602176634e-19, precise::C);
 ///  hyperfine structure transition frequency of the caesium-133 atom
 constexpr precision_measurement fCs(9192631770.0, precise::Hz);
 /// Planck constant (2019 redefinition)
-constexpr precision_measurement h{6.62607015e-34, precise::J *precise::second};
+constexpr precision_measurement h{6.62607015e-34, precise::J * precise::second};
 /// Boltzman constant (2019 redefinition)
 constexpr precision_measurement k{1.380649e-23, precise::J / precise::K};
 /// Avogadros constant (2019 redefinition)
@@ -142,7 +143,8 @@ std::cout<<"the area is "<<area<< " or "<<area.convert_to(ft.pow(2))<<".\n";
 ## Available functions
 
 -   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a unit value.  
-- `precision_measurement measurement_from_string(string,flags)`: convert a string to a measurement
+-   `precision_measurement measurement_from_string(string,flags)`: convert a string to a measurement
+-   `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported
 
 ## Release
 This units library is distributed under the terms of the BSD-3 clause license. All new
