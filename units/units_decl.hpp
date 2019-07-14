@@ -37,13 +37,13 @@ namespace detail
                             unsigned int equation)
             : meter_(meter), second_(second), kilogram_(kilogram), ampere_(ampere), candela_(candela),
               kelvin_(kelvin), mole_(mole), radians_(radians), currency_(currency), count_(count),
-              per_unit_(per_unit), flag_(flag), e_flag_(flag2), equation_(equation)
+              per_unit_(per_unit), i_flag_(flag), e_flag_(flag2), equation_(equation)
         {
         }
         /** Construct with the error flag triggered*/
         explicit constexpr unit_data(std::nullptr_t)
             : meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0), kelvin_(0), mole_(0), radians_(0),
-              currency_(0), count_(0), per_unit_(0), flag_(1), e_flag_(1), equation_(0)
+              currency_(0), count_(0), per_unit_(0), i_flag_(1), e_flag_(1), equation_(0)
         {
         }
 
@@ -62,7 +62,7 @@ namespace detail
               count_ + other.count_,
               radians_ + other.radians_,
               (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-              (flag_ != 0 || other.flag_ != 0) ? 1u : 0,
+              (i_flag_ != 0 || other.i_flag_ != 0) ? 1u : 0,
               (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
               (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
             };
@@ -81,7 +81,7 @@ namespace detail
                     count_ - other.count_,
                     radians_ - other.radians_,
                     (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                    ((flag_ != 0) ^ (other.flag_ != 0)) ? 1u : 0,
+                    ((i_flag_ != 0) ^ (other.i_flag_ != 0)) ? 1u : 0,
                     ((e_flag_ != 0) ^ (other.e_flag_ != 0)) ? 1u : 0,
                     (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
         }
@@ -89,7 +89,7 @@ namespace detail
         constexpr unit_data inv() const
         {
             return {-meter_,    -kilogram_, -second_,  -ampere_,  -kelvin_, -mole_,  -candela_,
-                    -currency_, -count_,    -radians_, per_unit_, flag_,    e_flag_, equation_};
+                    -currency_, -count_,    -radians_, per_unit_, i_flag_,  e_flag_, equation_};
         }
         /// take a unit_data to some power
         constexpr unit_data pow(int power) const
@@ -107,7 +107,7 @@ namespace detail
                     count_ * power,
                     radians_ * power,
                     per_unit_,
-                    flag_,
+                    i_flag_ * power,
                     0,  // zero out e_flag
                     equation_};
         }
@@ -115,21 +115,21 @@ namespace detail
         {
             return (hasValidRoot(power)) ?
                      unit_data(meter_ / power, kilogram_ / power, second_ / power, ampere_ / power,
-                               kelvin_ / power, 0, 0, 0, 0, radians_ / power, per_unit_, flag_, 0, 0) :
+                               kelvin_ / power, 0, 0, 0, 0, radians_ / power, per_unit_, i_flag_, 0, 0) :
                      unit_data(nullptr);
         }
         // comparison operators
         constexpr bool operator==(unit_data other) const
         {
             return equivalent_non_counting(other) && mole_ == other.mole_ && count_ == other.count_ &&
-                   radians_ == other.radians_ && per_unit_ == other.per_unit_ && flag_ == other.flag_ &&
+                   radians_ == other.radians_ && per_unit_ == other.per_unit_ && i_flag_ == other.i_flag_ &&
                    e_flag_ == other.e_flag_ && equation_ == other.equation_;
         }
         constexpr bool operator!=(unit_data other) const { return !(*this == other); }
 
         // support for specific unitConversion calls
         constexpr bool is_per_unit() const { return per_unit_ != 0; }
-        constexpr bool has_flag() const { return (flag_ != 0); }
+        constexpr bool has_i_flag() const { return (i_flag_ != 0); }
         constexpr bool has_e_flag() const { return e_flag_ != 0; }
         constexpr bool is_equation() const { return equation_ != 0; }
         /// Check if the unit bases are the same
@@ -181,12 +181,12 @@ namespace detail
         constexpr int radian() const { return radians_; }
 
         /// set all the flags to 0;
-        void clear_flags() { per_unit_ = flag_ = e_flag_ = equation_ = 0; }
+        void clear_flags() { per_unit_ = i_flag_ = e_flag_ = equation_ = 0; }
 
       private:
         constexpr unit_data()
             : meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0), kelvin_(0), mole_(0), radians_(0),
-              currency_(0), count_(0), per_unit_(0), flag_(0), e_flag_(0), equation_(0)
+              currency_(0), count_(0), per_unit_(0), i_flag_(0), e_flag_(0), equation_(0)
         {
         }
 
@@ -208,7 +208,7 @@ namespace detail
         signed int currency_ : 2;
         signed int count_ : 2;  // 28
         unsigned int per_unit_ : 1;
-        unsigned int flag_ : 1;  // 30
+        unsigned int i_flag_ : 1;  // 30
         unsigned int e_flag_ : 1;  //
         unsigned int equation_ : 1;  // 32
     };
@@ -330,7 +330,7 @@ class unit
     constexpr bool is_error() const
     {
         return (multiplier_ != multiplier_ ||
-                (base_units_.has_e_flag() && base_units_.has_flag() && base_units_.empty()));
+                (base_units_.has_e_flag() && base_units_.has_i_flag() && base_units_.empty()));
     }
     // Test for exact numerical equivalence
     constexpr bool is_exactly_the_same(unit other) const
@@ -362,13 +362,13 @@ class unit
     /// Get the number of different base units used
     constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is the default unit
-    constexpr bool is_default() const { return base_units_.empty() && base_units_.has_flag(); }
+    constexpr bool is_default() const { return base_units_.empty() && base_units_.has_i_flag(); }
     /// Check if the unit is a per_unit notation
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
     /// Check if the unit is a per_unit notation
     constexpr bool is_equation() const { return base_units_.is_equation(); }
     /// Check if the unit has the flag triggered
-    constexpr bool has_flag() const { return base_units_.has_flag(); }
+    constexpr bool has_i_flag() const { return base_units_.has_i_flag(); }
     /// Check if the unit has the e flag triggered
     constexpr bool has_e_flag() const { return base_units_.has_e_flag(); }
     /// Extract the base unit Multiplier
@@ -556,13 +556,13 @@ class precise_unit
     /// Get the number of different base units used
     constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is the default unit
-    constexpr bool is_default() const { return base_units_.empty() && base_units_.has_flag(); }
+    constexpr bool is_default() const { return base_units_.empty() && base_units_.has_e_flag(); }
     /// Check if the unit is a per unit value
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
     /// Check if the unit is a per_unit notation
     constexpr bool is_equation() const { return base_units_.is_equation(); }
     /// Check if the unit has the flag triggered
-    constexpr bool has_flag() const { return base_units_.has_flag(); }
+    constexpr bool has_i_flag() const { return base_units_.has_i_flag(); }
     /// Check if the unit has the e flag triggered
     constexpr bool has_e_flag() const { return base_units_.has_e_flag(); }
     /// Get the commodity code

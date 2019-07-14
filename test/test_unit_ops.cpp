@@ -169,13 +169,13 @@ TEST(unitOps, equality1)
 TEST(unitOps, flags)
 {
     auto e1 = error;
-    EXPECT_TRUE(e1.has_flag());
+    EXPECT_TRUE(e1.has_i_flag());
     EXPECT_TRUE(e1.has_e_flag());
-    static_assert(error.has_flag(), "Error flag should be constexpr and allowable in compile time constants");
+    static_assert(error.has_i_flag(), "Error flag should be constexpr and allowable in compile time constants");
     static_assert(error.has_e_flag(), "Error flag should be constexpr and allowable in compile time constants");
 
     e1.clear_flags();
-    EXPECT_FALSE(e1.has_flag());
+    EXPECT_FALSE(e1.has_i_flag());
     EXPECT_FALSE(e1.has_e_flag());
 }
 /*
@@ -382,15 +382,15 @@ TEST(preciseunitOps, equality1)
 TEST(preciseunitOps, flags)
 {
     auto e1 = precise::error;
-    EXPECT_TRUE(e1.has_flag());
+    EXPECT_TRUE(e1.has_i_flag());
     EXPECT_TRUE(e1.has_e_flag());
-    static_assert(precise::error.has_flag(),
+    static_assert(precise::error.has_i_flag(),
                   "Error flag should be constexpr and allowable in compile time constants");
     static_assert(precise::error.has_e_flag(),
                   "Error flag should be constexpr and allowable in compile time constants");
 
     e1.clear_flags();
-    EXPECT_FALSE(e1.has_flag());
+    EXPECT_FALSE(e1.has_i_flag());
     EXPECT_FALSE(e1.has_e_flag());
 }
 

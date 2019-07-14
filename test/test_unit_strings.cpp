@@ -137,7 +137,7 @@ TEST(unitStrings, zero)
 
 TEST(unitStrings, one)
 {
-    auto funit = precise_unit(4.5, precise::flag * precise::pu);
+    auto funit = precise_unit(4.5, precise::iflag * precise::pu);
     auto res = to_string(funit);
     EXPECT_EQ(res, "4.5*defunit");
 }

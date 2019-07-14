@@ -208,7 +208,7 @@ static const umap base_unit_names{
   {ratio, ""},
   {error, "ERROR"},
   {defunit, "defunit"},
-  {flag, "flag"},
+  {iflag, "flag"},
   {eflag, "eflag"},
   {pu, "pu"},
   {Gy, "Gy"},
@@ -513,7 +513,7 @@ static std::string generateRawUnitString(precise_unit un)
     addUnitPower(val, "item", un.base_units().count());
     addUnitPower(val, "$", un.base_units().currency());
     addUnitPower(val, "rad", un.base_units().radian());
-    if (un.base_units().has_flag())
+    if (un.base_units().has_i_flag())
     {
         val.append("*flag");
     }
@@ -1849,11 +1849,13 @@ static const smap base_unit_vals{
   {"kilowatt", precise::kW},
   {"MW", precise::MW},
   {"megawatt", precise::MW},
-  {"MVA", precise::MW},
-  {"mvar", precise::MW},
-  {"VA", precise::W},
-  {"VAR", precise::W},
-  {"var", precise::W},
+  {"MVA", precise::MVAR},
+  {"mvar", precise::MVAR},
+  {"MVAR", precise::MVAR},
+  {"VA", precise::VAR},
+  {"voltampreactive", precise::VAR},
+  {"VAR", precise::VAR},
+  {"var", precise::VAR},
   {"s", precise::s},
   {"sec", precise::s},
   {"MAS", precise::mega *precise::s},
@@ -2661,9 +2663,9 @@ static const smap base_unit_vals{
   {"$/gal", precise::currency / precise::gal},
   {"pu", precise::pu},
   {"perunit", precise::pu},
-  {"flag", precise::flag},
+  {"flag", precise::iflag},
   {"eflag", precise::eflag},
-  {"FLAG", precise::flag},
+  {"FLAG", precise::iflag},
   {"EFLAG", precise::eflag},
   {"puOhm", precise::pu *precise::ohm},
   {"puohm", precise::pu *precise::ohm},

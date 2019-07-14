@@ -129,7 +129,7 @@ namespace precise
     constexpr precise_unit currency(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit count(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0));
     constexpr precise_unit pu(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0));
-    constexpr precise_unit flag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0));
+    constexpr precise_unit iflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0));
     constexpr precise_unit eflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
     constexpr precise_unit rad(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0));
     // define a specialized default unit
@@ -301,7 +301,7 @@ namespace precise
 
         constexpr precise_unit sday{365.24 / 366.24, day};  // sidereal day
         constexpr precise_unit syr(365.256363004, day);  // sidereal year
-        constexpr precise_unit at{365.24219, day *flag};  // mean tropical year
+        constexpr precise_unit at{365.24219, day *eflag};  // mean tropical year
         constexpr precise_unit aj{365.25, day};  // julian year
         constexpr precise_unit ag{365.2425, day};  // gregorian year
         constexpr precise_unit year = aj;  // standard year
@@ -478,7 +478,7 @@ namespace precise
     /// Imperial system units (British)
     namespace imp
     {
-        constexpr precise_unit inch{2.539998, cm *flag};
+        constexpr precise_unit inch{2.539998, cm *eflag};
         constexpr precise_unit foot{12.0, inch};
 
         constexpr precise_unit thou{0.0254, mm};
@@ -663,7 +663,7 @@ namespace precise
     // temperature
     namespace temperature
     {
-        constexpr precise_unit celsius{1.0, K *flag};
+        constexpr precise_unit celsius{1.0, K *eflag};
         constexpr precise_unit degC = celsius;
 
         constexpr precise_unit fahrenheit{5.0 / 9.0, celsius};
@@ -690,7 +690,7 @@ namespace precise
         constexpr precise_unit psi{6894.757293168, Pa};
         constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};
-        constexpr precise_unit torr{101325.0 / 760.0, Pa *flag};  // this is really close to mmHg
+        constexpr precise_unit torr{101325.0 / 760.0, Pa *eflag};  // this is really close to mmHg
         constexpr precise_unit inH2O{248.843004, Pa};  // at 60 degF
         constexpr precise_unit mmH2O{1.0 / 25.4, inH2O};  // at 60 degF
         constexpr precise_unit atm(101325.0, Pa);
@@ -699,8 +699,10 @@ namespace precise
 
     // Power system units
     constexpr precise_unit MW(1000000.0, W);
-    constexpr precise_unit MVA = MW;
+    constexpr precise_unit VAR = W * iflag;
+    constexpr precise_unit MVAR(1000000.0, VAR);
     constexpr precise_unit kW(1000.0, W);
+    constexpr precise_unit kVAR(1000.0, VAR);
     constexpr precise_unit mW(0.001, W);
     constexpr precise_unit puMW = MW * pu;
     constexpr precise_unit puV = pu * V;
@@ -817,7 +819,7 @@ namespace precise
 
         inline int custom_unit_number(detail::unit_data UT)
         {
-            int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
+            int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
             num += (std::abs(UT.meter()) < 4) ? 256 : 0;
             num += (std::abs(UT.second()) >= 6) ? 512 : 0;
             num += (std::abs(UT.kg()) <= 1) ? 128 : 0;
@@ -904,7 +906,7 @@ namespace precise
         /// Get the number code for the custom count unit
         inline int custom_count_unit_number(detail::unit_data UT)
         {
-            int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
+            int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
             num += (UT.candela() == 0) ? 0 : 8;
             return num;
         }
@@ -938,7 +940,7 @@ namespace precise
         inline constexpr int eq_type(detail::unit_data UT)
         {
             return ((UT.radian() != 0) ? 16 : 0) + ((UT.count() != 0) ? 8 : 0) + (UT.is_per_unit() ? 4 : 0) +
-                   (UT.has_flag() ? 2 : 0) + (UT.has_e_flag() ? 1 : 0);
+                   (UT.has_i_flag() ? 2 : 0) + (UT.has_e_flag() ? 1 : 0);
         }
     }  // namespace custom
 
@@ -1304,7 +1306,7 @@ constexpr unit cd = unit_cast(precise::cd);
 constexpr unit currency = unit_cast(precise::currency);
 constexpr unit count = unit_cast(precise::count);
 constexpr unit pu = unit_cast(precise::pu);
-constexpr unit flag = unit_cast(precise::flag);
+constexpr unit iflag = unit_cast(precise::iflag);
 constexpr unit eflag = unit_cast(precise::eflag);
 constexpr unit rad = unit_cast(precise::rad);
 
@@ -1315,12 +1317,12 @@ constexpr unit invalid(detail::unit_data(nullptr), constants::invalid_conversion
 constexpr inline bool is_error(precise_unit u)
 {
     return (u.multiplier() != u.multiplier() ||
-            (u.base_units().has_e_flag() && u.base_units().has_flag() && u.base_units().empty()));
+            (u.base_units().has_e_flag() && u.base_units().has_i_flag() && u.base_units().empty()));
 }
 constexpr inline bool is_error(unit u)
 {
     return (u.multiplier() != u.multiplier() ||
-            (u.base_units().has_e_flag() && u.base_units().has_flag() && u.base_units().empty()));
+            (u.base_units().has_e_flag() && u.base_units().has_i_flag() && u.base_units().empty()));
 }
 
 constexpr inline bool is_valid(precise_unit u)
@@ -1426,9 +1428,9 @@ constexpr unit degF = unit_cast(precise::degF);
 
 constexpr bool is_temperature(precise_unit unit)
 {
-    return (unit.has_same_base(K) && unit.base_units().has_flag());
+    return (unit.has_same_base(K) && unit.base_units().has_e_flag());
 }
-constexpr bool is_temperature(unit unit) { return (unit.has_same_base(K) && unit.base_units().has_flag()); }
+constexpr bool is_temperature(unit unit) { return (unit.has_same_base(K) && unit.base_units().has_e_flag()); }
 
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
@@ -1437,8 +1439,9 @@ constexpr unit MegaBuck = unit_cast(precise::MegaBuck);
 constexpr unit GigaBuck = unit_cast(precise::GigaBuck);
 
 // Power system units
+constexpr unit VAR = unit_cast(precise::VAR);
 constexpr unit MW = unit_cast(precise::MW);
-constexpr unit MVA = MW;
+constexpr unit MVAR = unit_cast(precise::MVAR);
 constexpr unit kW = unit_cast(precise::kW);
 constexpr unit mW = unit_cast(precise::mW);
 constexpr unit puMW = unit_cast(precise::puMW);
