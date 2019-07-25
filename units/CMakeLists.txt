@@ -16,24 +16,29 @@ if (NOT DEFINED UNITS_LIBRARY_TYPE)
    set_property(CACHE UNITS_LIBRARY_TYPE PROPERTY STRINGS STATIC SHARED OBJECT)
 endif()
 
+# Install instructions for this target
+if(UNITS_WITH_CMAKE_PACKAGE)
+    set(UNITS_INSTALL_EXPORT EXPORT unitsConfig)
+else(UNITS_WITH_CMAKE_PACKAGE)
+    set(UNITS_INSTALL_EXPORT)
+endif(UNITS_WITH_CMAKE_PACKAGE)
+
 if (UNITS_HEADER_ONLY)
   # TODO:
   # install units_Sources
   # add this directory to the include path
 else (UNITS_HEADER_ONLY)
   add_library(unitslib ${UNITS_LIBRARY_TYPE} ${units_source_files} ${units_header_files})
-  target_include_directories(unitslib PUBLIC  $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>)
+  target_include_directories(unitslib PUBLIC  
+     $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 endif (UNITS_HEADER_ONLY)
 
 add_library(units::units ALIAS unitslib)
 
-if (NOT UNITS_INSTALL_EXPORT)
-	set(UNITS_INSTALL_EXPORT unitsConfig)
-endif()
-
 if (NOT UNITS_LIBRARY_TYPE STREQUAL "OBJECT")
 install(TARGETS unitslib
-  EXPORT ${UNITS_INSTALL_EXPORT}
+  ${UNITS_INSTALL_EXPORT}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

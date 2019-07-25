@@ -28,6 +28,8 @@ option(
   ${UNITS_CUR_PROJ}
 )
 
+option(UNITS_WITH_CMAKE_PACKAGE "Generate and install cmake package files" ${UNITS_CUR_PROJ})
+
 option(
   UNITS_HEADER_ONLY
   "Expose the units library as header-only"
@@ -56,10 +58,13 @@ elseif (UNITS_ENABLE_TESTS)
   add_subdirectory(test)
 endif ()
 
-install(EXPORT unitsConfig
-  NAMESPACE units::
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units
-)
+if(UNITS_WITH_CMAKE_PACKAGE)
+        install(EXPORT unitsConfig
+                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units
+                )
+		export(EXPORT unitsConfig)
+endif()
 
-export(EXPORT unitsConfig)
+
+
 
