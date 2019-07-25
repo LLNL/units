@@ -6,10 +6,12 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # User settable
     set(UNITS_CXX_STD "11"  CACHE STRING "The CMake standard to require")
 
-  #  set(CUR_PROJ ON)
+    set(UNITS_CUR_PROJ ON)
     set(CMAKE_CXX_STANDARD ${UNITS_CXX_STD})
     set(CMAKE_CXX_EXTENSIONS OFF)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
+else()
+	set(UNITS_CUR_PROJ OFF)
 endif()
 
 
@@ -21,7 +23,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 option(
   UNITS_ENABLE_TESTS
   "Enable tests for the units library"
-  ON
+  ${UNITS_CUR_PROJ}
 )
 
 option(
@@ -31,7 +33,7 @@ option(
 )
 
 option(
-  BUILD_FUZZ_TARGETS
+  BUILD_UNITS_FUZZ_TARGETS
   "Build the targets for a fuzzing system"
   OFF
 )
@@ -45,18 +47,20 @@ endif(UNITS_HEADER_ONLY)
 
 add_subdirectory(units)
 
-if (BUILD_FUZZ_TARGETS)
+if (BUILD_UNITS_FUZZ_TARGETS)
   add_subdirectory(FuzzTargets)
 elseif (UNITS_ENABLE_TESTS)
   enable_testing()
   add_subdirectory(test)
 endif ()
 
-
-install(EXPORT unitsConfig
+if (NOT UNITS_INSTALL_EXPORT)
+	set(UNITS_INSTALL_EXPORT unitsConfig)
+endif()
+install(EXPORT ${UNITS_INSTALL_EXPORT}
   NAMESPACE units::
   DESTINATION lib/cmake/units
 )
 
-export(EXPORT unitsConfig)
+export(EXPORT ${UNITS_INSTALL_EXPORT})
 
