@@ -56,14 +56,10 @@ elseif (UNITS_ENABLE_TESTS)
   add_subdirectory(test)
 endif ()
 
-if (NOT UNITS_INSTALL_EXPORT)
-	set(UNITS_INSTALL_EXPORT unitsConfig)
-endif()
-
-install(EXPORT ${UNITS_INSTALL_EXPORT}
+install(EXPORT unitsConfig
   NAMESPACE units::
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units
 )
 
-export(EXPORT ${UNITS_INSTALL_EXPORT})
+export(EXPORT unitsConfig)
 
