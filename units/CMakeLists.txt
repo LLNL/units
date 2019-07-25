@@ -27,8 +27,6 @@ endif (UNITS_HEADER_ONLY)
 
 add_library(units::units ALIAS unitslib)
 
-set (UNITS_INSTALL_EXPORT unitsConfig)
-
 if (NOT UNITS_LIBRARY_TYPE STREQUAL "OBJECT")
 install(TARGETS unitslib
   EXPORT ${UNITS_INSTALL_EXPORT}
