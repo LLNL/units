@@ -25,7 +25,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 option(
   UNITS_ENABLE_TESTS
   "Enable tests for the units library"
-  ${UNITS_ROOT_PROJ}
+  ${UNITS_ROOT_PROJECT}
 )
 
 option(UNITS_WITH_CMAKE_PACKAGE "Generate and install cmake package files" ${UNITS_ROOT_PROJECT})
@@ -77,9 +77,11 @@ add_subdirectory(units)
 if (BUILD_UNITS_FUZZ_TARGETS)
   add_subdirectory(FuzzTargets)
 elseif (UNITS_ENABLE_TESTS)
-  enable_testing()
-  add_subdirectory(test)
-endif ()
+	enable_testing()
+	if (BUILD_TESTING)
+	   add_subdirectory(tests)
+	endif()
+endif()
 
 if(UNITS_WITH_CMAKE_PACKAGE)
         install(EXPORT unitsConfig
