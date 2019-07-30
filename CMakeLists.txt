@@ -65,9 +65,9 @@ else(UNITS_HEADER_ONLY)
 	endif(BUILD_SHARED_LIBS)
 
 	if (UNITS_ROOT_PROJECT)
-		set(BUILD_UNITS_OBJECT_LIB OFF)
+		set(BUILD_UNITS_OBJECT_LIBRARY OFF)
 	else(UNITS_ROOT_PROJECT)
-		option(UNITS_OBJECT_LIB "Enable construction of the units object library" OFF)
+		option(BUILD_UNITS_OBJECT_LIBRARY "Enable construction of the units object library" OFF)
 	endif(UNITS_ROOT_PROJECT)
 endif(UNITS_HEADER_ONLY)
 
