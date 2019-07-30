@@ -22,7 +22,7 @@ set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
 foreach(T ${UNITS_TESTS})
 
     add_unit_test(${T}.cpp)
-    target_link_libraries(${T} unitslib)
+    target_link_libraries(${T} units::units)
 
 endforeach()
 
