@@ -216,6 +216,10 @@ TEST(stringToUnits, SIprefix)
     EXPECT_EQ(precise_unit(1e18, precise::W), unit_from_string("EW"));
     EXPECT_EQ(precise_unit(1e-9, precise::H), unit_from_string("nH"));
     EXPECT_EQ(precise_unit(1e-15, precise::s), unit_from_string("fs"));
+
+    EXPECT_EQ(unit(1e18, W), unit_cast_from_string("EW"));
+    EXPECT_EQ(unit(1e-9, H), unit_cast_from_string("nH"));
+    EXPECT_EQ(unit(1e-15, s), unit_cast_from_string("fs"));
 }
 
 TEST(stringToUnits, Parenthesis)
