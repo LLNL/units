@@ -1327,12 +1327,13 @@ constexpr inline bool is_error(unit u)
 
 constexpr inline bool is_valid(precise_unit u)
 {
-    return !((u.multiplier() != u.multiplier()) && (u.base_units() == precise::invalid.base_units()));
+    return (u.multiplier() == u.multiplier()) && (u.base_units() != precise::invalid.base_units());
 }
 constexpr inline bool is_valid(unit u)
 {
-    return !((u.multiplier() != u.multiplier()) && (u.base_units() == invalid.base_units()));
+    return (u.multiplier() == u.multiplier()) && (u.base_units() != invalid.base_units());
 }
+
 /// Define a unitless number
 constexpr unit one;
 constexpr unit infinite = unit_cast(precise::infinite);
@@ -1486,5 +1487,21 @@ constexpr unit GB = unit_cast(precise::GB);
 // concentrations
 constexpr unit ppm = unit_cast(precise::ppm);
 constexpr unit ppb = unit_cast(precise::ppb);
+
+/** check if a unit is some normal valid unit
+@details not an error, not infinite, not one,not invalid, not defunit, the multiplier is a normal number and >0*/
+inline bool isnormal(precise_unit u)
+{
+    return std::isnormal(u.multiplier()) && (!is_error(u)) && (is_valid(u)) && u != precise::one &&
+           u != precise::defunit && u.multiplier() > 0;
+}
+
+/** check if a unit is some normal valid unit
+@details not an error, not infinite,not invalid, not one, not defunit, the multiplier is a normal number and >0*/
+inline bool isnormal(unit u)
+{
+    return std::isnormal(u.cround()) && (!is_error(u)) && (is_valid(u)) && u != one && u != defunit &&
+           u.multiplier() > 0;
+}
 
 }  // namespace units

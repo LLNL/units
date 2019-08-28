@@ -114,6 +114,31 @@ TEST(unitOps, inf)
     auto nunit = kg / zunit;
     EXPECT_TRUE(isinf(nunit));
     EXPECT_TRUE(isinf(unit_cast(precise_unit(nunit))));
+    EXPECT_TRUE(isinf(unit(std::numeric_limits<double>::infinity(), m)));
+}
+
+TEST(unitOps, normal)
+{
+    EXPECT_FALSE(isnormal(invalid));
+    EXPECT_FALSE(isnormal(defunit));
+    EXPECT_TRUE(isnormal(V));
+    auto zunit = unit(0.0, m);
+    auto nunit = kg / zunit;
+    EXPECT_FALSE(isnormal(nunit));
+    EXPECT_FALSE(isnormal(unit_cast(precise_unit(nunit))));
+    EXPECT_FALSE(isnormal(unit(std::numeric_limits<double>::infinity(), m)));
+    EXPECT_FALSE(isnormal(unit(-std::numeric_limits<double>::infinity(), m)));
+    auto zunit2 = unit(0.0, kg);
+    auto nunit2 = zunit2 / zunit;
+    EXPECT_FALSE(isnormal(nunit2));
+    EXPECT_FALSE(isnormal(unit(-0.25, kg)));
+    EXPECT_FALSE(isnormal(unit(1.4e-42, kg * m)));
+    EXPECT_TRUE(isnormal(unit(1.4e-36, kg * m)));
+    EXPECT_FALSE(isnormal(zunit2));
+    EXPECT_FALSE(isnormal(unit_cast(precise::invalid)));
+
+    EXPECT_TRUE(isnormal(m));
+    EXPECT_TRUE(isnormal(m * milli));
 }
 
 TEST(unitOps, cast)
@@ -329,6 +354,28 @@ TEST(preciseUnitOps, inf)
     auto nunit = precise::kg / zunit;
     EXPECT_TRUE(isinf(nunit));
     EXPECT_TRUE(isinf(precise_unit(nunit)));
+}
+
+TEST(preciseUnitOps, normal)
+{
+    EXPECT_FALSE(isnormal(precise::invalid));
+    EXPECT_FALSE(isnormal(precise::defunit));
+    EXPECT_TRUE(isnormal(precise::V));
+    auto zunit = precise_unit(0.0, m);
+    auto nunit = precise::kg / zunit;
+    EXPECT_FALSE(isnormal(nunit));
+    EXPECT_FALSE(isnormal(precise_unit(std::numeric_limits<double>::infinity(), precise::m)));
+    EXPECT_FALSE(isnormal(precise_unit(-std::numeric_limits<double>::infinity(), precise::m)));
+    auto zunit2 = precise_unit(0.0, precise::kg);
+    auto nunit2 = zunit2 / zunit;
+    EXPECT_FALSE(isnormal(nunit2));
+    EXPECT_FALSE(isnormal(precise_unit(-0.25, precise::kg)));
+    EXPECT_FALSE(isnormal(precise_unit(1.4e-320, precise::kg * precise::m)));
+    EXPECT_TRUE(isnormal(precise_unit(1.4e-306, precise::kg * precise::m)));
+    EXPECT_FALSE(isnormal(zunit2));
+
+    EXPECT_TRUE(isnormal(precise::m));
+    EXPECT_TRUE(isnormal(precise::m * precise::milli));
 }
 
 TEST(preciseUnitOps, cast)
