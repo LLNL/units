@@ -1314,24 +1314,24 @@ constexpr unit defunit = unit_cast(precise::defunit);
 constexpr unit invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
 /// Check if the unit has an error
-constexpr inline bool is_error(precise_unit u)
+constexpr inline bool is_error(precise_unit utest)
 {
-    return (u.multiplier() != u.multiplier() ||
-            (u.base_units().has_e_flag() && u.base_units().has_i_flag() && u.base_units().empty()));
+    return (utest.multiplier() != utest.multiplier() ||
+            (utest.base_units().has_e_flag() && utest.base_units().has_i_flag() && utest.base_units().empty()));
 }
-constexpr inline bool is_error(unit u)
+constexpr inline bool is_error(unit utest)
 {
-    return (u.multiplier() != u.multiplier() ||
-            (u.base_units().has_e_flag() && u.base_units().has_i_flag() && u.base_units().empty()));
+    return (utest.multiplier() != utest.multiplier() ||
+            (utest.base_units().has_e_flag() && utest.base_units().has_i_flag() && utest.base_units().empty()));
 }
 
-constexpr inline bool is_valid(precise_unit u)
+constexpr inline bool is_valid(precise_unit utest)
 {
-    return !((u.multiplier() != u.multiplier()) && (u.base_units() == precise::invalid.base_units()));
+    return !((utest.multiplier() != utest.multiplier()) && (utest.base_units() == precise::invalid.base_units()));
 }
-constexpr inline bool is_valid(unit u)
+constexpr inline bool is_valid(unit utest)
 {
-    return !((u.multiplier() != u.multiplier()) && (u.base_units() == invalid.base_units()));
+    return !((utest.multiplier() != utest.multiplier()) && (utest.base_units() == invalid.base_units()));
 }
 
 /// Define a unitless number
@@ -1427,11 +1427,11 @@ constexpr unit deg = unit_cast(precise::deg);
 constexpr unit degC = unit_cast(precise::degC);
 constexpr unit degF = unit_cast(precise::degF);
 
-constexpr bool is_temperature(precise_unit unit)
+constexpr bool is_temperature(precise_unit utest)
 {
-    return (unit.has_same_base(K) && unit.base_units().has_e_flag());
+    return (utest.has_same_base(K) && utest.base_units().has_e_flag());
 }
-constexpr bool is_temperature(unit unit) { return (unit.has_same_base(K) && unit.base_units().has_e_flag()); }
+constexpr bool is_temperature(unit utest) { return (utest.has_same_base(K) && utest.base_units().has_e_flag()); }
 
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
@@ -1490,17 +1490,18 @@ constexpr unit ppb = unit_cast(precise::ppb);
 
 /** check if a unit is some normal valid unit
 @details not an error, not infinite, not one,not invalid, not defunit, the multiplier is a normal number and >0*/
-inline bool isnormal(precise_unit u)
+inline bool isnormal(precise_unit utest)
 {
-    return std::isnormal(u.multiplier()) && (!is_error(u)) && u != precise::one && u != precise::defunit &&
-           u.multiplier() > 0;
+    return std::isnormal(utest.multiplier()) && (!is_error(utest)) && utest != precise::one &&
+           utest != precise::defunit && utest.multiplier() > 0;
 }
 
 /** check if a unit is some normal valid unit
 @details not an error, not infinite,not invalid, not one, not defunit, the multiplier is a normal number and >0*/
-inline bool isnormal(unit u)
+inline bool isnormal(unit utest)
 {
-    return std::isnormal(u.cround()) && (!is_error(u)) && u != one && u != defunit && u.multiplier() > 0;
+    return std::isnormal(utest.cround()) && (!is_error(utest)) && utest != one && utest != defunit &&
+           utest.multiplier() > 0;
 }
 
 }  // namespace units
