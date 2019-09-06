@@ -515,7 +515,7 @@ class fixed_measurement_type
     const unit units_;
 };
 
-/// measurement using a double a value type
+/// measurement using a double as the value type
 using fixed_measurement = fixed_measurement_type<double>;
 /// Measurement using a float as the value type
 using fixed_measurement_f = fixed_measurement_type<float>;
