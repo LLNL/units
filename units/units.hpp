@@ -744,12 +744,23 @@ inline std::string to_string(unit units, uint32_t match_flags = 0)
     return to_string(precise_unit(units), match_flags);
 }
 
-/** Generate a unit object from a string representation of it
+/** Generate a precise unit object from a string representation of it
 @param unit_string the string to convert
 @param match_flags see /ref unit_conversion_flags to control the matching process somewhat
 @return a precise unit corresponding to the string if no match was found the unit will be an error unit
 */
 precise_unit unit_from_string(std::string unit_string, uint32_t match_flags = 0);
+
+/** Generate a unit object from a string representation of it
+@details uses a unit_cast to convert the precise_unit to a unit
+@param unit_string the string to convert
+@param match_flags see /ref unit_conversion_flags to control the matching process somewhat
+@return a unit corresponding to the string if no match was found the unit will be an error unit
+*/
+inline unit unit_cast_from_string(std::string unit_string, uint32_t match_flags = 0)
+{
+    return unit_cast(unit_from_string(unit_string, match_flags));
+}
 
 /** Generate a unit object from the string definition of a type of measurement
 @param unit_type  string representing the type of measurement
