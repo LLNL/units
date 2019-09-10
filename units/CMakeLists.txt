@@ -11,6 +11,9 @@ set(units_header_files
   unit_definitions.hpp
 )
 
+option(UNITS_BINARY_ONLY_INSTALL OFF "only install the binary files")
+mark_as_advanced(UNITS_BINARY_ONLY_INSTALL)
+
 if (UNITS_HEADER_ONLY)
   # TODO:
   # install units_Sources
@@ -24,11 +27,13 @@ if (BUILD_UNITS_STATIC_LIBRARY)
 
 	add_library(units::units ALIAS units-static)
 	add_library(units::static ALIAS units-static)
+	if (NOT UNITS_BINARY_ONLY_INSTALL)
 	install(TARGETS units-static
 		${UNITS_LIBRARY_EXPORT_COMMAND}
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}
 		# INCLUDES DESTINATION include/units
 		)
+	endif(NOT UNITS_BINARY_ONLY_INSTALL)
 endif (BUILD_UNITS_STATIC_LIBRARY)
 
 if (BUILD_UNITS_SHARED_LIBRARY)
@@ -63,5 +68,6 @@ endif (BUILD_UNITS_OBJECT_LIBRARY)
 
 endif(UNITS_HEADER_ONLY)
 
-
+if (NOT UNITS_BINARY_ONLY_INSTALL)
 install (FILES ${units_header_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+endif()
