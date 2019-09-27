@@ -33,8 +33,12 @@ cmake_dependent_option(
   ON "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
 
-cmake_dependent_option(UNITS_WITH_CMAKE_PACKAGE "Generate and install cmake package files" ON "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF)
+option(UNITS_BINARY_ONLY_INSTALL "Only install binary files from the units library" OFF)
+cmake_dependent_option(UNITS_WITH_CMAKE_PACKAGE "Generate and install cmake package files" ON "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT UNITS_BINARY_ONLY_INSTALL" OFF)
+
 mark_as_advanced(UNITS_WITH_CMAKE_PACKAGE)
+mark_as_advanced(UNITS_BINARY_ONLY_INSTALL)
+
 
 
 # Install instructions for this target
@@ -84,7 +88,7 @@ elseif (UNITS_ENABLE_TESTS)
 	endif()
 endif()
 
-if(UNITS_WITH_CMAKE_PACKAGE)
+if(UNITS_WITH_CMAKE_PACKAGE AND NOT UNIT_BINARY_ONLY_INSTALL)
         install(EXPORT unitsConfig
                 DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units
                 )
