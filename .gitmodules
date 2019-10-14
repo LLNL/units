@@ -1,4 +1,1 @@
-[submodule "ThirdParty/googletest"]
-	path = ThirdParty/googletest
-	url = ../../google/googletest.git
-	branch = master
+

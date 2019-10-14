@@ -1,5 +1,5 @@
 /*
-Copyright © 2019,
+Copyright (c) 2019,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -260,6 +260,43 @@ namespace detail
         f = round(f * 1e12);
         return ldexp(f * 1e-12, exp);
     }
+
+    inline bool compare_round_equals(float val1, float val2)
+    {
+        auto c1 = cround(val2);
+        if (cround(val1) == c1)
+        {
+            return true;
+        }
+        if (cround(val1 * (1.0f + 5.4e-7f)) == c1)
+        {
+            return true;
+        }
+        if (cround(val1 * (1.0f - 5.1e-7f)) == c1)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    inline bool compare_round_equals_precise(double val1, double val2)
+    {
+        auto c1 = cround_precise(val2);
+
+        if (cround_precise(val1) == c1)
+        {
+            return true;
+        }
+        if (cround_precise(val1 * (1.0 + 5.000e-13)) == c1)
+        {
+            return true;
+        }
+        if (cround_precise(val1 * (1.0 - 5.000e-13)) == c1)
+        {
+            return true;
+        }
+        return false;
+    }
 }  // namespace detail
 
 /**Class defining a basic unit module with float32 precision on the multiplier.
@@ -310,20 +347,7 @@ class unit
         {
             return true;
         }
-        auto c1 = detail::cround(other.multiplier_);
-        if (detail::cround(multiplier_) == c1)
-        {
-            return true;
-        }
-        if (detail::cround(multiplier_ * (1.0f + 5.4e-7f)) == c1)
-        {
-            return true;
-        }
-        if (detail::cround(multiplier_ * (1.0f - 5.1e-7f)) == c1)
-        {
-            return true;
-        }
-        return false;
+        return detail::compare_round_equals(multiplier_, other.multiplier_);
     }
     bool operator!=(unit other) const { return !operator==(other); }
     /// Check if the unit has an error
@@ -484,21 +508,7 @@ class precise_unit
         {
             return true;
         }
-        auto c1 = detail::cround_precise(other.multiplier_);
-
-        if (detail::cround_precise(multiplier_) == c1)
-        {
-            return true;
-        }
-        if (detail::cround_precise(multiplier_ * (1.0 + 5.000e-13)) == c1)
-        {
-            return true;
-        }
-        if (detail::cround_precise(multiplier_ * (1.0 - 5.000e-13)) == c1)
-        {
-            return true;
-        }
-        return false;
+        return detail::compare_round_equals_precise(multiplier_, other.multiplier_);
     }
     bool operator!=(precise_unit other) const { return !operator==(other); }
     // Test for exact numerical equivalence

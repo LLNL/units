@@ -1,19 +1,24 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Copyright (c) 2019,
+# Lawrence Livermore National Security, LLC;
+# See the top-level NOTICE for additional details. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 cmake_minimum_required(VERSION 3.0)
 
-project(UNITS LANGUAGES CXX VERSION 0.1.0)
+project(UNITS LANGUAGES CXX VERSION 0.2.0)
+include(CMakeDependentOption)
+include(CTest)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # User settable
     set(UNITS_CXX_STD "11"  CACHE STRING "The CMake standard to require")
 
-    set(UNITS_ROOT_PROJECT ON)
     set(CMAKE_CXX_STANDARD ${UNITS_CXX_STD})
     set(CMAKE_CXX_EXTENSIONS OFF)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 	include(GNUInstallDirs)
-	include(CTest)
-else()
-	set(UNITS_ROOT_PROJECT OFF)
 endif()
 
 
@@ -22,13 +27,13 @@ list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")
 # Allow IDE's to group targets into folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-option(
+cmake_dependent_option(
   UNITS_ENABLE_TESTS
   "Enable tests for the units library"
-  ${UNITS_ROOT_PROJECT}
+  ON "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
 
-option(UNITS_WITH_CMAKE_PACKAGE "Generate and install cmake package files" ${UNITS_ROOT_PROJECT})
+cmake_dependent_option(UNITS_WITH_CMAKE_PACKAGE "Generate and install cmake package files" ON "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF)
 mark_as_advanced(UNITS_WITH_CMAKE_PACKAGE)
 
 
@@ -45,11 +50,10 @@ option(
   OFF
 )
 
-option(
-  BUILD_UNITS_FUZZ_TARGETS
+cmake_dependent_option(
+  UNITS_BUILD_FUZZ_TARGETS
   "Build the targets for a fuzzing system"
-  OFF
-)
+  OFF "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF)
 
 include(compiler_flags)
 
@@ -57,24 +61,21 @@ if (UNITS_HEADER_ONLY)
   target_compile_definitions(units PUBLIC UNITS_HEADER_ONLY)
 else(UNITS_HEADER_ONLY)
 	if (BUILD_SHARED_LIBS)
-		option(BUILD_UNITS_STATIC_LIBRARY "enable Construction of the units static library" OFF)
-		option(BUILD_UNITS_SHARED_LIBRARY "enable Construction of the units shared library" ON)
+		option(UNITS_BUILD_STATIC_LIBRARY "enable Construction of the units static library" OFF)
+		option(UNITS_BUILD_SHARED_LIBRARY "enable Construction of the units shared library" ON)
 	else(BUILD_SHARED_LIBS)
-		option(BUILD_UNITS_STATIC_LIBRARY "enable Construction of the units static library" ON)
-		option(BUILD_UNITS_SHARED_LIBRARY "enable Construction of the units shared library" OFF)
+		option(UNITS_BUILD_STATIC_LIBRARY "enable Construction of the units static library" ON)
+		option(UNITS_BUILD_SHARED_LIBRARY "enable Construction of the units shared library" OFF)
 	endif(BUILD_SHARED_LIBS)
 
-	if (UNITS_ROOT_PROJECT)
-		set(BUILD_UNITS_OBJECT_LIBRARY OFF)
-	else(UNITS_ROOT_PROJECT)
-		option(BUILD_UNITS_OBJECT_LIBRARY "Enable construction of the units object library" OFF)
-	endif(UNITS_ROOT_PROJECT)
+	cmake_dependent_option(UNITS_BUILD_OBJECT_LIBRARY "Enable construction of the units object library" OFF "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF)
+	
 endif(UNITS_HEADER_ONLY)
 
 
 add_subdirectory(units)
 
-if (BUILD_UNITS_FUZZ_TARGETS)
+if (UNITS_BUILD_FUZZ_TARGETS)
   add_subdirectory(FuzzTargets)
 elseif (UNITS_ENABLE_TESTS)
 	enable_testing()

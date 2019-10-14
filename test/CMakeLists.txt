@@ -1,3 +1,10 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Copyright (c) 2019,
+# Lawrence Livermore National Security, LLC;
+# See the top-level NOTICE for additional details. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 include(AddGoogletest)
 
 set(UNITS_TESTS
@@ -8,8 +15,8 @@ set(UNITS_TESTS
     test_measurement
 	test_pu
     test_random_round_trip
-   test_ucum
-   test_udunits
+    test_ucum
+    test_udunits
     test_unit_ops
     test_unit_strings
 	test_measurement_strings

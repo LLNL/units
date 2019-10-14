@@ -1,3 +1,9 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Copyright (c) 2019,
+# Lawrence Livermore National Security, LLC;
+# See the top-level NOTICE for additional details. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 set(units_source_files
   units.cpp
   x12_conv.cpp
@@ -19,7 +25,7 @@ if (UNITS_HEADER_ONLY)
   # install units_Sources
   # add this directory to the include path
 else (UNITS_HEADER_ONLY)
-if (BUILD_UNITS_STATIC_LIBRARY)
+if (UNITS_BUILD_STATIC_LIBRARY)
 	add_library(units-static STATIC ${units_source_files} ${units_header_files})
 	target_include_directories(units-static PUBLIC  
      $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
@@ -34,15 +40,15 @@ if (BUILD_UNITS_STATIC_LIBRARY)
 		# INCLUDES DESTINATION include/units
 		)
 	endif(NOT UNITS_BINARY_ONLY_INSTALL)
-endif (BUILD_UNITS_STATIC_LIBRARY)
+endif (UNITS_BUILD_STATIC_LIBRARY)
 
-if (BUILD_UNITS_SHARED_LIBRARY)
+if (UNITS_BUILD_SHARED_LIBRARY)
 	add_library(units-shared SHARED ${units_source_files} ${units_header_files})
 	target_include_directories(units-shared PUBLIC  
      $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-	 if (NOT BUILD_UNITS_STATIC_LIBRARY)
+	 if (NOT UNITS_BUILD_STATIC_LIBRARY)
 		add_library(units::units ALIAS units-shared)
 	endif()
 	add_library(units::shared ALIAS units-shared)
@@ -53,9 +59,9 @@ if (BUILD_UNITS_SHARED_LIBRARY)
 		LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 		# INCLUDES DESTINATION include/units
 		)
-endif (BUILD_UNITS_SHARED_LIBRARY)
+endif (UNITS_BUILD_SHARED_LIBRARY)
 
-if (BUILD_UNITS_OBJECT_LIBRARY)
+if (UNITS_BUILD_OBJECT_LIBRARY)
 	add_library(units-object OBJECT ${units_source_files} ${units_header_files})
 	target_include_directories(units-object PRIVATE  
      $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
@@ -64,7 +70,7 @@ if (BUILD_UNITS_OBJECT_LIBRARY)
 	add_library(units::object ALIAS units-object)
 
 	
-endif (BUILD_UNITS_OBJECT_LIBRARY)
+endif (UNITS_BUILD_OBJECT_LIBRARY)
 
 endif(UNITS_HEADER_ONLY)
 

@@ -1,3 +1,9 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Copyright (c) 2019,
+# Lawrence Livermore National Security, LLC;
+# See the top-level NOTICE for additional details. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 add_executable(fuzz_from_string fuzz_target_from_string.cpp)
   target_link_libraries(fuzz_from_string units::units)

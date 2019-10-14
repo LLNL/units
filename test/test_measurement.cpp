@@ -1,5 +1,5 @@
 /*
-Copyright © 2019,
+Copyright (c) 2019,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -121,6 +121,24 @@ TEST(fixedMeasurement, ops_v2)
     auto rat = d1 / d2;
     EXPECT_EQ(rat.value(), 45.0 / 79);
     EXPECT_TRUE(rat.units() == ratio);
+}
+
+TEST(fixedMeasurement, comparison)
+{
+    fixed_measurement d1(45.0, m);
+    fixed_measurement d2(79, m);
+    fixed_measurement d3(d2);
+
+    EXPECT_TRUE(d1 < d2);
+    EXPECT_TRUE(d2 == d3);
+    EXPECT_FALSE(d2 != d3);
+    EXPECT_FALSE(d1 == d2);
+
+    EXPECT_TRUE(d2 == 79.0);
+    EXPECT_TRUE(79.0 == d2);
+
+    EXPECT_FALSE(d1 == 79.0);
+    EXPECT_FALSE(79.0 == d1);
 }
 
 TEST(PrecisionMeasurement, ops)
