@@ -70,6 +70,31 @@ TEST(Measurement, comparison)
     EXPECT_TRUE(1 * in > 2 * cm);
     EXPECT_FALSE(1 * in < 2 * cm);
     EXPECT_TRUE((1 * in) == (2.54 * cm));
+
+    EXPECT_TRUE((1 * in) >= (2.54 * cm));
+    EXPECT_TRUE((1 * in) <= (2.54 * cm));
+    EXPECT_FALSE((1 * in) >= (2.541 * cm));
+    EXPECT_TRUE((1 * in) <= (2.54001 * cm));
+    EXPECT_FALSE((1 * in) <= (2.0 * cm));
+}
+
+TEST(Measurement, conversions)
+{
+    auto d1 = 45.0 * ft;
+    auto d2 = d1.convert_to_base();
+    EXPECT_EQ(d2.units(), m);
+
+    auto d3 = d1.convert_to(in);
+    EXPECT_EQ(d3.units(), in);
+
+    EXPECT_EQ(d1, d2);
+    EXPECT_EQ(d2, d3);
+    EXPECT_EQ(d3, d1);
+    EXPECT_EQ(d1, d3);
+
+    auto ud4 = d1.as_unit();
+    auto d4 = d1.convert_to(ud4);
+    EXPECT_FLOAT_EQ(static_cast<float>(d4.value()), 1.0f);
 }
 
 using namespace units;
@@ -139,6 +164,12 @@ TEST(fixedMeasurement, comparison)
 
     EXPECT_FALSE(d1 == 79.0);
     EXPECT_FALSE(79.0 == d1);
+
+    EXPECT_TRUE((1 * in) >= (2.54 * cm));
+    EXPECT_TRUE((1 * in) <= (2.54 * cm));
+    EXPECT_FALSE((1 * in) >= (2.541 * cm));
+    EXPECT_TRUE((1 * in) <= (2.54001 * cm));
+    EXPECT_FALSE((1 * in) <= (2.0 * cm));
 }
 
 TEST(PrecisionMeasurement, ops)
@@ -194,6 +225,25 @@ TEST(PrecisionMeasurement, help_constructors)
     EXPECT_TRUE(rat.units() == ratio);
 }
 
+TEST(PrecisionMeasurement, conversions)
+{
+    auto d1 = 45.0 * precise::ft;
+    auto d2 = d1.convert_to_base();
+    EXPECT_EQ(d2.units(), precise::m);
+
+    auto d3 = d1.convert_to(precise::in);
+    EXPECT_EQ(d3.units(), precise::in);
+
+    EXPECT_EQ(d1, d2);
+    EXPECT_EQ(d2, d3);
+    EXPECT_EQ(d3, d1);
+    EXPECT_EQ(d1, d3);
+
+    auto ud4 = d1.as_unit();
+    auto d4 = d1.convert_to(ud4);
+    EXPECT_EQ(d4.value(), 1.0);
+}
+
 TEST(PrecisionMeasurement, comparison)
 {
     EXPECT_TRUE(1000.0 * precise::m == 1 * precise::km);
@@ -202,6 +252,12 @@ TEST(PrecisionMeasurement, comparison)
     EXPECT_TRUE(1 * precise::in > 2 * precise::cm);
     EXPECT_FALSE(1 * precise::in < 2 * precise::cm);
     EXPECT_TRUE((1 * precise::in) == (2.54 * precise::cm));
+
+    EXPECT_TRUE((1 * precise::in) >= (2.54 * precise::cm));
+    EXPECT_TRUE((1 * precise::in) <= (2.54 * precise::cm));
+    EXPECT_FALSE((1 * precise::in) >= (2.541 * precise::cm));
+    EXPECT_TRUE((1 * precise::in) <= (2.54001 * precise::cm));
+    EXPECT_FALSE((1 * precise::in) <= (2.0 * precise::cm));
 }
 
 using namespace units;

@@ -381,8 +381,6 @@ class measurement_type
         return measurement_type(value_ - other.value_as(units_), units_);
     }
 
-    constexpr measurement_type operator+(double val) const { return measurement_type(value_ + val, units_); }
-    constexpr measurement_type operator-(double val) const { return measurement_type(value_ - val, units_); }
     /// Convert a unit to have a new base
     measurement_type convert_to(unit newUnits) const
     {
@@ -395,6 +393,7 @@ class measurement_type
         return measurement_type(value_ * units_.multiplier(), unit(units_.base_units()));
     }
 
+    /// extract the current units from the measurement
     constexpr unit units() const { return units_; }
 
     // convert the measurement to a single unit
@@ -402,20 +401,23 @@ class measurement_type
     /// Equality operator
     bool operator==(measurement_type other) const
     {
-        return detail::cround(static_cast<float>(value_)) ==
-               detail::cround(static_cast<float>(other.value_as(units_)));
+        auto val = other.value_as(units_);
+        return (value_ == val) ? true :
+                                 detail::compare_round_equals(static_cast<float>(value_), static_cast<float>(val));
     }
     bool operator>(measurement_type other) const { return value_ > other.value_as(units_); }
     bool operator<(measurement_type other) const { return value_ < other.value_as(units_); }
     bool operator>=(measurement_type other) const
     {
-        return detail::cround(static_cast<float>(value_)) >=
-               detail::cround(static_cast<float>(other.value_as(units_)));
+        auto val = other.value_as(units_);
+        return (value_ >= val) ? true :
+                                 detail::compare_round_equals(static_cast<float>(value_), static_cast<float>(val));
     }
     bool operator<=(measurement_type other) const
     {
-        return detail::cround(static_cast<float>(value_)) <=
-               detail::cround(static_cast<float>(other.value_as(units_)));
+        auto val = other.value_as(units_);
+        return (value_ <= val) ? true :
+                                 detail::compare_round_equals(static_cast<float>(value_), static_cast<float>(val));
     }
     /// Not equal operator
     bool operator!=(measurement_type other) const { return !operator==(other); }
@@ -426,8 +428,8 @@ class measurement_type
     }
 
   private:
-    X value_{0.0};
-    unit units_;
+    X value_{0.0};  //!< the numerical quantity of the unit
+    unit units_;  //!< the actual unit represented
 };
 
 /// measurement using a double a value type
@@ -459,18 +461,20 @@ class fixed_measurement_type
     constexpr fixed_measurement_type(const fixed_measurement_type &val) : value_(val.value()), units_(val.units())
     {
     }
-
+    /// assignment operator
     fixed_measurement_type &operator=(measurement_type<X> val)
     {
         value_ = (units_ == val.units()) ? val.value() : static_cast<X>(val.value_as(units_));
         return *this;
     }
+    /// Assignment from double,  allow direct numerical assignment since the units are fixes and known at
+    /// construction time
     fixed_measurement_type &operator=(X val)
     {
         value_ = val;
         return *this;
     }
-    // direct conversion operator
+    /// direct conversion operator
     operator measurement_type<X>() { return measurement_type<X>(value_, units_); }
     /// Get the base value with no units
     constexpr X value() const { return value_; }
@@ -797,9 +801,15 @@ class fixed_precision_measurement
         return (units_ == units) ? value_ : units::convert(value_, units_, units);
     }
 
+    /// friend operators for math operators
+    friend constexpr double operator+(double v1, const fixed_precision_measurement &v2) { return v1 + v2.value(); }
+    friend constexpr double operator-(double v1, const fixed_precision_measurement &v2) { return v1 - v2.value(); }
+    friend constexpr double operator*(double v1, const fixed_precision_measurement &v2) { return v1 * v2.value(); }
+    friend constexpr double operator/(double v1, const fixed_precision_measurement &v2) { return v1 / v2.value(); }
+
   private:
-    double value_{0.0};
-    const precise_unit units_;
+    double value_{0.0};  //!< the quantity of units measured
+    const precise_unit units_;  //!< the units associated with the quantity
 };
 
 #ifndef UNITS_HEADER_ONLY
