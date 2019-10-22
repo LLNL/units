@@ -822,7 +822,7 @@ class fixed_precision_measurement
     /// Equality operator
     bool operator==(precision_measurement val) const
     {
-        operator==((units_ == val.units()) ? val.value() : val.value_as(units_));
+        return operator==((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
     /// Not equal operator
     bool operator!=(precision_measurement val) const
