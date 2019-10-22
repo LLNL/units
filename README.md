@@ -83,7 +83,7 @@ These ranges were chosen to represent nearly all physical quantities that could 
 -   In general with string conversions there are many units that can be interpreted in multiple ways.  In general the priority was given to units in more common use.  
 -   The unit `yr` has different meanings in different contexts.  Currently the following notation has been adopted for string conversions `yr`=`365*day`=`8760*hr`,  `a`=`365.25*day`, `annum`=`365.25*day`, `syr`=`365.24*day`.  The typical usage was distinct in different contexts so this is the compromise.  
 -   The i_flag functions such that when squared it goes to 0, similar to the imaginary number.   This is useful for directional units such as compass directions and reactive power in power systems.
-- Measurement/unit equality is an interesting question,  The library takes a pragmatic approach vs a precise mathematical approach.  The precision of a float is taken to be roughly 7 decimal digit of precision.  and a double used in the 'precise' values to be 13 digits of precision.  This is sufficient to run a few operations without going out of tolerance from floating point operations.  This also comes into equality which is nominally taken to be values and units within this tolerance level.  So numbers are rounded to a certain number of digits then compared to within a tolerance level.  Some effort was made to make this uniform, but tolerance around the last digit is not exact.  Comparison operators for the units and measurements are provided equality and inequality use the rounded comparison.  greater and less than are exact, while `>=` and `<=` check first for > or < conditions then check for equality if needed.  There are a few situations that are not totally consistent like `1.0000001*m==1.0*m` and    `1.0000001*m>1.0*m` But such is nature of floating point operations.
+-   Measurement/unit equality is an interesting question,  The library takes a pragmatic approach vs a precise mathematical approach.  The precision of a float is taken to be roughly 7 decimal digit of precision.  and a double used in the 'precise' values to be 13 digits of precision.  This is sufficient to run a few operations without going out of tolerance from floating point operations.  This also comes into equality which is nominally taken to be values and units within this tolerance level.  So numbers are rounded to a certain number of digits then compared to within a tolerance level.  Some effort was made to make this uniform, but tolerance around the last digit is not exact.  Comparison operators for the units and measurements are provided equality and inequality use the rounded comparison.  greater and less than are exact, while `>=` and `<=` check first for > or < conditions then check for equality if needed.  There are a few situations that are not totally consistent like `1.0000001*m==1.0*m` and    `1.0000001*m>1.0*m` But such is nature of floating point operations.
 
 ## Defined units
 There are 2 sets of defined units
@@ -144,7 +144,6 @@ std::cout<<"the area is "<<area<< " or "<<area.convert_to(ft.pow(2))<<".\n";
 
 ### Unit Operations
 These operations apply to units and precise_units
-
 
 ### Measurement Operations
 

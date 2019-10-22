@@ -381,6 +381,14 @@ class measurement_type
         return measurement_type(value_ - other.value_as(units_), units_);
     }
 
+    // double multiplier
+    friend constexpr inline measurement_type operator*(double val, measurement_type meas) { return meas * val; }
+    // divide measurement into a double
+    friend constexpr inline measurement_type operator/(double val, measurement_type meas)
+    {
+        return {val / meas.value_, meas.units_.inv()};
+    }
+
     /// Convert a unit to have a new base
     measurement_type convert_to(unit newUnits) const
     {
@@ -601,11 +609,24 @@ class fixed_measurement_type
         return (val < v2.value()) ? true : (v2 == val);
     };
 
+    // + and - are allowed for fixed_measurement since the units are known
     /// friend operators for math operators
-    friend constexpr X operator+(X v1, const fixed_measurement_type<X> &v2) { return v1 + v2.value(); }
-    friend constexpr X operator-(X v1, const fixed_measurement_type<X> &v2) { return v1 - v2.value(); }
-    friend constexpr X operator*(X v1, const fixed_measurement_type<X> &v2) { return v1 * v2.value(); }
-    friend constexpr X operator/(X v1, const fixed_measurement_type<X> &v2) { return v1 / v2.value(); }
+    friend constexpr inline fixed_measurement_type<X> operator+(X v1, const fixed_measurement_type<X> &v2)
+    {
+        return {v1 + v2.value(), v2.units()};
+    }
+    friend constexpr inline fixed_measurement_type<X> operator-(X v1, const fixed_measurement_type<X> &v2)
+    {
+        return {v1 - v2.value(), v2.units()};
+    }
+    friend constexpr inline fixed_measurement_type<X> operator*(X v1, const fixed_measurement_type<X> &v2)
+    {
+        return {v1 * v2.value(), v2.units()};
+    }
+    friend constexpr inline fixed_measurement_type<X> operator/(X v1, const fixed_measurement_type<X> &v2)
+    {
+        return {v1 / v2.value(), v2.units().inv()};
+    }
 
   private:
     X value_{0.0};  //!< the unit value
@@ -667,30 +688,50 @@ class precision_measurement
     /// Equality operator
     bool operator==(precision_measurement other) const
     {
-        return detail::cround_precise(value_) == detail::cround_precise(other.value_as(units_));
+        return valueEqualityCheck((units_ == other.units()) ? other.value() : other.value_as(units_));
     }
     /// Not equal operator
-    bool operator!=(precision_measurement other) const { return !operator==(other); }
+    bool operator!=(precision_measurement other) const
+    {
+        return !valueEqualityCheck((units_ == other.units()) ? other.value() : other.value_as(units_));
+    }
 
     bool operator>(precision_measurement other) const { return value_ > other.value_as(units_); }
     bool operator<(precision_measurement other) const { return value_ < other.value_as(units_); }
     bool operator>=(precision_measurement other) const
     {
-        return detail::cround_precise(value_) >= detail::cround_precise(other.value_as(units_));
+        double val = other.value_as(units_);
+        return (value_ > val) ? true : valueEqualityCheck(val);
     }
     bool operator<=(precision_measurement other) const
     {
-        return detail::cround_precise(value_) <= detail::cround_precise(other.value_as(units_));
+        double val = other.value_as(units_);
+        return (value_ < val) ? true : valueEqualityCheck(val);
     }
     /// Get the numerical value as a particular unit type
     double value_as(precise_unit units) const
     {
         return (units_ == units) ? value_ : units::convert(value_, units_, units);
     }
+    // double multiplier
+    friend constexpr inline precision_measurement operator*(double val, precision_measurement meas)
+    {
+        return meas * val;
+    }
+    // divide measurement into a double
+    friend constexpr inline precision_measurement operator/(double val, precision_measurement meas)
+    {
+        return {val / meas.value_, meas.units_.inv()};
+    }
 
   private:
     double value_{0.0};
     precise_unit units_;
+    /// does a numerical equality check on the value accounting for tolerances
+    bool valueEqualityCheck(double otherval) const
+    {
+        return (value_ == otherval) ? true : detail::compare_round_equals_precise(value_, otherval);
+    }
 };
 
 constexpr inline precision_measurement operator*(double val, precise_unit unit_base) { return {val, unit_base}; }

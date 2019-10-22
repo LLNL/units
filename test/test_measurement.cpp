@@ -34,6 +34,31 @@ TEST(Measurement, ops)
     EXPECT_TRUE(rat.units() == ratio);
 }
 
+TEST(Measurement, doubleOps)
+{
+    measurement d1(45.0, s);
+
+    auto freq = 9.0 / s;
+    EXPECT_EQ(freq.units(), one / s);
+    auto freq2 = 9.0 * Hz;
+    EXPECT_TRUE(freq == freq2);
+
+    auto freq3 = Hz / (1.0 / 9.0);
+    EXPECT_TRUE(freq3 == freq2);
+
+    auto fd3 = freq / 3;
+    EXPECT_DOUBLE_EQ(fd3.value(), 3.0);
+
+    auto fd9 = freq * 3;
+    EXPECT_DOUBLE_EQ(fd9.value(), 27.0);
+
+    auto fd10 = 3.0 * freq;
+    EXPECT_DOUBLE_EQ(fd10.value(), 27.0);
+    auto fd2 = 27.0 / freq;
+    EXPECT_DOUBLE_EQ(fd2.value(), 3.0);
+    EXPECT_EQ(fd2.units(), s);
+}
+
 TEST(Measurement, help_constructors)
 {
     auto d1 = 45.0 * m;
@@ -148,6 +173,29 @@ TEST(fixedMeasurement, ops_v2)
     EXPECT_TRUE(rat.units() == ratio);
 }
 
+TEST(fixedMeasurement, doubleOps)
+{
+    fixed_measurement freq(9.0, Hz);
+    EXPECT_EQ(freq.units(), one / s);
+    auto freq2 = 2.0 * freq;
+    EXPECT_FLOAT_EQ(static_cast<float>(freq2.value()), 18.0);
+
+    auto freq3 = Hz / (1.0 / 9.0);
+    EXPECT_TRUE(freq3 == freq2);
+
+    auto fd3 = freq / 3;
+    EXPECT_DOUBLE_EQ(fd3.value(), 3.0);
+
+    auto fd9 = freq * 3;
+    EXPECT_DOUBLE_EQ(fd9.value(), 27.0);
+
+    auto fd10 = 3.0 * freq;
+    EXPECT_DOUBLE_EQ(fd10.value(), 27.0);
+    auto fd2 = 27.0 / freq;
+    EXPECT_DOUBLE_EQ(fd2.value(), 3.0);
+    EXPECT_EQ(fd2.units(), s);
+}
+
 TEST(fixedMeasurement, comparison)
 {
     fixed_measurement d1(45.0, m);
@@ -195,6 +243,31 @@ TEST(PrecisionMeasurement, ops)
     auto rat = d1 / d2;
     EXPECT_EQ(rat.value(), 45.0 / 79);
     EXPECT_TRUE(rat.units() == ratio);
+}
+
+TEST(PrecisionMeasurement, doubleOps)
+{
+    precision_measurement d1(45.0, precise::s);
+
+    auto freq = 9.0 / precise::s;
+    EXPECT_EQ(freq.units(), precise::one / precise::s);
+    auto freq2 = 9.0 * precise::Hz;
+    EXPECT_TRUE(freq == freq2);
+
+    auto freq3 = precise::Hz / (1.0 / 9.0);
+    EXPECT_TRUE(freq3 == freq2);
+
+    auto fd3 = freq / 3;
+    EXPECT_DOUBLE_EQ(fd3.value(), 3.0);
+
+    auto fd9 = freq * 3;
+    EXPECT_DOUBLE_EQ(fd9.value(), 27.0);
+
+    auto fd10 = 3.0 * freq;
+    EXPECT_DOUBLE_EQ(fd10.value(), 27.0);
+    auto fd2 = 27.0 / freq;
+    EXPECT_DOUBLE_EQ(fd2.value(), 3.0);
+    EXPECT_EQ(fd2.units(), precise::s);
 }
 
 TEST(PrecisionMeasurement, help_constructors)
