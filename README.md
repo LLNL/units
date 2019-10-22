@@ -142,10 +142,65 @@ measurement area=length1*length2;
 std::cout<<"the area is "<<area<< " or "<<area.convert_to(ft.pow(2))<<".\n";
 ```
 
-### Unit Operations
+### Unit methods
 These operations apply to units and precise_units
 
+-   `<unit>(<unit_data>)`  construct from a base unit_data
+-   `<unit>(<unit_data>, double multiplier)`  construct a unit from a base data and a multiplier
+-   `<unit>(double multiplier, <unit>)`  construct from a multiplier and another unit
+-   also available are copy constructor and copy assignments
+-   `<unit> inv()`  generate a new unit containing the inverse unit  `m.inv()= 1/m`
+-   `<unit> pow(int power)` take a unit to power(NOTE: beware of limits on power representations of some units,  things will always wrap so it is defined but may not produce what you expect).  power can be negative
+-   `<unit> root(int power)`  non constexpr, take the root of a unit,  produces `error` unit if the root is not well defined.  power can be negative.  
+-   `bool is_exactly_the_same(<unit>)` compare two units and check for exact equivalence in both the unit_data and the multiplier, NOTE: this uses double equality
+-   `bool has_same_base(<unit>|<unit_data>)`  check if the <unit_data> is the same
+-   `equivalent_non_counting(<unit>|<unit_data>)`   check if the units are equivalent ignoring the counting bases
+-   `bool is_convertible(<unit>)`  check if the units are convertible to eachother,  currently checks `equivalent_non_counting()`, but some additional conditions might be allowed in the future to better match convert.  
+-   `int unit_type_count()`  count the number of unit bases used,  (does not take into consideration powers, just if the dimension is used or not.
+-   `bool is_per_unit()`  true if the unit has the per_unit flag active
+-   `bool is_equation()`  true if the unit has the equation flag active
+-   `bool has_i_flag()`  true if the i_flag is marked active
+-   `bool has_e_flag()`  true if the e_flag is marked active
+-   `double multiplier()`  return the unit multiplier as a double(regardless of how it is actually stored)
+-   `<float|double> cround()`  round the multiplier to an appropriate number of digits
+-   `<unit_data> base_units()`  get the base units
+-   `void clear_flags()`  clear any flags associated with the units
+
+	For precise_units only
+-   `commodity()`  get the commodity of the unit
+-   `commodity(int commodity)`  assign a commodity to the precise_unit.  
+
+#### Unit Operators
+   There are also several operator overloads that apply to units and precise_units.   
+   `<unit>=<unit>*<unit>`  generate a new unit with the units multiplied  ie  `m*m` does what you might expect and produces a new unit with `m^2`
+   `<unit>=<unit>/<unit>`  generate a new unit with the units multiplied  ie  `m/s` does what you might expect and produces a new unit with meters per second.  
+   
+   `bool <unit>==<unit>`  compare two units.  this does a rounding compare so there is some tolerance to roughly 7 significant digits for <unit> and 13 significant digits for <precise_unit>.  
+   `bool <unit>!=<unit>` the opposite of `==`
+   
+   precise_units can usually operate with a precise unit or unit, unit usually can't operate on precise_unit.  
+   
+### Unit free functions 
+	These functions are not class methods but operate on units  
+	`std::hash<unit>()`  generate a hash code of a unit, for things like use in std::unordered_map or other purposes.  
+	`<unit> unit_cast(<unit>)`  convert a unit into <unit>,  mainly used to convert a precise_unit into a regular unit.  
+	`bool is_unit_cast_lossless(<precise_unit>)`  returns true if the multiplier in a precise_unit can be converted exactly into a float.  
+	`bool isnan(<unit>)`  true if the unit multipler is a nan.
+	`bool isinf(<unit>)`  true if the unit multipler is infinite.  
+	`double quick_convert(<unit>, <unit>)`  generate the conversion factor between two units.  This function is constexpr.  
+	`double quick_convert(double factor, <unit>, <unit>)`  convert a spectific value from one unit to another,  function is constexpr but does not cover all possible conversion.  
+	`double convert(<unit>, <unit>)`  generate the conversion factor between two units.
+	`double convert(double val, <unit>, <unit>)` convert a value from one unit to another.  
+	`double convert(double val, <unit>, <unit>, double baseValue)`  do a conversion assuming a particular basevalue for per unit conversions.
+	`double convert(double val, <unit>, <unit>, double basePower, double baseVoltage)` do a conversion using base units, specifically making assumptions about per unit values in power systems.  
+	`bool is_error(<unit>)`  check if the unit is a special error unit.
+	`bool is_valid(<unit>)`  check to make sure the unit is not an invalid unit( the multiplier is not a NaN) and the unit_data does not match the defined `invalid_unit`.
+	` bool is_temperature(<unit>)`  return true if the unit is a temperature unit such as `F` or `C` or one of the other temperature units. 
+	`bool is_normal(<unit>)` return true if the multiplier is a normal number, there is some defined unit base, not the identity unit, the multiplier is not negative, and not the default unit.  basically a simple way to check if you have some non-special unit that will behave more or less how you expect it to.  
+
 ### Measurement Operations
+
+#### Measurement operators
 
 ### Available library functions
 

@@ -353,12 +353,6 @@ class unit
         return detail::compare_round_equals(multiplier_, other.multiplier_);
     }
     bool operator!=(unit other) const { return !operator==(other); }
-    /// Check if the unit has an error
-    constexpr bool is_error() const
-    {
-        return (multiplier_ != multiplier_ ||
-                (base_units_.has_e_flag() && base_units_.has_i_flag() && base_units_.empty()));
-    }
     // Test for exact numerical equivalence
     constexpr bool is_exactly_the_same(unit other) const
     {
@@ -513,6 +507,7 @@ class precise_unit
         }
         return detail::compare_round_equals_precise(multiplier_, other.multiplier_);
     }
+    ///  opposite of equality
     bool operator!=(precise_unit other) const { return !operator==(other); }
     // Test for exact numerical equivalence
     constexpr bool is_exactly_the_same(precise_unit other) const
@@ -522,10 +517,18 @@ class precise_unit
     }
     /// Check if the units have the same base unit (ie they measure the same thing)
     constexpr bool has_same_base(precise_unit other) const { return base_units_.has_same_base(other.base_units_); }
+    /// Check rounded equality with another unit
     bool operator==(unit other) const
     {
-        return base_units_ == other.base_units_ && detail::cround(static_cast<float>(multiplier())) ==
-                                                     detail::cround(static_cast<float>(other.multiplier()));
+        if (base_units_ != other.base_units_)
+        {
+            return false;
+        }
+        if (multiplier_ == other.multiplier_)
+        {
+            return true;
+        }
+        return detail::compare_round_equals(static_cast<float>(multiplier_), other.multiplier_);
     }
     bool operator!=(unit other) const { return !operator==(other); }
     /// Check if the units have the same base unit (ie they measure the same thing)
@@ -561,11 +564,7 @@ class precise_unit
         return base_units_.equivalent_non_counting(base);
     }
     /// Check unit equality (base units equal and equivalent multipliers to specified precision
-    friend bool operator==(unit val1, precise_unit val2)
-    {
-        return val1.base_units() == val2.base_units() && detail::cround(static_cast<float>(val1.multiplier())) ==
-                                                           detail::cround(static_cast<float>(val2.multiplier()));
-    }
+    friend bool operator==(unit val1, precise_unit val2) { return (val2 == val1); }
     /// Get the number of different base units used
     constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
     /// Check if the unit is the default unit
