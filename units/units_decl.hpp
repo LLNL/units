@@ -261,6 +261,7 @@ namespace detail
         return ldexp(f * 1e-12, exp);
     }
 
+    /// Do a rounding compare for equality on floats.
     inline bool compare_round_equals(float val1, float val2)
     {
         auto c1 = cround(val2);
@@ -268,6 +269,7 @@ namespace detail
         {
             return true;
         }
+        // yes these are magic numbers roughly half the value specified precision of 1e-6
         if (cround(val1 * (1.0f + 5.4e-7f)) == c1)
         {
             return true;
@@ -278,7 +280,7 @@ namespace detail
         }
         return false;
     }
-
+    /// Do a rounding compare for equality on double
     inline bool compare_round_equals_precise(double val1, double val2)
     {
         auto c1 = cround_precise(val2);
@@ -287,6 +289,7 @@ namespace detail
         {
             return true;
         }
+        // yes these are magic numbers roughly half the value specified precision of 1e-12
         if (cround_precise(val1 * (1.0 + 5.000e-13)) == c1)
         {
             return true;

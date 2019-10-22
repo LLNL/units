@@ -13,7 +13,9 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
 ## Purpose
 A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Because sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
 
-It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units.  The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that.  It does NOT provide compile time checking of units.  The units library provides a library that supports units where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time.
+It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units.  The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that.  This library does **NOT** provide compile time checking of units.  The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time, and may be of a wide variety of units.  
+
+This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates.  It supports conversion of units to and from strings.  It supports mathematical operations on units and measurements which is constexpr where possible.  It supports units used in power systems and electrical engineering, and conversions between them as well as some typical assumptions for supporting conversions.  In some cases it also has some notion of commodities, and support for existing unit standards for strings and namings.  
 
 ## Limitations
 -   The powers represented by units are limited see [Unit representation](#unit_representation) but only normal physical units are supported.
@@ -52,8 +54,8 @@ There are only a few types in the library
 -   `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The float has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal.
 -   `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement. `measurement` is an alias to a `measurement_base<double>` so the quantity type can be templated.  `measurement_f` is an alias for `measurement_base<float>` but others could be defined
 -   `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
--   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`s are implicitly convertable to a `measurement` of the same value type.  
--   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base
+-   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`s are implicitly convertable to a `measurement` of the same value type. fixed_measurement also also some operation with numbers by assuming a unit that are not allowed on regular measurement types. 
+-   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template.  
 
 ## Unit representation
 The unit class consists of a multiplier and a representation of base units.
@@ -75,12 +77,13 @@ These ranges were chosen to represent nearly all physical quantities that could 
 ### Discussion points
 -   Currency may seem like a unusual choice in units but numbers involving prices are encountered often enough in various disciplines that it is useful to include as part of a unit.  
 -   Technically count and radians are not units, they are representations of real things. A radian is a representation of rotation around a circle and is therefore distinct from a true unitless quantity even though there are no physical measurements associated with either.
--   And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605*10^-15 mol of data.  So they are used in different context and don't mix very often
--   This library CANNOT represent fractional unit powers( except for sqrt Hz used in noise density units), and it follows the order of operation in C++ so IF you have equations that any portion of the operation may exceed the numerical limits on powers even if the result does not, BE CAREFUL.
+-   And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605*10^-15 mol of data.  So they are used in different context and don't mix very often, the convert functions does convert between them if necessary. 
+-   This library **CANNOT** represent fractional unit powers( except for sqrt Hz used in noise density units), and it follows the order of operation in C++ so IF you have equations that any portion of the operation may exceed the numerical limits on powers even if the result does not, BE CAREFUL.
 -   The normal rules about floating point operations losing precision also apply to unit representations with non integral multipliers.
 -   In general with string conversions there are many units that can be interpreted in multiple ways.  In general the priority was given to units in more common use.  
 -   The unit `yr` has different meanings in different contexts.  Currently the following notation has been adopted for string conversions `yr`=`365*day`=`8760*hr`,  `a`=`365.25*day`, `annum`=`365.25*day`, `syr`=`365.24*day`.  The typical usage was distinct in different contexts so this is the compromise.  
--   The i_flag functions such that when squared it goes to 0, similar to the imaginary number.   This is useful for directional units such as compass directions and reactive power in power systems.  
+-   The i_flag functions such that when squared it goes to 0, similar to the imaginary number.   This is useful for directional units such as compass directions and reactive power in power systems.
+- Measurement/unit equality is an interesting question,  The library takes a pragmatic approach vs a precise mathematical approach.  The precision of a float is taken to be roughly 7 decimal digit of precision.  and a double used in the 'precise' values to be 13 digits of precision.  This is sufficient to run a few operations without going out of tolerance from floating point operations.  This also comes into equality which is nominally taken to be values and units within this tolerance level.  So numbers are rounded to a certain number of digits then compared to within a tolerance level.  Some effort was made to make this uniform, but tolerance around the last digit is not exact.  Comparison operators for the units and measurements are provided equality and inequality use the rounded comparison.  greater and less than are exact, while `>=` and `<=` check first for > or < conditions then check for equality if needed.  There are a few situations that are not totally consistent like `1.0000001*m==1.0*m` and    `1.0000001*m>1.0*m` But such is nature of floating point operations.
 
 ## Defined units
 There are 2 sets of defined units
@@ -122,7 +125,7 @@ constexpr precision_measurement sigma{5.67036713e-8,
 ## Building the library
 There are two parts of the library  a header only portion that can simply be copied and used. There are 3 headers `units_decl.hpp` declares the underlying classes.  `unit_defintions.hpp` declares constants for many of the units, and `units.hpp` which is the primary public interface to units.  If `units.hpp` is included in another file and the variable `UNITS_HEADER_ONLY` is defined then none of the functions that require the cpp files are defined. These header files can simply be included in your project and used with no additional building required.  
 
-  And a few cpp file that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   
+  The second part is a few cpp files that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit.  The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.  
 
 ## How to use the library
 Many units are defined as `constexpr` objects and can be used directly
@@ -139,8 +142,13 @@ measurement area=length1*length2;
 std::cout<<"the area is "<<area<< " or "<<area.convert_to(ft.pow(2))<<".\n";
 ```
 
+### Unit Operations
+These operations apply to units and precise_units
 
-## Available functions
+
+### Measurement Operations
+
+### Available library functions
 
 -   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a unit value.  
 -   `precision_measurement measurement_from_string(string,flags)`: convert a string to a measurement
