@@ -179,21 +179,30 @@ TEST(fixedMeasurement, doubleOps)
     EXPECT_EQ(freq.units(), one / s);
     auto freq2 = 2.0 * freq;
     EXPECT_FLOAT_EQ(static_cast<float>(freq2.value()), 18.0);
+    bool res = std::is_same<decltype(freq), decltype(freq2)>::value;
+    EXPECT_TRUE(res);
 
-    auto freq3 = Hz / (1.0 / 9.0);
-    EXPECT_TRUE(freq3 == freq2);
+    auto f4 = freq * 3;
+    EXPECT_FLOAT_EQ(static_cast<float>(f4.value()), 27.0);
 
-    auto fd3 = freq / 3;
-    EXPECT_DOUBLE_EQ(fd3.value(), 3.0);
+    auto f3 = freq / 3;
+    EXPECT_FLOAT_EQ(static_cast<float>(f3.value()), 3.0);
 
-    auto fd9 = freq * 3;
-    EXPECT_DOUBLE_EQ(fd9.value(), 27.0);
+    auto f1 = 9.0 / freq;
+    EXPECT_TRUE(f1 == (1.0 * s));
+    EXPECT_TRUE((1.0 * s) == f1);
 
-    auto fd10 = 3.0 * freq;
-    EXPECT_DOUBLE_EQ(fd10.value(), 27.0);
-    auto fd2 = 27.0 / freq;
-    EXPECT_DOUBLE_EQ(fd2.value(), 3.0);
-    EXPECT_EQ(fd2.units(), s);
+    auto fp1 = freq + 3.0;
+    EXPECT_FLOAT_EQ(static_cast<float>(fp1.value()), 12.0);
+
+    auto fp2 = 3.0 + freq;
+    EXPECT_FLOAT_EQ(static_cast<float>(fp2.value()), 12.0);
+
+    auto fp3 = freq - 3.0;
+    EXPECT_FLOAT_EQ(static_cast<float>(fp3.value()), 6.0);
+
+    auto fp4 = 12.0 - freq;
+    EXPECT_FLOAT_EQ(static_cast<float>(fp4.value()), 3.0);
 }
 
 TEST(fixedMeasurement, comparison)
