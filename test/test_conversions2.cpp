@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units.hpp"
 
 #include "test.hpp"
+#include <algorithm>
 #include <fstream>
 #include <vector>
 
@@ -162,7 +163,7 @@ static const std::vector<std::string> testFiles{
 static std::string testName(const testing::TestParamInfo<std::string> &tparam)
 {
     std::string res = tparam.param;
-    res.erase(std::remove(res.begin(), res.end(), '_'), res.end());
+    res.erase((std::remove)(res.begin(), res.end(), '_'), res.end());
     return res;
 }
 
