@@ -172,41 +172,83 @@ These operations apply to units and precise_units
 
 #### Unit Operators
    There are also several operator overloads that apply to units and precise_units.   
-   `<unit>=<unit>*<unit>`  generate a new unit with the units multiplied  ie  `m*m` does what you might expect and produces a new unit with `m^2`
-   `<unit>=<unit>/<unit>`  generate a new unit with the units multiplied  ie  `m/s` does what you might expect and produces a new unit with meters per second.  
+-   `<unit>=<unit>*<unit>`  generate a new unit with the units multiplied  ie  `m*m` does what you might expect and produces a new unit with `m^2`
+-   `<unit>=<unit>/<unit>`  generate a new unit with the units multiplied  ie  `m/s` does what you might expect and produces a new unit with meters per second.  
    
-   `bool <unit>==<unit>`  compare two units.  this does a rounding compare so there is some tolerance to roughly 7 significant digits for <unit> and 13 significant digits for <precise_unit>.  
-   `bool <unit>!=<unit>` the opposite of `==`
+-   `bool <unit>==<unit>`  compare two units.  this does a rounding compare so there is some tolerance to roughly 7 significant digits for <unit> and 13 significant digits for <precise_unit>.  
+-   `bool <unit>!=<unit>` the opposite of `==`
    
    precise_units can usually operate with a precise unit or unit, unit usually can't operate on precise_unit.  
    
 ### Unit free functions 
 	These functions are not class methods but operate on units  
-	`std::hash<unit>()`  generate a hash code of a unit, for things like use in std::unordered_map or other purposes.  
-	`<unit> unit_cast(<unit>)`  convert a unit into <unit>,  mainly used to convert a precise_unit into a regular unit.  
-	`bool is_unit_cast_lossless(<precise_unit>)`  returns true if the multiplier in a precise_unit can be converted exactly into a float.  
-	`bool isnan(<unit>)`  true if the unit multipler is a nan.
-	`bool isinf(<unit>)`  true if the unit multipler is infinite.  
-	`double quick_convert(<unit>, <unit>)`  generate the conversion factor between two units.  This function is constexpr.  
-	`double quick_convert(double factor, <unit>, <unit>)`  convert a spectific value from one unit to another,  function is constexpr but does not cover all possible conversion.  
-	`double convert(<unit>, <unit>)`  generate the conversion factor between two units.
-	`double convert(double val, <unit>, <unit>)` convert a value from one unit to another.  
-	`double convert(double val, <unit>, <unit>, double baseValue)`  do a conversion assuming a particular basevalue for per unit conversions.
-	`double convert(double val, <unit>, <unit>, double basePower, double baseVoltage)` do a conversion using base units, specifically making assumptions about per unit values in power systems.  
-	`bool is_error(<unit>)`  check if the unit is a special error unit.
-	`bool is_valid(<unit>)`  check to make sure the unit is not an invalid unit( the multiplier is not a NaN) and the unit_data does not match the defined `invalid_unit`.
-	` bool is_temperature(<unit>)`  return true if the unit is a temperature unit such as `F` or `C` or one of the other temperature units. 
-	`bool is_normal(<unit>)` return true if the multiplier is a normal number, there is some defined unit base, not the identity unit, the multiplier is not negative, and not the default unit.  basically a simple way to check if you have some non-special unit that will behave more or less how you expect it to.  
+-   `std::hash<unit>()`  generate a hash code of a unit, for things like use in std::unordered_map or other purposes.  
+-   `<unit> unit_cast(<unit>)`  convert a unit into <unit>,  mainly used to convert a precise_unit into a regular unit.  
+-   `bool is_unit_cast_lossless(<precise_unit>)`  returns true if the multiplier in a precise_unit can be converted exactly into a float.  
+-   `bool isnan(<unit>)`  true if the unit multipler is a nan.
+-   `bool isinf(<unit>)`  true if the unit multipler is infinite.  
+-   `double quick_convert(<unit>, <unit>)`  generate the conversion factor between two units.  This function is constexpr.  
+-   `double quick_convert(double factor, <unit>, <unit>)`  convert a spectific value from one unit to another,  function is constexpr but does not cover all possible conversion.  
+-   `double convert(<unit>, <unit>)`  generate the conversion factor between two units.
+-   `double convert(double val, <unit>, <unit>)` convert a value from one unit to another.  
+-   `double convert(double val, <unit>, <unit>, double baseValue)`  do a conversion assuming a particular basevalue for per unit conversions.
+-   `double convert(double val, <unit>, <unit>, double basePower, double baseVoltage)` do a conversion using base units, specifically making assumptions about per unit values in power systems.  
+-   `bool is_error(<unit>)`  check if the unit is a special error unit.
+-   `bool is_valid(<unit>)`  check to make sure the unit is not an invalid unit( the multiplier is not a NaN) and the unit_data does not match the defined `invalid_unit`.
+-   ` bool is_temperature(<unit>)`  return true if the unit is a temperature unit such as `F` or `C` or one of the other temperature units. 
+-   `bool is_normal(<unit>)` return true if the multiplier is a normal number, there is some defined unit base, not the identity unit, the multiplier is not negative, and not the default unit.  basically a simple way to check if you have some non-special unit that will behave more or less how you expect it to.  
 
 ### Measurement Operations
+-   `<measurement>(val, <unit>)`  construct a unit from a value and unit object.  
+-   `X value() const`  get the measurement value,  depending on the type this could be a double or float, or another defined type if the template is used.
+-   `<measurement> convert_to(<unit>) const`   convert the value in the measurement to another unit base
+-   `<measurement> convert_to_base() const`  convert to a base unit, i.e. a unit whose multiplier is 1.0.  
+-   `<unit> units() const`  get the units used as a basis for the measurement
+-   `<unit> as_unit() const`  take the measurement as is and convert it into a single unit.  For Examples say a was 10 m.    calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
+-   `double value_as(<unit>)` get the value of a measurement as if it were measured in <unit>
+
 
 #### Measurement operators
+There are several operator overloads which work on measurements or units to produce measurements.
+-   `'*', '/', '+','-'`  are all defined for mathematical operations on a measurment and produce another measurement.  
+-   `%` `*`, and `/` are defined for <measurement><op><double>  
+-   `*`, and `/` are defined for <double><op><measurement>
+
+Notes:  for regular measurements, `+` and `-` are not defined for doubles due to uncertaintly of what that means.  For fixed_measurement types this is defined as the units are known at construction and cannot change.  For fixed_measurement types if the operator would produce a new measurement with the same units it will be a fixed measurement, if not it reverts to a regular measurement.  
+
+-   `==`, `!=`, `>`, `<`, `>=`, `<=` are defined for all measurement comparisons 
+-   `<measurement>=<double>*<unit>`  
+-   `<measurement>=<unit>*<double>`  
+-   `<measurement>=<unit>/<double>`  
+-   `<measurement>=<double>/<unit>`  basically calling a number multiplied or divided by a <unit> produces a measurement,  `unit` produces a measurement and `precise_unit` produces a precise_measurement.  
+  
 
 ### Available library functions
 
--   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a unit value.  
+-   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a precise_unit value.  
+-   `unit unit_cast_from_string( string, flags)`: convert a string representation of units into a unit value  NOTE:  same as previous function except has an included unit cast for convenience.    
+-   `precise_unit default_unit( string)`: get a unit associated with a particular kind of measurement.  for example `default_unit("length")` would return `precise::m`  
 -   `precision_measurement measurement_from_string(string,flags)`: convert a string to a measurement
 -   `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported
+-   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.  
+-   `clearUserDefinedUnits()`  remove all user defined units from the library.
+-   `disableUserDefinedUnits()`  there is a performance hit if custom units are used so they can be disabled completely if desired.
+-   `enableUserDefinedUnits()`  enable the use of UserDefinedUnits.  they are enabled by default.  
+
+#### Commodities
+The units library has some support for commodities,  more might be added in the future.  Commodities are supported in precise_units.  
+-   `uint32_t getCommodity(std::string commodity)`   get a commodity code from a string.  
+-   `std::string getCommodityName(uint32_t)`  get the name of a comodity from its code
+-   `addUserDefinedCommodity(std::string name, uint32_t code)`  add a new commodity that can be used in the string operations.  
+-   `clearUserDefinedCommodities()`  remove all user defined commodities from the library.
+-   `disableUserDefinedCommodities()`  there is a performance hit if custom commodities are used so they can be disabled completely if desired.
+-   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  they are enabled by default. 
+
+#### Other unit definitions
+These are all only partially implemented
+-   `precise_unit x12_unit(string)`  get a unit from an X12 string. 
+-   `precise_unit dod_unit(string)`  get a unit from a DOD code string. 
+-   `precise_unit r20_unit(string)`  get a unit from an r20 code string. 
 
 ## Release
 This units library is distributed under the terms of the BSD-3 clause license. All new

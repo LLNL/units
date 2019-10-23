@@ -6,6 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #pragma once
 #include "unit_definitions.hpp"
+#include <cmath>
 #include <string>
 #include <type_traits>
 
@@ -257,31 +258,34 @@ double convert(double val, UX start, UX2 result, double baseValue)
     return constants::invalid_conversion;
 }
 
-// compute a base value for a particular value
-inline double generate_base(detail::unit_data unit, double basePower, double baseVoltage)
+namespace detail
 {
-    if (unit.has_same_base(W.base_units()))
+    // compute a base value for a particular value
+    inline double generate_base(unit_data unit, double basePower, double baseVoltage)
     {
-        return basePower;
+        if (unit.has_same_base(W.base_units()))
+        {
+            return basePower;
+        }
+        if (unit.has_same_base(V.base_units()))
+        {
+            return baseVoltage;
+        }
+        if (unit.has_same_base(A.base_units()))
+        {
+            return basePower / baseVoltage;
+        }
+        if (unit.has_same_base(ohm.base_units()))
+        {
+            return baseVoltage * baseVoltage / basePower;
+        }
+        if (unit.has_same_base(S.base_units()))
+        {
+            return basePower / (baseVoltage * baseVoltage);
+        }
+        return constants::invalid_conversion;
     }
-    if (unit.has_same_base(V.base_units()))
-    {
-        return baseVoltage;
-    }
-    if (unit.has_same_base(A.base_units()))
-    {
-        return basePower / baseVoltage;
-    }
-    if (unit.has_same_base(ohm.base_units()))
-    {
-        return baseVoltage * baseVoltage / basePower;
-    }
-    if (unit.has_same_base(S.base_units()))
-    {
-        return basePower / (baseVoltage * baseVoltage);
-    }
-    return constants::invalid_conversion;
-}
+}  // namespace detail
 /// Convert a value from one unit base to another involving power system units
 /// the basePower and base voltage are used as the basis values
 template <typename UX, typename UX2>
@@ -298,7 +302,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
     /// if it isn't per unit or both are per unit give it to the other function since bases aren't needed
     if (start.is_per_unit() == result.is_per_unit())
     {
-        auto base = generate_base(start.base_units(), basePower, baseVoltage);
+        auto base = detail::generate_base(start.base_units(), basePower, baseVoltage);
         if (std::isnan(base))
         {
             if (start.is_per_unit() && start == result)
@@ -340,7 +344,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
         return convert(puVal, start * pu, result) / result.multiplier();
     }
     // start must be per unit
-    auto base = generate_base(result.base_units(), basePower, baseVoltage);
+    auto base = detail::generate_base(result.base_units(), basePower, baseVoltage);
     base *= start.multiplier();
     if (pu == unit_cast(start))
     {  // if start is generic pu
@@ -372,6 +376,7 @@ class measurement_type
     }
     constexpr measurement_type operator/(double val) const { return measurement_type(value_ / val, units_); }
 
+    constexpr measurement_type operator%(double val) const { return measurement_type(fmod(value_, val), units_); }
     measurement_type operator+(measurement_type other) const
     {
         return measurement_type(value_ + other.value_as(units_), units_);
@@ -413,8 +418,8 @@ class measurement_type
         return (value_ == val) ? true :
                                  detail::compare_round_equals(static_cast<float>(value_), static_cast<float>(val));
     }
-    bool operator>(measurement_type other) const { return value_ > other.value_as(units_); }
-    bool operator<(measurement_type other) const { return value_ < other.value_as(units_); }
+    constexpr bool operator>(measurement_type other) const { return value_ > other.value_as(units_); }
+    constexpr bool operator<(measurement_type other) const { return value_ < other.value_as(units_); }
     bool operator>=(measurement_type other) const
     {
         auto val = other.value_as(units_);
@@ -462,11 +467,13 @@ class fixed_measurement_type
     /// construct from a value and unit
     constexpr fixed_measurement_type(X val, unit base) : value_(val), units_(base) {}
 
-    explicit constexpr fixed_measurement_type(measurement_type<X> val) : value_(val.value()), units_(val.units())
+    explicit constexpr fixed_measurement_type(measurement_type<X> val) noexcept
+        : value_(val.value()), units_(val.units())
     {
     }
     // define copy constructor but purposely leave off copy assignment and move since that would be pointless
-    constexpr fixed_measurement_type(const fixed_measurement_type &val) : value_(val.value()), units_(val.units())
+    constexpr fixed_measurement_type(const fixed_measurement_type &val) noexcept
+        : value_(val.value()), units_(val.units())
     {
     }
     /// assignment operator
@@ -504,13 +511,13 @@ class fixed_measurement_type
         return fixed_measurement_type<X>(value_ / val, units_);
     }
 
-    measurement_type<X> operator+(measurement_type<X> other) const
+    fixed_measurement_type<X> operator+(measurement_type<X> other) const
     {
-        return measurement_type<X>(value_ + other.value_as(units_), units_);
+        return fixed_measurement_type<X>(value_ + other.value_as(units_), units_);
     }
-    measurement_type<X> operator-(measurement_type<X> other) const
+    fixed_measurement_type<X> operator-(measurement_type<X> other) const
     {
-        return measurement_type<X>(value_ - other.value_as(units_), units_);
+        return fixed_measurement_type<X>(value_ - other.value_as(units_), units_);
     }
 
     constexpr fixed_measurement_type<X> operator+(X val) const
@@ -523,9 +530,9 @@ class fixed_measurement_type
     }
 
     /// Convert a unit to have a new base
-    measurement_type<X> convert_to(unit newUnits) const
+    fixed_measurement_type<X> convert_to(unit newUnits) const
     {
-        return measurement_type<X>(units::convert(value_, units_, newUnits), newUnits);
+        return fixed_measurement_type<X>(units::convert(value_, units_, newUnits), newUnits);
     }
     /// Get the underlying units value
     constexpr unit units() const { return units_; }
@@ -804,11 +811,11 @@ class fixed_precision_measurement
     }
     constexpr fixed_precision_measurement operator/(double val) const { return {value_ / val, units_}; }
 
-    precision_measurement operator+(precision_measurement other) const
+    fixed_precision_measurement operator+(precision_measurement other) const
     {
         return {value_ + other.value_as(units_), units_};
     }
-    precision_measurement operator-(precision_measurement other) const
+    fixed_precision_measurement operator-(precision_measurement other) const
     {
         return {value_ - other.value_as(units_), units_};
     }
@@ -994,10 +1001,10 @@ void addUserDefinedUnit(std::string name, precise_unit un);
 // Clear all user defined units from memory
 void clearUserDefinedUnits();
 
-/// Turn off the ability to add custom commodities for later access
-bool disableUserDefinedUnits();
-/// Enable the ability to add custom commodities for later access
-bool enableUserDefinedUnits();
+/// Turn off the ability to add custom units for later access
+void disableUserDefinedUnits();
+/// Enable the ability to add custom units for later access
+void enableUserDefinedUnits();
 
 /// get the code to use for a particular commodity
 uint32_t getCommodity(std::string comm);

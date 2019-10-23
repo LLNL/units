@@ -530,16 +530,8 @@ static std::string generateRawUnitString(precise_unit un)
 
 static std::atomic<bool> allowUserDefinedUnits{true};
 
-bool disableUserDefinedUnits()
-{
-    allowUserDefinedUnits.store(false);
-    return false;
-}
-bool enableUserDefinedUnits()
-{
-    allowUserDefinedUnits.store(true);
-    return true;
-}
+void disableUserDefinedUnits() { allowUserDefinedUnits.store(false); }
+void enableUserDefinedUnits() { allowUserDefinedUnits.store(true); }
 
 using smap = std::unordered_map<std::string, precise_unit>;
 
