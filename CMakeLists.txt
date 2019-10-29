@@ -64,7 +64,13 @@ cmake_dependent_option(
     OFF
 )
 
-include(compiler_flags)
+if(NOT TARGET compile_flags_target)
+    add_library(compile_flags_target INTERFACE)
+endif()
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+   include(compiler_flags)
+endif()
 
 if(UNITS_HEADER_ONLY)
     target_compile_definitions(units PUBLIC UNITS_HEADER_ONLY)
