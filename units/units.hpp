@@ -55,38 +55,7 @@ double convert(double val, UX start, UX2 result)
     }
     if ((is_temperature(start) || is_temperature(result)) && start.has_same_base(result.base_units()))
     {
-        if (is_temperature(start))
-        {
-            if (units::degF == unit_cast(start))
-            {
-                val = (val - 32.0) * 5.0 / 9.0;
-            }
-            else if (start.multiplier() != 1.0)
-            {
-                val = val * start.multiplier();
-            }
-            val += 273.15;
-            // convert to K
-        }
-        else
-        {
-            val = val * start.multiplier();
-        }
-        if (is_temperature(result))
-        {
-            val -= 273.15;
-            if (units::degF == unit_cast(result))
-            {
-                val *= 9.0 / 5.0;
-                val += 32.0;
-            }
-            else if (result.multiplier() != 1.0)
-            {
-                val = val / result.multiplier();
-            }
-            return val;
-        }
-        return val / result.multiplier();
+        return detail::convertTemperature(val, start, result);
     }
     if (start.is_equation() || result.is_equation())
     {
@@ -109,51 +78,18 @@ double convert(double val, UX start, UX2 result)
         {  // generic pu just means the units are equivalent since the the other is puXX already
             return val;
         }
-        if (start.has_same_base(puOhm.base_units()))
+        double converted_val = puconversion::knownConversions(val, start.base_units(), result.base_units());
+        if (!std::isnan(converted_val))
         {
-            if (result.has_same_base(puMW.base_units()) || result.has_same_base(puA.base_units()))
-            {  // V^2/R assuming voltage=1.0 pu; or //I=V/R
-                return 1.0 / val;
-            }
-        }
-        else if (start.has_same_base(puA.base_units()))
-        {
-            if (result.has_same_base(puMW.base_units()))
-            {  // P=IV assuming voltage=1.0 pu or //R=V/I
-                return val;
-            }
-            if (result.has_same_base(puOhm.base_units()))
-            {  // P=IV assuming voltage=1.0 pu or //R=V/I
-                return 1.0 / val;
-            }
-        }
-        else if (start.has_same_base(puMW.base_units()))
-        {  // P=IV, or P=V^2/R
-            if (result.has_same_base(puA.base_units()))
-            {  // IV assuming voltage=1.0 pu or
-                return val;
-            }
-            if (result.has_same_base(puOhm.base_units()))
-            {
-                return 1.0 / val;
-            }
+            return converted_val;
         }
     }
     else if (start.is_per_unit() || result.is_per_unit())
     {
-        if (puHz == unit_cast(result) || puHz == unit_cast(start))
-        {  // assume 60 Hz
-            return convert(val, start, result, 60.0);
-        }
-        if (puMW == unit_cast(result) || puMW == unit_cast(start))
-        {  // assume 100MVA for power base
-            return convert(val, start, result, 100.0);
-        }
-        // mach number
-        if (unit_cast(precise::special::mach) == unit_cast(result) ||
-            unit_cast(precise::special::mach) == unit_cast(start))
-        {  // assume NASA mach number approximation conversions
-            return convert(val, start, result, 341.25);
+        double genBase = puconversion::assumedBase(unit_cast(start), unit_cast(result));
+        if (!std::isnan(genBase))
+        {
+            return convert(val, start, result, genBase);
         }
         // other assumptions for PU base are probably dangerous so shouldn't be allowed
         return constants::invalid_conversion;
@@ -162,54 +98,17 @@ double convert(double val, UX start, UX2 result)
     auto base_start = start.base_units();
     auto base_result = result.base_units();
     if (base_start.has_same_base(base_result))
-    {  // ignore flag and e flag  special cases have been dealt with already, so those are just markers
+    {  // ignore i flag and e flag,  special cases have been dealt with already, so those are just markers
         return val * start.multiplier() / result.multiplier();
     }
     // deal with some counting conversions
     if (base_start.equivalent_non_counting(base_result))
     {
-        auto r1 = base_start.radian();
-        auto r2 = base_result.radian();
-        auto c1 = base_start.count();
-        auto c2 = base_result.count();
-        auto m1 = base_start.mole();
-        auto m2 = base_result.mole();
-        if (m1 == m2 && r1 == r2 && (c1 == 0 || c2 == 0))
+        double converted_val = detail::convertCountingUnits(val, start, result);
+        if (!std::isnan(converted_val))
         {
-            val = val * start.multiplier() / result.multiplier();
-            return val;
+            return converted_val;
         }
-
-        if (m1 == m2 && (((r1 == 0) && (c1 == r1 || c1 == 0)) || ((r2 == 0) && (c2 == r1 || c2 == 0))))
-        {
-            static const double mux[5]{1.0 / (4.0 * constants::pi * constants::pi), 1.0 / (2.0 * constants::pi), 0,
-                                       2.0 * constants::pi, 4.0 * constants::pi * constants::pi};
-            int muxIndex = r2 - r1 + 2;
-            if (muxIndex < 0 || muxIndex > 4)
-            {
-                return constants::invalid_conversion;
-            }
-            val *= mux[muxIndex];
-            // either 1 or the other is 0 in this equation other it would have triggered before or not gotten here
-            val = val * start.multiplier() / result.multiplier();
-            return val;
-        }
-        if (r1 == r2 && (((m1 == 0) && (c1 == m1 || c1 == 0)) || ((m2 == 0) && (c2 == m1 || c2 == 0))))
-        {
-            static const double muxmol[3]{6.02214076e23, 0, 1.0 / 6.02214076e23};
-
-            int muxIndex = m2 - m1 + 1;
-            if (muxIndex < 0 || muxIndex > 2)
-            {
-                return constants::invalid_conversion;
-            }
-            val *= muxmol[muxIndex];
-            // either 1 or the other is 0 in this equation other it would have triggered before or not gotten here
-            val = val * start.multiplier() / result.multiplier();
-            return val;
-        }
-        // radians converted to mole is kind of dumb, theoretically possible but probably shouldn't be
-        // supported
     }
     // check for inverse units
     if (base_start.has_same_base(base_result.inv()))
@@ -258,34 +157,6 @@ double convert(double val, UX start, UX2 result, double baseValue)
     return constants::invalid_conversion;
 }
 
-namespace detail
-{
-    // compute a base value for a particular value
-    inline double generate_base(unit_data unit, double basePower, double baseVoltage)
-    {
-        if (unit.has_same_base(W.base_units()))
-        {
-            return basePower;
-        }
-        if (unit.has_same_base(V.base_units()))
-        {
-            return baseVoltage;
-        }
-        if (unit.has_same_base(A.base_units()))
-        {
-            return basePower / baseVoltage;
-        }
-        if (unit.has_same_base(ohm.base_units()))
-        {
-            return baseVoltage * baseVoltage / basePower;
-        }
-        if (unit.has_same_base(S.base_units()))
-        {
-            return basePower / (baseVoltage * baseVoltage);
-        }
-        return constants::invalid_conversion;
-    }
-}  // namespace detail
 /// Convert a value from one unit base to another involving power system units
 /// the basePower and base voltage are used as the basis values
 template <typename UX, typename UX2>
@@ -302,7 +173,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
     /// if it isn't per unit or both are per unit give it to the other function since bases aren't needed
     if (start.is_per_unit() == result.is_per_unit())
     {
-        auto base = detail::generate_base(start.base_units(), basePower, baseVoltage);
+        auto base = puconversion::generate_base(start.base_units(), basePower, baseVoltage);
         if (std::isnan(base))
         {
             if (start.is_per_unit() && start == result)
@@ -320,7 +191,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
     // deal with situations of same base in different quantities
     if (start.has_same_base(result.base_units()))
     {  // We have the same base now we just need to figure out which base to use
-        auto base = generate_base(result.base_units(), basePower, baseVoltage);
+        auto base = puconversion::generate_base(result.base_units(), basePower, baseVoltage);
         if (start.is_per_unit())
         {
             val = val * base;
@@ -334,7 +205,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
     }
     if (result.is_per_unit())
     {
-        auto base = generate_base(start.base_units(), basePower, baseVoltage);
+        auto base = puconversion::generate_base(start.base_units(), basePower, baseVoltage);
         auto puVal = val / base;
         if (pu == unit_cast(result))
         {  // if result is generic pu
@@ -344,7 +215,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
         return convert(puVal, start * pu, result) / result.multiplier();
     }
     // start must be per unit
-    auto base = detail::generate_base(result.base_units(), basePower, baseVoltage);
+    auto base = puconversion::generate_base(result.base_units(), basePower, baseVoltage);
     base *= start.multiplier();
     if (pu == unit_cast(start))
     {  // if start is generic pu
@@ -1093,6 +964,7 @@ namespace constants
 
 namespace detail
 {
+    /// A namespace specifically for unit testsing some components
     namespace testing
     {
         // generate a number from a number sequence

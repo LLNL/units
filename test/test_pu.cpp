@@ -25,8 +25,8 @@ TEST(PU, Ops)
 }
 TEST(PU, base_generation)
 {
-    EXPECT_EQ(generate_base(W.base_units(), 100.0, 34.7), 100.0);
-    EXPECT_TRUE(std::isnan(generate_base(m.base_units(), 45.8, 99.34)));
+    EXPECT_EQ(puconversion::generate_base(W.base_units(), 100.0, 34.7), 100.0);
+    EXPECT_TRUE(std::isnan(puconversion::generate_base(m.base_units(), 45.8, 99.34)));
 }
 
 TEST(PU, Example1)
