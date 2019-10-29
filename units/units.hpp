@@ -175,7 +175,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
     {
         auto base = puconversion::generate_base(start.base_units(), basePower, baseVoltage);
         if (std::isnan(base))
-        {
+        {  // no known base conversions so this means we are converting bases
             if (start.is_per_unit() && start == result)
             {
                 return val * basePower / baseVoltage;

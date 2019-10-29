@@ -623,7 +623,17 @@ namespace precise
         constexpr precise_unit xu{0.1, precise::pico *precise::m};
 
     }  // namespace distance
-       //  Area units
+
+    namespace direction
+    {
+        // using iflag as a complex coordinate
+        constexpr precise_unit east = precise::one;
+        constexpr precise_unit north = precise::iflag;
+        constexpr precise_unit south{-1.0, precise::iflag};
+        constexpr precise_unit west{-1.0, precise::one};
+    }  // namespace direction
+
+    //  Area units
     constexpr precise_unit acre = us::acre;
     /// Additional Area units
     namespace area
