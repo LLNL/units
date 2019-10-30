@@ -62,13 +62,12 @@ set(${gtName}_BINARY_DIR ${PROJECT_BINARY_DIR}/_deps/${gtName}-build)
 
 endif()
 
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt ON CACHE INTERNAL "")
 
-set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
-set(HAVE_STD_REGEX ON CACHE BOOL "" FORCE)
-hide_variable(HAVE_STD_REGEX)
+set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "")
+set(HAVE_STD_REGEX ON CACHE INTERNAL "" )
 
-set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE BOOL "")
+set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "")
 add_subdirectory(${${gtName}_SOURCE_DIR} ${${gtName}_BINARY_DIR} EXCLUDE_FROM_ALL)
 
 message(STATUS "loading google-test directory ${${gtName}_SOURCE_DIR}")
@@ -122,7 +121,6 @@ hide_variable(gmock_build_tests)
 hide_variable(gtest_build_samples)
 hide_variable(gtest_build_tests)
 hide_variable(gtest_disable_pthreads)
-hide_variable(gtest_force_shared_crt)
 hide_variable(gtest_hide_internal_symbols)
 hide_variable(BUILD_GMOCK)
 hide_variable(BUILD_GTEST)

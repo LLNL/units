@@ -382,8 +382,6 @@ class unit
     }
     /// Get the number of different base units used
     constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
-    /// Check if the unit is the default unit
-    constexpr bool is_default() const { return base_units_.empty() && base_units_.has_i_flag(); }
     /// Check if the unit is a per_unit notation
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
     /// Check if the unit is a per_unit notation

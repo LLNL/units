@@ -1314,6 +1314,18 @@ constexpr unit defunit = unit_cast(precise::defunit);
 constexpr unit invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
 /// Check if the unit has an error
+constexpr inline bool is_default(precise_unit utest)
+{
+    return (utest.multiplier() == 1.0 &&
+            (utest.base_units()==defunit.base_units()));
+}
+
+constexpr inline bool is_default(unit utest)
+{
+    return (utest.multiplier() == 1.0 && (utest.base_units() == defunit.base_units()));
+}
+
+/// Check if the unit has an error
 constexpr inline bool is_error(precise_unit utest)
 {
     return (utest.multiplier() != utest.multiplier() ||
@@ -1433,6 +1445,47 @@ constexpr bool is_temperature(precise_unit utest)
 }
 constexpr bool is_temperature(unit utest) { return (utest.has_same_base(K) && utest.base_units().has_e_flag()); }
 
+
+namespace detail
+{
+    template <typename UX, typename UX2>
+    double temperature_convert(double val, UX start, UX2 result)
+    {
+        if (is_temperature(start))
+        {
+            if (units::degF == unit_cast(start))
+            {
+                val = (val - 32.0) * 5.0 / 9.0;
+            }
+            else if (start.multiplier() != 1.0)
+            {
+                val = val * start.multiplier();
+            }
+            val += 273.15;
+            // convert to K
+        }
+        else
+        {
+            val = val * start.multiplier();
+        }
+        if (is_temperature(result))
+        {
+            val -= 273.15;
+            if (units::degF == unit_cast(result))
+            {
+                val *= 9.0 / 5.0;
+                val += 32.0;
+            }
+            else if (result.multiplier() != 1.0)
+            {
+                val = val / result.multiplier();
+            }
+            return val;
+        }
+        return val / result.multiplier();
+    }
+}  // namespace detail
+
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
 constexpr unit CFM = unit_cast(precise::CFM);
@@ -1453,6 +1506,36 @@ constexpr unit puA = unit_cast(precise::puA);
 constexpr unit kV = unit_cast(precise::kV);
 constexpr unit mV = unit_cast(precise::mV);
 constexpr unit mA = unit_cast(precise::mA);
+
+namespace detail
+{
+    /// compute a per-unit basevalue given a particular unit bases of power and voltage
+    inline double generate_base(unit_data unit, double basePower, double baseVoltage)
+    {
+        if (unit.has_same_base(W.base_units()))
+        {
+            return basePower;
+        }
+        if (unit.has_same_base(V.base_units()))
+        {
+            return baseVoltage;
+        }
+        if (unit.has_same_base(A.base_units()))
+        {
+            return basePower / baseVoltage;
+        }
+        if (unit.has_same_base(ohm.base_units()))
+        {
+            return baseVoltage * baseVoltage / basePower;
+        }
+        if (unit.has_same_base(S.base_units()))
+        {
+            return basePower / (baseVoltage * baseVoltage);
+        }
+        return constants::invalid_conversion;
+    }
+}  // namespace detail
+
 // Power units
 constexpr unit hp = unit_cast(precise::hp);
 constexpr unit mph = unit_cast(precise::mph);

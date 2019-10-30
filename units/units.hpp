@@ -49,44 +49,13 @@ double convert(double val, UX start, UX2 result)
                   "convert argument types must be unit or precise_unit");
     static_assert(std::is_same<UX2, unit>::value || std::is_same<UX2, precise_unit>::value,
                   "convert argument types must be unit or precise_unit");
-    if (start == result || start.is_default() || result.is_default())
+    if (start == result || is_default(start) || is_default(result))
     {
         return val;
     }
     if ((is_temperature(start) || is_temperature(result)) && start.has_same_base(result.base_units()))
     {
-        if (is_temperature(start))
-        {
-            if (units::degF == unit_cast(start))
-            {
-                val = (val - 32.0) * 5.0 / 9.0;
-            }
-            else if (start.multiplier() != 1.0)
-            {
-                val = val * start.multiplier();
-            }
-            val += 273.15;
-            // convert to K
-        }
-        else
-        {
-            val = val * start.multiplier();
-        }
-        if (is_temperature(result))
-        {
-            val -= 273.15;
-            if (units::degF == unit_cast(result))
-            {
-                val *= 9.0 / 5.0;
-                val += 32.0;
-            }
-            else if (result.multiplier() != 1.0)
-            {
-                val = val / result.multiplier();
-            }
-            return val;
-        }
-        return val / result.multiplier();
+        return detail::temperature_convert(val, start, result);
     }
     if (start.is_equation() || result.is_equation())
     {
@@ -227,7 +196,7 @@ double convert(double val, UX start, UX2 result, double baseValue)
                   "convert argument types must be unit or precise_unit");
     static_assert(std::is_same<UX2, unit>::value || std::is_same<UX2, precise_unit>::value,
                   "convert argument types must be unit or precise_unit");
-    if (start == result || start.is_default() || result.is_default())
+    if (start == result || is_default(start) || is_default(result))
     {
         return val;
     }
@@ -258,34 +227,6 @@ double convert(double val, UX start, UX2 result, double baseValue)
     return constants::invalid_conversion;
 }
 
-namespace detail
-{
-    // compute a base value for a particular value
-    inline double generate_base(unit_data unit, double basePower, double baseVoltage)
-    {
-        if (unit.has_same_base(W.base_units()))
-        {
-            return basePower;
-        }
-        if (unit.has_same_base(V.base_units()))
-        {
-            return baseVoltage;
-        }
-        if (unit.has_same_base(A.base_units()))
-        {
-            return basePower / baseVoltage;
-        }
-        if (unit.has_same_base(ohm.base_units()))
-        {
-            return baseVoltage * baseVoltage / basePower;
-        }
-        if (unit.has_same_base(S.base_units()))
-        {
-            return basePower / (baseVoltage * baseVoltage);
-        }
-        return constants::invalid_conversion;
-    }
-}  // namespace detail
 /// Convert a value from one unit base to another involving power system units
 /// the basePower and base voltage are used as the basis values
 template <typename UX, typename UX2>
@@ -295,7 +236,7 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
                   "convert argument types must be unit or precise_unit");
     static_assert(std::is_same<UX2, unit>::value || std::is_same<UX2, precise_unit>::value,
                   "convert argument types must be unit or precise_unit");
-    if (start.is_default() || result.is_default())
+    if (is_default(start) || is_default(result))
     {
         return val;
     }
