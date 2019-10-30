@@ -623,7 +623,17 @@ namespace precise
         constexpr precise_unit xu{0.1, precise::pico *precise::m};
 
     }  // namespace distance
-       //  Area units
+
+    namespace direction
+    {
+        // using iflag as a complex coordinate
+        constexpr precise_unit east = precise::one;
+        constexpr precise_unit north = precise::iflag;
+        constexpr precise_unit south{-1.0, precise::iflag};
+        constexpr precise_unit west{-1.0, precise::one};
+    }  // namespace direction
+
+    //  Area units
     constexpr precise_unit acre = us::acre;
     /// Additional Area units
     namespace area
@@ -1445,11 +1455,11 @@ constexpr bool is_temperature(precise_unit utest)
 }
 constexpr bool is_temperature(unit utest) { return (utest.has_same_base(K) && utest.base_units().has_e_flag()); }
 
-
 namespace detail
 {
+    /// Convert a value from one unit base to another
     template <typename UX, typename UX2>
-    double temperature_convert(double val, UX start, UX2 result)
+    double convertTemperature(double val, UX start, UX2 result)
     {
         if (is_temperature(start))
         {
@@ -1485,7 +1495,6 @@ namespace detail
         return val / result.multiplier();
     }
 }  // namespace detail
-
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
 constexpr unit CFM = unit_cast(precise::CFM);
@@ -1506,11 +1515,14 @@ constexpr unit puA = unit_cast(precise::puA);
 constexpr unit kV = unit_cast(precise::kV);
 constexpr unit mV = unit_cast(precise::mV);
 constexpr unit mA = unit_cast(precise::mA);
+// Power units
+constexpr unit hp = unit_cast(precise::hp);
+constexpr unit mph = unit_cast(precise::mph);
 
-namespace detail
+namespace puconversion
 {
-    /// compute a per-unit basevalue given a particular unit bases of power and voltage
-    inline double generate_base(unit_data unit, double basePower, double baseVoltage)
+    /// compute a base value for a particular value based on power system base values
+    inline double generate_base(detail::unit_data unit, double basePower, double baseVoltage)
     {
         if (unit.has_same_base(W.base_units()))
         {
@@ -1534,11 +1546,60 @@ namespace detail
         }
         return constants::invalid_conversion;
     }
-}  // namespace detail
+    /// some pu values have conventions for base values this function return those
+    inline double assumedBase(unit start, unit result)
+    {
+        if (puHz == result || puHz == start)
+        {  // assume 60 Hz
+            return 60.0;
+        }
+        if (puMW == result || puMW == start)
+        {  // assume 100MVA for power base
+            return 100.0;
+        }
+        // mach number
+        if (unit_cast(precise::special::mach) == result || unit_cast(precise::special::mach) == start)
+        {  // assume NASA mach number approximation conversions
+            return 341.25;
+        }
+        return constants::invalid_conversion;
+    }
 
-// Power units
-constexpr unit hp = unit_cast(precise::hp);
-constexpr unit mph = unit_cast(precise::mph);
+    /// Generate some known conversion between power system per unit values
+    inline double knownConversions(double val, detail::unit_data start, detail::unit_data result)
+    {
+        if (start.has_same_base(puOhm.base_units()))
+        {
+            if (result.has_same_base(puMW.base_units()) || result.has_same_base(puA.base_units()))
+            {  // V^2/R assuming voltage=1.0 pu; or //I=V/R
+                return 1.0 / val;
+            }
+        }
+        else if (start.has_same_base(puA.base_units()))
+        {
+            if (result.has_same_base(puMW.base_units()))
+            {  // P=IV assuming voltage=1.0 pu or //R=V/I
+                return val;
+            }
+            if (result.has_same_base(puOhm.base_units()))
+            {  // P=IV assuming voltage=1.0 pu or //R=V/I
+                return 1.0 / val;
+            }
+        }
+        else if (start.has_same_base(puMW.base_units()))
+        {  // P=IV, or P=V^2/R
+            if (result.has_same_base(puA.base_units()))
+            {  // IV assuming voltage=1.0 pu or
+                return val;
+            }
+            if (result.has_same_base(puOhm.base_units()))
+            {
+                return 1.0 / val;
+            }
+        }
+        return constants::invalid_conversion;
+    }
+}  // namespace puconversion
 
 // Energy units
 constexpr unit kcal = unit_cast(precise::energy::kcal);
@@ -1547,6 +1608,7 @@ constexpr unit kWh = unit_cast(precise::kWh);
 constexpr unit MWh = unit_cast(precise::MWh);
 // Volume units
 constexpr unit L = unit_cast(precise::L);
+// gallon not galileo
 constexpr unit gal = unit_cast(precise::gal);
 // Weight units
 
@@ -1587,4 +1649,60 @@ inline bool isnormal(unit utest)
            utest.multiplier() > 0;
 }
 
+namespace detail
+{
+    /** Convert counting units into one another, radians, count, mole  these are all counting units but have
+    different assumptions so while they are convertable they need to be handled differently
+    */
+    template <typename UX, typename UX2>
+    inline double convertCountingUnits(double val, UX start, UX2 result)
+    {
+        auto base_start = start.base_units();
+        auto base_result = result.base_units();
+
+        auto r1 = base_start.radian();
+        auto r2 = base_result.radian();
+        auto c1 = base_start.count();
+        auto c2 = base_result.count();
+        auto m1 = base_start.mole();
+        auto m2 = base_result.mole();
+        if (m1 == m2 && r1 == r2 && (c1 == 0 || c2 == 0))
+        {
+            val = val * start.multiplier() / result.multiplier();
+            return val;
+        }
+
+        if (m1 == m2 && (((r1 == 0) && (c1 == r1 || c1 == 0)) || ((r2 == 0) && (c2 == r1 || c2 == 0))))
+        {
+            static const double mux[5]{1.0 / (4.0 * constants::pi * constants::pi), 1.0 / (2.0 * constants::pi), 0,
+                                       2.0 * constants::pi, 4.0 * constants::pi * constants::pi};
+            int muxIndex = r2 - r1 + 2;
+            if (muxIndex < 0 || muxIndex > 4)
+            {
+                return constants::invalid_conversion;
+            }
+            val *= mux[muxIndex];
+            // either 1 or the other is 0 in this equation other it would have triggered before or not gotten here
+            val = val * start.multiplier() / result.multiplier();
+            return val;
+        }
+        if (r1 == r2 && (((m1 == 0) && (c1 == m1 || c1 == 0)) || ((m2 == 0) && (c2 == m1 || c2 == 0))))
+        {
+            static const double muxmol[3]{6.02214076e23, 0, 1.0 / 6.02214076e23};
+
+            int muxIndex = m2 - m1 + 1;
+            if (muxIndex < 0 || muxIndex > 2)
+            {
+                return constants::invalid_conversion;
+            }
+            val *= muxmol[muxIndex];
+            // either 1 or the other is 0 in this equation other it would have triggered before or not gotten here
+            val = val * start.multiplier() / result.multiplier();
+            return val;
+        }
+        return constants::invalid_conversion;
+    }
+    // radians converted to mole is kind of dumb, theoretically possible but probably shouldn't be
+    // supported
+}  // namespace detail
 }  // namespace units

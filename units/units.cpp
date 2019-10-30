@@ -1855,6 +1855,7 @@ static const smap base_unit_vals{
   {"second", precise::s},
   {"second-time", precise::s},
   {"shake", precise_unit(10.0, precise::ns)},
+  {"jiffy", precise_unit(0.01, precise::s)},  // use the computer science definition for playback and clock rate
   {"cd", precise::cd},
   {"mcd", precise::milli *precise::cd},  // prefer milli candela to micro-day
   {"CD", precise::cd},
@@ -2225,6 +2226,12 @@ static const smap base_unit_vals{
   {"day_sdr", precise::time::sday},  // sidereal day
   {"dy_sdr", precise::time::sday},  // sidereal day
   {"d_sdr", precise::time::sday},  // sidereal day
+  {"hour_sdr", precise_unit(1.0 / 24.0, precise::time::sday)},  // sidereal hour
+  {"minute_sdr", precise_unit(1.0 / 24.0 / 60.0, precise::time::sday)},  // sidereal minute
+  {"second_sdr", precise_unit(1.0 / 24.0 / 60.0 / 60.0, precise::time::sday)},  // sidereal second
+  {"hr_sdr", precise_unit(1.0 / 24.0, precise::time::sday)},  // sidereal hour
+  {"min_sdr", precise_unit(1.0 / 24.0 / 60.0, precise::time::sday)},  // sidereal minute
+  {"sec_sdr", precise_unit(1.0 / 24.0 / 60.0 / 60.0, precise::time::sday)},  // sidereal second
   {"a_t", precise::time::at},  // year
   {"year_t", precise::time::at},  // year
   {"solaryear", precise::time::at},  // year
@@ -2236,6 +2243,10 @@ static const smap base_unit_vals{
   {"yr_j", precise::time::aj},  // yea
   {"ANN_J", precise::time::aj},  // year
   {"year(leap)", precise_unit(366.0, precise::time::day)},  // year
+  {"commonyear", precise_unit(365.0, precise::time::day)},  // year
+  {"leapyear", precise_unit(366.0, precise::time::day)},  // year
+  {"yearcommon", precise_unit(365.0, precise::time::day)},  // year
+  {"yearleap", precise_unit(366.0, precise::time::day)},  // year
   {"a_g", precise::time::ag},  // year
   {"meanyear_g", precise::time::ag},  // year
   {"meanyr_g", precise::time::ag},  // year
@@ -2318,6 +2329,10 @@ static const smap base_unit_vals{
   {"speres", precise_unit(4.0 * constants::pi, precise::sr)},
   {"Spere", precise_unit(4.0 * constants::pi, precise::sr)},
   {"SPH", precise_unit(4.0 * constants::pi, precise::sr)},
+  {"east", precise::direction::east},
+  {"north", precise::direction::north},
+  {"south", precise::direction::south},
+  {"west", precise::direction::west},
   {"\xB0"
    "C",
    precise::degC},
@@ -3237,6 +3252,8 @@ static const smap base_unit_vals{
   {"teaspoon", precise::us::tsp},
   {"teaspoon_us", precise::us::tsp},
   {"tbsp", precise::us::tbsp},
+  {"tblsp", precise::us::tbsp},
+  {"tbl", precise::us::tbsp},
   {"tbs", precise::us::tbsp},
   {"tbs_us", precise::us::tbsp},
   {"[TBS_US]", precise::us::tbsp},
