@@ -1326,8 +1326,7 @@ constexpr unit invalid(detail::unit_data(nullptr), constants::invalid_conversion
 /// Check if the unit has an error
 constexpr inline bool is_default(precise_unit utest)
 {
-    return (utest.multiplier() == 1.0 &&
-            (utest.base_units()==defunit.base_units()));
+    return (utest.multiplier() == 1.0 && (utest.base_units() == defunit.base_units()));
 }
 
 constexpr inline bool is_default(unit utest)
