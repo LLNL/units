@@ -2274,6 +2274,7 @@ static const smap base_unit_vals{
   {"month_g", precise::time::mog},  //
   {"mO_G", precise::time::mog},  //
   {"meanmonth_g", precise::time::mog},  //
+  {"eon", precise_unit(1e9, precise::time::syr)},
   {"arcdeg", precise::deg},
   {"deg-planeangle", precise::deg},
   {"deg(planeangle)", precise::deg},
