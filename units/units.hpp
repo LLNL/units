@@ -337,7 +337,7 @@ class fixed_measurement_type
   public:
     /// construct from a value and unit
     constexpr fixed_measurement_type(X val, unit base) : value_(val), units_(base) {}
-
+	/// construct from a regular measurement
     explicit constexpr fixed_measurement_type(measurement_type<X> val) noexcept
         : value_(val.value()), units_(val.units())
     {
@@ -797,7 +797,9 @@ class fixed_precision_measurement
 };
 
 #ifndef UNITS_HEADER_ONLY
-
+/** The unit conversion flag are some modifiers for the string conversion operations,
+some are used internally some are meant for external use, though all are possible to use externally
+*/
 enum unit_conversion_flags : uint32_t
 {
     case_insensitive = 1u,  //!< perform case insensitive matching for UCUM case insensitive matching
@@ -869,7 +871,7 @@ std::string to_string(measurement measure, uint32_t match_flags = 0);
 std::string to_string(measurement_f measure, uint32_t match_flags = 0);
 /// Add a custom unit to be included in any string processing
 void addUserDefinedUnit(std::string name, precise_unit un);
-// Clear all user defined units from memory
+/// Clear all user defined units from memory
 void clearUserDefinedUnits();
 
 /// Turn off the ability to add custom units for later access
@@ -950,7 +952,7 @@ namespace constants
         constexpr precision_measurement charge{1.87554595641e-18, precise::C};
         constexpr precision_measurement temperature{1.41680833e32, precise::K};
     }  // namespace planck
-
+	/// measurements related to an electron or atomic measurements
     namespace atomic
     {  // https://www.bipm.org/en/publications/si-brochure/table7.html
         constexpr precision_measurement length{0.5291772109217e-10, precise::m};
@@ -964,7 +966,7 @@ namespace constants
 
 namespace detail
 {
-    /// A namespace specifically for unit testsing some components
+    /// A namespace specifically for unit testing some components
     namespace testing
     {
         // generate a number from a number sequence
