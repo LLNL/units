@@ -1,13 +1,9 @@
 language: cpp
 dist: trusty
 
-# Exclude ghpages,
-# but even better, don't build branch and PR, just PR
-# Include tags starting with v and a digit
 branches:
-  only:
-  - master
-  - /^v\d/
+  except:
+    - gh-pages
 
 cache:
   apt: true
