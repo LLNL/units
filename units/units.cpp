@@ -3761,17 +3761,17 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
         return precise::invalid;
         // LCOV_EXCL_END
     }
-    int ccindex = static_cast<int>(finish) - 1;
+    auto ccindex = static_cast<int>(finish) - 1;
     segmentcheckReverse(unit_string, '{', ccindex);
 
-    auto cstring = unit_string.substr(ccindex + 2, finish - ccindex - 2);
+    auto cstring = unit_string.substr(static_cast<size_t>(ccindex) + 2, finish - ccindex - 2);
 
     if (ccindex < 0)
     {
         return {1.0, precise::one, getCommodity(cstring)};
     }
 
-    auto bunit = unit_from_string_internal(unit_string.substr(0, ccindex + 1), match_flags + no_commodities);
+    auto bunit = unit_from_string_internal(unit_string.substr(0, static_cast<size_t>(ccindex) + 1), match_flags + no_commodities);
     if (!is_error(bunit))
     {
         return {1.0, bunit, getCommodity(cstring)};
@@ -5311,7 +5311,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             int index = pchar - 1;
             segmentcheckReverse(unit_string, '(', index);
 
-            ustring = unit_string.substr(index + 2, pchar - index - 2);
+            ustring = unit_string.substr(static_cast<size_t>(index) + 2, static_cast<size_t>(pchar) - index - 2);
             retunit = unit_from_string_internal(ustring, match_flags - recursion_modifier);
             if (!is_valid(retunit))
             {
@@ -5319,7 +5319,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 {
                     if (ustring.find_first_of("(*/^{[") == std::string::npos)
                     {
-                        retunit = unit_from_string_internal(unit_string.substr(0, pchar + 1),
+                        retunit = unit_from_string_internal(unit_string.substr(0, static_cast<size_t>(pchar) + 1),
                                                             match_flags - recursion_modifier);
                         if (!is_valid(retunit))
                         {
@@ -5384,7 +5384,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             if (!containsPer)
             {
                 retunit =
-                  unit_from_string_internal(unit_string.substr(0, pchar + 1), match_flags - recursion_modifier);
+                  unit_from_string_internal(unit_string.substr(0, static_cast<size_t>(pchar) + 1), match_flags - recursion_modifier);
                 if (!is_valid(retunit))
                 {
                     return precise::invalid;
