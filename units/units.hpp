@@ -337,7 +337,7 @@ class fixed_measurement_type
   public:
     /// construct from a value and unit
     constexpr fixed_measurement_type(X val, unit base) : value_(val), units_(base) {}
-	/// construct from a regular measurement
+    /// construct from a regular measurement
     explicit constexpr fixed_measurement_type(measurement_type<X> val) noexcept
         : value_(val.value()), units_(val.units())
     {
@@ -952,7 +952,7 @@ namespace constants
         constexpr precision_measurement charge{1.87554595641e-18, precise::C};
         constexpr precision_measurement temperature{1.41680833e32, precise::K};
     }  // namespace planck
-	/// measurements related to an electron or atomic measurements
+    /// measurements related to an electron or atomic measurements
     namespace atomic
     {  // https://www.bipm.org/en/publications/si-brochure/table7.html
         constexpr precision_measurement length{0.5291772109217e-10, precise::m};
