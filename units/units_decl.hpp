@@ -7,7 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
 #include <ctgmath>
-#include <functional>
+#include <functional>  //for std::hash
 
 namespace units
 {
@@ -182,24 +182,25 @@ namespace detail
 
         /// set all the flags to 0;
         void clear_flags() { per_unit_ = i_flag_ = e_flag_ = equation_ = 0; }
-		/// generate a new unit_data but with per_unit flag
-		constexpr unit_data add_per_unit() const
+        /// generate a new unit_data but with per_unit flag
+        constexpr unit_data add_per_unit() const
         {
-            return {meter_,    kilogram_, second_,  ampere_,  kelvin_, mole_,  candela_,
-                    currency_, count_,    radians_, 1U, i_flag_,  e_flag_, equation_};
+            return {meter_,    kilogram_, second_,  ampere_, kelvin_, mole_,   candela_,
+                    currency_, count_,    radians_, 1U,      i_flag_, e_flag_, equation_};
         }
         /// generate a new unit_data but with i flag
         constexpr unit_data add_i_flag() const
         {
-            return {meter_,    kilogram_, second_,  ampere_, kelvin_, mole_,   candela_,
-                    currency_, count_,    radians_, per_unit_,   1U, e_flag_, equation_};
+            return {meter_,    kilogram_, second_,  ampere_,   kelvin_, mole_,   candela_,
+                    currency_, count_,    radians_, per_unit_, 1U,      e_flag_, equation_};
         }
         /// generate a new unit_data but with e flag
         constexpr unit_data add_e_flag() const
         {
-            return {meter_,    kilogram_, second_,  ampere_,   kelvin_, mole_,   candela_,
-                    currency_, count_,    radians_, per_unit_, i_flag_,       1U, equation_};
+            return {meter_,    kilogram_, second_,  ampere_,   kelvin_, mole_, candela_,
+                    currency_, count_,    radians_, per_unit_, i_flag_, 1U,    equation_};
         }
+
       private:
         constexpr unit_data()
             : meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0), kelvin_(0), mole_(0), radians_(0),
@@ -343,10 +344,7 @@ class unit
     /// Division operator
     constexpr unit operator/(unit other) const
     {
-        return (base_units_ != other.base_units_) ?
-                 unit(base_units_ - other.base_units_, multiplier() / other.multiplier()) :
-                 unit(base_units_.add_per_unit(), multiplier() / other.multiplier());
-        
+        return {base_units_ - other.base_units_, multiplier() / other.multiplier()};
     }
     /// Invert the unit (take 1/unit)
     constexpr unit inv() const { return {base_units_.inv(), 1.0 / multiplier()}; }
@@ -493,13 +491,10 @@ class precise_unit
     /// Division operator
     constexpr precise_unit operator/(precise_unit other) const
     {
-        return precise_unit(base_units_ != other.base_units_ ? base_units_ - other.base_units_ :
-                                                               base_units_.add_per_unit(),
-                            (commodity_ == 0) ?
-                              ((other.commodity_ == 0) ? 0 : ~other.commodity_) :
-                              ((other.commodity_ == 0) ? commodity_ : commodity_ & (~other.commodity_)),
-                            multiplier() / other.multiplier());
-                 
+        return {base_units_ - other.base_units_,
+                (commodity_ == 0) ? ((other.commodity_ == 0) ? 0 : ~other.commodity_) :
+                                    ((other.commodity_ == 0) ? commodity_ : commodity_ & (~other.commodity_)),
+                multiplier() / other.multiplier()};
     }
     /// Divide by a less precise unit
     constexpr precise_unit operator/(unit other) const
