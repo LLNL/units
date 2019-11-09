@@ -415,6 +415,12 @@ class unit
     constexpr detail::unit_data base_units() const { return base_units_; }
     /// set all the flags to 0;
     void clear_flags() { base_units_.clear_flags(); }
+    /// generate a new unit but with per_unit flag
+    constexpr unit add_per_unit() const { return {base_units_.add_per_unit(), multiplier_}; }
+    /// generate a new unit but with i flag
+    constexpr unit add_i_flag() const { return {base_units_.add_i_flag(), multiplier_}; }
+    /// generate a new unit but with e flag
+    constexpr unit add_e_flag() const { return {base_units_.add_e_flag(), multiplier_}; }
 
   private:
     friend class precise_unit;
@@ -603,6 +609,12 @@ class precise_unit
     constexpr detail::unit_data base_units() const { return base_units_; }
     /// set all the flags to 0;
     void clear_flags() { base_units_.clear_flags(); }
+    /// generate a new unit but with per_unit flag
+    constexpr precise_unit add_per_unit() const { return {base_units_.add_per_unit(), commodity_, multiplier_}; }
+    /// generate a new unit but with i flag
+    constexpr precise_unit add_i_flag() const { return {base_units_.add_i_flag(), commodity_, multiplier_}; }
+    /// generate a new unit but with e flag
+    constexpr precise_unit add_e_flag() const { return {base_units_.add_e_flag(), commodity_, multiplier_}; }
     /// Set the commodity
     precise_unit &commodity(unsigned int newCommodity)
     {
