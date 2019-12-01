@@ -108,7 +108,6 @@ namespace commodities
     };
 }  // namespace commodities
 
-
 namespace precise
 {
     // base units
@@ -268,7 +267,7 @@ namespace precise
 
     }  // namespace cgs
 
-	/// meter-gram-force system of units
+    /// meter-gram-force system of units
     namespace gm
     {
         constexpr precise_unit pond{980.665, cgs::dyn};
@@ -559,7 +558,7 @@ namespace precise
         constexpr precise_unit cup{200.0, mL};
     }  // namespace japan
 
-	/// Some historical chinese units
+    /// Some historical chinese units
     namespace chinese
     {
         constexpr precise_unit jin{0.5, kg};
@@ -611,7 +610,7 @@ namespace precise
 
     }  // namespace typographic
 
-	/// units related to distance
+    /// units related to distance
     namespace distance
     {
         constexpr precise_unit ly(9.4607304725808e15, m);
@@ -628,7 +627,7 @@ namespace precise
 
     }  // namespace distance
 
-	/// Units related to compass directions
+    /// Units related to compass directions
     namespace direction
     {
         // using iflag as a complex coordinate
@@ -649,7 +648,7 @@ namespace precise
         constexpr precise_unit arpent{0.84628, acre};
     }  // namespace area
 
-	/// additional mass units
+    /// additional mass units
     namespace mass
     {
         constexpr precise_unit quintal{100.0, kg};
@@ -701,7 +700,7 @@ namespace precise
     constexpr precise_unit MegaBuck(1000000.0, currency);
     constexpr precise_unit GigaBuck(1000.0, MegaBuck);
 
-	/// Units related to pressure
+    /// Units related to pressure
     namespace pressure
     {
         constexpr precise_unit psi{6894.757293168, Pa};
@@ -790,7 +789,7 @@ namespace precise
     constexpr precise_unit kWh = energy::kWh;
     constexpr precise_unit MWh = energy::MWh;
 
-	/// Some support for custom units
+    /// Some support for custom units
     namespace custom
     {
         constexpr int bShift(unsigned short val, int bit) { return (((val >> bit) & 0x1) > 0) ? 1 : 0; }
@@ -811,7 +810,7 @@ namespace precise
                     7 * bShift(customX, 9),  // 7 or 0  sometimes custom unit/time is used
                     -3 - bShift(customX, 6),  //-3 or -4  //this is probably the most important for isolating it
                     3 * bShift(customX, 4),  // 3 or 0
-                    -2,   //this also is set so that 1/-2 == 2 for a 2 bit signed number
+                    -2,  // this also is set so that 1/-2 == 2 for a 2 bit signed number
                     -2 + 2 * bShift(customX, 5),
                     -2 * bShift(customX, 3),
                     0,
@@ -825,17 +824,17 @@ namespace precise
         inline bool is_custom_unit(detail::unit_data UT)
         {
             if (UT.mole() != -2)
-            {  //mole is always -2 regardless of inversion
+            {  // mole is always -2 regardless of inversion
                 return false;
             }
             if (std::abs(UT.ampere()) < 2)
-            {  // ampere is either -3 or -4  or 3 or 4 
+            {  // ampere is either -3 or -4  or 3 or 4
                 return false;
             }
             return true;
         }
 
-		/// get the index of the custom unit
+        /// get the index of the custom unit
         inline int custom_unit_number(detail::unit_data UT)
         {
             int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
@@ -974,7 +973,7 @@ namespace precise
         return precise_unit(custom::custom_count_unit(code));
     }
 
-	/// logarithm based equation units
+    /// logarithm based equation units
     namespace log
     {
         // nepers
@@ -1025,7 +1024,7 @@ namespace precise
         constexpr precise_unit dB_kW = dB * kW;
     }  // namespace log
 
-	/// additional equation based units
+    /// additional equation based units
     namespace equations
     {
         /// Detect if the unit is a unit of power
@@ -1034,7 +1033,7 @@ namespace precise
             return ((precise::W.base_units().has_same_base(UT)) || (UT.count() == -2));
         }
 
-		/// convert an equation unit to a single value
+        /// convert an equation unit to a single value
         inline double convert_equnit_to_value(double val, detail::unit_data UT)
         {
             if (!UT.is_equation())
@@ -1106,7 +1105,7 @@ namespace precise
             }
         }
 
-		///convert a value to an equation value
+        /// convert a value to an equation value
         inline double convert_value_to_equnit(double val, detail::unit_data UT)
         {
             if (!UT.is_equation())
@@ -1274,7 +1273,7 @@ namespace precise
     constexpr precise_unit MB = data::MB;
     constexpr precise_unit GB = data::GB;
 
-	/// Units related to computer computations
+    /// Units related to computer computations
     namespace computation
     {
         constexpr precise_unit flop = precise_unit(1.0, precise::count, commodities::flop);

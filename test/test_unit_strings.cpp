@@ -206,7 +206,7 @@ TEST(stringToUnits, mult)
 
 TEST(stringToUnits, Div)
 {
-    EXPECT_EQ(precise::ratio, unit_from_string("m/m"));
+    EXPECT_EQ(precise::one, unit_from_string("m/m"));
     EXPECT_EQ(precise::kg / precise::m, unit_from_string("kg/m"));
     EXPECT_EQ(precise::m, unit_from_string("m*m/m*m/m"));
 }

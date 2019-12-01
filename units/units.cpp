@@ -3771,7 +3771,8 @@ static precise_unit commoditizedUnit(const std::string &unit_string, uint32_t ma
         return {1.0, precise::one, getCommodity(cstring)};
     }
 
-    auto bunit = unit_from_string_internal(unit_string.substr(0, static_cast<size_t>(ccindex) + 1), match_flags + no_commodities);
+    auto bunit = unit_from_string_internal(unit_string.substr(0, static_cast<size_t>(ccindex) + 1),
+                                           match_flags + no_commodities);
     if (!is_error(bunit))
     {
         return {1.0, bunit, getCommodity(cstring)};
@@ -5383,8 +5384,8 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
             // auto fnd = findWordOperatorSep(unit_string, "per");
             if (!containsPer)
             {
-                retunit =
-                  unit_from_string_internal(unit_string.substr(0, static_cast<size_t>(pchar) + 1), match_flags - recursion_modifier);
+                retunit = unit_from_string_internal(unit_string.substr(0, static_cast<size_t>(pchar) + 1),
+                                                    match_flags - recursion_modifier);
                 if (!is_valid(retunit))
                 {
                     return precise::invalid;
