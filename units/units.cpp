@@ -344,6 +344,37 @@ static precise_unit checkForCustomUnit(const std::string &unit_string);
 // check if the character is an ascii digit
 static inline bool isDigitCharacter(char X) { return (X >= '0' && X <= '9'); }
 
+/// Replace a string in place
+static bool ReplaceStringInPlace(std::string &subject, const std::string &search, const std::string &replace)
+{
+    size_t pos = 0;
+    bool changed{false};
+    while ((pos = subject.find(search, pos)) != std::string::npos)
+    {
+        changed = true;
+        subject.replace(pos, search.length(), replace);
+        pos += replace.length();
+    }
+    return changed;
+}
+/// Replace a string in place using const char *
+static bool ReplaceStringInPlace(std::string &subject,
+                                 const char *search,
+                                 int searchSize,
+                                 const char *replace,
+                                 int replaceSize)
+{
+    bool changed{false};
+    size_t pos = 0;
+    while ((pos = subject.find(search, pos)) != std::string::npos)
+    {
+        subject.replace(pos, searchSize, replace);
+        pos += replaceSize;
+        changed = true;
+    }
+    return changed;
+}
+
 // Generate an SI prefix or a numerical multiplier string for prepending a unit
 static std::string getMultiplierString(double multiplier, bool numOnly = false)
 {
@@ -4316,12 +4347,113 @@ static void multiplyRep(std::string &unit_string, size_t loc, size_t sz)
         unit_string.replace(loc, sz, "*");
     }
 }
-// do some cleaning on the unit string to standardize formatting and deal with some extended ascii and unicode
-// characters
-static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
+
+static void cleanUpPowersOfOne(std::string &unit_string)
+{  // get rid of (1)^ sequences
+    auto fndP = unit_string.find("(1)^");
+    while (fndP != std::string::npos)
+    {
+        // string cannot end in '^' from a previous check
+        size_t eraseCnt = 4;
+        auto ch = unit_string[fndP + 4];
+        if (ch == '+' || ch == '-')
+        {
+            ++eraseCnt;
+            if (unit_string.size() <= fndP + eraseCnt)
+            {
+                multiplyRep(unit_string, fndP, eraseCnt);
+                break;
+            }
+            ch = unit_string[fndP + eraseCnt];
+        }
+        while (isDigitCharacter(ch))
+        {
+            ++eraseCnt;
+            if (unit_string.size() <= fndP + eraseCnt)
+            {
+                break;
+            }
+            ch = unit_string[fndP + eraseCnt];
+        }
+        multiplyRep(unit_string, fndP, eraseCnt);
+        fndP = unit_string.find("(1)^", fndP);
+    }
+    // get rid of ^1 sequences
+    fndP = unit_string.find("^1");
+    while (fndP != std::string::npos)
+    {
+        if (unit_string.size() > fndP + 2)
+        {
+            if (!isDigitCharacter(unit_string[fndP + 2]))
+            {
+                unit_string.erase(fndP, 2);
+            }
+            else
+            {
+                fndP = unit_string.find("^1", fndP + 2);
+                continue;
+            }
+        }
+        else
+        {
+            unit_string.erase(fndP, 2);
+        }
+        fndP = unit_string.find("^1", fndP);
+    }
+    // get rid of ^1 sequences
+    fndP = unit_string.find("^(1)");
+    while (fndP != std::string::npos)
+    {
+        multiplyRep(unit_string, fndP, 4);
+        fndP = unit_string.find("^(1)", fndP);
+    }
+}
+
+static void htmlCodeReplacement(std::string &unit_string)
 {
-    auto slen = unit_string.size();
-    bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
+    auto fnd = unit_string.find("<sup>");
+    while (fnd != std::string::npos)
+    {
+        unit_string.replace(fnd, 5, "^");
+        fnd = unit_string.find("</sup>");
+        if (fnd != std::string::npos)
+        {
+            unit_string.replace(fnd, 6, "");
+        }
+        else
+        {
+            fnd = unit_string.find("<\\/sup>");
+            if (fnd != std::string::npos)
+            {
+                unit_string.replace(fnd, 8, "");
+            }
+        }
+        fnd = unit_string.find("<sup>");
+    }
+    fnd = unit_string.find("<sub>");
+    while (fnd != std::string::npos)
+    {
+        unit_string.replace(fnd, 5, "_");
+        fnd = unit_string.find("</sub>");
+        if (fnd != std::string::npos)
+        {
+            unit_string.replace(fnd, 6, "");
+        }
+        else
+        {
+            fnd = unit_string.find("<\\/sub>");
+            if (fnd != std::string::npos)
+            {
+                unit_string.replace(fnd, 8, "");
+            }
+        }
+        fnd = unit_string.find("<sub>");
+    }
+}
+
+/// do some unicode replacement (unicode in the loose sense any characters not in the basic ascii set)
+static bool unicodeReplacement(std::string &unit_string)
+{
     static UPTCONST std::array<ckpair, 45> ucodeReplacements{{
       ckpair{u8"\u00d7", "*"},
       ckpair{u8"\u00f7", "/"},  // division sign
@@ -4369,6 +4501,31 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
       ckpair{"\xBC", "(0.25)"},  //(1/4) fraction
       ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
     }};
+    bool changed{false};
+    for (auto &ucode : ucodeReplacements)
+    {
+        auto fnd = unit_string.find(ucode.first);
+        while (fnd != std::string::npos)
+        {
+            changed = true;
+            unit_string.replace(fnd, strlen(ucode.first), ucode.second);
+            if (fnd > 0 && unit_string[fnd - 1] == '\\')
+            {
+                unit_string.erase(fnd - 1, 1);
+                --fnd;
+            }
+            fnd = unit_string.find(ucode.first, fnd + strlen(ucode.second));
+        }
+    }
+    return changed;
+}
+
+// do some cleaning on the unit string to standardize formatting and deal with some extended ascii and unicode
+// characters
+static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
+{
+    auto slen = unit_string.size();
+    bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
 
     static UPTCONST std::array<ckpair, 25> allCodeReplacements{{
       ckpair{"sq.", "square"},
@@ -4430,14 +4587,11 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
             unit_string.replace(0, 4, "1/");
             skipMultiply = true;
         }
-        auto fndP = unit_string.find(" per ");
-        while (fndP != std::string::npos)
+        if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1))
         {
             skipMultiply = true;
-            unit_string.replace(fndP, 5, "/");
-            fndP = unit_string.find(" per ", fndP + 1);
         }
-        fndP = unit_string.find(" s");
+        auto fndP = unit_string.find(" s");
         while (fndP != std::string::npos)
         {
             if (fndP + 2 == unit_string.size())
@@ -4516,11 +4670,8 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
     if (!skipcodereplacement)
     {
         // ** means power in some environments
-        auto fndP = unit_string.find("**");
-        while (fndP != std::string::npos)
+        if (ReplaceStringInPlace(unit_string, "**", 2, "^", 1))
         {
-            unit_string.replace(fndP, 2, "^");
-            fndP = unit_string.find("**", fndP + 1);
             changed = true;
         }
     }
@@ -4535,44 +4686,7 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
         auto bloc = unit_string.find_last_of('<');
         if (bloc != std::string::npos)
         {
-            auto fnd = unit_string.find("<sup>");
-            while (fnd != std::string::npos)
-            {
-                unit_string.replace(fnd, 5, "^");
-                fnd = unit_string.find("</sup>");
-                if (fnd != std::string::npos)
-                {
-                    unit_string.replace(fnd, 6, "");
-                }
-                else
-                {
-                    fnd = unit_string.find("<\\/sup>");
-                    if (fnd != std::string::npos)
-                    {
-                        unit_string.replace(fnd, 8, "");
-                    }
-                }
-                fnd = unit_string.find("<sup>");
-            }
-            fnd = unit_string.find("<sub>");
-            while (fnd != std::string::npos)
-            {
-                unit_string.replace(fnd, 5, "_");
-                fnd = unit_string.find("</sub>");
-                if (fnd != std::string::npos)
-                {
-                    unit_string.replace(fnd, 6, "");
-                }
-                else
-                {
-                    fnd = unit_string.find("<\\/sub>");
-                    if (fnd != std::string::npos)
-                    {
-                        unit_string.replace(fnd, 8, "");
-                    }
-                }
-                fnd = unit_string.find("<sub>");
-            }
+            htmlCodeReplacement(unit_string);
         }
         // some abbreviations and other problematic code replacements
         for (auto &acode : allCodeReplacements)
@@ -4639,20 +4753,9 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
         // Check for unicode or extended characters
         if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) { return (x & 0x80) != 0; }))
         {
-            for (auto &ucode : ucodeReplacements)
+            if (unicodeReplacement(unit_string))
             {
-                auto fnd = unit_string.find(ucode.first);
-                while (fnd != std::string::npos)
-                {
-                    changed = true;
-                    unit_string.replace(fnd, strlen(ucode.first), ucode.second);
-                    if (fnd > 0 && unit_string[fnd - 1] == '\\')
-                    {
-                        unit_string.erase(fnd - 1, 1);
-                        --fnd;
-                    }
-                    fnd = unit_string.find(ucode.first, fnd + strlen(ucode.second));
-                }
+                changed = true;
             }
         }
 
@@ -4679,68 +4782,11 @@ static bool cleanUnitString(std::string &unit_string, uint32_t match_flags)
         }
         // clear empty brackets, this would indicate commodities but if empty there is no commodity
         clearEmptySegments(unit_string);
-        // get rid of (1)^ sequences
-        fndP = unit_string.find("(1)^");
-        while (fndP != std::string::npos)
-        {
-            // string cannot end in '^' from a previous check
-            size_t eraseCnt = 4;
-            auto ch = unit_string[fndP + 4];
-            if (ch == '+' || ch == '-')
-            {
-                ++eraseCnt;
-                if (unit_string.size() <= fndP + eraseCnt)
-                {
-                    multiplyRep(unit_string, fndP, eraseCnt);
-                    break;
-                }
-                ch = unit_string[fndP + eraseCnt];
-            }
-            while (isDigitCharacter(ch))
-            {
-                ++eraseCnt;
-                if (unit_string.size() <= fndP + eraseCnt)
-                {
-                    break;
-                }
-                ch = unit_string[fndP + eraseCnt];
-            }
-            multiplyRep(unit_string, fndP, eraseCnt);
-            fndP = unit_string.find("(1)^", fndP);
-        }
-        // get rid of ^1 sequences
-        fndP = unit_string.find("^1");
-        while (fndP != std::string::npos)
-        {
-            if (unit_string.size() > fndP + 2)
-            {
-                if (!isDigitCharacter(unit_string[fndP + 2]))
-                {
-                    unit_string.erase(fndP, 2);
-                }
-                else
-                {
-                    fndP = unit_string.find("^1", fndP + 2);
-                    continue;
-                }
-            }
-            else
-            {
-                unit_string.erase(fndP, 2);
-            }
-            fndP = unit_string.find("^1", fndP);
-        }
+        cleanUpPowersOfOne(unit_string);
         if (unit_string.empty())
         {
             unit_string.push_back('1');
             return true;
-        }
-        // get rid of ^1 sequences
-        fndP = unit_string.find("^(1)");
-        while (fndP != std::string::npos)
-        {
-            multiplyRep(unit_string, fndP, 4);
-            fndP = unit_string.find("^(1)", fndP);
         }
     }
     // remove leading *})],  equivalent of 1* but we don't need to process that further
