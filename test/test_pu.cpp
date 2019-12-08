@@ -5,9 +5,8 @@ See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
 
-#include "units/units.hpp"
-
 #include "test.hpp"
+#include "units/units.hpp"
 
 using namespace units;
 

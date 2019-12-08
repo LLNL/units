@@ -6,6 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #include "test.hpp"
 #include "units/units.hpp"
+
 #include <cmath>
 
 using namespace units::detail::testing;
@@ -134,7 +135,8 @@ TEST(leadingNumbers, complex)
     res = testLeadingNumber("4.1*0.7/(9.5*8.6)", index);
     EXPECT_EQ(res, 4.1 * 0.7 / (9.5 * 8.6));
 
-    res = testLeadingNumber("(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2", index);
+    res = testLeadingNumber(
+        "(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2", index);
     EXPECT_NEAR(res, pow(0.5, 18), 1e-20);
 }
 

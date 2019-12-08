@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/unit_definitions.hpp"
 #include "units/units_decl.hpp"
+
 #include <memory>
 
 using namespace units;
@@ -167,20 +168,16 @@ TEST(unitOps, equality1)
     int eqFailPos = 0;
     int eqFailNeg = 0;
     double start = 1.0;
-    while (start < (1.0 + 2e-6))
-    {
+    while (start < (1.0 + 2e-6)) {
         double diff = 0.0;
-        while (diff < 5e-7)
-        {
+        while (diff < 5e-7) {
             auto u1 = unit(start, V);
             auto u2 = unit(start + diff, V);
             auto u3 = unit(start - diff, V);
-            if (u1 != u2)
-            {
+            if (u1 != u2) {
                 ++eqFailPos;
             }
-            if (u1 != u3)
-            {
+            if (u1 != u3) {
                 ++eqFailNeg;
             }
             diff += 1e-9;
@@ -196,8 +193,12 @@ TEST(unitOps, flags)
     auto e1 = error;
     EXPECT_TRUE(e1.has_i_flag());
     EXPECT_TRUE(e1.has_e_flag());
-    static_assert(error.has_i_flag(), "Error flag should be constexpr and allowable in compile time constants");
-    static_assert(error.has_e_flag(), "Error flag should be constexpr and allowable in compile time constants");
+    static_assert(
+        error.has_i_flag(),
+        "Error flag should be constexpr and allowable in compile time constants");
+    static_assert(
+        error.has_e_flag(),
+        "Error flag should be constexpr and allowable in compile time constants");
 
     e1.clear_flags();
     EXPECT_FALSE(e1.has_i_flag());
@@ -231,20 +232,16 @@ TEST(unitOps, inequality1)
     int eqFailPos = 0;
     int eqFailNeg = 0;
     double start = 1.0;
-    while (start < (1.0 + 2e-6))
-    {
+    while (start < (1.0 + 2e-6)) {
         double diff = 1e-5;
-        while (diff > 2.501e-6)
-        {
+        while (diff > 2.501e-6) {
             auto u1 = unit(start, V);
             auto u2 = unit(start + diff, V);
             auto u3 = unit(start - diff, V);
-            if (u1 == u2)
-            {
+            if (u1 == u2) {
                 ++eqFailPos;
             }
-            if (u1 == u3)
-            {
+            if (u1 == u3) {
                 ++eqFailNeg;
             }
             diff -= 1e-8;
@@ -402,20 +399,16 @@ TEST(preciseunitOps, equality1)
     int eqFailPos = 0;
     int eqFailNeg = 0;
     double start = 1.0;
-    while (start < (1.0 + 2e-12))
-    {
+    while (start < (1.0 + 2e-12)) {
         double diff = 0.0;
-        while (diff < 5e-13)
-        {
+        while (diff < 5e-13) {
             auto u1 = precise_unit(start, precise::V);
             auto u2 = precise_unit(start + diff, precise::V);
             auto u3 = precise_unit(start - diff, precise::V);
-            if (u1 != u2)
-            {
+            if (u1 != u2) {
                 ++eqFailPos;
             }
-            if (u1 != u3)
-            {
+            if (u1 != u3) {
                 ++eqFailNeg;
             }
             diff += 1e-15;
@@ -431,10 +424,12 @@ TEST(preciseunitOps, flags)
     auto e1 = precise::error;
     EXPECT_TRUE(e1.has_i_flag());
     EXPECT_TRUE(e1.has_e_flag());
-    static_assert(precise::error.has_i_flag(),
-                  "Error flag should be constexpr and allowable in compile time constants");
-    static_assert(precise::error.has_e_flag(),
-                  "Error flag should be constexpr and allowable in compile time constants");
+    static_assert(
+        precise::error.has_i_flag(),
+        "Error flag should be constexpr and allowable in compile time constants");
+    static_assert(
+        precise::error.has_e_flag(),
+        "Error flag should be constexpr and allowable in compile time constants");
 
     e1.clear_flags();
     EXPECT_FALSE(e1.has_i_flag());
@@ -469,20 +464,16 @@ TEST(preciseunitOps, inequality1)
     int eqFailPos = 0;
     int eqFailNeg = 0;
     double start = 1.0;
-    while (start < (1.0 + 2e-12))
-    {
+    while (start < (1.0 + 2e-12)) {
         double diff = 1e-11;
-        while (diff > 2.501e-12)
-        {
+        while (diff > 2.501e-12) {
             auto u1 = precise_unit(start, precise::V);
             auto u2 = precise_unit(start + diff, precise::V);
             auto u3 = precise_unit(start - diff, precise::V);
-            if (u1 == u2)
-            {
+            if (u1 == u2) {
                 ++eqFailPos;
             }
-            if (u1 == u3)
-            {
+            if (u1 == u3) {
                 ++eqFailNeg;
             }
             diff -= 1e-14;
@@ -495,8 +486,7 @@ TEST(preciseunitOps, inequality1)
 
 TEST(invalidOps, saturate)
 {
-    for (int ii = -8; ii < 8; ++ii)
-    {
+    for (int ii = -8; ii < 8; ++ii) {
         auto nunit = precise::s.pow(ii);
         auto nunit2 = nunit.pow(2);
         EXPECT_EQ(nunit2.base_units().kg(), 0);
@@ -520,8 +510,7 @@ TEST(customUnits, definition)
 
 TEST(customUnits, testAllInv)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()));
         EXPECT_FALSE(precise::custom::is_custom_unit_inverted(cunit1.base_units()));
@@ -539,66 +528,63 @@ TEST(customUnits, testAllInv)
         EXPECT_FALSE(cunit2 == cunit3) << "Error with false comparison 2 index " << ii;
         EXPECT_TRUE(cunit1 == cunit3) << "Error with inversion " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()))
-          << "Error with custom unit detection " << ii;
+            << "Error with custom unit detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit2.base_units()))
-          << "Error with custom unit detection of inverse " << ii;
+            << "Error with custom unit detection of inverse " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit3.base_units()))
-          << "Error with custom unit detection inv inv" << ii;
+            << "Error with custom unit detection inv inv" << ii;
     }
 }
 
 TEST(customUnits, uniqueness)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1inv = cunit1.inv();
 
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1.base_units()), ii);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1.base_units()), ii);
-        for (unsigned short jj = 0; jj < 1024; ++jj)
-        {
-            if (ii == jj)
-            {
+        for (unsigned short jj = 0; jj < 1024; ++jj) {
+            if (ii == jj) {
                 continue;
             }
             auto cunit2 = precise::generate_custom_unit(jj);
-            EXPECT_FALSE(cunit1 == cunit2) << "Error with false comparison 1 index " << ii << "," << jj;
-            EXPECT_FALSE(cunit1 == cunit2.inv()) << "Error with false comparison 1 inv index " << ii << "," << jj;
-            EXPECT_FALSE(cunit1inv == cunit2) << "Error with false inv comparison 2 index " << ii << "," << jj;
+            EXPECT_FALSE(cunit1 == cunit2)
+                << "Error with false comparison 1 index " << ii << "," << jj;
+            EXPECT_FALSE(cunit1 == cunit2.inv())
+                << "Error with false comparison 1 inv index " << ii << "," << jj;
+            EXPECT_FALSE(cunit1inv == cunit2)
+                << "Error with false inv comparison 2 index " << ii << "," << jj;
             EXPECT_FALSE(cunit1inv == cunit2.inv())
-              << "Error with false inv comparison 2 inv index " << ii << "," << jj;
+                << "Error with false inv comparison 2 inv index " << ii << "," << jj;
         }
     }
 }
 
 TEST(customUnits, uniquenesspermeter)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::meter;
 
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.base_units()), ii);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.inv().base_units()), ii);
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()))
-          << "Error with custom unit/meter detection " << ii;
+            << "Error with custom unit/meter detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
-          << "Error with custom unit/meter detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj)
-        {
-            if (ii == jj)
-            {
+            << "Error with custom unit/meter detection of inverse " << ii;
+        for (unsigned short jj = 0; jj < 1024; ++jj) {
+            if (ii == jj) {
                 continue;
             }
             auto cunit2 = precise::generate_custom_unit(jj);
             auto cunit2adj = cunit2 / precise::m;
             EXPECT_FALSE(cunit1 == cunit2adj)
-              << "Error with false per meter comparison 1 inv index " << ii << "," << jj;
+                << "Error with false per meter comparison 1 inv index " << ii << "," << jj;
             EXPECT_FALSE(cunit1adj == cunit2)
-              << "Error with false per meter comparison 2 index " << ii << "," << jj;
+                << "Error with false per meter comparison 2 index " << ii << "," << jj;
             EXPECT_FALSE(cunit1adj == cunit2adj)
-              << "Error with false per meter comparison 2 per meter index " << ii << "," << jj;
+                << "Error with false per meter comparison 2 per meter index " << ii << "," << jj;
         }
         EXPECT_TRUE(cunit1adj * precise::m == cunit1) << "Error with true per meter multiply" << ii;
     }
@@ -606,92 +592,86 @@ TEST(customUnits, uniquenesspermeter)
 
 TEST(customUnits, uniquenesspermeter2)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::meter.pow(2);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.base_units()), ii);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.inv().base_units()), ii);
 
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()))
-          << "Error with custom unit/meter2 detection " << ii;
+            << "Error with custom unit/meter2 detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
-          << "Error with custom unit/meter2 detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj)
-        {
-            if (ii == jj)
-            {
+            << "Error with custom unit/meter2 detection of inverse " << ii;
+        for (unsigned short jj = 0; jj < 1024; ++jj) {
+            if (ii == jj) {
                 continue;
             }
             auto cunit2 = precise::generate_custom_unit(jj);
             auto cunit2adj = cunit2 / precise::m.pow(2);
             EXPECT_FALSE(cunit1 == cunit2adj)
-              << "Error with false per meter2 comparison 1 inv index " << ii << "," << jj;
+                << "Error with false per meter2 comparison 1 inv index " << ii << "," << jj;
             EXPECT_FALSE(cunit1adj == cunit2)
-              << "Error with false per meter2 comparison 2 index " << ii << "," << jj;
+                << "Error with false per meter2 comparison 2 index " << ii << "," << jj;
             EXPECT_FALSE(cunit1adj == cunit2adj)
-              << "Error with false per meter2 comparison 2 per meter2 index " << ii << "," << jj;
+                << "Error with false per meter2 comparison 2 per meter2 index " << ii << "," << jj;
         }
-        EXPECT_TRUE(cunit1adj * precise::m * precise::m == cunit1) << "Error with true per meter2 multiply" << ii;
+        EXPECT_TRUE(cunit1adj * precise::m * precise::m == cunit1)
+            << "Error with true per meter2 multiply" << ii;
     }
 }
 
 TEST(customUnits, uniquenesspermeter3)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::meter.pow(3);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.base_units()), ii);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.inv().base_units()), ii);
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()))
-          << "Error with custom unit/meter3 detection " << ii;
+            << "Error with custom unit/meter3 detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
-          << "Error with custom unit/meter3 detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj)
-        {
-            if (ii == jj)
-            {
+            << "Error with custom unit/meter3 detection of inverse " << ii;
+        for (unsigned short jj = 0; jj < 1024; ++jj) {
+            if (ii == jj) {
                 continue;
             }
             auto cunit2 = precise::generate_custom_unit(jj);
             auto cunit2adj = cunit2 / precise::m.pow(3);
             EXPECT_FALSE(cunit1 == cunit2adj)
-              << "Error with false per meter3 comparison 1 inv index " << ii << "," << jj;
+                << "Error with false per meter3 comparison 1 inv index " << ii << "," << jj;
             EXPECT_FALSE(cunit1adj == cunit2)
-              << "Error with false per meter3 comparison 2 index " << ii << "," << jj;
+                << "Error with false per meter3 comparison 2 index " << ii << "," << jj;
             EXPECT_FALSE(cunit1adj == cunit2adj)
-              << "Error with false per meter3 comparison 2 per meter3 index " << ii << "," << jj;
+                << "Error with false per meter3 comparison 2 per meter3 index " << ii << "," << jj;
         }
-        EXPECT_TRUE(cunit1adj * precise::m.pow(3) == cunit1) << "Error with true per meter3 multiply" << ii;
+        EXPECT_TRUE(cunit1adj * precise::m.pow(3) == cunit1)
+            << "Error with true per meter3 multiply" << ii;
     }
 }
 
 TEST(customUnits, uniquenessperkg)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::kg;
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.base_units()), ii);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.inv().base_units()), ii);
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()))
-          << "Error with custom unit/kg detection " << ii;
+            << "Error with custom unit/kg detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
-          << "Error with custom unit/kg detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj)
-        {
-            if (ii == jj)
-            {
+            << "Error with custom unit/kg detection of inverse " << ii;
+        for (unsigned short jj = 0; jj < 1024; ++jj) {
+            if (ii == jj) {
                 continue;
             }
             auto cunit2 = precise::generate_custom_unit(jj);
             auto cunit2adj = cunit2 / precise::kg;
             EXPECT_FALSE(cunit1 == cunit2adj)
-              << "Error with false per kg comparison 1 inv index " << ii << "," << jj;
-            EXPECT_FALSE(cunit1adj == cunit2) << "Error with false per kg comparison 2 index " << ii << "," << jj;
+                << "Error with false per kg comparison 1 inv index " << ii << "," << jj;
+            EXPECT_FALSE(cunit1adj == cunit2)
+                << "Error with false per kg comparison 2 index " << ii << "," << jj;
             EXPECT_FALSE(cunit1adj == cunit2adj)
-              << "Error with false per kg comparison 2 per kg index " << ii << "," << jj;
+                << "Error with false per kg comparison 2 per kg index " << ii << "," << jj;
         }
         EXPECT_TRUE(cunit1adj * precise::kg == cunit1) << "Error with true per kg multiply" << ii;
     }
@@ -699,29 +679,27 @@ TEST(customUnits, uniquenessperkg)
 
 TEST(customUnits, uniquenesspersecond)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::s;
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.base_units()), ii);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1adj.inv().base_units()), ii);
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()))
-          << "Error with custom unit/s detection " << ii;
+            << "Error with custom unit/s detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
-          << "Error with custom unit/s detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj)
-        {
-            if (ii == jj)
-            {
+            << "Error with custom unit/s detection of inverse " << ii;
+        for (unsigned short jj = 0; jj < 1024; ++jj) {
+            if (ii == jj) {
                 continue;
             }
             auto cunit2 = precise::generate_custom_unit(jj);
             auto cunit2adj = cunit2 / precise::s;
             EXPECT_FALSE(cunit1 == cunit2adj)
-              << "Error with false per sec comparison 1 inv index " << ii << "," << jj;
-            EXPECT_FALSE(cunit1adj == cunit2) << "Error with false per sec comparison 2 index " << ii << "," << jj;
+                << "Error with false per sec comparison 1 inv index " << ii << "," << jj;
+            EXPECT_FALSE(cunit1adj == cunit2)
+                << "Error with false per sec comparison 2 index " << ii << "," << jj;
             EXPECT_FALSE(cunit1adj == cunit2adj)
-              << "Error with false per sec comparison 2 per sec index " << ii << "," << jj;
+                << "Error with false per sec comparison 2 per sec index " << ii << "," << jj;
         }
         EXPECT_TRUE(cunit1adj * precise::s == cunit1) << "Error with true per sec multiply" << ii;
     }
@@ -736,8 +714,7 @@ TEST(customCountUnits, definition)
 
 TEST(customCountUnits, testAllInv)
 {
-    for (unsigned short ii = 0; ii < 16; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 16; ++ii) {
         auto cunit1 = precise::generate_custom_count_unit(ii);
         EXPECT_TRUE(precise::custom::is_custom_count_unit(cunit1.base_units()));
         EXPECT_FALSE(precise::custom::is_custom_count_unit_inverted(cunit1.base_units()));
@@ -755,35 +732,35 @@ TEST(customCountUnits, testAllInv)
         EXPECT_FALSE(cunit2 == cunit3) << "Error with false comparison 2 index " << ii;
         EXPECT_TRUE(cunit1 == cunit3) << "Error with inversion " << ii;
         EXPECT_TRUE(precise::custom::is_custom_count_unit(cunit1.base_units()))
-          << "Error with custom unit detection " << ii;
+            << "Error with custom unit detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_count_unit(cunit2.base_units()))
-          << "Error with custom unit detection of inverse " << ii;
+            << "Error with custom unit detection of inverse " << ii;
         EXPECT_TRUE(precise::custom::is_custom_count_unit(cunit3.base_units()))
-          << "Error with custom unit detection inv inv" << ii;
+            << "Error with custom unit detection inv inv" << ii;
     }
 }
 
 TEST(customCountUnits, uniqueness)
 {
-    for (unsigned short ii = 0; ii < 16; ++ii)
-    {
+    for (unsigned short ii = 0; ii < 16; ++ii) {
         auto cunit1 = precise::generate_custom_count_unit(ii);
         auto cunit1inv = cunit1.inv();
 
         EXPECT_EQ(precise::custom::custom_count_unit_number(cunit1.base_units()), ii);
         EXPECT_EQ(precise::custom::custom_count_unit_number(cunit1.base_units()), ii);
-        for (unsigned short jj = 0; jj < 16; ++jj)
-        {
-            if (ii == jj)
-            {
+        for (unsigned short jj = 0; jj < 16; ++jj) {
+            if (ii == jj) {
                 continue;
             }
             auto cunit2 = precise::generate_custom_count_unit(jj);
-            EXPECT_FALSE(cunit1 == cunit2) << "Error with false comparison 1 index " << ii << "," << jj;
-            EXPECT_FALSE(cunit1 == cunit2.inv()) << "Error with false comparison 1 inv index " << ii << "," << jj;
-            EXPECT_FALSE(cunit1inv == cunit2) << "Error with false inv comparison 2 index " << ii << "," << jj;
+            EXPECT_FALSE(cunit1 == cunit2)
+                << "Error with false comparison 1 index " << ii << "," << jj;
+            EXPECT_FALSE(cunit1 == cunit2.inv())
+                << "Error with false comparison 1 inv index " << ii << "," << jj;
+            EXPECT_FALSE(cunit1inv == cunit2)
+                << "Error with false inv comparison 2 index " << ii << "," << jj;
             EXPECT_FALSE(cunit1inv == cunit2.inv())
-              << "Error with false inv comparison 2 inv index " << ii << "," << jj;
+                << "Error with false inv comparison 2 inv index " << ii << "," << jj;
         }
     }
 }

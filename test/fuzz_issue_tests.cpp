@@ -5,9 +5,9 @@ See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
 
+#include "test.hpp"
 #include "units/units.hpp"
 
-#include "test.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -26,14 +26,13 @@ TEST(fuzzFailures, convFailures)
     EXPECT_NO_THROW(unit_from_string("EQXUN[{ ["));
 }
 
-std::string loadFailureFile(const std::string &type, int index)
+std::string loadFailureFile(const std::string& type, int index)
 {
     std::string fileName(TEST_FILE_FOLDER "/fuzz_issues/");
     fileName.append(type);
     fileName += std::to_string(index);
     std::ifstream crashFile(fileName, std::ios::in | std::ios::binary);
-    if (crashFile)
-    {
+    if (crashFile) {
         std::vector<char> buffer(std::istreambuf_iterator<char>(crashFile), {});
 
         std::string cdata(buffer.begin(), buffer.end());
@@ -42,8 +41,7 @@ std::string loadFailureFile(const std::string &type, int index)
     return std::string{};
 }
 
-class crashProblems : public ::testing::TestWithParam<int>
-{
+class crashProblems: public ::testing::TestWithParam<int> {
 };
 
 TEST_P(crashProblems, crashFiles)
@@ -55,13 +53,12 @@ TEST_P(crashProblems, crashFiles)
 INSTANTIATE_TEST_SUITE_P(crashFiles, crashProblems, ::testing::Range(1, 27));
 
 TEST(fuzzFailures, timeouts)
-{  // testing string that have caused a timeout from fuzz testing
+{ // testing string that have caused a timeout from fuzz testing
     EXPECT_NO_THROW(unit_from_string("3*3*"));
     EXPECT_NO_THROW(unit_from_string("((())"));
 }
 
-class timeoutProblems : public ::testing::TestWithParam<int>
-{
+class timeoutProblems: public ::testing::TestWithParam<int> {
 };
 
 TEST_P(timeoutProblems, timeoutFiles)
@@ -73,8 +70,7 @@ TEST_P(timeoutProblems, timeoutFiles)
 
 INSTANTIATE_TEST_SUITE_P(timeoutFiles, timeoutProblems, ::testing::Range(1, 22));
 
-class slowProblems : public ::testing::TestWithParam<int>
-{
+class slowProblems: public ::testing::TestWithParam<int> {
 };
 
 TEST_P(slowProblems, slowFiles)
@@ -86,8 +82,7 @@ TEST_P(slowProblems, slowFiles)
 
 INSTANTIATE_TEST_SUITE_P(slowFiles, slowProblems, ::testing::Range(1, 40));
 
-class oomProblems : public ::testing::TestWithParam<int>
-{
+class oomProblems: public ::testing::TestWithParam<int> {
 };
 
 TEST_P(oomProblems, oomFiles)
@@ -99,8 +94,7 @@ TEST_P(oomProblems, oomFiles)
 
 INSTANTIATE_TEST_SUITE_P(oomFiles, oomProblems, ::testing::Range(1, 65));
 
-class roundTripString : public ::testing::TestWithParam<std::string>
-{
+class roundTripString: public ::testing::TestWithParam<std::string> {
 };
 
 TEST_P(roundTripString, rtripconversions)
@@ -114,37 +108,36 @@ TEST_P(roundTripString, rtripconversions)
 }
 // these are all strings that at one point produced issues
 static const std::vector<std::string> testStrings{
-  "10*6.-10*6.-",
-  "mm-5",
-  "D/am",
-  "/0j",
-  "BQfr",
-  "oCoC",
-  "1_",
-  "Bs1",
-  "l-Ym",
-  "oCC0",
-  "oCGC",
-  "(G)1",
-  "Km6",
-  "{A}999999`",
-  "FU7\xb2t",
-  "FU7-C\xb2t",
-  "A\\-\xb2ps",
-  "{inDex}",
-  "F{U}{U}",
-  "PD-Np0pVcU",
-  "per2rUkUper2U+UK",
-  ".1.1.1.1e0.1.NNU",
-  "/-3Mh/L",
-  "NpmeterUS--3",
-  "sqZ+l",
+    "10*6.-10*6.-",
+    "mm-5",
+    "D/am",
+    "/0j",
+    "BQfr",
+    "oCoC",
+    "1_",
+    "Bs1",
+    "l-Ym",
+    "oCC0",
+    "oCGC",
+    "(G)1",
+    "Km6",
+    "{A}999999`",
+    "FU7\xb2t",
+    "FU7-C\xb2t",
+    "A\\-\xb2ps",
+    "{inDex}",
+    "F{U}{U}",
+    "PD-Np0pVcU",
+    "per2rUkUper2U+UK",
+    ".1.1.1.1e0.1.NNU",
+    "/-3Mh/L",
+    "NpmeterUS--3",
+    "sqZ+l",
 };
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
 
-class errorString : public ::testing::TestWithParam<std::string>
-{
+class errorString: public ::testing::TestWithParam<std::string> {
 };
 
 TEST_P(errorString, conversionErrors)
@@ -208,16 +201,14 @@ TEST(fuzzFailures, rtripconversions13)
     EXPECT_EQ(u2, u1);
 }
 
-class rtripProblems : public ::testing::TestWithParam<int>
-{
+class rtripProblems: public ::testing::TestWithParam<int> {
 };
 
 TEST_P(rtripProblems, rtripFiles)
 {
     auto cdata = loadFailureFile("rtrip_fail", GetParam());
     auto u1 = unit_from_string(cdata);
-    if (!is_error(u1))
-    {
+    if (!is_error(u1)) {
         auto str = to_string(u1);
         auto u2 = unit_from_string(str);
         EXPECT_FALSE(is_error(u2));

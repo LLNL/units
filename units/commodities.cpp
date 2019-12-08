@@ -94,189 +94,187 @@ enum commodity : uint32_t
 
 */
 
-namespace units
-{
-namespace commodities
-{
-    using commodityMap = std::unordered_map<uint32_t, const char *>;
+namespace units {
+namespace commodities {
+    using commodityMap = std::unordered_map<uint32_t, const char*>;
     static const commodityMap commodity_names{
-      {water, "water"},
-      // metals
-      {gold, "gold"},
-      {copper, "copper"},
-      {silver, "silver"},
-      {platinum, "platinum"},
-      {palladium, "palladium"},
-      {zinc, "zinc"},
-      {tin, "tin"},
-      {lead, "lead"},
-      {aluminum, "aluminum"},
-      {alluminum_alloy, "alluminum_alloy"},
-      {nickel, "nickel"},
-      {cobolt, "cobolt"},
-      {molybdenum, "molybdenum"},
+        {water, "water"},
+        // metals
+        {gold, "gold"},
+        {copper, "copper"},
+        {silver, "silver"},
+        {platinum, "platinum"},
+        {palladium, "palladium"},
+        {zinc, "zinc"},
+        {tin, "tin"},
+        {lead, "lead"},
+        {aluminum, "aluminum"},
+        {alluminum_alloy, "alluminum_alloy"},
+        {nickel, "nickel"},
+        {cobolt, "cobolt"},
+        {molybdenum, "molybdenum"},
 
-      // energy
-      {oil, "oil"},
-      {heat_oil, "heat_oil"},
-      {nat_gas, "nat_gas"},
-      {brent_crude, "brent_crude"},
-      {ethanol, "ethanol"},
-      {propane, "propane"},
-      // grains
-      {wheat, "wheat"},
-      {corn, "corn"},
-      {soybeans, "soybeans"},
-      {soybean_meal, "soybean_meal"},
-      {soybean_oil, "soybean_oil"},
-      {oats, "oats"},
-      {rice, "rice"},
-      {red_wheat, "red_wheat"},
-      {spring_wheat, "spring_wheat"},
-      {canola, "canola"},
-      {rough_rice, "rough_rice"},
-      {rapeseed, "rapeseed"},
-      {adzuci, "adzuci"},
-      {barley, "barley"},
-      // meats
-      {live_cattle, "live_cattle"},
-      {feeder_cattle, "feeder_cattle"},
-      {lean_hogs, "lean_hogs"},
-      {milk, "milk"},
+        // energy
+        {oil, "oil"},
+        {heat_oil, "heat_oil"},
+        {nat_gas, "nat_gas"},
+        {brent_crude, "brent_crude"},
+        {ethanol, "ethanol"},
+        {propane, "propane"},
+        // grains
+        {wheat, "wheat"},
+        {corn, "corn"},
+        {soybeans, "soybeans"},
+        {soybean_meal, "soybean_meal"},
+        {soybean_oil, "soybean_oil"},
+        {oats, "oats"},
+        {rice, "rice"},
+        {red_wheat, "red_wheat"},
+        {spring_wheat, "spring_wheat"},
+        {canola, "canola"},
+        {rough_rice, "rough_rice"},
+        {rapeseed, "rapeseed"},
+        {adzuci, "adzuci"},
+        {barley, "barley"},
+        // meats
+        {live_cattle, "live_cattle"},
+        {feeder_cattle, "feeder_cattle"},
+        {lean_hogs, "lean_hogs"},
+        {milk, "milk"},
 
-      // soft
-      {cotton, "cotton"},
-      {orange_juice, "orange_juice"},
-      {sugar, "sugar"},
-      {sugar_11, "sugar_11"},
-      {sugar_14, "sugar_14"},
-      {coffee, "coffee"},
-      {cocoa, "cocoa"},
-      {palm_oil, "palm_oil"},
-      {rubber, "rubber"},
-      {wool, "wool"},
-      {lumber, "lumber"},
+        // soft
+        {cotton, "cotton"},
+        {orange_juice, "orange_juice"},
+        {sugar, "sugar"},
+        {sugar_11, "sugar_11"},
+        {sugar_14, "sugar_14"},
+        {coffee, "coffee"},
+        {cocoa, "cocoa"},
+        {palm_oil, "palm_oil"},
+        {rubber, "rubber"},
+        {wool, "wool"},
+        {lumber, "lumber"},
 
-      // other common unit blocks
-      {people, "people"},
-      {particles, "particles"},
-      {cars, "cars"},
+        // other common unit blocks
+        {people, "people"},
+        {particles, "particles"},
+        {cars, "cars"},
 
-      // clinical
-      {tissue, "tissue"},
-      {cell, "cell"},
-      {embryo, "embryo"},
-      {Hahnemann, "Hahnemann"},
-      {Korsakov, "Korsakov"},
-      {creatinine, "creatinine"},
-      {protein, "protein"},
+        // clinical
+        {tissue, "tissue"},
+        {cell, "cell"},
+        {embryo, "embryo"},
+        {Hahnemann, "Hahnemann"},
+        {Korsakov, "Korsakov"},
+        {creatinine, "creatinine"},
+        {protein, "protein"},
 
-      {pixel, "pixel"},
-      {voxel, "voxel"},
-      {1073741824, "cxcomm[1073741824]"},  // this is a _____ string commodity that might somehow get generated
+        {pixel, "pixel"},
+        {voxel, "voxel"},
+        {1073741824,
+         "cxcomm[1073741824]"}, // this is a _____ string commodity that might somehow get generated
     };
 
     using commodityNameMap = std::unordered_map<std::string, uint32_t>;
     static const commodityNameMap commodity_codes{
-      {"_", 0},  // null commodity code, would cause some screwy things with the strings
-      {"__", 0},  // null commodity code, would cause some screwy things with the strings
-      {"___", 0},  // null commodity code, would cause some screwy things with the strings
-      {"____", 0},  // null commodity code, would cause some screwy things with the strings
-      {"_____", 0},  // null commodity code, would cause some screwy things with the strings
-      {"water", water},
-      // metals
-      {"gold", gold},
-      {"copper", copper},
-      {"silver", silver},
-      {"platinum", platinum},
-      {"palladium", palladium},
-      {"zinc", zinc},
-      {"tin", tin},
-      {"lead", lead},
-      {"aluminum", aluminum},
-      {"alluminum_alloy", alluminum_alloy},
-      {"nickel", nickel},
-      {"cobolt", cobolt},
-      {"molybdenum", molybdenum},
+        {"_", 0}, // null commodity code, would cause some screwy things with the strings
+        {"__", 0}, // null commodity code, would cause some screwy things with the strings
+        {"___", 0}, // null commodity code, would cause some screwy things with the strings
+        {"____", 0}, // null commodity code, would cause some screwy things with the strings
+        {"_____", 0}, // null commodity code, would cause some screwy things with the strings
+        {"water", water},
+        // metals
+        {"gold", gold},
+        {"copper", copper},
+        {"silver", silver},
+        {"platinum", platinum},
+        {"palladium", palladium},
+        {"zinc", zinc},
+        {"tin", tin},
+        {"lead", lead},
+        {"aluminum", aluminum},
+        {"alluminum_alloy", alluminum_alloy},
+        {"nickel", nickel},
+        {"cobolt", cobolt},
+        {"molybdenum", molybdenum},
 
-      // energy
-      {"oil", oil},
-      {"heat_oil", heat_oil},
-      {"nat_gas", nat_gas},
-      {"brent_crude", brent_crude},
-      {"ethanol", ethanol},
-      {"propane", propane},
-      // grains
-      {"wheat", wheat},
-      {"corn", corn},
-      {"soybeans", soybeans},
-      {"soybean_meal", soybean_meal},
-      {"soybean_oil", soybean_oil},
-      {"oats", oats},
-      {"rice", rice},
-      {"red_wheat", red_wheat},
-      {"spring_wheat", spring_wheat},
-      {"canola", canola},
-      {"rough_rice", rough_rice},
-      {"rapeseed", rapeseed},
-      {"adzuci", adzuci},
-      {"barley", barley},
-      // meats
-      {"live_cattle", live_cattle},
-      {"feeder_cattle", feeder_cattle},
-      {"lean_hogs", lean_hogs},
-      {"milk", milk},
+        // energy
+        {"oil", oil},
+        {"heat_oil", heat_oil},
+        {"nat_gas", nat_gas},
+        {"brent_crude", brent_crude},
+        {"ethanol", ethanol},
+        {"propane", propane},
+        // grains
+        {"wheat", wheat},
+        {"corn", corn},
+        {"soybeans", soybeans},
+        {"soybean_meal", soybean_meal},
+        {"soybean_oil", soybean_oil},
+        {"oats", oats},
+        {"rice", rice},
+        {"red_wheat", red_wheat},
+        {"spring_wheat", spring_wheat},
+        {"canola", canola},
+        {"rough_rice", rough_rice},
+        {"rapeseed", rapeseed},
+        {"adzuci", adzuci},
+        {"barley", barley},
+        // meats
+        {"live_cattle", live_cattle},
+        {"feeder_cattle", feeder_cattle},
+        {"lean_hogs", lean_hogs},
+        {"milk", milk},
 
-      // soft
-      {"cotton", cotton},
-      {"orange_juice", orange_juice},
-      {"sugar", sugar},
-      {"sugar_11", sugar_11},
-      {"sugar_14", sugar_14},
-      {"coffee", coffee},
-      {"cocoa", cocoa},
-      {"palm_oil", palm_oil},
-      {"rubber", rubber},
-      {"wool", wool},
-      {"lumber", lumber},
+        // soft
+        {"cotton", cotton},
+        {"orange_juice", orange_juice},
+        {"sugar", sugar},
+        {"sugar_11", sugar_11},
+        {"sugar_14", sugar_14},
+        {"coffee", coffee},
+        {"cocoa", cocoa},
+        {"palm_oil", palm_oil},
+        {"rubber", rubber},
+        {"wool", wool},
+        {"lumber", lumber},
 
-      // other common unit blocks
-      {"people", people},
-      {"particles", particles},
-      {"cars", cars},
+        // other common unit blocks
+        {"people", people},
+        {"particles", particles},
+        {"cars", cars},
 
-      // clinical
-      {"tissue", tissue},
-      {"cell", cell},
-      {"cells", cell},
-      {"embryo", embryo},
-      {"hahnemann", Hahnemann},
-      {"korsakov", Korsakov},
-      {"protein", protein},
-      {"creatinine", creatinine},
-      {"prot", protein},
-      {"creat", creatinine},
-      // computer
-      {"voxel", voxel},
-      {"pixel", pixel},
-      {"vox", voxel},
-      {"pix", pixel},
-      {"dot", pixel},
+        // clinical
+        {"tissue", tissue},
+        {"cell", cell},
+        {"cells", cell},
+        {"embryo", embryo},
+        {"hahnemann", Hahnemann},
+        {"korsakov", Korsakov},
+        {"protein", protein},
+        {"creatinine", creatinine},
+        {"prot", protein},
+        {"creat", creatinine},
+        // computer
+        {"voxel", voxel},
+        {"pixel", pixel},
+        {"vox", voxel},
+        {"pix", pixel},
+        {"dot", pixel},
     };
-}  // namespace commodities
+} // namespace commodities
 
 #define A 54059 /* a prime */
 #define B 76963 /* another prime */
 #define C 86969 /* yet another prime */
 #define FIRSTH 37 /* also prime */
-uint32_t stringHash(const std::string &str)
+uint32_t stringHash(const std::string& str)
 {
     uint32_t h = FIRSTH;
-    for (auto c : str)
-    {
+    for (auto c : str) {
         h = (h * A) ^ (c * B);
     }
-    return h;  // or return h % C;
+    return h; // or return h % C;
 }
 
 static std::atomic<bool> allowCustomCommodities{true};
@@ -294,25 +292,23 @@ bool enableCustomCommodities()
 static commodities::commodityNameMap customCommodityCodes;
 static std::unordered_map<uint32_t, std::string> customCommodityNames;
 /// remove some escaped characters from a string mainly the escape character and (){}[]
-static void removeEscapeSequences(std::string &str)
+static void removeEscapeSequences(std::string& str)
 {
     auto eloc = str.find_first_of('\\');
-    while (eloc < str.size() - 1)
-    {
+    while (eloc < str.size() - 1) {
         auto nc = str[eloc + 1];
-        switch (nc)
-        {
-        case '\\':
-        case '{':
-        case '}':
-        case '(':
-        case ')':
-        case '[':
-        case ']':
-            str.erase(eloc, 1);
-            break;
-        default:
-            break;
+        switch (nc) {
+            case '\\':
+            case '{':
+            case '}':
+            case '(':
+            case ')':
+            case '[':
+            case ']':
+                str.erase(eloc, 1);
+                break;
+            default:
+                break;
         }
         eloc = str.find_first_of('\\', eloc + 1);
     }
@@ -323,31 +319,25 @@ uint32_t getCommodity(std::string comm)
     removeEscapeSequences(comm);
     std::transform(comm.begin(), comm.end(), comm.begin(), ::tolower);
     auto fnd = commodities::commodity_codes.find(comm);
-    if (fnd != commodities::commodity_codes.end())
-    {
+    if (fnd != commodities::commodity_codes.end()) {
         return fnd->second;
     }
-    if (!customCommodityCodes.empty())
-    {
+    if (!customCommodityCodes.empty()) {
         auto fnd2 = customCommodityCodes.find(comm);
-        if (fnd2 != customCommodityCodes.end())
-        {
+        if (fnd2 != customCommodityCodes.end()) {
             return fnd2->second;
         }
     }
-    if (comm.compare(0, 7, "cxcomm[") == 0)
-    {
+    if (comm.compare(0, 7, "cxcomm[") == 0) {
         return static_cast<int32_t>(atoi(comm.c_str() + 7));
     }
-    if ((comm.size() < 6) &&
-        std::all_of(comm.begin(), comm.end(), [](char x) { return (x == ' ' || (x >= '_' && x <= '}')); }))
-    {
+    if ((comm.size() < 6) && std::all_of(comm.begin(), comm.end(), [](char x) {
+            return (x == ' ' || (x >= '_' && x <= '}'));
+        })) {
         uint32_t hkey = 0x40000000;
         int shift = 0;
-        for (auto c : comm)
-        {
-            if (c == ' ')
-            {
+        for (auto c : comm) {
+            if (c == ' ') {
                 c = '_';
             }
             c -= '_';
@@ -369,28 +359,23 @@ uint32_t getCommodity(std::string comm)
 std::string getCommodityName(uint32_t commodity)
 {
     auto fnd = commodities::commodity_names.find(commodity);
-    if (fnd != commodities::commodity_names.end())
-    {
+    if (fnd != commodities::commodity_names.end()) {
         return fnd->second;
     }
-    if (!customCommodityNames.empty())
-    {
+    if (!customCommodityNames.empty()) {
         auto fnd2 = customCommodityNames.find(commodity);
-        if (fnd2 != customCommodityNames.end())
-        {
+        if (fnd2 != customCommodityNames.end()) {
             return fnd2->second;
         }
     }
-    if ((commodity & 0x60000000) == 0x40000000)
-    {
+    if ((commodity & 0x60000000) == 0x40000000) {
         std::string ret;
         ret.push_back((commodity & 0X1F) + '_');
         ret.push_back(((commodity >> 5) & 0X1F) + '_');
         ret.push_back(((commodity >> 10) & 0X1F) + '_');
         ret.push_back(((commodity >> 15) & 0X1F) + '_');
         ret.push_back(((commodity >> 20) & 0X1F) + '_');
-        while (!ret.empty() && ret.back() == '_')
-        {
+        while (!ret.empty() && ret.back() == '_') {
             ret.pop_back();
         }
         return ret;
@@ -401,8 +386,7 @@ std::string getCommodityName(uint32_t commodity)
 // add a custom commodity for later retrieval
 void addCustomCommodity(std::string comm, uint32_t code)
 {
-    if (allowCustomCommodities.load())
-    {
+    if (allowCustomCommodities.load()) {
         std::transform(comm.begin(), comm.end(), comm.begin(), ::tolower);
         customCommodityNames.emplace(code, comm);
         customCommodityCodes.emplace(comm, code);
@@ -414,4 +398,4 @@ void clearCustomCommodities()
     customCommodityNames.clear();
     customCommodityCodes.clear();
 }
-}  // namespace units
+} // namespace units

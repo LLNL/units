@@ -5,9 +5,8 @@ See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
 
-#include "units/units.hpp"
-
 #include "test.hpp"
+#include "units/units.hpp"
 
 using namespace units;
 
@@ -89,7 +88,8 @@ TEST(logUnits, negbase10)
     EXPECT_EQ(convert(-3.0, precise::log::neglog10, precise::kilo), 1.0);
     EXPECT_DOUBLE_EQ(convert(3.0, precise::log::neglog10, precise::milli), 1.0);
     EXPECT_DOUBLE_EQ(convert(-18.0, precise::log::neglog10, precise::exa), 1.0);
-    EXPECT_NEAR(convert(15.0, precise::log::neglog10, precise::femto), 1.0, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(15.0, precise::log::neglog10, precise::femto), 1.0, test::precise_tolerance);
 }
 
 TEST(logUnits, dB)
@@ -147,7 +147,8 @@ TEST(logUnits, negbase50000)
     EXPECT_EQ(convert(-1.0, precise::log::neglog50000, precise::one), 50000.0);
     EXPECT_EQ(convert(1.0, precise::log::neglog50000, precise::one), 1.0 / 50000.0);
     EXPECT_EQ(convert(-2.0, precise::log::neglog50000, precise::one), (50000.0 * 50000.0));
-    EXPECT_DOUBLE_EQ(convert(2.0, precise::log::neglog50000, precise::one), 1.0 / (50000.0 * 50000.0));
+    EXPECT_DOUBLE_EQ(
+        convert(2.0, precise::log::neglog50000, precise::one), 1.0 / (50000.0 * 50000.0));
 }
 
 TEST(logUnits, neper)
@@ -186,56 +187,82 @@ TEST(logUnits, log2)
 TEST(logUnits, dBNeperConversions)
 {
     EXPECT_EQ(convert(1.0, precise::log::bel, precise::log::dB), 10.0);
-    EXPECT_NEAR(convert(1.0, precise::log::bel, precise::log::neper), 1.1512925465, test::tolerance);
-    EXPECT_NEAR(convert(10.0, precise::log::dB, precise::log::neper), 1.1512925465, test::tolerance);
+    EXPECT_NEAR(
+        convert(1.0, precise::log::bel, precise::log::neper), 1.1512925465, test::tolerance);
+    EXPECT_NEAR(
+        convert(10.0, precise::log::dB, precise::log::neper), 1.1512925465, test::tolerance);
 
-    EXPECT_NEAR(convert(10.0, precise::log::dB * precise::V, precise::log::neper * precise::V), 1.1512925465,
-                test::tolerance);
-    EXPECT_NEAR(convert(10.0, precise::log::dB * precise::W, precise::log::neper * precise::W), 1.1512925465,
-                test::tolerance);
+    EXPECT_NEAR(
+        convert(10.0, precise::log::dB * precise::V, precise::log::neper * precise::V),
+        1.1512925465,
+        test::tolerance);
+    EXPECT_NEAR(
+        convert(10.0, precise::log::dB * precise::W, precise::log::neper * precise::W),
+        1.1512925465,
+        test::tolerance);
 
-    EXPECT_NEAR(convert(10.0, precise::log::dB * precise::V, precise::log::neperA * precise::V), 1.1512925465,
-                test::tolerance);
-    EXPECT_NEAR(convert(10.0, precise::log::dB * precise::W, precise::log::neperP * precise::W), 1.1512925465,
-                test::tolerance);
+    EXPECT_NEAR(
+        convert(10.0, precise::log::dB * precise::V, precise::log::neperA * precise::V),
+        1.1512925465,
+        test::tolerance);
+    EXPECT_NEAR(
+        convert(10.0, precise::log::dB * precise::W, precise::log::neperP * precise::W),
+        1.1512925465,
+        test::tolerance);
 
-    EXPECT_NEAR(convert(1.1512925465, precise::log::neper * precise::V, precise::log::dB * precise::V), 10.0,
-                test::tolerance);
-    EXPECT_NEAR(convert(1.1512925465, precise::log::neper * precise::W, precise::log::dB * precise::W), 10.0,
-                test::tolerance);
+    EXPECT_NEAR(
+        convert(1.1512925465, precise::log::neper * precise::V, precise::log::dB * precise::V),
+        10.0,
+        test::tolerance);
+    EXPECT_NEAR(
+        convert(1.1512925465, precise::log::neper * precise::W, precise::log::dB * precise::W),
+        10.0,
+        test::tolerance);
 
-    EXPECT_NEAR(convert(1.1512925465, precise::log::neperA * precise::V, precise::log::dB * precise::V), 10.0,
-                test::tolerance);
-    EXPECT_NEAR(convert(1.1512925465, precise::log::neperP * precise::W, precise::log::dB * precise::W), 10.0,
-                test::tolerance);
+    EXPECT_NEAR(
+        convert(1.1512925465, precise::log::neperA * precise::V, precise::log::dB * precise::V),
+        10.0,
+        test::tolerance);
+    EXPECT_NEAR(
+        convert(1.1512925465, precise::log::neperP * precise::W, precise::log::dB * precise::W),
+        10.0,
+        test::tolerance);
 
     EXPECT_EQ(convert(10.0, precise::log::bel, precise::log::dB), 100.0);
-    EXPECT_NEAR(convert(10.0, precise::log::bel, precise::log::neper), 11.512925465, test::tolerance);
-    EXPECT_NEAR(convert(100.0, precise::log::dB, precise::log::neper), 11.512925465, test::tolerance);
+    EXPECT_NEAR(
+        convert(10.0, precise::log::bel, precise::log::neper), 11.512925465, test::tolerance);
+    EXPECT_NEAR(
+        convert(100.0, precise::log::dB, precise::log::neper), 11.512925465, test::tolerance);
 
     EXPECT_NEAR(convert(2.0, precise::log::dB, precise::log::neper), 0.2302585093, test::tolerance);
 
-    EXPECT_NEAR(convert(5.0, precise::log::neper, precise::log::dB), 43.4294481903, test::tolerance);
+    EXPECT_NEAR(
+        convert(5.0, precise::log::neper, precise::log::dB), 43.4294481903, test::tolerance);
     EXPECT_NEAR(convert(5.0, precise::log::neper, precise::log::bel), 4.342944819, test::tolerance);
 }
 
 TEST(logUnits, pH)
 {
-    EXPECT_NEAR(convert(0.0025, precise::laboratory::molarity, precise::laboratory::pH), 2.6, 0.005);
-    EXPECT_NEAR(convert(8.34, precise::laboratory::pH, precise::laboratory::molarity), 4.57e-9, 0.005);
-    EXPECT_NEAR(convert(4.82e-5, precise::laboratory::molarity, precise::laboratory::pH), 4.32, 0.005);
+    EXPECT_NEAR(
+        convert(0.0025, precise::laboratory::molarity, precise::laboratory::pH), 2.6, 0.005);
+    EXPECT_NEAR(
+        convert(8.34, precise::laboratory::pH, precise::laboratory::molarity), 4.57e-9, 0.005);
+    EXPECT_NEAR(
+        convert(4.82e-5, precise::laboratory::molarity, precise::laboratory::pH), 4.32, 0.005);
 }
 
 TEST(logUnits, general)
 {
-    double res = convert(20.0, precise::log::dBA * precise::m / precise::s, precise::m / precise::s);
+    double res =
+        convert(20.0, precise::log::dBA * precise::m / precise::s, precise::m / precise::s);
     EXPECT_DOUBLE_EQ(res, 10.0);
     res = convert(100.0, precise::m / precise::s, precise::log::dBA * precise::m / precise::s);
     EXPECT_DOUBLE_EQ(res, 40.0);
 
     res = convert(10.0, precise::log::dBP * precise::km / precise::hr, precise::m / precise::s);
     EXPECT_DOUBLE_EQ(res, 10000.0 / 3600.0);
-    res = convert(100000.0 / 3600.0, precise::m / precise::s, precise::log::dBP * precise::km / precise::hr);
+    res = convert(
+        100000.0 / 3600.0, precise::m / precise::s, precise::log::dBP * precise::km / precise::hr);
     EXPECT_DOUBLE_EQ(res, 20.0);
 }
 
@@ -273,8 +300,7 @@ TEST(otherUnits, saffirSimpson2Speed)
     EXPECT_NEAR(convert(0.0, precise::special::sshws, precise::mph), 39.0, 1.0);
 }
 
-class beaufort : public ::testing::TestWithParam<std::pair<double, double>>
-{
+class beaufort: public ::testing::TestWithParam<std::pair<double, double>> {
 };
 
 TEST_P(beaufort, beaufortTests)
@@ -290,8 +316,19 @@ TEST_P(beaufort, beaufortTests)
 }
 
 static const std::vector<std::pair<double, double>> testBValues{
-  {0.0, 0.0},  {1.5, 2.0},  {2.0, 4.0},  {3.0, 8.0},   {4.0, 13.0},  {5.0, 19.0},  {6.0, 25.0},
-  {7.0, 32.0}, {8.0, 39.0}, {9.0, 47.0}, {10.0, 55.0}, {11.0, 64.0}, {12.0, 73.0},
+    {0.0, 0.0},
+    {1.5, 2.0},
+    {2.0, 4.0},
+    {3.0, 8.0},
+    {4.0, 13.0},
+    {5.0, 19.0},
+    {6.0, 25.0},
+    {7.0, 32.0},
+    {8.0, 39.0},
+    {9.0, 47.0},
+    {10.0, 55.0},
+    {11.0, 64.0},
+    {12.0, 73.0},
 };
 
 INSTANTIATE_TEST_SUITE_P(beaufortConversionTests, beaufort, ::testing::ValuesIn(testBValues));
@@ -299,11 +336,13 @@ INSTANTIATE_TEST_SUITE_P(beaufortConversionTests, beaufort, ::testing::ValuesIn(
 TEST(otherUnits, saffirSimpson2Sbeaufort)
 {
     EXPECT_NEAR(convert(12.1, precise::special::beaufort, precise::special::sshws), 1.05, 0.05);
-    EXPECT_NEAR(convert(0.0, precise::special::sshws, precise::special::beaufort), 8.0, 0.05);  // tropical storm
+    EXPECT_NEAR(
+        convert(0.0, precise::special::sshws, precise::special::beaufort),
+        8.0,
+        0.05); // tropical storm
 }
 
-class fujita : public ::testing::TestWithParam<std::pair<double, double>>
-{
+class fujita: public ::testing::TestWithParam<std::pair<double, double>> {
 };
 
 TEST_P(fujita, fujitaTests)
@@ -319,7 +358,12 @@ TEST_P(fujita, fujitaTests)
 }
 
 static const std::vector<std::pair<double, double>> testFValues{
-  {0.0, 40.0}, {1.0, 73.0}, {2.0, 113}, {3.0, 158.0}, {4.0, 207.0}, {5.0, 261},
+    {0.0, 40.0},
+    {1.0, 73.0},
+    {2.0, 113},
+    {3.0, 158.0},
+    {4.0, 207.0},
+    {5.0, 261},
 };
 
 INSTANTIATE_TEST_SUITE_P(fujitaConversionTests, fujita, ::testing::ValuesIn(testFValues));
@@ -354,12 +398,14 @@ TEST(otherUnits, Richter)
     auto conv5 = convert(5.0, precise::special::moment_magnitude, precise::N * precise::m);
     EXPECT_FALSE(std::isnan(conv5));
 
-    EXPECT_NEAR(convert(conv5, precise::N * precise::m, precise::special::moment_magnitude), 5.0, 0.0001);
+    EXPECT_NEAR(
+        convert(conv5, precise::N * precise::m, precise::special::moment_magnitude), 5.0, 0.0001);
 
     auto conv7 = convert(7.0, precise::special::moment_magnitude, precise::N * precise::m);
     EXPECT_FALSE(std::isnan(conv7));
 
-    EXPECT_NEAR(convert(conv7, precise::N * precise::m, precise::special::moment_magnitude), 7.0, 0.0001);
+    EXPECT_NEAR(
+        convert(conv7, precise::N * precise::m, precise::special::moment_magnitude), 7.0, 0.0001);
 
     EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
 }

@@ -5,9 +5,8 @@ See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
 
-#include "units/units.hpp"
-
 #include "test.hpp"
+#include "units/units.hpp"
 
 static const double neg_forty_C = -40.0;
 static const double neg_forty_C_in_F = -40.0;
@@ -90,12 +89,15 @@ TEST(Temperature, ConversionsUnitPrecise)
 TEST(Temperature, ConversionsUnitPreciseUnit2Precise)
 {
     using namespace units;
-    EXPECT_NEAR(convert(neg_forty_C, degC, precise::degF), neg_forty_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C, degC, precise::degF), neg_forty_C_in_F, test::precise_tolerance);
     EXPECT_NEAR(convert(neg_forty_C, degC, precise::K), neg_forty_C_in_K, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(neg_forty_C_in_F, degF, precise::degC), neg_forty_C, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_F, degF, precise::degC), neg_forty_C, test::precise_tolerance);
     EXPECT_NEAR(convert(neg_forty_C_in_K, K, precise::degC), neg_forty_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C_in_K, K, precise::degF), neg_forty_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_K, K, precise::degF), neg_forty_C_in_F, test::precise_tolerance);
 
     EXPECT_NEAR(convert(zero_C, degC, precise::degF), zero_C_in_F, test::precise_tolerance);
     EXPECT_NEAR(convert(zero_C, degC, precise::K), zero_C_in_K, test::precise_tolerance);
@@ -122,12 +124,15 @@ TEST(Temperature, ConversionsUnitPreciseUnit2Precise)
 TEST(Temperature, ConversionsUnitPrecise2Unit)
 {
     using namespace units;
-    EXPECT_NEAR(convert(neg_forty_C, precise::degC, degF), neg_forty_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C, precise::degC, degF), neg_forty_C_in_F, test::precise_tolerance);
     EXPECT_NEAR(convert(neg_forty_C, precise::degC, K), neg_forty_C_in_K, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(neg_forty_C_in_F, precise::degF, degC), neg_forty_C, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_F, precise::degF, degC), neg_forty_C, test::precise_tolerance);
     EXPECT_NEAR(convert(neg_forty_C_in_K, precise::K, degC), neg_forty_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C_in_K, precise::K, degF), neg_forty_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_K, precise::K, degF), neg_forty_C_in_F, test::precise_tolerance);
 
     EXPECT_NEAR(convert(zero_C, precise::degC, degF), zero_C_in_F, test::precise_tolerance);
     EXPECT_NEAR(convert(zero_C, precise::degC, K), zero_C_in_K, test::precise_tolerance);
@@ -207,10 +212,15 @@ TEST(TimeConversions, Correctness)
     EXPECT_NEAR(convert(min, s), one_min_in_sec, test::tolerance);
     EXPECT_NEAR(convert(hr, min), one_hour_in_min, test::tolerance);
     EXPECT_NEAR(convert(unit_cast(precise::time::day), hr), one_day_in_hour, test::tolerance);
-    EXPECT_NEAR(convert(unit_cast(precise::time::week), unit_cast(precise::time::day)), one_week_in_day,
-                test::tolerance);
+    EXPECT_NEAR(
+        convert(unit_cast(precise::time::week), unit_cast(precise::time::day)),
+        one_week_in_day,
+        test::tolerance);
     EXPECT_NEAR(convert(unit_cast(precise::time::day), s), one_day_in_sec, test::tolerance);
-    EXPECT_NEAR(convert(unit_cast(precise::time::yr), unit_cast(precise::time::day)), 365.0, test::tolerance);
+    EXPECT_NEAR(
+        convert(unit_cast(precise::time::yr), unit_cast(precise::time::day)),
+        365.0,
+        test::tolerance);
 }
 
 TEST(TimeConversionsPrecise, Correctness)
@@ -226,7 +236,8 @@ TEST(TimeConversionsPrecise, Correctness)
     EXPECT_NEAR(convert(hr, min), one_hour_in_min, test::precise_tolerance);
     EXPECT_NEAR(convert(day, hr), one_day_in_hour, test::precise_tolerance);
     EXPECT_NEAR(convert(week, day), one_week_in_day, test::precise_tolerance);
-    EXPECT_NEAR(convert(day, units::precise::s), one_day_in_sec, test::precise_tolerance * one_day_in_sec);
+    EXPECT_NEAR(
+        convert(day, units::precise::s), one_day_in_sec, test::precise_tolerance * one_day_in_sec);
     EXPECT_NEAR(convert(yr, day), 365.0, test::precise_tolerance * 365.0);
 }
 
@@ -275,7 +286,8 @@ TEST(ImperialTranslations, Correctness)
     EXPECT_NEAR(convert(ft, in), one_ft_in_in, test::tolerance);
     EXPECT_NEAR(convert(in, cm), 2.54, test::tolerance);
 
-    EXPECT_NEAR(convert(precise::mile, precise::yd), one_mi_in_yd, test::precise_tolerance * one_mi_in_yd);
+    EXPECT_NEAR(
+        convert(precise::mile, precise::yd), one_mi_in_yd, test::precise_tolerance * one_mi_in_yd);
     EXPECT_NEAR(convert(precise::yd, precise::ft), one_yd_in_ft, test::precise_tolerance);
     EXPECT_NEAR(convert(precise::ft, precise::in), one_ft_in_in, test::precise_tolerance);
     EXPECT_NEAR(convert(precise::in, precise::cm), 2.54, test::precise_tolerance);
@@ -428,7 +440,9 @@ TEST(quickConvert, invalid)
 TEST(quickConvert, const_constexpr)
 {
     using namespace units;
-    static_assert(quick_convert(precise::in, precise::cm) == 2.54, "results of quick_convert not correct");
-    static_assert(quick_convert(2.0, precise::in, precise::cm) == 2.0 * 2.54,
-                  "results of quick_convert 2 not correct");
+    static_assert(
+        quick_convert(precise::in, precise::cm) == 2.54, "results of quick_convert not correct");
+    static_assert(
+        quick_convert(2.0, precise::in, precise::cm) == 2.0 * 2.54,
+        "results of quick_convert 2 not correct");
 }

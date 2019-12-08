@@ -6,6 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #include "test.hpp"
 #include "units/units.hpp"
+
 #include <type_traits>
 
 using namespace units;

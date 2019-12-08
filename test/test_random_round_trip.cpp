@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "test.hpp"
 #include "units/units.hpp"
+
 #include <limits>
 #include <random>
 
@@ -15,10 +16,10 @@ using namespace units;
 TEST(randomRoundTrip, basic)
 {
     std::default_random_engine generator;
-    std::uniform_int_distribution<unsigned int> distribution(0, std::numeric_limits<unsigned int>::max());
+    std::uniform_int_distribution<unsigned int> distribution(
+        0, std::numeric_limits<unsigned int>::max());
 
-    for (auto ii = 0; ii < 6000; ++ii)
-    {
+    for (auto ii = 0; ii < 6000; ++ii) {
         auto start = distribution(generator);
         detail::unit_data unitdata(nullptr);
         memcpy(&unitdata, &start, 4);
@@ -29,8 +30,7 @@ TEST(randomRoundTrip, basic)
     }
 }
 
-struct rtrip : public ::testing::TestWithParam<unsigned int>
-{
+struct rtrip: public ::testing::TestWithParam<unsigned int> {
 };
 
 TEST_P(rtrip, testConversions)

@@ -6,6 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #include "test.hpp"
 #include "units/units.hpp"
+
 #include <type_traits>
 
 using namespace units;
@@ -64,8 +65,9 @@ TEST(Measurement, help_constructors)
     auto d1 = 45.0 * m;
     auto d2 = m * 79.0;
 
-    static_assert(std::is_same<decltype(d1), decltype(d2)>::value,
-                  "Types are not producing same measurement type");
+    static_assert(
+        std::is_same<decltype(d1), decltype(d2)>::value,
+        "Types are not producing same measurement type");
 
     auto area = d1 * d2;
     EXPECT_EQ(area.value(), 45.0 * 79);
@@ -284,8 +286,9 @@ TEST(PrecisionMeasurement, help_constructors)
     auto d1 = 45.0 * precise::m;
     auto d2 = precise::m * 79.0;
 
-    static_assert(std::is_same<decltype(d1), decltype(d2)>::value,
-                  "Types are not producing same measurement type");
+    static_assert(
+        std::is_same<decltype(d1), decltype(d2)>::value,
+        "Types are not producing same measurement type");
 
     auto area = d1 * d2;
     EXPECT_EQ(area.value(), 45.0 * 79);
