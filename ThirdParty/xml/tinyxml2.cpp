@@ -25,11 +25,11 @@ distribution.
 
 #include <new> // yes, this one new style header, is in the Android SDK.
 #if defined(ANDROID_NDK) || defined(__BORLANDC__) || defined(__QNXNTO__)
-#    include <stdarg.h>
-#    include <stddef.h>
+#include <stdarg.h>
+#include <stddef.h>
 #else
-#    include <cstdarg>
-#    include <cstddef>
+#include <cstdarg>
+#include <cstddef>
 #endif
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1400) && (!defined WINCE)
@@ -56,18 +56,18 @@ static inline int TIXML_VSNPRINTF(char* buffer, size_t size, const char* format,
     return result;
 }
 
-#    define TIXML_VSCPRINTF _vscprintf
-#    define TIXML_SSCANF sscanf_s
+#define TIXML_VSCPRINTF _vscprintf
+#define TIXML_SSCANF sscanf_s
 #elif defined _MSC_VER
 // Microsoft Visual Studio 2003 and earlier or WinCE
-#    define TIXML_SNPRINTF _snprintf
-#    define TIXML_VSNPRINTF _vsnprintf
-#    define TIXML_SSCANF sscanf
-#    if (_MSC_VER < 1400) && (!defined WINCE)
+#define TIXML_SNPRINTF _snprintf
+#define TIXML_VSNPRINTF _vsnprintf
+#define TIXML_SSCANF sscanf
+#if (_MSC_VER < 1400) && (!defined WINCE)
 // Microsoft Visual Studio 2003 and not WinCE.
-#        define TIXML_VSCPRINTF                                                                    \
-            _vscprintf // VS2003's C runtime has this, but VC6 C runtime or WinCE SDK doesn't have.
-#    else
+#define TIXML_VSCPRINTF                                                                            \
+    _vscprintf // VS2003's C runtime has this, but VC6 C runtime or WinCE SDK doesn't have.
+#else
 // Microsoft Visual Studio 2003 and earlier or WinCE.
 static inline int TIXML_VSCPRINTF(const char* format, va_list va)
 {
@@ -86,19 +86,19 @@ static inline int TIXML_VSCPRINTF(const char* format, va_list va)
     TIXMLASSERT(len >= 0);
     return len;
 }
-#    endif
+#endif
 #else
 // GCC version 3 and higher
 //#warning( "Using sn* functions." )
-#    define TIXML_SNPRINTF snprintf
-#    define TIXML_VSNPRINTF vsnprintf
+#define TIXML_SNPRINTF snprintf
+#define TIXML_VSNPRINTF vsnprintf
 static inline int TIXML_VSCPRINTF(const char* format, va_list va)
 {
     int len = vsnprintf(0, 0, format, va);
     TIXMLASSERT(len >= 0);
     return len;
 }
-#    define TIXML_SSCANF sscanf
+#define TIXML_SSCANF sscanf
 #endif
 
 static const char LINE_FEED = (char)0x0a; // all line endings are normalized to LF
@@ -689,7 +689,7 @@ bool XMLDocument::Accept(XMLVisitor* visitor) const
 
 // --------- XMLNode ----------- //
 
-XMLNode::XMLNode(XMLDocument* doc):
+XMLNode::XMLNode(XMLDocument* doc) :
     _document(doc), _parent(0), _value(), _parseLineNum(0), _firstChild(0), _lastChild(0), _prev(0),
     _next(0), _userData(0), _memPool(0)
 {
@@ -1122,7 +1122,7 @@ bool XMLText::Accept(XMLVisitor* visitor) const
 
 // --------- XMLComment ---------- //
 
-XMLComment::XMLComment(XMLDocument* doc): XMLNode(doc) {}
+XMLComment::XMLComment(XMLDocument* doc) : XMLNode(doc) {}
 
 XMLComment::~XMLComment() {}
 
@@ -1161,7 +1161,7 @@ bool XMLComment::Accept(XMLVisitor* visitor) const
 
 // --------- XMLDeclaration ---------- //
 
-XMLDeclaration::XMLDeclaration(XMLDocument* doc): XMLNode(doc) {}
+XMLDeclaration::XMLDeclaration(XMLDocument* doc) : XMLNode(doc) {}
 
 XMLDeclaration::~XMLDeclaration()
 {
@@ -1203,7 +1203,7 @@ bool XMLDeclaration::Accept(XMLVisitor* visitor) const
 
 // --------- XMLUnknown ---------- //
 
-XMLUnknown::XMLUnknown(XMLDocument* doc): XMLNode(doc) {}
+XMLUnknown::XMLUnknown(XMLDocument* doc) : XMLNode(doc) {}
 
 XMLUnknown::~XMLUnknown() {}
 
@@ -1383,7 +1383,7 @@ void XMLAttribute::SetAttribute(float v)
 }
 
 // --------- XMLElement ---------- //
-XMLElement::XMLElement(XMLDocument* doc): XMLNode(doc), _closingType(OPEN), _rootAttribute(0) {}
+XMLElement::XMLElement(XMLDocument* doc) : XMLNode(doc), _closingType(OPEN), _rootAttribute(0) {}
 
 XMLElement::~XMLElement()
 {
@@ -1857,7 +1857,7 @@ const char* XMLDocument::_errorNames[XML_ERROR_COUNT] = {"XML_SUCCESS",
                                                          "XML_NO_TEXT_NODE",
                                                          "XML_ELEMENT_DEPTH_EXCEEDED"};
 
-XMLDocument::XMLDocument(bool processEntities, Whitespace whitespaceMode):
+XMLDocument::XMLDocument(bool processEntities, Whitespace whitespaceMode) :
     XMLNode(0), _writeBOM(false), _processEntities(processEntities), _errorID(XML_SUCCESS),
     _whitespaceMode(whitespaceMode), _errorStr(), _errorLineNum(0), _charBuffer(0),
     _parseCurLineNum(0), _parsingDepth(0), _unlinked(), _elementPool(), _attributePool(),
@@ -2234,7 +2234,7 @@ void XMLDocument::PopDepth()
     --_parsingDepth;
 }
 
-XMLPrinter::XMLPrinter(FILE* file, bool compact, int depth):
+XMLPrinter::XMLPrinter(FILE* file, bool compact, int depth) :
     _elementJustOpened(false), _stack(), _firstElement(true), _fp(file), _depth(depth),
     _textDepth(-1), _processEntities(true), _compactMode(compact), _buffer()
 {

@@ -17,13 +17,13 @@ struct convValue {
     std::string short_name;
     double value{0};
     convValue() = default;
-    convValue(const std::string& nm, const std::string& sn, double val):
+    convValue(const std::string& nm, const std::string& sn, double val) :
         name(nm), short_name(sn), value(val)
     {
     }
 };
 // fixture structure for doing the tests
-struct converterApp: public ::testing::TestWithParam<std::string> {
+struct converterApp : public ::testing::TestWithParam<std::string> {
     void loadFile(const std::string& file)
     {
         std::ifstream input(file);

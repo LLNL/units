@@ -25,20 +25,20 @@ distribution.
 #define TINYXML2_INCLUDED
 
 #if defined(ANDROID_NDK) || defined(__BORLANDC__) || defined(__QNXNTO__)
-#    include <ctype.h>
-#    include <limits.h>
-#    include <stdio.h>
-#    include <stdlib.h>
-#    include <string.h>
-#    if defined(__PS3__)
-#        include <stddef.h>
-#    endif
+#include <ctype.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#if defined(__PS3__)
+#include <stddef.h>
+#endif
 #else
-#    include <cctype>
-#    include <climits>
-#    include <cstdio>
-#    include <cstdlib>
-#    include <cstring>
+#include <cctype>
+#include <climits>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #endif
 #include <stdint.h>
 
@@ -54,52 +54,51 @@ distribution.
 */
 
 #if defined(_DEBUG) || defined(__DEBUG__)
-#    ifndef TINYXML2_DEBUG
-#        define TINYXML2_DEBUG
-#    endif
+#ifndef TINYXML2_DEBUG
+#define TINYXML2_DEBUG
+#endif
 #endif
 
 #ifdef _MSC_VER
-#    pragma warning(push)
-#    pragma warning(disable : 4251)
+#pragma warning(push)
+#pragma warning(disable : 4251)
 #endif
 
 #ifdef _WIN32
-#    ifdef TINYXML2_EXPORT
-#        define TINYXML2_LIB __declspec(dllexport)
-#    elif defined(TINYXML2_IMPORT)
-#        define TINYXML2_LIB __declspec(dllimport)
-#    else
-#        define TINYXML2_LIB
-#    endif
-#elif __GNUC__ >= 4
-#    define TINYXML2_LIB __attribute__((visibility("default")))
+#ifdef TINYXML2_EXPORT
+#define TINYXML2_LIB __declspec(dllexport)
+#elif defined(TINYXML2_IMPORT)
+#define TINYXML2_LIB __declspec(dllimport)
 #else
-#    define TINYXML2_LIB
+#define TINYXML2_LIB
+#endif
+#elif __GNUC__ >= 4
+#define TINYXML2_LIB __attribute__((visibility("default")))
+#else
+#define TINYXML2_LIB
 #endif
 
 #if defined(TINYXML2_DEBUG)
-#    if defined(_MSC_VER)
-#        // "(void)0," is for suppressing C4127 warning in "assert(false)", "assert(true)" and the like
-#        define TIXMLASSERT(x)                                                                     \
-            if (!((void)0, (x))) {                                                                 \
-                __debugbreak();                                                                    \
-            }
-#    elif defined(ANDROID_NDK)
-#        include <android/log.h>
-#        define TIXMLASSERT(x)                                                                     \
-            if (!(x)) {                                                                            \
-                __android_log_assert(                                                              \
-                    "assert", "grinliz", "ASSERT in '%s' at %d.", __FILE__, __LINE__);             \
-            }
-#    else
-#        include <assert.h>
-#        define TIXMLASSERT assert
-#    endif
+#if defined(_MSC_VER)
+#// "(void)0," is for suppressing C4127 warning in "assert(false)", "assert(true)" and the like
+#define TIXMLASSERT(x)                                                                             \
+    if (!((void)0, (x))) {                                                                         \
+        __debugbreak();                                                                            \
+    }
+#elif defined(ANDROID_NDK)
+#include <android/log.h>
+#define TIXMLASSERT(x)                                                                             \
+    if (!(x)) {                                                                                    \
+        __android_log_assert("assert", "grinliz", "ASSERT in '%s' at %d.", __FILE__, __LINE__);    \
+    }
 #else
-#    define TIXMLASSERT(x)                                                                         \
-        {                                                                                          \
-        }
+#include <assert.h>
+#define TIXMLASSERT assert
+#endif
+#else
+#define TIXMLASSERT(x)                                                                             \
+    {                                                                                              \
+    }
 #endif
 
 /* Versioning, past 1.0.14:
@@ -153,7 +152,7 @@ class TINYXML2_LIB StrPair {
         COMMENT = NEEDS_NEWLINE_NORMALIZATION
     };
 
-    StrPair(): _flags(0), _start(0), _end(0) {}
+    StrPair() : _flags(0), _start(0), _end(0) {}
     ~StrPair();
 
     void Set(char* start, char* end, int flags)
@@ -205,7 +204,7 @@ class TINYXML2_LIB StrPair {
 template<class T, int INITIAL_SIZE>
 class DynArray {
   public:
-    DynArray(): _mem(_pool), _allocated(INITIAL_SIZE), _size(0) {}
+    DynArray() : _mem(_pool), _allocated(INITIAL_SIZE), _size(0) {}
 
     ~DynArray()
     {
@@ -348,9 +347,9 @@ class MemPool {
 	Template child class to create pools of the correct type.
 */
 template<int ITEM_SIZE>
-class MemPoolT: public MemPool {
+class MemPoolT : public MemPool {
   public:
-    MemPoolT():
+    MemPoolT() :
         _blockPtrs(), _root(0), _currentAllocs(0), _nAllocs(0), _maxAllocs(0), _nUntracked(0)
     {
     }
@@ -927,7 +926,7 @@ class TINYXML2_LIB XMLNode {
 	you generally want to leave it alone, but you can change the output mode with
 	SetCData() and query it with CData().
 */
-class TINYXML2_LIB XMLText: public XMLNode {
+class TINYXML2_LIB XMLText : public XMLNode {
     friend class XMLDocument;
 
   public:
@@ -945,7 +944,7 @@ class TINYXML2_LIB XMLText: public XMLNode {
     virtual bool ShallowEqual(const XMLNode* compare) const;
 
   protected:
-    explicit XMLText(XMLDocument* doc): XMLNode(doc), _isCData(false) {}
+    explicit XMLText(XMLDocument* doc) : XMLNode(doc), _isCData(false) {}
     virtual ~XMLText() {}
 
     char* ParseDeep(char* p, StrPair* parentEndTag, int* curLineNumPtr);
@@ -958,7 +957,7 @@ class TINYXML2_LIB XMLText: public XMLNode {
 };
 
 /** An XML Comment. */
-class TINYXML2_LIB XMLComment: public XMLNode {
+class TINYXML2_LIB XMLComment : public XMLNode {
     friend class XMLDocument;
 
   public:
@@ -992,7 +991,7 @@ class TINYXML2_LIB XMLComment: public XMLNode {
 	The text of the declaration isn't interpreted. It is parsed
 	and written as a string.
 */
-class TINYXML2_LIB XMLDeclaration: public XMLNode {
+class TINYXML2_LIB XMLDeclaration : public XMLNode {
     friend class XMLDocument;
 
   public:
@@ -1022,7 +1021,7 @@ class TINYXML2_LIB XMLDeclaration: public XMLNode {
 
 	DTD tags get thrown into XMLUnknowns.
 */
-class TINYXML2_LIB XMLUnknown: public XMLNode {
+class TINYXML2_LIB XMLUnknown : public XMLNode {
     friend class XMLDocument;
 
   public:
@@ -1148,7 +1147,7 @@ class TINYXML2_LIB XMLAttribute {
   private:
     enum { BUF_SIZE = 200 };
 
-    XMLAttribute(): _name(), _value(), _parseLineNum(0), _next(0), _memPool(0) {}
+    XMLAttribute() : _name(), _value(), _parseLineNum(0), _next(0), _memPool(0) {}
     virtual ~XMLAttribute() {}
 
     XMLAttribute(const XMLAttribute&); // not supported
@@ -1168,7 +1167,7 @@ class TINYXML2_LIB XMLAttribute {
 	and can contain other elements, text, comments, and unknowns.
 	Elements also contain an arbitrary number of attributes.
 */
-class TINYXML2_LIB XMLElement: public XMLNode {
+class TINYXML2_LIB XMLElement : public XMLNode {
     friend class XMLDocument;
 
   public:
@@ -1575,7 +1574,7 @@ enum Whitespace { PRESERVE_WHITESPACE, COLLAPSE_WHITESPACE };
 	All Nodes are connected and allocated to a Document.
 	If the Document is deleted, all its Nodes are also deleted.
 */
-class TINYXML2_LIB XMLDocument: public XMLNode {
+class TINYXML2_LIB XMLDocument : public XMLNode {
     friend class XMLElement;
     // Gives access to SetError and Push/PopDepth, but over-access for everything else.
     // Wishing C++ had "internal" scope.
@@ -1892,11 +1891,11 @@ inline NodeType* XMLDocument::CreateUnlinkedNode(MemPoolT<PoolElementSize>& pool
 class TINYXML2_LIB XMLHandle {
   public:
     /// Create a handle from any node (at any depth of the tree.) This can be a null pointer.
-    explicit XMLHandle(XMLNode* node): _node(node) {}
+    explicit XMLHandle(XMLNode* node) : _node(node) {}
     /// Create a handle from a node.
-    explicit XMLHandle(XMLNode& node): _node(&node) {}
+    explicit XMLHandle(XMLNode& node) : _node(&node) {}
     /// Copy constructor
-    XMLHandle(const XMLHandle& ref): _node(ref._node) {}
+    XMLHandle(const XMLHandle& ref) : _node(ref._node) {}
     /// Assignment
     XMLHandle& operator=(const XMLHandle& ref)
     {
@@ -1954,9 +1953,9 @@ class TINYXML2_LIB XMLHandle {
 */
 class TINYXML2_LIB XMLConstHandle {
   public:
-    explicit XMLConstHandle(const XMLNode* node): _node(node) {}
-    explicit XMLConstHandle(const XMLNode& node): _node(&node) {}
-    XMLConstHandle(const XMLConstHandle& ref): _node(ref._node) {}
+    explicit XMLConstHandle(const XMLNode* node) : _node(node) {}
+    explicit XMLConstHandle(const XMLNode& node) : _node(&node) {}
+    XMLConstHandle(const XMLConstHandle& ref) : _node(ref._node) {}
 
     XMLConstHandle& operator=(const XMLConstHandle& ref)
     {
@@ -2049,7 +2048,7 @@ class TINYXML2_LIB XMLConstHandle {
 	printer.CloseElement();
 	@endverbatim
 */
-class TINYXML2_LIB XMLPrinter: public XMLVisitor {
+class TINYXML2_LIB XMLPrinter : public XMLVisitor {
   public:
     /** Construct the printer. If the FILE* is specified,
     	this will print to the FILE. Else it will print
@@ -2171,7 +2170,7 @@ class TINYXML2_LIB XMLPrinter: public XMLVisitor {
 } // namespace tinyxml2
 
 #if defined(_MSC_VER)
-#    pragma warning(pop)
+#pragma warning(pop)
 #endif
 
 #endif // TINYXML2_INCLUDED
