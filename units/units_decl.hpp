@@ -32,7 +32,7 @@ namespace detail {
             unsigned int per_unit,
             unsigned int flag,
             unsigned int flag2,
-            unsigned int equation):
+            unsigned int equation) :
             meter_(meter),
             second_(second), kilogram_(kilogram), ampere_(ampere), candela_(candela),
             kelvin_(kelvin), mole_(mole), radians_(radians), currency_(currency), count_(count),
@@ -40,7 +40,7 @@ namespace detail {
         {
         }
         /** Construct with the error flag triggered*/
-        explicit constexpr unit_data(std::nullptr_t):
+        explicit constexpr unit_data(std::nullptr_t) :
             meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0), kelvin_(0), mole_(0),
             radians_(0), currency_(0), count_(0), per_unit_(0), i_flag_(1), e_flag_(1), equation_(0)
         {
@@ -266,7 +266,7 @@ namespace detail {
         }
 
       private:
-        constexpr unit_data():
+        constexpr unit_data() :
             meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0), kelvin_(0), mole_(0),
             radians_(0), currency_(0), count_(0), per_unit_(0), i_flag_(0), e_flag_(0), equation_(0)
         {
@@ -382,14 +382,14 @@ class unit {
   public:
     /// Default constructor
     constexpr unit() noexcept {};
-    explicit constexpr unit(detail::unit_data base_unit): base_units_(base_unit) {}
+    explicit constexpr unit(detail::unit_data base_unit) : base_units_(base_unit) {}
     /// Construct unit from base unit and a multiplier
-    constexpr unit(detail::unit_data base_unit, double multiplier):
+    constexpr unit(detail::unit_data base_unit, double multiplier) :
         base_units_(base_unit), multiplier_(static_cast<float>(multiplier))
     {
     }
     /// Take the double and unit in either order for simplicity
-    constexpr unit(double multiplier, unit other):
+    constexpr unit(double multiplier, unit other) :
         unit(other.base_units_, multiplier * other.multiplier())
     {
     }
@@ -496,14 +496,16 @@ class precise_unit {
   public:
     /// Default constructor
     constexpr precise_unit() noexcept {};
-    explicit constexpr precise_unit(detail::unit_data base_unit) noexcept: base_units_(base_unit) {}
+    explicit constexpr precise_unit(detail::unit_data base_unit) noexcept : base_units_(base_unit)
+    {
+    }
     /// copy constructor from a less precise unit
-    explicit constexpr precise_unit(unit other) noexcept:
+    explicit constexpr precise_unit(unit other) noexcept :
         base_units_(other.base_units_), multiplier_(other.multiplier())
     {
     }
     /// Construct from base_unit and multiplier
-    constexpr precise_unit(detail::unit_data base_unit, double multiplier) noexcept:
+    constexpr precise_unit(detail::unit_data base_unit, double multiplier) noexcept :
         base_units_(base_unit), multiplier_(multiplier)
     {
     }
@@ -511,32 +513,32 @@ class precise_unit {
     constexpr precise_unit(
         detail::unit_data base_unit,
         uint32_t commodity,
-        double multiplier) noexcept:
+        double multiplier) noexcept :
         base_units_(base_unit),
         commodity_(commodity), multiplier_(multiplier)
     {
     }
     /// Copy constructor with a multiplier
-    constexpr precise_unit(precise_unit other, double multiplier) noexcept:
+    constexpr precise_unit(precise_unit other, double multiplier) noexcept :
         precise_unit(other.base_units_, other.commodity_, multiplier * other.multiplier_)
     {
     }
     /// Constructor for a double and other unit
-    constexpr precise_unit(unit other, double multiplier) noexcept:
+    constexpr precise_unit(unit other, double multiplier) noexcept :
         precise_unit(other.base_units(), multiplier * other.multiplier())
     {
     }
-    constexpr precise_unit(double multiplier, precise_unit other) noexcept:
+    constexpr precise_unit(double multiplier, precise_unit other) noexcept :
         precise_unit(other.base_units_, other.commodity_, multiplier * other.multiplier_)
     {
     }
     /// Build a unit from another with a multiplier and commodity
-    constexpr precise_unit(double multiplier, precise_unit other, uint32_t commodity) noexcept:
+    constexpr precise_unit(double multiplier, precise_unit other, uint32_t commodity) noexcept :
         precise_unit(other.base_units_, commodity, multiplier * other.multiplier_)
     {
     }
     /// Constructor for a double and other unit
-    constexpr precise_unit(double multiplier, unit other) noexcept:
+    constexpr precise_unit(double multiplier, unit other) noexcept :
         precise_unit(other.base_units(), multiplier * other.multiplier())
     {
     }

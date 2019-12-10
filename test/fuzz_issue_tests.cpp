@@ -41,7 +41,7 @@ std::string loadFailureFile(const std::string& type, int index)
     return std::string{};
 }
 
-class crashProblems: public ::testing::TestWithParam<int> {
+class crashProblems : public ::testing::TestWithParam<int> {
 };
 
 TEST_P(crashProblems, crashFiles)
@@ -58,7 +58,7 @@ TEST(fuzzFailures, timeouts)
     EXPECT_NO_THROW(unit_from_string("((())"));
 }
 
-class timeoutProblems: public ::testing::TestWithParam<int> {
+class timeoutProblems : public ::testing::TestWithParam<int> {
 };
 
 TEST_P(timeoutProblems, timeoutFiles)
@@ -70,7 +70,7 @@ TEST_P(timeoutProblems, timeoutFiles)
 
 INSTANTIATE_TEST_SUITE_P(timeoutFiles, timeoutProblems, ::testing::Range(1, 22));
 
-class slowProblems: public ::testing::TestWithParam<int> {
+class slowProblems : public ::testing::TestWithParam<int> {
 };
 
 TEST_P(slowProblems, slowFiles)
@@ -82,7 +82,7 @@ TEST_P(slowProblems, slowFiles)
 
 INSTANTIATE_TEST_SUITE_P(slowFiles, slowProblems, ::testing::Range(1, 40));
 
-class oomProblems: public ::testing::TestWithParam<int> {
+class oomProblems : public ::testing::TestWithParam<int> {
 };
 
 TEST_P(oomProblems, oomFiles)
@@ -94,7 +94,7 @@ TEST_P(oomProblems, oomFiles)
 
 INSTANTIATE_TEST_SUITE_P(oomFiles, oomProblems, ::testing::Range(1, 65));
 
-class roundTripString: public ::testing::TestWithParam<std::string> {
+class roundTripString : public ::testing::TestWithParam<std::string> {
 };
 
 TEST_P(roundTripString, rtripconversions)
@@ -137,7 +137,7 @@ static const std::vector<std::string> testStrings{
 
 INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
 
-class errorString: public ::testing::TestWithParam<std::string> {
+class errorString : public ::testing::TestWithParam<std::string> {
 };
 
 TEST_P(errorString, conversionErrors)
@@ -201,7 +201,7 @@ TEST(fuzzFailures, rtripconversions13)
     EXPECT_EQ(u2, u1);
 }
 
-class rtripProblems: public ::testing::TestWithParam<int> {
+class rtripProblems : public ::testing::TestWithParam<int> {
 };
 
 TEST_P(rtripProblems, rtripFiles)

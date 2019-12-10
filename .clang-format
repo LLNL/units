@@ -28,7 +28,7 @@ BraceWrapping:
   BeforeCatch: true
 BreakBeforeTernaryOperators: 'false'
 BreakConstructorInitializers: AfterColon
-BreakInheritanceList: AfterColon
+#BreakInheritanceList: AfterColon
 BreakStringLiterals: 'false'
 ColumnLimit: 100
 CompactNamespaces: 'false'
@@ -39,9 +39,8 @@ Cpp11BracedListStyle: 'true'
 DerivePointerAlignment: 'false'
 DisableFormat: 'false'
 FixNamespaceComments: 'true'
-IncludeBlocks: Regroup
+#IncludeBlocks: Regroup
 IndentCaseLabels: 'true'
-IndentPPDirectives: AfterHash
 IndentWidth: '4'
 IndentWrappedFunctionNames: 'true'
 JavaScriptQuotes: Double
@@ -65,11 +64,10 @@ SpaceAfterCStyleCast: 'false'
 #SpaceAfterLogicalNot: 'false'
 SpaceAfterTemplateKeyword: 'false'
 SpaceBeforeAssignmentOperators: 'true'
-SpaceBeforeCpp11BracedList: 'false'
-SpaceBeforeCtorInitializerColon: 'false'
-SpaceBeforeInheritanceColon: 'false'
+#SpaceBeforeCpp11BracedList: 'false'
+#SpaceBeforeCtorInitializerColon: 'false'
 SpaceBeforeParens: ControlStatements
-SpaceBeforeRangeBasedForLoopColon: 'true'
+#SpaceBeforeRangeBasedForLoopColon: 'true'
 SpaceInEmptyParentheses: 'false'
 SpacesBeforeTrailingComments: '1'
 SpacesInAngles: 'false'

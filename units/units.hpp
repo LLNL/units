@@ -218,7 +218,7 @@ class measurement_type {
     /// Default constructor
     constexpr measurement_type() = default;
     /// construct from a value and unit
-    constexpr measurement_type(X val, unit base): value_(val), units_(base) {}
+    constexpr measurement_type(X val, unit base) : value_(val), units_(base) {}
     /// Get the base value with no units
     constexpr X value() const { return value_; }
 
@@ -354,14 +354,14 @@ template<class X>
 class fixed_measurement_type {
   public:
     /// construct from a value and unit
-    constexpr fixed_measurement_type(X val, unit base): value_(val), units_(base) {}
+    constexpr fixed_measurement_type(X val, unit base) : value_(val), units_(base) {}
     /// construct from a regular measurement
-    explicit constexpr fixed_measurement_type(measurement_type<X> val) noexcept:
+    explicit constexpr fixed_measurement_type(measurement_type<X> val) noexcept :
         value_(val.value()), units_(val.units())
     {
     }
     // define copy constructor but purposely leave off copy assignment and move since that would be pointless
-    constexpr fixed_measurement_type(const fixed_measurement_type& val) noexcept:
+    constexpr fixed_measurement_type(const fixed_measurement_type& val) noexcept :
         value_(val.value()), units_(val.units())
     {
     }
@@ -557,7 +557,7 @@ class precision_measurement {
   public:
     /// Default constructor
     constexpr precision_measurement() = default;
-    constexpr precision_measurement(double val, precise_unit base): value_(val), units_(base) {}
+    constexpr precision_measurement(double val, precise_unit base) : value_(val), units_(base) {}
 
     constexpr double value() const { return value_; }
     constexpr precise_unit units() const { return units_; }
@@ -679,16 +679,16 @@ static_assert(sizeof(precision_measurement) <= 24, "precision measurement is too
 /// Class using precise units and double precision
 class fixed_precision_measurement {
   public:
-    constexpr fixed_precision_measurement(double val, precise_unit base): value_(val), units_(base)
+    constexpr fixed_precision_measurement(double val, precise_unit base) : value_(val), units_(base)
     {
     }
 
-    explicit constexpr fixed_precision_measurement(precision_measurement val):
+    explicit constexpr fixed_precision_measurement(precision_measurement val) :
         value_(val.value()), units_(val.units())
     {
     }
 
-    constexpr fixed_precision_measurement(const fixed_precision_measurement& val):
+    constexpr fixed_precision_measurement(const fixed_precision_measurement& val) :
         value_(val.value()), units_(val.units())
     {
     }
@@ -968,16 +968,16 @@ bool disableCustomCommodities();
 /// Enable the ability to add custom commodities for later access
 bool enableCustomCommodities();
 
-#    define EXTRA_UNIT_STANDARDS
+#define EXTRA_UNIT_STANDARDS
 // Some specific unit code standards
-#    ifdef EXTRA_UNIT_STANDARDS
+#ifdef EXTRA_UNIT_STANDARDS
 /// generate a unit from a string as defined by the X12 standard
 precise_unit x12_unit(std::string x12_string);
 /// generate a unit from a string as defined by the US DOD
 precise_unit dod_unit(std::string dod_string);
 /// generate a unit from a string as defined by the r20 standard
 precise_unit r20_unit(std::string r20_string);
-#    endif
+#endif
 
 #endif // UNITS_HEADER_ONLY
 /// Physical constants in use with associated units

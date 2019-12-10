@@ -13,9 +13,9 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <unordered_map>
 
 #if __cplusplus >= 201402L || _MSC_VER >= 1500 || defined UNITS_USE_CONSTEXPR_ARRAY
-#    define UPTCONST constexpr
+#define UPTCONST constexpr
 #else
-#    define UPTCONST const
+#define UPTCONST const
 #endif
 
 namespace units {
