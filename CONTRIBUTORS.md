@@ -1,8 +1,11 @@
 # Contributors
 
 ## Lawrence Livermore National Lab
--   Corey McNeish
--   Philip Top
+-   [Corey McNeish](https://github.com/mcneish1)
+-   [Philip Top](https://github.com/phlptp)
+
+## Other
+-   [Greg Sjaardema](https://github.com/gsjaardema)
 
 ## Used Libraries or Code
 

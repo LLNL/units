@@ -345,7 +345,7 @@ static inline bool isDigitCharacter(char X)
 }
 
 /// Replace a string in place
-static bool ReplaceStringInPlace(
+/*static bool ReplaceStringInPlace(
     std::string& subject,
     const std::string& search,
     const std::string& replace)
@@ -359,6 +359,7 @@ static bool ReplaceStringInPlace(
     }
     return changed;
 }
+*/
 /// Replace a string in place using const char *
 static bool ReplaceStringInPlace(
     std::string& subject,

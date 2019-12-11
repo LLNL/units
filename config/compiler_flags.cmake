@@ -43,6 +43,7 @@ if(HELICS_ENABLE_EXTRA_COMPILER_WARNINGS)
             -Wstrict-aliasing=1
             -Wunreachable-code
             -Woverloaded-virtual
+            -Wdouble-promotion
             -Wundef>>
     )
 

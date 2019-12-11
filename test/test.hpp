@@ -7,8 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "gtest/gtest.h"
 
-namespace test
-{
+namespace test {
 static const double tolerance = 1e-6;
 static const double precise_tolerance = 1e-12;
-}  // namespace test
+} // namespace test

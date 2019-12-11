@@ -1198,6 +1198,7 @@ namespace precise {
         constexpr precise_unit nibble(4, count);
         constexpr precise_unit byte(8, count);
 
+        // https://physics.nist.gov/cuu/Units/binary.html
         constexpr precise_unit kB(1000.0, byte);
         constexpr precise_unit MB(1000.0, kB);
         constexpr precise_unit GB(1000.0, MB);
@@ -1290,12 +1291,12 @@ constexpr unit rad = unit_cast(precise::rad);
 constexpr unit defunit = unit_cast(precise::defunit);
 constexpr unit invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
-/// Check if the unit has an error
+/// Check if a precise unit is a default unit
 constexpr inline bool is_default(precise_unit utest)
 {
     return (utest.multiplier() == 1.0 && (utest.base_units() == defunit.base_units()));
 }
-/// Check if  unithet has an error
+/// Check if a unit is a default unit
 constexpr inline bool is_default(unit utest)
 {
     return (utest.multiplier() == 1.0 && (utest.base_units() == defunit.base_units()));
@@ -1616,38 +1617,43 @@ namespace detail {
         auto base_start = start.base_units();
         auto base_result = result.base_units();
 
-        auto r1 = base_start.radian();
-        auto r2 = base_result.radian();
-        auto c1 = base_start.count();
-        auto c2 = base_result.count();
-        auto m1 = base_start.mole();
-        auto m2 = base_result.mole();
-        if (m1 == m2 && r1 == r2 && (c1 == 0 || c2 == 0)) {
+        auto rad_start = base_start.radian();
+        auto rad_result = base_result.radian();
+        auto count_start = base_start.count();
+        auto count_result = base_result.count();
+        auto mol_start = base_start.mole();
+        auto mol_result = base_result.mole();
+        if (mol_start == mol_result && rad_start == rad_result &&
+            (count_start == 0 || count_result == 0)) {
             val = val * start.multiplier() / result.multiplier();
             return val;
         }
 
-        if (m1 == m2 &&
-            (((r1 == 0) && (c1 == r1 || c1 == 0)) || ((r2 == 0) && (c2 == r1 || c2 == 0)))) {
-            static const double mux[5]{1.0 / (4.0 * constants::pi * constants::pi),
-                                       1.0 / (2.0 * constants::pi),
-                                       0,
-                                       2.0 * constants::pi,
-                                       4.0 * constants::pi * constants::pi};
-            int muxIndex = r2 - r1 + 2;
+        if (mol_start == mol_result &&
+            ((rad_start == 0 && (count_start == rad_start || count_start == 0)) ||
+             (rad_result == 0 && (count_result == rad_start || count_result == 0)))) {
+            //define a conversion multiplier for radians<->count(rotations) of various powers
+            static constexpr double muxrad[5]{1.0 / (4.0 * constants::pi * constants::pi),
+                                              1.0 / (2.0 * constants::pi),
+                                              0.0,
+                                              2.0 * constants::pi,
+                                              4.0 * constants::pi * constants::pi};
+            int muxIndex = rad_result - rad_start + 2; //+2 is to shift the index
             if (muxIndex < 0 || muxIndex > 4) {
                 return constants::invalid_conversion;
             }
-            val *= mux[muxIndex];
+            val *= muxrad[muxIndex];
             // either 1 or the other is 0 in this equation other it would have triggered before or not gotten here
             val = val * start.multiplier() / result.multiplier();
             return val;
         }
-        if (r1 == r2 &&
-            (((m1 == 0) && (c1 == m1 || c1 == 0)) || ((m2 == 0) && (c2 == m1 || c2 == 0)))) {
-            static const double muxmol[3]{6.02214076e23, 0, 1.0 / 6.02214076e23};
+        if (rad_start == rad_result &&
+            ((mol_start == 0 && (count_start == mol_start || count_start == 0)) ||
+             (mol_result == 0 && (count_result == mol_start || count_result == 0)))) {
+            //define multipliers for mol<->count conversions based on powers
+            static constexpr double muxmol[3]{6.02214076e23, 0, 1.0 / 6.02214076e23};
 
-            int muxIndex = m2 - m1 + 1;
+            int muxIndex = mol_result - mol_start + 1; //+1 is to shift the index
             if (muxIndex < 0 || muxIndex > 2) {
                 return constants::invalid_conversion;
             }

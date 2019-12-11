@@ -118,6 +118,17 @@ TEST(unitOps, inf)
     EXPECT_TRUE(isinf(unit(std::numeric_limits<double>::infinity(), m)));
 }
 
+TEST(unitOps, valid)
+{
+    EXPECT_FALSE(is_valid(invalid));
+    EXPECT_TRUE(is_valid(defunit));
+    EXPECT_TRUE(is_valid(V));
+    EXPECT_TRUE(is_valid(unit(std::numeric_limits<double>::quiet_NaN(), m)));
+    EXPECT_FALSE(is_valid(unit(invalid.base_units(), std::numeric_limits<double>::quiet_NaN())));
+    EXPECT_FALSE(
+        is_valid(unit(invalid.base_units(), std::numeric_limits<double>::signaling_NaN())));
+}
+
 TEST(unitOps, normal)
 {
     EXPECT_FALSE(isnormal(invalid));
@@ -373,6 +384,18 @@ TEST(preciseUnitOps, normal)
 
     EXPECT_TRUE(isnormal(precise::m));
     EXPECT_TRUE(isnormal(precise::m * precise::milli));
+}
+
+TEST(preciseUnitOps, valid)
+{
+    EXPECT_FALSE(is_valid(precise::invalid));
+    EXPECT_TRUE(is_valid(precise::defunit));
+    EXPECT_TRUE(is_valid(precise::V));
+    EXPECT_TRUE(is_valid(precise_unit(std::numeric_limits<double>::quiet_NaN(), precise::m)));
+    EXPECT_FALSE(is_valid(
+        precise_unit(precise::invalid.base_units(), std::numeric_limits<double>::quiet_NaN())));
+    EXPECT_FALSE(is_valid(
+        precise_unit(precise::invalid.base_units(), std::numeric_limits<double>::signaling_NaN())));
 }
 
 TEST(preciseUnitOps, cast)

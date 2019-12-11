@@ -80,6 +80,7 @@ TEST(PU, pu_base_assumptions)
     EXPECT_NEAR(convert(450.0, MW, puMW), 4.5, 0.01);
 
     EXPECT_NEAR(convert(0.2, puOhm, puMW), 5.0, 0.0001);
+    EXPECT_NEAR(convert(0.2, puOhm, puA), 5.0, 0.0001);
     EXPECT_NEAR(convert(5.0, puMW, puOhm), 0.2, 0.0001);
     EXPECT_NEAR(convert(4.5, puMW, puA), 4.5, 0.00001);
     EXPECT_NEAR(convert(4.5, puA, puMW), 4.5, 0.00001);
