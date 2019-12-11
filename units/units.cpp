@@ -30,10 +30,11 @@ unit unit::root(int power) const
     if (power == 0) {
         return one;
     }
-    if (multiplier_ < 0.0 && power % 2 == 0) {
+    if (multiplier_ < 0.0f && power % 2 == 0) {
         return error;
     }
     auto bunits = base_units_.root(power);
+    // 1.0 is a very common multiplier
     if (multiplier_ == 1.0f) {
         return {base_units_.root(power), 1.0};
     }
@@ -72,7 +73,8 @@ precise_unit precise_unit::root(int power) const
         return precise::invalid;
     }
     auto bunits = base_units_.root(power);
-    if (multiplier_ == 1.0f) {
+    // 1.0 is a very common multiplier
+    if (multiplier_ == 1.0) {
         return {bunits, 1.0};
     }
 
@@ -108,7 +110,7 @@ static int order(unit val)
     return order;
 }
 
-// NOTE no units with '/' in it this can cause issues when converting to string with out of order operations
+// NOTE no unit strings with '/' in it this can cause issues when converting to string with out of order operations
 using umap = std::unordered_map<unit, const char*>;
 static const umap base_unit_names{
     {m, "m"},
@@ -4553,7 +4555,7 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
 static precise_unit unit_quick_match(std::string unit_string, uint32_t match_flags)
 {
     if ((match_flags & case_insensitive) !=
-        0) { // if not a ci matching process just do a quick scan first
+        0) { // if not a case insensitive matching process just do a quick scan first
         cleanUnitString(unit_string, match_flags);
     }
     auto retunit = get_unit(unit_string);
