@@ -263,16 +263,16 @@ namespace commodities {
         {"dot", pixel},
     };
 } // namespace commodities
+static constexpr uint32_t Ac{54059}; /* a prime */
+static constexpr uint32_t Bc{76963}; /* another prime */
+//static constexpr uint32_t Cc{ 86969 }; /* yet another prime */
+static constexpr uint32_t firstH{37}; /* also prime */
 
-#define A 54059 /* a prime */
-#define B 76963 /* another prime */
-#define C 86969 /* yet another prime */
-#define FIRSTH 37 /* also prime */
 uint32_t stringHash(const std::string& str)
 {
-    uint32_t h = FIRSTH;
+    uint32_t h{firstH};
     for (auto c : str) {
-        h = (h * A) ^ (c * B);
+        h = (h * Ac) ^ (static_cast<uint32_t>(c) * Bc);
     }
     return h; // or return h % C;
 }

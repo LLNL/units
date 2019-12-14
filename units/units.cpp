@@ -947,7 +947,7 @@ std::string to_string(precise_unit un, uint32_t match_flags)
     return clean_unit_string(to_string_internal(un, match_flags), un.commodity());
 }
 
-std::string to_string(precision_measurement measure, uint32_t match_flags)
+std::string to_string(precise_measurement measure, uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(12);
@@ -1140,7 +1140,7 @@ static double getNumberBlock(const std::string& ustring, size_t& index)
     }
     if (index < ustring.size()) {
         if (ustring[index] == '^') {
-            size_t nindex;
+			size_t nindex{ 0 };
             double pval = getNumberBlock(ustring.substr(index + 1), nindex);
             if (!std::isnan(pval)) {
                 index += nindex + 1;
@@ -1171,7 +1171,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index)
                 case '/':
                 case '*':
                     if (looksLikeNumber(ustring, index + 1) || ustring[index + 1] == '(') {
-                        size_t oindex;
+						size_t oindex{ 0 };
                         double res = getNumberBlock(ustring.substr(index + 1), oindex);
                         if (!std::isnan(res)) {
                             if (ustring[index] == '*') {
@@ -1189,7 +1189,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index)
                     }
                     break;
                 case '(': {
-                    size_t oindex;
+					size_t oindex{ 0 };
                     double res = getNumberBlock(ustring.substr(index), oindex);
                     if (!std::isnan(res)) {
                         val *= res;
@@ -5251,7 +5251,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
     return precise::invalid;
 } // namespace units
 
-precision_measurement measurement_from_string(std::string measurement_string, uint32_t match_flags)
+precise_measurement measurement_from_string(std::string measurement_string, uint32_t match_flags)
 {
     // do a cleaning first to get rid of spaces and other issues
     match_flags &= (~skip_code_replacements);
@@ -5289,7 +5289,7 @@ precision_measurement measurement_from_string(std::string measurement_string, ui
         double v2 = std::stod(measurement_string.substr(loc + 1), &loc);
         if (measurement_string[loc] == '"')
         {
-            return precision_measurement(val, precise::ft) + precision_measurement(v2, precise::in);
+            return precise_measurement(val, precise::ft) + precise_measurement(v2, precise::in);
         }
     }
     */

@@ -41,7 +41,7 @@ TEST(MeasurementStrings, currency)
 
 TEST(MeasurementToString, simple)
 {
-    auto pm = precision_measurement(45.0, precise::m);
+    auto pm = precise_measurement(45.0, precise::m);
     EXPECT_EQ(to_string(pm), "45 m");
     auto meas = 45.0 * m;
     EXPECT_EQ(to_string(meas), "45 m");

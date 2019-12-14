@@ -553,11 +553,11 @@ using fixed_measurement = fixed_measurement_type<double>;
 using fixed_measurement_f = fixed_measurement_type<float>;
 
 /// Class using precise units and double precision
-class precision_measurement {
+class precise_measurement {
   public:
     /// Default constructor
-    constexpr precision_measurement() = default;
-    constexpr precision_measurement(double val, precise_unit base) : value_(val), units_(base) {}
+    constexpr precise_measurement() = default;
+    constexpr precise_measurement(double val, precise_unit base) : value_(val), units_(base) {}
 
     constexpr double value() const { return value_; }
     constexpr precise_unit units() const { return units_; }
@@ -565,66 +565,66 @@ class precision_measurement {
     // convert the measurement to a single unit
     constexpr precise_unit as_unit() const { return {value_, units_}; }
 
-    constexpr precision_measurement operator*(precision_measurement other) const
+    constexpr precise_measurement operator*(precise_measurement other) const
     {
         return {value_ * other.value_, units_ * other.units_};
     }
-    constexpr precision_measurement operator*(precise_unit other) const
+    constexpr precise_measurement operator*(precise_unit other) const
     {
         return {value_, units_ * other};
     }
-    constexpr precision_measurement operator*(double val) const { return {value_ * val, units_}; }
-    constexpr precision_measurement operator/(precision_measurement other) const
+    constexpr precise_measurement operator*(double val) const { return {value_ * val, units_}; }
+    constexpr precise_measurement operator/(precise_measurement other) const
     {
         return {value_ / other.value_, units_ / other.units_};
     }
-    constexpr precision_measurement operator/(precise_unit other) const
+    constexpr precise_measurement operator/(precise_unit other) const
     {
         return {value_, units_ / other};
     }
-    constexpr precision_measurement operator/(double val) const { return {value_ / val, units_}; }
+    constexpr precise_measurement operator/(double val) const { return {value_ / val, units_}; }
 
-    precision_measurement operator+(precision_measurement other) const
+    precise_measurement operator+(precise_measurement other) const
     {
         return {value_ + other.value_as(units_), units_};
     }
-    precision_measurement operator-(precision_measurement other) const
+    precise_measurement operator-(precise_measurement other) const
     {
         return {value_ - other.value_as(units_), units_};
     }
     /// Convert a unit to have a new base
-    precision_measurement convert_to(precise_unit newUnits) const
+    precise_measurement convert_to(precise_unit newUnits) const
     {
         return {units::convert(value_, units_, newUnits), newUnits};
     }
 
     /// Convert a unit into its base units
-    constexpr precision_measurement convert_to_base() const
+    constexpr precise_measurement convert_to_base() const
     {
         return {value_ * units_.multiplier(), precise_unit(units_.base_units())};
     }
 
     /// Equality operator
-    bool operator==(precision_measurement other) const
+    bool operator==(precise_measurement other) const
     {
         return valueEqualityCheck(
             (units_ == other.units()) ? other.value() : other.value_as(units_));
     }
     /// Not equal operator
-    bool operator!=(precision_measurement other) const
+    bool operator!=(precise_measurement other) const
     {
         return !valueEqualityCheck(
             (units_ == other.units()) ? other.value() : other.value_as(units_));
     }
 
-    bool operator>(precision_measurement other) const { return value_ > other.value_as(units_); }
-    bool operator<(precision_measurement other) const { return value_ < other.value_as(units_); }
-    bool operator>=(precision_measurement other) const
+    bool operator>(precise_measurement other) const { return value_ > other.value_as(units_); }
+    bool operator<(precise_measurement other) const { return value_ < other.value_as(units_); }
+    bool operator>=(precise_measurement other) const
     {
         double val = other.value_as(units_);
         return (value_ > val) ? true : valueEqualityCheck(val);
     }
-    bool operator<=(precision_measurement other) const
+    bool operator<=(precise_measurement other) const
     {
         double val = other.value_as(units_);
         return (value_ < val) ? true : valueEqualityCheck(val);
@@ -635,12 +635,12 @@ class precision_measurement {
         return (units_ == units) ? value_ : units::convert(value_, units_, units);
     }
     // double multiplier
-    friend constexpr inline precision_measurement operator*(double val, precision_measurement meas)
+    friend constexpr inline precise_measurement operator*(double val, precise_measurement meas)
     {
         return meas * val;
     }
     // divide measurement into a double
-    friend constexpr inline precision_measurement operator/(double val, precision_measurement meas)
+    friend constexpr inline precise_measurement operator/(double val, precise_measurement meas)
     {
         return {val / meas.value_, meas.units_.inv()};
     }
@@ -655,45 +655,45 @@ class precision_measurement {
     }
 };
 
-constexpr inline precision_measurement operator*(double val, precise_unit unit_base)
+constexpr inline precise_measurement operator*(double val, precise_unit unit_base)
 {
     return {val, unit_base};
 }
-constexpr inline precision_measurement operator*(precise_unit unit_base, double val)
+constexpr inline precise_measurement operator*(precise_unit unit_base, double val)
 {
     return {val, unit_base};
 }
 
-constexpr inline precision_measurement operator/(double val, precise_unit unit_base)
+constexpr inline precise_measurement operator/(double val, precise_unit unit_base)
 {
     return {val, unit_base.inv()};
 }
-constexpr inline precision_measurement operator/(precise_unit unit_base, double val)
+constexpr inline precise_measurement operator/(precise_unit unit_base, double val)
 {
     return {1.0 / val, unit_base};
 }
 
 /// Design requirement this must fit in space of 3 doubles
-static_assert(sizeof(precision_measurement) <= 24, "precision measurement is too large");
+static_assert(sizeof(precise_measurement) <= 24, "precision measurement is too large");
 
 /// Class using precise units and double precision
-class fixed_precision_measurement {
+class fixed_precise_measurement {
   public:
-    constexpr fixed_precision_measurement(double val, precise_unit base) : value_(val), units_(base)
+    constexpr fixed_precise_measurement(double val, precise_unit base) : value_(val), units_(base)
     {
     }
 
-    explicit constexpr fixed_precision_measurement(precision_measurement val) :
+    explicit constexpr fixed_precise_measurement(precise_measurement val) :
         value_(val.value()), units_(val.units())
     {
     }
 
-    constexpr fixed_precision_measurement(const fixed_precision_measurement& val) :
+    constexpr fixed_precise_measurement(const fixed_precise_measurement& val) :
         value_(val.value()), units_(val.units())
     {
     }
 
-    fixed_precision_measurement& operator=(precision_measurement val)
+    fixed_precise_measurement& operator=(precise_measurement val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -701,13 +701,13 @@ class fixed_precision_measurement {
 
     /// Assignment from double,  allow direct numerical assignment since the units are fixes and known at
     /// construction time
-    fixed_precision_measurement& operator=(double val)
+    fixed_precise_measurement& operator=(double val)
     {
         value_ = val;
         return *this;
     }
     // direct conversion operator
-    operator precision_measurement() { return precision_measurement(value_, units_); }
+    operator precise_measurement() { return precise_measurement(value_, units_); }
 
     constexpr double value() const { return value_; }
     constexpr precise_unit units() const { return units_; }
@@ -721,70 +721,70 @@ class fixed_precision_measurement {
         return (units_ == units) ? value_ : units::convert(value_, units_, units);
     }
 
-    constexpr precision_measurement operator*(precision_measurement other) const
+    constexpr precise_measurement operator*(precise_measurement other) const
     {
         return {value_ * other.value(), units_ * other.units()};
     }
-    constexpr fixed_precision_measurement operator*(double val) const
+    constexpr fixed_precise_measurement operator*(double val) const
     {
         return {value_ * val, units_};
     }
-    constexpr precision_measurement operator/(precision_measurement other) const
+    constexpr precise_measurement operator/(precise_measurement other) const
     {
         return {value_ / other.value(), units_ / other.units()};
     }
-    constexpr fixed_precision_measurement operator/(double val) const
+    constexpr fixed_precise_measurement operator/(double val) const
     {
         return {value_ / val, units_};
     }
 
-    fixed_precision_measurement operator+(precision_measurement other) const
+    fixed_precise_measurement operator+(precise_measurement other) const
     {
         return {value_ + other.value_as(units_), units_};
     }
-    fixed_precision_measurement operator-(precision_measurement other) const
+    fixed_precise_measurement operator-(precise_measurement other) const
     {
         return {value_ - other.value_as(units_), units_};
     }
     /// Add a double assuming the same units
-    constexpr fixed_precision_measurement operator+(double val) const
+    constexpr fixed_precise_measurement operator+(double val) const
     {
         return {value_ + val, units_};
     }
     /// Subtract a double assuming the same units
-    constexpr fixed_precision_measurement operator-(double val) const
+    constexpr fixed_precise_measurement operator-(double val) const
     {
         return {value_ - val, units_};
     }
 
-    fixed_precision_measurement& operator+=(double val)
+    fixed_precise_measurement& operator+=(double val)
     {
         value_ += val;
         return *this;
     }
-    fixed_precision_measurement& operator-=(double val)
+    fixed_precise_measurement& operator-=(double val)
     {
         value_ -= val;
         return *this;
     }
-    fixed_precision_measurement& operator*=(double val)
+    fixed_precise_measurement& operator*=(double val)
     {
         value_ *= val;
         return *this;
     }
-    fixed_precision_measurement& operator/=(double val)
+    fixed_precise_measurement& operator/=(double val)
     {
         value_ /= val;
         return *this;
     }
     /// Convert a unit to have a new base
-    precision_measurement convert_to(precise_unit newUnits) const
+    precise_measurement convert_to(precise_unit newUnits) const
     {
         return {units::convert(value_, units_, newUnits), newUnits};
     }
 
     /// Convert a unit into its base units
-    constexpr precision_measurement convert_to_base() const
+    constexpr precise_measurement convert_to_base() const
     {
         return {value_ * units_.multiplier(), precise_unit(units_.base_units())};
     }
@@ -801,66 +801,66 @@ class fixed_precision_measurement {
     bool operator<=(double val) const { return value_ <= val ? true : operator==(val); };
 
     /// Equality operator
-    bool operator==(precision_measurement val) const
+    bool operator==(precise_measurement val) const
     {
         return operator==((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
     /// Not equal operator
-    bool operator!=(precision_measurement val) const
+    bool operator!=(precise_measurement val) const
     {
         return operator!=((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
 
-    bool operator>(precision_measurement val) const
+    bool operator>(precise_measurement val) const
     {
         return operator>((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator<(precision_measurement val) const
+    bool operator<(precise_measurement val) const
     {
         return operator<((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator>=(precision_measurement val) const
+    bool operator>=(precise_measurement val) const
     {
         return operator>=((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator<=(precision_measurement val) const
+    bool operator<=(precise_measurement val) const
     {
         return operator<=((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
 
-    friend bool operator==(double val, const fixed_precision_measurement& v2) { return v2 == val; };
-    friend bool operator!=(double val, const fixed_precision_measurement& v2) { return v2 != val; };
-    friend constexpr bool operator>(double val, const fixed_precision_measurement& v2)
+    friend bool operator==(double val, const fixed_precise_measurement& v2) { return v2 == val; };
+    friend bool operator!=(double val, const fixed_precise_measurement& v2) { return v2 != val; };
+    friend constexpr bool operator>(double val, const fixed_precise_measurement& v2)
     {
         return val > v2.value();
     };
-    friend constexpr bool operator<(double val, const fixed_precision_measurement& v2)
+    friend constexpr bool operator<(double val, const fixed_precise_measurement& v2)
     {
         return val < v2.value();
     };
-    friend bool operator>=(double val, const fixed_precision_measurement& v2)
+    friend bool operator>=(double val, const fixed_precise_measurement& v2)
     {
         return (val >= v2.value()) ? true : (v2 == val);
     };
-    friend bool operator<=(double val, const fixed_precision_measurement& v2)
+    friend bool operator<=(double val, const fixed_precise_measurement& v2)
     {
         return (val <= v2.value()) ? true : (v2 == val);
     };
 
     /// friend operators for math operators
-    friend constexpr double operator+(double v1, const fixed_precision_measurement& v2)
+    friend constexpr double operator+(double v1, const fixed_precise_measurement& v2)
     {
         return v1 + v2.value();
     }
-    friend constexpr double operator-(double v1, const fixed_precision_measurement& v2)
+    friend constexpr double operator-(double v1, const fixed_precise_measurement& v2)
     {
         return v1 - v2.value();
     }
-    friend constexpr double operator*(double v1, const fixed_precision_measurement& v2)
+    friend constexpr double operator*(double v1, const fixed_precise_measurement& v2)
     {
         return v1 * v2.value();
     }
-    friend constexpr double operator/(double v1, const fixed_precision_measurement& v2)
+    friend constexpr double operator/(double v1, const fixed_precise_measurement& v2)
     {
         return v1 / v2.value();
     }
@@ -935,10 +935,10 @@ precise_unit default_unit(std::string unit_type);
 @param match_flags see / ref unit_conversion_flags to control the matching process somewhat
   @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
     */
-precision_measurement
+precise_measurement
     measurement_from_string(std::string measurement_string, uint32_t match_flags = 0);
 /// Convert a precision measurement to a string (with some extra decimal digits displayed
-std::string to_string(precision_measurement measure, uint32_t match_flags = 0);
+std::string to_string(precise_measurement measure, uint32_t match_flags = 0);
 /// Convert a measurement to a string
 std::string to_string(measurement measure, uint32_t match_flags = 0);
 /// Convert a floating point measurement to a string
@@ -983,57 +983,57 @@ precise_unit r20_unit(std::string r20_string);
 /// Physical constants in use with associated units
 namespace constants {
     /// Standard gravity
-    constexpr precision_measurement g0(9.80665, precise::m / precise::s / precise::s);
+    constexpr precise_measurement g0(9.80665, precise::m / precise::s / precise::s);
     /// Gravitational Constant
-    constexpr precision_measurement
+    constexpr precise_measurement
         G(6.6740831e-11,
           precise_unit(detail::unit_data(3, -1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
     /// Speed of light
-    constexpr precision_measurement c{299792458.0, precise::m / precise::s};
+    constexpr precise_measurement c{299792458.0, precise::m / precise::s};
     /// Elementary Charge (2019 redefinition)
-    constexpr precision_measurement e(1.602176634e-19, precise::C);
+    constexpr precise_measurement e(1.602176634e-19, precise::C);
     ///  hyperfine structure transition frequency of the cesium-133 atom
-    constexpr precision_measurement fCs(9192631770.0, precise::Hz);
+    constexpr precise_measurement fCs(9192631770.0, precise::Hz);
     /// Planck constant (2019 redefinition)
-    constexpr precision_measurement h{6.62607015e-34, precise::J* precise::second};
+    constexpr precise_measurement h{6.62607015e-34, precise::J* precise::second};
     /// Boltzman constant (2019 redefinition)
-    constexpr precision_measurement k{1.380649e-23, precise::J / precise::K};
+    constexpr precise_measurement k{1.380649e-23, precise::J / precise::K};
     /// Avogadros constant (2019 redefinition)
-    constexpr precision_measurement Na{6.02214076e23, precise::one / precise::mol};
+    constexpr precise_measurement Na{6.02214076e23, precise::one / precise::mol};
     /// Luminous efficiency
-    constexpr precision_measurement Kcd{683.0, precise::lm / precise::W};
+    constexpr precise_measurement Kcd{683.0, precise::lm / precise::W};
     /// Permittivity of free space
-    constexpr precision_measurement eps0{8.854187817e-12, precise::F / precise::m};
+    constexpr precise_measurement eps0{8.854187817e-12, precise::F / precise::m};
     /// Permeability of free space
-    constexpr precision_measurement mu0{12.566370614e-7, precise::N / (precise::A * precise::A)};
+    constexpr precise_measurement mu0{12.566370614e-7, precise::N / (precise::A * precise::A)};
     /// Gas Constant
-    constexpr precision_measurement R{8.314459848, precise::J / (precise::mol * precise::K)};
+    constexpr precise_measurement R{8.314459848, precise::J / (precise::mol * precise::K)};
     /// Stephan Boltzmann constant
-    constexpr precision_measurement s{
+    constexpr precise_measurement s{
         5.67036713e-8,
         precise_unit(detail::unit_data(0, 1, -3, 0, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0))};
     /// hubble constant AKA 69.3 km/s/Mpc
-    constexpr precision_measurement H0{2.25e-18, precise::Hz};
+    constexpr precise_measurement H0{2.25e-18, precise::Hz};
     /// Mass of an electron
-    constexpr precision_measurement me{9.1093835611e-31, precise::kg};
+    constexpr precise_measurement me{9.1093835611e-31, precise::kg};
     /// Mass of a proton
-    constexpr precision_measurement mp{1.67262189821e-27, precise::kg};
+    constexpr precise_measurement mp{1.67262189821e-27, precise::kg};
     /// Planck units
     namespace planck {
-        constexpr precision_measurement length{1.61622938e-35, precise::m};
-        constexpr precision_measurement mass{2.17647051e-8, precise::kg};
-        constexpr precision_measurement time{5.3911613e-44, precise::s};
-        constexpr precision_measurement charge{1.87554595641e-18, precise::C};
-        constexpr precision_measurement temperature{1.41680833e32, precise::K};
+        constexpr precise_measurement length{1.61622938e-35, precise::m};
+        constexpr precise_measurement mass{2.17647051e-8, precise::kg};
+        constexpr precise_measurement time{5.3911613e-44, precise::s};
+        constexpr precise_measurement charge{1.87554595641e-18, precise::C};
+        constexpr precise_measurement temperature{1.41680833e32, precise::K};
     } // namespace planck
     /// measurements related to an electron or atomic measurements
     namespace atomic { // https://www.bipm.org/en/publications/si-brochure/table7.html
-        constexpr precision_measurement length{0.5291772109217e-10, precise::m};
-        constexpr precision_measurement mass = me;
-        constexpr precision_measurement time{2.41888432650212e-17, precise::s};
-        constexpr precision_measurement charge = e;
-        constexpr precision_measurement energy{4.3597443419e-18, precise::J};
-        constexpr precision_measurement action{1.05457172647e-34, precise::J* precise::s};
+        constexpr precise_measurement length{0.5291772109217e-10, precise::m};
+        constexpr precise_measurement mass = me;
+        constexpr precise_measurement time{2.41888432650212e-17, precise::s};
+        constexpr precise_measurement charge = e;
+        constexpr precise_measurement energy{4.3597443419e-18, precise::J};
+        constexpr precise_measurement action{1.05457172647e-34, precise::J* precise::s};
     } // namespace atomic
 } // namespace constants
 

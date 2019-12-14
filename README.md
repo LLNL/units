@@ -92,32 +92,32 @@ the high precision units are in the namespace `units::precise`.
 Also defined are a number of physical constants in `units::constants`
 ```cpp
 /// Standard gravity
-constexpr precision_measurement g0(9.80665, precise::m / precise::s / precise::s);
+constexpr precise_measurement g0(9.80665, precise::m / precise::s / precise::s);
 /// Gravitational Constant
-constexpr precision_measurement
+constexpr precise_measurement
   G(6.6740831e-11, precise_unit(detail::unit_data(3, -1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
 /// Speed of light
-constexpr precision_measurement c{299792458.0, precise::m / precise::s};
+constexpr precise_measurement c{299792458.0, precise::m / precise::s};
 /// Elementary Charge (2019 redefinition)
-constexpr precision_measurement e(1.602176634e-19, precise::C);
+constexpr precise_measurement e(1.602176634e-19, precise::C);
 ///  hyperfine structure transition frequency of the caesium-133 atom
-constexpr precision_measurement fCs(9192631770.0, precise::Hz);
+constexpr precise_measurement fCs(9192631770.0, precise::Hz);
 /// Planck constant (2019 redefinition)
-constexpr precision_measurement h{6.62607015e-34, precise::J * precise::second};
+constexpr precise_measurement h{6.62607015e-34, precise::J * precise::second};
 /// Boltzman constant (2019 redefinition)
-constexpr precision_measurement k{1.380649e-23, precise::J / precise::K};
+constexpr precise_measurement k{1.380649e-23, precise::J / precise::K};
 /// Avogadros constant (2019 redefinition)
-constexpr precision_measurement Na{6.02214076e23, precise::one / precise::mol};
+constexpr precise_measurement Na{6.02214076e23, precise::one / precise::mol};
 /// Luminous efficiency
-constexpr precision_measurement Kcd{683.0, precise::lm / precise::W};
+constexpr precise_measurement Kcd{683.0, precise::lm / precise::W};
 /// Permittivity of free space
-constexpr precision_measurement eps0{8.854187817e-12, precise::F / precise::m};
+constexpr precise_measurement eps0{8.854187817e-12, precise::F / precise::m};
 /// Permeability of free space
-constexpr precision_measurement u0{12.566370614e-7, precise::N / (precise::A * precise::A)};
+constexpr precise_measurement u0{12.566370614e-7, precise::N / (precise::A * precise::A)};
 /// Gas Constant
-constexpr precision_measurement R{8.314459848, precise::J / (precise::mol * precise::K)};
+constexpr precise_measurement R{8.314459848, precise::J / (precise::mol * precise::K)};
 /// Stephan Boltzmann constant
-constexpr precision_measurement sigma{5.67036713e-8,
+constexpr precise_measurement sigma{5.67036713e-8,
                                       precise_unit(detail::unit_data(0, 1, -3, 0, -4, 0, 0, 0, 0, 0, 0, 0))};
 
 ```
@@ -229,7 +229,7 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 -   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a precise_unit value.  
 -   `unit unit_cast_from_string( string, flags)`: convert a string representation of units into a unit value  NOTE:  same as previous function except has an included unit cast for convenience.    
 -   `precise_unit default_unit( string)`: get a unit associated with a particular kind of measurement.  for example `default_unit("length")` would return `precise::m`  
--   `precision_measurement measurement_from_string(string,flags)`: convert a string to a measurement
+-   `precise_measurement measurement_from_string(string,flags)`: convert a string to a measurement
 -   `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported
 -   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.  
 -   `clearUserDefinedUnits()`  remove all user defined units from the library.

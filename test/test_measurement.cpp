@@ -233,8 +233,8 @@ TEST(fixedMeasurement, comparison)
 
 TEST(PrecisionMeasurement, ops)
 {
-    precision_measurement d1(45.0, precise::m);
-    precision_measurement d2(79, precise::m);
+    precise_measurement d1(45.0, precise::m);
+    precise_measurement d2(79, precise::m);
 
     auto area = d1 * d2;
     EXPECT_EQ(area.value(), 45.0 * 79);
@@ -258,7 +258,7 @@ TEST(PrecisionMeasurement, ops)
 
 TEST(PrecisionMeasurement, doubleOps)
 {
-    precision_measurement d1(45.0, precise::s);
+    precise_measurement d1(45.0, precise::s);
 
     auto freq = 9.0 / precise::s;
     EXPECT_EQ(freq.units(), precise::one / precise::s);
