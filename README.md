@@ -54,7 +54,7 @@ There are only a few types in the library
 -   `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The double has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal. The remaining 4 bytes are used to contain a commodity object code.  
 -   `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement. `measurement` is an alias to a `measurement_base<double>` so the quantity type can be templated.  `measurement_f` is an alias for `measurement_base<float>` but others could be defined.
 -   `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
--   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertable to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types. 
+-   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types. 
 -   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template.  
 
 ## Unit representation
@@ -83,7 +83,7 @@ These ranges were chosen to represent nearly all physical quantities that could 
 -   With string conversions there are many units that can be interpreted in multiple ways.  In general the priority was given to units in more common use in the United States, or in power systems and electrical engineering which was the origin of this library.
 -   The unit `yr` has different meanings in different contexts.  Currently the following notation has been adopted for string conversions `yr`=`365*day`=`8760*hr`,  `a`=`365.25*day`, `annum`=`365.25*day`, `syr`=`365.24*day`.  The typical usage was distinct in different contexts so this is the compromise.  
 -   The i_flag functions such that when squared it goes to 0, similar to the imaginary number `i*conj(i)=i^0`.   This is useful for directional units such as compass directions and reactive power in power systems.
--   Measurement/unit equality is an interesting question.  The library takes a pragmatic approach vs. a precise mathematical approach.  The precision of a float is taken to be roughly 7 decimal digit of precision.  and a double used in the 'precise' values to be 13 digits of precision.  This is sufficient to run a few operations without going out of tolerance from floating point operations.  This also comes into equality which is nominally taken to be values and units within this tolerance level.  So numbers are rounded to a certain number of digits then compared to within a tolerance level.  Some effort was made to make this uniform, but tolerance around the last digit is not exact.  Comparison operators for the units and measurements are provided. Equality and inequality use the rounded comparison;  greater and less than are exact, while `>=` and `<=` check first for > or < conditions then check for equality if needed.  There are a few situations that are not totally consistent like `1.0000001*m==1.0*m` and    `1.0000001*m>1.0*m`, but such is nature of floating point operations.  So from a mathemetical purity sense this isn't consistent but does mostly what was needed.  
+-   Measurement/unit equality is an interesting question.  The library takes a pragmatic approach vs. a precise mathematical approach.  The precision of a float is taken to be roughly 7 decimal digit of precision.  and a double used in the 'precise' values to be 13 digits of precision.  This is sufficient to run a few operations without going out of tolerance from floating point operations.  This also comes into equality which is nominally taken to be values and units within this tolerance level.  So numbers are rounded to a certain number of digits then compared to within a tolerance level.  Some effort was made to make this uniform, but tolerance around the last digit is not exact.  Comparison operators for the units and measurements are provided. Equality and inequality use the rounded comparison;  greater and less than are exact, while `>=` and `<=` check first for > or < conditions then check for equality if needed.  There are a few situations that are not totally consistent like `1.0000001*m==1.0*m` and    `1.0000001*m>1.0*m`, but such is nature of floating point operations.  So from a mathematical purity sense this isn't consistent but does mostly what was needed.  
 
 ## Defined units
 There are 2 sets of defined units
@@ -146,31 +146,52 @@ std::cout<<"the area is "<<area<< " or "<<area.convert_to(ft.pow(2))<<".\n";
 These operations apply to units and precise_units
 
 -   `<unit>(<unit_data>)`  construct from a base unit_data
+
 -   `<unit>(<unit_data>, double multiplier)`  construct a unit from a base data and a multiplier
+
 -   `<unit>(double multiplier, <unit>)`  construct from a multiplier and another unit
+
 -   also available are copy constructor and copy assignments
+
 -   `<unit> inv()`  generate a new unit containing the inverse unit  `m.inv()= 1/m`
--   `<unit> pow(int power)` take a unit to power(NOTE: beware of limits on power representations of some units,  things will always wrap so it is defined but may not produce what you expect).  power can be negative
--   `<unit> root(int power)`  non constexpr, take the root of a unit,  produces `error` unit if the root is not well defined.  power can be negative.  
+-   `<unit> pow(int power)` take a unit to power(NOTE: beware of limits on power representations of some units,  things will always wrap so it is defined but may not produce what you expect).  `power` can be negative.
+
+-   `<unit> root(int power)`  non constexpr, take the root of a unit,  produces `error` unit if the root is not well defined.  power can be negative.
+  
 -   `bool is_exactly_the_same(<unit>)` compare two units and check for exact equivalence in both the unit_data and the multiplier, NOTE: this uses double equality
+
 -   `bool has_same_base(<unit>|<unit_data>)`  check if the <unit_data> is the same
+
 -   `equivalent_non_counting(<unit>|<unit_data>)`   check if the units are equivalent ignoring the counting bases
--   `bool is_convertible(<unit>)`  check if the units are convertible to eachother,  currently checks `equivalent_non_counting()`, but some additional conditions might be allowed in the future to better match convert.  
+
+-   `bool is_convertible(<unit>)`  check if the units are convertible to each other,  currently checks `equivalent_non_counting()`, but some additional conditions might be allowed in the future to better match convert.  
+
 -   `int unit_type_count()`  count the number of unit bases used,  (does not take into consideration powers, just if the dimension is used or not.
+
 -   `bool is_per_unit()`  true if the unit has the per_unit flag active
+
 -   `bool is_equation()`  true if the unit has the equation flag active
+
 -   `bool has_i_flag()`  true if the i_flag is marked active
+
 -   `bool has_e_flag()`  true if the e_flag is marked active
+
 -   `double multiplier()`  return the unit multiplier as a double(regardless of how it is actually stored)
+
 -   `<float|double> cround()`  round the multiplier to an appropriate number of digits
+
 -   `<unit_data> base_units()`  get the base units
+
 -   `void clear_flags()`  clear any flags associated with the units
 
 	For precise_units only
+
 -   `commodity()`  get the commodity of the unit
+
 -   `commodity(int commodity)`  assign a commodity to the precise_unit.  
 
 #### Unit Operators
+
    There are also several operator overloads that apply to units and precise_units.   
 -   `<unit>=<unit>*<unit>`  generate a new unit with the units multiplied  ie  `m*m` does what you might expect and produces a new unit with `m^2`
 -   `<unit>=<unit>/<unit>`  generate a new unit with the units divided  ie  `m/s` does what you might expect and produces a new unit with meters per second.  NOTE:  `m/m` will produce `1` it will not automatically produce a `pu`  though we are looking at how to make a 'pu_m*m=m' so units like strain might work smoothly.  
@@ -185,10 +206,10 @@ These operations apply to units and precise_units
 -   `std::hash<unit>()`  generate a hash code of a unit, for things like use in std::unordered_map or other purposes.  
 -   `<unit> unit_cast(<unit>)`  convert a unit into <unit>,  mainly used to convert a precise_unit into a regular unit.  
 -   `bool is_unit_cast_lossless(<precise_unit>)`  returns true if the multiplier in a precise_unit can be converted exactly into a float.  
--   `bool isnan(<unit>)`  true if the unit multipler is a nan.
--   `bool isinf(<unit>)`  true if the unit multipler is infinite.  
+-   `bool isnan(<unit>)`  true if the unit multiplier is a NaN.
+-   `bool isinf(<unit>)`  true if the unit multiplier is infinite.  
 -   `double quick_convert(<unit>, <unit>)`  generate the conversion factor between two units.  This function is constexpr.  
--   `double quick_convert(double factor, <unit>, <unit>)`  convert a spectific value from one unit to another,  function is constexpr but does not cover all possible conversion.  
+-   `double quick_convert(double factor, <unit>, <unit>)`  convert a specific value from one unit to another,  function is constexpr but does not cover all possible conversion.  
 -   `double convert(<unit>, <unit>)`  generate the conversion factor between two units.
 -   `double convert(double val, <unit>, <unit>)` convert a value from one unit to another.  
 -   `double convert(double val, <unit>, <unit>, double baseValue)`  do a conversion assuming a particular basevalue for per unit conversions.
@@ -207,7 +228,6 @@ These operations apply to units and precise_units
 -   `<unit> units() const`  get the units used as a basis for the measurement
 -   `<unit> as_unit() const`  take the measurement as is and convert it into a single unit.  For Examples say a was 10 m.    calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
 -   `double value_as(<unit>)` get the value of a measurement as if it were measured in <unit>
-
 
 #### Measurement operators
 There are several operator overloads which work on measurements or units to produce measurements.
