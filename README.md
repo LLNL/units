@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/LLNL/units/branch/master/graph/badge.svg)](https://codecov.io/gh/LLNL/units)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0b5367026f34c4a9dc94ca4c19c770a)](https://app.codacy.com/app/phlptp/units?utm_source=github.com&utm_medium=referral&utm_content=LLNL/units&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=master)](https://dev.azure.com/phlptp/units/_build/latest?definitionId=1&branchName=master)
+[![CircleCI](https://circleci.com/gh/LLNL/units.svg?style=svg)](https://circleci.com/gh/LLNL/units)
 [![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE)
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
@@ -54,7 +55,7 @@ There are only a few types in the library
 -   `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The double has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal. The remaining 4 bytes are used to contain a commodity object code.  
 -   `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement. `measurement` is an alias to a `measurement_base<double>` so the quantity type can be templated.  `measurement_f` is an alias for `measurement_base<float>` but others could be defined.
 -   `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
--   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types. 
+-   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types.
 -   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template.  
 
 ## Unit representation
@@ -77,7 +78,7 @@ These ranges were chosen to represent nearly all physical quantities that could 
 ### Discussion points
 -   Currency may seem like a unusual choice in units but numbers involving prices are encountered often enough in various disciplines that it is useful to include as part of a unit.  
 -   Technically count and radians are not units, they are representations of real things. A radian is a representation of rotation around a circle and is therefore distinct from a true unitless quantity even though there are no physical measurements associated with either.
--   And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605*10^-15 mol of data.  So they are used in different context and don't mix very often, the convert functions does convert between them if necessary. 
+-   And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605*10^-15 mol of data.  So they are used in different context and don't mix very often, the convert functions does convert between them if necessary.
 -   This library **CANNOT** represent fractional unit powers( except for sqrt Hz used in noise density units), and it follows the order of operation in C++ so **IF** you have equations that any portion of the operation may exceed the numerical limits on powers even if the result does not, **BE CAREFUL**.
 -   The normal rules about floating point operations losing precision also apply to unit representations with non-integral multipliers.
 -   With string conversions there are many units that can be interpreted in multiple ways.  In general the priority was given to units in more common use in the United States, or in power systems and electrical engineering which was the origin of this library.
@@ -146,48 +147,29 @@ std::cout<<"the area is "<<area<< " or "<<area.convert_to(ft.pow(2))<<".\n";
 These operations apply to units and precise_units
 
 -   `<unit>(<unit_data>)`  construct from a base unit_data
-
 -   `<unit>(<unit_data>, double multiplier)`  construct a unit from a base data and a multiplier
-
 -   `<unit>(double multiplier, <unit>)`  construct from a multiplier and another unit
-
 -   also available are copy constructor and copy assignments
-
 -   `<unit> inv()`  generate a new unit containing the inverse unit  `m.inv()= 1/m`
 -   `<unit> pow(int power)` take a unit to power(NOTE: beware of limits on power representations of some units,  things will always wrap so it is defined but may not produce what you expect).  `power` can be negative.
-
 -   `<unit> root(int power)`  non constexpr, take the root of a unit,  produces `error` unit if the root is not well defined.  power can be negative.
-  
 -   `bool is_exactly_the_same(<unit>)` compare two units and check for exact equivalence in both the unit_data and the multiplier, NOTE: this uses double equality
-
 -   `bool has_same_base(<unit>|<unit_data>)`  check if the <unit_data> is the same
-
 -   `equivalent_non_counting(<unit>|<unit_data>)`   check if the units are equivalent ignoring the counting bases
-
--   `bool is_convertible(<unit>)`  check if the units are convertible to each other,  currently checks `equivalent_non_counting()`, but some additional conditions might be allowed in the future to better match convert.  
-
+-   `bool is_convertible(<unit>)`  check if the units are convertible to each other,  currently checks `equivalent_non_counting()`, but some additional conditions might be allowed in the future to better match convert.
 -   `int unit_type_count()`  count the number of unit bases used,  (does not take into consideration powers, just if the dimension is used or not.
-
 -   `bool is_per_unit()`  true if the unit has the per_unit flag active
-
 -   `bool is_equation()`  true if the unit has the equation flag active
-
 -   `bool has_i_flag()`  true if the i_flag is marked active
-
 -   `bool has_e_flag()`  true if the e_flag is marked active
-
 -   `double multiplier()`  return the unit multiplier as a double(regardless of how it is actually stored)
-
 -   `<float|double> cround()`  round the multiplier to an appropriate number of digits
-
 -   `<unit_data> base_units()`  get the base units
-
 -   `void clear_flags()`  clear any flags associated with the units
 
-	For precise_units only
+For precise_units only
 
 -   `commodity()`  get the commodity of the unit
-
 -   `commodity(int commodity)`  assign a commodity to the precise_unit.  
 
 #### Unit Operators
@@ -195,14 +177,16 @@ These operations apply to units and precise_units
    There are also several operator overloads that apply to units and precise_units.   
 -   `<unit>=<unit>*<unit>`  generate a new unit with the units multiplied  ie  `m*m` does what you might expect and produces a new unit with `m^2`
 -   `<unit>=<unit>/<unit>`  generate a new unit with the units divided  ie  `m/s` does what you might expect and produces a new unit with meters per second.  NOTE:  `m/m` will produce `1` it will not automatically produce a `pu`  though we are looking at how to make a 'pu_m*m=m' so units like strain might work smoothly.  
-   
+
 -   `bool <unit>==<unit>`  compare two units.  this does a rounding compare so there is some tolerance to roughly 7 significant digits for <unit> and 13 significant digits for <precise_unit>.  
 -   `bool <unit>!=<unit>` the opposite of `==`
-   
-   precise_units can usually operate with a precise unit or unit, unit usually can't operate on precise_unit.  
-   
-### Unit free functions 
-	These functions are not class methods but operate on units  
+
+precise_units can usually operate with a precise unit or unit, unit usually can't operate on precise_unit.  
+
+### Unit free functions
+
+These functions are not class methods but operate on units  
+
 -   `std::hash<unit>()`  generate a hash code of a unit, for things like use in std::unordered_map or other purposes.  
 -   `<unit> unit_cast(<unit>)`  convert a unit into <unit>,  mainly used to convert a precise_unit into a regular unit.  
 -   `bool is_unit_cast_lossless(<precise_unit>)`  returns true if the multiplier in a precise_unit can be converted exactly into a float.  
@@ -217,7 +201,7 @@ These operations apply to units and precise_units
 -   `bool is_error(<unit>)`  check if the unit is a special error unit.
 -   `bool is_default(<unit>)`  check if the unit is a special default unit.
 -   `bool is_valid(<unit>)`  check to make sure the unit is not an invalid unit( the multiplier is not a NaN) and the unit_data does not match the defined `invalid_unit`.
--   ` bool is_temperature(<unit>)`  return true if the unit is a temperature unit such as `F` or `C` or one of the other temperature units. 
+-   ` bool is_temperature(<unit>)`  return true if the unit is a temperature unit such as `F` or `C` or one of the other temperature units.
 -   `bool is_normal(<unit>)` return true if the multiplier is a normal number, there is some defined unit base, not the identity unit, the multiplier is not negative, and not the default unit.  basically a simple way to check if you have some non-special unit that will behave more or less how you expect it to.  
 
 ### Measurement Operations
@@ -237,19 +221,24 @@ There are several operator overloads which work on measurements or units to prod
 
 Notes:  for regular measurements, `+` and `-` are not defined for doubles due to uncertainty of what that means.  For fixed_measurement types this is defined as the units are known at construction and cannot change.  For fixed_measurement types if the operator would produce a new measurement with the same units it will be a fixed measurement, if not it reverts to a regular measurement.  
 
--   `==`, `!=`, `>`, `<`, `>=`, `<=` are defined for all measurement comparisons 
+-   `==`, `!=`, `>`, `<`, `>=`, `<=` are defined for all measurement comparisons
 -   `<measurement>=<double>*<unit>`  
 -   `<measurement>=<unit>*<double>`  
 -   `<measurement>=<unit>/<double>`  
 -   `<measurement>=<double>/<unit>`  basically calling a number multiplied or divided by a <unit> produces a measurement,  `unit` produces a measurement and `precise_unit` produces a precise_measurement.  
-  
+
+#### Measurement function
+
+-   `measurement measurement_cast(<measurement>)`  convert a precise_measurement into measurement
+-   `fixed_measurement measurement_cast(fixed_precise_measurement)`  convert a fixed_precise_measurement into a fixed_measurement
 
 ### Available library functions
 
 -   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a precise_unit value.  
 -   `unit unit_cast_from_string( string, flags)`: convert a string representation of units into a unit value  NOTE:  same as previous function except has an included unit cast for convenience.    
 -   `precise_unit default_unit( string)`: get a unit associated with a particular kind of measurement.  for example `default_unit("length")` would return `precise::m`  
--   `precise_measurement measurement_from_string(string,flags)`: convert a string to a measurement
+-   `precise_measurement measurement_from_string(string,flags)`: convert a string to a precise_measurement
+-   `measurement measurement_cast_from_string(string,flags)`: convert a string to a measurement calls measurement_from_string and does a measurement_cast.  
 -   `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported
 -   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.  
 -   `clearUserDefinedUnits()`  remove all user defined units from the library.
@@ -263,13 +252,13 @@ The units library has some support for commodities,  more might be added in the 
 -   `addUserDefinedCommodity(std::string name, uint32_t code)`  add a new commodity that can be used in the string operations.  
 -   `clearUserDefinedCommodities()`  remove all user defined commodities from the library.
 -   `disableUserDefinedCommodities()`  there is a performance hit if custom commodities are used so they can be disabled completely if desired.
--   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  they are enabled by default. 
+-   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  they are enabled by default.
 
 #### Other unit definitions
 These are all only partially implemented
--   `precise_unit x12_unit(string)`  get a unit from an X12 string. 
--   `precise_unit dod_unit(string)`  get a unit from a DOD code string. 
--   `precise_unit r20_unit(string)`  get a unit from an r20 code string. 
+-   `precise_unit x12_unit(string)`  get a unit from an X12 string.
+-   `precise_unit dod_unit(string)`  get a unit from a DOD code string.
+-   `precise_unit r20_unit(string)`  get a unit from an r20 code string.
 
 ## Release
 This units library is distributed under the terms of the BSD-3 clause license. All new
