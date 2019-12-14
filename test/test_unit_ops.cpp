@@ -489,7 +489,7 @@ TEST(preciseunitOps, inequality1)
     double start = 1.0;
     while (start < (1.0 + 2e-12)) {
         double diff = 1e-11;
-        while (diff > 2.501e-12) {
+        while (diff > 1.501e-12) {
             auto u1 = precise_unit(start, precise::V);
             auto u2 = precise_unit(start + diff, precise::V);
             auto u3 = precise_unit(start - diff, precise::V);

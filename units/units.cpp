@@ -1140,7 +1140,7 @@ static double getNumberBlock(const std::string& ustring, size_t& index)
     }
     if (index < ustring.size()) {
         if (ustring[index] == '^') {
-			size_t nindex{ 0 };
+            size_t nindex{0};
             double pval = getNumberBlock(ustring.substr(index + 1), nindex);
             if (!std::isnan(pval)) {
                 index += nindex + 1;
@@ -1171,7 +1171,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index)
                 case '/':
                 case '*':
                     if (looksLikeNumber(ustring, index + 1) || ustring[index + 1] == '(') {
-						size_t oindex{ 0 };
+                        size_t oindex{0};
                         double res = getNumberBlock(ustring.substr(index + 1), oindex);
                         if (!std::isnan(res)) {
                             if (ustring[index] == '*') {
@@ -1189,7 +1189,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index)
                     }
                     break;
                 case '(': {
-					size_t oindex{ 0 };
+                    size_t oindex{0};
                     double res = getNumberBlock(ustring.substr(index), oindex);
                     if (!std::isnan(res)) {
                         val *= res;

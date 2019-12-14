@@ -231,7 +231,7 @@ TEST(fixedMeasurement, comparison)
     EXPECT_FALSE((1 * in) <= (2.0 * cm));
 }
 
-TEST(PrecisionMeasurement, ops)
+TEST(PreciseMeasurement, ops)
 {
     precise_measurement d1(45.0, precise::m);
     precise_measurement d2(79, precise::m);
@@ -256,7 +256,7 @@ TEST(PrecisionMeasurement, ops)
     EXPECT_TRUE(rat.units() == ratio);
 }
 
-TEST(PrecisionMeasurement, doubleOps)
+TEST(PreciseMeasurement, doubleOps)
 {
     precise_measurement d1(45.0, precise::s);
 
@@ -281,7 +281,7 @@ TEST(PrecisionMeasurement, doubleOps)
     EXPECT_EQ(fd2.units(), precise::s);
 }
 
-TEST(PrecisionMeasurement, help_constructors)
+TEST(PreciseMeasurement, help_constructors)
 {
     auto d1 = 45.0 * precise::m;
     auto d2 = precise::m * 79.0;
@@ -310,7 +310,7 @@ TEST(PrecisionMeasurement, help_constructors)
     EXPECT_TRUE(rat.units() == ratio);
 }
 
-TEST(PrecisionMeasurement, conversions)
+TEST(PreciseMeasurement, conversions)
 {
     auto d1 = 45.0 * precise::ft;
     auto d2 = d1.convert_to_base();
@@ -329,7 +329,7 @@ TEST(PrecisionMeasurement, conversions)
     EXPECT_EQ(d4.value(), 1.0);
 }
 
-TEST(PrecisionMeasurement, comparison)
+TEST(PreciseMeasurement, comparison)
 {
     EXPECT_TRUE(1000.0 * precise::m == 1 * precise::km);
     EXPECT_FALSE(1000.0 * precise::m != 1 * precise::km);
@@ -346,10 +346,10 @@ TEST(PrecisionMeasurement, comparison)
 }
 
 using namespace units;
-TEST(fixedPrecisionMeasurement, ops)
+TEST(fixedPreciseMeasurement, ops)
 {
-    fixed_precision_measurement d1(45.0, precise::m);
-    fixed_precision_measurement d2(79, precise::m);
+    fixed_precise_measurement d1(45.0, precise::m);
+    fixed_precise_measurement d2(79, precise::m);
 
     auto area = d1 * d2;
     EXPECT_EQ(area.value(), 45.0 * 79);

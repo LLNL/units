@@ -325,19 +325,49 @@ namespace detail {
     /// Round the multiplier to the expected level of precision
     inline float cround(float val)
     {
+#ifdef UNITS_NO_IEEE754
         int exp;
         auto f = frexpf(val, &exp);
-        f = roundf(f * 1e6f);
-        return ldexpf(f * 1e-6f, exp);
+        f = roundf(f * 1e6F);
+        return ldexpf(f * 1e-6F, exp);
+#else
+        //what this is doing is assuming IEEE 754 floating point definition
+        // taking 20 bits out of 24(roughly 10^6), adding 8 first 0b1000 to do rounding
+        // then masking it using a union
+        typedef union {
+            float f;
+            uint32_t bits;
+        } float_cast;
+        float_cast valf;
+        valf.f = val;
+        valf.bits += 8UL;
+        valf.bits &= 0xFFFFFFF0UL;
+        return valf.f;
+#endif
     }
 
     /// Round a value to the expected level of precision of a double
     inline double cround_precise(double val)
     {
+#ifdef UNITS_NO_IEEE754
         int exp;
         auto f = frexp(val, &exp);
         f = round(f * 1e12);
         return ldexp(f * 1e-12, exp);
+#else
+        //what this is doing is assuming IEEE 754 floating point (double precision) definition
+        // taking 40 bits out of 52(roughly 10^12), adding 2^11 to do rounding
+        // then masking it using a union
+        typedef union {
+            double f;
+            uint64_t bits;
+        } double_cast;
+        double_cast vald;
+        vald.f = val;
+        vald.bits += 0x800ULL;
+        vald.bits &= 0xFFFFFFFFFFFFF000ULL;
+        return vald.f;
+#endif
     }
 
     /// Do a rounding compare for equality on floats.
@@ -348,10 +378,11 @@ namespace detail {
             return true;
         }
         // yes these are magic numbers roughly half the value specified precision of 1e-6
-        if (cround(val1 * (1.0f + 5.4e-7f)) == c1) {
+        // they were arrived at by running a bunch of tests to meet the design requirements
+        if (cround(val1 * (1.0F + 5.4e-7F)) == c1) {
             return true;
         }
-        if (cround(val1 * (1.0f - 5.1e-7f)) == c1) {
+        if (cround(val1 * (1.0F - 5.1e-7F)) == c1) {
             return true;
         }
         return false;
@@ -364,7 +395,7 @@ namespace detail {
         if (cround_precise(val1) == c1) {
             return true;
         }
-        // yes these are magic numbers roughly half the value specified precision of 1e-12
+        // yes these are magic numbers half the value specified precision of 1e-12
         if (cround_precise(val1 * (1.0 + 5.000e-13)) == c1) {
             return true;
         }
@@ -711,6 +742,7 @@ class precise_unit {
     uint32_t commodity_{0}; //!< a commodity specifier
     double multiplier_{1.0}; //!< unit multiplier
 };
+
 /// Check if a unit down cast is lossless
 inline constexpr bool is_unit_cast_lossless(precise_unit val)
 {

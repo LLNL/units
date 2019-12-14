@@ -558,14 +558,20 @@ class precise_measurement {
     /// Default constructor
     constexpr precise_measurement() = default;
     constexpr precise_measurement(double val, precise_unit base) : value_(val), units_(base) {}
-
+    /// implicit conversion from a lower precision measurement
+    constexpr precise_measurement(const measurement& other) :
+        value_(other.value()), units_(other.units())
+    {
+    }
+    /// getter for the numerical component of the measurement
     constexpr double value() const { return value_; }
+    /// getter for the unit component of a measurement
     constexpr precise_unit units() const { return units_; }
 
     // convert the measurement to a single unit
     constexpr precise_unit as_unit() const { return {value_, units_}; }
 
-    constexpr precise_measurement operator*(precise_measurement other) const
+    constexpr precise_measurement operator*(const precise_measurement& other) const
     {
         return {value_ * other.value_, units_ * other.units_};
     }
@@ -574,7 +580,7 @@ class precise_measurement {
         return {value_, units_ * other};
     }
     constexpr precise_measurement operator*(double val) const { return {value_ * val, units_}; }
-    constexpr precise_measurement operator/(precise_measurement other) const
+    constexpr precise_measurement operator/(const precise_measurement& other) const
     {
         return {value_ / other.value_, units_ / other.units_};
     }
@@ -584,11 +590,11 @@ class precise_measurement {
     }
     constexpr precise_measurement operator/(double val) const { return {value_ / val, units_}; }
 
-    precise_measurement operator+(precise_measurement other) const
+    precise_measurement operator+(const precise_measurement& other) const
     {
         return {value_ + other.value_as(units_), units_};
     }
-    precise_measurement operator-(precise_measurement other) const
+    precise_measurement operator-(const precise_measurement& other) const
     {
         return {value_ - other.value_as(units_), units_};
     }
@@ -605,26 +611,32 @@ class precise_measurement {
     }
 
     /// Equality operator
-    bool operator==(precise_measurement other) const
+    bool operator==(const precise_measurement& other) const
     {
         return valueEqualityCheck(
             (units_ == other.units()) ? other.value() : other.value_as(units_));
     }
     /// Not equal operator
-    bool operator!=(precise_measurement other) const
+    bool operator!=(const precise_measurement& other) const
     {
         return !valueEqualityCheck(
             (units_ == other.units()) ? other.value() : other.value_as(units_));
     }
 
-    bool operator>(precise_measurement other) const { return value_ > other.value_as(units_); }
-    bool operator<(precise_measurement other) const { return value_ < other.value_as(units_); }
-    bool operator>=(precise_measurement other) const
+    bool operator>(const precise_measurement& other) const
+    {
+        return value_ > other.value_as(units_);
+    }
+    bool operator<(const precise_measurement& other) const
+    {
+        return value_ < other.value_as(units_);
+    }
+    bool operator>=(const precise_measurement& other) const
     {
         double val = other.value_as(units_);
         return (value_ > val) ? true : valueEqualityCheck(val);
     }
-    bool operator<=(precise_measurement other) const
+    bool operator<=(const precise_measurement& other) const
     {
         double val = other.value_as(units_);
         return (value_ < val) ? true : valueEqualityCheck(val);
@@ -635,12 +647,14 @@ class precise_measurement {
         return (units_ == units) ? value_ : units::convert(value_, units_, units);
     }
     // double multiplier
-    friend constexpr inline precise_measurement operator*(double val, precise_measurement meas)
+    friend constexpr inline precise_measurement
+        operator*(double val, const precise_measurement& meas)
     {
         return meas * val;
     }
     // divide measurement into a double
-    friend constexpr inline precise_measurement operator/(double val, precise_measurement meas)
+    friend constexpr inline precise_measurement
+        operator/(double val, const precise_measurement& meas)
     {
         return {val / meas.value_, meas.units_.inv()};
     }
@@ -674,7 +688,7 @@ constexpr inline precise_measurement operator/(precise_unit unit_base, double va
 }
 
 /// Design requirement this must fit in space of 3 doubles
-static_assert(sizeof(precise_measurement) <= 24, "precision measurement is too large");
+static_assert(sizeof(precise_measurement) <= 24, "precise measurement is too large");
 
 /// Class using precise units and double precision
 class fixed_precise_measurement {
@@ -683,7 +697,7 @@ class fixed_precise_measurement {
     {
     }
 
-    explicit constexpr fixed_precise_measurement(precise_measurement val) :
+    explicit constexpr fixed_precise_measurement(const precise_measurement& val) :
         value_(val.value()), units_(val.units())
     {
     }
@@ -693,7 +707,7 @@ class fixed_precise_measurement {
     {
     }
 
-    fixed_precise_measurement& operator=(precise_measurement val)
+    fixed_precise_measurement& operator=(const precise_measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -721,7 +735,7 @@ class fixed_precise_measurement {
         return (units_ == units) ? value_ : units::convert(value_, units_, units);
     }
 
-    constexpr precise_measurement operator*(precise_measurement other) const
+    constexpr precise_measurement operator*(const precise_measurement& other) const
     {
         return {value_ * other.value(), units_ * other.units()};
     }
@@ -729,7 +743,7 @@ class fixed_precise_measurement {
     {
         return {value_ * val, units_};
     }
-    constexpr precise_measurement operator/(precise_measurement other) const
+    constexpr precise_measurement operator/(const precise_measurement& other) const
     {
         return {value_ / other.value(), units_ / other.units()};
     }
@@ -738,11 +752,11 @@ class fixed_precise_measurement {
         return {value_ / val, units_};
     }
 
-    fixed_precise_measurement operator+(precise_measurement other) const
+    fixed_precise_measurement operator+(const precise_measurement& other) const
     {
         return {value_ + other.value_as(units_), units_};
     }
-    fixed_precise_measurement operator-(precise_measurement other) const
+    fixed_precise_measurement operator-(const precise_measurement& other) const
     {
         return {value_ - other.value_as(units_), units_};
     }
@@ -801,29 +815,29 @@ class fixed_precise_measurement {
     bool operator<=(double val) const { return value_ <= val ? true : operator==(val); };
 
     /// Equality operator
-    bool operator==(precise_measurement val) const
+    bool operator==(const precise_measurement& val) const
     {
         return operator==((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
     /// Not equal operator
-    bool operator!=(precise_measurement val) const
+    bool operator!=(const precise_measurement& val) const
     {
         return operator!=((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
 
-    bool operator>(precise_measurement val) const
+    bool operator>(const precise_measurement& val) const
     {
         return operator>((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator<(precise_measurement val) const
+    bool operator<(const precise_measurement& val) const
     {
         return operator<((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator>=(precise_measurement val) const
+    bool operator>=(const precise_measurement& val) const
     {
         return operator>=((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator<=(precise_measurement val) const
+    bool operator<=(const precise_measurement& val) const
     {
         return operator<=((units_ == val.units()) ? val.value() : val.value_as(units_));
     }
@@ -870,6 +884,24 @@ class fixed_precise_measurement {
     const precise_unit units_; //!< the units associated with the quantity
 };
 
+/// perform a down-conversion from a precise measurement to a measurement
+constexpr measurement measurement_cast(const precise_measurement& measure)
+{
+    return measurement(measure.value(), unit_cast(measure.units()));
+}
+
+/// perform a down-conversion from a precise measurement to a measurement
+constexpr fixed_measurement measurement_cast(const fixed_precise_measurement& measure)
+{
+    return fixed_measurement(measure.value(), unit_cast(measure.units()));
+}
+
+/// define measurement cast on measurement so it works in templates
+constexpr measurement measurement_cast(measurement measure)
+{
+    return measure;
+}
+
 #ifndef UNITS_HEADER_ONLY
 /** The unit conversion flag are some modifiers for the string conversion operations,
 some are used internally some are meant for external use, though all are possible to use externally
@@ -902,7 +934,7 @@ std::string to_string(precise_unit units, uint32_t match_flags = 0);
 /// Generate a string representation of the unit
 inline std::string to_string(unit units, uint32_t match_flags = 0)
 {
-    // For naming precision doesn't matter
+    // For naming, precision doesn't matter
     return to_string(precise_unit(units), match_flags);
 }
 
@@ -921,7 +953,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags = 0)
 */
 inline unit unit_cast_from_string(std::string unit_string, uint32_t match_flags = 0)
 {
-    return unit_cast(unit_from_string(unit_string, match_flags));
+    return unit_cast(unit_from_string(std::move(unit_string), match_flags));
 }
 
 /** Generate a unit object from the string definition of a type of measurement
@@ -930,14 +962,26 @@ inline unit unit_cast_from_string(std::string unit_string, uint32_t match_flags 
 */
 precise_unit default_unit(std::string unit_type);
 
-/** Generate a measurement from a string
+/** Generate a precise_measurement from a string
 @param measurement_string the string to convert
 @param match_flags see / ref unit_conversion_flags to control the matching process somewhat
   @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
     */
 precise_measurement
     measurement_from_string(std::string measurement_string, uint32_t match_flags = 0);
-/// Convert a precision measurement to a string (with some extra decimal digits displayed
+
+/** Generate a measurement from a string
+@param measurement_string the string to convert
+@param match_flags see / ref unit_conversion_flags to control the matching process somewhat
+  @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
+	*/
+inline measurement
+    measurement_cast_from_string(std::string measurement_string, uint32_t match_flags = 0)
+{
+    return measurement_cast(measurement_from_string(std::move(measurement_string), match_flags));
+}
+
+/// Convert a precise measurement to a string (with some extra decimal digits displayed
 std::string to_string(precise_measurement measure, uint32_t match_flags = 0);
 /// Convert a measurement to a string
 std::string to_string(measurement measure, uint32_t match_flags = 0);
