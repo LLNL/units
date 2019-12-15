@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/units.hpp"
 
+#include <iostream>
 #include <type_traits>
 
 using namespace units;
@@ -15,13 +16,29 @@ TEST(MeasurementStrings, basic)
     auto pm = measurement_from_string("45 m");
     EXPECT_EQ(pm, 45.0 * precise::m);
 
-    // pm = measurement_from_string("9.0 * 5.0 m");
-    // EXPECT_EQ(pm, 45.0 * precise::m);
+    pm = measurement_from_string("9.0 * 5.0 m");
+    EXPECT_EQ(pm, 45.0 * precise::m);
 
     pm = measurement_from_string("23.7 m/s");
     EXPECT_EQ(pm, 23.7 * precise::m / precise::s);
     pm = measurement_from_string("99.9 N * m");
     EXPECT_EQ(pm, 99.9 * precise::N * precise::m);
+}
+
+TEST(MeasurementStrings, basic_cast)
+{
+    auto pm = measurement_cast_from_string("45 m");
+    EXPECT_EQ(pm, 45.0 * m);
+
+    pm = measurement_cast_from_string("9.0 * 5.0 m");
+    EXPECT_EQ(pm, 45.0 * m);
+
+    pm = measurement_cast_from_string("23.7 m/s");
+    EXPECT_EQ(pm, 23.7 * m / s);
+    EXPECT_EQ(pm, 23.7 * (m / s));
+    pm = measurement_cast_from_string("99.9 N * m");
+    EXPECT_EQ(pm, 99.9 * N * m);
+    EXPECT_EQ(pm, 99.9 * (N * m));
 }
 
 TEST(MeasurementStrings, invalid)

@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/units.hpp"
 
+#include <iostream>
 #include <type_traits>
 
 /*

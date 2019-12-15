@@ -1630,7 +1630,7 @@ namespace detail {
         }
 
         if (mol_start == mol_result &&
-            ((rad_start == 0 && (count_start == rad_start || count_start == 0)) ||
+            ((rad_start == 0 && (count_start == rad_result || count_start == 0)) ||
              (rad_result == 0 && (count_result == rad_start || count_result == 0)))) {
             //define a conversion multiplier for radians<->count(rotations) of various powers
             static constexpr double muxrad[5]{1.0 / (4.0 * constants::pi * constants::pi),
@@ -1648,7 +1648,7 @@ namespace detail {
             return val;
         }
         if (rad_start == rad_result &&
-            ((mol_start == 0 && (count_start == mol_start || count_start == 0)) ||
+            ((mol_start == 0 && (count_start == mol_result || count_start == 0)) ||
              (mol_result == 0 && (count_result == mol_start || count_result == 0)))) {
             //define multipliers for mol<->count conversions based on powers
             static constexpr double muxmol[3]{6.02214076e23, 0, 1.0 / 6.02214076e23};

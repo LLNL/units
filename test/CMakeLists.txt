@@ -45,6 +45,12 @@ target_sources(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.
 target_include_directories(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
 
+add_executable(examples_test examples_test.cpp)
+target_link_libraries(examples_test PRIVATE units::units)
+target_compile_definitions(examples_test PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS})
+set_target_properties(examples_test PROPERTIES FOLDER "Tests")
+add_test(examples_test examples_test)
+
 if(CMAKE_BUILD_TYPE STREQUAL Coverage)
     include(CodeCoverage)
     setup_target_for_coverage(
@@ -52,5 +58,6 @@ if(CMAKE_BUILD_TYPE STREQUAL Coverage)
         EXECUTABLE ctest
         DEPENDENCIES
           ${UNITS_TESTS}
+		  examples_test
           )
 endif()

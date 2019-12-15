@@ -9,6 +9,9 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <type_traits>
 
+template class units::measurement_type<double>;
+template class units::fixed_measurement_type<double>;
+
 using namespace units;
 TEST(Measurement, ops)
 {
@@ -33,6 +36,10 @@ TEST(Measurement, ops)
     auto rat = d1 / d2;
     EXPECT_EQ(rat.value(), 45.0 / 79);
     EXPECT_TRUE(rat.units() == ratio);
+
+    EXPECT_TRUE(2.0 / m == measurement(2.0, m.inv()));
+    EXPECT_TRUE(m / 2.0 == measurement(0.5, m));
+    EXPECT_TRUE(m * 2.0 == measurement(2.0, m));
 }
 
 TEST(Measurement, doubleOps)
@@ -205,6 +212,13 @@ TEST(fixedMeasurement, doubleOps)
 
     auto fp4 = 12.0 - freq;
     EXPECT_FLOAT_EQ(static_cast<float>(fp4.value()), 3.0);
+
+    fixed_measurement y(2.0 * m);
+    EXPECT_DOUBLE_EQ(y.value(), 2.0);
+    y = 5.0 * m;
+    EXPECT_DOUBLE_EQ(y.value(), 5.0);
+    y = 7.0;
+    EXPECT_DOUBLE_EQ(y.value(), 7.0);
 }
 
 TEST(fixedMeasurement, comparison)
@@ -369,4 +383,11 @@ TEST(fixedPreciseMeasurement, ops)
     auto rat = d1 / d2;
     EXPECT_EQ(rat.value(), 45.0 / 79);
     EXPECT_TRUE(rat.units() == ratio);
+
+    fixed_precise_measurement y(2.0 * precise::m);
+    EXPECT_DOUBLE_EQ(y.value(), 2.0);
+    y = 5.0 * precise::m;
+    EXPECT_DOUBLE_EQ(y.value(), 5.0);
+    y = 7.0;
+    EXPECT_DOUBLE_EQ(y.value(), 7.0);
 }

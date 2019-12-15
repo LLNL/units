@@ -30,6 +30,9 @@ else(UNITS_HEADER_ONLY)
                     # INCLUDES DESTINATION include/units
             )
         endif(UNITS_INSTALL)
+		if(CMAKE_BUILD_TYPE STREQUAL Coverage)
+			set_source_files_properties(foo.cpp PROPERTIES COMPILE_FLAGS -Wno-effc++)
+		endif()
     endif(UNITS_BUILD_STATIC_LIBRARY)
 
     if(UNITS_BUILD_SHARED_LIBRARY)

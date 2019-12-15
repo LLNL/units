@@ -3839,6 +3839,12 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 fnd = unit_string.find_first_of(spaceChars, fnd);
                 continue;
             }
+            if (unit_string.size() > fnd + 1 &&
+                (unit_string[fnd + 1] == '/' || unit_string[fnd + 1] == '*')) {
+                unit_string.erase(fnd, 1);
+                fnd = unit_string.find_first_of(spaceChars, fnd);
+                continue;
+            }
             if (std::all_of(unit_string.begin(), unit_string.begin() + fnd, [](char X) {
                     return isNumericalCharacter(X) || (X == '/') || (X == '*');
                 })) {

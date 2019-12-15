@@ -226,6 +226,7 @@ class measurement_type {
     {
         return measurement_type(value_ * other.value_, units_ * other.units_);
     }
+    constexpr measurement_type operator*(unit other) const { return {value_, units_ * other}; }
     constexpr measurement_type operator*(double val) const
     {
         return measurement_type(value_ * val, units_);
@@ -234,6 +235,8 @@ class measurement_type {
     {
         return measurement_type(value_ / other.value_, units_ / other.units_);
     }
+    constexpr measurement_type operator/(unit other) const { return {value_, units_ / other}; }
+
     constexpr measurement_type operator/(double val) const
     {
         return measurement_type(value_ / val, units_);
@@ -387,6 +390,10 @@ class fixed_measurement_type {
     {
         return measurement_type<X>(value_ * other.value(), units_ * other.units());
     }
+    constexpr measurement_type<X> operator*(unit other) const
+    {
+        return measurement_type<X>(value_, units_ * other);
+    }
     constexpr fixed_measurement_type<X> operator*(X val) const
     {
         return fixed_measurement_type<X>(value_ * val, units_);
@@ -394,6 +401,10 @@ class fixed_measurement_type {
     constexpr measurement_type<X> operator/(measurement_type<X> other) const
     {
         return measurement_type<X>(value_ / other.value(), units_ / other.units());
+    }
+    constexpr measurement_type<X> operator/(unit other) const
+    {
+        return measurement_type<X>(value_, units_ / other);
     }
     constexpr fixed_measurement_type<X> operator/(X val) const
     {
@@ -739,6 +750,10 @@ class fixed_precise_measurement {
     {
         return {value_ * other.value(), units_ * other.units()};
     }
+    constexpr precise_measurement operator*(precise_unit other) const
+    {
+        return {value_, units_ * other};
+    }
     constexpr fixed_precise_measurement operator*(double val) const
     {
         return {value_ * val, units_};
@@ -746,6 +761,10 @@ class fixed_precise_measurement {
     constexpr precise_measurement operator/(const precise_measurement& other) const
     {
         return {value_ / other.value(), units_ / other.units()};
+    }
+    constexpr precise_measurement operator/(precise_unit other) const
+    {
+        return {value_, units_ / other};
     }
     constexpr fixed_precise_measurement operator/(double val) const
     {
