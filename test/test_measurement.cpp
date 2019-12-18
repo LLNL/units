@@ -40,6 +40,10 @@ TEST(Measurement, ops)
     EXPECT_TRUE(2.0 / m == measurement(2.0, m.inv()));
     EXPECT_TRUE(m / 2.0 == measurement(0.5, m));
     EXPECT_TRUE(m * 2.0 == measurement(2.0, m));
+
+    //equivalent to asking how much is left over if you divide a 2 m object into  6 inch chunks
+    auto fd11 = (2.0 * m) % (6 * in);
+    EXPECT_LT(fd11, (6 * in));
 }
 
 TEST(Measurement, doubleOps)
@@ -65,6 +69,9 @@ TEST(Measurement, doubleOps)
     auto fd2 = 27.0 / freq;
     EXPECT_DOUBLE_EQ(fd2.value(), 3.0);
     EXPECT_EQ(fd2.units(), s);
+
+    auto fd11 = (27.0 * m) % 6;
+    EXPECT_DOUBLE_EQ(fd11.value(), 3.0);
 }
 
 TEST(Measurement, help_constructors)
@@ -136,8 +143,11 @@ TEST(fixedMeasurement, ops)
 {
     fixed_measurement_type<double> d1(45.0, m);
     fixed_measurement_type<double> d2(79, m);
+    fixed_measurement_type<double> d3(79 * m);
 
     auto area = d1 * d2;
+
+    EXPECT_TRUE(d2 == d3);
     EXPECT_EQ(area.value(), 45.0 * 79);
     EXPECT_TRUE(area.units() == m * m);
 
@@ -180,6 +190,64 @@ TEST(fixedMeasurement, ops_v2)
     auto rat = d1 / d2;
     EXPECT_EQ(rat.value(), 45.0 / 79);
     EXPECT_TRUE(rat.units() == ratio);
+
+    auto m1 = d2 / s;
+    fixed_measurement spd(m1);
+    auto m3 = spd * s;
+
+    EXPECT_TRUE(d2 == m3);
+    EXPECT_TRUE(m3 == d2);
+}
+
+TEST(fixedMeasurement, methods)
+{
+    fixed_measurement size(1.2, m);
+    auto f2 = size.convert_to(in);
+    EXPECT_TRUE(f2 == size);
+
+    measurement m3(1.0, f2.as_unit());
+    EXPECT_DOUBLE_EQ(m3.value(), 1.0);
+    EXPECT_TRUE(m3 == f2);
+
+    EXPECT_FLOAT_EQ(static_cast<float>(f2.value_as(m)), 1.2F);
+    EXPECT_FLOAT_EQ(static_cast<float>(size.value_as(f2.as_unit())), 1.0F);
+
+    size += 0.1;
+    EXPECT_TRUE(size > f2);
+    EXPECT_TRUE(size > m3);
+    EXPECT_TRUE(f2 < size);
+    EXPECT_TRUE(m3 < size);
+    EXPECT_TRUE(size > 1.2);
+    EXPECT_TRUE(1.2 < size);
+
+    EXPECT_TRUE(size >= f2);
+    EXPECT_TRUE(size >= m3);
+    EXPECT_TRUE(f2 <= size);
+    EXPECT_TRUE(m3 <= size);
+    EXPECT_TRUE(size >= 1.2);
+    EXPECT_TRUE(1.2 <= size);
+
+    size -= 0.1;
+    EXPECT_TRUE(size == f2);
+    EXPECT_TRUE(size == m3);
+    EXPECT_TRUE(f2 == size);
+    EXPECT_TRUE(m3 == size);
+    EXPECT_TRUE(size == 1.2);
+    EXPECT_TRUE(1.2 == size);
+
+    EXPECT_TRUE(size >= f2);
+    EXPECT_TRUE(size >= m3);
+    EXPECT_TRUE(f2 >= size);
+    EXPECT_TRUE(m3 >= size);
+    EXPECT_TRUE(size >= 1.2);
+    EXPECT_TRUE(1.2 >= size);
+
+    EXPECT_TRUE(size <= f2);
+    EXPECT_TRUE(size <= m3);
+    EXPECT_TRUE(f2 <= size);
+    EXPECT_TRUE(m3 <= size);
+    EXPECT_TRUE(size <= 1.2);
+    EXPECT_TRUE(1.2 <= size);
 }
 
 TEST(fixedMeasurement, doubleOps)
