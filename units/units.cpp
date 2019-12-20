@@ -19,7 +19,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <unordered_map>
 #include <vector>
 
-#if __cplusplus >= 201402L || (_MSC_VER >= 1300)
+#if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1300)
 #define UPTCONST constexpr
 #else
 #define UPTCONST const
@@ -137,7 +137,7 @@ static const umap base_unit_names{
     {Wb, "Wb"},
     {T, "T"},
     {H, "H"},
-    {pico * H, "A^-2*pJ"}, // deal with pico henry which is interpreted as acidity (pH)
+    {pico * H, "(A^-2*pJ)"}, // deal with pico henry which is interpreted as acidity (pH)
     {lm, "lm"},
     {lx, "lux"},
     {Bq, "Bq"},
@@ -214,6 +214,8 @@ static const umap base_unit_names{
     {kat, "kat"},
     {sr, "sr"},
     {W, "W"},
+    {VAR, "VAR"},
+    {MVAR, "MVAR"},
     {acre, "acre"},
     {MW, "MW"},
     {kW, "kW"},
@@ -720,7 +722,8 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         return mstring + "*" + to_string_internal(un, match_flags);
     }
     /// Check for squared units
-    if (!un.base_units().root(2).has_e_flag() && un.multiplier() > 0.0) {
+    if (!un.base_units().root(2).has_e_flag() && !un.base_units().has_i_flag() &&
+        un.multiplier() > 0.0) {
         auto squ = llunit.root(2);
         fnd = find_unit(squ);
         if (!fnd.empty()) {

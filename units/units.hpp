@@ -241,10 +241,10 @@ class measurement_type {
     {
         return measurement_type(value_ / val, units_);
     }
-	measurement_type operator%(measurement_type other) const
-	{
-		return measurement_type(fmod(value_, other.value_as(units_)), units_);
-	}
+    measurement_type operator%(measurement_type other) const
+    {
+        return measurement_type(fmod(value_, other.value_as(units_)), units_);
+    }
     constexpr measurement_type operator%(double val) const
     {
         return measurement_type(fmod(value_, val), units_);

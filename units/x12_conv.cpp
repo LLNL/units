@@ -11,7 +11,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <cstring>
 #include <tuple>
 
-#if __cplusplus >= 201402L || (_MSC_VER >= 1300)
+#if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1300)
 #define UPTCONST constexpr
 #else
 #define UPTCONST const

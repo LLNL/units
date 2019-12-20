@@ -6,7 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #pragma once
 
-#include <ctgmath>
+#include <cmath>
 #include <functional> //for std::hash
 
 namespace units {
@@ -419,6 +419,11 @@ class unit {
         base_units_(base_unit), multiplier_(static_cast<float>(multiplier))
     {
     }
+    /// Construct unit from base unit and a multiplier
+    constexpr explicit unit(detail::unit_data base_unit, float multiplier) :
+        base_units_(base_unit), multiplier_(multiplier)
+    {
+    }
     /// Take the double and unit in either order for simplicity
     constexpr unit(double multiplier, unit other) :
         unit(other.base_units_, multiplier * other.multiplier())
@@ -439,7 +444,7 @@ class unit {
     /// take a unit to an integral power
     constexpr unit pow(int power) const
     {
-        return {base_units_.pow(power), detail::power_const(multiplier_, power)};
+        return unit{base_units_.pow(power), detail::power_const(multiplier_, power)};
     }
 #ifndef UNITS_HEADER_ONLY
     /// take the root of a unit to some power
@@ -508,11 +513,11 @@ class unit {
     /// set all the flags to 0;
     void clear_flags() { base_units_.clear_flags(); }
     /// generate a new unit but with per_unit flag
-    constexpr unit add_per_unit() const { return {base_units_.add_per_unit(), multiplier_}; }
+    constexpr unit add_per_unit() const { return unit{base_units_.add_per_unit(), multiplier_}; }
     /// generate a new unit but with i flag
-    constexpr unit add_i_flag() const { return {base_units_.add_i_flag(), multiplier_}; }
+    constexpr unit add_i_flag() const { return unit{base_units_.add_i_flag(), multiplier_}; }
     /// generate a new unit but with e flag
-    constexpr unit add_e_flag() const { return {base_units_.add_e_flag(), multiplier_}; }
+    constexpr unit add_e_flag() const { return unit{base_units_.add_e_flag(), multiplier_}; }
 
   private:
     friend class precise_unit;

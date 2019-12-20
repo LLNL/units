@@ -1576,7 +1576,6 @@ constexpr unit lb = unit_cast(precise::lb);
 constexpr unit ton = unit_cast(precise::ton);
 constexpr unit oz = unit_cast(precise::oz);
 constexpr unit tonne = unit_cast(precise::tonne);
-constexpr unit t = unit_cast(precise::t);
 constexpr unit Da = unit_cast(precise::Da);
 constexpr unit u = unit_cast(precise::u);
 

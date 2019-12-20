@@ -19,7 +19,7 @@ else(UNITS_HEADER_ONLY)
                 $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
                 $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
-
+		target_link_libraries(units-static PRIVATE compile_flags_target)
         add_library(units::units ALIAS units-static)
         add_library(units::static ALIAS units-static)
         if(UNITS_INSTALL)
@@ -43,7 +43,7 @@ else(UNITS_HEADER_ONLY)
                 $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
                 $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
-
+		target_link_libraries(units-shared PRIVATE compile_flags_target)
         if(NOT UNITS_BUILD_STATIC_LIBRARY)
             add_library(units::units ALIAS units-shared)
         endif()

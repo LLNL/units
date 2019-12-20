@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    units::precise_measurement pm1=units::measurement_from_string("1250 cm^3");
+    units::precise_measurement pm1 = units::measurement_from_string("1250 cm^3");
     if (pm1 != 1.25 * units::precise::L) {
         return -1;
     }

@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/units.hpp"
 
+#include <cstring>
 #include <fstream>
 #include <iostream>
 
@@ -213,7 +214,34 @@ TEST_P(rtripProblems, rtripFiles)
         auto u2 = unit_from_string(str);
         EXPECT_FALSE(is_error(u2));
         EXPECT_EQ(u2, u1);
+        EXPECT_EQ(unit_cast(u2), unit_cast(u1));
+        EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 15));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 16));
+
+class rtripflagProblems : public ::testing::TestWithParam<int> {
+};
+
+TEST_P(rtripflagProblems, rtripflagFiles)
+{
+    auto cdata = loadFailureFile("rtrip_flag", GetParam());
+    if (cdata.size() <= 4) {
+        return;
+    }
+    std::string test1 = cdata.substr(4);
+    uint32_t flags;
+    std::memcpy(&flags, cdata.data(), 4);
+    auto u1 = unit_from_string(test1, flags);
+    if (!is_error(u1)) {
+        auto str = to_string(u1);
+        auto u2 = unit_from_string(str);
+        EXPECT_FALSE(is_error(u2));
+        EXPECT_EQ(u2, u1);
+        EXPECT_EQ(unit_cast(u2), unit_cast(u1));
+        EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
+    }
+}
+
+INSTANTIATE_TEST_SUITE_P(rtripflagFiles, rtripflagProblems, ::testing::Range(1, 2));

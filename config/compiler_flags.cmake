@@ -7,13 +7,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-option(HELICS_ENABLE_EXTRA_COMPILER_WARNINGS
+option(${PROJECT_NAME}_ENABLE_EXTRA_COMPILER_WARNINGS
        "disable compiler warning for ${CMAKE_PROJECT_NAME} build" ON)
-option(HELICS_ENABLE_ERROR_ON_WARNINGS
+option(${PROJECT_NAME}_ENABLE_ERROR_ON_WARNINGS
        "generate a compiler error for any warning encountered" OFF)
 
-mark_as_advanced(HELICS_ENABLE_EXTRA_COMPILER_WARNINGS)
-mark_as_advanced(HELICS_ENABLE_ERROR_ON_WARNINGS)
+mark_as_advanced(${PROJECT_NAME}_ENABLE_EXTRA_COMPILER_WARNINGS)
+mark_as_advanced(${PROJECT_NAME}_ENABLE_ERROR_ON_WARNINGS)
 
 # -------------------------------------------------------------
 # Setup compiler options and configurations
@@ -30,7 +30,7 @@ target_compile_options(
         $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:$<$<BOOL:${HELICS_ENABLE_ERROR_ON_WARNINGS}>:-Werror>>
 )
 
-if(HELICS_ENABLE_EXTRA_COMPILER_WARNINGS)
+if(${PROJECT_NAME}_ENABLE_EXTRA_COMPILER_WARNINGS)
     target_compile_options(
         compile_flags_target
         INTERFACE $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -pedantic>
@@ -103,8 +103,14 @@ if(HELICS_ENABLE_EXTRA_COMPILER_WARNINGS)
             )
         endif()
     endif()
-endif(HELICS_ENABLE_EXTRA_COMPILER_WARNINGS)
+endif(${PROJECT_NAME}_ENABLE_EXTRA_COMPILER_WARNINGS)
 
+if (DEFINED ${PROJECT_NAME}_EXTRA_FLAGS)
+message(STATUS "extra flags = ${${PROJECT_NAME}_EXTRA_FLAGS}")
+ target_compile_options(
+                compile_flags_target
+                INTERFACE "${${PROJECT_NAME}_EXTRA_FLAGS}")
+endif()
 # -------------------------------------------------------------
 # Extra definitions for visual studio
 # -------------------------------------------------------------
@@ -113,9 +119,9 @@ if(MSVC)
     target_compile_options(compile_flags_target INTERFACE -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
     # these next two should be global
     add_compile_options(/MP /EHsc)
-    if(HELICS_ENABLE_EXTRA_COMPILER_WARNINGS)
+    if(${PROJECT_NAME}_ENABLE_EXTRA_COMPILER_WARNINGS)
         target_compile_options(compile_flags_target INTERFACE /W4 /sdl /wd4244)
-    endif(HELICS_ENABLE_EXTRA_COMPILER_WARNINGS)
+    endif(${PROJECT_NAME}_ENABLE_EXTRA_COMPILER_WARNINGS)
     target_compile_options(compile_flags_target INTERFACE -D_WIN32_WINNT=0x0601)
 else(MSVC)
     option(USE_LIBCXX "Use Libc++ vs as opposed to the default" OFF)

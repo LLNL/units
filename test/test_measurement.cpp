@@ -48,8 +48,6 @@ TEST(Measurement, ops)
 
 TEST(Measurement, doubleOps)
 {
-    measurement d1(45.0, s);
-
     auto freq = 9.0 / s;
     EXPECT_EQ(freq.units(), one / s);
     auto freq2 = 9.0 * Hz;
@@ -197,6 +195,15 @@ TEST(fixedMeasurement, ops_v2)
 
     EXPECT_TRUE(d2 == m3);
     EXPECT_TRUE(m3 == d2);
+
+    fixed_measurement fm3(2.0, m);
+    fm3 *= 2.0;
+    EXPECT_EQ(fm3.value(), 4.0);
+    fm3 /= 4.0;
+    EXPECT_EQ(fm3.value(), 1.0);
+
+    auto v = fm3 *= 2.0;
+    EXPECT_EQ(v.value(), 2.0);
 }
 
 TEST(fixedMeasurement, methods)
@@ -340,8 +347,6 @@ TEST(PreciseMeasurement, ops)
 
 TEST(PreciseMeasurement, doubleOps)
 {
-    precise_measurement d1(45.0, precise::s);
-
     auto freq = 9.0 / precise::s;
     EXPECT_EQ(freq.units(), precise::one / precise::s);
     auto freq2 = 9.0 * precise::Hz;
