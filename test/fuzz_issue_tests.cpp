@@ -219,7 +219,7 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 16));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 18));
 
 class rtripflagProblems : public ::testing::TestWithParam<int> {
 };
@@ -244,4 +244,4 @@ TEST_P(rtripflagProblems, rtripflagFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripflagFiles, rtripflagProblems, ::testing::Range(1, 2));
+INSTANTIATE_TEST_SUITE_P(rtripflagFiles, rtripflagProblems, ::testing::Range(1, 3));

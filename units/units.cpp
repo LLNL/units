@@ -518,11 +518,11 @@ static std::string generateRawUnitString(precise_unit un)
     if (un.base_units().has_i_flag()) {
         val.append("*flag");
     }
-    if (un.base_units().is_per_unit()) {
-        val.insert(0, "pu*");
-    }
     if (un.base_units().has_e_flag()) {
         val.insert(0, "eflag*");
+    }
+    if (un.base_units().is_per_unit()) {
+        val.insert(0, "pu*");
     }
     return val;
 }
@@ -572,14 +572,16 @@ static void escapeString(std::string& str)
 // clean up the unit string and add a commodity if necessary
 std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 {
-    using spair = std::tuple<const char*, const char*, int>;
-    static UPTCONST std::array<spair, 6> powerseq{{
-        spair{"Mm^3", "(1e9km^3)", 4}, // this needs to happen before ^3^2 conversions
-        spair{"^2^2", "^4", 4},
-        spair{"^3^2", "^6", 4},
-        spair{"^2^3", "^6", 4},
-        spair{"Gs", "Bs", 2},
-        spair{"K*flag", "degC", 6},
+    using spair = std::tuple<const char*, const char*, int, int>;
+    static UPTCONST std::array<spair, 8> powerseq{{
+        spair{"Mm^3", "(1e9km^3)", 4, 8}, // this needs to happen before ^3^2 conversions
+        spair{"^2^2", "^4", 4, 2},
+        spair{"^3^2", "^6", 4, 2},
+        spair{"^2^3", "^6", 4, 2},
+        spair{"Gs", "Bs", 2, 2},
+        spair{"*K^", "*1*K^", 3, 5}, //this one is to prevent the next from screwing things up
+        spair{"eflag*K", "degC", 7, 4},
+        spair{"*1*", "*", 3, 1},
 
     }};
     // run a few checks for unusual conditions
@@ -587,7 +589,7 @@ std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
         auto fnd = propUnitString.find(std::get<0>(pseq));
         while (fnd != std::string::npos) {
             propUnitString.replace(fnd, std::get<2>(pseq), std::get<1>(pseq));
-            fnd = propUnitString.find(std::get<0>(pseq));
+            fnd = propUnitString.find(std::get<0>(pseq), fnd + std::get<3>(pseq));
         }
     }
     // no cleaning necessary
@@ -735,7 +737,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         }
     }
     /// Check for cubed units
-    if (!un.base_units().root(3).has_e_flag()) {
+    if (!un.base_units().root(3).has_e_flag() && !un.base_units().has_i_flag()) {
         auto cub = llunit.root(3);
         fnd = find_unit(cub);
         if (!fnd.empty()) {
