@@ -556,6 +556,157 @@ class fixed_measurement {
 /// Design requirement this must fit in space of 2 doubles
 static_assert(sizeof(fixed_measurement) <= 16, "fixed measurement is too large");
 
+/// Class defining a measurement (value+unit) with a fixed unit type
+class uncertain_measurement {
+public:
+	/// construct from a value and unit
+	constexpr uncertain_measurement(float val, float tolerance, unit base) : value_(val), tolerance_(tolerance), units_(base) {}
+	/// construct from a regular measurement
+	explicit constexpr uncertain_measurement(measurement val, float tolerance) noexcept :
+		value_(static_cast<float>(val.value())), tolerance_(tolerance), units_(val.units())
+	{
+	}
+	// define copy constructor but purposely leave off copy assignment and move since that would be pointless
+	constexpr uncertain_measurement(const uncertain_measurement& val) noexcept :
+		value_(val.value_), tolerance_(val.tolerance_), units_(val.units_)
+	{
+	}
+	/// assignment operator
+	uncertain_measurement& operator=(const uncertain_measurement &val)
+	{
+		value_ = val.value_;
+		tolerance_ = val.tolerance_;
+		units_ = val.units_;
+		return *this;
+	}
+
+	/// Get the base value with no units
+	constexpr double value() const { return value_; }
+	/// Get the base value with no units
+	constexpr double tolerance() const { return tolerance_; }
+
+	constexpr uncertain_measurement operator*(uncertain_measurement other) const
+	{
+		return uncertain_measurement(value_ * other.value_, tolerance_, units_ * other.units());
+	}
+	constexpr uncertain_measurement operator*(unit other) const
+	{
+		return uncertain_measurement(value_, tolerance_, units_ * other);
+	}
+	constexpr uncertain_measurement operator*(float val) const
+	{
+		return uncertain_measurement(value_ * val, tolerance_*val, units_);
+	}
+	constexpr uncertain_measurement operator/(uncertain_measurement other) const
+	{
+		return uncertain_measurement(value_ / other.value_, tolerance_, units_ / other.units());
+	}
+	constexpr uncertain_measurement operator/(unit other) const
+	{
+		return uncertain_measurement(value_, tolerance_, units_ / other);
+	}
+	constexpr uncertain_measurement operator/(float val) const
+	{
+		return uncertain_measurement(value_ / val, tolerance_ / val, units_);
+	}
+
+	uncertain_measurement operator+(uncertain_measurement other) const
+	{
+		return uncertain_measurement(value_ + static_cast<float>(other.value_as(units_)), tolerance_, units_);
+	}
+	uncertain_measurement operator-(uncertain_measurement other) const
+	{
+		return uncertain_measurement(value_ - static_cast<float>(other.value_as(units_)), tolerance_, units_);
+	}
+
+	/// Convert a unit to have a new base
+	uncertain_measurement convert_to(unit newUnits) const
+	{
+		return uncertain_measurement(static_cast<float>(units::convert(value_, units_, newUnits)), tolerance_, newUnits);
+	}
+	/// Get the underlying units value
+	constexpr unit units() const { return units_; }
+
+
+	/// Get the numerical value as a particular unit type
+	double value_as(unit units) const
+	{
+		return (units_ == units) ? value_ :
+			units::convert(static_cast<double>(value_), units_, units);
+	}
+
+	/// comparison operators
+	bool operator==(double val) const
+	{
+		return (value_ == val) ?
+			true :
+			detail::compare_round_equals(static_cast<float>(value_), static_cast<float>(val));
+	};
+	bool operator!=(double val) const { return !operator==(val); };
+	constexpr bool operator>(double val) const { return value_ > val; };
+	constexpr bool operator<(double val) const { return value_ < val; };
+	bool operator>=(double val) const { return (value_ > val) ? true : operator==(val); };
+	bool operator<=(double val) const { return value_ < val ? true : operator==(val); };
+
+	bool operator==(measurement val) const
+	{
+		return operator==(
+			(units_ == val.units()) ? val.value() : val.value_as(units_));
+	};
+	bool operator!=(measurement val) const
+	{
+		return operator!=(
+			(units_ == val.units()) ? val.value() : val.value_as(units_));
+	};
+	bool operator>(measurement val) const
+	{
+		return operator>(
+			(units_ == val.units()) ? val.value() : val.value_as(units_));
+	};
+	bool operator<(measurement val) const
+	{
+		return operator<(
+			(units_ == val.units()) ? val.value() : val.value_as(units_));
+	};
+	bool operator>=(measurement val) const
+	{
+		return operator>=(
+			(units_ == val.units()) ? val.value() : val.value_as(units_));
+	};
+	bool operator<=(measurement val) const
+	{
+		return operator<=(
+			(units_ == val.units()) ? val.value() : val.value_as(units_));
+	};
+
+	friend bool operator==(double val, const uncertain_measurement& v2) { return v2 == val; };
+	friend bool operator!=(double val, const uncertain_measurement& v2) { return v2 != val; };
+	friend constexpr bool operator>(double val, const uncertain_measurement& v2)
+	{
+		return val > v2.value();
+	};
+	friend constexpr bool operator<(double val, const uncertain_measurement& v2)
+	{
+		return val < v2.value();
+	};
+	friend bool operator>=(double val, const uncertain_measurement& v2)
+	{
+		return (val > v2.value()) ? true : (v2 == val);
+	};
+	friend bool operator<=(double val, const uncertain_measurement& v2)
+	{
+		return (val < v2.value()) ? true : (v2 == val);
+	};
+
+private:
+	float value_{ 0.0 }; //!< the unit value
+	float tolerance_{ 0.0 };
+	unit units_; //!< a fixed unit of measurement
+};
+
+/// Design requirement this must fit in space of 2 doubles
+static_assert(sizeof(uncertain_measurement) <= 16, "uncertain measurement is too large");
+
 /// Class using precise units and double precision
 class precise_measurement {
   public:
