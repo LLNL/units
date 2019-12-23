@@ -9,9 +9,6 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <type_traits>
 
-template class units::measurement_type<double>;
-template class units::fixed_measurement_type<double>;
-
 using namespace units;
 TEST(Measurement, ops)
 {
@@ -139,9 +136,9 @@ TEST(Measurement, conversions)
 using namespace units;
 TEST(fixedMeasurement, ops)
 {
-    fixed_measurement_type<double> d1(45.0, m);
-    fixed_measurement_type<double> d2(79, m);
-    fixed_measurement_type<double> d3(79 * m);
+    fixed_measurement d1(45.0, m);
+    fixed_measurement d2(79, m);
+    fixed_measurement d3(79 * m);
 
     auto area = d1 * d2;
 
