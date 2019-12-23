@@ -735,7 +735,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         }
     }
     /// Check for cubed units
-    if (!un.base_units().root(3).has_e_flag()) {
+    if (!un.base_units().root(3).has_e_flag() && !un.base_units().has_i_flag()) {
         auto cub = llunit.root(3);
         fnd = find_unit(cub);
         if (!fnd.empty()) {
