@@ -244,7 +244,7 @@ class measurement {
     {
         return measurement(fmod(value_, other.value_as(units_)), units_);
     }
-    constexpr measurement operator%(double val) const
+    measurement operator%(double val) const
     {
         return measurement(fmod(value_, val), units_);
     }
