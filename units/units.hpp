@@ -226,28 +226,19 @@ class measurement {
         return measurement(value_ * other.value_, units_ * other.units_);
     }
     constexpr measurement operator*(unit other) const { return {value_, units_ * other}; }
-    constexpr measurement operator*(double val) const
-    {
-        return measurement(value_ * val, units_);
-    }
+    constexpr measurement operator*(double val) const { return measurement(value_ * val, units_); }
     constexpr measurement operator/(measurement other) const
     {
         return measurement(value_ / other.value_, units_ / other.units_);
     }
     constexpr measurement operator/(unit other) const { return {value_, units_ / other}; }
 
-    constexpr measurement operator/(double val) const
-    {
-        return measurement(value_ / val, units_);
-    }
+    constexpr measurement operator/(double val) const { return measurement(value_ / val, units_); }
     measurement operator%(measurement other) const
     {
         return measurement(fmod(value_, other.value_as(units_)), units_);
     }
-    measurement operator%(double val) const
-    {
-        return measurement(fmod(value_, val), units_);
-    }
+    measurement operator%(double val) const { return measurement(fmod(value_, val), units_); }
     measurement operator+(measurement other) const
     {
         return measurement(value_ + other.value_as(units_), units_);
@@ -293,14 +284,8 @@ class measurement {
             true :
             detail::compare_round_equals(static_cast<float>(value_), static_cast<float>(val));
     }
-    bool operator>(measurement other) const
-    {
-        return value_ > other.value_as(units_);
-    }
-    bool operator<(measurement other) const
-    {
-        return value_ < other.value_as(units_);
-    }
+    bool operator>(measurement other) const { return value_ > other.value_as(units_); }
+    bool operator<(measurement other) const { return value_ < other.value_as(units_); }
     bool operator>=(measurement other) const
     {
         auto val = other.value_as(units_);
@@ -327,7 +312,6 @@ class measurement {
     double value_{0.0}; //!< the numerical quantity of the unit
     unit units_; //!< the actual unit represented
 };
-
 
 /// The design requirement is for this to fit in the space of 2 doubles
 static_assert(sizeof(measurement) <= 16, "Measurement class is too large");
@@ -479,33 +463,27 @@ class fixed_measurement {
 
     bool operator==(measurement val) const
     {
-        return operator==(
-            (units_ == val.units()) ? val.value() : val.value_as(units_));
+        return operator==((units_ == val.units()) ? val.value() : val.value_as(units_));
     };
     bool operator!=(measurement val) const
     {
-        return operator!=(
-            (units_ == val.units()) ? val.value() : val.value_as(units_));
+        return operator!=((units_ == val.units()) ? val.value() : val.value_as(units_));
     };
     bool operator>(measurement val) const
     {
-        return operator>(
-            (units_ == val.units()) ? val.value() : val.value_as(units_));
+        return operator>((units_ == val.units()) ? val.value() : val.value_as(units_));
     };
     bool operator<(measurement val) const
     {
-        return operator<(
-            (units_ == val.units()) ? val.value() : val.value_as(units_));
+        return operator<((units_ == val.units()) ? val.value() : val.value_as(units_));
     };
     bool operator>=(measurement val) const
     {
-        return operator>=(
-            (units_ == val.units()) ? val.value() : val.value_as(units_));
+        return operator>=((units_ == val.units()) ? val.value() : val.value_as(units_));
     };
     bool operator<=(measurement val) const
     {
-        return operator<=(
-            (units_ == val.units()) ? val.value() : val.value_as(units_));
+        return operator<=((units_ == val.units()) ? val.value() : val.value_as(units_));
     };
 
     friend bool operator==(double val, const fixed_measurement& v2) { return v2 == val; };
@@ -529,23 +507,19 @@ class fixed_measurement {
 
     // + and - are allowed for fixed_measurement since the units are known
     /// friend operators for math operators
-    friend constexpr inline fixed_measurement
-        operator+(double v1, const fixed_measurement& v2)
+    friend constexpr inline fixed_measurement operator+(double v1, const fixed_measurement& v2)
     {
         return {v1 + v2.value(), v2.units()};
     }
-    friend constexpr inline fixed_measurement
-        operator-(double v1, const fixed_measurement& v2)
+    friend constexpr inline fixed_measurement operator-(double v1, const fixed_measurement& v2)
     {
         return {v1 - v2.value(), v2.units()};
     }
-    friend constexpr inline fixed_measurement
-        operator*(double v1, const fixed_measurement& v2)
+    friend constexpr inline fixed_measurement operator*(double v1, const fixed_measurement& v2)
     {
         return {v1 * v2.value(), v2.units()};
     }
-    friend constexpr inline fixed_measurement
-        operator/(double v1, const fixed_measurement& v2)
+    friend constexpr inline fixed_measurement operator/(double v1, const fixed_measurement& v2)
     {
         return {v1 / v2.value(), v2.units().inv()};
     }

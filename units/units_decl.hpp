@@ -61,8 +61,10 @@ namespace detail {
                 count_ + other.count_,
                 radians_ + other.radians_,
                 (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                (i_flag_ != 0 || other.i_flag_ != 0) ? 1u : 0,
-                (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
+                (i_flag_ + other.i_flag_) & 0x01U,
+                // (i_flag_ != 0 || other.i_flag_ != 0) ? 1u : 0,
+                (e_flag_ + other.e_flag_) & 0x01U,
+                // (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
                 (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
             };
         }
@@ -80,8 +82,10 @@ namespace detail {
                     count_ - other.count_,
                     radians_ - other.radians_,
                     (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                    ((i_flag_ != 0) ^ (other.i_flag_ != 0)) ? 1u : 0,
-                    ((e_flag_ != 0) ^ (other.e_flag_ != 0)) ? 1u : 0,
+                    (i_flag_ - other.i_flag_) & 0x01U,
+                    // ((i_flag_ != 0) ^ (other.i_flag_ != 0)) ? 1u : 0,
+                    // ((e_flag_ != 0) ^ (other.e_flag_ != 0)) ? 1u : 0,
+                    (e_flag_ - other.e_flag_) & 0x01U,
                     (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
         }
         /// invert the unit
@@ -120,8 +124,8 @@ namespace detail {
                     count_ * power,
                     radians_ * power,
                     per_unit_,
-                    i_flag_ * ((power % 2 == 0) ? 0u : 1u),
-                    0, // zero out e_flag
+                    (i_flag_ * static_cast<unsigned int>(power)) & 0x01U,
+                    (e_flag_ * static_cast<unsigned int>(power)) & 0x01U,
                     equation_};
         }
         constexpr unit_data root(int power) const
@@ -138,8 +142,8 @@ namespace detail {
                                                0,
                                                radians_ / power,
                                                per_unit_,
-                                               0,
-                                               e_flag_,
+                                               (power % 2 == 0) ? 0U : i_flag_,
+                                               (power % 2 == 0) ? 0U : e_flag_,
                                                0) :
                                            unit_data(nullptr);
         }
@@ -209,7 +213,7 @@ namespace detail {
         constexpr int radian() const { return radians_; }
 
         /// set all the flags to 0;
-        void clear_flags() { per_unit_ = i_flag_ = e_flag_ = equation_ = 0; }
+        void clear_flags() { per_unit_ = i_flag_ = e_flag_ = equation_ = 0U; }
         /// generate a new unit_data but with per_unit flag
         constexpr unit_data add_per_unit() const
         {
