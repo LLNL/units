@@ -41,10 +41,14 @@ target_sources(test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
 target_include_directories(test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_ucum PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
 
+
 target_sources(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h)
 target_include_directories(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
-
+if (NOT MSVC)
+    target_compile_options(test_ucum PRIVATE -Wno-double-promotion)
+	target_compile_options(test_udunits PRIVATE -Wno-double-promotion)
+endif()
 add_executable(examples_test examples_test.cpp)
 target_link_libraries(examples_test PRIVATE units::units)
 target_compile_definitions(examples_test PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS})
