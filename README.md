@@ -53,10 +53,10 @@ There are only a few types in the library
 -   `detail::unit_base` is the base representation of physical units and powers.  It uses a bitfield to store the base unit representation in a 4 byte representation.  It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
 -   `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type.  The float has an accuracy of around 6 decimal digits.  Units within that tolerance will compare equal.  
 -   `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The double has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal. The remaining 4 bytes are used to contain a commodity object code.  
--   `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement. `measurement` is an alias to a `measurement_base<double>` so the quantity type can be templated.  `measurement_f` is an alias for `measurement_base<float>` but others could be defined.
+-   `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement.
 -   `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
--   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. `fixed_measurement` is an alias to a `fixed_measurement_base<double>` so the quantity type can be templated.  `fixed_measurement_f` is an alias for `fixed_measurement_base<float>` but others could be defined.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types.
--   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template.  
+-   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types.
+-   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template, except it is 24 bytes instead of 16.    
 
 ## Unit representation
 The unit class consists of a multiplier and a representation of base units.
@@ -178,7 +178,7 @@ For precise_units only
 -   `<unit>=<unit>*<unit>`  generate a new unit with the units multiplied  ie  `m*m` does what you might expect and produces a new unit with `m^2`
 -   `<unit>=<unit>/<unit>`  generate a new unit with the units divided  ie  `m/s` does what you might expect and produces a new unit with meters per second.  NOTE:  `m/m` will produce `1` it will not automatically produce a `pu`  though we are looking at how to make a 'pu_m*m=m' so units like strain might work smoothly.  
 
--   `bool <unit>==<unit>`  compare two units.  this does a rounding compare so there is some tolerance to roughly 7 significant digits for <unit> and 13 significant digits for <precise_unit>.  
+-   `bool <unit>==<unit>`  compare two units.  this does a rounding compare so there is some tolerance to roughly 7 significant digits for \<unit> and 13 significant digits for <precise_unit>.  
 -   `bool <unit>!=<unit>` the opposite of `==`
 
 precise_units can usually operate with a precise unit or unit, unit usually can't operate on precise_unit.  
@@ -211,13 +211,13 @@ These functions are not class methods but operate on units
 -   `<measurement> convert_to_base() const`  convert to a base unit, i.e. a unit whose multiplier is 1.0.  
 -   `<unit> units() const`  get the units used as a basis for the measurement
 -   `<unit> as_unit() const`  take the measurement as is and convert it into a single unit.  For Examples say a was 10 m.    calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
--   `double value_as(<unit>)` get the value of a measurement as if it were measured in <unit>
+-   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit>
 
 #### Measurement operators
 There are several operator overloads which work on measurements or units to produce measurements.
 -   `'*', '/', '+','-'`  are all defined for mathematical operations on a measurement and produce another measurement.  
--   `%` `*`, and `/` are defined for <measurement><op><double>  
--   `*`, and `/` are defined for <double><op><measurement>
+-   `%` `*`, and `/` are defined for \<measurement>\<op>\<double>  
+-   `*`, and `/` are defined for \<double>\<op>\<measurement>
 
 Notes:  for regular measurements, `+` and `-` are not defined for doubles due to uncertainty of what that means.  For fixed_measurement types this is defined as the units are known at construction and cannot change.  For fixed_measurement types if the operator would produce a new measurement with the same units it will be a fixed measurement, if not it reverts to a regular measurement.  
 
@@ -242,7 +242,7 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 -   `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported
 -   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.  
 -   `clearUserDefinedUnits()`  remove all user defined units from the library.
--   `disableUserDefinedUnits()`  there is a performance hit if custom units are used so they can be disabled completely if desired.
+-   `disableUserDefinedUnits()`  there is a(likely small-an additional unordered map lookup) performance hit in the string conversions functions if custom units are used so they can be disabled completely if desired.
 -   `enableUserDefinedUnits()`  enable the use of UserDefinedUnits.  they are enabled by default.  
 
 #### Commodities
@@ -251,7 +251,7 @@ The units library has some support for commodities,  more might be added in the 
 -   `std::string getCommodityName(uint32_t)`  get the name of a commodity from its code
 -   `addUserDefinedCommodity(std::string name, uint32_t code)`  add a new commodity that can be used in the string operations.  
 -   `clearUserDefinedCommodities()`  remove all user defined commodities from the library.
--   `disableUserDefinedCommodities()`  there is a performance hit if custom commodities are used so they can be disabled completely if desired.
+-   `disableUserDefinedCommodities()`  there is a (likely small) performance hit in string conversions if custom commodities are used so they can be disabled completely if desired.
 -   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  they are enabled by default.
 
 #### Other unit definitions

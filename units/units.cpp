@@ -972,16 +972,6 @@ std::string to_string(measurement measure, uint32_t match_flags)
     return ss.str();
 }
 
-std::string to_string(measurement_f measure, uint32_t match_flags)
-{
-    std::stringstream ss;
-    ss.precision(7);
-    ss << measure.value();
-    ss << ' ';
-    ss << to_string(measure.units(), match_flags);
-    return ss.str();
-}
-
 /// Generate the prefix multiplier for SI units
 static double getPrefixMultiplier(char p)
 {

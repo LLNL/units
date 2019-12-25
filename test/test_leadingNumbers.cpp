@@ -65,10 +65,10 @@ TEST(leadingNumbers, power)
     EXPECT_GE(index, 3);
 
     res = testLeadingNumber("10.0^-2", index);
-    EXPECT_EQ(res, 0.01);
+    EXPECT_DOUBLE_EQ(res, 0.01);
 
     res = testLeadingNumber("3.1^4.3houses", index);
-    EXPECT_EQ(res, pow(3.1, 4.3));
+    EXPECT_DOUBLE_EQ(res, pow(3.1, 4.3));
     EXPECT_GE(index, 7);
 }
 
