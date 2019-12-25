@@ -62,5 +62,4 @@ TEST(MeasurementToString, simple)
     EXPECT_EQ(to_string(pm), "45 m");
     auto meas = 45.0 * m;
     EXPECT_EQ(to_string(meas), "45 m");
-
 }
