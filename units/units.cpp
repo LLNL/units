@@ -2904,7 +2904,7 @@ static const smap base_unit_vals{
     {"tonhour{refrigeration}", precise::energy::tonhour},
     {"RT", precise::energy::tonc}, // ton cooling
     {"TR", precise::energy::tonc}, // ton cooling
-    {"tons", precise::energy::tonc* precise::s},
+    //{"tons", precise::energy::tonc* precise::s},
     {"tonh", precise::energy::tonc* precise::hr},
     {"angstrom", precise::distance::angstrom},
     {u8"\u00C5ngstr\u00F6m", precise::distance::angstrom},

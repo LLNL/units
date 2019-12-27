@@ -174,7 +174,7 @@ namespace precise {
     constexpr precise_unit V = volt;
 
     constexpr precise_unit newton(detail::unit_data(1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit pascal(detail::unit_data(-1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit Pa(detail::unit_data(-1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit joule(detail::unit_data(2, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit watt(detail::unit_data(2, 1, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit coulomb(detail::unit_data(0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -192,7 +192,10 @@ namespace precise {
     constexpr precise_unit katal(detail::unit_data(0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
 
     constexpr precise_unit N = newton;
-    constexpr precise_unit Pa = pascal;
+#ifndef pascal
+	// in some windows networking applications  pascal is a #define that will cause all sorts of issues
+    constexpr precise_unit pascal = Pa;
+#endif
     constexpr precise_unit J = joule;
     constexpr precise_unit W = watt;
     constexpr precise_unit C = coulomb;
@@ -971,14 +974,14 @@ namespace precise {
         // -base50000 logarithm
         constexpr precise_unit neglog50000 = precise_unit(custom::equation_unit(7));
 
-        constexpr precise_unit B_SPL{2 * 1e-5, precise::pascal* bel};
+        constexpr precise_unit B_SPL{2 * 1e-5, precise::Pa* bel};
         constexpr precise_unit B_V = bel * V;
         constexpr precise_unit B_mV = bel * mV;
         constexpr precise_unit B_uV = bel * precise::micro * V;
         constexpr precise_unit B_10nV = bel * precise::ten * precise::nano * V;
         constexpr precise_unit B_W = bel * W;
         constexpr precise_unit B_kW = bel * kW;
-        constexpr precise_unit dB_SPL{2 * 1e-5, precise::pascal* dB};
+        constexpr precise_unit dB_SPL{2 * 1e-5, precise::Pa* dB};
         constexpr precise_unit dB_V = dB * V;
         constexpr precise_unit dB_mV = dB * mV;
         constexpr precise_unit dB_uV = dB * precise::micro * V;
@@ -1355,7 +1358,7 @@ constexpr unit Hz = unit_cast(precise::Hz);
 constexpr unit volt = unit_cast(precise::volt);
 constexpr unit V = volt;
 constexpr unit newton = unit_cast(precise::newton);
-constexpr unit pascal = unit_cast(precise::pascal);
+constexpr unit Pa = unit_cast(precise::Pa);
 constexpr unit joule = unit_cast(precise::joule);
 constexpr unit watt = unit_cast(precise::watt);
 constexpr unit coulomb = unit_cast(precise::coulomb);
@@ -1373,7 +1376,9 @@ constexpr unit sievert = unit_cast(precise::sievert);
 constexpr unit katal = unit_cast(precise::katal);
 
 constexpr unit N = newton;
-constexpr unit Pa = pascal;
+#ifndef pascal
+constexpr unit pascal = Pa;
+#endif
 constexpr unit J = joule;
 constexpr unit W = watt;
 constexpr unit C = coulomb;
