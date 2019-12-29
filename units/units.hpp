@@ -1536,6 +1536,8 @@ namespace detail {
     namespace testing {
         // generate a number from a number sequence
         double testLeadingNumber(const std::string& test, size_t& index);
+		// generate a number from words
+		double testNumericalWords(const std::string& test, size_t& index);
     } // namespace testing
 } // namespace detail
 

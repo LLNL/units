@@ -175,3 +175,41 @@ TEST(leadingNumbers, strange)
     res = testLeadingNumber("56*(45.6*34.2", index);
     EXPECT_EQ(res, 56.0);
 }
+
+
+TEST(numericalwords, simple)
+{
+	size_t index = 0;
+	auto res = testNumericalWords("hundredm", index);
+	EXPECT_EQ(res, 100.0);
+	EXPECT_EQ(index, 8);
+
+	index = 0;
+	res = testNumericalWords("millionmiles", index);
+	EXPECT_EQ(res, 1e6);
+	EXPECT_EQ(index, 8);
+
+	index = 0;
+	res = testNumericalWords("billionliters", index);
+	EXPECT_EQ(res, 1e9);
+	EXPECT_EQ(index, 8);
+	index = 0;
+	res = testNumericalWords("trillionpounds", index); 
+	EXPECT_EQ(res, 1e12);
+	EXPECT_EQ(index, 9);
+}
+
+TEST(numericalwords, compound)
+{
+	size_t index = 0;
+	std::string tword = "hundredthousandm";
+	auto res = testNumericalWords(tword, index);
+	EXPECT_EQ(res, 1e5);
+	EXPECT_EQ(tword[index], 'm');
+	res = testNumericalWords("hundredmillion", index);
+	EXPECT_EQ(res, 1e8);
+	EXPECT_EQ(index, 14);
+	res = testNumericalWords("fourhundredmillion", index);
+	EXPECT_EQ(res, 4e8);
+	EXPECT_EQ(index, 18);
+}
