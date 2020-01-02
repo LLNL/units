@@ -1309,7 +1309,7 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
             if (loc == 0) {
                 size_t index_sub{0};
                 val = std::get<1>(wp);
-                index = std::get<2>(wp) + 1;
+                index = std::get<2>(wp);
                 if (index < lcstring.size()) {
                     double val_p2 = readNumericalWords(lcstring.substr(index), index_sub);
                     if (!std::isnan(val_p2)) {

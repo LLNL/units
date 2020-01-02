@@ -193,7 +193,7 @@ namespace precise {
 
     constexpr precise_unit N = newton;
 #ifndef pascal
-	// in some windows networking applications  pascal is a #define that will cause all sorts of issues
+    // in some windows networking applications  pascal is a #define that will cause all sorts of issues
     constexpr precise_unit pascal = Pa;
 #endif
     constexpr precise_unit J = joule;
