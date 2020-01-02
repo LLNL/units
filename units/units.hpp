@@ -556,28 +556,18 @@ class fixed_measurement {
 /// Design requirement this must fit in space of 2 doubles
 static_assert(sizeof(fixed_measurement) <= 16, "fixed measurement is too large");
 
-/// Class defining a measurement (value+unit) with a fixed unit type
+/** Class defining a measurement with tolerance (value+tolerance+unit) with a fixed unit type
+the tolerance is assumed to be some statistical reference either standard deviation or 95% confidence bounds or something like that
+*/ 
 class uncertain_measurement {
 public:
+    constexpr uncertain_measurement() = default;
 	/// construct from a value and unit
 	constexpr uncertain_measurement(float val, float tolerance, unit base) : value_(val), tolerance_(tolerance), units_(base) {}
 	/// construct from a regular measurement
 	explicit constexpr uncertain_measurement(measurement val, float tolerance) noexcept :
 		value_(static_cast<float>(val.value())), tolerance_(tolerance), units_(val.units())
 	{
-	}
-	// define copy constructor but purposely leave off copy assignment and move since that would be pointless
-	constexpr uncertain_measurement(const uncertain_measurement& val) noexcept :
-		value_(val.value_), tolerance_(val.tolerance_), units_(val.units_)
-	{
-	}
-	/// assignment operator
-	uncertain_measurement& operator=(const uncertain_measurement &val)
-	{
-		value_ = val.value_;
-		tolerance_ = val.tolerance_;
-		units_ = val.units_;
-		return *this;
 	}
 
 	/// Get the base value with no units
@@ -612,17 +602,35 @@ public:
 
 	uncertain_measurement operator+(uncertain_measurement other) const
 	{
-		return uncertain_measurement(value_ + static_cast<float>(other.value_as(units_)), tolerance_, units_);
+        float cval = static_cast<float>(convert(other.units_, units_));
+        float ntol = sqrt(tolerance_ * tolerance_ + cval * cval * other.tolerance_ * other.tolerance_);
+		return uncertain_measurement(value_ + cval*other.value_, ntol, units_);
 	}
+
 	uncertain_measurement operator-(uncertain_measurement other) const
 	{
-		return uncertain_measurement(value_ - static_cast<float>(other.value_as(units_)), tolerance_, units_);
+        float cval = static_cast<float>(convert(other.units_, units_));
+        float ntol = sqrt(tolerance_ * tolerance_ + cval * cval * other.tolerance_ * other.tolerance_);
+        return uncertain_measurement(value_ - cval * other.value_, ntol, units_);
 	}
+
+    uncertain_measurement operator+(measurement other) const
+    {
+        float cval = static_cast<float>(other.value_as(units_));
+        return uncertain_measurement(value_ + cval, tolerance_, units_);
+    }
+
+    uncertain_measurement operator-(measurement other) const
+    {
+        float cval = static_cast<float>(other.value_as(units_));
+        return uncertain_measurement(value_ - cval, tolerance_, units_);
+    }
 
 	/// Convert a unit to have a new base
 	uncertain_measurement convert_to(unit newUnits) const
 	{
-		return uncertain_measurement(static_cast<float>(units::convert(value_, units_, newUnits)), tolerance_, newUnits);
+        float cval = static_cast<float>(convert(units_, newUnits));
+		return uncertain_measurement(cval*value_, tolerance_*cval, newUnits);
 	}
 	/// Get the underlying units value
 	constexpr unit units() const { return units_; }
@@ -636,7 +644,7 @@ public:
 	}
 
 	/// comparison operators
-	bool operator==(double val) const
+	bool operator==(float val) const
 	{
 		return (value_ == val) ?
 			true :
