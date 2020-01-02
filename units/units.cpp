@@ -1219,7 +1219,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index)
 }
 //this string contains the first two letters of supported numerical words
 static const std::string first_two = "on tw th fo fi si se ei ni te el hu mi bi tr ze";
-static const std::string first_letters = "otfsenhmbtzOTFSENHMBTZ";
+static const std::string first_letters = "otfsenhmbtzaOTFSENHMBTZA";
 static const std::string second_letters = "nwhoielurNWHOIELUR";
 
 static bool hasValidNumericalWordStart(const std::string& ustring)
@@ -1251,16 +1251,17 @@ static double read1To10(const std::string& str, size_t& index)
     return constants::invalid_conversion;
 }
 
-static UPTCONST std::array<wordpair, 10> teens{wordpair{"ten", 10.0, 3},
-                                              wordpair{"eleven", 11.0, 6},
-                                              wordpair{"twelve", 12.0, 6},
-                                              wordpair{"thirteen", 13.0, 8},
-                                              wordpair{"fourteen", 14.0, 8},
-                                              wordpair{"fifteen", 15.0, 7},
-                                              wordpair{"sixteen", 16.0, 7},
-                                              wordpair{"seventeen", 17.0, 9},
-                                              wordpair{"eighteen", 18.0, 8},
-                                              wordpair{"nineteen", 19.0, 8}};
+static UPTCONST std::array<wordpair, 11> teens{wordpair{"ten", 10.0, 3},
+                                               wordpair{"eleven", 11.0, 6},
+                                               wordpair{"twelve", 12.0, 6},
+                                               wordpair{"thirteen", 13.0, 8},
+                                               wordpair{"fourteen", 14.0, 8},
+                                               wordpair{"fifteen", 15.0, 7},
+                                               wordpair{"sixteen", 16.0, 7},
+                                               wordpair{"seventeen", 17.0, 9},
+                                               wordpair{"eighteen", 18.0, 8},
+                                               wordpair{"nineteen", 19.0, 8},
+                                               wordpair{"zero", 0.0, 4}};
 
 static double readTeens(const std::string& str, size_t& index)
 {
@@ -1329,7 +1330,7 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
                 // read the next component
                 double val_add{0.0};
                 if (index < lcstring.size()) {
-                    readNumericalWords(lcstring.substr(index), index_sub);
+                    val_add = readNumericalWords(lcstring.substr(index), index_sub);
                     if (!std::isnan(val_add)) {
                         if (val_add >= val) {
                             val = val * val_add;
@@ -1355,15 +1356,14 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
     }
     //clean up "and"
     if (lcstring.compare(0, 3, "and") == 0) {
-        lcstring.erase(lcstring.begin(), lcstring.begin() + 3);
         index += 3;
         val = 0.0;
     }
     // what we are left with is values below a hundred
     for (auto& wp : decadeWords) {
-        if (lcstring.compare(0, std::get<2>(wp), std::get<0>(wp)) == 0) {
+        if (lcstring.compare(index, std::get<2>(wp), std::get<0>(wp)) == 0) {
             val = std::get<1>(wp);
-            index += std::get<2>(wp) + 1;
+            index += std::get<2>(wp);
             if (lcstring.size() > index) {
                 if (lcstring[index] == '-') {
                     ++index;
@@ -1373,15 +1373,14 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
                     val += toTen;
                 }
             }
-			return val;
+            return val;
         }
     }
-	val = read1To10(lcstring, index);
-	if (!std::isnan(val))
-	{
-		return val;
-	}
-	val = readTeens(lcstring, index);
+    val = readTeens(lcstring, index);
+    if (!std::isnan(val)) {
+        return val;
+    }
+    val = read1To10(lcstring, index);
     return val;
 }
 
