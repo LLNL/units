@@ -1372,10 +1372,10 @@ static bool wordModifiers(std::string& unit)
                             unit.replace(fnd, std::get<2>(mod), "*");
                         } else {
                             // this path cannot currently be executed due to the limited use of the type but others may be
-                            // added in the fugure that might trigger it
+                            // added in the future that might trigger it
                             // LCOV_EXCL_START
                             unit.erase(0, std::get<2>(mod));
-                            // LCOV_EXCL_END
+                            // LCOV_EXCL_STOP
                         }
                         unit.append(std::get<1>(mod));
                         return true;
@@ -3490,7 +3490,7 @@ static char getMatchCharacter(char mchar)
     }
     return mchar;
 }
-// LCOV_EXCL_END
+// LCOV_EXCL_STOP
 
 // This function is only used in a few locations which is after a primary segment check which should catch the fail
 // checks before this function is called
@@ -3502,7 +3502,7 @@ static bool segmentcheckReverse(const std::string& unit, char closeSegment, int&
     if (index >= static_cast<int>(unit.size())) {
         // LCOV_EXCL_START
         return false;
-        // LCOV_EXCL_END
+        // LCOV_EXCL_STOP
     }
     while (index >= 0) {
         char current = unit[index];
@@ -3521,7 +3521,7 @@ static bool segmentcheckReverse(const std::string& unit, char closeSegment, int&
                 if (!segmentcheckReverse(unit, getMatchCharacter(current), index)) {
                     // LCOV_EXCL_START
                     return false;
-                    // LCOV_EXCL_END
+                    // LCOV_EXCL_STOP
                 }
                 break;
             case '{':
@@ -3534,7 +3534,7 @@ static bool segmentcheckReverse(const std::string& unit, char closeSegment, int&
     }
     // LCOV_EXCL_START
     return false;
-    // LCOV_EXCL_END
+    // LCOV_EXCL_STOP
 }
 
 // do a segment check in the forward direction
@@ -3601,7 +3601,7 @@ static precise_unit commoditizedUnit(const std::string& unit_string, uint32_t ma
         // in case
         // LCOV_EXCL_START
         return precise::invalid;
-        // LCOV_EXCL_END
+        // LCOV_EXCL_STOP
     }
     auto ccindex = static_cast<int>(finish) - 1;
     segmentcheckReverse(unit_string, '{', ccindex);
@@ -3689,7 +3689,7 @@ static bool looksLikeInteger(const std::string& string)
     if (string.empty()) {
         // LCOV_EXCL_START
         return false;
-        // LCOV_EXCL_END
+        // LCOV_EXCL_STOP
     }
     size_t index = 0;
     if (string[0] == '-' || string[0] == '+') {
@@ -3723,6 +3723,9 @@ static void removeOuterParenthesis(std::string& ustring)
         if (ustring.find_first_of(')', 1) == ustring.size() - 1) {
             ustring.pop_back();
             ustring.erase(ustring.begin());
+            if (ustring.empty()) {
+                return;
+            }
             continue;
         }
         int open = 1;
@@ -3762,7 +3765,7 @@ static size_t findOperatorSep(const std::string& ustring, std::string operators)
         // this should not happen
         // LCOV_EXCL_START
         sep = std::string::npos;
-        // LCOV_EXCL_END
+        // LCOV_EXCL_STOP
     }
     return sep;
 }
@@ -3796,7 +3799,7 @@ static size_t findWordOperatorSep(const std::string& ustring, const std::string&
             // this should not happen as it would mean the operator separator didn't function properly
             // LCOV_EXCL_START
             return sep;
-            // LCOV_EXCL_END
+            // LCOV_EXCL_STOP
         }
         auto cchar = getMatchCharacter(ustring[lbrack]);
         --lbrack;
@@ -4315,7 +4318,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
         if (unit_string.empty()) {
             // LCOV_EXCL_START
             return true;
-            // LCOV_EXCL_END
+            // LCOV_EXCL_STOP
         }
 
         // 10*num usually means a power of 10
@@ -4340,6 +4343,9 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
     }
     if (unit_string.front() == '(') {
         removeOuterParenthesis(unit_string);
+        if (unit_string.empty()) {
+            return true;
+        }
     }
 
     if (!skipcodereplacement) {
@@ -4900,7 +4906,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 // the check function should catch this but it would be problematic if not not caught
                 // LCOV_EXCL_START
                 return precise::invalid;
-                // LCOV_EXCL_END
+                // LCOV_EXCL_STOP
             }
         } else {
             if (isDigitCharacter(c1)) {
