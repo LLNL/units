@@ -574,15 +574,15 @@ class uncertain_measurement {
     }
 
     /// Get the base value with no units
-    constexpr double value() const { return value_; }
+    constexpr double value() const { return static_cast<double>(value_); }
     /// Get the base value with no units
-    constexpr double tolerance() const { return tolerance_; }
+    constexpr double tolerance() const { return static_cast<double>(tolerance_); }
 
     uncertain_measurement operator*(uncertain_measurement other) const
     {
-        float ntol = sqrt(
-            tolerance_ * tolerance_ / (value_ * value_) +
-            other.tolerance_ * other.tolerance_ / (other.value_ * other.value_));
+		float tval1 = tolerance_ / value_;
+		float tval2 = other.tolerance_ / other.value_;
+		float ntol = sqrt(tval1 * tval1 + tval2 * tval2);
         float nval = value_ * other.value_;
         return uncertain_measurement(nval, nval * ntol, units_ * other.units());
     }
@@ -597,8 +597,8 @@ class uncertain_measurement {
     constexpr uncertain_measurement operator*(measurement other) const
     {
         return uncertain_measurement(
-            value_ * static_cast<float>(other.value()),
-            value_ * static_cast<float>(other.value()) * tolerance_ / value_,
+			static_cast<float>(value() * other.value()),
+            static_cast<float>(other.value() * tolerance()),
             units_ * other.units());
     }
     constexpr uncertain_measurement operator*(unit other) const
@@ -611,9 +611,9 @@ class uncertain_measurement {
     }
     uncertain_measurement operator/(uncertain_measurement other) const
     {
-        float ntol = sqrt(
-            tolerance_ * tolerance_ / (value_ * value_) +
-            other.tolerance_ * other.tolerance_ / (other.value_ * other.value_));
+        float tval1 = tolerance_ / value_;
+        float tval2 = other.tolerance_ / other.value_;
+        float ntol = sqrt(tval1 * tval1 + tval2 * tval2);
         float nval = value_ / other.value_;
         return uncertain_measurement(nval, nval * ntol, units_ / other.units());
     }
@@ -626,8 +626,8 @@ class uncertain_measurement {
     constexpr uncertain_measurement operator/(measurement other) const
     {
         return uncertain_measurement(
-            value_ / static_cast<float>(other.value()),
-            static_cast<float>(other.value()) * tolerance_,
+			static_cast<float>(value() / other.value()),
+            static_cast<float>(tolerance()/other.value()),
             units_ * other.units());
     }
     constexpr uncertain_measurement operator/(unit other) const
