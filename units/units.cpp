@@ -270,7 +270,7 @@ static const umap base_unit_names{
     {unit_cast(precise::data::KiB), "KiB"},
     {unit_cast(precise::data::MiB), "MiB"},
     {unit_cast(precise::us::dry::bushel), "bu"},
-    {unit_cast(precise::us::floz), "fl oz"},
+    {unit_cast(precise::us::floz), "floz"},
     {oz, "oz"},
     {unit_cast(precise::distance::angstrom), u8"\u00C5"},
     {g, "g"},
@@ -4465,7 +4465,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
                 case '>':
                     fnd = unit_string.find_first_of(")]}", fnd + 1);
                     break;
-                case 'o': { // handle special case of commodity modifier using "of"
+                case 'o': // handle special case of commodity modifier using "of"
                     if (unit_string.size() > fnd + 3) {
                         auto tc2 = unit_string[fnd + 3];
                         if (unit_string[fnd + 2] == 'f' && tc2 != ')' && tc2 != ']' && tc2 != '}') {
@@ -4476,7 +4476,6 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
                     unit_string.insert(fnd + 1, 1, '*');
                     fnd = unit_string.find_first_of(")]}", fnd + 3);
                     break;
-                }
                 case '{':
                     if (unit_string[fnd] != '}') {
                         fnd = unit_string.find_first_of(")]}", fnd + 1);
@@ -4520,7 +4519,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
     if (!skipcodereplacement) { // make everything inside {} lower case
         auto bloc = unit_string.find_first_of('{');
         while (bloc != std::string::npos) {
-            size_t ind = bloc + 1;
+            auto ind = bloc + 1;
             if (segmentcheck(unit_string, '}', ind)) {
                 std::transform(
                     unit_string.begin() + bloc + 1,
