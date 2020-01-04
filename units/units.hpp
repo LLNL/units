@@ -562,7 +562,7 @@ the tolerance is assumed to be some statistical reference either standard deviat
 class uncertain_measurement {
   public:
     constexpr uncertain_measurement() = default;
-    /// construct from a value and unit
+    /// construct from a single precision value, tolerance and unit
     constexpr uncertain_measurement(float val, float tolerance, unit base) :
         value_(val), tolerance_(tolerance), units_(base)
     {
@@ -570,6 +570,17 @@ class uncertain_measurement {
     /// construct from a regular measurement
     explicit constexpr uncertain_measurement(measurement val, float tolerance) noexcept :
         value_(static_cast<float>(val.value())), tolerance_(tolerance), units_(val.units())
+    {
+    }
+    /// construct from a double precision value, tolerance and unit
+    explicit constexpr uncertain_measurement(double val, double tolerance, unit base) :
+        value_(static_cast<float>(val)), tolerance_(static_cast<float>(tolerance)), units_(base)
+    {
+    }
+    /// construct from a regular measurement
+    explicit constexpr uncertain_measurement(measurement val, double tolerance) noexcept :
+        value_(static_cast<float>(val.value())), tolerance_(static_cast<float>(tolerance)),
+        units_(val.units())
     {
     }
 
@@ -650,7 +661,7 @@ class uncertain_measurement {
     uncertain_measurement simple_add(uncertain_measurement other) const
     {
         float cval = static_cast<float>(convert(other.units_, units_));
-        float ntol = tolerance_ + other.tolerance_;
+        float ntol = tolerance_ + other.tolerance_ * cval;
         return uncertain_measurement(value_ + cval * other.value_, ntol, units_);
     }
 
@@ -664,7 +675,7 @@ class uncertain_measurement {
     uncertain_measurement simple_subtract(uncertain_measurement other) const
     {
         float cval = static_cast<float>(convert(other.units_, units_));
-        float ntol = tolerance_ + other.tolerance_;
+        float ntol = tolerance_ + other.tolerance_ * cval;
         return uncertain_measurement(value_ - cval * other.value_, ntol, units_);
     }
 
@@ -707,7 +718,7 @@ class uncertain_measurement {
         if (tolerance_ == 0.0F) {
             return (value_ == val) ? true : detail::compare_round_equals(value_, val);
         } else {
-            return (value_ - tolerance_ >= val && value_ + tolerance_ <= val);
+            return (val >= (value_ - tolerance_) && val<=(value_ + tolerance_));
         }
     }
     bool operator>(measurement other) const
@@ -733,7 +744,7 @@ class uncertain_measurement {
 
     bool operator==(const uncertain_measurement& other) const
     {
-        auto zval = operator-(other);
+        auto zval = simple_subtract(other);
         return (zval == measurement(0.0, units_));
     }
     bool operator>(uncertain_measurement other) const
@@ -746,12 +757,12 @@ class uncertain_measurement {
     }
     bool operator>=(uncertain_measurement other) const
     {
-        auto zval = operator-(other);
+        auto zval = simple_subtract(other);
         return (zval.value_ >= 0.0F) ? true : (zval == measurement(0.0, units_));
     }
     bool operator<=(uncertain_measurement other) const
     {
-        auto zval = operator-(other);
+        auto zval = simple_subtract(other);
         return (value_ <= 0.0F) ? true : (zval == measurement(0.0, units_));
     }
     /// Not equal operator
