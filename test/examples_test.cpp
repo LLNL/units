@@ -17,6 +17,12 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    units::uncertain_measurement um1(1250.0, 25.0, units::cm.pow(3));
+    units::uncertain_measurement um2(1.25, 0.1, units::L);
+    if (um1 != um2) {
+        return -1;
+    }
+
     units::measurement m1(1250.0, units::cm.pow(3));
     if (m1 != 1.25 * units::L) {
         return -1;
