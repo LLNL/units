@@ -23,12 +23,6 @@ SPDX-License-Identifier: BSD-3-Clause
 references http://people.csail.mit.edu/jaffer/MIXF/MIXF-08
 */
 
-#if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1300)
-#define UPTCONST constexpr
-#else
-#define UPTCONST const
-#endif
-
 namespace units {
 
 template<typename X>
@@ -285,34 +279,34 @@ static const umap base_unit_names{
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
-static UPTCONST std::array<ustr, 22> testUnits{{ustr{precise::m, "m"},
-                                                ustr{precise::s, "s"},
-                                                ustr{precise::ms, "ms"},
-                                                ustr{precise::min, "min"},
-                                                ustr{precise::hr, "hr"},
-                                                ustr{precise::time::day, "day"},
-                                                ustr{precise::lb, "lb"},
-                                                ustr{precise::ft, "ft"},
-                                                ustr{precise::ft.pow(2), "ft^2"},
-                                                ustr{precise::ft.pow(3), "ft^3"},
-                                                ustr{precise::m.pow(2), "m^2"},
-                                                ustr{precise::L, "L"},
-                                                ustr{precise::kg, "kg"},
-                                                ustr{precise::km, "km"},
-                                                ustr{precise::currency, "$"},
-                                                ustr{precise::volt, "V"},
-                                                ustr{precise::watt, "W"},
-                                                ustr{precise::kW, "kW"},
-                                                ustr{precise::mW, "mW"},
-                                                ustr{precise::MW, "MW"},
-                                                ustr{precise::s.pow(2), "s^2"},
-                                                ustr{precise::count, "item"}}};
+static UNITS_CPP14_CONSTEXPR std::array<ustr, 22> testUnits{{ustr{precise::m, "m"},
+                                                             ustr{precise::s, "s"},
+                                                             ustr{precise::ms, "ms"},
+                                                             ustr{precise::min, "min"},
+                                                             ustr{precise::hr, "hr"},
+                                                             ustr{precise::time::day, "day"},
+                                                             ustr{precise::lb, "lb"},
+                                                             ustr{precise::ft, "ft"},
+                                                             ustr{precise::ft.pow(2), "ft^2"},
+                                                             ustr{precise::ft.pow(3), "ft^3"},
+                                                             ustr{precise::m.pow(2), "m^2"},
+                                                             ustr{precise::L, "L"},
+                                                             ustr{precise::kg, "kg"},
+                                                             ustr{precise::km, "km"},
+                                                             ustr{precise::currency, "$"},
+                                                             ustr{precise::volt, "V"},
+                                                             ustr{precise::watt, "W"},
+                                                             ustr{precise::kW, "kW"},
+                                                             ustr{precise::mW, "mW"},
+                                                             ustr{precise::MW, "MW"},
+                                                             ustr{precise::s.pow(2), "s^2"},
+                                                             ustr{precise::count, "item"}}};
 
 // complex units used to reduce unit complexity
-static UPTCONST std::array<ustr, 4> creduceUnits{{ustr{precise::V.inv(), "V*"},
-                                                  ustr{precise::V, "V^-1*"},
-                                                  ustr{precise::W, "W^-1*"},
-                                                  ustr{precise::W.inv(), "W*"}}};
+static UNITS_CPP14_CONSTEXPR std::array<ustr, 4> creduceUnits{{ustr{precise::V.inv(), "V*"},
+                                                               ustr{precise::V, "V^-1*"},
+                                                               ustr{precise::W, "W^-1*"},
+                                                               ustr{precise::W.inv(), "W*"}}};
 
 // thought about making this constexpr array, but the problem is that runtime floats are not guaranteed to be the
 // same as compile time floats
@@ -574,7 +568,7 @@ static void escapeString(std::string& str)
 std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 {
     using spair = std::tuple<const char*, const char*, int, int>;
-    static UPTCONST std::array<spair, 8> powerseq{{
+    static UNITS_CPP14_CONSTEXPR std::array<spair, 8> powerseq{{
         spair{"Mm^3", "(1e9km^3)", 4, 8}, // this needs to happen before ^3^2 conversions
         spair{"^2^2", "^4", 4, 2},
         spair{"^3^2", "^6", 4, 2},
@@ -1038,7 +1032,7 @@ static constexpr uint16_t charindex(char ch1, char ch2)
 static double getPrefixMultiplier2Char(char c1, char c2)
 {
     using cpair = std::pair<uint16_t, double>;
-    static UPTCONST std::array<cpair, 21> char2prefix{{
+    static UNITS_CPP14_CONSTEXPR std::array<cpair, 21> char2prefix{{
         cpair{charindex('D', 'A'), 10.0},
         cpair{charindex('E', 'X'), 1e18},
         cpair{charindex('E', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
@@ -1223,7 +1217,7 @@ https://physics.nist.gov/cuu/Units/prefixes.html
 https://physics.nist.gov/cuu/Units/binary.html
 */
 using utup = std::tuple<const char*, double, int>;
-static UPTCONST std::array<utup, 27> prefixWords{{
+static UNITS_CPP14_CONSTEXPR std::array<utup, 27> prefixWords{{
     utup{"atto", 1e-18, 4},
     utup{"centi", 0.01, 5},
     utup{"deca", 10.0, 4},
@@ -1291,7 +1285,7 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UPTCONST std::array<modSeq, 26> modifiers{{
+    static UNITS_CPP14_CONSTEXPR std::array<modSeq, 26> modifiers{{
         modSeq{"cubic", "^3", 5, modifier::start_tail},
         modSeq{"reciprocal", "^-1", 10, modifier::start_tail},
         modSeq{"reciprocal", "^-1", 10, modifier::tail_replace},
@@ -1409,7 +1403,7 @@ using ckpair = std::pair<const char*, const char*>;
 
 static precise_unit localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UPTCONST std::array<ckpair, 39> internationlReplacements{{
+    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 39> internationlReplacements{{
         ckpair{"internationaltable", "_IT"},
         ckpair{"internationalsteamtable", "_IT"},
         ckpair{"international", "_i"},
@@ -4153,7 +4147,7 @@ static void htmlCodeReplacement(std::string& unit_string)
 /// do some unicode replacement (unicode in the loose sense any characters not in the basic ascii set)
 static bool unicodeReplacement(std::string& unit_string)
 {
-    static UPTCONST std::array<ckpair, 45> ucodeReplacements{{
+    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 45> ucodeReplacements{{
         ckpair{u8"\u00d7", "*"},
         ckpair{u8"\u00f7", "/"}, // division sign
         ckpair{u8"\u00b7", "*"},
@@ -4223,7 +4217,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
 
-    static UPTCONST std::array<ckpair, 25> allCodeReplacements{{
+    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 25> allCodeReplacements{{
         ckpair{"sq.", "square"},
         ckpair{"cu.", "cubic"},
         ckpair{"(US)", "US"},
