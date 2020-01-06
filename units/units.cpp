@@ -19,12 +19,45 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <unordered_map>
 #include <vector>
 
+/** @file
+references http://people.csail.mit.edu/jaffer/MIXF/MIXF-08
+*/
+
 #if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1300)
 #define UPTCONST constexpr
 #else
 #define UPTCONST const
 #endif
+
 namespace units {
+
+template<typename X>
+X numericalRoot(X value, int power)
+{
+    switch (power) {
+        case 0:
+            return X{1.0};
+        case 1:
+            return value;
+        case -1:
+            return X{1.0} / value;
+        case 2:
+            return std::sqrt(value);
+        case -2:
+            return std::sqrt(X{1.0} / value);
+        case 3:
+            return std::cbrt(value);
+        case -3:
+            return std::cbrt(X{1.0} / value);
+        case 4:
+            return std::sqrt(std::sqrt(value));
+        case -4:
+            return std::sqrt(std::sqrt(X{1.0} / value));
+        default:
+            return std::pow(value, X{1.0} / static_cast<X>(power));
+    }
+}
+
 unit unit::root(int power) const
 {
     if (power == 0) {
@@ -33,36 +66,8 @@ unit unit::root(int power) const
     if (multiplier_ < 0.0f && power % 2 == 0) {
         return error;
     }
-    auto bunits = base_units_.root(power);
-    // 1.0 is a very common multiplier
-    if (multiplier_ == 1.0f) {
-        return {base_units_.root(power), 1.0};
-    }
-    switch (power) {
-        case 1:
-            return *this;
-        case -1:
-            return this->inv();
-        case 2:
-            return {bunits, std::sqrt(multiplier())};
-        case -2:
-            return {bunits, std::sqrt(1.0 / multiplier())};
-        case 3:
-            return {bunits, std::cbrt(multiplier())};
-        case -3:
-            return {bunits, std::cbrt(1.0 / multiplier())};
-        case 4:
-            return {bunits, std::sqrt(std::sqrt(multiplier()))};
-        case -4:
-            return {bunits, std::sqrt(std::sqrt(1.0 / multiplier()))};
-        default:
-            return {bunits, std::pow(multiplier(), 1.0 / static_cast<double>(power))};
-    }
+    return unit{base_units_.root(power), numericalRoot(multiplier_, power)};
 }
-
-/** @file
-references http://people.csail.mit.edu/jaffer/MIXF/MIXF-08
-*/
 
 precise_unit precise_unit::root(int power) const
 {
@@ -72,33 +77,29 @@ precise_unit precise_unit::root(int power) const
     if (multiplier_ < 0.0 && power % 2 == 0) {
         return precise::invalid;
     }
-    auto bunits = base_units_.root(power);
-    // 1.0 is a very common multiplier
-    if (multiplier_ == 1.0) {
-        return {bunits, 1.0};
-    }
-
-    switch (power) {
-        case 1:
-            return *this;
-        case -1:
-            return this->inv();
-        case 2:
-            return {bunits, std::sqrt(multiplier_)};
-        case -2:
-            return {bunits, std::sqrt(1.0 / multiplier_)};
-        case 3:
-            return {bunits, std::cbrt(multiplier_)};
-        case -3:
-            return {bunits, std::cbrt(1.0 / multiplier_)};
-        case 4:
-            return {bunits, std::sqrt(std::sqrt(multiplier_))};
-        case -4:
-            return {bunits, std::sqrt(std::sqrt(1.0 / multiplier_))};
-        default:
-            return {bunits, std::pow(multiplier_, 1.0 / static_cast<double>(power))};
-    }
+    return precise_unit{base_units_.root(power), numericalRoot(multiplier_, power)};
 }
+
+measurement measurement::root(int power) const
+{
+    return measurement(numericalRoot(value_, power), units_.root(power));
+}
+
+fixed_measurement fixed_measurement::root(int power) const
+{
+    return fixed_measurement(numericalRoot(value_, power), units_.root(power));
+}
+
+precise_measurement precise_measurement::root(int power) const
+{
+    return precise_measurement(numericalRoot(value_, power), units_.root(power));
+}
+
+fixed_precise_measurement fixed_precise_measurement::root(int power) const
+{
+    return fixed_precise_measurement(numericalRoot(value_, power), units_.root(power));
+}
+
 // sum the powers of a unit
 static int order(unit val)
 {
