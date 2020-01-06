@@ -259,6 +259,14 @@ class measurement {
         return {val / meas.value_, meas.units_.inv()};
     }
 
+#ifndef UNITS_HEADER_ONLY
+    /// take the root of a unit to some power
+    measurement root(int power) const;
+#endif
+    constexpr measurement pow(int power) const
+    {
+        return measurement{detail::power_const(value_, power), units_.pow(power)};
+    }
     /// Convert a unit to have a new base
     measurement convert_to(unit newUnits) const
     {
@@ -410,6 +418,15 @@ class fixed_measurement {
         return fixed_measurement(value_ - val, units_);
     }
 
+#ifndef UNITS_HEADER_ONLY
+    /// take the root of a measurement to some power
+    fixed_measurement root(int power) const;
+#endif
+    /// take the measurement to some power
+    constexpr fixed_measurement pow(int power) const
+    {
+        return fixed_measurement{detail::power_const(value_, power), units_.pow(power)};
+    }
     /// Convert a unit to have a new base
     fixed_measurement convert_to(unit newUnits) const
     {
@@ -578,6 +595,17 @@ class precise_measurement {
     {
         return {value_ - other.value_as(units_), units_};
     }
+
+#ifndef UNITS_HEADER_ONLY
+    /// take the root of a measurement to some power
+    precise_measurement root(int power) const;
+#endif
+    /// take the measurement to some power
+    constexpr precise_measurement pow(int power) const
+    {
+        return precise_measurement{detail::power_const(value_, power), units_.pow(power)};
+    }
+
     /// Convert a unit to have a new base
     precise_measurement convert_to(precise_unit newUnits) const
     {
@@ -779,6 +807,17 @@ class fixed_precise_measurement {
         value_ /= val;
         return *this;
     }
+
+#ifndef UNITS_HEADER_ONLY
+    /// take the root of a measurement to some power
+    fixed_precise_measurement root(int power) const;
+#endif
+    /// take the measurement to some power
+    constexpr fixed_precise_measurement pow(int power) const
+    {
+        return fixed_precise_measurement{detail::power_const(value_, power), units_.pow(power)};
+    }
+
     /// Convert a unit to have a new base
     precise_measurement convert_to(precise_unit newUnits) const
     {
