@@ -143,6 +143,10 @@ TEST(measurement, powroot)
 
     auto m2 = v1.root(3);
     EXPECT_TRUE(m2 == m1);
+
+    auto m0 = v1.root(0);
+    EXPECT_EQ(m0.value(), 1.0);
+    EXPECT_EQ(m0.units(), one);
 }
 
 using namespace units;
