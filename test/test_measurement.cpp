@@ -133,6 +133,18 @@ TEST(Measurement, conversions)
     EXPECT_FLOAT_EQ(static_cast<float>(d4.value()), 1.0f);
 }
 
+TEST(measurement, powroot)
+{
+    measurement m1(2.0, m);
+
+    auto v1 = m1.pow(3);
+    EXPECT_EQ(v1.value(), 8.0);
+    EXPECT_EQ(v1.units(), m.pow(3));
+
+    auto m2 = v1.root(3);
+    EXPECT_TRUE(m2 == m1);
+}
+
 using namespace units;
 TEST(fixedMeasurement, ops)
 {
@@ -317,6 +329,18 @@ TEST(fixedMeasurement, comparison)
     EXPECT_FALSE((1 * in) <= (2.0 * cm));
 }
 
+TEST(fixedMeasurement, powroot)
+{
+    fixed_measurement m1(2.0, m);
+
+    auto v1 = m1.pow(3);
+    EXPECT_EQ(v1.value(), 8.0);
+    EXPECT_EQ(v1.units(), m.pow(3));
+
+    auto m2 = v1.root(3);
+    EXPECT_TRUE(m2 == m1);
+}
+
 TEST(PreciseMeasurement, ops)
 {
     precise_measurement d1(45.0, precise::m);
@@ -429,6 +453,18 @@ TEST(PreciseMeasurement, comparison)
     EXPECT_FALSE((1 * precise::in) <= (2.0 * precise::cm));
 }
 
+TEST(PreciseMeasurement, powroot)
+{
+    precise_measurement m1(2.0, precise::m);
+
+    auto v1 = m1.pow(3);
+    EXPECT_EQ(v1.value(), 8.0);
+    EXPECT_EQ(v1.units(), precise::m.pow(3));
+
+    auto m2 = v1.root(3);
+    EXPECT_TRUE(m2 == m1);
+}
+
 using namespace units;
 TEST(fixedPreciseMeasurement, ops)
 {
@@ -460,4 +496,16 @@ TEST(fixedPreciseMeasurement, ops)
     EXPECT_DOUBLE_EQ(y.value(), 5.0);
     y = 7.0;
     EXPECT_DOUBLE_EQ(y.value(), 7.0);
+}
+
+TEST(fixedPreciseMeasurement, powroot)
+{
+    fixed_precise_measurement m1(2.0, precise::m);
+
+    auto v1 = m1.pow(3);
+    EXPECT_EQ(v1.value(), 8.0);
+    EXPECT_EQ(v1.units(), precise::m.pow(3));
+
+    auto m2 = v1.root(3);
+    EXPECT_TRUE(m2 == m1);
 }
