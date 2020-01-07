@@ -785,6 +785,19 @@ inline bool isinf(unit u)
 {
     return std::isinf(u.multiplier());
 }
+
+#ifndef UNITS_HEADER_ONLY
+inline unit sqrt(unit u)
+{
+	return u.root(2);
+}
+
+inline precise_unit sqrt(precise_unit u)
+{
+	return u.root(2);
+}
+#endif
+
 // Verify that the units are the expected sizes
 static_assert(sizeof(unit) == 8, "Unit type is too large");
 static_assert(sizeof(precise_unit) == 16, "precise unit type is too large");

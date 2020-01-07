@@ -930,6 +930,27 @@ constexpr measurement measurement_cast(measurement measure)
 }
 
 #ifndef UNITS_HEADER_ONLY
+
+inline measurement sqrt(const measurement &meas)
+{
+	return meas.root(2);
+}
+
+inline precise_measurement sqrt(const precise_measurement &meas)
+{
+	return meas.root(2);
+}
+
+inline fixed_measurement sqrt(const fixed_measurement &meas)
+{
+	return meas.root(2);
+}
+
+inline fixed_precise_measurement sqrt(const fixed_precise_measurement &meas)
+{
+	return meas.root(2);
+}
+
 /** The unit conversion flag are some modifiers for the string conversion operations,
 some are used internally some are meant for external use, though all are possible to use externally
 */
