@@ -86,9 +86,10 @@ fixed_measurement fixed_measurement::root(int power) const
 
 uncertain_measurement uncertain_measurement::root(int power) const
 {
-	auto new_value = numericalRoot(value_, power);
-	auto new_tol = new_value * uncertainty_ /(static_cast<float>((power >= 0) ? power : -power)* value_);
-	return uncertain_measurement(new_value,new_tol, units_.root(power));
+    auto new_value = numericalRoot(value_, power);
+    auto new_tol =
+        new_value * uncertainty_ / (static_cast<float>((power >= 0) ? power : -power) * value_);
+    return uncertain_measurement(new_value, new_tol, units_.root(power));
 }
 
 precise_measurement precise_measurement::root(int power) const
@@ -518,7 +519,11 @@ static std::string generateRawUnitString(precise_unit un)
     addUnitPower(val, "$", un.base_units().currency());
     addUnitPower(val, "rad", un.base_units().radian());
     if (un.base_units().has_i_flag()) {
-        val.append("*flag");
+        if (val.empty()) {
+            val = "flag";
+        } else {
+            val.append("*flag");
+        }
     }
     if (un.base_units().has_e_flag()) {
         val.insert(0, "eflag*");

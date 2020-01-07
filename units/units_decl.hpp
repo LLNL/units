@@ -41,8 +41,8 @@ namespace detail {
         }
         /** Construct with the error flag triggered*/
         explicit constexpr unit_data(std::nullptr_t) :
-            meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0), kelvin_(0), mole_(0),
-            radians_(0), currency_(0), count_(0), per_unit_(0), i_flag_(1), e_flag_(1), equation_(0)
+            meter_(-8), second_(-8), kilogram_(-4), ampere_(-4), candela_(-2), kelvin_(-4), mole_(-2),
+            radians_(-4), currency_(-2), count_(-2), per_unit_(1), i_flag_(1), e_flag_(1), equation_(1)
         {
         }
 
