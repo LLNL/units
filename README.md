@@ -56,7 +56,8 @@ There are only a few types in the library
 -   `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement.
 -   `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
 -   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types.
--   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template, except it is 24 bytes instead of 16.    
+-   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template, except it is 24 bytes instead of 16.   
+-   `uncertain_measurement` is similar to `measurement` except it uses a float for the value and contains and uncertainty field.  Mathematical operations on `uncertain_measurements` will propagate the uncertainty and convert it as necessary.  The class also includes functions for root-sum-squares uncertainty propragation like `rss_divide` which uses the root sum of squares for statistical modeling of the uncertainty.  
 
 ## Unit representation
 The unit class consists of a multiplier and a representation of base units.
@@ -215,6 +216,14 @@ These functions are not class methods but operate on units
 -   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit>
 -   `<measurement> root(int)` generate a root of a measurement
 -   `<measurement> pow(int)`  generate a measurement which is a specific power of another measurement
+
+#### Uncertain measurement methods
+Uncertatin measurements have a few additional functions to support the uncertainty calculations
+
+-   `rss_add`, `rss_subtract`, `rss_product`, `rss_divide` are equivalent to the associated operator but use the root-sum of squares method for propragating the uncertainty.  
+-    `double uncertainty()` get the numerical value of the uncertainty
+-    `double uncertainty_as(<unit>)` get the uncertainty in terms of a particular unit.
+-    `fractional_uncertainty()`  get the uncertainty as a fraction of the value. 
 
 #### Measurement operators
 There are several operator overloads which work on measurements or units to produce measurements.

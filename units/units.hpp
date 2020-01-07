@@ -576,12 +576,18 @@ class uncertain_measurement {
         value_(val), uncertainty_(uncertainty), units_(base)
     {
     }
-    /// construct from a regular measurement
+    /// construct from a regular measurement and uncertainty value
     explicit constexpr uncertain_measurement(measurement val, float uncertainty) noexcept :
         value_(static_cast<float>(val.value())), uncertainty_(uncertainty), units_(val.units())
     {
     }
-    /// construct from a double precision value, tolerance, and unit
+    /// construct from a regular measurement and an uncertainty measurement
+    explicit uncertain_measurement(measurement val, measurement uncertainty) noexcept :
+        value_(static_cast<float>(val.value())),
+        uncertainty_(static_cast<float>(uncertainty.value_as(val.units()))), units_(val.units())
+    {
+    }
+    /// construct from a double precision value, uncertainty, and unit
     explicit constexpr uncertain_measurement(double val, double uncertainty, unit base) :
         value_(static_cast<float>(val)), uncertainty_(static_cast<float>(uncertainty)), units_(base)
     {
@@ -720,16 +726,16 @@ class uncertain_measurement {
         return uncertain_measurement(value_ - cval, uncertainty_, units_);
     }
 #ifndef UNITS_HEADER_ONLY
-	/// take the root of a measurement to some power
-	uncertain_measurement root(int power) const;
+    /// take the root of a measurement to some power
+    uncertain_measurement root(int power) const;
 #endif
-	/// take the measurement to some power
-	UNITS_CPP14_CONSTEXPR uncertain_measurement pow(int power) const
-	{
-		auto new_value = detail::power_const(value_, power);
-		auto new_tol = ((power >= 0) ? power : -power)*new_value*uncertainty_ / value_;
-		return uncertain_measurement{ new_value,new_tol, units_.pow(power) };
-	}
+    /// take the measurement to some power
+    UNITS_CPP14_CONSTEXPR uncertain_measurement pow(int power) const
+    {
+        auto new_value = detail::power_const(value_, power);
+        auto new_tol = ((power >= 0) ? power : -power) * new_value * uncertainty_ / value_;
+        return uncertain_measurement{new_value, new_tol, units_.pow(power)};
+    }
 
     /// Convert a unit to have a new base
     uncertain_measurement convert_to(unit newUnits) const

@@ -118,43 +118,55 @@ TEST(uncertainOps, mult)
 // as a note the example on this page is just wrong, the calculations don't match the numbers given
 TEST(uncertainOps, pow1)
 {
-	uncertain_measurement w(4.52, 0.02, cm);
-	uncertain_measurement y(3.0, 0.6, cm);
-	uncertain_measurement Av(2.0, 0.2, cm.pow(2));
+    uncertain_measurement w(4.52, 0.02, cm);
+    uncertain_measurement y(3.0, 0.6, cm);
+    uncertain_measurement Av(2.0, 0.2, cm.pow(2));
 
-	auto z = w * y.pow(2) / Av.root(2);
-	EXPECT_NEAR(z.value(), 28.765, 0.0005);
-	EXPECT_NEAR(z.uncertainty(), 13.07, 0.005);
+    auto z = w * y.pow(2) / Av.root(2);
+    EXPECT_NEAR(z.value(), 28.765, 0.0005);
+    EXPECT_NEAR(z.uncertainty(), 13.07, 0.005);
 
-	auto zs = w.rss_product(y.pow(2)).rss_divide(Av.root(2));
-	EXPECT_NEAR(zs.value(), 29, 0.5);
-	EXPECT_NEAR(zs.uncertainty(), 12, 0.5);
+    auto zs = w.rss_product(y.pow(2)).rss_divide(Av.root(2));
+    EXPECT_NEAR(zs.value(), 29, 0.5);
+    EXPECT_NEAR(zs.uncertainty(), 12, 0.5);
 }
 
 // examples from http://lectureonline.cl.msu.edu/~mmp/labs/error/e2.htm
 
 TEST(uncertainOps, example1)
 {
-	uncertain_measurement x1(9.3,0.2,m);
-	uncertain_measurement x2(14.4, 0.3, m);
+    uncertain_measurement x1(9.3, 0.2, m);
+    uncertain_measurement x2(14.4, 0.3, m);
 
-	auto z = x2 - x1;
-	EXPECT_NEAR(z.value(), 5.1, 0.05);
-	
-	auto zs = x2.rss_subtract(x1);
-	EXPECT_NEAR(zs.value(), 5.1, 0.05);
-	EXPECT_NEAR(zs.uncertainty(), 0.36, 0.005);
+    auto z = x2 - x1;
+    EXPECT_NEAR(z.value(), 5.1, 0.05);
+
+    auto zs = x2.rss_subtract(x1);
+    EXPECT_NEAR(zs.value(), 5.1, 0.05);
+    EXPECT_NEAR(zs.uncertainty(), 0.36, 0.005);
 }
 
 TEST(uncertainOps, example2)
 {
-	uncertain_measurement x(5.1, 0.4, m);
-	uncertain_measurement t(0.4, 0.1, s);
+    uncertain_measurement x(5.1, 0.4, m);
+    uncertain_measurement t(0.4, 0.1, s);
 
-	auto v = x / t;
-	EXPECT_NEAR(v.value(), 12.75, 0.005);
+    auto v = x / t;
+    EXPECT_NEAR(v.value(), 12.75, 0.005);
 
-	auto vs = x.rss_divide(t);
-	EXPECT_NEAR(vs.value(), 12.75, 0.005);
-	EXPECT_NEAR(vs.uncertainty(), 3.34, 0.005);
+    auto vs = x.rss_divide(t);
+    EXPECT_NEAR(vs.value(), 12.75, 0.005);
+    EXPECT_NEAR(vs.uncertainty(), 3.34, 0.005);
+}
+
+// next two examples from https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supplemental_Modules_(Analytical_Chemistry)/Quantifying_Nature/Significant_Digits/Propagation_of_Error
+TEST(uncertainOps, chemExample1)
+{
+    uncertain_measurement conc(13.7, 0.3, mol / L);
+    uncertain_measurement path(1.0, 0.1, cm);
+    uncertain_measurement absorb(0.172807, 0.000008, one);
+
+    auto eps = absorb.rss_divide(conc.rss_product(path));
+    EXPECT_NEAR(eps.value(), 0.013, 0.005);
+    EXPECT_NEAR(eps.uncertainty(), 0.001, 0.0005);
 }
