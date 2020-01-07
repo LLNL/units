@@ -719,6 +719,17 @@ class uncertain_measurement {
         float cval = static_cast<float>(other.value_as(units_));
         return uncertain_measurement(value_ - cval, uncertainty_, units_);
     }
+#ifndef UNITS_HEADER_ONLY
+	/// take the root of a measurement to some power
+	uncertain_measurement root(int power) const;
+#endif
+	/// take the measurement to some power
+	UNITS_CPP14_CONSTEXPR uncertain_measurement pow(int power) const
+	{
+		auto new_value = detail::power_const(value_, power);
+		auto new_tol = ((power >= 0) ? power : -power)*new_value*uncertainty_ / value_;
+		return uncertain_measurement{ new_value,new_tol, units_.pow(power) };
+	}
 
     /// Convert a unit to have a new base
     uncertain_measurement convert_to(unit newUnits) const

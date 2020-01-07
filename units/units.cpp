@@ -84,6 +84,13 @@ fixed_measurement fixed_measurement::root(int power) const
     return fixed_measurement(numericalRoot(value_, power), units_.root(power));
 }
 
+uncertain_measurement uncertain_measurement::root(int power) const
+{
+	auto new_value = numericalRoot(value_, power);
+	auto new_tol = new_value * uncertainty_ /(static_cast<float>((power >= 0) ? power : -power)* value_);
+	return uncertain_measurement(new_value,new_tol, units_.root(power));
+}
+
 precise_measurement precise_measurement::root(int power) const
 {
     return precise_measurement(numericalRoot(value_, power), units_.root(power));
