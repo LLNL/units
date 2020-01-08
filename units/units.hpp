@@ -352,7 +352,7 @@ class fixed_measurement {
         value_(val.value()), units_(val.units())
     {
     }
-    // define copy constructor but purposely leave off copy assignment and move since that would be pointless
+    // define copy constructor
     constexpr fixed_measurement(const fixed_measurement& val) noexcept :
         value_(val.value()), units_(val.units())
     {
@@ -363,6 +363,12 @@ class fixed_measurement {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
+	/// assignment operator treat it the same as a measurement
+	fixed_measurement& operator=(fixed_measurement val)
+	{
+		value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+		return *this;
+	}
     /// Assignment from number,  allow direct numerical assignment since the units are fixes and known at
     /// construction time
     fixed_measurement& operator=(double val)
@@ -372,6 +378,7 @@ class fixed_measurement {
     }
     /// direct conversion operator
     operator measurement() { return measurement(value_, units_); }
+
     /// Get the base value with no units
     constexpr double value() const { return value_; }
 

@@ -147,6 +147,9 @@ TEST(measurement, powroot)
     auto m0 = v1.root(0);
     EXPECT_EQ(m0.value(), 1.0);
     EXPECT_EQ(m0.units(), one);
+
+    measurement m4(16.0, m.pow(2));
+    EXPECT_EQ(sqrt(m4), measurement(4.0, m));
 }
 
 using namespace units;
@@ -255,6 +258,9 @@ TEST(fixedMeasurement, methods)
     EXPECT_TRUE(size == 1.2);
     EXPECT_TRUE(1.2 == size);
 
+    EXPECT_FALSE(size != 1.2);
+    EXPECT_FALSE(1.2 != size);
+
     EXPECT_TRUE(size >= f2);
     EXPECT_TRUE(size >= m3);
     EXPECT_TRUE(f2 >= size);
@@ -343,6 +349,9 @@ TEST(fixedMeasurement, powroot)
 
     auto m2 = v1.root(3);
     EXPECT_TRUE(m2 == m1);
+
+    fixed_measurement m4(16.0, m.pow(2));
+    EXPECT_TRUE(sqrt(m4)==fixed_measurement(4.0, m));
 }
 
 TEST(PreciseMeasurement, ops)
@@ -467,6 +476,8 @@ TEST(PreciseMeasurement, powroot)
 
     auto m2 = v1.root(3);
     EXPECT_TRUE(m2 == m1);
+    precise_measurement m4(16.0, precise::m.pow(2));
+    EXPECT_EQ(sqrt(m4), precise_measurement(4.0, precise::m));
 }
 
 using namespace units;
@@ -512,4 +523,7 @@ TEST(fixedPreciseMeasurement, powroot)
 
     auto m2 = v1.root(3);
     EXPECT_TRUE(m2 == m1);
+
+    fixed_precise_measurement m4(16.0, precise::m.pow(2));
+    EXPECT_TRUE(sqrt(m4)==fixed_precise_measurement(4.0, precise::m));
 }
