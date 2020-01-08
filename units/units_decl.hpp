@@ -41,8 +41,9 @@ namespace detail {
         }
         /** Construct with the error flag triggered*/
         explicit constexpr unit_data(std::nullptr_t) :
-            meter_(-8), second_(-8), kilogram_(-4), ampere_(-4), candela_(-2), kelvin_(-4), mole_(-2),
-            radians_(-4), currency_(-2), count_(-2), per_unit_(1), i_flag_(1), e_flag_(1), equation_(1)
+            meter_(-8), second_(-8), kilogram_(-4), ampere_(-4), candela_(-2), kelvin_(-4),
+            mole_(-2), radians_(-4), currency_(-2), count_(-2), per_unit_(1), i_flag_(1),
+            e_flag_(1), equation_(1)
         {
         }
 
@@ -643,17 +644,17 @@ class precise_unit {
         return base_units_ == other.base_units_ && commodity_ == other.commodity_ &&
             multiplier_ == other.multiplier_;
     }
-    /// Check if the units have the same base unit (ie they measure the same thing)
+    /// Check if the units have the same base unit (i.e. they measure the same thing)
     constexpr bool has_same_base(precise_unit other) const
     {
         return base_units_.has_same_base(other.base_units_);
     }
-    /// Check if the units have the same base unit (ie they measure the same thing)
+    /// Check if the units have the same base unit (i.e. they measure the same thing)
     constexpr bool has_same_base(unit other) const
     {
         return base_units_.has_same_base(other.base_units_);
     }
-    /// Check if the unis has the same base units as a unit_data object
+    /// Check if the units has the same base units as a unit_data object
     constexpr bool has_same_base(detail::unit_data base) const
     {
         return base_units_.has_same_base(base);
@@ -672,7 +673,7 @@ class precise_unit {
     }
     bool operator!=(unit other) const { return !operator==(other); }
 
-    /// Check if the units have the same base unit (ie they measure the same thing)
+    /// Check if the units have the same base unit (i.e. they measure the same thing)
     constexpr bool equivalent_non_counting(precise_unit other) const
     {
         return base_units_.equivalent_non_counting(other.base_units_);

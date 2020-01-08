@@ -25,6 +25,14 @@ TEST(uncertainOps, construction)
     EXPECT_FLOAT_EQ(um2.uncertainty(), 0.03F);
     EXPECT_EQ(um2.units(), in);
 
+    measurement mk(10.0, km);
+    measurement mku(10.0, m);
+    uncertain_measurement umk(mk, mku);
+
+    EXPECT_FLOAT_EQ(umk.value(), 10.0F);
+    EXPECT_FLOAT_EQ(umk.uncertainty(), 0.01F);
+    EXPECT_EQ(umk.units(), km);
+
     uncertain_measurement um3(um1);
     EXPECT_DOUBLE_EQ(um1.value(), um3.value());
     EXPECT_DOUBLE_EQ(um1.uncertainty(), um3.uncertainty());
@@ -169,4 +177,62 @@ TEST(uncertainOps, chemExample1)
     auto eps = absorb.rss_divide(conc.rss_product(path));
     EXPECT_NEAR(eps.value(), 0.013, 0.005);
     EXPECT_NEAR(eps.uncertainty(), 0.001, 0.0005);
+}
+
+TEST(uncertainOps, testuncertaintySetters)
+{
+    uncertain_measurement um1(13.71, 0.05, ton);
+
+    //this tests chaining
+    um1.uncertainty(0.08).uncertainty(0.07F);
+    EXPECT_FLOAT_EQ(um1.uncertainty(), 0.07F);
+    um1.uncertainty(25 * kg);
+    EXPECT_FLOAT_EQ(um1.uncertainty_as(kg), 25.0);
+}
+
+TEST(uncertainOps, testcomparison)
+{
+    uncertain_measurement um1(13.71, ton);
+
+    auto m1 = ton * 13.71;
+    EXPECT_TRUE(m1 == um1);
+    EXPECT_TRUE(um1 == m1);
+
+    EXPECT_FALSE(m1 != um1);
+    EXPECT_FALSE(um1 != um1);
+
+    //the multiplier is purposeful to get in the range float can represent
+    //but below the tolerance of measurement
+    m1 = m1 + 0.000001 * ton;
+
+    EXPECT_TRUE(m1 == um1);
+    EXPECT_TRUE(um1 == m1);
+
+    EXPECT_TRUE(m1 > um1);
+    EXPECT_FALSE(um1 > m1);
+
+    EXPECT_FALSE(m1 < um1);
+    EXPECT_TRUE(um1 < m1);
+
+    EXPECT_TRUE(m1 >= um1);
+    EXPECT_TRUE(um1 >= m1);
+
+    EXPECT_TRUE(um1 <= m1);
+    EXPECT_TRUE(m1 <= um1);
+
+    uncertain_measurement um2(m1, 0.0000005);
+    EXPECT_FALSE(um2 == um1);
+    EXPECT_FALSE(um1 == um2);
+
+    EXPECT_TRUE(um2 > um1);
+    EXPECT_FALSE(um1 > um2);
+
+    EXPECT_FALSE(um2 < um1);
+    EXPECT_TRUE(um1 < um2);
+
+    EXPECT_TRUE(um2 >= um1);
+    EXPECT_FALSE(um1 >= um2);
+
+    EXPECT_TRUE(um1 <= um2);
+    EXPECT_FALSE(um2 <= um1);
 }

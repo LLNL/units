@@ -576,6 +576,14 @@ class uncertain_measurement {
         value_(val), uncertainty_(uncertainty), units_(base)
     {
     }
+    /// construct from a single precision value, and unit assume uncertainty is 0
+    explicit constexpr uncertain_measurement(float val, unit base) : value_(val), units_(base) {}
+
+    /// construct from a double precision value, and unit assume uncertainty is 0
+    explicit constexpr uncertain_measurement(double val, unit base) :
+        value_(static_cast<float>(val)), units_(base)
+    {
+    }
     /// construct from a regular measurement and uncertainty value
     explicit constexpr uncertain_measurement(measurement val, float uncertainty) noexcept :
         value_(static_cast<float>(val.value())), uncertainty_(uncertainty), units_(val.units())
@@ -604,19 +612,51 @@ class uncertain_measurement {
     /// Get the uncertainty with no units
     constexpr double uncertainty() const { return static_cast<double>(uncertainty_); }
 
+    /// Set the uncertainty
+    uncertain_measurement& uncertainty(float newUncertainty)
+    {
+        uncertainty_ = newUncertainty;
+        return *this;
+    }
+    /// Set the uncertainty
+    uncertain_measurement& uncertainty(double newUncertainty)
+    {
+        uncertainty_ = static_cast<float>(newUncertainty);
+        return *this;
+    }
+    /// Set the uncertainty
+    uncertain_measurement& uncertainty(const measurement& newUncertainty)
+    {
+        uncertainty_ = static_cast<float>(newUncertainty.value_as(units_));
+        return *this;
+    }
+
     /// Get the fractional uncertainty with no units
     constexpr double fractional_uncertainty() const
     {
         return static_cast<double>(uncertainty_ / ((value_ > 0.0F) ? value_ : -value_));
     }
 
+    /// Get the uncertainty as a separate measurement
+    constexpr measurement uncertainty_measurement() const
+    {
+        return measurement(uncertainty_, units_);
+    }
+
+    /// Cast operator to a measurement
+    constexpr operator measurement() const
+    {
+        return measurement(static_cast<double>(value_), units_);
+    }
+
+    /** Perform a multiplication with uncertain measurements using the simple method for uncertainty propagation*/
     UNITS_CPP14_CONSTEXPR uncertain_measurement operator*(uncertain_measurement other) const
     {
         float ntol = uncertainty_ / value_ + other.uncertainty_ / other.value_;
         float nval = value_ * other.value_;
         return uncertain_measurement(nval, nval * ntol, units_ * other.units());
     }
-    /** compute a product and calculate the new uncertainties using the root sum of squares(rss) method*/
+    /** Compute a product and calculate the new uncertainties using the root sum of squares(rss) method*/
     uncertain_measurement rss_product(uncertain_measurement other) const
     {
         float tval1 = uncertainty_ / value_;
@@ -625,7 +665,8 @@ class uncertain_measurement {
         float nval = value_ * other.value_;
         return uncertain_measurement(nval, nval * ntol, units_ * other.units());
     }
-
+    /** Multiply with another measurement 
+	equivalent to uncertain_measurement multiplication with 0 uncertainty*/
     constexpr uncertain_measurement operator*(measurement other) const
     {
         return uncertain_measurement(
@@ -646,6 +687,8 @@ class uncertain_measurement {
     {
         return uncertain_measurement(value() * val, uncertainty() * val, units_);
     }
+    /** division operator propagate uncertainty using simple method allowing constexpr in C++14
+	*/
     UNITS_CPP14_CONSTEXPR uncertain_measurement operator/(uncertain_measurement other) const
     {
         float ntol = uncertainty_ / value_ + other.uncertainty_ / other.value_;
@@ -752,13 +795,17 @@ class uncertain_measurement {
         return (units_ == units) ? static_cast<double>(value_) :
                                    units::convert(static_cast<double>(value_), units_, units);
     }
+    /// Get the numerical value of the uncertainty as a particular unit
     double uncertainty_as(unit units) const
     {
         return (units_ == units) ? static_cast<double>(uncertainty_) :
                                    units::convert(static_cast<double>(uncertainty_), units_, units);
     }
+
     /// comparison operators
-    bool operator==(measurement other) const
+    /** the equality operator reverts to the measurement comparison if the uncertainty is 0 otherwise it returns true if the 
+	measurement that is being compared has a value within the 1 uncertainty of the value*/
+    bool operator==(const measurement& other) const
     {
         auto val = static_cast<float>(other.value_as(units_));
         if (uncertainty_ == 0.0F) {
@@ -767,53 +814,54 @@ class uncertain_measurement {
             return (val >= (value_ - uncertainty_) && val <= (value_ + uncertainty_));
         }
     }
-    bool operator>(measurement other) const
+    bool operator>(const measurement& other) const
     {
         return static_cast<double>(value_) > other.value_as(units_);
     }
-    bool operator<(measurement other) const
+    bool operator<(const measurement& other) const
     {
         return static_cast<double>(value_) < other.value_as(units_);
     }
-    bool operator>=(measurement other) const
+    bool operator>=(const measurement& other) const
     {
         auto val = other.value_as(units_);
         return (value() >= val) ? true : operator==(measurement(val, units_));
     }
-    bool operator<=(measurement other) const
+    bool operator<=(const measurement& other) const
     {
         auto val = other.value_as(units_);
         return (value() <= val) ? true : operator==(measurement(val, units_));
     }
     /// Not equal operator
-    bool operator!=(measurement other) const { return !operator==(other); }
+    bool operator!=(const measurement& other) const { return !operator==(other); }
 
     bool operator==(const uncertain_measurement& other) const
     {
         auto zval = operator-(other);
         return (zval == measurement(0.0, units_));
     }
-    bool operator>(uncertain_measurement other) const
+    bool operator>(const uncertain_measurement& other) const
     {
         return static_cast<double>(value_) > other.value_as(units_);
     }
-    bool operator<(uncertain_measurement other) const
+    bool operator<(const uncertain_measurement& other) const
     {
         return static_cast<double>(value_) < other.value_as(units_);
     }
-    bool operator>=(uncertain_measurement other) const
+    bool operator>=(const uncertain_measurement& other) const
     {
         auto zval = operator-(other);
         return (zval.value_ >= 0.0F) ? true : (zval == measurement(0.0, units_));
     }
-    bool operator<=(uncertain_measurement other) const
+    bool operator<=(const uncertain_measurement& other) const
     {
         auto zval = operator-(other);
-        return (value_ <= 0.0F) ? true : (zval == measurement(0.0, units_));
+        return (zval.value_ <= 0.0F) ? true : (zval == measurement(0.0, units_));
     }
     /// Not equal operator
-    bool operator!=(uncertain_measurement other) const { return !operator==(other); }
+    bool operator!=(const uncertain_measurement& other) const { return !operator==(other); }
 
+    /// operator for measurement =
     friend bool operator==(const measurement& other, const uncertain_measurement& v2)
     {
         return v2 == other;
