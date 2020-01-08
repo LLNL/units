@@ -352,13 +352,19 @@ class fixed_measurement {
         value_(val.value()), units_(val.units())
     {
     }
-    // define copy constructor but purposely leave off copy assignment and move since that would be pointless
+    // define copy constructor
     constexpr fixed_measurement(const fixed_measurement& val) noexcept :
         value_(val.value()), units_(val.units())
     {
     }
     /// assignment operator
     fixed_measurement& operator=(measurement val)
+    {
+        value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+        return *this;
+    }
+    /// assignment operator treat it the same as a measurement
+    fixed_measurement& operator=(fixed_measurement val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -372,6 +378,7 @@ class fixed_measurement {
     }
     /// direct conversion operator
     operator measurement() { return measurement(value_, units_); }
+
     /// Get the base value with no units
     constexpr double value() const { return value_; }
 
@@ -930,6 +937,27 @@ constexpr measurement measurement_cast(measurement measure)
 }
 
 #ifndef UNITS_HEADER_ONLY
+
+inline measurement sqrt(const measurement& meas)
+{
+    return meas.root(2);
+}
+
+inline precise_measurement sqrt(const precise_measurement& meas)
+{
+    return meas.root(2);
+}
+
+inline fixed_measurement sqrt(const fixed_measurement& meas)
+{
+    return meas.root(2);
+}
+
+inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
+{
+    return meas.root(2);
+}
+
 /** The unit conversion flag are some modifiers for the string conversion operations,
 some are used internally some are meant for external use, though all are possible to use externally
 */

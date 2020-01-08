@@ -12,7 +12,7 @@ A library that provides runtime unit values, instead of individual unit types, f
 This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress.  Namespaces, function names, and code organization is subject to change, input is welcome.    
 
 ## Purpose
-A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Because sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
+A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units, often represented by strings, to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
 
 It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units.  The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that.  This library does **NOT** provide compile time checking of units.  The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time, and may be of a wide variety of units.  
 
@@ -203,6 +203,7 @@ These functions are not class methods but operate on units
 -   `bool is_valid(<unit>)`  check to make sure the unit is not an invalid unit( the multiplier is not a NaN) and the unit_data does not match the defined `invalid_unit`.
 -   ` bool is_temperature(<unit>)`  return true if the unit is a temperature unit such as `F` or `C` or one of the other temperature units.
 -   `bool is_normal(<unit>)` return true if the multiplier is a normal number, there is some defined unit base, not the identity unit, the multiplier is not negative, and not the default unit.  basically a simple way to check if you have some non-special unit that will behave more or less how you expect it to.  
+-   `<unit> sqrt(<unit>)` convenience function for taking the sqrt of a unit.
 
 ### Measurement Operations
 -   `<measurement>(val, <unit>)`  construct a unit from a value and unit object.  
@@ -212,6 +213,8 @@ These functions are not class methods but operate on units
 -   `<unit> units() const`  get the units used as a basis for the measurement
 -   `<unit> as_unit() const`  take the measurement as is and convert it into a single unit.  For Examples say a was 10 m.    calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
 -   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit>
+-   `<measurement> root(int)` generate a root of a measurement
+-   `<measurement> pow(int)`  generate a measurement which is a specific power of another measurement
 
 #### Measurement operators
 There are several operator overloads which work on measurements or units to produce measurements.
@@ -231,6 +234,7 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 
 -   `measurement measurement_cast(<measurement>)`  convert a precise_measurement into measurement
 -   `fixed_measurement measurement_cast(fixed_precise_measurement)`  convert a fixed_precise_measurement into a fixed_measurement
+-   `<measurement>  sqrt(<measurement>)`  take the square root of a measurement,  the units need to have a valid root.  
 
 ### Available library functions
 
