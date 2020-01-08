@@ -351,7 +351,7 @@ TEST(fixedMeasurement, powroot)
     EXPECT_TRUE(m2 == m1);
 
     fixed_measurement m4(16.0, m.pow(2));
-    EXPECT_TRUE(sqrt(m4)==fixed_measurement(4.0, m));
+    EXPECT_TRUE(sqrt(m4) == fixed_measurement(4.0, m));
 }
 
 TEST(PreciseMeasurement, ops)
@@ -525,5 +525,5 @@ TEST(fixedPreciseMeasurement, powroot)
     EXPECT_TRUE(m2 == m1);
 
     fixed_precise_measurement m4(16.0, precise::m.pow(2));
-    EXPECT_TRUE(sqrt(m4)==fixed_precise_measurement(4.0, precise::m));
+    EXPECT_TRUE(sqrt(m4) == fixed_precise_measurement(4.0, precise::m));
 }

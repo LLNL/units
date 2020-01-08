@@ -70,7 +70,7 @@ TEST(unitOps, root)
     auto m2 = m.pow(2);
     EXPECT_EQ(m, m2.root(2));
 
-	EXPECT_EQ(m, sqrt(m2));
+    EXPECT_EQ(m, sqrt(m2));
 
     auto m4 = m.pow(4);
     EXPECT_EQ(m * m, m4.root(2));
@@ -317,7 +317,7 @@ TEST(preciseUnitOps, root)
     EXPECT_EQ(precise::m.inv(), m1.root(-1));
     auto m2 = precise::m.pow(2);
     EXPECT_EQ(precise::m, m2.root(2));
-	EXPECT_EQ(precise::m, sqrt(m2));
+    EXPECT_EQ(precise::m, sqrt(m2));
     auto m4 = precise::m.pow(4);
     EXPECT_EQ(precise::m * precise::m, m4.root(2));
     EXPECT_EQ(precise::m, m4.root(4));

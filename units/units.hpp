@@ -363,12 +363,12 @@ class fixed_measurement {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
-	/// assignment operator treat it the same as a measurement
-	fixed_measurement& operator=(fixed_measurement val)
-	{
-		value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
-		return *this;
-	}
+    /// assignment operator treat it the same as a measurement
+    fixed_measurement& operator=(fixed_measurement val)
+    {
+        value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+        return *this;
+    }
     /// Assignment from number,  allow direct numerical assignment since the units are fixes and known at
     /// construction time
     fixed_measurement& operator=(double val)
@@ -938,24 +938,24 @@ constexpr measurement measurement_cast(measurement measure)
 
 #ifndef UNITS_HEADER_ONLY
 
-inline measurement sqrt(const measurement &meas)
+inline measurement sqrt(const measurement& meas)
 {
-	return meas.root(2);
+    return meas.root(2);
 }
 
-inline precise_measurement sqrt(const precise_measurement &meas)
+inline precise_measurement sqrt(const precise_measurement& meas)
 {
-	return meas.root(2);
+    return meas.root(2);
 }
 
-inline fixed_measurement sqrt(const fixed_measurement &meas)
+inline fixed_measurement sqrt(const fixed_measurement& meas)
 {
-	return meas.root(2);
+    return meas.root(2);
 }
 
-inline fixed_precise_measurement sqrt(const fixed_precise_measurement &meas)
+inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
 {
-	return meas.root(2);
+    return meas.root(2);
 }
 
 /** The unit conversion flag are some modifiers for the string conversion operations,
