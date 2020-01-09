@@ -1337,6 +1337,11 @@ inline fixed_measurement sqrt(const fixed_measurement& meas)
     return meas.root(2);
 }
 
+inline uncertain_measurement sqrt(const uncertain_measurement& meas)
+{
+    return meas.root(2);
+}
+
 inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
 {
     return meas.root(2);

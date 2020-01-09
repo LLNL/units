@@ -134,6 +134,10 @@ TEST(uncertainOps, pow1)
     EXPECT_NEAR(z.value(), 28.765, 0.0005);
     EXPECT_NEAR(z.uncertainty(), 13.07, 0.005);
 
+    auto z2 = w * y.pow(2) / sqrt(Av);
+    EXPECT_NEAR(z2.value(), 28.765, 0.0005);
+    EXPECT_NEAR(z2.uncertainty(), 13.07, 0.005);
+
     auto zs = w.rss_product(y.pow(2)).rss_divide(Av.root(2));
     EXPECT_NEAR(zs.value(), 29, 0.5);
     EXPECT_NEAR(zs.uncertainty(), 12, 0.5);
@@ -235,4 +239,34 @@ TEST(uncertainOps, testcomparison)
 
     EXPECT_TRUE(um1 <= um2);
     EXPECT_FALSE(um2 <= um1);
+}
+
+// Next 2 Examples from http://ipl.physics.harvard.edu/wp-uploads/2013/03/PS3_Error_Propagation_sp13.pdf
+
+TEST(uncertainOps, testInv)
+{
+    uncertain_measurement Tp(0.2, 0.01, s);
+    auto f = 1 / Tp;
+    EXPECT_NEAR(f.uncertainty(), 0.25, 0.005);
+    EXPECT_NEAR(f.value(), 5.0, 0.05);
+    EXPECT_EQ(f.units(), s.inv());
+}
+
+TEST(uncertainOps, testHeight)
+{
+    uncertain_measurement v0(4.0, 0.2, m / s);
+    uncertain_measurement t(0.6, 0.06, s);
+    measurement gc = 9.8 * m / s.pow(2);
+
+    auto y = v0 * t - 0.5 * gc * t.pow(2);
+
+    auto ys = v0.rss_product(t).rss_subtract(0.5 * gc * t.pow(2));
+
+    EXPECT_NEAR(y.uncertainty(), 0.712, 0.005);
+    EXPECT_NEAR(y.value(), 0.636, 0.0005);
+    EXPECT_EQ(y.units(), m);
+
+    EXPECT_NEAR(ys.uncertainty(), 0.44, 0.005);
+    EXPECT_NEAR(ys.value(), 0.636, 0.0005);
+    EXPECT_EQ(ys.units(), m);
 }
