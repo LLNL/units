@@ -19,6 +19,7 @@
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
 #include <boost/config.hpp>
+#include <boost/container/flat_map.hpp>
 #include <cstdlib>
 #include <fstream>
 #include <functional>
@@ -27,7 +28,6 @@
 #include <streambuf>
 #include <string>
 #include <thread>
-#include <unordered_map>
 #include <vector>
 
 #include "units/units.hpp"
@@ -40,7 +40,7 @@ using tcp = boost::asio::ip::tcp; // from <boost/asio/ip/tcp.hpp>
 static std::string conversion_page;
 static std::string response_page;
 
-static std::string url_decode(std::string str)
+static std::string uri_decode(std::string str)
 {
     std::string ret;
     size_t len = str.length();
@@ -61,10 +61,10 @@ static std::string url_decode(std::string str)
     return ret;
 }
 
-static std::pair<std::string, std::unordered_map<std::string, std::string>>
+static std::pair<std::string, boost::container::flat_map<std::string, std::string>>
     process_request_parameters(std::string target, std::string body)
 {
-    std::pair<std::string, std::unordered_map<std::string, std::string>> results;
+    std::pair<std::string, boost::container::flat_map<std::string, std::string>> results;
     auto param_mark = target.find('?');
     if (param_mark != std::string::npos) {
         results.first = target.substr(1, param_mark);
@@ -103,7 +103,7 @@ static std::pair<std::string, std::unordered_map<std::string, std::string>>
 
     for (auto& param : parameters) {
         auto eq_loc = param.find_first_of('=');
-        results.second[param.substr(0, eq_loc)] = url_decode(param.substr(eq_loc + 1));
+        results.second[param.substr(0, eq_loc)] = uri_decode(param.substr(eq_loc + 1));
     }
     return results;
 }
