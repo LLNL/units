@@ -111,7 +111,7 @@ TEST(unitStrings, nan)
 {
     EXPECT_EQ(to_string(precise::error), "ERROR");
 
-    EXPECT_EQ(to_string(precise::invalid), "ERROR");
+    EXPECT_EQ(to_string(precise::invalid), "NaN*ERROR");
     auto nanunit = precise_unit(std::numeric_limits<double>::quiet_NaN(), precise::one);
     auto res = to_string(nanunit);
     EXPECT_EQ(res, "NaN");

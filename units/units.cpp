@@ -23,12 +23,6 @@ SPDX-License-Identifier: BSD-3-Clause
 references http://people.csail.mit.edu/jaffer/MIXF/MIXF-08
 */
 
-#if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1300)
-#define UPTCONST constexpr
-#else
-#define UPTCONST const
-#endif
-
 namespace units {
 
 template<typename X>
@@ -88,6 +82,14 @@ measurement measurement::root(int power) const
 fixed_measurement fixed_measurement::root(int power) const
 {
     return fixed_measurement(numericalRoot(value_, power), units_.root(power));
+}
+
+uncertain_measurement uncertain_measurement::root(int power) const
+{
+    auto new_value = numericalRoot(value_, power);
+    auto new_tol =
+        new_value * uncertainty_ / (static_cast<float>((power >= 0) ? power : -power) * value_);
+    return uncertain_measurement(new_value, new_tol, units_.root(power));
 }
 
 precise_measurement precise_measurement::root(int power) const
@@ -270,7 +272,7 @@ static const umap base_unit_names{
     {unit_cast(precise::data::KiB), "KiB"},
     {unit_cast(precise::data::MiB), "MiB"},
     {unit_cast(precise::us::dry::bushel), "bu"},
-    {unit_cast(precise::us::floz), "fl oz"},
+    {unit_cast(precise::us::floz), "floz"},
     {oz, "oz"},
     {unit_cast(precise::distance::angstrom), u8"\u00C5"},
     {g, "g"},
@@ -285,34 +287,34 @@ static const umap base_unit_names{
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
-static UPTCONST std::array<ustr, 22> testUnits{{ustr{precise::m, "m"},
-                                                ustr{precise::s, "s"},
-                                                ustr{precise::ms, "ms"},
-                                                ustr{precise::min, "min"},
-                                                ustr{precise::hr, "hr"},
-                                                ustr{precise::time::day, "day"},
-                                                ustr{precise::lb, "lb"},
-                                                ustr{precise::ft, "ft"},
-                                                ustr{precise::ft.pow(2), "ft^2"},
-                                                ustr{precise::ft.pow(3), "ft^3"},
-                                                ustr{precise::m.pow(2), "m^2"},
-                                                ustr{precise::L, "L"},
-                                                ustr{precise::kg, "kg"},
-                                                ustr{precise::km, "km"},
-                                                ustr{precise::currency, "$"},
-                                                ustr{precise::volt, "V"},
-                                                ustr{precise::watt, "W"},
-                                                ustr{precise::kW, "kW"},
-                                                ustr{precise::mW, "mW"},
-                                                ustr{precise::MW, "MW"},
-                                                ustr{precise::s.pow(2), "s^2"},
-                                                ustr{precise::count, "item"}}};
+static UNITS_CPP14_CONSTEXPR std::array<ustr, 22> testUnits{{ustr{precise::m, "m"},
+                                                             ustr{precise::s, "s"},
+                                                             ustr{precise::ms, "ms"},
+                                                             ustr{precise::min, "min"},
+                                                             ustr{precise::hr, "hr"},
+                                                             ustr{precise::time::day, "day"},
+                                                             ustr{precise::lb, "lb"},
+                                                             ustr{precise::ft, "ft"},
+                                                             ustr{precise::ft.pow(2), "ft^2"},
+                                                             ustr{precise::ft.pow(3), "ft^3"},
+                                                             ustr{precise::m.pow(2), "m^2"},
+                                                             ustr{precise::L, "L"},
+                                                             ustr{precise::kg, "kg"},
+                                                             ustr{precise::km, "km"},
+                                                             ustr{precise::currency, "$"},
+                                                             ustr{precise::volt, "V"},
+                                                             ustr{precise::watt, "W"},
+                                                             ustr{precise::kW, "kW"},
+                                                             ustr{precise::mW, "mW"},
+                                                             ustr{precise::MW, "MW"},
+                                                             ustr{precise::s.pow(2), "s^2"},
+                                                             ustr{precise::count, "item"}}};
 
 // complex units used to reduce unit complexity
-static UPTCONST std::array<ustr, 4> creduceUnits{{ustr{precise::V.inv(), "V*"},
-                                                  ustr{precise::V, "V^-1*"},
-                                                  ustr{precise::W, "W^-1*"},
-                                                  ustr{precise::W.inv(), "W*"}}};
+static UNITS_CPP14_CONSTEXPR std::array<ustr, 4> creduceUnits{{ustr{precise::V.inv(), "V*"},
+                                                               ustr{precise::V, "V^-1*"},
+                                                               ustr{precise::W, "W^-1*"},
+                                                               ustr{precise::W.inv(), "W*"}}};
 
 // thought about making this constexpr array, but the problem is that runtime floats are not guaranteed to be the
 // same as compile time floats
@@ -517,7 +519,11 @@ static std::string generateRawUnitString(precise_unit un)
     addUnitPower(val, "$", un.base_units().currency());
     addUnitPower(val, "rad", un.base_units().radian());
     if (un.base_units().has_i_flag()) {
-        val.append("*flag");
+        if (val.empty()) {
+            val = "flag";
+        } else {
+            val.append("*flag");
+        }
     }
     if (un.base_units().has_e_flag()) {
         val.insert(0, "eflag*");
@@ -574,7 +580,7 @@ static void escapeString(std::string& str)
 std::string clean_unit_string(std::string propUnitString, uint32_t commodity)
 {
     using spair = std::tuple<const char*, const char*, int, int>;
-    static UPTCONST std::array<spair, 8> powerseq{{
+    static UNITS_CPP14_CONSTEXPR std::array<spair, 8> powerseq{{
         spair{"Mm^3", "(1e9km^3)", 4, 8}, // this needs to happen before ^3^2 conversions
         spair{"^2^2", "^4", 4, 2},
         spair{"^3^2", "^6", 4, 2},
@@ -690,7 +696,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         } else if (std::isnan(un.multiplier())) {
             un = precise_unit(un.base_units(), 1.0);
             if (is_error(un)) {
-                return "ERROR";
+                return "NaN*ERROR";
             }
             if (un == precise::one) {
                 return "NaN";
@@ -1038,7 +1044,7 @@ static constexpr uint16_t charindex(char ch1, char ch2)
 static double getPrefixMultiplier2Char(char c1, char c2)
 {
     using cpair = std::pair<uint16_t, double>;
-    static UPTCONST std::array<cpair, 21> char2prefix{{
+    static UNITS_CPP14_CONSTEXPR std::array<cpair, 21> char2prefix{{
         cpair{charindex('D', 'A'), 10.0},
         cpair{charindex('E', 'X'), 1e18},
         cpair{charindex('E', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
@@ -1223,7 +1229,7 @@ https://physics.nist.gov/cuu/Units/prefixes.html
 https://physics.nist.gov/cuu/Units/binary.html
 */
 using utup = std::tuple<const char*, double, int>;
-static UPTCONST std::array<utup, 27> prefixWords{{
+static UNITS_CPP14_CONSTEXPR std::array<utup, 27> prefixWords{{
     utup{"atto", 1e-18, 4},
     utup{"centi", 0.01, 5},
     utup{"deca", 10.0, 4},
@@ -1291,7 +1297,7 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UPTCONST std::array<modSeq, 26> modifiers{{
+    static UNITS_CPP14_CONSTEXPR std::array<modSeq, 26> modifiers{{
         modSeq{"cubic", "^3", 5, modifier::start_tail},
         modSeq{"reciprocal", "^-1", 10, modifier::start_tail},
         modSeq{"reciprocal", "^-1", 10, modifier::tail_replace},
@@ -1372,10 +1378,10 @@ static bool wordModifiers(std::string& unit)
                             unit.replace(fnd, std::get<2>(mod), "*");
                         } else {
                             // this path cannot currently be executed due to the limited use of the type but others may be
-                            // added in the fugure that might trigger it
+                            // added in the future that might trigger it
                             // LCOV_EXCL_START
                             unit.erase(0, std::get<2>(mod));
-                            // LCOV_EXCL_END
+                            // LCOV_EXCL_STOP
                         }
                         unit.append(std::get<1>(mod));
                         return true;
@@ -1409,7 +1415,7 @@ using ckpair = std::pair<const char*, const char*>;
 
 static precise_unit localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UPTCONST std::array<ckpair, 39> internationlReplacements{{
+    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 39> internationlReplacements{{
         ckpair{"internationaltable", "_IT"},
         ckpair{"internationalsteamtable", "_IT"},
         ckpair{"international", "_i"},
@@ -3490,7 +3496,7 @@ static char getMatchCharacter(char mchar)
     }
     return mchar;
 }
-// LCOV_EXCL_END
+// LCOV_EXCL_STOP
 
 // This function is only used in a few locations which is after a primary segment check which should catch the fail
 // checks before this function is called
@@ -3502,7 +3508,7 @@ static bool segmentcheckReverse(const std::string& unit, char closeSegment, int&
     if (index >= static_cast<int>(unit.size())) {
         // LCOV_EXCL_START
         return false;
-        // LCOV_EXCL_END
+        // LCOV_EXCL_STOP
     }
     while (index >= 0) {
         char current = unit[index];
@@ -3521,7 +3527,7 @@ static bool segmentcheckReverse(const std::string& unit, char closeSegment, int&
                 if (!segmentcheckReverse(unit, getMatchCharacter(current), index)) {
                     // LCOV_EXCL_START
                     return false;
-                    // LCOV_EXCL_END
+                    // LCOV_EXCL_STOP
                 }
                 break;
             case '{':
@@ -3534,7 +3540,7 @@ static bool segmentcheckReverse(const std::string& unit, char closeSegment, int&
     }
     // LCOV_EXCL_START
     return false;
-    // LCOV_EXCL_END
+    // LCOV_EXCL_STOP
 }
 
 // do a segment check in the forward direction
@@ -3601,7 +3607,7 @@ static precise_unit commoditizedUnit(const std::string& unit_string, uint32_t ma
         // in case
         // LCOV_EXCL_START
         return precise::invalid;
-        // LCOV_EXCL_END
+        // LCOV_EXCL_STOP
     }
     auto ccindex = static_cast<int>(finish) - 1;
     segmentcheckReverse(unit_string, '{', ccindex);
@@ -3619,6 +3625,12 @@ static precise_unit commoditizedUnit(const std::string& unit_string, uint32_t ma
     }
     return precise::invalid;
 }
+// do a check if there are additional operations outside of brackets
+static bool hasAdditionalOps(const std::string& unit_string)
+{
+    return (unit_string.find_last_of("*^(/", unit_string.find_last_of('{')) != std::string::npos) ||
+        (unit_string.find_first_of("*^(/", unit_string.find_last_of('}')) != std::string::npos);
+}
 
 static precise_unit get_unit(const std::string& unit_string)
 {
@@ -3635,21 +3647,33 @@ static precise_unit get_unit(const std::string& unit_string)
     auto c = unit_string.front();
     if ((c == 'C' || c == 'E') && unit_string.size() >= 6) {
         size_t index;
-        // we want to make sure there are no operations before the commodity
-        if (unit_string.find_last_of("*^(/", unit_string.find_last_of('{')) == std::string::npos) {
-            if (unit_string.compare(0, 5, "CXUN[") == 0) {
-                auto num = static_cast<unsigned short>(atoi(unit_string.c_str() + 5));
-                return commoditizedUnit(unit_string, precise::generate_custom_unit(num), index);
+        if (unit_string.compare(0, 5, "CXUN[") == 0) {
+            if (!hasAdditionalOps(unit_string)) {
+                char* ptr = nullptr;
+                auto num = static_cast<unsigned short>(strtol(unit_string.c_str() + 5, &ptr, 0));
+                if (*ptr == ']') {
+                    return commoditizedUnit(unit_string, precise::generate_custom_unit(num), index);
+                }
             }
-            if (unit_string.compare(0, 6, "CXCUN[") == 0) {
-                auto num = static_cast<unsigned short>(atoi(unit_string.c_str() + 6));
-                return commoditizedUnit(
-                    unit_string, precise::generate_custom_count_unit(num), index);
+        }
+        if (unit_string.compare(0, 6, "CXCUN[") == 0) {
+            if (!hasAdditionalOps(unit_string)) {
+                char* ptr = nullptr;
+                auto num = static_cast<unsigned short>(strtol(unit_string.c_str() + 6, &ptr, 0));
+                if (*ptr == ']') {
+                    return commoditizedUnit(
+                        unit_string, precise::generate_custom_count_unit(num), index);
+                }
             }
-            if (unit_string.compare(0, 6, "EQXUN[") == 0) {
-                auto num = static_cast<unsigned short>(atoi(unit_string.c_str() + 6));
-                return commoditizedUnit(
-                    unit_string, precise_unit(precise::custom::equation_unit(num)), index);
+        }
+        if (unit_string.compare(0, 6, "EQXUN[") == 0) {
+            if (!hasAdditionalOps(unit_string)) {
+                char* ptr = nullptr;
+                auto num = static_cast<unsigned short>(strtol(unit_string.c_str() + 6, &ptr, 0));
+                if (*ptr == ']') {
+                    return commoditizedUnit(
+                        unit_string, precise_unit(precise::custom::equation_unit(num)), index);
+                }
             }
         }
     }
@@ -3689,7 +3713,7 @@ static bool looksLikeInteger(const std::string& string)
     if (string.empty()) {
         // LCOV_EXCL_START
         return false;
-        // LCOV_EXCL_END
+        // LCOV_EXCL_STOP
     }
     size_t index = 0;
     if (string[0] == '-' || string[0] == '+') {
@@ -3723,6 +3747,9 @@ static void removeOuterParenthesis(std::string& ustring)
         if (ustring.find_first_of(')', 1) == ustring.size() - 1) {
             ustring.pop_back();
             ustring.erase(ustring.begin());
+            if (ustring.empty()) {
+                return;
+            }
             continue;
         }
         int open = 1;
@@ -3762,7 +3789,7 @@ static size_t findOperatorSep(const std::string& ustring, std::string operators)
         // this should not happen
         // LCOV_EXCL_START
         sep = std::string::npos;
-        // LCOV_EXCL_END
+        // LCOV_EXCL_STOP
     }
     return sep;
 }
@@ -3796,7 +3823,7 @@ static size_t findWordOperatorSep(const std::string& ustring, const std::string&
             // this should not happen as it would mean the operator separator didn't function properly
             // LCOV_EXCL_START
             return sep;
-            // LCOV_EXCL_END
+            // LCOV_EXCL_STOP
         }
         auto cchar = getMatchCharacter(ustring[lbrack]);
         --lbrack;
@@ -4150,7 +4177,7 @@ static void htmlCodeReplacement(std::string& unit_string)
 /// do some unicode replacement (unicode in the loose sense any characters not in the basic ascii set)
 static bool unicodeReplacement(std::string& unit_string)
 {
-    static UPTCONST std::array<ckpair, 45> ucodeReplacements{{
+    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 45> ucodeReplacements{{
         ckpair{u8"\u00d7", "*"},
         ckpair{u8"\u00f7", "/"}, // division sign
         ckpair{u8"\u00b7", "*"},
@@ -4220,7 +4247,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
 
-    static UPTCONST std::array<ckpair, 25> allCodeReplacements{{
+    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 25> allCodeReplacements{{
         ckpair{"sq.", "square"},
         ckpair{"cu.", "cubic"},
         ckpair{"(US)", "US"},
@@ -4315,7 +4342,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
         if (unit_string.empty()) {
             // LCOV_EXCL_START
             return true;
-            // LCOV_EXCL_END
+            // LCOV_EXCL_STOP
         }
 
         // 10*num usually means a power of 10
@@ -4340,6 +4367,9 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
     }
     if (unit_string.front() == '(') {
         removeOuterParenthesis(unit_string);
+        if (unit_string.empty()) {
+            return true;
+        }
     }
 
     if (!skipcodereplacement) {
@@ -4459,7 +4489,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
                 case '>':
                     fnd = unit_string.find_first_of(")]}", fnd + 1);
                     break;
-                case 'o': { // handle special case of commodity modifier using "of"
+                case 'o': // handle special case of commodity modifier using "of"
                     if (unit_string.size() > fnd + 3) {
                         auto tc2 = unit_string[fnd + 3];
                         if (unit_string[fnd + 2] == 'f' && tc2 != ')' && tc2 != ']' && tc2 != '}') {
@@ -4470,7 +4500,6 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
                     unit_string.insert(fnd + 1, 1, '*');
                     fnd = unit_string.find_first_of(")]}", fnd + 3);
                     break;
-                }
                 case '{':
                     if (unit_string[fnd] != '}') {
                         fnd = unit_string.find_first_of(")]}", fnd + 1);
@@ -4514,7 +4543,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
     if (!skipcodereplacement) { // make everything inside {} lower case
         auto bloc = unit_string.find_first_of('{');
         while (bloc != std::string::npos) {
-            size_t ind = bloc + 1;
+            auto ind = bloc + 1;
             if (segmentcheck(unit_string, '}', ind)) {
                 std::transform(
                     unit_string.begin() + bloc + 1,
@@ -4900,7 +4929,7 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 // the check function should catch this but it would be problematic if not not caught
                 // LCOV_EXCL_START
                 return precise::invalid;
-                // LCOV_EXCL_END
+                // LCOV_EXCL_STOP
             }
         } else {
             if (isDigitCharacter(c1)) {
@@ -5296,6 +5325,33 @@ precise_measurement measurement_from_string(std::string measurement_string, uint
     }
     */
     return {val, precise::invalid};
+}
+
+uncertain_measurement
+    uncertain_measurement_from_string(std::string measurement_string, uint32_t match_flags)
+{
+    //first task is to find the +/-
+    static UNITS_CPP14_CONSTEXPR std::array<const char*, 9> pmsequences{
+        "+/-", "\xB1", u8"\u00B1", "&plusmn;", "+-", "<u>+</u>", "&#xB1;", "&pm;", " \\pm "};
+
+    for (auto pmseq : pmsequences) {
+        auto loc = measurement_string.find(pmseq);
+        if (loc != std::string::npos) {
+            auto p1 = measurement_string.substr(0, loc);
+            auto m1 = measurement_cast_from_string(p1, match_flags);
+            auto p2 = measurement_string.substr(loc + strlen(pmseq));
+            auto m2 = measurement_cast_from_string(p2, match_flags);
+            if (m1.units() == one) {
+                return uncertain_measurement(m1.value(), m2.value(), unit_cast(m2.units()));
+            } else if (m2.units() == one) {
+                return uncertain_measurement(m1, m2.value());
+            } else {
+                return uncertain_measurement(m1, m2);
+            }
+        }
+    }
+    return uncertain_measurement(
+        measurement_cast_from_string(measurement_string, match_flags), 0.0F);
 }
 
 // Mostly from https://en.wikipedia.org/wiki/International_System_of_Units

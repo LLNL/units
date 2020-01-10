@@ -13,17 +13,18 @@ set(UNITS_TESTS
     test_conversions2
     test_equation_units
     test_measurement
-	test_pu
+    test_pu
     test_random_round_trip
     test_ucum
     test_udunits
     test_unit_ops
     test_unit_strings
-	test_measurement_strings
-	test_commodities
-	test_leadingNumbers
+    test_measurement_strings
+    test_commodities
+    test_leadingNumbers
+    test_uncertain_measurements
     )
-	
+
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
 
 foreach(T ${UNITS_TESTS})
@@ -47,13 +48,18 @@ target_include_directories(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
 if (NOT MSVC)
     target_compile_options(test_ucum PRIVATE -Wno-double-promotion)
-	target_compile_options(test_udunits PRIVATE -Wno-double-promotion)
+    target_compile_options(test_udunits PRIVATE -Wno-double-promotion)
 endif()
 add_executable(examples_test examples_test.cpp)
 target_link_libraries(examples_test PRIVATE units::units)
 target_compile_definitions(examples_test PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS})
 set_target_properties(examples_test PROPERTIES FOLDER "Tests")
 add_test(examples_test examples_test)
+
+add_executable(test_all_unit_base test_all_unit_base.cpp)
+target_link_libraries(test_all_unit_base gtest gmock gtest_main units::units compile_flags_target)
+set_target_properties(test_all_unit_base PROPERTIES FOLDER "Tests")
+# test_all_unit_base should not be added to the tests it will take a long time run
 
 if(CMAKE_BUILD_TYPE STREQUAL Coverage)
     include(CodeCoverage)
@@ -62,6 +68,6 @@ if(CMAKE_BUILD_TYPE STREQUAL Coverage)
         EXECUTABLE ctest
         DEPENDENCIES
           ${UNITS_TESTS}
-		  examples_test
+          examples_test
           )
 endif()

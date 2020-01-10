@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-project(UNITS LANGUAGES CXX VERSION 0.2.0)
+project(UNITS LANGUAGES CXX VERSION 0.3.0)
 include(CMakeDependentOption)
 include(CTest)
 

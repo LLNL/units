@@ -134,7 +134,7 @@ namespace precise {
     constexpr precise_unit defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0));
     constexpr precise_unit invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
-    /// Define a unitless number
+    /// Define some unitless numbers
     constexpr precise_unit one;
     constexpr precise_unit hundred = precise_unit(100.0, one);
     constexpr precise_unit ten = precise_unit(10.0, one);
@@ -1302,21 +1302,24 @@ constexpr inline bool is_default(unit utest)
     return (utest.multiplier() == 1.0 && (utest.base_units() == defunit.base_units()));
 }
 
-/// Check if the unit has an error
+/// Define a unitless number
+constexpr unit one;
+constexpr unit infinite = unit_cast(precise::infinite);
+constexpr unit error = unit_cast(precise::error);
+constexpr unit ratio = one;
+constexpr unit percent = unit_cast(precise::percent);
+
+/// Check if the unit has an error (NaN multiplier or error base units)
 constexpr inline bool is_error(precise_unit utest)
 {
     return (
         utest.multiplier() != utest.multiplier() ||
-        (utest.base_units().has_e_flag() && utest.base_units().has_i_flag() &&
-         utest.base_units().empty()));
+        utest.base_units() == precise::error.base_units());
 }
-/// Check if the unit has an error
+/// Check if the unit has an error  (NaN multiplier or error base units)
 constexpr inline bool is_error(unit utest)
 {
-    return (
-        utest.multiplier() != utest.multiplier() ||
-        (utest.base_units().has_e_flag() && utest.base_units().has_i_flag() &&
-         utest.base_units().empty()));
+    return (utest.multiplier() != utest.multiplier() || utest.base_units() == error.base_units());
 }
 /// Check if the unit is a valid unit
 constexpr inline bool is_valid(precise_unit utest)
@@ -1331,13 +1334,6 @@ constexpr inline bool is_valid(unit utest)
     return !(
         (utest.multiplier() != utest.multiplier()) && (utest.base_units() == invalid.base_units()));
 }
-
-/// Define a unitless number
-constexpr unit one;
-constexpr unit infinite = unit_cast(precise::infinite);
-constexpr unit error = unit_cast(precise::error);
-constexpr unit ratio = one;
-constexpr unit percent = unit_cast(precise::percent);
 
 // SI prefixes as units
 constexpr unit milli(1e-3, one);

@@ -514,8 +514,8 @@ TEST(UCUM, TestRoundTrip2)
                       << " does not result in a valid ustring unit for " << name << '\n';
 
             ++ciFail;
-            units::unit_from_string(ustring);
-            to_string(csact);
+            // units::unit_from_string(ustring);
+            // to_string(csact);
         }
 
         if (uact != csact) {
