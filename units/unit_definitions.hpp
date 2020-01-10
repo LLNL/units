@@ -1302,42 +1302,39 @@ constexpr inline bool is_default(unit utest)
     return (utest.multiplier() == 1.0 && (utest.base_units() == defunit.base_units()));
 }
 
-/// Check if the unit has an error
-constexpr inline bool is_error(precise_unit utest)
-{
-    return (
-        utest.multiplier() != utest.multiplier() ||
-        (utest.base_units().has_e_flag() && utest.base_units().has_i_flag() &&
-         utest.base_units().empty()));
-}
-/// Check if the unit has an error
-constexpr inline bool is_error(unit utest)
-{
-    return (
-        utest.multiplier() != utest.multiplier() ||
-        (utest.base_units().has_e_flag() && utest.base_units().has_i_flag() &&
-         utest.base_units().empty()));
-}
-/// Check if the unit is a valid unit
-constexpr inline bool is_valid(precise_unit utest)
-{
-    return !(
-        (utest.multiplier() != utest.multiplier()) &&
-        (utest.base_units() == precise::invalid.base_units()));
-}
-/// Check if the unit is a valid unit
-constexpr inline bool is_valid(unit utest)
-{
-    return !(
-        (utest.multiplier() != utest.multiplier()) && (utest.base_units() == invalid.base_units()));
-}
-
 /// Define a unitless number
 constexpr unit one;
 constexpr unit infinite = unit_cast(precise::infinite);
 constexpr unit error = unit_cast(precise::error);
 constexpr unit ratio = one;
 constexpr unit percent = unit_cast(precise::percent);
+
+
+/// Check if the unit has an error (NaN multiplier or error base units)
+constexpr inline bool is_error(precise_unit utest)
+{
+	return (
+		utest.multiplier() != utest.multiplier() ||
+		utest.base_units() == precise::error.base_units());
+}
+/// Check if the unit has an error  (NaN multiplier or error base units)
+constexpr inline bool is_error(unit utest)
+{
+	return (utest.multiplier() != utest.multiplier() || utest.base_units() == error.base_units());
+}
+/// Check if the unit is a valid unit
+constexpr inline bool is_valid(precise_unit utest)
+{
+	return !(
+		(utest.multiplier() != utest.multiplier()) &&
+		(utest.base_units() == precise::invalid.base_units()));
+}
+/// Check if the unit is a valid unit
+constexpr inline bool is_valid(unit utest)
+{
+	return !(
+		(utest.multiplier() != utest.multiplier()) && (utest.base_units() == invalid.base_units()));
+}
 
 // SI prefixes as units
 constexpr unit milli(1e-3, one);

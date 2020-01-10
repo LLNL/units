@@ -696,7 +696,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         } else if (std::isnan(un.multiplier())) {
             un = precise_unit(un.base_units(), 1.0);
             if (is_error(un)) {
-                return "ERROR";
+                return "NaN*ERROR";
             }
             if (un == precise::one) {
                 return "NaN";

@@ -136,6 +136,7 @@ TEST(unitOps, normal)
 {
     EXPECT_FALSE(isnormal(invalid));
     EXPECT_FALSE(isnormal(defunit));
+    EXPECT_FALSE(isnormal(error));
     EXPECT_TRUE(isnormal(V));
     auto zunit = unit(0.0, m);
     auto nunit = kg / zunit;
@@ -154,6 +155,16 @@ TEST(unitOps, normal)
 
     EXPECT_TRUE(isnormal(m));
     EXPECT_TRUE(isnormal(m * milli));
+}
+
+TEST(unitOps, error)
+{
+    EXPECT_TRUE(is_error(invalid));
+    EXPECT_FALSE(is_error(defunit));
+    EXPECT_FALSE(is_error(one));
+    EXPECT_TRUE(is_error(error));
+    EXPECT_FALSE(is_error(V));
+    EXPECT_TRUE(is_error(unit(constants::invalid_conversion, V)));
 }
 
 TEST(unitOps, cast)
@@ -366,6 +377,16 @@ TEST(preciseUnitOps, inf)
     auto nunit = precise::kg / zunit;
     EXPECT_TRUE(isinf(nunit));
     EXPECT_TRUE(isinf(precise_unit(nunit)));
+}
+
+TEST(preciseUnitOps, error)
+{
+    EXPECT_TRUE(is_error(precise::invalid));
+    EXPECT_FALSE(is_error(precise::defunit));
+    EXPECT_FALSE(is_error(precise::one));
+    EXPECT_TRUE(is_error(precise::error));
+    EXPECT_FALSE(is_error(precise::V));
+    EXPECT_TRUE(is_error(precise_unit(constants::invalid_conversion, precise::V)));
 }
 
 TEST(preciseUnitOps, normal)
