@@ -634,7 +634,7 @@ class uncertain_measurement {
     /// Get the fractional uncertainty with no units
     constexpr double fractional_uncertainty() const
     {
-        return static_cast<double>(uncertainty_ / ((value_ > 0.0F) ? value_ : -value_));
+        return uncertainty() / static_cast<double>((value_ >= 0.0F) ? value_ : -value_);
     }
 
     /// Get the uncertainty as a separate measurement
@@ -644,10 +644,7 @@ class uncertain_measurement {
     }
 
     /// Cast operator to a measurement
-    constexpr operator measurement() const
-    {
-        return measurement(static_cast<double>(value_), units_);
-    }
+    constexpr operator measurement() const { return measurement(value(), units_); }
 
     /** Perform a multiplication with uncertain measurements using the simple method for uncertainty propagation*/
     UNITS_CPP14_CONSTEXPR uncertain_measurement operator*(uncertain_measurement other) const
@@ -710,7 +707,7 @@ class uncertain_measurement {
         return uncertain_measurement(
             static_cast<float>(value() / other.value()),
             static_cast<float>(uncertainty() / other.value()),
-            units_ * other.units());
+            units_ / other.units());
     }
     constexpr uncertain_measurement operator/(unit other) const
     {

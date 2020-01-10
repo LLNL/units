@@ -104,6 +104,26 @@ TEST(uncertainOps, multConst)
     auto z = Ck * x;
     EXPECT_NEAR(z.value(), 18.8, 0.05);
     EXPECT_NEAR(z.uncertainty(), 1.3, 0.05);
+
+    auto z2 = x * Ck;
+    EXPECT_NEAR(z2.value(), 18.8, 0.05);
+    EXPECT_NEAR(z2.uncertainty(), 1.3, 0.05);
+
+    auto zf = 10.0F * x;
+    EXPECT_FLOAT_EQ(zf.value(), 30.0F);
+    EXPECT_FLOAT_EQ(zf.uncertainty(), 2.0F);
+
+    auto zf2 = x * 10.0F;
+    EXPECT_FLOAT_EQ(zf2.value(), 30.0F);
+    EXPECT_FLOAT_EQ(zf2.uncertainty(), 2.0F);
+
+    auto zd = 10.0 * x;
+    EXPECT_FLOAT_EQ(zd.value(), 30.0F);
+    EXPECT_FLOAT_EQ(zd.uncertainty(), 2.0F);
+
+    auto zd2 = x * 10.0;
+    EXPECT_FLOAT_EQ(zd2.value(), 30.0F);
+    EXPECT_FLOAT_EQ(zd2.uncertainty(), 2.0F);
 }
 
 TEST(uncertainOps, mult)
@@ -120,6 +140,81 @@ TEST(uncertainOps, mult)
     EXPECT_NEAR(zs.value(), 9.04, 0.005);
     EXPECT_NEAR(zs.uncertainty(), 0.905, 0.0005);
     EXPECT_EQ(zs.units(), cm.pow(2));
+}
+
+TEST(uncertainOps, divConst)
+{
+    uncertain_measurement x(3.0, 0.2, cm);
+
+    auto zf = x / 10.0F;
+    EXPECT_FLOAT_EQ(zf.value(), 0.3F);
+    EXPECT_FLOAT_EQ(zf.uncertainty(), 0.02F);
+
+    auto zf2 = 6.0F / x;
+    EXPECT_FLOAT_EQ(zf2.value(), 2.0F);
+    EXPECT_FLOAT_EQ(zf2.uncertainty(), 0.4F / 3.0F);
+    EXPECT_TRUE(zf2.units() == cm.inv());
+
+    auto zd = x / 10.0;
+    EXPECT_FLOAT_EQ(zd.value(), 0.3F);
+    EXPECT_FLOAT_EQ(zd.uncertainty(), 0.02F);
+
+    auto zd2 = 6.0 / x;
+    EXPECT_FLOAT_EQ(zd2.value(), 2.0F);
+    EXPECT_FLOAT_EQ(zd2.uncertainty(), 0.4F / 3.0F);
+    EXPECT_TRUE(zd2.units() == cm.inv());
+}
+
+TEST(uncertainOps, div)
+{
+    uncertain_measurement w(4.8, 0.02, cm);
+    measurement x(2.0, cm);
+
+    auto z = w / x;
+    EXPECT_FLOAT_EQ(z.value(), 2.4F);
+    EXPECT_FLOAT_EQ(z.uncertainty(), 0.01F);
+    EXPECT_EQ(z.units(), one);
+
+    auto z2 = w / cm;
+    EXPECT_FLOAT_EQ(z2.value(), 4.8F);
+    EXPECT_FLOAT_EQ(z2.uncertainty(), 0.02F);
+    EXPECT_EQ(z2.units(), one);
+}
+
+TEST(uncertainOps, measAddSub)
+{
+    uncertain_measurement w(4.8, 0.02, cm);
+    measurement x(0.02, m);
+
+    auto z = w + x;
+    EXPECT_FLOAT_EQ(z.value(), 6.8F);
+    EXPECT_FLOAT_EQ(z.uncertainty(), 0.02F);
+    EXPECT_EQ(z.units(), cm);
+
+    auto z2 = w - x;
+    EXPECT_FLOAT_EQ(z2.value(), 2.8F);
+    EXPECT_FLOAT_EQ(z2.uncertainty(), 0.02F);
+    EXPECT_EQ(z2.units(), cm);
+
+    auto z3 = x + w;
+    EXPECT_FLOAT_EQ(z3.value(), 0.068F);
+    EXPECT_FLOAT_EQ(z3.uncertainty(), 0.0002F);
+    EXPECT_EQ(z3.units(), m);
+
+    auto z4 = x - w;
+    EXPECT_FLOAT_EQ(z4.value(), -0.028F);
+    EXPECT_FLOAT_EQ(z4.uncertainty(), 0.0002F);
+    EXPECT_EQ(z4.units(), m);
+}
+
+TEST(uncertainOps, conversion)
+{
+    uncertain_measurement w(4.8, 0.02, cm);
+    auto wc = w.convert_to(m);
+
+    EXPECT_FLOAT_EQ(wc.value(), 0.048F);
+    EXPECT_FLOAT_EQ(wc.uncertainty(), 0.0002F);
+    EXPECT_EQ(wc.units(), m);
 }
 
 // http://www.geol.lsu.edu/jlorenzo/geophysics/uncertainties/Uncertaintiespart2.html example c
@@ -298,4 +393,24 @@ TEST(uncertainStrings, test1)
     EXPECT_FLOAT_EQ(um5.value(), 12.8F);
     EXPECT_EQ(um5.uncertainty(), 0.0);
     EXPECT_EQ(um4.units(), m);
+}
+
+TEST(uncertainOps, fractional_uncertainty)
+{
+    uncertain_measurement v0(10.0, 1.0, V);
+
+    EXPECT_FLOAT_EQ(v0.fractional_uncertainty(), 0.1F);
+
+    uncertain_measurement v1(-10.0, 1.0, V);
+
+    EXPECT_FLOAT_EQ(v0.fractional_uncertainty(), 0.1F);
+}
+
+TEST(uncertainOps, conversions)
+{
+    uncertain_measurement v0(10.0, 1.0, V);
+
+    precise_measurement vm(v0);
+    EXPECT_DOUBLE_EQ(vm.value(), 10.0);
+    EXPECT_TRUE(vm.units() == precise::V);
 }
