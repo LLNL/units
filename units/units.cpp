@@ -1231,14 +1231,14 @@ static bool hasValidNumericalWordStart(const std::string& ustring)
 using wordpair = std::tuple<const char*, double, int>;
 
 static UNITS_CPP14_CONSTEXPR std::array<wordpair, 9> lt10{wordpair{"one", 1.0, 3},
-                                             wordpair{"two", 2.0, 3},
-                                             wordpair{"three", 3.0, 5},
-                                             wordpair{"four", 4.0, 4},
-                                             wordpair{"five", 5.0, 4},
-                                             wordpair{"six", 6.0, 3},
-                                             wordpair{"seven", 7.0, 5},
-                                             wordpair{"eight", 8.0, 5},
-                                             wordpair{"nine", 9.0, 4}};
+                                                          wordpair{"two", 2.0, 3},
+                                                          wordpair{"three", 3.0, 5},
+                                                          wordpair{"four", 4.0, 4},
+                                                          wordpair{"five", 5.0, 4},
+                                                          wordpair{"six", 6.0, 3},
+                                                          wordpair{"seven", 7.0, 5},
+                                                          wordpair{"eight", 8.0, 5},
+                                                          wordpair{"nine", 9.0, 4}};
 
 static double read1To10(const std::string& str, size_t& index)
 {
@@ -1252,16 +1252,16 @@ static double read1To10(const std::string& str, size_t& index)
 }
 
 static UNITS_CPP14_CONSTEXPR std::array<wordpair, 11> teens{wordpair{"ten", 10.0, 3},
-                                               wordpair{"eleven", 11.0, 6},
-                                               wordpair{"twelve", 12.0, 6},
-                                               wordpair{"thirteen", 13.0, 8},
-                                               wordpair{"fourteen", 14.0, 8},
-                                               wordpair{"fifteen", 15.0, 7},
-                                               wordpair{"sixteen", 16.0, 7},
-                                               wordpair{"seventeen", 17.0, 9},
-                                               wordpair{"eighteen", 18.0, 8},
-                                               wordpair{"nineteen", 19.0, 8},
-                                               wordpair{"zero", 0.0, 4}};
+                                                            wordpair{"eleven", 11.0, 6},
+                                                            wordpair{"twelve", 12.0, 6},
+                                                            wordpair{"thirteen", 13.0, 8},
+                                                            wordpair{"fourteen", 14.0, 8},
+                                                            wordpair{"fifteen", 15.0, 7},
+                                                            wordpair{"sixteen", 16.0, 7},
+                                                            wordpair{"seventeen", 17.0, 9},
+                                                            wordpair{"eighteen", 18.0, 8},
+                                                            wordpair{"nineteen", 19.0, 8},
+                                                            wordpair{"zero", 0.0, 4}};
 
 static double readTeens(const std::string& str, size_t& index)
 {
@@ -1275,20 +1275,21 @@ static double readTeens(const std::string& str, size_t& index)
 }
 
 //NOTE: the ordering is important here
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 5> groupNumericalWords{wordpair{"trillion", 1e12, 8},
-                                                            wordpair{"billion", 1e9, 7},
-                                                            wordpair{"million", 1e6, 7},
-                                                            wordpair{"thousand", 1e3, 8},
-                                                            wordpair{"hundred", 100.0, 7}};
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 5> groupNumericalWords{
+    wordpair{"trillion", 1e12, 8},
+    wordpair{"billion", 1e9, 7},
+    wordpair{"million", 1e6, 7},
+    wordpair{"thousand", 1e3, 8},
+    wordpair{"hundred", 100.0, 7}};
 
 static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{wordpair{"twenty", 20.0, 6},
-                                                    wordpair{"thirty", 30.0, 6},
-                                                    wordpair{"forty", 40.0, 5},
-                                                    wordpair{"fifty", 50.0, 5},
-                                                    wordpair{"sixty", 60.0, 5},
-                                                    wordpair{"seventy", 70.0, 7},
-                                                    wordpair{"eighty", 80.0, 6},
-                                                    wordpair{"ninety", 90.0, 6}};
+                                                                 wordpair{"thirty", 30.0, 6},
+                                                                 wordpair{"forty", 40.0, 5},
+                                                                 wordpair{"fifty", 50.0, 5},
+                                                                 wordpair{"sixty", 60.0, 5},
+                                                                 wordpair{"seventy", 70.0, 7},
+                                                                 wordpair{"eighty", 80.0, 6},
+                                                                 wordpair{"ninety", 90.0, 6}};
 
 static double readNumericalWords(const std::string& ustring, size_t& index)
 {
