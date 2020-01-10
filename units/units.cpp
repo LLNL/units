@@ -5309,6 +5309,33 @@ precise_measurement measurement_from_string(std::string measurement_string, uint
     return {val, precise::invalid};
 }
 
+uncertain_measurement
+    uncertain_measurement_from_string(std::string measurement_string, uint32_t match_flags)
+{
+    //first task is to find the +/-
+    static UNITS_CPP14_CONSTEXPR std::array<const char*, 6> pmsequences{
+        "+/-", "\xB1", "\u00B1", "&plusmn", "+-", "<u>+</u>"};
+
+    for (auto pmseq : pmsequences) {
+        auto loc = measurement_string.find(pmseq);
+        if (loc != std::string::npos) {
+            auto p1 = measurement_string.substr(0, loc);
+            auto m1 = measurement_cast_from_string(p1, match_flags);
+            auto p2 = measurement_string.substr(loc + strlen(pmseq));
+            auto m2 = measurement_cast_from_string(p2, match_flags);
+            if (m1.units() == one) {
+                return uncertain_measurement(m1.value(), m2.value(), unit_cast(m2.units()));
+            } else if (m2.units() == one) {
+                return uncertain_measurement(m1, m2.value());
+            } else {
+                return uncertain_measurement(m1, m2);
+            }
+        }
+    }
+    return uncertain_measurement(
+        measurement_cast_from_string(measurement_string, match_flags), 0.0F);
+}
+
 // Mostly from https://en.wikipedia.org/wiki/International_System_of_Units
 static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"", precise::defunit},

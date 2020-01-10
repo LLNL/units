@@ -270,3 +270,27 @@ TEST(uncertainOps, testHeight)
     EXPECT_NEAR(ys.value(), 0.636, 0.0005);
     EXPECT_EQ(ys.units(), m);
 }
+
+TEST(uncertainStrings, test1)
+{
+    auto um1 = uncertain_measurement_from_string("12+/-3 m");
+    EXPECT_EQ(um1.value(), 12.0);
+    EXPECT_EQ(um1.uncertainty(), 3.0);
+    EXPECT_EQ(um1.units(), m);
+
+    auto um2 = uncertain_measurement_from_string("12m +-3 in");
+    EXPECT_EQ(um2.value(), 12.0);
+    EXPECT_TRUE(um2.uncertainty_measurement() == 3.0 * in);
+    EXPECT_EQ(um2.units(), m);
+
+    auto um3 = uncertain_measurement_from_string("12 m +-3");
+    EXPECT_EQ(um3.value(), 12.0);
+    EXPECT_TRUE(um3.uncertainty_measurement() == 3.0 * m);
+    EXPECT_EQ(um3.units(), m);
+
+    std::string ustr = "12\xB1 3 m";
+    auto um4 = uncertain_measurement_from_string(ustr);
+    EXPECT_EQ(um4.value(), 12.0);
+    EXPECT_TRUE(um4.uncertainty_measurement() == 3.0 * m);
+    EXPECT_EQ(um4.units(), m);
+}
