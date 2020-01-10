@@ -1230,7 +1230,7 @@ static bool hasValidNumericalWordStart(const std::string& ustring)
 }
 using wordpair = std::tuple<const char*, double, int>;
 
-static UPTCONST std::array<wordpair, 9> lt10{wordpair{"one", 1.0, 3},
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 9> lt10{wordpair{"one", 1.0, 3},
                                              wordpair{"two", 2.0, 3},
                                              wordpair{"three", 3.0, 5},
                                              wordpair{"four", 4.0, 4},
@@ -1251,7 +1251,7 @@ static double read1To10(const std::string& str, size_t& index)
     return constants::invalid_conversion;
 }
 
-static UPTCONST std::array<wordpair, 11> teens{wordpair{"ten", 10.0, 3},
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 11> teens{wordpair{"ten", 10.0, 3},
                                                wordpair{"eleven", 11.0, 6},
                                                wordpair{"twelve", 12.0, 6},
                                                wordpair{"thirteen", 13.0, 8},
@@ -1275,13 +1275,13 @@ static double readTeens(const std::string& str, size_t& index)
 }
 
 //NOTE: the ordering is important here
-static UPTCONST std::array<wordpair, 5> groupNumericalWords{wordpair{"trillion", 1e12, 8},
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 5> groupNumericalWords{wordpair{"trillion", 1e12, 8},
                                                             wordpair{"billion", 1e9, 7},
                                                             wordpair{"million", 1e6, 7},
                                                             wordpair{"thousand", 1e3, 8},
                                                             wordpair{"hundred", 100.0, 7}};
 
-static UPTCONST std::array<wordpair, 8> decadeWords{wordpair{"twenty", 20.0, 6},
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{wordpair{"twenty", 20.0, 6},
                                                     wordpair{"thirty", 30.0, 6},
                                                     wordpair{"forty", 40.0, 5},
                                                     wordpair{"fifty", 50.0, 5},
