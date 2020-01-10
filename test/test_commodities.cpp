@@ -150,6 +150,9 @@ TEST(commodities, escape_strings)
     cstring = getCommodityName(hcode);
     EXPECT_EQ(cstring, "c\\%ab");
 
+    hcode = getCommodity(" ty ");
+    cstring = getCommodityName(hcode);
+    EXPECT_EQ(cstring, "_ty");
     clearCustomCommodities();
 }
 

@@ -54,6 +54,21 @@ TEST(uncertainOps, construction)
     EXPECT_FLOAT_EQ(um7.value(), m1.value());
     EXPECT_FLOAT_EQ(um7.uncertainty(), 0.1F);
     EXPECT_EQ(um7.units(), m1.units());
+
+    uncertain_measurement um8(2.3F, kg);
+    EXPECT_FLOAT_EQ(um8.value(), 2.3F);
+    EXPECT_FLOAT_EQ(um8.uncertainty(), 0.0F);
+    EXPECT_EQ(um8.units(), kg);
+
+    uncertain_measurement um9(2.3, kg);
+    EXPECT_FLOAT_EQ(um9.value(), 2.3F);
+    EXPECT_FLOAT_EQ(um9.uncertainty(), 0.0F);
+    EXPECT_EQ(um9.units(), kg);
+
+    uncertain_measurement um10;
+    EXPECT_FLOAT_EQ(um10.value(), 0.0F);
+    EXPECT_FLOAT_EQ(um10.uncertainty(), 0.0F);
+    EXPECT_EQ(um10.units(), one);
 }
 
 // from https://www2.southeastern.edu/Academics/Faculty/rallain/plab194/error.html
@@ -140,6 +155,11 @@ TEST(uncertainOps, mult)
     EXPECT_NEAR(zs.value(), 9.04, 0.005);
     EXPECT_NEAR(zs.uncertainty(), 0.905, 0.0005);
     EXPECT_EQ(zs.units(), cm.pow(2));
+
+    auto z2 = x * cm;
+    EXPECT_FLOAT_EQ(z2.value(), 2.0F);
+    EXPECT_FLOAT_EQ(z2.uncertainty(), 0.2F);
+    EXPECT_EQ(z2.units(), cm.pow(2));
 }
 
 TEST(uncertainOps, divConst)
@@ -179,6 +199,15 @@ TEST(uncertainOps, div)
     EXPECT_FLOAT_EQ(z2.value(), 4.8F);
     EXPECT_FLOAT_EQ(z2.uncertainty(), 0.02F);
     EXPECT_EQ(z2.units(), one);
+
+    uncertain_measurement wb(10.0, 1.0, cm);
+    measurement xb(1.0, cm);
+
+    auto z3 = xb / wb;
+
+    EXPECT_FLOAT_EQ(z3.value(), 0.1F);
+    EXPECT_FLOAT_EQ(z3.uncertainty(), 0.01F);
+    EXPECT_EQ(z3.units(), one);
 }
 
 TEST(uncertainOps, measAddSub)
