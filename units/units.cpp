@@ -3625,6 +3625,12 @@ static precise_unit commoditizedUnit(const std::string& unit_string, uint32_t ma
     }
     return precise::invalid;
 }
+// do a check if there are additional operations outside of brackets
+static bool hasAdditionalOps(const std::string& unit_string)
+{
+    return (unit_string.find_last_of("*^(/", unit_string.find_last_of('{')) != std::string::npos) ||
+        (unit_string.find_first_of("*^(/", unit_string.find_last_of('}')) != std::string::npos);
+}
 
 static precise_unit get_unit(const std::string& unit_string)
 {
@@ -3641,21 +3647,33 @@ static precise_unit get_unit(const std::string& unit_string)
     auto c = unit_string.front();
     if ((c == 'C' || c == 'E') && unit_string.size() >= 6) {
         size_t index;
-        // we want to make sure there are no operations before the commodity
-        if (unit_string.find_last_of("*^(/", unit_string.find_last_of('{')) == std::string::npos) {
-            if (unit_string.compare(0, 5, "CXUN[") == 0) {
-                auto num = static_cast<unsigned short>(atoi(unit_string.c_str() + 5));
-                return commoditizedUnit(unit_string, precise::generate_custom_unit(num), index);
+        if (unit_string.compare(0, 5, "CXUN[") == 0) {
+            if (!hasAdditionalOps(unit_string)) {
+                char* ptr = nullptr;
+                auto num = static_cast<unsigned short>(strtol(unit_string.c_str() + 5, &ptr, 0));
+                if (*ptr == ']') {
+                    return commoditizedUnit(unit_string, precise::generate_custom_unit(num), index);
+                }
             }
-            if (unit_string.compare(0, 6, "CXCUN[") == 0) {
-                auto num = static_cast<unsigned short>(atoi(unit_string.c_str() + 6));
-                return commoditizedUnit(
-                    unit_string, precise::generate_custom_count_unit(num), index);
+        }
+        if (unit_string.compare(0, 6, "CXCUN[") == 0) {
+            if (!hasAdditionalOps(unit_string)) {
+                char* ptr = nullptr;
+                auto num = static_cast<unsigned short>(strtol(unit_string.c_str() + 6, &ptr, 0));
+                if (*ptr == ']') {
+                    return commoditizedUnit(
+                        unit_string, precise::generate_custom_count_unit(num), index);
+                }
             }
-            if (unit_string.compare(0, 6, "EQXUN[") == 0) {
-                auto num = static_cast<unsigned short>(atoi(unit_string.c_str() + 6));
-                return commoditizedUnit(
-                    unit_string, precise_unit(precise::custom::equation_unit(num)), index);
+        }
+        if (unit_string.compare(0, 6, "EQXUN[") == 0) {
+            if (!hasAdditionalOps(unit_string)) {
+                char* ptr = nullptr;
+                auto num = static_cast<unsigned short>(strtol(unit_string.c_str() + 6, &ptr, 0));
+                if (*ptr == ']') {
+                    return commoditizedUnit(
+                        unit_string, precise_unit(precise::custom::equation_unit(num)), index);
+                }
             }
         }
     }
@@ -5313,8 +5331,8 @@ uncertain_measurement
     uncertain_measurement_from_string(std::string measurement_string, uint32_t match_flags)
 {
     //first task is to find the +/-
-    static UNITS_CPP14_CONSTEXPR std::array<const char*, 6> pmsequences{
-        "+/-", "\xB1", "\u00B1", "&plusmn", "+-", "<u>+</u>"};
+    static UNITS_CPP14_CONSTEXPR std::array<const char*, 9> pmsequences{
+        "+/-", "\xB1", u8"\u00B1", "&plusmn;", "+-", "<u>+</u>", "&#xB1;", "&pm;", " \\pm "};
 
     for (auto pmseq : pmsequences) {
         auto loc = measurement_string.find(pmseq);

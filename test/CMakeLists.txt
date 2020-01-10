@@ -56,6 +56,11 @@ target_compile_definitions(examples_test PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS
 set_target_properties(examples_test PROPERTIES FOLDER "Tests")
 add_test(examples_test examples_test)
 
+add_executable(test_all_unit_base test_all_unit_base.cpp)
+target_link_libraries(test_all_unit_base gtest gmock gtest_main units::units compile_flags_target)
+set_target_properties(test_all_unit_base PROPERTIES FOLDER "Tests")
+# test_all_unit_base should not be added to the tests it will take a long time run
+
 if(CMAKE_BUILD_TYPE STREQUAL Coverage)
     include(CodeCoverage)
     setup_target_for_coverage(

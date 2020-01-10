@@ -293,4 +293,9 @@ TEST(uncertainStrings, test1)
     EXPECT_EQ(um4.value(), 12.0);
     EXPECT_TRUE(um4.uncertainty_measurement() == 3.0 * m);
     EXPECT_EQ(um4.units(), m);
+
+    auto um5 = uncertain_measurement_from_string("12.8m");
+    EXPECT_FLOAT_EQ(um5.value(), 12.8F);
+    EXPECT_EQ(um5.uncertainty(), 0.0);
+    EXPECT_EQ(um4.units(), m);
 }
