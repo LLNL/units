@@ -15,5 +15,5 @@ add_executable(fuzz_with_flags fuzz_target_from_string_flags.cpp)
 
 add_custom_target(QUICK_RAW_FUZZ 
                   COMMAND fuzz_from_string . -max_total_time=300 -max_len=512 -dict=${CMAKE_CURRENT_SOURCE_DIR}/fuzz_dictionary.txt -exact_artifact_path=units_fail_string_artifact.txt
-				  COMMAND fuzz_with_flags . -max_total_time=300 -max_len=512 -dict=${CMAKE_CURRENT_SOURCE_DIR}/fuzz_dictionary.txt -exact_artifact_path=units_fail_flags_artifact.txt
-				  ) 
+                  COMMAND fuzz_with_flags . -max_total_time=300 -max_len=512 -dict=${CMAKE_CURRENT_SOURCE_DIR}/fuzz_dictionary.txt -exact_artifact_path=units_fail_flags_artifact.txt
+                 ) 

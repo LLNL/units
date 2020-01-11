@@ -19,7 +19,7 @@ else(UNITS_HEADER_ONLY)
                 $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
                 $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
-		target_link_libraries(units-static PRIVATE compile_flags_target)
+        target_link_libraries(units-static PRIVATE compile_flags_target)
         add_library(units::units ALIAS units-static)
         add_library(units::static ALIAS units-static)
         if(UNITS_INSTALL)
@@ -30,9 +30,9 @@ else(UNITS_HEADER_ONLY)
                     # INCLUDES DESTINATION include/units
             )
         endif(UNITS_INSTALL)
-		if(CMAKE_BUILD_TYPE STREQUAL Coverage)
-			set_source_files_properties(foo.cpp PROPERTIES COMPILE_FLAGS -Wno-effc++)
-		endif()
+        if(CMAKE_BUILD_TYPE STREQUAL Coverage)
+            set_source_files_properties(foo.cpp PROPERTIES COMPILE_FLAGS -Wno-effc++)
+        endif()
     endif(UNITS_BUILD_STATIC_LIBRARY)
 
     if(UNITS_BUILD_SHARED_LIBRARY)
@@ -43,7 +43,7 @@ else(UNITS_HEADER_ONLY)
                 $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
                 $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
-		target_link_libraries(units-shared PRIVATE compile_flags_target)
+        target_link_libraries(units-shared PRIVATE compile_flags_target)
         if(NOT UNITS_BUILD_STATIC_LIBRARY)
             add_library(units::units ALIAS units-shared)
         endif()

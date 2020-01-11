@@ -109,12 +109,12 @@ elseif(UNITS_ENABLE_TESTS)
 endif()
 
 if(UNITS_INSTALL)
-	if (UNITS_BUILD_STATIC_LIBRARY)
+    if (UNITS_BUILD_STATIC_LIBRARY)
             install(
                 TARGETS
                     compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND}
             )
-		endif()
+    endif()
     if(UNITS_WITH_CMAKE_PACKAGE AND NOT UNITS_BINARY_ONLY_INSTALL)
         install(EXPORT unitsConfig DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
         export(EXPORT unitsConfig)
