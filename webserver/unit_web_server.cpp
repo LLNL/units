@@ -39,6 +39,7 @@ using tcp = boost::asio::ip::tcp; // from <boost/asio/ip/tcp.hpp>
 
 static std::string conversion_page;
 static std::string response_page;
+static std::string response_json;
 
 static std::string uri_decode(std::string str)
 {
@@ -67,7 +68,7 @@ static std::pair<std::string, boost::container::flat_map<std::string, std::strin
     std::pair<std::string, boost::container::flat_map<std::string, std::string>> results;
     auto param_mark = target.find('?');
     if (param_mark != std::string::npos) {
-        results.first = target.substr(1, param_mark);
+        results.first = target.substr(1, param_mark-1);
         target = target.substr(param_mark + 1);
     } else {
         results.first = target;
@@ -177,6 +178,36 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
             res.prepare_payload();
             return res;
         };
+	// generate a conversion response
+	auto const conversion_response_trivial =
+		[&req](const std::string& value) {
+		http::response<http::string_body> res{ http::status::ok, req.version() };
+		res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+		res.set(http::field::content_type, "text/plain");
+		res.keep_alive(req.keep_alive());
+		res.body() = value;
+		res.prepare_payload();
+		return res;
+	};
+
+	// generate a conversion response
+	auto const conversion_response_json =
+		[&req](const std::string& value, const std::string& M1, const std::string& U1) {
+		http::response<http::string_body> res{ http::status::ok, req.version() };
+		res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+		res.set(http::field::content_type, "application/json");
+		res.keep_alive(req.keep_alive());
+		auto resp = response_json;
+		auto v = resp.find("$M1$");
+		resp.replace(v, 4, M1);
+		v = resp.find("$U1$");
+		resp.replace(v, 4, U1);
+		v = resp.find("$VALUE$");
+		resp.replace(v, 7, value);
+		res.body() = resp;
+		res.prepare_payload();
+		return res;
+	};
 
     switch (req.method()) {
         case http::verb::head:
@@ -240,9 +271,15 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         double V = meas.value_as(u2);
         return send(conversion_response(std::to_string(V), measurement, toUnits));
     } else if (reqpr.first == "convert_trivial") {
-        return send(bad_request("not implemented yet"));
+		auto meas = units::measurement_from_string(measurement);
+		auto u2 = units::unit_from_string(toUnits);
+		double V = meas.value_as(u2);
+		return send(conversion_response_trivial(std::to_string(V)));
     } else if (reqpr.first == "convert_json") {
-        return send(bad_request("not implemented yet"));
+		auto meas = units::measurement_from_string(measurement);
+		auto u2 = units::unit_from_string(toUnits);
+		double V = meas.value_as(u2);
+		return send(conversion_response_json(std::to_string(V), measurement, toUnits));
     }
     return send(bad_request("#unknown"));
 }
@@ -449,6 +486,8 @@ int main(int argc, char* argv[])
         response_page =
             std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
     }
+	response_json = "{\n\"measurement\":\"$M1$\",\n\"units\":\"$U1$\",\n\"value\":\"$VALUE$\"\n}";
+
     // The io_context is required for all I/O
     net::io_context ioc{1};
 
