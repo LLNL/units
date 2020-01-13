@@ -52,7 +52,7 @@ static std::string uri_decode(std::string str)
             else
                 ret.push_back(str[ii]);
         } else {
-            int spchar;
+            unsigned int spchar;
             sscanf(str.substr(ii + 1, 2).c_str(), "%x", &spchar);
             ret.push_back(static_cast<char>(spchar));
             ii = ii + 2;
