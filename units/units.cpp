@@ -1087,6 +1087,10 @@ static bool segmentcheck(const std::string& unit, char closeSegment, size_t& ind
 the index of the first non-converted character is returned in index*/
 static double generateLeadingNumber(const std::string& ustring, size_t& index);
 
+/** generate a number representing the leading portion of a string if the words are numerical in nature
+the index of the first non-converted character is returned in index*/
+static double readNumericalWords(const std::string& ustring, size_t& index);
+
 // Detect if a string looks like a number
 static bool looksLikeNumber(const std::string& string, size_t index = 0);
 
@@ -1213,6 +1217,173 @@ double generateLeadingNumber(const std::string& ustring, size_t& index)
         return constants::invalid_conversion;
     }
 }
+//this string contains the first two letters of supported numerical words
+static const std::string first_two = "on tw th fo fi si se ei ni te el hu mi bi tr ze";
+static const std::string first_letters = "otfsenhmbtzaOTFSENHMBTZA";
+static const std::string second_letters = "nwhoielurNWHOIELUR";
+
+static bool hasValidNumericalWordStart(const std::string& ustring)
+{ //do a check if the first and second letters make sense
+    return (
+        first_letters.find_first_of(ustring[0]) != std::string::npos &&
+        second_letters.find_first_of(ustring[1]) != std::string::npos);
+}
+using wordpair = std::tuple<const char*, double, int>;
+
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 9> lt10{wordpair{"one", 1.0, 3},
+                                                          wordpair{"two", 2.0, 3},
+                                                          wordpair{"three", 3.0, 5},
+                                                          wordpair{"four", 4.0, 4},
+                                                          wordpair{"five", 5.0, 4},
+                                                          wordpair{"six", 6.0, 3},
+                                                          wordpair{"seven", 7.0, 5},
+                                                          wordpair{"eight", 8.0, 5},
+                                                          wordpair{"nine", 9.0, 4}};
+
+static double read1To10(const std::string& str, size_t& index)
+{
+    for (auto& num : lt10) {
+        if (str.compare(index, std::get<2>(num), std::get<0>(num)) == 0) {
+            index += std::get<2>(num);
+            return std::get<1>(num);
+        }
+    }
+    return constants::invalid_conversion;
+}
+
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 11> teens{wordpair{"ten", 10.0, 3},
+                                                            wordpair{"eleven", 11.0, 6},
+                                                            wordpair{"twelve", 12.0, 6},
+                                                            wordpair{"thirteen", 13.0, 8},
+                                                            wordpair{"fourteen", 14.0, 8},
+                                                            wordpair{"fifteen", 15.0, 7},
+                                                            wordpair{"sixteen", 16.0, 7},
+                                                            wordpair{"seventeen", 17.0, 9},
+                                                            wordpair{"eighteen", 18.0, 8},
+                                                            wordpair{"nineteen", 19.0, 8},
+                                                            wordpair{"zero", 0.0, 4}};
+
+static double readTeens(const std::string& str, size_t& index)
+{
+    for (auto& num : teens) {
+        if (str.compare(index, std::get<2>(num), std::get<0>(num)) == 0) {
+            index += std::get<2>(num);
+            return std::get<1>(num);
+        }
+    }
+    return constants::invalid_conversion;
+}
+
+//NOTE: the ordering is important here
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 5> groupNumericalWords{
+    wordpair{"trillion", 1e12, 8},
+    wordpair{"billion", 1e9, 7},
+    wordpair{"million", 1e6, 7},
+    wordpair{"thousand", 1e3, 8},
+    wordpair{"hundred", 100.0, 7}};
+
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{wordpair{"twenty", 20.0, 6},
+                                                                 wordpair{"thirty", 30.0, 6},
+                                                                 wordpair{"forty", 40.0, 5},
+                                                                 wordpair{"fifty", 50.0, 5},
+                                                                 wordpair{"sixty", 60.0, 5},
+                                                                 wordpair{"seventy", 70.0, 7},
+                                                                 wordpair{"eighty", 80.0, 6},
+                                                                 wordpair{"ninety", 90.0, 6}};
+
+static double readNumericalWords(const std::string& ustring, size_t& index)
+{
+    double val = constants::invalid_conversion;
+    index = 0;
+    if (ustring.size() < 3) {
+        return val;
+    }
+    if (!hasValidNumericalWordStart(ustring)) {
+        return val;
+    }
+    std::string lcstring = ustring;
+    //make the string lower case for consistency
+    std::transform(lcstring.begin(), lcstring.end(), lcstring.begin(), ::tolower);
+    for (auto& wp : groupNumericalWords) {
+        auto loc = lcstring.find(std::get<0>(wp));
+        if (loc != std::string::npos) {
+            if (loc == 0) {
+                size_t index_sub{0};
+                val = std::get<1>(wp);
+                index = std::get<2>(wp);
+                if (index < lcstring.size()) {
+                    double val_p2 = readNumericalWords(lcstring.substr(index), index_sub);
+                    if (!std::isnan(val_p2)) {
+                        if (val_p2 >= val) {
+                            val = val * val_p2;
+                        } else {
+                            val += val_p2;
+                        }
+
+                        index += index_sub;
+                    }
+                }
+                return val;
+            } else {
+                size_t index_sub{0};
+                val = std::get<1>(wp);
+                index = loc + std::get<2>(wp);
+                // read the next component
+                double val_add{0.0};
+                if (index < lcstring.size()) {
+                    val_add = readNumericalWords(lcstring.substr(index), index_sub);
+                    if (!std::isnan(val_add)) {
+                        if (val_add >= val) {
+                            val = val * val_add;
+                            val_add = 0.0;
+                        }
+                        index += index_sub;
+                    } else {
+                        val_add = 0.0;
+                    }
+                }
+                //read the previous part
+                double val_p2 = readNumericalWords(lcstring.substr(0, loc), index_sub);
+                if (std::isnan(val_p2) || index_sub < loc) {
+                    index = index_sub;
+                    return val_p2;
+                } else {
+                    val *= val_p2;
+                }
+                val += val_add;
+                return val;
+            }
+        }
+    }
+    //clean up "and"
+    if (lcstring.compare(0, 3, "and") == 0) {
+        index += 3;
+        val = 0.0;
+    }
+    // what we are left with is values below a hundred
+    for (auto& wp : decadeWords) {
+        if (lcstring.compare(index, std::get<2>(wp), std::get<0>(wp)) == 0) {
+            val = std::get<1>(wp);
+            index += std::get<2>(wp);
+            if (lcstring.size() > index) {
+                if (lcstring[index] == '-') {
+                    ++index;
+                }
+                double toTen = read1To10(lcstring, index);
+                if (!std::isnan(toTen)) {
+                    val += toTen;
+                }
+            }
+            return val;
+        }
+    }
+    val = readTeens(lcstring, index);
+    if (!std::isnan(val)) {
+        return val;
+    }
+    val = read1To10(lcstring, index);
+    return val;
+}
 
 namespace detail {
     namespace testing {
@@ -1220,6 +1391,10 @@ namespace detail {
         double testLeadingNumber(const std::string& test, size_t& index)
         {
             return generateLeadingNumber(test, index);
+        }
+        double testNumericalWords(const std::string& test, size_t& index)
+        {
+            return readNumericalWords(test, index);
         }
     } // namespace testing
 } // namespace detail
@@ -1379,9 +1554,7 @@ static bool wordModifiers(std::string& unit)
                         } else {
                             // this path cannot currently be executed due to the limited use of the type but others may be
                             // added in the future that might trigger it
-                            // LCOV_EXCL_START
-                            unit.erase(0, std::get<2>(mod));
-                            // LCOV_EXCL_STOP
+                            unit.erase(0, std::get<2>(mod)); // LCOV_EXCL_LINE
                         }
                         unit.append(std::get<1>(mod));
                         return true;
@@ -2904,7 +3077,7 @@ static const smap base_unit_vals{
     {"tonhour{refrigeration}", precise::energy::tonhour},
     {"RT", precise::energy::tonc}, // ton cooling
     {"TR", precise::energy::tonc}, // ton cooling
-    {"tons", precise::energy::tonc* precise::s},
+    //{"tons", precise::energy::tonc* precise::s},
     {"tonh", precise::energy::tonc* precise::hr},
     {"angstrom", precise::distance::angstrom},
     {u8"\u00C5ngstr\u00F6m", precise::distance::angstrom},
@@ -5292,6 +5465,12 @@ precise_measurement measurement_from_string(std::string measurement_string, uint
     size_t loc;
 
     auto val = generateLeadingNumber(measurement_string, loc);
+    if (loc == 0) {
+        val = readNumericalWords(measurement_string, loc);
+    }
+    if (loc == 0) {
+        val = 1.0;
+    }
     if (loc >= measurement_string.length()) {
         return {val, precise::one};
     }

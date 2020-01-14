@@ -108,6 +108,8 @@ elseif(UNITS_ENABLE_TESTS)
     endif()
 endif()
 
+add_subdirectory(webserver)
+
 if(UNITS_INSTALL)
     if (UNITS_BUILD_STATIC_LIBRARY)
             install(
