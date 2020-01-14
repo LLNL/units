@@ -37,9 +37,16 @@ namespace http = beast::http; // from <boost/beast/http.hpp>
 namespace net = boost::asio; // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp; // from <boost/asio/ip/tcp.hpp>
 
-static std::string conversion_page;
-static std::string response_page;
-static std::string response_json;
+static std::string loadFile(const std::string& fileName)
+{
+    std::ifstream t(fileName);
+    return std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+}
+
+static const std::string index_page = loadFile("index.html");
+static const std::string response_page = loadFile("convert.html");
+static const std::string response_json =
+    "{\n\"measurement\":\"$M1$\",\n\"units\":\"$U1$\",\n\"value\":\"$VALUE$\"\n}";
 
 static std::string uri_decode(std::string str)
 {
@@ -68,7 +75,7 @@ static std::pair<std::string, boost::container::flat_map<std::string, std::strin
     std::pair<std::string, boost::container::flat_map<std::string, std::string>> results;
     auto param_mark = target.find('?');
     if (param_mark != std::string::npos) {
-        results.first = target.substr(1, param_mark-1);
+        results.first = target.substr(1, param_mark - 1);
         target = target.substr(param_mark + 1);
     } else {
         results.first = target;
@@ -139,6 +146,7 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
     };
 
     // Returns a server error response
+    /*
     auto const server_error = [&req](beast::string_view what) {
         http::response<http::string_body> res{http::status::internal_server_error, req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
@@ -148,14 +156,14 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         res.prepare_payload();
         return res;
     };
-
+	*/
     // generate the main page
     auto const main_page = [&req]() {
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
-        res.body() = conversion_page;
+        res.body() = index_page;
         res.prepare_payload();
         return res;
     };
@@ -170,44 +178,43 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
             auto resp = response_page;
             auto v = resp.find("$M1$");
             resp.replace(v, 4, M1);
-            v = resp.find("$U1$");
+            v = resp.find("$U1$", v + 4);
             resp.replace(v, 4, U1);
-            v = resp.find("$VALUE$");
+            v = resp.find("$VALUE$", v + 4);
             resp.replace(v, 7, value);
             res.body() = resp;
             res.prepare_payload();
             return res;
         };
-	// generate a conversion response
-	auto const conversion_response_trivial =
-		[&req](const std::string& value) {
-		http::response<http::string_body> res{ http::status::ok, req.version() };
-		res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-		res.set(http::field::content_type, "text/plain");
-		res.keep_alive(req.keep_alive());
-		res.body() = value;
-		res.prepare_payload();
-		return res;
-	};
+    // generate a conversion response
+    auto const conversion_response_trivial = [&req](const std::string& value) {
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::content_type, "text/plain");
+        res.keep_alive(req.keep_alive());
+        res.body() = value;
+        res.prepare_payload();
+        return res;
+    };
 
-	// generate a conversion response
-	auto const conversion_response_json =
-		[&req](const std::string& value, const std::string& M1, const std::string& U1) {
-		http::response<http::string_body> res{ http::status::ok, req.version() };
-		res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-		res.set(http::field::content_type, "application/json");
-		res.keep_alive(req.keep_alive());
-		auto resp = response_json;
-		auto v = resp.find("$M1$");
-		resp.replace(v, 4, M1);
-		v = resp.find("$U1$");
-		resp.replace(v, 4, U1);
-		v = resp.find("$VALUE$");
-		resp.replace(v, 7, value);
-		res.body() = resp;
-		res.prepare_payload();
-		return res;
-	};
+    // generate a conversion response
+    auto const conversion_response_json =
+        [&req](const std::string& value, const std::string& M1, const std::string& U1) {
+            http::response<http::string_body> res{http::status::ok, req.version()};
+            res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+            res.set(http::field::content_type, "application/json");
+            res.keep_alive(req.keep_alive());
+            auto resp = response_json;
+            auto v = resp.find("$M1$");
+            resp.replace(v, 4, M1);
+            v = resp.find("$U1$", v + 4);
+            resp.replace(v, 4, U1);
+            v = resp.find("$VALUE$", v + 4);
+            resp.replace(v, 7, value);
+            res.body() = resp;
+            res.prepare_payload();
+            return res;
+        };
 
     switch (req.method()) {
         case http::verb::head:
@@ -232,7 +239,7 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         http::response<http::empty_body> res{http::status::ok, req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
-        res.content_length(conversion_page.size());
+        res.content_length(index_page.size());
         res.keep_alive(req.keep_alive());
         return send(std::move(res));
     }
@@ -271,15 +278,15 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         double V = meas.value_as(u2);
         return send(conversion_response(std::to_string(V), measurement, toUnits));
     } else if (reqpr.first == "convert_trivial") {
-		auto meas = units::measurement_from_string(measurement);
-		auto u2 = units::unit_from_string(toUnits);
-		double V = meas.value_as(u2);
-		return send(conversion_response_trivial(std::to_string(V)));
+        auto meas = units::measurement_from_string(measurement);
+        auto u2 = units::unit_from_string(toUnits);
+        double V = meas.value_as(u2);
+        return send(conversion_response_trivial(std::to_string(V)));
     } else if (reqpr.first == "convert_json") {
-		auto meas = units::measurement_from_string(measurement);
-		auto u2 = units::unit_from_string(toUnits);
-		double V = meas.value_as(u2);
-		return send(conversion_response_json(std::to_string(V), measurement, toUnits));
+        auto meas = units::measurement_from_string(measurement);
+        auto u2 = units::unit_from_string(toUnits);
+        double V = meas.value_as(u2);
+        return send(conversion_response_json(std::to_string(V), measurement, toUnits));
     }
     return send(bad_request("#unknown"));
 }
@@ -359,7 +366,12 @@ class session : public std::enable_shared_from_this<session> {
         // This means they closed the connection
         if (ec == http::error::end_of_stream) return do_close();
 
-        if (ec) return fail(ec, "read");
+        if (ec) {
+            if (beast::error::timeout != ec) {
+                fail(ec, "read");
+            }
+            return;
+        }
 
         // Send the response
         handle_request(std::move(req_), lambda_);
@@ -475,18 +487,6 @@ int main(int argc, char* argv[])
     }
     auto const address = net::ip::make_address(argv[1]);
     auto const port = static_cast<unsigned short>(std::atoi(argv[2]));
-
-    {
-        std::ifstream t("index.html");
-        conversion_page =
-            std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-    }
-    {
-        std::ifstream t("convert.html");
-        response_page =
-            std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-    }
-	response_json = "{\n\"measurement\":\"$M1$\",\n\"units\":\"$U1$\",\n\"value\":\"$VALUE$\"\n}";
 
     // The io_context is required for all I/O
     net::io_context ioc{1};

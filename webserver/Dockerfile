@@ -12,13 +12,10 @@ RUN mkdir build && mkdir webserver && cd build && cmake ../units -DUNITS_BUILD_W
 
 RUN cp build/webserver/unit_web_server webserver/unit_web_server && cp units/webserver/*.html webserver/
 
-
 FROM opensuse/tumbleweed:latest
 
 COPY --from=builder /root/develop/webserver /root/develop/webserver
 
-WORKDIR /root/develop/webserver
-
 EXPOSE 80/tcp
 
-CMD ["/root/develop/webserver/unit_web_server", "0.0.0.0", "80", "."]
+CMD ["/root/develop/webserver/unit_web_server", "0.0.0.0", "80", "."]  
