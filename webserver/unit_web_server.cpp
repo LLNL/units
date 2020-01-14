@@ -477,7 +477,7 @@ class listener : public std::enable_shared_from_this<listener> {
 int main(int argc, char* argv[])
 {
     // Check command line arguments.
-    if (argc != 4) {
+    if (argc < 3) {
         std::cerr << "Usage: unit_web_server <address> <port>\n"
                   << "Example:\n"
                   << "    unit_web_server 0.0.0.0 8080\n";
