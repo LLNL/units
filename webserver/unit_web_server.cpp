@@ -23,8 +23,10 @@
 #include <cstdlib>
 #include <fstream>
 #include <functional>
+#include <iomanip>
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include <streambuf>
 #include <string>
 #include <thread>
@@ -36,6 +38,13 @@ namespace beast = boost::beast; // from <boost/beast.hpp>
 namespace http = beast::http; // from <boost/beast/http.hpp>
 namespace net = boost::asio; // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp; // from <boost/asio/ip/tcp.hpp>
+
+static std::string as_string(double val)
+{
+    std::ostringstream str;
+    str << std::setprecision(6) << val;
+    return str.str();
+}
 
 static std::string loadFile(const std::string& fileName)
 {
@@ -74,7 +83,8 @@ static std::string uri_decode(beast::string_view str)
 static std::pair<beast::string_view, boost::container::flat_map<beast::string_view, std::string>>
     process_request_parameters(beast::string_view target, beast::string_view body)
 {
-	std::pair<beast::string_view, boost::container::flat_map<beast::string_view, std::string>> results;
+    std::pair<beast::string_view, boost::container::flat_map<beast::string_view, std::string>>
+        results;
     auto param_mark = target.find('?');
     if (param_mark != beast::string_view::npos) {
         results.first = target.substr(1, param_mark - 1);
@@ -274,17 +284,17 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         auto meas = units::measurement_from_string(measurement);
         auto u2 = units::unit_from_string(toUnits);
         double V = meas.value_as(u2);
-        return send(conversion_response(std::to_string(V), measurement, toUnits));
+        return send(conversion_response(as_string(V), measurement, toUnits));
     } else if (reqpr.first == "convert_trivial") {
         auto meas = units::measurement_from_string(measurement);
         auto u2 = units::unit_from_string(toUnits);
         double V = meas.value_as(u2);
-        return send(conversion_response_trivial(std::to_string(V)));
+        return send(conversion_response_trivial(as_string(V)));
     } else if (reqpr.first == "convert_json") {
         auto meas = units::measurement_from_string(measurement);
         auto u2 = units::unit_from_string(toUnits);
         double V = meas.value_as(u2);
-        return send(conversion_response_json(std::to_string(V), measurement, toUnits));
+        return send(conversion_response_json(as_string(V), measurement, toUnits));
     }
     return send(bad_request("#unknown"));
 }
