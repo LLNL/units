@@ -345,7 +345,7 @@ class session : public std::enable_shared_from_this<session> {
 
   public:
     // Take ownership of the stream
-    session(tcp::socket&& socket) : stream_(std::move(socket)), lambda_(*this) {}
+    explicit session(tcp::socket&& socket) : stream_(std::move(socket)), lambda_(*this) {}
 
     // Start the asynchronous operation
     void run() { do_read(); }
