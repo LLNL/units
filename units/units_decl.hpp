@@ -48,7 +48,7 @@ namespace detail {
         }
 
         // perform a multiply operation by adding the powers together
-        constexpr unit_data operator+(unit_data other) const
+        constexpr unit_data operator*(unit_data other) const
         {
             return {
                 meter_ + other.meter_,
@@ -70,7 +70,7 @@ namespace detail {
             };
         }
         /// Division equivalent operator
-        constexpr unit_data operator-(unit_data other) const
+        constexpr unit_data operator/(unit_data other) const
         {
             return {meter_ - other.meter_,
                     kilogram_ - other.kilogram_,
@@ -437,12 +437,12 @@ class unit {
     /// Unit multiplication
     constexpr unit operator*(unit other) const
     {
-        return {base_units_ + other.base_units_, multiplier() * other.multiplier()};
+        return {base_units_ * other.base_units_, multiplier() * other.multiplier()};
     }
     /// Division operator
     constexpr unit operator/(unit other) const
     {
-        return {base_units_ - other.base_units_, multiplier() / other.multiplier()};
+        return {base_units_ / other.base_units_, multiplier() / other.multiplier()};
     }
     /// Invert the unit (take 1/unit)
     constexpr unit inv() const { return {base_units_.inv(), 1.0 / multiplier()}; }
@@ -591,7 +591,7 @@ class precise_unit {
     /// Multiply with another unit
     constexpr precise_unit operator*(precise_unit other) const
     {
-        return {base_units_ + other.base_units_,
+        return {base_units_ * other.base_units_,
                 (commodity_ == 0) ?
                     other.commodity_ :
                     ((other.commodity_ == 0) ? commodity_ : commodity_ & other.commodity_),
@@ -600,12 +600,12 @@ class precise_unit {
     /// Multiplication operator with a lower precision unit
     constexpr precise_unit operator*(unit other) const
     {
-        return {base_units_ + other.base_units_, commodity_, multiplier() * other.multiplier()};
+        return {base_units_ * other.base_units_, commodity_, multiplier() * other.multiplier()};
     }
     /// Division operator
     constexpr precise_unit operator/(precise_unit other) const
     {
-        return {base_units_ - other.base_units_,
+        return {base_units_ / other.base_units_,
                 (commodity_ == 0) ?
                     ((other.commodity_ == 0) ? 0 : ~other.commodity_) :
                     ((other.commodity_ == 0) ? commodity_ : commodity_ & (~other.commodity_)),
@@ -614,7 +614,7 @@ class precise_unit {
     /// Divide by a less precise unit
     constexpr precise_unit operator/(unit other) const
     {
-        return {base_units_ - other.base_units_, commodity_, multiplier() / other.multiplier()};
+        return {base_units_ / other.base_units_, commodity_, multiplier() / other.multiplier()};
     }
     /// take a unit to a power
     constexpr precise_unit pow(int power) const
