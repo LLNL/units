@@ -478,9 +478,9 @@ int main(int argc, char* argv[])
 {
     // Check command line arguments.
     if (argc != 4) {
-        std::cerr << "Usage: unit_web_server <address> <port> <doc_root>\n"
+        std::cerr << "Usage: unit_web_server <address> <port>\n"
                   << "Example:\n"
-                  << "    unit_web_server 0.0.0.0 8080 .\n";
+                  << "    unit_web_server 0.0.0.0 8080\n";
         return EXIT_FAILURE;
     }
     auto const address = net::ip::make_address(argv[1]);
