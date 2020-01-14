@@ -48,7 +48,8 @@ static const std::string response_page = loadFile("convert.html");
 static const std::string response_json =
     "{\n\"measurement\":\"$M1$\",\n\"units\":\"$U1$\",\n\"value\":\"$VALUE$\"\n}";
 
-static std::string uri_decode(std::string str)
+//decode a uri to clean up a string, convert character codes in a uri to the original character
+static std::string uri_decode(beast::string_view str)
 {
     std::string ret;
     size_t len = str.length();
@@ -61,7 +62,7 @@ static std::string uri_decode(std::string str)
                 ret.push_back(str[ii]);
         } else {
             unsigned int spchar;
-            sscanf(str.substr(ii + 1, 2).c_str(), "%x", &spchar);
+            sscanf(std::string(str.substr(ii + 1, 2)).c_str(), "%x", &spchar);
             ret.push_back(static_cast<char>(spchar));
             ii = ii + 2;
         }
@@ -69,26 +70,27 @@ static std::string uri_decode(std::string str)
     return ret;
 }
 
-static std::pair<std::string, boost::container::flat_map<std::string, std::string>>
-    process_request_parameters(std::string target, std::string body)
+// function to extract the request parameters and clean up the target
+static std::pair<beast::string_view, boost::container::flat_map<beast::string_view, std::string>>
+    process_request_parameters(beast::string_view target, beast::string_view body)
 {
-    std::pair<std::string, boost::container::flat_map<std::string, std::string>> results;
+	std::pair<beast::string_view, boost::container::flat_map<beast::string_view, std::string>> results;
     auto param_mark = target.find('?');
-    if (param_mark != std::string::npos) {
+    if (param_mark != beast::string_view::npos) {
         results.first = target.substr(1, param_mark - 1);
         target = target.substr(param_mark + 1);
     } else {
         results.first = target;
         target.clear();
     }
-    if (results.first.front() == '/') {
-        results.first.erase(results.first.begin());
+    if (results.first.starts_with('/')) {
+        results.first.remove_prefix(1);
     }
 
-    std::vector<std::string> parameters;
+    std::vector<beast::string_view> parameters;
     if (!target.empty()) {
         auto splitloc = target.find_first_of('&');
-        while (splitloc != std::string::npos) {
+        while (splitloc != beast::string_view::npos) {
             parameters.push_back(target.substr(0, splitloc));
             target = target.substr(splitloc + 1);
             splitloc = target.find_first_of('&');
@@ -99,7 +101,7 @@ static std::pair<std::string, boost::container::flat_map<std::string, std::strin
     }
     if (!body.empty()) {
         auto splitloc = body.find_first_of('&');
-        while (splitloc != std::string::npos) {
+        while (splitloc != beast::string_view::npos) {
             parameters.push_back(body.substr(0, splitloc));
             body = body.substr(splitloc + 1);
             splitloc = body.find_first_of('&');
@@ -140,7 +142,7 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
-        res.body() = "The resource '" + std::string(target) + "' was not found.";
+        res.body() = std::string(target) + "' was not found.";
         res.prepare_payload();
         return res;
     };
@@ -163,8 +165,12 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
-        res.body() = index_page;
-        res.prepare_payload();
+        if (req.method() != http::verb::head) {
+            res.body() = index_page;
+            res.prepare_payload();
+        } else {
+            res.set(http::field::content_length, index_page.size());
+        }
         return res;
     };
 
@@ -182,8 +188,12 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
             resp.replace(v, 4, U1);
             v = resp.find("$VALUE$", v + 4);
             resp.replace(v, 7, value);
-            res.body() = resp;
-            res.prepare_payload();
+            if (req.method() != http::verb::head) {
+                res.body() = resp;
+                res.prepare_payload();
+            } else {
+                res.set(http::field::content_length, resp.size());
+            }
             return res;
         };
     // generate a conversion response
@@ -192,8 +202,12 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/plain");
         res.keep_alive(req.keep_alive());
-        res.body() = value;
-        res.prepare_payload();
+        if (req.method() != http::verb::head) {
+            res.body() = value;
+            res.prepare_payload();
+        } else {
+            res.set(http::field::content_length, value.size());
+        }
         return res;
     };
 
@@ -211,8 +225,14 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
             resp.replace(v, 4, U1);
             v = resp.find("$VALUE$", v + 4);
             resp.replace(v, 7, value);
-            res.body() = resp;
-            res.prepare_payload();
+
+            if (req.method() != http::verb::head) {
+                res.body() = resp;
+                res.prepare_payload();
+            } else {
+                res.set(http::field::content_length, resp.size());
+            }
+
             return res;
         };
 
@@ -224,38 +244,16 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
         default:
             return send(bad_request("Unknown HTTP-method"));
     }
-    std::string target(req.target());
-    // Request path must be absolute and not contain "..".
-    if (target.empty() || target[0] != '/' || target.find("..") != beast::string_view::npos)
-        return send(bad_request("Illegal request-target"));
-
-    if (req.method() == http::verb::head || req.method() == http::verb::get) {
-        if (target != "/" && target != "/index.html" && target.compare(0, 8, "/convert") != 0) {
-            return send(not_found(req.target()));
-        }
-    }
-    // Respond to HEAD request
-    if (req.method() == http::verb::head) {
-        http::response<http::empty_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-        res.set(http::field::content_type, "text/html");
-        res.content_length(index_page.size());
-        res.keep_alive(req.keep_alive());
-        return send(std::move(res));
+    beast::string_view target(req.target());
+    if (target == "/" || target == "/index.html") {
+        return send(main_page());
     }
 
-    if (req.method() == http::verb::get) {
-        if (target == "/" || target == "/index.html") {
-            return send(main_page());
-        }
+    if (target.compare(0, 8, "/convert") != 0) {
+        return send(not_found(target));
     }
 
-    //now we have a post method or /convert... target
-
-    auto bdy = req.body();
-
-    auto reqpr = process_request_parameters(target, bdy);
-    target = reqpr.first;
+    auto reqpr = process_request_parameters(target, req.body());
     std::string measurement;
     std::string toUnits;
     auto& fields = reqpr.second;
