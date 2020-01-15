@@ -510,7 +510,7 @@ class unit {
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return static_cast<double>(multiplier_); }
 	/// Extract the base unit Multiplier as a single precision float
-	constexpr double multiplier_f() const { return multiplier_; }
+	constexpr float multiplier_f() const { return multiplier_; }
     /// generate a rounded version of the multiplier
     float cround() const { return detail::cround(multiplier_); }
     constexpr detail::unit_data base_units() const { return base_units_; }
@@ -715,7 +715,7 @@ class precise_unit {
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return multiplier_; }
 	/// Extract the base unit Multiplier as a single precision float
-	constexpr double multiplier_f() const { return static_cast<float>(multiplier_); }
+	constexpr float multiplier_f() const { return static_cast<float>(multiplier_); }
     /// Generate a rounded value of the multiplier rounded to the defined precision
     double cround() const { return detail::cround_precise(multiplier_); }
     /// Get the base units
