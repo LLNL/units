@@ -48,7 +48,7 @@ namespace detail {
         }
 
         // perform a multiply operation by adding the powers together
-        constexpr unit_data operator+(unit_data other) const
+        constexpr unit_data operator*(unit_data other) const
         {
             return {
                 meter_ + other.meter_,
@@ -70,7 +70,7 @@ namespace detail {
             };
         }
         /// Division equivalent operator
-        constexpr unit_data operator-(unit_data other) const
+        constexpr unit_data operator/(unit_data other) const
         {
             return {meter_ - other.meter_,
                     kilogram_ - other.kilogram_,
@@ -437,12 +437,12 @@ class unit {
     /// Unit multiplication
     constexpr unit operator*(unit other) const
     {
-        return {base_units_ + other.base_units_, multiplier() * other.multiplier()};
+        return {base_units_ * other.base_units_, multiplier() * other.multiplier()};
     }
     /// Division operator
     constexpr unit operator/(unit other) const
     {
-        return {base_units_ - other.base_units_, multiplier() / other.multiplier()};
+        return {base_units_ / other.base_units_, multiplier() / other.multiplier()};
     }
     /// Invert the unit (take 1/unit)
     constexpr unit inv() const { return {base_units_.inv(), 1.0 / multiplier()}; }
@@ -451,10 +451,6 @@ class unit {
     {
         return unit{base_units_.pow(power), detail::power_const(multiplier_, power)};
     }
-#ifndef UNITS_HEADER_ONLY
-    /// take the root of a unit to some power
-    unit root(int power) const;
-#endif
     /// Test for unit equivalence to within nominal numerical tolerance (6 decimal digits)
     bool operator==(unit other) const
     {
@@ -591,7 +587,7 @@ class precise_unit {
     /// Multiply with another unit
     constexpr precise_unit operator*(precise_unit other) const
     {
-        return {base_units_ + other.base_units_,
+        return {base_units_ * other.base_units_,
                 (commodity_ == 0) ?
                     other.commodity_ :
                     ((other.commodity_ == 0) ? commodity_ : commodity_ & other.commodity_),
@@ -600,12 +596,12 @@ class precise_unit {
     /// Multiplication operator with a lower precision unit
     constexpr precise_unit operator*(unit other) const
     {
-        return {base_units_ + other.base_units_, commodity_, multiplier() * other.multiplier()};
+        return {base_units_ * other.base_units_, commodity_, multiplier() * other.multiplier()};
     }
     /// Division operator
     constexpr precise_unit operator/(precise_unit other) const
     {
-        return {base_units_ - other.base_units_,
+        return {base_units_ / other.base_units_,
                 (commodity_ == 0) ?
                     ((other.commodity_ == 0) ? 0 : ~other.commodity_) :
                     ((other.commodity_ == 0) ? commodity_ : commodity_ & (~other.commodity_)),
@@ -614,7 +610,7 @@ class precise_unit {
     /// Divide by a less precise unit
     constexpr precise_unit operator/(unit other) const
     {
-        return {base_units_ - other.base_units_, commodity_, multiplier() / other.multiplier()};
+        return {base_units_ / other.base_units_, commodity_, multiplier() / other.multiplier()};
     }
     /// take a unit to a power
     constexpr precise_unit pow(int power) const
@@ -786,16 +782,41 @@ inline bool isinf(unit u)
 {
     return std::isinf(u.multiplier());
 }
+/** generate a unit which is an integer power of another
+@param u the unit to raise to a specific power
+@param power the integral power, can be positive or negative
+@return a new unit with the appropriate value
+*/
+inline constexpr unit pow(unit u, int power)
+{
+    return u.pow(power);
+}
+
+/** generate a precise unit which is an integer power of another
+@param u the precise unit to raise to a specific power
+@param power the integral power, can be positive or negative
+@return a new precise unit with the appropriate value
+*/
+inline constexpr precise_unit pow(precise_unit u, int power)
+{
+    return u.pow(power);
+}
 
 #ifndef UNITS_HEADER_ONLY
+
+/// take the root of a unit to some power
+unit root(unit u, int power);
+
+precise_unit root(precise_unit u, int power);
+
 inline unit sqrt(unit u)
 {
-    return u.root(2);
+    return root(u, 2);
 }
 
 inline precise_unit sqrt(precise_unit u)
 {
-    return u.root(2);
+    return root(u, 2);
 }
 #endif
 

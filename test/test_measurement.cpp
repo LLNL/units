@@ -137,14 +137,14 @@ TEST(measurement, powroot)
 {
     measurement m1(2.0, m);
 
-    auto v1 = m1.pow(3);
+    auto v1 = pow(m1, 3);
     EXPECT_EQ(v1.value(), 8.0);
     EXPECT_EQ(v1.units(), m.pow(3));
 
-    auto m2 = v1.root(3);
+    auto m2 = root(v1, 3);
     EXPECT_TRUE(m2 == m1);
 
-    auto m0 = v1.root(0);
+    auto m0 = root(v1, 0);
     EXPECT_EQ(m0.value(), 1.0);
     EXPECT_EQ(m0.units(), one);
 
@@ -343,11 +343,11 @@ TEST(fixedMeasurement, powroot)
 {
     fixed_measurement m1(2.0, m);
 
-    auto v1 = m1.pow(3);
+    auto v1 = pow(m1, 3);
     EXPECT_EQ(v1.value(), 8.0);
     EXPECT_EQ(v1.units(), m.pow(3));
 
-    auto m2 = v1.root(3);
+    auto m2 = root(v1, 3);
     EXPECT_TRUE(m2 == m1);
 
     fixed_measurement m4(16.0, m.pow(2));
@@ -470,11 +470,11 @@ TEST(PreciseMeasurement, powroot)
 {
     precise_measurement m1(2.0, precise::m);
 
-    auto v1 = m1.pow(3);
+    auto v1 = pow(m1, 3);
     EXPECT_EQ(v1.value(), 8.0);
     EXPECT_EQ(v1.units(), precise::m.pow(3));
 
-    auto m2 = v1.root(3);
+    auto m2 = root(v1, 3);
     EXPECT_TRUE(m2 == m1);
     precise_measurement m4(16.0, precise::m.pow(2));
     EXPECT_EQ(sqrt(m4), precise_measurement(4.0, precise::m));
@@ -517,11 +517,11 @@ TEST(fixedPreciseMeasurement, powroot)
 {
     fixed_precise_measurement m1(2.0, precise::m);
 
-    auto v1 = m1.pow(3);
+    auto v1 = pow(m1, 3);
     EXPECT_EQ(v1.value(), 8.0);
     EXPECT_EQ(v1.units(), precise::m.pow(3));
 
-    auto m2 = v1.root(3);
+    auto m2 = root(v1, 3);
     EXPECT_TRUE(m2 == m1);
 
     fixed_precise_measurement m4(16.0, precise::m.pow(2));

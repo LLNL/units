@@ -52,54 +52,54 @@ X numericalRoot(X value, int power)
     }
 }
 
-unit unit::root(int power) const
+unit root(unit un, int power)
 {
     if (power == 0) {
         return one;
     }
-    if (multiplier_ < 0.0f && power % 2 == 0) {
+    if (un.multiplier() < 0.0 && power % 2 == 0) {
         return error;
     }
-    return unit{base_units_.root(power), numericalRoot(multiplier_, power)};
+    return unit{un.base_units().root(power), numericalRoot(un.multiplier(), power)};
 }
 
-precise_unit precise_unit::root(int power) const
+precise_unit root(precise_unit un, int power)
 {
     if (power == 0) {
         return precise::one;
     }
-    if (multiplier_ < 0.0 && power % 2 == 0) {
+    if (un.multiplier() < 0.0 && power % 2 == 0) {
         return precise::invalid;
     }
-    return precise_unit{base_units_.root(power), numericalRoot(multiplier_, power)};
+    return precise_unit{un.base_units().root(power), numericalRoot(un.multiplier(), power)};
 }
 
-measurement measurement::root(int power) const
+measurement root(const measurement& meas, int power)
 {
-    return measurement(numericalRoot(value_, power), units_.root(power));
+    return measurement(numericalRoot(meas.value(), power), root(meas.units(), power));
 }
 
-fixed_measurement fixed_measurement::root(int power) const
+fixed_measurement root(const fixed_measurement& fm, int power)
 {
-    return fixed_measurement(numericalRoot(value_, power), units_.root(power));
+    return fixed_measurement(numericalRoot(fm.value(), power), root(fm.units(), power));
 }
 
-uncertain_measurement uncertain_measurement::root(int power) const
+uncertain_measurement root(const uncertain_measurement& um, int power)
 {
-    auto new_value = numericalRoot(value_, power);
-    auto new_tol =
-        new_value * uncertainty_ / (static_cast<float>((power >= 0) ? power : -power) * value_);
-    return uncertain_measurement(new_value, new_tol, units_.root(power));
+    auto new_value = numericalRoot(um.value(), power);
+    auto new_tol = new_value * um.uncertainty() /
+        (static_cast<double>((power >= 0) ? power : -power) * um.value());
+    return uncertain_measurement(new_value, new_tol, root(um.units(), power));
 }
 
-precise_measurement precise_measurement::root(int power) const
+precise_measurement root(const precise_measurement& pm, int power)
 {
-    return precise_measurement(numericalRoot(value_, power), units_.root(power));
+    return precise_measurement(numericalRoot(pm.value(), power), root(pm.units(), power));
 }
 
-fixed_precise_measurement fixed_precise_measurement::root(int power) const
+fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power)
 {
-    return fixed_precise_measurement(numericalRoot(value_, power), units_.root(power));
+    return fixed_precise_measurement(numericalRoot(fpm.value(), power), root(fpm.units(), power));
 }
 
 // sum the powers of a unit
@@ -733,7 +733,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     /// Check for squared units
     if (!un.base_units().root(2).has_e_flag() && !un.base_units().has_i_flag() &&
         un.multiplier() > 0.0) {
-        auto squ = llunit.root(2);
+        auto squ = root(llunit, 2);
         fnd = find_unit(squ);
         if (!fnd.empty()) {
             return fnd + "^2";
@@ -745,7 +745,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     }
     /// Check for cubed units
     if (!un.base_units().root(3).has_e_flag() && !un.base_units().has_i_flag()) {
-        auto cub = llunit.root(3);
+        auto cub = root(llunit, 3);
         fnd = find_unit(cub);
         if (!fnd.empty()) {
             return fnd + "^3";
@@ -1150,7 +1150,7 @@ static double getNumberBlock(const std::string& ustring, size_t& index)
             double pval = getNumberBlock(ustring.substr(index + 1), nindex);
             if (!std::isnan(pval)) {
                 index += nindex + 1;
-                return pow(val, pval);
+                return std::pow(val, pval);
             }
             index = 0;
             return constants::invalid_conversion;

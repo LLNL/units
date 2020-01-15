@@ -254,15 +254,15 @@ TEST(uncertainOps, pow1)
     uncertain_measurement y(3.0, 0.6, cm);
     uncertain_measurement Av(2.0, 0.2, cm.pow(2));
 
-    auto z = w * y.pow(2) / Av.root(2);
+    auto z = w * pow(y, 2) / root(Av, 2);
     EXPECT_NEAR(z.value(), 28.765, 0.0005);
     EXPECT_NEAR(z.uncertainty(), 13.07, 0.005);
 
-    auto z2 = w * y.pow(2) / sqrt(Av);
+    auto z2 = w * pow(y, 2) / sqrt(Av);
     EXPECT_NEAR(z2.value(), 28.765, 0.0005);
     EXPECT_NEAR(z2.uncertainty(), 13.07, 0.005);
 
-    auto zs = w.rss_product(y.pow(2)).rss_divide(Av.root(2));
+    auto zs = w.rss_product(pow(y, 2)).rss_divide(root(Av, 2));
     EXPECT_NEAR(zs.value(), 29, 0.5);
     EXPECT_NEAR(zs.uncertainty(), 12, 0.5);
 }
@@ -382,9 +382,9 @@ TEST(uncertainOps, testHeight)
     uncertain_measurement t(0.6, 0.06, s);
     measurement gc = 9.8 * m / s.pow(2);
 
-    auto y = v0 * t - 0.5 * gc * t.pow(2);
+    auto y = v0 * t - 0.5 * gc * pow(t, 2);
 
-    auto ys = v0.rss_product(t).rss_subtract(0.5 * gc * t.pow(2));
+    auto ys = v0.rss_product(t).rss_subtract(0.5 * gc * pow(t, 2));
 
     EXPECT_NEAR(y.uncertainty(), 0.712, 0.005);
     EXPECT_NEAR(y.value(), 0.636, 0.0005);

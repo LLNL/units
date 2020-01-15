@@ -51,7 +51,7 @@ TEST(unitOps, power)
 {
     auto m2 = m.pow(2);
     EXPECT_EQ(m * m, m2);
-    auto m4 = m.pow(4);
+    auto m4 = pow(m, 4); //use the free function form
     EXPECT_EQ(m * m * m * m, m4);
     auto m4_b = m2.pow(2);
     EXPECT_EQ(m4_b, m * m * m * m);
@@ -63,39 +63,39 @@ TEST(unitOps, power)
 
 TEST(unitOps, root)
 {
-    EXPECT_EQ(m.root(0), one);
+    EXPECT_EQ(root(m, 0), one);
     auto m1 = m.pow(1);
-    EXPECT_EQ(m, m1.root(1));
-    EXPECT_EQ(m.inv(), m1.root(-1));
-    auto m2 = m.pow(2);
-    EXPECT_EQ(m, m2.root(2));
+    EXPECT_EQ(m, root(m1, 1));
+    EXPECT_EQ(m.inv(), root(m1, -1));
+    auto m2 = pow(m, 2);
+    EXPECT_EQ(m, root(m2, 2));
 
     EXPECT_EQ(m, sqrt(m2));
 
     auto m4 = m.pow(4);
-    EXPECT_EQ(m * m, m4.root(2));
-    EXPECT_EQ(m, m4.root(4));
+    EXPECT_EQ(m * m, root(m4, 2));
+    EXPECT_EQ(m, root(m4, 4));
 
     auto ft1 = ft.pow(1);
-    EXPECT_EQ(ft, ft1.root(1));
-    EXPECT_EQ(ft.inv(), ft1.root(-1));
+    EXPECT_EQ(ft, root(ft1, 1));
+    EXPECT_EQ(ft.inv(), root(ft1, -1));
 
     auto ft2 = ft.pow(2);
-    EXPECT_EQ(ft, ft2.root(2));
-    EXPECT_EQ(ft.inv(), ft2.root(-2));
+    EXPECT_EQ(ft, root(ft2, 2));
+    EXPECT_EQ(ft.inv(), root(ft2, -2));
     auto ft3 = ft.pow(3);
-    EXPECT_EQ(ft, ft3.root(3));
-    EXPECT_EQ(ft.inv(), ft3.root(-3));
+    EXPECT_EQ(ft, root(ft3, 3));
+    EXPECT_EQ(ft.inv(), root(ft3, -3));
     auto ft4 = ft.pow(4);
-    EXPECT_EQ(ft * ft, ft4.root(2));
-    EXPECT_EQ(ft, ft4.root(4));
-    EXPECT_EQ(ft.inv(), ft4.root(-4));
+    EXPECT_EQ(ft * ft, root(ft4, 2));
+    EXPECT_EQ(ft, root(ft4, 4));
+    EXPECT_EQ(ft.inv(), root(ft4, -4));
 
     auto ft5 = ft.pow(5);
-    EXPECT_EQ(ft, ft5.root(5));
-    EXPECT_EQ(ft.inv(), ft5.root(-5));
+    EXPECT_EQ(ft, root(ft5, 5));
+    EXPECT_EQ(ft.inv(), root(ft5, -5));
 
-    EXPECT_EQ(unit(-4.5, m).root(2), error);
+    EXPECT_EQ(root(unit(-4.5, m), 2), error);
 }
 
 TEST(unitOps, nan)
@@ -314,7 +314,7 @@ TEST(preciseUnitOps, Power)
 {
     auto m2 = precise::m.pow(2);
     EXPECT_EQ(precise::m * precise::m, m2);
-    auto m4 = m.pow(4);
+    auto m4 = pow(m, 4);
     EXPECT_EQ(precise::m * precise::m * precise::m * precise::m, m4);
     auto m4_b = m2.pow(2);
     EXPECT_EQ(m4_b, precise::m * precise::m * precise::m * precise::m);
@@ -324,36 +324,36 @@ TEST(preciseUnitOps, Power)
 TEST(preciseUnitOps, root)
 {
     auto m1 = precise::m.pow(1);
-    EXPECT_EQ(precise::m, m1.root(1));
-    EXPECT_EQ(precise::m.inv(), m1.root(-1));
-    auto m2 = precise::m.pow(2);
-    EXPECT_EQ(precise::m, m2.root(2));
+    EXPECT_EQ(precise::m, root(m1, 1));
+    EXPECT_EQ(precise::m.inv(), root(m1, -1));
+    auto m2 = pow(precise::m, 2); //use the alternate free function form
+    EXPECT_EQ(precise::m, root(m2, 2));
     EXPECT_EQ(precise::m, sqrt(m2));
     auto m4 = precise::m.pow(4);
-    EXPECT_EQ(precise::m * precise::m, m4.root(2));
-    EXPECT_EQ(precise::m, m4.root(4));
+    EXPECT_EQ(precise::m * precise::m, root(m4, 2));
+    EXPECT_EQ(precise::m, root(m4, 4));
 
-    EXPECT_EQ(precise::ft.root(0), precise::one);
+    EXPECT_EQ(root(precise::ft, 0), precise::one);
     auto ft1 = precise::ft.pow(1);
-    EXPECT_EQ(precise::ft, ft1.root(1));
-    EXPECT_EQ(precise::ft.inv(), ft1.root(-1));
+    EXPECT_EQ(precise::ft, root(ft1, 1));
+    EXPECT_EQ(precise::ft.inv(), root(ft1, -1));
 
     auto ft2 = precise::ft.pow(2);
-    EXPECT_EQ(precise::ft, ft2.root(2));
-    EXPECT_EQ(precise::ft.inv(), ft2.root(-2));
+    EXPECT_EQ(precise::ft, root(ft2, 2));
+    EXPECT_EQ(precise::ft.inv(), root(ft2, -2));
     auto ft3 = precise::ft.pow(3);
-    EXPECT_EQ(precise::ft, ft3.root(3));
-    EXPECT_EQ(precise::ft.inv(), ft3.root(-3));
+    EXPECT_EQ(precise::ft, root(ft3, 3));
+    EXPECT_EQ(precise::ft.inv(), root(ft3, -3));
     auto ft4 = precise::ft.pow(4);
-    EXPECT_EQ(precise::ft * precise::ft, ft4.root(2));
-    EXPECT_EQ(precise::ft, ft4.root(4));
-    EXPECT_EQ(precise::ft.inv(), ft4.root(-4));
+    EXPECT_EQ(precise::ft * precise::ft, root(ft4, 2));
+    EXPECT_EQ(precise::ft, root(ft4, 4));
+    EXPECT_EQ(precise::ft.inv(), root(ft4, -4));
 
     auto ft5 = precise::ft.pow(5);
-    EXPECT_EQ(precise::ft, ft5.root(5));
-    EXPECT_EQ(precise::ft.inv(), ft5.root(-5));
+    EXPECT_EQ(precise::ft, root(ft5, 5));
+    EXPECT_EQ(precise::ft.inv(), root(ft5, -5));
 
-    EXPECT_TRUE(is_error((precise_unit(-4.5, m).root(2))));
+    EXPECT_TRUE(is_error(root(precise_unit(-4.5, m), 2)));
 }
 
 TEST(preciseUnitOps, nan)

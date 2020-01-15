@@ -153,7 +153,6 @@ These operations apply to units and precise_units
 -   also available are copy constructor and copy assignments
 -   `<unit> inv()`  generate a new unit containing the inverse unit  `m.inv()= 1/m`
 -   `<unit> pow(int power)` take a unit to power(NOTE: beware of limits on power representations of some units,  things will always wrap so it is defined but may not produce what you expect).  `power` can be negative.
--   `<unit> root(int power)`  non constexpr, take the root of a unit,  produces `error` unit if the root is not well defined.  power can be negative.
 -   `bool is_exactly_the_same(<unit>)` compare two units and check for exact equivalence in both the unit_data and the multiplier, NOTE: this uses double equality
 -   `bool has_same_base(<unit>|<unit_data>)`  check if the <unit_data> is the same
 -   `equivalent_non_counting(<unit>|<unit_data>)`   check if the units are equivalent ignoring the counting bases
@@ -204,6 +203,7 @@ These functions are not class methods but operate on units
 -   `bool is_valid(<unit>)`  check to make sure the unit is not an invalid unit( the multiplier is not a NaN) and the unit_data does not match the defined `invalid_unit`.
 -   ` bool is_temperature(<unit>)`  return true if the unit is a temperature unit such as `F` or `C` or one of the other temperature units.
 -   `bool is_normal(<unit>)` return true if the multiplier is a normal number, there is some defined unit base, not the identity unit, the multiplier is not negative, and not the default unit.  basically a simple way to check if you have some non-special unit that will behave more or less how you expect it to.  
+-   `<unit> root(<unit>, int power)`  non constexpr, take the root of a unit,  produces `error` unit if the root is not well defined.  power can be negative.
 -   `<unit> sqrt(<unit>)` convenience function for taking the sqrt of a unit.
 
 ### Measurement Operations
@@ -214,8 +214,6 @@ These functions are not class methods but operate on units
 -   `<unit> units() const`  get the units used as a basis for the measurement
 -   `<unit> as_unit() const`  take the measurement as is and convert it into a single unit.  For Examples say a was 10 m.    calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
 -   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit>
--   `<measurement> root(int)` generate a root of a measurement
--   `<measurement> pow(int)`  generate a measurement which is a specific power of another measurement
 
 #### Uncertain measurement methods
 Uncertatin measurements have a few additional functions to support the uncertainty calculations
@@ -239,10 +237,12 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 -   `<measurement>=<unit>/<double>`  
 -   `<measurement>=<double>/<unit>`  basically calling a number multiplied or divided by a <unit> produces a measurement,  `unit` produces a measurement and `precise_unit` produces a precise_measurement.  
 
-#### Measurement function
+#### Measurement functions
 
 -   `measurement measurement_cast(<measurement>)`  convert a precise_measurement into measurement
--   `fixed_measurement measurement_cast(fixed_precise_measurement)`  convert a fixed_precise_measurement into a fixed_measurement
+-   `fixed_measurement measurement_cast(<fixed*_measurement>)`  convert a fixed_precise_measurement or fixed_measurement into a fixed_measurement
+-   `<measurement> pow(<measurement>, int)`  generate a measurement which is a specific power of another measurement
+-   `<measurement> root(<measurement>, int)` generate a root of a measurement
 -   `<measurement>  sqrt(<measurement>)`  take the square root of a measurement of any kind,  the units need to have a valid root.  
 
 ### Available library functions
@@ -269,7 +269,7 @@ The units library has some support for commodities,  more might be added in the 
 -   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  they are enabled by default.
 
 #### Other unit definitions
-These are all only partially implemented
+These are all only partially implemented, not recommended for use yet
 -   `precise_unit x12_unit(string)`  get a unit from an X12 string.
 -   `precise_unit dod_unit(string)`  get a unit from a DOD code string.
 -   `precise_unit r20_unit(string)`  get a unit from an r20 code string.

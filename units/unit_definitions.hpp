@@ -1008,35 +1008,35 @@ namespace precise {
             switch (logtype) {
                 case 0:
                 case 10:
-                    return pow(10.0, val);
+                    return std::pow(10.0, val);
                 case 1:
-                    return exp(val / ((is_power_unit(UT)) ? 0.5 : 1.0));
+                    return std::exp(val / ((is_power_unit(UT)) ? 0.5 : 1.0));
                 case 2:
-                    return pow(10.0, val / ((is_power_unit(UT)) ? 1.0 : 2.0));
+                    return std::pow(10.0, val / ((is_power_unit(UT)) ? 1.0 : 2.0));
                 case 3:
-                    return pow(10.0, val / ((is_power_unit(UT)) ? 10.0 : 20.0));
+                    return std::pow(10.0, val / ((is_power_unit(UT)) ? 10.0 : 20.0));
                 case 4:
-                    return pow(10.0, -val);
+                    return std::pow(10.0, -val);
                 case 5:
-                    return pow(100.0, -val);
+                    return std::pow(100.0, -val);
                 case 6:
-                    return pow(1000.0, -val);
+                    return std::pow(1000.0, -val);
                 case 7:
-                    return pow(50000.0, -val);
+                    return std::pow(50000.0, -val);
                 case 8:
-                    return exp2(val);
+                    return std::exp2(val);
                 case 9:
-                    return exp(val);
+                    return std::exp(val);
                 case 11:
-                    return pow(10.0, val / 10.0);
+                    return std::pow(10.0, val / 10.0);
                 case 12:
-                    return pow(10.0, val / 2.0);
+                    return std::pow(10.0, val / 2.0);
                 case 13:
-                    return pow(10.0, val / 20.0);
+                    return std::pow(10.0, val / 20.0);
                 case 14:
-                    return pow(3.0, val);
+                    return std::pow(3.0, val);
                 case 15:
-                    return exp(val / 0.5);
+                    return std::exp(val / 0.5);
                 case 22: // saffir simpson hurricane wind scale
                 {
                     double out = -0.17613636364;
@@ -1055,13 +1055,13 @@ namespace precise {
                     return out;
                 }
                 case 24: // Fujita scale
-                    return 14.1 * pow(val + 2.0, 1.5);
+                    return 14.1 * std::pow(val + 2.0, 1.5);
                 case 27: // prism diopter
-                    return atan(val / 100.0);
+                    return std::atan(val / 100.0);
                 case 29: // moment magnitude scale
-                    return pow(10.0, (val + 10.7) * 1.5);
+                    return std::pow(10.0, (val + 10.7) * 1.5);
                 case 30:
-                    return pow(10.0, (val + 3.2) * 1.5);
+                    return std::pow(10.0, (val + 3.2) * 1.5);
                 default:
                     return val;
             }
@@ -1081,33 +1081,33 @@ namespace precise {
             switch (logtype) {
                 case 0:
                 case 10:
-                    return log10(val);
+                    return std::log10(val);
                 case 1:
                     return ((is_power_unit(UT)) ? 0.5 : 1.0) * (std::log)(val);
                 case 2:
-                    return ((is_power_unit(UT)) ? 1.0 : 2.0) * log10(val);
+                    return ((is_power_unit(UT)) ? 1.0 : 2.0) * std::log10(val);
                 case 3:
-                    return ((is_power_unit(UT)) ? 10.0 : 20.0) * log10(val);
+                    return ((is_power_unit(UT)) ? 10.0 : 20.0) * std::log10(val);
                 case 4:
-                    return -log10(val);
+                    return -std::log10(val);
                 case 5:
-                    return -log10(val) / 2.0;
+                    return -std::log10(val) / 2.0;
                 case 6:
-                    return -log10(val) / 3.0;
+                    return -std::log10(val) / 3.0;
                 case 7:
-                    return -log10(val) / log10(50000);
+                    return -std::log10(val) / std::log10(50000);
                 case 8:
                     return (std::log2)(val);
                 case 9:
                     return (std::log)(val);
                 case 11:
-                    return 10.0 * log10(val);
+                    return 10.0 * std::log10(val);
                 case 12:
-                    return 2.0 * log10(val);
+                    return 2.0 * std::log10(val);
                 case 13:
-                    return 20.0 * log10(val);
+                    return 20.0 * std::log10(val);
                 case 14:
-                    return log10(val) / log10(3);
+                    return std::log10(val) / std::log10(3);
                 case 15:
                     return 0.5 * (std::log)(val);
                 case 22: // saffir simpson hurricane scale from wind speed
@@ -1130,13 +1130,13 @@ namespace precise {
                     return out;
                 }
                 case 24: // fujita scale
-                    return pow(val / 14.1, 2.0 / 3.0) - 2.0;
+                    return std::pow(val / 14.1, 2.0 / 3.0) - 2.0;
                 case 27:
-                    return 100.0 * tan(val);
+                    return 100.0 * std::tan(val);
                 case 29: // moment magnitude scale
-                    return 2.0 / 3.0 * log10(val) - 10.7;
+                    return 2.0 / 3.0 * std::log10(val) - 10.7;
                 case 30: // energy magnitude scale
-                    return 2.0 / 3.0 * log10(val) - 3.2;
+                    return 2.0 / 3.0 * std::log10(val) - 3.2;
                 default:
                     return val;
             }
