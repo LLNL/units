@@ -74,32 +74,32 @@ precise_unit root(precise_unit un, int power)
     return precise_unit{un.base_units().root(power), numericalRoot(un.multiplier(), power)};
 }
 
-measurement root(const measurement &meas, int power)
+measurement root(const measurement& meas, int power)
 {
-    return measurement(numericalRoot(meas.value(), power), root(meas.units(),power));
+    return measurement(numericalRoot(meas.value(), power), root(meas.units(), power));
 }
 
-fixed_measurement root(const fixed_measurement &fm, int power)
+fixed_measurement root(const fixed_measurement& fm, int power)
 {
-    return fixed_measurement(numericalRoot(fm.value(), power), root(fm.units(),power));
+    return fixed_measurement(numericalRoot(fm.value(), power), root(fm.units(), power));
 }
 
-uncertain_measurement root(const uncertain_measurement &um, int power)
+uncertain_measurement root(const uncertain_measurement& um, int power)
 {
     auto new_value = numericalRoot(um.value(), power);
-    auto new_tol =
-        new_value * um.uncertainty() / (static_cast<double>((power >= 0) ? power : -power) * um.value());
-    return uncertain_measurement(new_value, new_tol, root(um.units(),power));
+    auto new_tol = new_value * um.uncertainty() /
+        (static_cast<double>((power >= 0) ? power : -power) * um.value());
+    return uncertain_measurement(new_value, new_tol, root(um.units(), power));
 }
 
-precise_measurement root(const precise_measurement &pm, int power)
+precise_measurement root(const precise_measurement& pm, int power)
 {
-    return precise_measurement(numericalRoot(pm.value(), power), root(pm.units(),power));
+    return precise_measurement(numericalRoot(pm.value(), power), root(pm.units(), power));
 }
 
-fixed_precise_measurement root(const fixed_precise_measurement &fpm, int power)
+fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power)
 {
-    return fixed_precise_measurement(numericalRoot(fpm.value(), power), root(fpm.units(),power));
+    return fixed_precise_measurement(numericalRoot(fpm.value(), power), root(fpm.units(), power));
 }
 
 // sum the powers of a unit
@@ -733,7 +733,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     /// Check for squared units
     if (!un.base_units().root(2).has_e_flag() && !un.base_units().has_i_flag() &&
         un.multiplier() > 0.0) {
-        auto squ = root(llunit,2);
+        auto squ = root(llunit, 2);
         fnd = find_unit(squ);
         if (!fnd.empty()) {
             return fnd + "^2";
@@ -745,7 +745,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
     }
     /// Check for cubed units
     if (!un.base_units().root(3).has_e_flag() && !un.base_units().has_i_flag()) {
-        auto cub = root(llunit,3);
+        auto cub = root(llunit, 3);
         fnd = find_unit(cub);
         if (!fnd.empty()) {
             return fnd + "^3";
