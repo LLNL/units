@@ -1150,7 +1150,7 @@ static double getNumberBlock(const std::string& ustring, size_t& index)
             double pval = getNumberBlock(ustring.substr(index + 1), nindex);
             if (!std::isnan(pval)) {
                 index += nindex + 1;
-                return pow(val, pval);
+                return std::pow(val, pval);
             }
             index = 0;
             return constants::invalid_conversion;

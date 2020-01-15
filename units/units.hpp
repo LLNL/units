@@ -265,9 +265,9 @@ class measurement {
         return {val / meas.value_, meas.units_.inv()};
     }
 
-    constexpr measurement pow(int power) const
+    friend constexpr measurement pow(const measurement& meas, int power)
     {
-        return measurement{detail::power_const(value_, power), units_.pow(power)};
+        return measurement{detail::power_const(meas.value_, power), meas.units_.pow(power)};
     }
     /// Convert a unit to have a new base
     measurement convert_to(unit newUnits) const
@@ -428,9 +428,9 @@ class fixed_measurement {
     }
 
     /// take the measurement to some power
-    constexpr fixed_measurement pow(int power) const
+    constexpr friend fixed_measurement pow(const fixed_measurement& meas, int power)
     {
-        return fixed_measurement{detail::power_const(value_, power), units_.pow(power)};
+        return fixed_measurement{detail::power_const(meas.value_, power), meas.units_.pow(power)};
     }
     /// Convert a unit to have a new base
     fixed_measurement convert_to(unit newUnits) const
@@ -759,11 +759,13 @@ class uncertain_measurement {
     }
 
     /// take the measurement to some power
-    UNITS_CPP14_CONSTEXPR uncertain_measurement pow(int power) const
+    friend UNITS_CPP14_CONSTEXPR uncertain_measurement
+        pow(const uncertain_measurement& meas, int power)
     {
-        auto new_value = detail::power_const(value_, power);
-        auto new_tol = ((power >= 0) ? power : -power) * new_value * uncertainty_ / value_;
-        return uncertain_measurement{new_value, new_tol, units_.pow(power)};
+        auto new_value = detail::power_const(meas.value_, power);
+        auto new_tol =
+            ((power >= 0) ? power : -power) * new_value * meas.uncertainty_ / meas.value_;
+        return uncertain_measurement{new_value, new_tol, meas.units_.pow(power)};
     }
 
     /// Convert a unit to have a new base
@@ -974,9 +976,9 @@ class precise_measurement {
     }
 
     /// take the measurement to some power
-    constexpr precise_measurement pow(int power) const
+    constexpr friend precise_measurement pow(const precise_measurement& meas, int power)
     {
-        return precise_measurement{detail::power_const(value_, power), units_.pow(power)};
+        return precise_measurement{detail::power_const(meas.value_, power), meas.units_.pow(power)};
     }
 
     /// Convert a unit to have a new base
@@ -1182,9 +1184,10 @@ class fixed_precise_measurement {
     }
 
     /// take the measurement to some power
-    constexpr fixed_precise_measurement pow(int power) const
+    constexpr friend fixed_precise_measurement pow(const fixed_precise_measurement& meas, int power)
     {
-        return fixed_precise_measurement{detail::power_const(value_, power), units_.pow(power)};
+        return fixed_precise_measurement{detail::power_const(meas.value_, power),
+                                         meas.units_.pow(power)};
     }
 
     /// Convert a unit to have a new base
@@ -1300,19 +1303,19 @@ constexpr measurement measurement_cast(measurement measure)
 
 #ifndef UNITS_HEADER_ONLY
 
-measurement root(const measurement &meas, int power);
+measurement root(const measurement& meas, int power);
 
-fixed_measurement root(const fixed_measurement &fm, int power);
+fixed_measurement root(const fixed_measurement& fm, int power);
 
-uncertain_measurement root(const uncertain_measurement &um, int power);
+uncertain_measurement root(const uncertain_measurement& um, int power);
 
-precise_measurement root(const precise_measurement &pm, int power);
+precise_measurement root(const precise_measurement& pm, int power);
 
-fixed_precise_measurement root(const fixed_precise_measurement &fpm, int power);
+fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power);
 
 inline measurement sqrt(const measurement& meas)
 {
-    return root(meas,2);
+    return root(meas, 2);
 }
 
 inline precise_measurement sqrt(const precise_measurement& meas)

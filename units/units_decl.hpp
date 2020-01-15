@@ -782,6 +782,25 @@ inline bool isinf(unit u)
 {
     return std::isinf(u.multiplier());
 }
+/** generate a unit which is an integer power of another
+@param u the unit to raise to a specific power
+@param power the integral power, can be positive or negative
+@return a new unit with the appropriate value
+*/
+inline constexpr unit pow(unit u, int power)
+{
+    return u.pow(power);
+}
+
+/** generate a precise unit which is an integer power of another
+@param u the precise unit to raise to a specific power
+@param power the integral power, can be positive or negative
+@return a new precise unit with the appropriate value
+*/
+inline constexpr precise_unit pow(precise_unit u, int power)
+{
+    return u.pow(power);
+}
 
 #ifndef UNITS_HEADER_ONLY
 
@@ -792,12 +811,12 @@ precise_unit root(precise_unit u, int power);
 
 inline unit sqrt(unit u)
 {
-    return root(u,2);
+    return root(u, 2);
 }
 
 inline precise_unit sqrt(precise_unit u)
 {
-    return root(u,2);
+    return root(u, 2);
 }
 #endif
 
