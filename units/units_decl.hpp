@@ -401,6 +401,7 @@ namespace detail {
             return true;
         }
         // yes these are magic numbers half the value specified precision of 1e-12
+		// and yes I am purposely using the floating point equality here
         if (cround_precise(val1 * (1.0 + 5.000e-13)) == c1) {
             return true;
         }
@@ -508,6 +509,8 @@ class unit {
     constexpr bool has_e_flag() const { return base_units_.has_e_flag(); }
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return static_cast<double>(multiplier_); }
+	/// Extract the base unit Multiplier as a single precision float
+	constexpr double multiplier_f() const { return multiplier_; }
     /// generate a rounded version of the multiplier
     float cround() const { return detail::cround(multiplier_); }
     constexpr detail::unit_data base_units() const { return base_units_; }
@@ -711,6 +714,8 @@ class precise_unit {
     constexpr uint32_t commodity() const { return commodity_; }
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return multiplier_; }
+	/// Extract the base unit Multiplier as a single precision float
+	constexpr double multiplier_f() const { return static_cast<float>(multiplier_); }
     /// Generate a rounded value of the multiplier rounded to the defined precision
     double cround() const { return detail::cround_precise(multiplier_); }
     /// Get the base units
