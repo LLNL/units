@@ -6,7 +6,6 @@ RUN zypper install -y make gcc-c++ boost-devel cmake git
 WORKDIR /root/develop
 
 RUN git clone https://github.com/LLNL/units.git units
-RUN cd units && git checkout webserver
 
 WORKDIR /root/develop/build
 RUN cmake ../units -DUNITS_BUILD_WEBSERVER=ON -DBUILD_TESTING=OFF -DUNITS_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release && make -j2
