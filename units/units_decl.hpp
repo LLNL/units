@@ -451,10 +451,6 @@ class unit {
     {
         return unit{base_units_.pow(power), detail::power_const(multiplier_, power)};
     }
-#ifndef UNITS_HEADER_ONLY
-    /// take the root of a unit to some power
-    unit root(int power) const;
-#endif
     /// Test for unit equivalence to within nominal numerical tolerance (6 decimal digits)
     bool operator==(unit other) const
     {
@@ -788,14 +784,20 @@ inline bool isinf(unit u)
 }
 
 #ifndef UNITS_HEADER_ONLY
+
+/// take the root of a unit to some power
+unit root(unit u, int power);
+
+precise_unit root(precise_unit u, int power);
+
 inline unit sqrt(unit u)
 {
-    return u.root(2);
+    return root(u,2);
 }
 
 inline precise_unit sqrt(precise_unit u)
 {
-    return u.root(2);
+    return root(u,2);
 }
 #endif
 
