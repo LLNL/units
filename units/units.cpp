@@ -506,22 +506,21 @@ static void addUnitPower(std::string& str, const char* unit, int power)
 }
 
 // add the flag string to another unit string
-static void addUnitFlagStrings(precise_unit un, std::string &unitString)
+static void addUnitFlagStrings(precise_unit un, std::string& unitString)
 {
-	if (un.base_units().has_i_flag()) {
-		if (unitString.empty()) {
-			unitString = "flag";
-		}
-		else {
-			unitString.append("*flag");
-		}
-	}
-	if (un.base_units().has_e_flag()) {
-		unitString.insert(0, "eflag*");
-	}
-	if (un.base_units().is_per_unit()) {
-		unitString.insert(0, "pu*");
-	}
+    if (un.base_units().has_i_flag()) {
+        if (unitString.empty()) {
+            unitString = "flag";
+        } else {
+            unitString.append("*flag");
+        }
+    }
+    if (un.base_units().has_e_flag()) {
+        unitString.insert(0, "eflag*");
+    }
+    if (un.base_units().is_per_unit()) {
+        unitString.insert(0, "pu*");
+    }
 }
 
 static std::string generateRawUnitString(precise_unit un)
@@ -537,7 +536,7 @@ static std::string generateRawUnitString(precise_unit un)
     addUnitPower(val, "item", un.base_units().count());
     addUnitPower(val, "$", un.base_units().currency());
     addUnitPower(val, "rad", un.base_units().radian());
-	addUnitFlagStrings(un, val);
+    addUnitFlagStrings(un, val);
     return val;
 }
 
@@ -735,14 +734,13 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         if (un == precise::one) {
             return mstring;
         }
-		mstring.push_back('*');
-		fnd = find_unit(unit_cast(un));
-		if (!fnd.empty())
-		{
-			return mstring + fnd;
-		}
-		addUnitFlagStrings(un, fnd);
-		return mstring + fnd;
+        mstring.push_back('*');
+        fnd = find_unit(unit_cast(un));
+        if (!fnd.empty()) {
+            return mstring + fnd;
+        }
+        addUnitFlagStrings(un, fnd);
+        return mstring + fnd;
     }
     /// Check for squared units
     if (!un.base_units().root(2).has_e_flag() && !un.base_units().has_i_flag() &&
