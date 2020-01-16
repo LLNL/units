@@ -6,7 +6,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if (CMAKE_VERSION VERSION_GREATER 3.12)
 
-   option(UNITS_BUILD_WEBSERVER "Build a unit webserver for unit string conversions requires boost 1.70 or greater" OFF)
+  cmake_dependent_option(
+    UNITS_BUILD_WEBSERVER
+    "Build a unit webserver for unit string conversions, requires boost 1.70 or greater"
+    OFF
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME"
+    OFF
+  )
 
    if (UNITS_BUILD_WEBSERVER)
 
