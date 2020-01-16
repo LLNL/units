@@ -58,7 +58,7 @@ jobs:
 
   unitsFuzz:
     docker:
-      - image: helics/buildenv:clang-builder
+      - image: helics/buildenv:clang-builder8
 
     environment:
       CMAKE_FLAGS: '-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_COMPILER_FORCED=ON -DCMAKE_CXX_FLAGS="-g -O1 -fsanitize=fuzzer,undefined,address" '
