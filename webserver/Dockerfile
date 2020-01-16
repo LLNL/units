@@ -18,8 +18,10 @@ FROM opensuse/tumbleweed:latest
 
 COPY --from=builder /root/develop/webserver /root/develop/webserver
 
+MAINTAINER top1@llnl.gov
+
 WORKDIR /root/develop/webserver
 
 EXPOSE 80/tcp
 
-CMD ["unit_web_server", "0.0.0.0", "80"]
+CMD ["./unit_web_server", "0.0.0.0", "80"]
