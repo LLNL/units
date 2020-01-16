@@ -20,4 +20,4 @@ VOLUME /fuzz
 
 WORKDIR /root/develop/fuzz_targets
 
-CMD ["fuzz_from_string" "-max_len=512" "-dict=/root/develop/fuzz_targets/fuzz_dictionary.txt"]
+CMD ["fuzz_script.sh"]
