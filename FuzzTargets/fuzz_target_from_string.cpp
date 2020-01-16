@@ -24,13 +24,13 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
         bool match = false;
         if (units::unit_cast(u2) == units::unit_cast(unit1)) {
             match = true;
-        } else if (std::isnormal(root(u2, 2))) {
+        } else if (units::isnormal(root(u2, 2))) {
             if (root(units::unit_cast(u2), 2) == root(units::unit_cast(unit1), 2)) {
                 match = true;
             }
         }
         if (!match) {
-            if (std::isnormal(root(u2, 3))) {
+            if (units::isnormal(root(u2, 3))) {
                 if (root(units::unit_cast(u2), 3) == root(units::unit_cast(unit1), 3)) {
                     match = true;
                 }
