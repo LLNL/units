@@ -1,6 +1,6 @@
 FROM ubuntu:18.04 as builder
 
-RUN apt-get update && apt-get install -y clang cmake git make 
+RUN apt-get update && apt-get install -y clang cmake git make
 
 WORKDIR /root/develop
 
@@ -16,8 +16,11 @@ RUN cp ../build/FuzzTargets/fuzz_from_string . && cp ../units/FuzzTargets/*.txt 
 FROM ubuntu:18.04
 
 COPY --from=builder /root/develop/fuzz_targets /root/develop/fuzz_targets
+
+MAINTAINER top1@llnl.gov
+
 VOLUME /fuzz
 
 WORKDIR /root/develop/fuzz_targets
 
-CMD ["fuzz_script.sh"]
+CMD ["./fuzz_script.sh"]
