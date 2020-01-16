@@ -497,12 +497,31 @@ static void addUnitPower(std::string& str, const char* unit, int power)
             str.push_back('^');
             if (power < 0) {
                 str.push_back('-');
-                str.push_back(48 - power);
+                str.push_back('0' - power);
             } else {
-                str.push_back(48 + power);
+                str.push_back('0' + power);
             }
         }
     }
+}
+
+// add the flag string to another unit string
+static void addUnitFlagStrings(precise_unit un, std::string &unitString)
+{
+	if (un.base_units().has_i_flag()) {
+		if (unitString.empty()) {
+			unitString = "flag";
+		}
+		else {
+			unitString.append("*flag");
+		}
+	}
+	if (un.base_units().has_e_flag()) {
+		unitString.insert(0, "eflag*");
+	}
+	if (un.base_units().is_per_unit()) {
+		unitString.insert(0, "pu*");
+	}
 }
 
 static std::string generateRawUnitString(precise_unit un)
@@ -518,19 +537,7 @@ static std::string generateRawUnitString(precise_unit un)
     addUnitPower(val, "item", un.base_units().count());
     addUnitPower(val, "$", un.base_units().currency());
     addUnitPower(val, "rad", un.base_units().radian());
-    if (un.base_units().has_i_flag()) {
-        if (val.empty()) {
-            val = "flag";
-        } else {
-            val.append("*flag");
-        }
-    }
-    if (un.base_units().has_e_flag()) {
-        val.insert(0, "eflag*");
-    }
-    if (un.base_units().is_per_unit()) {
-        val.insert(0, "pu*");
-    }
+	addUnitFlagStrings(un, val);
     return val;
 }
 
@@ -728,7 +735,14 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         if (un == precise::one) {
             return mstring;
         }
-        return mstring + "*" + to_string_internal(un, match_flags);
+		mstring.push_back('*');
+		fnd = find_unit(unit_cast(un));
+		if (!fnd.empty())
+		{
+			return mstring + fnd;
+		}
+		addUnitFlagStrings(un, fnd);
+		return mstring + fnd;
     }
     /// Check for squared units
     if (!un.base_units().root(2).has_e_flag() && !un.base_units().has_i_flag() &&
