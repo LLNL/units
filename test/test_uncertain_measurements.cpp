@@ -432,7 +432,7 @@ TEST(uncertainOps, fractional_uncertainty)
 
     uncertain_measurement v1(-10.0, 1.0, V);
 
-    EXPECT_FLOAT_EQ(v0.fractional_uncertainty(), 0.1F);
+    EXPECT_FLOAT_EQ(v1.fractional_uncertainty(), 0.1F);
 }
 
 TEST(uncertainOps, conversions)

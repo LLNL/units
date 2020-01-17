@@ -51,7 +51,7 @@ TEST_P(crashProblems, crashFiles)
     EXPECT_NO_THROW(unit_from_string(cdata));
 }
 
-INSTANTIATE_TEST_SUITE_P(crashFiles, crashProblems, ::testing::Range(1, 27));
+INSTANTIATE_TEST_SUITE_P(crashFiles, crashProblems, ::testing::Range(1, 28));
 
 TEST(fuzzFailures, timeouts)
 { // testing string that have caused a timeout from fuzz testing
@@ -227,7 +227,7 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 20));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 21));
 
 class rtripflagProblems : public ::testing::TestWithParam<int> {
 };

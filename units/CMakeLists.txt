@@ -14,20 +14,16 @@ else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
         add_library(units-static STATIC ${units_source_files} ${units_header_files})
         target_include_directories(
-            units-static
-            PUBLIC
-                $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+            units-static PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-static PRIVATE compile_flags_target)
         add_library(units::units ALIAS units-static)
         add_library(units::static ALIAS units-static)
         if(UNITS_INSTALL)
-            install(
-                TARGETS
-                    units-static ${UNITS_LIBRARY_EXPORT_COMMAND} DESTINATION
-                    ${CMAKE_INSTALL_LIBDIR}
-                    # INCLUDES DESTINATION include/units
+            install(TARGETS units-static ${UNITS_LIBRARY_EXPORT_COMMAND} DESTINATION
+                            ${CMAKE_INSTALL_LIBDIR}
+                            # INCLUDES DESTINATION include/units
             )
         endif(UNITS_INSTALL)
         if(CMAKE_BUILD_TYPE STREQUAL Coverage)
@@ -38,10 +34,8 @@ else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_SHARED_LIBRARY)
         add_library(units-shared SHARED ${units_source_files} ${units_header_files})
         target_include_directories(
-            units-shared
-            PUBLIC
-                $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+            units-shared PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-shared PRIVATE compile_flags_target)
         if(NOT UNITS_BUILD_STATIC_LIBRARY)
@@ -53,9 +47,8 @@ else(UNITS_HEADER_ONLY)
                 TARGETS units-shared ${UNITS_LIBRARY_EXPORT_COMMAND}
                 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                 ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-                LIBRARY
-                    DESTINATION ${CMAKE_INSTALL_LIBDIR}
-                    # INCLUDES DESTINATION include/units
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # INCLUDES DESTINATION
+                                                            # include/units
             )
         endif()
     endif(UNITS_BUILD_SHARED_LIBRARY)
@@ -63,8 +56,7 @@ else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_OBJECT_LIBRARY)
         add_library(units-object OBJECT ${units_source_files} ${units_header_files})
         target_include_directories(
-            units-object
-            PRIVATE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+            units-object PRIVATE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
         )
 
         add_library(units::object ALIAS units-object)

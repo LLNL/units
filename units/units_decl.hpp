@@ -620,10 +620,6 @@ class precise_unit {
     {
         return {base_units_.pow(power), commodity_, detail::power_const(multiplier_, power)};
     }
-#ifndef UNITS_HEADER_ONLY
-    /// take the root of a unit to some power
-    precise_unit root(int power) const;
-#endif
     /// Overloaded equality operator
     bool operator==(precise_unit other) const
     {

@@ -1,8 +1,4 @@
-FROM ubuntu:18.04 as builder
-
-RUN apt-get update && apt-get install -y clang cmake git make
-
-WORKDIR /root/develop
+FROM  helics/buildenv:clang-builder8 as builder
 
 RUN git clone https://github.com/LLNL/units.git units && cd units && git checkout fuzz_docker_image
 
