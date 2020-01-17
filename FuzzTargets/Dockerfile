@@ -21,6 +21,8 @@ MAINTAINER top1@llnl.gov
 
 VOLUME /fuzz
 
+ENV ASAN_OPTIONS='quarantine_size_mb=16 max_redzone=512'
+
 WORKDIR /root/develop/fuzz_targets
 
 CMD ["./fuzz_script.sh"]
