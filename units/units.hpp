@@ -911,8 +911,30 @@ class uncertain_measurement {
         return v2.operator*(v1);
     }
 
+    friend constexpr inline uncertain_measurement
+        operator*(float v1, const uncertain_measurement& v2)
+    {
+        return v2.operator*(v1);
+    }
+
     friend UNITS_CPP14_CONSTEXPR inline uncertain_measurement
         operator/(double v1, const uncertain_measurement& v2)
+    {
+        double ntol = v2.uncertainty() / v2.value();
+        double nval = v1 / v2.value();
+        return uncertain_measurement(nval, nval * ntol, v2.units_.inv());
+    }
+
+    friend UNITS_CPP14_CONSTEXPR inline uncertain_measurement
+        operator/(float v1, const uncertain_measurement& v2)
+    {
+        float ntol = v2.uncertainty_ / v2.value_;
+        float nval = v1 / v2.value_;
+        return uncertain_measurement(nval, nval * ntol, v2.units_.inv());
+    }
+
+    friend UNITS_CPP14_CONSTEXPR inline uncertain_measurement
+        operator/(int v1, const uncertain_measurement& v2)
     {
         float ntol = v2.uncertainty_ / v2.value_;
         float nval = static_cast<float>(v1) / v2.value_;

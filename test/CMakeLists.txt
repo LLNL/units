@@ -23,7 +23,7 @@ set(UNITS_TESTS
     test_commodities
     test_leadingNumbers
     test_uncertain_measurements
-    )
+)
 
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
 
@@ -34,19 +34,30 @@ foreach(T ${UNITS_TESTS})
 
 endforeach()
 
-target_compile_definitions(test_unit_strings PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
-target_compile_definitions(test_conversions2 PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
-target_compile_definitions(fuzz_issue_tests PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
+target_compile_definitions(
+    test_unit_strings PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
+)
+target_compile_definitions(
+    test_conversions2 PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
+)
+target_compile_definitions(
+    fuzz_issue_tests PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
+)
 
-target_sources(test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h)
+target_sources(
+    test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
+    ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h
+)
 target_include_directories(test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_ucum PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
 
-
-target_sources(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h)
+target_sources(
+    test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
+    ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h
+)
 target_include_directories(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
-if (NOT MSVC)
+if(NOT MSVC)
     target_compile_options(test_ucum PRIVATE -Wno-double-promotion)
     target_compile_options(test_udunits PRIVATE -Wno-double-promotion)
 endif()
@@ -57,17 +68,21 @@ set_target_properties(examples_test PROPERTIES FOLDER "Tests")
 add_test(examples_test examples_test)
 
 add_executable(test_all_unit_base test_all_unit_base.cpp)
-target_link_libraries(test_all_unit_base gtest gmock gtest_main units::units compile_flags_target)
+target_link_libraries(
+    test_all_unit_base gtest gmock gtest_main units::units compile_flags_target
+)
 set_target_properties(test_all_unit_base PROPERTIES FOLDER "Tests")
 # test_all_unit_base should not be added to the tests it will take a long time run
 
 if(CMAKE_BUILD_TYPE STREQUAL Coverage)
     include(CodeCoverage)
     setup_target_for_coverage(
-        NAME UNITS_coverage
-        EXECUTABLE ctest
+        NAME
+        UNITS_coverage
+        EXECUTABLE
+        ctest
         DEPENDENCIES
-          ${UNITS_TESTS}
-          examples_test
-          )
+        ${UNITS_TESTS}
+        examples_test
+    )
 endif()

@@ -497,11 +497,29 @@ static void addUnitPower(std::string& str, const char* unit, int power)
             str.push_back('^');
             if (power < 0) {
                 str.push_back('-');
-                str.push_back(48 - power);
+                str.push_back('0' - power);
             } else {
-                str.push_back(48 + power);
+                str.push_back('0' + power);
             }
         }
+    }
+}
+
+// add the flag string to another unit string
+static void addUnitFlagStrings(precise_unit un, std::string& unitString)
+{
+    if (un.base_units().has_i_flag()) {
+        if (unitString.empty()) {
+            unitString = "flag";
+        } else {
+            unitString.append("*flag");
+        }
+    }
+    if (un.base_units().has_e_flag()) {
+        unitString.insert(0, "eflag*");
+    }
+    if (un.base_units().is_per_unit()) {
+        unitString.insert(0, "pu*");
     }
 }
 
@@ -518,19 +536,7 @@ static std::string generateRawUnitString(precise_unit un)
     addUnitPower(val, "item", un.base_units().count());
     addUnitPower(val, "$", un.base_units().currency());
     addUnitPower(val, "rad", un.base_units().radian());
-    if (un.base_units().has_i_flag()) {
-        if (val.empty()) {
-            val = "flag";
-        } else {
-            val.append("*flag");
-        }
-    }
-    if (un.base_units().has_e_flag()) {
-        val.insert(0, "eflag*");
-    }
-    if (un.base_units().is_per_unit()) {
-        val.insert(0, "pu*");
-    }
+    addUnitFlagStrings(un, val);
     return val;
 }
 
@@ -728,7 +734,13 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         if (un == precise::one) {
             return mstring;
         }
-        return mstring + "*" + to_string_internal(un, match_flags);
+        mstring.push_back('*');
+        fnd = find_unit(unit_cast(un));
+        if (!fnd.empty()) {
+            return mstring + fnd;
+        }
+        addUnitFlagStrings(un, fnd);
+        return mstring + fnd;
     }
     /// Check for squared units
     if (!un.base_units().root(2).has_e_flag() && !un.base_units().has_i_flag() &&
@@ -1230,15 +1242,15 @@ static bool hasValidNumericalWordStart(const std::string& ustring)
 }
 using wordpair = std::tuple<const char*, double, int>;
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 9> lt10{wordpair{"one", 1.0, 3},
-                                                          wordpair{"two", 2.0, 3},
-                                                          wordpair{"three", 3.0, 5},
-                                                          wordpair{"four", 4.0, 4},
-                                                          wordpair{"five", 5.0, 4},
-                                                          wordpair{"six", 6.0, 3},
-                                                          wordpair{"seven", 7.0, 5},
-                                                          wordpair{"eight", 8.0, 5},
-                                                          wordpair{"nine", 9.0, 4}};
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 9> lt10{{wordpair{"one", 1.0, 3},
+                                                           wordpair{"two", 2.0, 3},
+                                                           wordpair{"three", 3.0, 5},
+                                                           wordpair{"four", 4.0, 4},
+                                                           wordpair{"five", 5.0, 4},
+                                                           wordpair{"six", 6.0, 3},
+                                                           wordpair{"seven", 7.0, 5},
+                                                           wordpair{"eight", 8.0, 5},
+                                                           wordpair{"nine", 9.0, 4}}};
 
 static double read1To10(const std::string& str, size_t& index)
 {
@@ -1251,17 +1263,17 @@ static double read1To10(const std::string& str, size_t& index)
     return constants::invalid_conversion;
 }
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 11> teens{wordpair{"ten", 10.0, 3},
-                                                            wordpair{"eleven", 11.0, 6},
-                                                            wordpair{"twelve", 12.0, 6},
-                                                            wordpair{"thirteen", 13.0, 8},
-                                                            wordpair{"fourteen", 14.0, 8},
-                                                            wordpair{"fifteen", 15.0, 7},
-                                                            wordpair{"sixteen", 16.0, 7},
-                                                            wordpair{"seventeen", 17.0, 9},
-                                                            wordpair{"eighteen", 18.0, 8},
-                                                            wordpair{"nineteen", 19.0, 8},
-                                                            wordpair{"zero", 0.0, 4}};
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 11> teens{{wordpair{"ten", 10.0, 3},
+                                                             wordpair{"eleven", 11.0, 6},
+                                                             wordpair{"twelve", 12.0, 6},
+                                                             wordpair{"thirteen", 13.0, 8},
+                                                             wordpair{"fourteen", 14.0, 8},
+                                                             wordpair{"fifteen", 15.0, 7},
+                                                             wordpair{"sixteen", 16.0, 7},
+                                                             wordpair{"seventeen", 17.0, 9},
+                                                             wordpair{"eighteen", 18.0, 8},
+                                                             wordpair{"nineteen", 19.0, 8},
+                                                             wordpair{"zero", 0.0, 4}}};
 
 static double readTeens(const std::string& str, size_t& index)
 {
@@ -1276,20 +1288,20 @@ static double readTeens(const std::string& str, size_t& index)
 
 //NOTE: the ordering is important here
 static UNITS_CPP14_CONSTEXPR std::array<wordpair, 5> groupNumericalWords{
-    wordpair{"trillion", 1e12, 8},
-    wordpair{"billion", 1e9, 7},
-    wordpair{"million", 1e6, 7},
-    wordpair{"thousand", 1e3, 8},
-    wordpair{"hundred", 100.0, 7}};
+    {wordpair{"trillion", 1e12, 8},
+     wordpair{"billion", 1e9, 7},
+     wordpair{"million", 1e6, 7},
+     wordpair{"thousand", 1e3, 8},
+     wordpair{"hundred", 100.0, 7}}};
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{wordpair{"twenty", 20.0, 6},
-                                                                 wordpair{"thirty", 30.0, 6},
-                                                                 wordpair{"forty", 40.0, 5},
-                                                                 wordpair{"fifty", 50.0, 5},
-                                                                 wordpair{"sixty", 60.0, 5},
-                                                                 wordpair{"seventy", 70.0, 7},
-                                                                 wordpair{"eighty", 80.0, 6},
-                                                                 wordpair{"ninety", 90.0, 6}};
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{{wordpair{"twenty", 20.0, 6},
+                                                                  wordpair{"thirty", 30.0, 6},
+                                                                  wordpair{"forty", 40.0, 5},
+                                                                  wordpair{"fifty", 50.0, 5},
+                                                                  wordpair{"sixty", 60.0, 5},
+                                                                  wordpair{"seventy", 70.0, 7},
+                                                                  wordpair{"eighty", 80.0, 6},
+                                                                  wordpair{"ninety", 90.0, 6}}};
 
 static double readNumericalWords(const std::string& ustring, size_t& index)
 {
@@ -4678,7 +4690,7 @@ static bool cleanUnitString(std::string& unit_string, uint32_t match_flags)
                         fnd = unit_string.find_first_of(")]}", fnd + 1);
                         break;
                     }
-                    // FALLTHROUGH
+                    // FALLTHRU
                 default:
                     if (unit_string[fnd - 1] == '\\') { // ignore escape sequences
                         fnd = unit_string.find_first_of(")]}", fnd + 1);
@@ -5511,7 +5523,7 @@ uncertain_measurement
 {
     //first task is to find the +/-
     static UNITS_CPP14_CONSTEXPR std::array<const char*, 9> pmsequences{
-        "+/-", "\xB1", u8"\u00B1", "&plusmn;", "+-", "<u>+</u>", "&#xB1;", "&pm;", " \\pm "};
+        {"+/-", "\xB1", u8"\u00B1", "&plusmn;", "+-", "<u>+</u>", "&#xB1;", "&pm;", " \\pm "}};
 
     for (auto pmseq : pmsequences) {
         auto loc = measurement_string.find(pmseq);

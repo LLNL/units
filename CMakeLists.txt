@@ -7,13 +7,20 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-project(UNITS LANGUAGES CXX VERSION 0.3.0)
+project(
+    UNITS
+    LANGUAGES CXX
+    VERSION 0.3.0
+)
 include(CMakeDependentOption)
 include(CTest)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # User settable
-    set(UNITS_CXX_STD "11" CACHE STRING "The CMake standard to require")
+    set(UNITS_CXX_STD
+        "11"
+        CACHE STRING "The CMake standard to require"
+    )
 
     set(CMAKE_CXX_STANDARD ${UNITS_CXX_STD})
     set(CMAKE_CXX_EXTENSIONS OFF)
@@ -27,11 +34,8 @@ list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 cmake_dependent_option(
-    UNITS_ENABLE_TESTS
-    "Enable tests for the units library"
-    ON
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME"
-    OFF
+    UNITS_ENABLE_TESTS "Enable tests for the units library" ON
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
 
 option(UNITS_INSTALL "Enable installation of the units library" ON)
@@ -57,11 +61,8 @@ endif(UNITS_WITH_CMAKE_PACKAGE)
 option(UNITS_HEADER_ONLY "Expose the units library as header-only" OFF)
 
 cmake_dependent_option(
-    UNITS_BUILD_FUZZ_TARGETS
-    "Build the targets for a fuzzing system"
-    OFF
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME"
-    OFF
+    UNITS_BUILD_FUZZ_TARGETS "Build the targets for a fuzzing system" OFF
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
 
 if(NOT TARGET compile_flags_target)
@@ -69,7 +70,7 @@ if(NOT TARGET compile_flags_target)
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-   include(compiler_flags)
+    include(compiler_flags)
 endif()
 
 if(UNITS_HEADER_ONLY)
@@ -77,22 +78,23 @@ if(UNITS_HEADER_ONLY)
 else(UNITS_HEADER_ONLY)
     if(BUILD_SHARED_LIBS)
         option(UNITS_BUILD_STATIC_LIBRARY
-               "enable Construction of the units static library" OFF)
+               "enable Construction of the units static library" OFF
+        )
         option(UNITS_BUILD_SHARED_LIBRARY
-               "enable Construction of the units shared library" ON)
+               "enable Construction of the units shared library" ON
+        )
     else(BUILD_SHARED_LIBS)
         option(UNITS_BUILD_STATIC_LIBRARY
-               "enable Construction of the units static library" ON)
+               "enable Construction of the units static library" ON
+        )
         option(UNITS_BUILD_SHARED_LIBRARY
-               "enable Construction of the units shared library" OFF)
+               "enable Construction of the units shared library" OFF
+        )
     endif(BUILD_SHARED_LIBS)
 
     cmake_dependent_option(
-        UNITS_BUILD_OBJECT_LIBRARY
-        "Enable construction of the units object library"
-        OFF
-        "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME"
-        OFF
+        UNITS_BUILD_OBJECT_LIBRARY "Enable construction of the units object library"
+        OFF "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
     )
 
 endif(UNITS_HEADER_ONLY)
@@ -111,11 +113,8 @@ endif()
 add_subdirectory(webserver)
 
 if(UNITS_INSTALL)
-    if (UNITS_BUILD_STATIC_LIBRARY)
-            install(
-                TARGETS
-                    compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND}
-            )
+    if(UNITS_BUILD_STATIC_LIBRARY)
+        install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
     if(UNITS_WITH_CMAKE_PACKAGE AND NOT UNITS_BINARY_ONLY_INSTALL)
         install(EXPORT unitsConfig DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
