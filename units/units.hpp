@@ -933,6 +933,14 @@ class uncertain_measurement {
         return uncertain_measurement(nval, nval * ntol, v2.units_.inv());
     }
 
+	friend UNITS_CPP14_CONSTEXPR inline uncertain_measurement
+		operator/(int v1, const uncertain_measurement& v2)
+	{
+		float ntol = v2.uncertainty_ / v2.value_;
+		float nval = static_cast<float>(v1) / v2.value_;
+		return uncertain_measurement(nval, nval * ntol, v2.units_.inv());
+	}
+
   private:
     float value_{0.0F}; //!< the unit value
     float uncertainty_{0.0F};
