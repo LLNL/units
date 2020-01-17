@@ -1288,11 +1288,11 @@ static double readTeens(const std::string& str, size_t& index)
 
 //NOTE: the ordering is important here
 static UNITS_CPP14_CONSTEXPR std::array<wordpair, 5> groupNumericalWords{
-    wordpair{"trillion", 1e12, 8},
-    wordpair{"billion", 1e9, 7},
-    wordpair{"million", 1e6, 7},
-    wordpair{"thousand", 1e3, 8},
-    wordpair{"hundred", 100.0, 7}};
+    {wordpair{"trillion", 1e12, 8},
+     wordpair{"billion", 1e9, 7},
+     wordpair{"million", 1e6, 7},
+     wordpair{"thousand", 1e3, 8},
+     wordpair{"hundred", 100.0, 7}}};
 
 static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{{wordpair{"twenty", 20.0, 6},
                                                                   wordpair{"thirty", 30.0, 6},
