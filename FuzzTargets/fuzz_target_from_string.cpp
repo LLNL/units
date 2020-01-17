@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019,
+Copyright (c) 2019-2020,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -13,6 +13,9 @@ static bool cflag = units::disableCustomCommodities();
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
 {
+    if (Size == 0) {
+        return 0;
+    }
     std::string test1(reinterpret_cast<const char*>(Data), Size);
     auto unit1 = units::unit_from_string(test1);
     if (!is_error(unit1)) {

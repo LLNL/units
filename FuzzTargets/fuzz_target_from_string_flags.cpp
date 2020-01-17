@@ -18,7 +18,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
         return 0;
     }
     std::string test1(reinterpret_cast<const char*>(Data + 4), Size - 4);
-    uint32_t flags;
+    std::uint32_t flags;
     std::memcpy(&flags, Data, 4);
     auto unit1 = units::unit_from_string(test1, flags);
     if (!units::is_error(unit1)) {
