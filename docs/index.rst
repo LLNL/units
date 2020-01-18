@@ -11,15 +11,27 @@ A library that provides runtime unit values, instead of individual unit types, f
 
 This software was developed for use in LLNL/GridDyn, and is currently a work in progress. Namespaces, function names, and code organization is subject to change, input is welcome.
 
-|Gitter|
+|Build Status| |codecov| |Codacy| |Azure| |Circle CI| |License|
 
-.. |Gitter| image:: https://badges.gitter.im/GMLC-TDC/HELICS.png
-   :target: https://gitter.im/GMLC-TDC/HELICS
+.. |Build Status| image:: https://travis-ci.com/LLNL/units.svg?branch=master)
+   :target: https://travis-ci.com/LLNL/units
 
-[![](https://img.shields.io/badge/docs-ready-blue.svg)](https://helics.readthedocs.io/en/latest)
-[![](https://img.shields.io/conda/pn/gmlc-tdc/helics.svg)](https://anaconda.org/gmlc-tdc/helics/)
-[![](https://img.shields.io/github/tag-date/GMLC-TDC/HELICS.svg)](https://github.com/GMLC-TDC/HELICS/releases)
-[![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS/blob/master/LICENSE)
+.. |codecov| image:: https://codecov.io/gh/LLNL/units/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/LLNL/units
+
+.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/c0b5367026f34c4a9dc94ca4c19c770a
+   :target: https://app.codacy.com/app/phlptp/units?utm_source=github.com&utm_medium=referral&utm_content=LLNL/units&utm_campaign=Badge_Grade_Settings
+
+.. |Azure| image::https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=master
+    :target: https://dev.azure.com/phlptp/units/_build/latest?definitionId=1&branchName=master
+
+.. |Circle CI| image:: https://circleci.com/gh/LLNL/units.svg?style=svg
+    :target: https://circleci.com/gh/LLNL/units
+
+.. |License| image:: https://img.shields.io/badge/License-BSD-blue.svg
+    :target: https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE
+
+
 
 .. toctree::
    :maxdepth: 1
