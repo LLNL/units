@@ -22,7 +22,7 @@ This software was developed for use in LLNL/GridDyn, and is currently a work in 
 .. |Codacy| image:: https://api.codacy.com/project/badge/Grade/c0b5367026f34c4a9dc94ca4c19c770a
    :target: https://app.codacy.com/app/phlptp/units?utm_source=github.com&utm_medium=referral&utm_content=LLNL/units&utm_campaign=Badge_Grade_Settings
 
-.. |Azure| image::https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=master
+.. |Azure| image:: https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=master
     :target: https://dev.azure.com/phlptp/units/_build/latest?definitionId=1&branchName=master
 
 .. |Circle CI| image:: https://circleci.com/gh/LLNL/units.svg?style=svg
