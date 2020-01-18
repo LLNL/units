@@ -58,36 +58,31 @@ def which(program):
 
     return None
 
-import subprocess
+#import subprocess
 
 read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 
-if read_the_docs_build:
-    dir_name = os.path.realpath(os.path.dirname(__file__))
-    subprocess.call("cd {dir_name} && make rtddoxygen".format(dir_name=dir_name), shell=True)
-    html_extra_path = [os.path.abspath(os.path.join(dir_name, "../rtd-doxygen"))]
-
+#if read_the_docs_build:
+#    dir_name = os.path.realpath(os.path.dirname(__file__))
+#    subprocess.call("cd {dir_name} && make rtddoxygen".format(dir_name=dir_name), shell=True)
+#    html_extra_path = [os.path.abspath(os.path.join(dir_name, "../rtd-doxygen"))]
+#
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.napoleon',
-    'sphinx_markdown_tables',
-    'nbsphinx',
-    'IPython.sphinxext.ipython_console_highlighting',
-    'breathe',
+#    'sphinx.ext.autodoc',
+#    'sphinx.ext.doctest',
+#    'sphinx.ext.intersphinx',
+#    'sphinx.ext.coverage',
+#    'sphinx.ext.mathjax',
+#    'sphinx.ext.viewcode',
+#    'sphinx.ext.githubpages',
+#    'sphinx.ext.napoleon',
+#    'nbsphinx',
+#    'breathe',
 ]
 
-from recommonmark.parser import CommonMarkParser
-from recommonmark.transform import AutoStructify
-
-breathe_projects = {
-    "units": os.path.abspath(os.path.join(current_directory, "./../build-doxygen/docs/xml")),
-}
+#breathe_projects = {
+#    "units": os.path.abspath(os.path.join(current_directory, "./../build-doxygen/docs/xml")),
+#}
 
 breathe_default_project = "units"
 
@@ -98,10 +93,7 @@ templates_path = ['_templates']
 # You can specify multiple suffix as a list of string:
 #
 
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-source_suffix = ['.rst', '.md']
+source_suffix = ['.rst']
 
 # The master toctree document.
 master_doc = 'index'
@@ -116,7 +108,7 @@ author = 'Philip Top, Ryan Mast, Corey McNeash'
 # built documents.
 #
 # The short X.Y version.
-version = ''
+version = '0.3.1'
 # The full version, including alpha/beta/rc tags.
 release = ''
 
@@ -225,9 +217,6 @@ texinfo_documents = [
 
 def setup(app):
     app.add_stylesheet('css/custom.css')  # may also be an URL
-    app.add_config_value('recommonmark_config', {
-            'enable_eval_rst': True,
-            }, True)
     app.add_transform(AutoStructify)
 
 
