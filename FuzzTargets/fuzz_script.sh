@@ -3,12 +3,12 @@
 mkdir -p /fuzz/corpus
 
 # run the first fuzzing sequence
-./fuzz_from_string /fuzz/corpus -max_len=384 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=680 -max_total_time=300 -timeout=7 -artifact_prefix=/fuzz/
+./fuzz_from_string /fuzz/corpus -max_len=384 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=685 -max_total_time=300 -timeout=7 -artifact_prefix=/fuzz/
 
 #if we haven't failed run another
 if [ $? -eq 0 ]
 then
-   ./fuzz_from_string /fuzz/corpus -max_len=384 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=680 -max_total_time=300 -timeout=7 -artifact_prefix=/fuzz/
+   ./fuzz_from_string /fuzz/corpus -max_len=384 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=685 -max_total_time=300 -timeout=7 -artifact_prefix=/fuzz/
 else
   exit 1
 fi 
@@ -16,7 +16,7 @@ fi
 #if we haven't failed run another 
 if [ $? -eq 0 ]
 then
-   ./fuzz_from_string /fuzz/corpus -max_len=384 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=680 -max_total_time=300 -timeout=7 -artifact_prefix=/fuzz/
+   ./fuzz_from_string /fuzz/corpus -max_len=384 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=685 -max_total_time=300 -timeout=7 -artifact_prefix=/fuzz/
 else
   exit 1
 fi 
@@ -24,7 +24,7 @@ fi
 #if we haven't failed run another 
 if [ $? -eq 0 ]
 then
-   ./fuzz_from_string /fuzz/corpus -max_len=384 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=680 -max_total_time=300 -timeout=7 -artifact_prefix=/fuzz/
+   ./fuzz_from_string /fuzz/corpus -max_len=384 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=685 -max_total_time=300 -timeout=7 -artifact_prefix=/fuzz/
 else
   exit 1
 fi 
