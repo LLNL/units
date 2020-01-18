@@ -734,10 +734,9 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         if (un == precise::one) {
             return mstring;
         }
-		if (!mstring.empty())
-		{
-			mstring.push_back('*');
-		}
+        if (!mstring.empty()) {
+            mstring.push_back('*');
+        }
         fnd = find_unit(unit_cast(un));
         if (!fnd.empty()) {
             return mstring + fnd;
