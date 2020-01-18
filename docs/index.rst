@@ -13,7 +13,7 @@ This software was developed for use in LLNL/GridDyn, and is currently a work in 
 
 |Build Status| |codecov| |Codacy| |Azure| |Circle CI| |License|
 
-.. |Build Status| image:: https://travis-ci.com/LLNL/units.svg?branch=master)
+.. |Build Status| image:: https://travis-ci.com/LLNL/units.svg?branch=master
    :target: https://travis-ci.com/LLNL/units
 
 .. |codecov| image:: https://codecov.io/gh/LLNL/units/branch/master/graph/badge.svg
@@ -37,8 +37,8 @@ This software was developed for use in LLNL/GridDyn, and is currently a work in 
    :maxdepth: 1
    :caption: Basics
 
-   installation/index
    introduction/index
+   installation/index
    user-guide/index
 
 Indices and tables
