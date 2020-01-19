@@ -35,4 +35,3 @@ Down the road deal with uncertainties in measurements and commodities, and conta
 
    how
    testing
-   sources
