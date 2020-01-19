@@ -784,8 +784,16 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
         if (isNumericalCharacter(prefix.front())) {
             size_t cut;
-            double mx = std::stod(prefix, &cut);
-            return getMultiplierString(1.0 / mx, true) + "/" + prefix.substr(cut);
+			try
+			{
+				double mx = std::stod(prefix, &cut);
+				return getMultiplierString(1.0 / mx, true) + "/" + prefix.substr(cut);
+			}
+			catch (const std::out_of_range &)
+			{
+				std::cout << "output range\n";
+				return "ERROR";
+			}
         }
         return std::string("1/") + prefix;
     }

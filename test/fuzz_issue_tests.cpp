@@ -212,7 +212,6 @@ TEST_P(rtripProblems, rtripFiles)
     if (!is_error(u1)) {
 		std::cout << "converting to string " << std::endl;
         auto str = to_string(u1);
-		std::cout << "converting from string " << str << std::endl;
         auto u2 = unit_from_string(str);
         EXPECT_FALSE(is_error(u2));
         if (u2 == u1) {
