@@ -23,7 +23,7 @@ Many of the dimensional analysis libraries, actually all as far as I can tell in
 -  A small single compact type to represent all units (no bigger than a double) if we wanted to use it in a number of contexts.
 -  Another measurement type that was interoperable with doubles and numbers.  Many numerical calculations came from a `real` array and numeric solver libraries so there is no opportunity to modify those types.  Which means we need double operations with measurements if we want to use them.
 -  `constexpr` as much as possible since many units are known at compile time and we need to be able to generate complex units from others simpler units.
--   The library should be compatible with a broad range of compilers including some older ones back to gcc 4.7.
+-   The library should be compatible with a broad range of compilers including some older ones back to GCC 4.7.
 -   a fairly expansive list of predefined units to simplify operation
 
 Speaking with others a few items and contexts came up such as recipes, trade documents, other software package unit representations,  standardized string representation.  And sometimes a lot of precision is needed other times this is not the case.
