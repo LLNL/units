@@ -1,4 +1,4 @@
-FROM helics/buildenv:tumbleweed as builder
+FROM helics/buildenv:tumbleweed-builder as builder
 
 # should already be in /root/develop from the builder
 
