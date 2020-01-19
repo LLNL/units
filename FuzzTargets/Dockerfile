@@ -1,6 +1,8 @@
 FROM  helics/buildenv:clang-builder8 as builder
 
-RUN git clone https://github.com/LLNL/units.git units && cd units && git checkout fuzz_docker_image
+# this is already in a workdir from the builder image
+
+RUN git clone https://github.com/LLNL/units.git units
 
 WORKDIR /root/develop/build
 RUN cmake ../units -DUNITS_BUILD_FUZZ_TARGETS=ON -DUNITS_CXX_STANDARD=17 -DUNITS_INSTALL=OFF -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_COMPILER_FORCED=ON -DCMAKE_CXX_FLAGS="-g -O1 -fsanitize=fuzzer" && make -j2
@@ -13,7 +15,7 @@ FROM ubuntu:18.04
 
 COPY --from=builder /root/develop/fuzz_targets /root/develop/fuzz_targets
 
-MAINTAINER top1@llnl.gov
+LABEL maintainer="top1@llnl.gov"
 
 VOLUME /fuzz
 

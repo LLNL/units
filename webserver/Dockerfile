@@ -15,7 +15,7 @@ FROM opensuse/tumbleweed:latest
 
 COPY --from=builder /root/develop/webserver /root/develop/webserver
 
-MAINTAINER top1@llnl.gov
+LABEL maintainer="top1@llnl.gov"
 
 WORKDIR /root/develop/webserver
 
