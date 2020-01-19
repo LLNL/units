@@ -1,9 +1,6 @@
-FROM opensuse/tumbleweed:latest as builder
+FROM helics/buildenv:tumbleweed as builder
 
-RUN zypper mr -d openSUSE-Tumbleweed-Update
-RUN zypper install -y make gcc-c++ boost-devel cmake git
-
-WORKDIR /root/develop
+# should already be in /root/develop from the builder
 
 RUN git clone https://github.com/LLNL/units.git units
 
