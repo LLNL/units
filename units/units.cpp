@@ -926,13 +926,20 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         if (!fnd.empty()) {
             auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
             if (isNumericalCharacter(prefix.front())) {
-                size_t cut;
-                double mx = std::stod(prefix, &cut);
-                auto str =
-                    getMultiplierString(1.0 / mx, true) + tu.second + "/" + prefix.substr(cut);
-                if (beststr.empty() || str.size() < beststr.size()) {
-                    beststr = str;
-                }
+				try
+				{
+					size_t cut;
+					double mx = std::stod(prefix, &cut);
+					auto str =
+						getMultiplierString(1.0 / mx, true) + tu.second + "/" + prefix.substr(cut);
+					if (beststr.empty() || str.size() < beststr.size()) {
+						beststr = str;
+					}
+				}
+				catch (const std::out_of_range &)
+				{
+					return std::string(tu.second) + "/" + prefix;
+				}
             } else {
                 return std::string(tu.second) + "/" + prefix;
             }
