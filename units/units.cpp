@@ -938,6 +938,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
 				}
 				catch (const std::out_of_range &)
 				{
+					std::cout << "the string that failed is " << prefix << std::endl;
 					return std::string(tu.second) + "/" + prefix;
 				}
             } else {
