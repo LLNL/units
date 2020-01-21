@@ -133,7 +133,6 @@ TEST(Measurement, conversions)
     EXPECT_FLOAT_EQ(static_cast<float>(d4.value()), 1.0f);
 }
 
-
 TEST(measurement, powroot)
 {
     measurement m1(2.0, m);
@@ -151,8 +150,7 @@ TEST(measurement, powroot)
 
     measurement m4(16.0, m.pow(2));
     EXPECT_EQ(sqrt(m4), measurement(4.0, m));
-#endif 
-
+#endif
 }
 
 using namespace units;
@@ -342,7 +340,6 @@ TEST(fixedMeasurement, comparison)
     EXPECT_FALSE((1 * in) <= (2.0 * cm));
 }
 
-
 TEST(fixedMeasurement, powroot)
 {
     fixed_measurement m1(2.0, m);
@@ -358,7 +355,6 @@ TEST(fixedMeasurement, powroot)
     EXPECT_TRUE(sqrt(m4) == fixed_measurement(4.0, m));
 #endif
 }
-
 
 TEST(PreciseMeasurement, ops)
 {
@@ -487,7 +483,6 @@ TEST(PreciseMeasurement, powroot)
 #endif
 }
 
-
 using namespace units;
 TEST(fixedPreciseMeasurement, ops)
 {
@@ -520,7 +515,6 @@ TEST(fixedPreciseMeasurement, ops)
     y = 7.0;
     EXPECT_DOUBLE_EQ(y.value(), 7.0);
 }
-
 
 TEST(fixedPreciseMeasurement, powroot)
 {
