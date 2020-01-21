@@ -8,7 +8,7 @@ set -evx
 
 mkdir -p build
 cd build
-cmake .. -DUNITS_CXX_STD=14 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DBUILD_UNITS_FUZZ_TARGETS=ON $@
+cmake .. -DCMAKE_CXX_STANDARD=14 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DBUILD_UNITS_FUZZ_TARGETS=ON $@
 cmake --build . -- -j2
 
 set +evx
