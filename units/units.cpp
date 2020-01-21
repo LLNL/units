@@ -10,7 +10,6 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <array>
 #include <atomic>
 #include <cctype>
-#include <cerrno>
 #include <cstring>
 #include <iomanip>
 #include <iostream>
