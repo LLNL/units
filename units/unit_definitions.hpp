@@ -1603,13 +1603,13 @@ inline bool isnormal(precise_unit utest)
 @details not an error, not infinite,not invalid, not one, not defunit, the multiplier is a normal number and >0*/
 inline bool isnormal(unit utest)
 {
-    return std::isnormal(utest.cround()) && (!is_error(utest)) && utest != one &&
+    return std::isnormal(utest.multiplier_f()) && (!is_error(utest)) && utest != one &&
         utest != defunit && utest.multiplier() > 0;
 }
 
 namespace detail {
     /** Convert counting units into one another, radians, count, mole  these are all counting units but have
-    different assumptions so while they are convertable they need to be handled differently
+    different assumptions so while they are convertible they need to be handled differently
     */
     template<typename UX, typename UX2>
     inline double convertCountingUnits(double val, UX start, UX2 result)

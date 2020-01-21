@@ -210,7 +210,6 @@ TEST_P(rtripProblems, rtripFiles)
     auto cdata = loadFailureFile("rtrip_fail", GetParam());
     auto u1 = unit_from_string(cdata);
     if (!is_error(u1)) {
-		std::cout << "converting to string " << std::endl;
         auto str = to_string(u1);
         auto u2 = unit_from_string(str);
         EXPECT_FALSE(is_error(u2));
@@ -228,7 +227,7 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(22, 23));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 23));
 
 class rtripflagProblems : public ::testing::TestWithParam<int> {
 };
