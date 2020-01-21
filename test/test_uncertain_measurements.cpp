@@ -246,6 +246,7 @@ TEST(uncertainOps, conversion)
     EXPECT_EQ(wc.units(), m);
 }
 
+#ifndef UNITS_HEADER_ONLY
 // http://www.geol.lsu.edu/jlorenzo/geophysics/uncertainties/Uncertaintiespart2.html example c
 // as a note the example on this page is just wrong, the calculations don't match the numbers given
 TEST(uncertainOps, pow1)
@@ -266,6 +267,7 @@ TEST(uncertainOps, pow1)
     EXPECT_NEAR(zs.value(), 29, 0.5);
     EXPECT_NEAR(zs.uncertainty(), 12, 0.5);
 }
+#endif
 
 // examples from http://lectureonline.cl.msu.edu/~mmp/labs/error/e2.htm
 
@@ -395,6 +397,7 @@ TEST(uncertainOps, testHeight)
     EXPECT_EQ(ys.units(), m);
 }
 
+#ifndef UNITS_HEADER_ONLY
 TEST(uncertainStrings, test1)
 {
     auto um1 = uncertain_measurement_from_string("12+/-3 m");
@@ -423,6 +426,7 @@ TEST(uncertainStrings, test1)
     EXPECT_EQ(um5.uncertainty(), 0.0);
     EXPECT_EQ(um4.units(), m);
 }
+#endif
 
 TEST(uncertainOps, fractional_uncertainty)
 {

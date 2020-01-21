@@ -70,9 +70,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(compiler_flags)
 endif()
 
-if(UNITS_HEADER_ONLY)
-    target_compile_definitions(units PUBLIC UNITS_HEADER_ONLY)
-else(UNITS_HEADER_ONLY)
+if(NOT UNITS_HEADER_ONLY)
     if(BUILD_SHARED_LIBS)
         option(UNITS_BUILD_STATIC_LIBRARY
                "enable Construction of the units static library" OFF
@@ -94,7 +92,7 @@ else(UNITS_HEADER_ONLY)
         OFF "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
     )
 
-endif(UNITS_HEADER_ONLY)
+endif(NOT UNITS_HEADER_ONLY)
 
 add_subdirectory(units)
 

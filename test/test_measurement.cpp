@@ -133,6 +133,7 @@ TEST(Measurement, conversions)
     EXPECT_FLOAT_EQ(static_cast<float>(d4.value()), 1.0f);
 }
 
+
 TEST(measurement, powroot)
 {
     measurement m1(2.0, m);
@@ -140,7 +141,7 @@ TEST(measurement, powroot)
     auto v1 = pow(m1, 3);
     EXPECT_EQ(v1.value(), 8.0);
     EXPECT_EQ(v1.units(), m.pow(3));
-
+#ifndef UNITS_HEADER_ONLY
     auto m2 = root(v1, 3);
     EXPECT_TRUE(m2 == m1);
 
@@ -150,6 +151,8 @@ TEST(measurement, powroot)
 
     measurement m4(16.0, m.pow(2));
     EXPECT_EQ(sqrt(m4), measurement(4.0, m));
+#endif 
+
 }
 
 using namespace units;
@@ -339,6 +342,7 @@ TEST(fixedMeasurement, comparison)
     EXPECT_FALSE((1 * in) <= (2.0 * cm));
 }
 
+
 TEST(fixedMeasurement, powroot)
 {
     fixed_measurement m1(2.0, m);
@@ -346,13 +350,15 @@ TEST(fixedMeasurement, powroot)
     auto v1 = pow(m1, 3);
     EXPECT_EQ(v1.value(), 8.0);
     EXPECT_EQ(v1.units(), m.pow(3));
-
+#ifndef UNITS_HEADER_ONLY
     auto m2 = root(v1, 3);
     EXPECT_TRUE(m2 == m1);
 
     fixed_measurement m4(16.0, m.pow(2));
     EXPECT_TRUE(sqrt(m4) == fixed_measurement(4.0, m));
+#endif
 }
+
 
 TEST(PreciseMeasurement, ops)
 {
@@ -473,12 +479,14 @@ TEST(PreciseMeasurement, powroot)
     auto v1 = pow(m1, 3);
     EXPECT_EQ(v1.value(), 8.0);
     EXPECT_EQ(v1.units(), precise::m.pow(3));
-
+#ifndef UNITS_HEADER_ONLY
     auto m2 = root(v1, 3);
     EXPECT_TRUE(m2 == m1);
     precise_measurement m4(16.0, precise::m.pow(2));
     EXPECT_EQ(sqrt(m4), precise_measurement(4.0, precise::m));
+#endif
 }
+
 
 using namespace units;
 TEST(fixedPreciseMeasurement, ops)
@@ -513,6 +521,7 @@ TEST(fixedPreciseMeasurement, ops)
     EXPECT_DOUBLE_EQ(y.value(), 7.0);
 }
 
+
 TEST(fixedPreciseMeasurement, powroot)
 {
     fixed_precise_measurement m1(2.0, precise::m);
@@ -520,10 +529,11 @@ TEST(fixedPreciseMeasurement, powroot)
     auto v1 = pow(m1, 3);
     EXPECT_EQ(v1.value(), 8.0);
     EXPECT_EQ(v1.units(), precise::m.pow(3));
-
+#ifndef UNITS_HEADER_ONLY
     auto m2 = root(v1, 3);
     EXPECT_TRUE(m2 == m1);
 
     fixed_precise_measurement m4(16.0, precise::m.pow(2));
     EXPECT_TRUE(sqrt(m4) == fixed_precise_measurement(4.0, precise::m));
+#endif
 }
