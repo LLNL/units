@@ -17,14 +17,10 @@ include(CTest)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # User settable
-    set(UNITS_CXX_STD
-        "11"
-        CACHE STRING "The CMake standard to require"
-    )
-
-    set(CMAKE_CXX_STANDARD ${UNITS_CXX_STD})
+	if (NOT DEFINED CMAKE_CXX_STANDARD)
+		set(CMAKE_CXX_STANDARD 14)
+	endif()
     set(CMAKE_CXX_EXTENSIONS OFF)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
     include(GNUInstallDirs)
 endif()
 

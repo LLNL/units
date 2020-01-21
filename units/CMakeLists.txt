@@ -18,6 +18,7 @@ else(UNITS_HEADER_ONLY)
                                 $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-static PRIVATE compile_flags_target)
+		target_compile_features(units-static PUBLIC cxx_constexpr cxx_unicode_literals cxx_uniform_initialization cxx_strong_enums cxx_static_assert cxx_auto_type)
         add_library(units::units ALIAS units-static)
         add_library(units::static ALIAS units-static)
         if(UNITS_INSTALL)
@@ -38,6 +39,7 @@ else(UNITS_HEADER_ONLY)
                                 $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-shared PRIVATE compile_flags_target)
+		target_compile_features(units-shared PUBLIC cxx_constexpr cxx_unicode_literals cxx_uniform_initialization cxx_strong_enums cxx_static_assert cxx_auto_type)
         if(NOT UNITS_BUILD_STATIC_LIBRARY)
             add_library(units::units ALIAS units-shared)
         endif()
@@ -55,6 +57,7 @@ else(UNITS_HEADER_ONLY)
 
     if(UNITS_BUILD_OBJECT_LIBRARY)
         add_library(units-object OBJECT ${units_source_files} ${units_header_files})
+		target_compile_features(units-object PUBLIC cxx_constexpr cxx_unicode_literals cxx_uniform_initialization cxx_strong_enums cxx_static_assert cxx_auto_type)
         target_include_directories(
             units-object PRIVATE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
         )

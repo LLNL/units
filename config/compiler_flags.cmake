@@ -133,8 +133,3 @@ else(MSVC)
         link_libraries("c++abi")
     endif(USE_LIBCXX)
 endif()
-
-# -------------------------------------------------------------
-# Check and set latest CXX Standard supported by compiler
-# -------------------------------------------------------------
-include(CheckLatestCXXStandardOption)
