@@ -176,6 +176,20 @@ TEST(leadingNumbers, strange)
     EXPECT_EQ(res, 56.0);
 }
 
+TEST(leadingNumbers, edge_cases)
+{
+    size_t index = 0;
+    auto res = testLeadingNumber("67.2*45.6*0.0*19.7", index);
+    EXPECT_EQ(res, 0.0);
+    EXPECT_GE(index, 18);
+
+    res = testLeadingNumber("5.6245e-425", index);
+    EXPECT_EQ(res, 0.0);
+    //should be below representable range for even quad precision double
+    res = testLeadingNumber("5.6245e-6985", index);
+    EXPECT_EQ(res, 0.0);
+}
+
 TEST(numericalwords, simple)
 {
     size_t index = 0;

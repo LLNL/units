@@ -553,6 +553,9 @@ void enableUserDefinedUnits()
 
 using smap = std::unordered_map<std::string, precise_unit>;
 
+/** convert a string into a double */
+static double getDoubleFromString(const std::string& ustring, size_t* index) noexcept;
+
 static std::unordered_map<unit, std::string> user_defined_unit_names;
 static smap user_defined_units;
 
@@ -784,7 +787,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
         auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
         if (isNumericalCharacter(prefix.front())) {
             size_t cut;
-            double mx = std::stod(prefix, &cut);
+            double mx = getDoubleFromString(prefix, &cut);
             return getMultiplierString(1.0 / mx, true) + "/" + prefix.substr(cut);
         }
         return std::string("1/") + prefix;
@@ -919,7 +922,7 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
             auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
             if (isNumericalCharacter(prefix.front())) {
                 size_t cut;
-                double mx = std::stod(prefix, &cut);
+                double mx = getDoubleFromString(prefix, &cut);
                 auto str =
                     getMultiplierString(1.0 / mx, true) + tu.second + "/" + prefix.substr(cut);
                 if (beststr.empty() || str.size() < beststr.size()) {
@@ -1099,7 +1102,7 @@ static bool segmentcheck(const std::string& unit, char closeSegment, size_t& ind
 
 /** generate a number representing the leading portion of a string
 the index of the first non-converted character is returned in index*/
-static double generateLeadingNumber(const std::string& ustring, size_t& index);
+static double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept;
 
 /** generate a number representing the leading portion of a string if the words are numerical in nature
 the index of the first non-converted character is returned in index*/
@@ -1108,8 +1111,40 @@ static double readNumericalWords(const std::string& ustring, size_t& index);
 // Detect if a string looks like a number
 static bool looksLikeNumber(const std::string& string, size_t index = 0);
 
+/** a function very similar to stod that uses the lower level strtod and does things a little smarter
+*/
+static double getDoubleFromString(const std::string& ustring, size_t* index) noexcept
+{
+    char* retloc = nullptr;
+    auto vld = strtold(ustring.c_str(), &retloc);
+    // LCOV_EXCL_START
+    if (retloc == nullptr) {
+        //to the best of my knowledge this should not happen but this is a weird function sometimes with a lot of platform variations
+        *index = 0;
+        return constants::invalid_conversion;
+    }
+    // LCOV_EXCL_STOP
+    *index = (retloc - ustring.c_str());
+    // so if it converted anything then we can probably use that value if not return NaN
+    if (*index == 0) {
+        return constants::invalid_conversion;
+    }
+
+    if (vld > static_cast<long double>(std::numeric_limits<double>::max())) {
+        return constants::infinity;
+    }
+    if (vld < static_cast<long double>(-std::numeric_limits<double>::max())) {
+        return -constants::infinity;
+    }
+    //floating point min gives you the smallest representable positive value
+    if (std::abs(vld) < static_cast<long double>(std::numeric_limits<double>::min())) {
+        return 0.0;
+    }
+    return static_cast<double>(vld);
+}
+
 /** generate a value from a single numerical block */
-static double getNumberBlock(const std::string& ustring, size_t& index)
+static double getNumberBlock(const std::string& ustring, size_t& index) noexcept
 {
     double val;
     if (ustring.front() == '(') {
@@ -1146,7 +1181,7 @@ static double getNumberBlock(const std::string& ustring, size_t& index)
             if (hasOp) {
                 val = generateLeadingNumber(substr, ind);
             } else {
-                val = std::stod(substr, &ind);
+                val = getDoubleFromString(substr, &ind);
             }
             if (ind < substr.size()) {
                 return constants::invalid_conversion;
@@ -1156,9 +1191,9 @@ static double getNumberBlock(const std::string& ustring, size_t& index)
             return constants::invalid_conversion;
         }
     } else {
-        val = std::stod(ustring, &index);
+        val = getDoubleFromString(ustring, &index);
     }
-    if (index < ustring.size()) {
+    if (!std::isnan(val) && index < ustring.size()) {
         if (ustring[index] == '^') {
             size_t nindex{0};
             double pval = getNumberBlock(ustring.substr(index + 1), nindex);
@@ -1173,64 +1208,59 @@ static double getNumberBlock(const std::string& ustring, size_t& index)
     return val;
 }
 
-double generateLeadingNumber(const std::string& ustring, size_t& index)
+double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
 {
-    try {
-        index = 0;
-        double val = getNumberBlock(ustring, index);
-
-        while (true) {
-            if (index >= ustring.size()) {
-                return val;
-            }
-            switch (ustring[index]) {
-                case '.':
-                case '-':
-                case '+':
-                    return constants::invalid_conversion;
-                case '/':
-                case '*':
-                    if (looksLikeNumber(ustring, index + 1) || ustring[index + 1] == '(') {
-                        size_t oindex{0};
-                        double res = getNumberBlock(ustring.substr(index + 1), oindex);
-                        if (!std::isnan(res)) {
-                            if (ustring[index] == '*') {
-                                val *= res;
-                            } else {
-                                val /= res;
-                            }
-
-                            index = oindex + index + 1;
-                        } else {
-                            return val;
-                        }
-                    } else {
-                        return val;
-                    }
-                    break;
-                case '(': {
+    index = 0;
+    double val = getNumberBlock(ustring, index);
+    if (std::isnan(val)) {
+        return val;
+    }
+    while (true) {
+        if (index >= ustring.size()) {
+            return val;
+        }
+        switch (ustring[index]) {
+            case '.':
+            case '-':
+            case '+':
+                return constants::invalid_conversion;
+            case '/':
+            case '*':
+                if (looksLikeNumber(ustring, index + 1) || ustring[index + 1] == '(') {
                     size_t oindex{0};
-                    double res = getNumberBlock(ustring.substr(index), oindex);
+                    double res = getNumberBlock(ustring.substr(index + 1), oindex);
                     if (!std::isnan(res)) {
-                        val *= res;
+                        if (ustring[index] == '*') {
+                            val *= res;
+                        } else {
+                            val /= res;
+                        }
+
                         index = oindex + index + 1;
                     } else {
                         return val;
                     }
-                    break;
-                }
-                default:
+                } else {
                     return val;
+                }
+                break;
+            case '(': {
+                size_t oindex{0};
+                double res = getNumberBlock(ustring.substr(index), oindex);
+                if (!std::isnan(res)) {
+                    val *= res;
+                    index = oindex + index + 1;
+                } else {
+                    return val;
+                }
+                break;
             }
+            default:
+                return val;
         }
     }
-    catch (const std::invalid_argument&) {
-        return constants::invalid_conversion;
-    }
-    catch (const std::out_of_range&) {
-        return constants::invalid_conversion;
-    }
 }
+
 //this string contains the first two letters of supported numerical words
 static const std::string first_two = "on tw th fo fi si se ei ni te el hu mi bi tr ze";
 static const std::string first_letters = "otfsenhmbtzaOTFSENHMBTZA";
@@ -5352,24 +5382,19 @@ static precise_unit unit_from_string_internal(std::string unit_string, uint32_t 
                 return retunit;
             }
             if (looksLikeNumber(unit_string)) {
-                try {
-                    size_t loc;
-                    auto number = std::stod(unit_string, &loc);
-                    if (loc >= unit_string.length()) {
-                        return {number, one};
-                    }
-                    unit_string = unit_string.substr(loc);
-                    retunit = unit_from_string_internal(unit_string, match_flags);
-                    if (!is_error(retunit)) {
-                        return {number, retunit};
-                    }
-                    unit_string.insert(unit_string.begin(), '{');
-                    unit_string.push_back('}');
-                    return {number, commoditizedUnit(unit_string, match_flags)};
+                size_t loc;
+                auto number = getDoubleFromString(unit_string, &loc);
+                if (loc >= unit_string.length()) {
+                    return {number, one};
                 }
-                catch (const std::out_of_range&) {
-                    return precise::invalid;
+                unit_string = unit_string.substr(loc);
+                retunit = unit_from_string_internal(unit_string, match_flags);
+                if (!is_error(retunit)) {
+                    return {number, retunit};
                 }
+                unit_string.insert(unit_string.begin(), '{');
+                unit_string.push_back('}');
+                return {number, commoditizedUnit(unit_string, match_flags)};
             }
         } else { // if we erased everything this could lead to strange units so just go back to the original
             unit_string = ustring;
