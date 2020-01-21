@@ -1120,20 +1120,16 @@ static double getDoubleFromString(const std::string& ustring, size_t* index) noe
     auto vld = strtold(ustring.c_str(), &retloc);
     if (!std::isnormal(vld)) {
         switch (errno) {
-            case EINVAL:
+            case EINVAL: //these may not be used on some platforms so coverage is inexact
             case EILSEQ:
-                *index = 0;
-                return constants::invalid_conversion;
-            case ERANGE:
+                *index = 0; // LCOV_EXCL_LINE
+                return constants::invalid_conversion; // LCOV_EXCL_LINE
+            case ERANGE: //different platform seem to use different codes here
+            case EOVERFLOW:
+            case EDOM:
                 break;
             case 0:
-                if ((retloc == nullptr) || (retloc - ustring.c_str() == 0)) {
-                    *index = 0;
-                    return constants::invalid_conversion;
-                }
-                break;
             default:
-                std::cout << "error code=" << errno << std::endl;
                 if ((retloc == nullptr) || (retloc - ustring.c_str() == 0)) {
                     *index = 0;
                     return constants::invalid_conversion;
