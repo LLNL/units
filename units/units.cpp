@@ -1127,12 +1127,20 @@ static double getDoubleFromString(const std::string& ustring, size_t* index) noe
     if (!std::isnormal(vld)) {
         switch (errno) {
             case EINVAL:
+            case EILSEQ:
                 *index = 0;
                 return constants::invalid_conversion;
             case ERANGE:
                 break;
             case 0:
-                if (retloc - ustring.c_str() == 0) {
+                if ((retloc == nullptr) || (retloc - ustring.c_str() == 0)) {
+                    *index = 0;
+                    return constants::invalid_conversion;
+                }
+                break;
+            default:
+                std::cout << "error code=" << errno << std::endl;
+                if ((retloc == nullptr) || (retloc - ustring.c_str() == 0)) {
                     *index = 0;
                     return constants::invalid_conversion;
                 }
