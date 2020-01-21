@@ -105,7 +105,6 @@ TEST(unitStrings, infinite)
         "INF*m/s");
 
     EXPECT_EQ(to_string(unit(-std::numeric_limits<double>::infinity(), m / s)), "-INF*m/s");
-
 }
 
 TEST(unitStrings, nan)
@@ -272,10 +271,10 @@ TEST(stringToUnits, NumericalMultipliers)
 
 TEST(stringToUnits, outOfRangeNumbers)
 {
-	auto u1 = unit_from_string("2.76e309m");
-	EXPECT_TRUE(isinf(u1));
-	auto ucs = unit_cast_from_string("2.76e309m");
-	EXPECT_TRUE(isinf(ucs));
+    auto u1 = unit_from_string("2.76e309m");
+    EXPECT_TRUE(isinf(u1));
+    auto ucs = unit_cast_from_string("2.76e309m");
+    EXPECT_TRUE(isinf(ucs));
 }
 
 TEST(stringToUnits, words)
@@ -498,7 +497,7 @@ TEST(fileops, ExtendedCharFile)
     std::getline(input, line);
     uni = unit_from_string(line);
     EXPECT_EQ(uni, precise::m * precise::micro);
-    std::getline(input, line);  
+    std::getline(input, line);
     uni = unit_from_string(line);
     EXPECT_EQ(uni, precise::N * precise::micro);
     std::getline(input, line);
@@ -675,9 +674,9 @@ TEST(commoditizedUnits, numericalWords)
 
 TEST(funnyStrings, underscore)
 {
-	auto bigNumber = unit_from_string("_45_625_252_22524_252452_25242522562_E522_");
+    auto bigNumber = unit_from_string("_45_625_252_22524_252452_25242522562_E522_");
     EXPECT_FALSE(isfinite(bigNumber));
-	EXPECT_TRUE(isinf(bigNumber));
+    EXPECT_TRUE(isinf(bigNumber));
 
     EXPECT_EQ(precise_unit(45625252.0, precise::m), unit_from_string("_45_625_252_m_"));
 
@@ -693,7 +692,7 @@ TEST(funnyStrings, outofrange)
 { // these are mainly testing that it doesn't throw
     EXPECT_FALSE(isfinite(unit_from_string("1532^34e505"))); // out of range error
     EXPECT_TRUE(isinf(unit_from_string("34e505"))); // out of range
-	EXPECT_TRUE(isinf(unit_from_string("-34e505"))); // out of range
+    EXPECT_TRUE(isinf(unit_from_string("-34e505"))); // out of range
 }
 
 TEST(funnyStrings, powersof1)

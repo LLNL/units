@@ -18,7 +18,7 @@ static_assert(
     "nan is used to signify invalid values");
 static_assert(std::numeric_limits<double>::has_infinity, "nan is used to signify invalid values");
 namespace constants {
-    constexpr double pi = 3.141592653589793;
+    constexpr double pi = 3.14159265358979323846;
     constexpr double tau = 2.0 * pi;
     constexpr double invalid_conversion = std::numeric_limits<double>::signaling_NaN();
     constexpr double infinity = std::numeric_limits<double>::infinity();

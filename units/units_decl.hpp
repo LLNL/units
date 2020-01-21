@@ -781,28 +781,28 @@ inline bool isnan(unit u)
 @details checks that the multiplier is finite*/
 inline bool isfinite(precise_unit utest)
 {
-	return std::isfinite(utest.multiplier());
+    return std::isfinite(utest.multiplier());
 }
 
 /** check if the unit multiplier is finite
 @details checks that the multiplier is finite*/
 inline bool isfinite(unit utest)
 {
-	return std::isfinite(utest.multiplier_f());
+    return std::isfinite(utest.multiplier_f());
 }
 
 /** check if unit multiplier is finite
 @details checks that the multiplier is infinite*/
 inline bool isinf(precise_unit utest)
 {
-	return std::isinf(utest.multiplier());
+    return std::isinf(utest.multiplier());
 }
 
 /** check if unit multiplier is infinite
 @details checks that the multiplier is infinite*/
 inline bool isinf(unit utest)
 {
-	return std::isinf(utest.multiplier_f());
+    return std::isinf(utest.multiplier_f());
 }
 
 /** generate a unit which is an integer power of another
