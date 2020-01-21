@@ -1124,7 +1124,8 @@ static double getDoubleFromString(const std::string& ustring, size_t* index) noe
             case EINVAL: //these may not be used on some platforms so coverage is inexact
             case EILSEQ:
                 *index = 0;
-				std::cout << "returned (" << errno << ") for " << ustring << " conversion" << std::endl;
+                std::cout << "returned (" << errno << ") for " << ustring << " conversion; used "
+                          << (retloc - ustring.c_str()) << "characters" << std::endl;
                 return constants::invalid_conversion;
                 // LCOV_EXCL_STOP
             case ERANGE: //different platform seem to use different codes here
