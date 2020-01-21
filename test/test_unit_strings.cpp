@@ -693,6 +693,8 @@ TEST(funnyStrings, outofrange)
     EXPECT_FALSE(isfinite(unit_from_string("1532^34e505"))); // out of range error
     EXPECT_TRUE(isinf(unit_from_string("34e505"))); // out of range
     EXPECT_TRUE(isinf(unit_from_string("-34e505"))); // out of range
+
+    EXPECT_TRUE(isinf(unit_from_string("34.785e12458"))); // out of range of quad precision
 }
 
 TEST(funnyStrings, powersof1)
