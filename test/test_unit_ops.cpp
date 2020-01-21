@@ -98,7 +98,7 @@ TEST(unitOps, root)
 
     EXPECT_EQ(root(unit(-4.5, m), 2), error);
 }
-#endif 
+#endif
 
 TEST(unitOps, nan)
 {

@@ -5,7 +5,7 @@ FROM helics/buildenv:tumbleweed-builder as builder
 RUN git clone https://github.com/LLNL/units.git units
 
 WORKDIR /root/develop/build
-RUN cmake ../units -DUNITS_BUILD_WEBSERVER=ON -DBUILD_TESTING=OFF -DUNITS_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release && make -j2
+RUN cmake ../units -DUNITS_BUILD_WEBSERVER=ON -DBUILD_TESTING=OFF -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release && make -j2
 
 WORKDIR /root/develop/webserver
 
