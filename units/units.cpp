@@ -923,11 +923,16 @@ static std::string to_string_internal(precise_unit un, uint32_t match_flags)
             if (isNumericalCharacter(prefix.front())) {
                 size_t cut;
                 double mx = getDoubleFromString(prefix, &cut);
-                auto str =
-                    getMultiplierString(1.0 / mx, true) + tu.second + "/" + prefix.substr(cut);
-                if (beststr.empty() || str.size() < beststr.size()) {
-                    beststr = str;
+                if (mx != 0.0) {
+                    auto str =
+                        getMultiplierString(1.0 / mx, true) + tu.second + "/" + prefix.substr(cut);
+                    if (beststr.empty() || str.size() < beststr.size()) {
+                        beststr = str;
+                    }
+                } else {
+                    return std::string(tu.second) + "/" + prefix;
                 }
+
             } else {
                 return std::string(tu.second) + "/" + prefix;
             }
