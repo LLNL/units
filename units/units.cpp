@@ -1118,31 +1118,19 @@ static double getDoubleFromString(const std::string& ustring, size_t* index) noe
 {
     char* retloc = nullptr;
     auto vld = strtold(ustring.c_str(), &retloc);
-    if (!std::isnormal(vld)) {
-        switch (errno) {
-            // LCOV_EXCL_START
-            case EINVAL: //these may not be used on some platforms so coverage is inexact
-            case EILSEQ:
-                *index = 0;
-                std::cout << "returned (" << errno << ") for " << ustring << " conversion; used "
-                          << (retloc - ustring.c_str()) << "characters" << std::endl;
-                return constants::invalid_conversion;
-                // LCOV_EXCL_STOP
-            case ERANGE: //different platform seem to use different codes here
-            case EOVERFLOW:
-            case EDOM:
-                break;
-            case 0:
-            default:
-                if ((retloc == nullptr) || (retloc - ustring.c_str() == 0)) {
-                    *index = 0;
-                    return constants::invalid_conversion;
-                }
-                break;
-        }
+    // LCOV_EXCL_START
+    if (retloc == nullptr) {
+        //to the best of my knowledge this should not happen but this is a weird function sometimes with a lot of platform variations
+        *index = 0;
+        return constants::invalid_conversion;
+    }
+    // LCOV_EXCL_STOP
+    *index = (retloc - ustring.c_str());
+    // so if it converted anything then we can probably use that value if not return NaN
+    if (*index == 0) {
+        return constants::invalid_conversion;
     }
 
-    *index = (retloc - ustring.c_str());
     if (vld > static_cast<long double>(std::numeric_limits<double>::max())) {
         return constants::infinity;
     }
