@@ -16,10 +16,11 @@ CMake variables
 
 -  `UNITS_ENABLE_EXTRA_COMPILER_WARNINGS`: Turn on bunch of extra compiler warnings, on by default
 -  `UNITS_ENABLE_ERROR_ON_WARNINGS`:  Mostly useful in some testing contexts but will turn on Werror so any normal warnings generate an error.
--  `UNITS_CXX_STD`:  Compile with a particular C++ standard, valid values are `11`, `14`, `17`, and likely `20` though that isn't broadly supported.  The Units library also responds to `CMAKE_CXX_STANDARD`
+-  `CMAKE_CXX_STANDARD`:  Compile with a particular C++ standard, valid values are `11`, `14`, `17`, and likely `20` though that isn't broadly supported.
 -  `UNITS_BINARY_ONLY_INSTALL`:  Just install shared librarys and executables,  no headers or static libs or packaging information
 
 If compiling as part of a subproject then a few other options are useful
+
 -  `UNITS_HEADER_ONLY`:  Only generate the header only target
 -  `UNITS_INSTALL`:  enable the install instructions of the library
 -  `UNITS_WITH_CMAKE_PACKAGE`:  Generate the cmake package variables for an installation or package
@@ -34,3 +35,4 @@ If you are using the library as a submodule or importing the package there are a
 -  `units::shared`  will be set to the shared library if built
 -  `units::object`  will be set to the object library if enabled
 -  `units::units`  will be set to the static library if built or the shared library if built and the static is not
+-  `units::units-header-only` is a target if `UNITS_HEADER_ONLY` cmake variable is set
