@@ -6,10 +6,11 @@
 [![Build Status](https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=master)](https://dev.azure.com/phlptp/units/_build/latest?definitionId=1&branchName=master)
 [![CircleCI](https://circleci.com/gh/LLNL/units.svg?style=svg)](https://circleci.com/gh/LLNL/units)
 [![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE)
+[![Documentation Status](https://readthedocs.org/projects/units/badge/?version=latest)](https://units.readthedocs.io/en/latest/?badge=latest)
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
 
-This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress.  Namespaces, function names, and code organization is subject to change, input is welcome.    
+This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    
 
 ## Purpose
 A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units, often represented by strings, to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
@@ -221,7 +222,7 @@ Uncertatin measurements have a few additional functions to support the uncertain
 -   `rss_add`, `rss_subtract`, `rss_product`, `rss_divide` are equivalent to the associated operator but use the root-sum of squares method for propragating the uncertainty.  
 -   `double uncertainty()` get the numerical value of the uncertainty
 -   `double uncertainty_as(<unit>)` get the uncertainty in terms of a particular unit.
--   `fractional_uncertainty()`  get the uncertainty as a fraction of the value. 
+-   `fractional_uncertainty()`  get the uncertainty as a fraction of the value.
 
 #### Measurement operators
 There are several operator overloads which work on measurements or units to produce measurements.
@@ -252,7 +253,7 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 -   `precise_unit default_unit( string)`: get a unit associated with a particular kind of measurement.  for example `default_unit("length")` would return `precise::m`  
 -   `precise_measurement measurement_from_string(string,flags)`: convert a string to a precise_measurement
 -   `measurement measurement_cast_from_string(string,flags)`: convert a string to a measurement calls measurement_from_string and does a measurement_cast.  
--   `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement.   Typically the string will have some segment with a ±, `+/-` or the html equivalent in it to signify the uncertainty.  
+-   `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement.   Typically the string will have some segment with a ï¿½, `+/-` or the html equivalent in it to signify the uncertainty.  
 -   `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported
 -   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.  
 -   `clearUserDefinedUnits()`  remove all user defined units from the library.
