@@ -516,20 +516,18 @@ static void addUnitFlagStrings(precise_unit un, std::string& unitString)
         }
     }
     if (un.base_units().has_e_flag()) {
-		if (unitString.empty()) {
-			unitString = "eflag";
-		}
-		else {
-			unitString.insert(0, "eflag*");
-		}
+        if (unitString.empty()) {
+            unitString = "eflag";
+        } else {
+            unitString.insert(0, "eflag*");
+        }
     }
     if (un.base_units().is_per_unit()) {
-		if (unitString.empty()) {
-			unitString = "pu";
-		}
-		else {
-			unitString.insert(0, "pu*");
-		}
+        if (unitString.empty()) {
+            unitString = "pu";
+        } else {
+            unitString.insert(0, "pu*");
+        }
     }
 }
 
