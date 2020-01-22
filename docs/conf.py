@@ -72,8 +72,8 @@ extensions = [
 #    'sphinx.ext.doctest',
 #    'sphinx.ext.intersphinx',
 #    'sphinx.ext.coverage',
-#    'sphinx.ext.mathjax',
-#    'sphinx.ext.viewcode',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode',
 #    'sphinx.ext.githubpages',
 #    'sphinx.ext.napoleon',
 #    'nbsphinx',
@@ -125,7 +125,7 @@ language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'default'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
@@ -218,5 +218,3 @@ texinfo_documents = [
 def setup(app):
     app.add_stylesheet('css/custom.css')  # may also be an URL
 #    app.add_transform(AutoStructify)
-
-
