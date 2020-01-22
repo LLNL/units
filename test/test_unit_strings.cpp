@@ -18,6 +18,7 @@ TEST(unitStrings, Simple)
     EXPECT_EQ(to_string(V), "V");
     EXPECT_EQ(to_string(rad), "rad");
     EXPECT_EQ(to_string(cd), "cd");
+	EXPECT_EQ(to_string(pu), "pu");
 }
 
 TEST(unitStrings, Derived)
