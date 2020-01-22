@@ -32,8 +32,8 @@ This software was developed for use in LLNL/GridDyn, and is currently a work in 
     :target: https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE
 
 The :ref:`Introduction` is a discussion about the why? and How the library came together and a generally what it does and how it was tested.
-The installation guide is a discussion about linking and using the library, and the User guide is the
-how-to about how to use the software library.
+The :ref:`Installation and Linking` guide is a discussion about linking and using the library, and the :ref:`User Guide` is the
+how-to about how to use the software library.  For the details see :ref:`Details`  and to try out some of the string conversions check out :ref:`Units on the Web`
 
 .. toctree::
    :maxdepth: 1
@@ -43,6 +43,7 @@ how-to about how to use the software library.
    installation/index
    user-guide/index
    details/index
+   web/index
 
 Indices and tables
 ==================
