@@ -32,14 +32,15 @@ Technically count and radians are not units, they are representations of real th
 And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example `1 GB` of data is `~1.6605*10^-15 mol` of data. So they are used in different context and don't mix very often, the convert functions can convert between them if necessary.
 
 The structure also defines some flags:
-- per-unit, indicating per unit units 
-- i_flag,  general flag and complex quantity 
-- e_flag,  general unit discriminant 
-- equation,  indicator that the unit is an equation unit.  
+
+-  `per-unit`, indicating per unit units 
+-  `i_flag`,  general flag and complex quantity 
+-  `e_flag`,  general unit discriminant 
+-  `equation`,  indicator that the unit is an equation unit.  
 
 Derived Units
 +++++++++++++++
-A vast majority of physical units can be constructed using these bases, as well as many non-physical units.  The entire structure for the units fits into 4 bytes to meet the design requirement for a compact type.  This required a detailed evaluation of what physical units and combinations of them were in use in different scientific and commercial disciplines,  The following list represents the range of allowed values chosen as the representation and those required by known and observed physical quanities.  
+A vast majority of physical units can be constructed using these bases, as well as many non-physical units.  The entire structure for the units fits into 4 bytes to meet the design requirement for a compact type.  This required a detailed evaluation of what physical units and combinations of them were in use in different scientific and commercial disciplines,  The following list represents the range of allowed values chosen as the representation and those required by known and observed physical quantities.  
 
 -   meter:\[-8,+7\]  \:normal range \[-4,+4\], intermediate ops \[-6,+6\]
 -   kilogram:\[-4,+3\] \:normal range \[-1,+1\], intermediate ops \[-2,+2\]
@@ -59,7 +60,7 @@ Basic operations
 ----------------- 
 Some mathematical operations between units are supported.  `*` and `/` with units produce a new unit.  
 
-.. code-block:: cpp
+.. code-block:: c++
    auto new_unit=m/s;  
    auto another=new_unit*s;
    //another == m 

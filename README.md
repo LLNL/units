@@ -17,7 +17,30 @@ A unit library was needed to be able to represent units of a wide range of disci
 
 It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units.  The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that.  This library does **NOT** provide compile time checking of units.  The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time, and may be of a wide variety of units.  
 
-This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates.  It supports conversion of units to and from strings.  It supports mathematical operations on units and measurements which is `constexpr` where possible.  It supports units used in power systems and electrical engineering, and conversions between them as well as some typical assumptions for supporting conversions.  In some cases it also has some notion of commodities, and support for existing unit standards for strings and namings.  
+This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates.  It supports conversion of units to and from strings.  It supports mathematical operations on units and measurements which is `constexpr` where possible.  It supports units used in power systems and electrical engineering, and conversions between them as well as some typical assumptions for supporting conversions.  In some cases it also has some notion of commodities, and support for existing unit standards for strings and naming.
+
+### Basic use case 
+The primary use case for the library is string operations and conversion.  For example if you have a library that does some computations with physical units.  In the library code itself the units are standardized and well defined.  Say a velocity,  internally everything is in meters per second.  But there is a configuration file that takes in the initial data and you would like to broadly support different units on the input 
+
+``` cpp
+#include <units/units.hpp>
+
+double GetInputValueAs(const std::string &input, precise_units out)
+{
+   auto meas=measurement_from_string(input);
+   return meas.value_as(out);
+}
+
+```
+
+the return value can be checked for validity as an invalid conversion would result in `constants::invalid_conversion`  or `Nan` so can be checked by `std::isnan`  
+or 
+```cpp
+if (!meas.units().is_convertible(out)
+{
+	throw(std::invalid_argument);  
+}
+```
 
 ## Limitations
 -   The powers represented by units are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported.
