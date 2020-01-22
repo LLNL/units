@@ -18,6 +18,7 @@ TEST(unitStrings, Simple)
     EXPECT_EQ(to_string(V), "V");
     EXPECT_EQ(to_string(rad), "rad");
     EXPECT_EQ(to_string(cd), "cd");
+    EXPECT_EQ(to_string(pu), "pu");
 }
 
 TEST(unitStrings, Derived)
@@ -177,6 +178,7 @@ TEST(unitStrings, crazyunits)
     unit tc{detail::unit_data(1, 1, -3, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0)};
     str = to_string(tc);
     EXPECT_EQ(str, "W*m^-1*K^-1");
+    EXPECT_EQ(to_string(precise_unit(10, precise::pu)), "10*pu");
 }
 
 TEST(unitStrings, customUnits)

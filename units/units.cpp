@@ -516,9 +516,15 @@ static void addUnitFlagStrings(precise_unit un, std::string& unitString)
         }
     }
     if (un.base_units().has_e_flag()) {
-        unitString.insert(0, "eflag*");
+        if (unitString.empty()) {
+            unitString = "eflag";
+        } else {
+            unitString.insert(0, "eflag*");
+        }
     }
     if (un.base_units().is_per_unit()) {
+        //the string cannot be empty at this point since then it would
+        //have been triggered on the pu unit by itself
         unitString.insert(0, "pu*");
     }
 }
