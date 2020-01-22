@@ -18,7 +18,7 @@ TEST(unitStrings, Simple)
     EXPECT_EQ(to_string(V), "V");
     EXPECT_EQ(to_string(rad), "rad");
     EXPECT_EQ(to_string(cd), "cd");
-	EXPECT_EQ(to_string(pu), "pu");
+    EXPECT_EQ(to_string(pu), "pu");
 }
 
 TEST(unitStrings, Derived)
@@ -434,21 +434,22 @@ TEST_P(roundTripString, testRoundTrip)
     EXPECT_EQ(unit_from_string(str), u1) << "Round trip string didn't match " << GetParam();
 }
 
-static const std::vector<std::string> testStrings{"million per milliliter",
-                                                  "ng/(8.h)",
-                                                  "mL/kg/d",
-                                                  "ng/mL/h",
-                                                  "10.L/min",
-                                                  "[car_Au]",
-                                                  "/[arb'U]",
-                                                  "U/10*10{cells}",
-                                                  "ag/{cell}",
-                                                  "ug/mmol{creat}",
-                                                  "[ppm]{v/v}",
-                                                  "[IU]/g{Hb}",
-                                                  "U/mL{RBCs}",
-                                                  "{#}/{platelet}",
-                                                  "[IU]/mL"};
+static const std::vector<std::string> testStrings{
+    "million per milliliter",
+    "ng/(8.h)",
+    "mL/kg/d",
+    "ng/mL/h",
+    "10.L/min",
+    "[car_Au]",
+    "/[arb'U]",
+    "U/10*10{cells}",
+    "ag/{cell}",
+    "ug/mmol{creat}",
+    "[ppm]{v/v}",
+    "[IU]/g{Hb}",
+    "U/mL{RBCs}",
+    "{#}/{platelet}",
+    "[IU]/mL"};
 
 INSTANTIATE_TEST_SUITE_P(roundTrip, roundTripString, ::testing::ValuesIn(testStrings));
 
