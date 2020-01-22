@@ -178,6 +178,7 @@ TEST(unitStrings, crazyunits)
     unit tc{detail::unit_data(1, 1, -3, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0)};
     str = to_string(tc);
     EXPECT_EQ(str, "W*m^-1*K^-1");
+	EXPECT_EQ(to_string(unit(0.1,pu)), "pu/10");
 }
 
 TEST(unitStrings, customUnits)
