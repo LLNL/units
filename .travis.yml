@@ -18,6 +18,7 @@ matrix:
     - CCACHE_CPP2=yes
     script:
     - .ci/make_and_test.sh 11
+    - .ci/make_and_test.sh 14 -DUNITS_HEADER_ONLY=ON
 #    - .ci/make_and_test.sh 14
 #    - .ci/make_and_test.sh 17
 
@@ -74,9 +75,9 @@ matrix:
     - ". .ci/build_lcov.sh"
     - "bash .ci/run_codecov.sh"
     script:
-    - .ci/make_and_test.sh 11 
-    - .ci/make_and_test.sh 14 
- #   - .ci/make_and_test.sh 17 
+    - .ci/make_and_test.sh 11
+    - .ci/make_and_test.sh 14
+    - .ci/make_and_test.sh 17
 
 
     # GCC 4.8

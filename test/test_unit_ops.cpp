@@ -61,6 +61,7 @@ TEST(unitOps, power)
     EXPECT_EQ(m.inv().inv(), m.pow(-1).pow(-1));
 }
 
+#ifndef UNITS_HEADER_ONLY
 TEST(unitOps, root)
 {
     EXPECT_EQ(root(m, 0), one);
@@ -97,6 +98,7 @@ TEST(unitOps, root)
 
     EXPECT_EQ(root(unit(-4.5, m), 2), error);
 }
+#endif
 
 TEST(unitOps, nan)
 {
@@ -321,6 +323,7 @@ TEST(preciseUnitOps, Power)
     EXPECT_EQ(m4_b, m2 * m2);
 }
 
+#ifndef UNITS_HEADER_ONLY
 TEST(preciseUnitOps, root)
 {
     auto m1 = precise::m.pow(1);
@@ -355,6 +358,7 @@ TEST(preciseUnitOps, root)
 
     EXPECT_TRUE(is_error(root(precise_unit(-4.5, m), 2)));
 }
+#endif
 
 TEST(preciseUnitOps, nan)
 {

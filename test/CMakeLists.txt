@@ -7,26 +7,40 @@
 
 include(AddGoogletest)
 
-set(UNITS_TESTS
-    fuzz_issue_tests
+set(UNIT_TEST_HEADER_ONLY
     test_conversions1
-    test_conversions2
     test_equation_units
     test_measurement
     test_pu
+    test_unit_ops
+    test_uncertain_measurements
+)
+
+set(UNITS_TESTS
+	${UNIT_TEST_HEADER_ONLY}
+    fuzz_issue_tests
+    test_conversions2
     test_random_round_trip
     test_ucum
     test_udunits
-    test_unit_ops
     test_unit_strings
     test_measurement_strings
-    test_commodities
+	test_commodities
     test_leadingNumbers
-    test_uncertain_measurements
 )
 
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
 
+if (UNITS_HEADER_ONLY)
+
+foreach(T ${UNIT_TEST_HEADER_ONLY})
+
+    add_unit_test(${T}.cpp)
+    target_link_libraries(${T} units::units-header-only compile_flags_target)
+
+endforeach()
+
+else()
 foreach(T ${UNITS_TESTS})
 
     add_unit_test(${T}.cpp)
@@ -61,6 +75,9 @@ if(NOT MSVC)
     target_compile_options(test_ucum PRIVATE -Wno-double-promotion)
     target_compile_options(test_udunits PRIVATE -Wno-double-promotion)
 endif()
+
+
+
 add_executable(examples_test examples_test.cpp)
 target_link_libraries(examples_test PRIVATE units::units)
 target_compile_definitions(examples_test PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS})
@@ -86,3 +103,5 @@ if(CMAKE_BUILD_TYPE STREQUAL Coverage)
         examples_test
     )
 endif()
+
+endif() # UNITS_HEADER_ONLY

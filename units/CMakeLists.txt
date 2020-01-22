@@ -9,7 +9,18 @@ set(units_source_files units.cpp x12_conv.cpp r20_conv.cpp commodities.cpp)
 set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp)
 
 if(UNITS_HEADER_ONLY)
-    # TODO: install units_Sources add this directory to the include path
+    add_library(units-header-only INTERFACE)
+	target_include_directories(
+            units-header-only INTERFACE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        )
+	target_compile_definitions(units-header-only INTERFACE UNITS_HEADER_ONLY)
+    if(UNITS_INSTALL)
+            install(
+                TARGETS units-header-only ${UNITS_LIBRARY_EXPORT_COMMAND}
+            )
+	endif()
+	add_library(units::units-header-only ALIAS units-header-only)
 else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
         add_library(units-static STATIC ${units_source_files} ${units_header_files})
