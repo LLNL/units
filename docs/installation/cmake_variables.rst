@@ -65,4 +65,6 @@ As part of the HELICS library the units library is used as a submodule it is inc
    hide_variable(UNITS_HEADER_ONLY)
    hide_variable(UNITS_BUILD_OBJECT_LIBRARY)
 
-Then the target linked by
+Then the target linked by::
+
+   target_link_libraries(helics_common PUBLIC HELICS::utilities units::units)

@@ -31,7 +31,7 @@ This software was developed for use in LLNL/GridDyn, and is currently a work in 
 .. |License| image:: https://img.shields.io/badge/License-BSD-blue.svg
     :target: https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE
 
-The :doc:`introduction` is a discussion about the why? and How the library came together and a generally what it does and how it was tested.  
+The :doc:`introduction` is a discussion about the why? and How the library came together and a generally what it does and how it was tested.
 The installation guide is a discussion about linking and using the library, and the User guide is the
 how-to about how to use the software library.
 
@@ -42,6 +42,7 @@ how-to about how to use the software library.
    introduction/index
    installation/index
    user-guide/index
+   details/index
 
 Indices and tables
 ==================
