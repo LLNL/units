@@ -36,3 +36,34 @@ If you are using the library as a submodule or importing the package there are a
 -  `units::object`  will be set to the object library if enabled
 -  `units::units`  will be set to the static library if built or the shared library if built and the static is not
 -  `units::units-header-only` is a target if `UNITS_HEADER_ONLY` cmake variable is set
+
+
+Example
+---------
+
+As part of the HELICS library the units library is used as a submodule it is included
+
+.. highlight:: cmake
+
+::
+  # so units cpp exports to the correct target export
+  set(UNITS_INSTALL OFF CACHE INTERNAL "")
+
+if(NOT CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 14) # Supported values are ``11``, ``14``, and ``17``.
+endif()
+
+set(UNITS_BUILD_OBJECT_LIBRARY OFF CACHE INTERNAL "")
+set(UNITS_BUILD_STATIC_LIBRARY ON CACHE INTERNAL "")
+set(UNITS_BUILD_SHARED_LIBRARY OFF CACHE INTERNAL "")
+set(UNITS_BUILD_WEBSERVER OFF CACHE INTERNAL "")
+
+add_subdirectory("${PROJECT_SOURCE_DIR}/ThirdParty/units"
+                 "${PROJECT_BINARY_DIR}/ThirdParty/units")
+
+set_target_properties(units-static PROPERTIES FOLDER Extern)
+
+hide_variable(UNITS_HEADER_ONLY)
+hide_variable(UNITS_BUILD_OBJECT_LIBRARY)
+
+.. highlight:: none
