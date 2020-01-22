@@ -72,7 +72,8 @@ extensions = [
 #    'sphinx.ext.doctest',
 #    'sphinx.ext.intersphinx',
 #    'sphinx.ext.coverage',
-#    'sphinx.ext.mathjax',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.autosectionlabel'
 #    'sphinx.ext.viewcode',
 #    'sphinx.ext.githubpages',
 #    'sphinx.ext.napoleon',
