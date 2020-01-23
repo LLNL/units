@@ -890,12 +890,12 @@ namespace precise {
             return false;
         }
         /// Get the number code for the custom count unit
-        inline int custom_count_unit_number(detail::unit_data UT)
+        inline unsigned short custom_count_unit_number(detail::unit_data UT)
         {
-            int num =
-                (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
-            num += (UT.candela() == 0) ? 0 : 8;
-            return num;
+            unsigned int num =
+                (UT.has_e_flag() ? 1U : 0U) + (UT.has_i_flag() ? 2U : 0U) + (UT.is_per_unit() ? 4U : 0U);
+            num += (UT.candela() == 0) ? 0U : 8U;
+            return static_cast<unsigned short>(num);
         }
         /// check if 1/custom unit
         inline bool is_custom_count_unit_inverted(detail::unit_data UT)
