@@ -11,7 +11,7 @@ The `defunit` unit is allowed to be converted to any other unit.  it is equivale
 
 
 Error Unit
------------ 
+-----------
 
 .. code-block:: c++
 
@@ -20,9 +20,12 @@ Error Unit
 Invalid Unit
 -------------
 
-An invalid unit is any unit that is either the error unit or has a NaN in the multiplier
+An invalid unit is any unit that is either the error unit or has a NaN in the multiplier.  This is the unit returned from a string conversion if the string does not describe a unit or measurement.  
 
 one
 ------
 
 The default constructor for `unit` and `precise_unit` is empty unit data and 1.0 in the multiplier.
+
+
+There are also precise versions of these values in the `precise` namespace

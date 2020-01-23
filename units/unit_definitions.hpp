@@ -137,7 +137,7 @@ namespace precise {
     /// Define some unitless numbers
     constexpr precise_unit one;
     constexpr precise_unit hundred = precise_unit(100.0, one);
-    constexpr precise_unit ten = precise_unit(10.0, one);
+    constexpr precise_unit ten = precise_unit(10.0, one);  
     constexpr precise_unit percent(0.01, one);
     constexpr precise_unit ratio = one * pu;
     constexpr precise_unit error(detail::unit_data(nullptr));
@@ -166,6 +166,8 @@ namespace precise {
     constexpr precise_unit tebi = gibi * kibi;
     constexpr precise_unit pebi = tebi * kibi;
     constexpr precise_unit exbi = pebi * kibi;
+	constexpr precise_unit yobi = exbi * kibi;
+	constexpr precise_unit zebi = yobi * kibi;
 
     // Derived SI units:
     constexpr precise_unit Hz(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -456,7 +458,7 @@ namespace precise {
         }
     } // namespace canada
 
-    /// Some Austrailia specific variants on the us units
+    /// Some Australia specific variants on the us units
     namespace australia {
         constexpr precise_unit tbsp{20.0, mL};
         constexpr precise_unit tsp{5.0, mL};
