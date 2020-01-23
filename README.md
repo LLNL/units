@@ -12,6 +12,16 @@ A library that provides runtime unit values, instead of individual unit types, f
 
 This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    
 
+## Table of contents
+-   [Purpose](#purpose)
+-   [Limitations](#limitations)
+-   [Alternatives](#alternatives)
+-   [Types](#types)
+-   [Unit representation](#unit_representation)
+-   [Usage](#usage)
+-   [Contributing](#contributing)
+-   [Release](#release)
+
 ## Purpose
 A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units, often represented by strings, to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
 
@@ -19,8 +29,8 @@ It was desired that the unit representation be a compact type(<=8 bytes) that is
 
 This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates.  It supports conversion of units to and from strings.  It supports mathematical operations on units and measurements which is `constexpr` where possible.  It supports units used in power systems and electrical engineering, and conversions between them as well as some typical assumptions for supporting conversions.  In some cases it also has some notion of commodities, and support for existing unit standards for strings and naming.
 
-### Basic use case 
-The primary use case for the library is string operations and conversion.  For example if you have a library that does some computations with physical units.  In the library code itself the units are standardized and well defined.  Say a velocity,  internally everything is in meters per second.  But there is a configuration file that takes in the initial data and you would like to broadly support different units on the input 
+### Basic use case
+The primary use case for the library is string operations and conversion.  For example if you have a library that does some computations with physical units.  In the library code itself the units are standardized and well defined.  Say a velocity,  internally everything is in meters per second.  But there is a configuration file that takes in the initial data and you would like to broadly support different units on the input
 
 ``` cpp
 #include <units/units.hpp>
@@ -34,7 +44,7 @@ double GetInputValueAs(const std::string &input, precise_units out)
 ```
 
 the return value can be checked for validity as an invalid conversion would result in `constants::invalid_conversion`  or `Nan` so can be checked by `std::isnan`  
-or 
+or
 ```cpp
 if (!meas.units().is_convertible(out)
 {
@@ -153,7 +163,7 @@ There are two parts of the library  a header only portion that can simply be cop
 
   The second part is a few cpp files that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit.  The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.  
 
-## How to use the library
+## Usage
 Many units are defined as `constexpr` objects and can be used directly
 
 ```cpp
