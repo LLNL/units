@@ -262,9 +262,9 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 
 #### Commodities
 The units library has some support for commodities,  more might be added in the future.  Commodities are supported in precise_units.  
--   `uint32_t getCommodity(std::string commodity)`   get a commodity code from a string.  
--   `std::string getCommodityName(uint32_t)`  get the name of a commodity from its code
--   `addUserDefinedCommodity(std::string name, uint32_t code)`  add a new commodity that can be used in the string operations.  
+-   `std::uint32_t getCommodity(std::string commodity)`   get a commodity code from a string.  
+-   `std::string getCommodityName(std::uint32_t)`  get the name of a commodity from its code
+-   `addUserDefinedCommodity(std::string name, std::uint32_t code)`  add a new commodity that can be used in the string operations.  
 -   `clearUserDefinedCommodities()`  remove all user defined commodities from the library.
 -   `disableUserDefinedCommodities()`  there is a (likely small) performance hit in string conversions if custom commodities are used so they can be disabled completely if desired.
 -   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  they are enabled by default.

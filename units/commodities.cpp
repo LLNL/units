@@ -20,7 +20,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 /*
 // https://en.wikipedia.org/wiki/List_of_traded_commodities
-enum commodity : uint32_t
+enum commodity : std::uint32_t
 {
     water", 1,
     // metals
@@ -96,7 +96,7 @@ enum commodity : uint32_t
 
 namespace units {
 namespace commodities {
-    using commodityMap = std::unordered_map<uint32_t, const char*>;
+    using commodityMap = std::unordered_map<std::uint32_t, const char*>;
     static const commodityMap commodity_names{
         {water, "water"},
         // metals
@@ -175,7 +175,7 @@ namespace commodities {
          "cxcomm[1073741824]"}, // this is a _____ string commodity that might somehow get generated
     };
 
-    using commodityNameMap = std::unordered_map<std::string, uint32_t>;
+    using commodityNameMap = std::unordered_map<std::string, std::uint32_t>;
     static const commodityNameMap commodity_codes{
         {"_", 0}, // null commodity code, would cause some screwy things with the strings
         {"__", 0}, // null commodity code, would cause some screwy things with the strings
@@ -263,16 +263,16 @@ namespace commodities {
         {"dot", pixel},
     };
 } // namespace commodities
-static constexpr uint32_t Ac{54059}; /* a prime */
-static constexpr uint32_t Bc{76963}; /* another prime */
-//static constexpr uint32_t Cc{ 86969 }; /* yet another prime */
-static constexpr uint32_t firstH{37}; /* also prime */
+static constexpr std::uint32_t Ac{54059}; /* a prime */
+static constexpr std::uint32_t Bc{76963}; /* another prime */
+//static constexpr std::uint32_t Cc{ 86969 }; /* yet another prime */
+static constexpr std::uint32_t firstH{37}; /* also prime */
 
 uint32_t stringHash(const std::string& str)
 {
-    uint32_t h{firstH};
+    std::uint32_t h{firstH};
     for (auto c : str) {
-        h = (h * Ac) ^ (static_cast<uint32_t>(c) * Bc);
+        h = (h * Ac) ^ (static_cast<std::uint32_t>(c) * Bc);
     }
     return h; // or return h % C;
 }
@@ -290,7 +290,7 @@ bool enableCustomCommodities()
     return true;
 }
 static commodities::commodityNameMap customCommodityCodes;
-static std::unordered_map<uint32_t, std::string> customCommodityNames;
+static std::unordered_map<std::uint32_t, std::string> customCommodityNames;
 /// remove some escaped characters from a string mainly the escape character and (){}[]
 static void removeEscapeSequences(std::string& str)
 {
@@ -334,7 +334,7 @@ uint32_t getCommodity(std::string comm)
     if ((comm.size() < 6) && std::all_of(comm.begin(), comm.end(), [](char x) {
             return (x == ' ' || (x >= '_' && x <= '}'));
         })) {
-        uint32_t hkey = 0x40000000;
+        std::uint32_t hkey = 0x40000000;
         int shift = 0;
         for (auto c : comm) {
             if (c == ' ') {
@@ -356,7 +356,7 @@ uint32_t getCommodity(std::string comm)
 }
 
 // get the code to use for a particular commodity
-std::string getCommodityName(uint32_t commodity)
+std::string getCommodityName(std::uint32_t commodity)
 {
     auto fnd = commodities::commodity_names.find(commodity);
     if (fnd != commodities::commodity_names.end()) {
@@ -384,7 +384,7 @@ std::string getCommodityName(uint32_t commodity)
 }
 
 // add a custom commodity for later retrieval
-void addCustomCommodity(std::string comm, uint32_t code)
+void addCustomCommodity(std::string comm, std::uint32_t code)
 {
     if (allowCustomCommodities.load()) {
         std::transform(comm.begin(), comm.end(), comm.begin(), ::tolower);

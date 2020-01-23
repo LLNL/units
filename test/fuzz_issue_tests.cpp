@@ -242,7 +242,7 @@ TEST_P(rtripflagProblems, rtripflagFiles)
         return;
     }
     std::string test1 = cdata.substr(4);
-    uint32_t flags;
+    std::uint32_t flags;
     std::memcpy(&flags, cdata.data(), 4);
     auto u1 = unit_from_string(test1, flags);
     if (!is_error(u1)) {

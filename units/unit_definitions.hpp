@@ -27,7 +27,7 @@ namespace constants {
 /// basic commodity definitions
 namespace commodities {
     // https://en.wikipedia.org/wiki/List_of_traded_commodities
-    enum commodity : uint32_t {
+    enum commodity : std::uint32_t {
         water = 1,
         // metals
         gold = 2,

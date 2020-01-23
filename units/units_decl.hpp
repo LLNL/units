@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <cmath>
 #include <functional> //for std::hash
+#include <cstdint> // for std::uint32_t
 
 namespace units {
 namespace detail {
@@ -312,7 +313,9 @@ template<>
 struct hash<units::detail::unit_data> {
     size_t operator()(const units::detail::unit_data& x) const noexcept
     {
-        return hash<unsigned int>()(*reinterpret_cast<const unsigned int*>(&x));
+		unsigned int val;
+		std::memcpy(&val, &x, sizeof(val));
+        return hash<unsigned int>()(val);
     }
 };
 } // namespace std
@@ -338,16 +341,13 @@ namespace detail {
 #else
         //what this is doing is assuming IEEE 754 floating point definition
         // taking 20 bits out of 24(roughly 10^6), adding 8 first 0b1000 to do rounding
-        // then masking it using a union
-        typedef union {
-            float f;
-            uint32_t bits;
-        } float_cast;
-        float_cast valf;
-        valf.f = val;
-        valf.bits += 8UL;
-        valf.bits &= 0xFFFFFFF0UL;
-        return valf.f;
+
+        std::uint32_t bits;
+		std::memcpy(&bits, &val, sizeof(bits));
+        bits += 8UL;
+        bits &= 0xFFFFFFF0UL;
+		std::memcpy(&val, &bits, sizeof(bits));
+        return val;
 #endif
     }
 
@@ -362,16 +362,14 @@ namespace detail {
 #else
         //what this is doing is assuming IEEE 754 floating point (double precision) definition
         // taking 40 bits out of 52(roughly 10^12), adding 2^11 to do rounding
-        // then masking it using a union
-        typedef union {
-            double f;
-            uint64_t bits;
-        } double_cast;
-        double_cast vald;
-        vald.f = val;
-        vald.bits += 0x800ULL;
-        vald.bits &= 0xFFFFFFFFFFFFF000ULL;
-        return vald.f;
+		// using memcpy to abide by strict aliasing rules
+		// based on godbolt.org this gets compiled to 2 instructions + the register loads
+        std::uint64_t bits;
+        std::memcpy(&bits, &val, sizeof(bits));
+        bits += 0x800ULL;
+        bits &= 0xFFFFFFFFFFFFF000ULL;
+		std::memcpy(&val, &bits, sizeof(bits));
+        return val;
 #endif
     }
 
@@ -552,7 +550,7 @@ class precise_unit {
     /// Construct from base_unit, commodity and multiplier
     constexpr precise_unit(
         detail::unit_data base_unit,
-        uint32_t commodity,
+        std::uint32_t commodity,
         double multiplier) noexcept :
         base_units_(base_unit),
         commodity_(commodity), multiplier_(multiplier)
@@ -573,7 +571,7 @@ class precise_unit {
     {
     }
     /// Build a unit from another with a multiplier and commodity
-    constexpr precise_unit(double multiplier, precise_unit other, uint32_t commodity) noexcept :
+    constexpr precise_unit(double multiplier, precise_unit other, std::uint32_t commodity) noexcept :
         precise_unit(other.base_units_, commodity, multiplier * other.multiplier_)
     {
     }
@@ -711,7 +709,7 @@ class precise_unit {
     /// Check if the unit has the e flag triggered
     constexpr bool has_e_flag() const { return base_units_.has_e_flag(); }
     /// Get the commodity code
-    constexpr uint32_t commodity() const { return commodity_; }
+    constexpr std::uint32_t commodity() const { return commodity_; }
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return multiplier_; }
     /// Extract the base unit Multiplier as a single precision float
@@ -746,7 +744,7 @@ class precise_unit {
 
   private:
     detail::unit_data base_units_{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    uint32_t commodity_{0}; //!< a commodity specifier
+    std::uint32_t commodity_{0}; //!< a commodity specifier
     double multiplier_{1.0}; //!< unit multiplier
 };
 

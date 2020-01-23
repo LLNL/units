@@ -1363,7 +1363,7 @@ inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
 /** The unit conversion flag are some modifiers for the string conversion operations,
 some are used internally some are meant for external use, though all are possible to use externally
 */
-enum unit_conversion_flags : uint32_t {
+enum unit_conversion_flags : std::uint32_t {
     case_insensitive = 1u, //!< perform case insensitive matching for UCUM case insensitive matching
     single_slash =
         2u, //!< specify that there is a single numerator and denominator only a single slash in the unit operations
@@ -1386,10 +1386,10 @@ enum unit_conversion_flags : uint32_t {
     skip_code_replacements = (1u << 31), // don't do some code and sequence replacements
 };
 /// Generate a string representation of the unit
-std::string to_string(precise_unit units, uint32_t match_flags = 0);
+std::string to_string(precise_unit units, std::uint32_t match_flags = 0);
 
 /// Generate a string representation of the unit
-inline std::string to_string(unit units, uint32_t match_flags = 0)
+inline std::string to_string(unit units, std::uint32_t match_flags = 0)
 {
     // For naming, precision doesn't matter
     return to_string(precise_unit(units), match_flags);
@@ -1400,7 +1400,7 @@ inline std::string to_string(unit units, uint32_t match_flags = 0)
 @param match_flags see /ref unit_conversion_flags to control the matching process somewhat
 @return a precise unit corresponding to the string if no match was found the unit will be an error unit
 */
-precise_unit unit_from_string(std::string unit_string, uint32_t match_flags = 0);
+precise_unit unit_from_string(std::string unit_string, std::uint32_t match_flags = 0);
 
 /** Generate a unit object from a string representation of it
 @details uses a unit_cast to convert the precise_unit to a unit
@@ -1408,7 +1408,7 @@ precise_unit unit_from_string(std::string unit_string, uint32_t match_flags = 0)
 @param match_flags see /ref unit_conversion_flags to control the matching process somewhat
 @return a unit corresponding to the string if no match was found the unit will be an error unit
 */
-inline unit unit_cast_from_string(std::string unit_string, uint32_t match_flags = 0)
+inline unit unit_cast_from_string(std::string unit_string, std::uint32_t match_flags = 0)
 {
     return unit_cast(unit_from_string(std::move(unit_string), match_flags));
 }
@@ -1425,7 +1425,7 @@ precise_unit default_unit(std::string unit_type);
   @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
     */
 precise_measurement
-    measurement_from_string(std::string measurement_string, uint32_t match_flags = 0);
+    measurement_from_string(std::string measurement_string, std::uint32_t match_flags = 0);
 
 /** Generate a measurement from a string
 @param measurement_string the string to convert
@@ -1433,7 +1433,7 @@ precise_measurement
   @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
 	*/
 inline measurement
-    measurement_cast_from_string(std::string measurement_string, uint32_t match_flags = 0)
+    measurement_cast_from_string(std::string measurement_string, std::uint32_t match_flags = 0)
 {
     return measurement_cast(measurement_from_string(std::move(measurement_string), match_flags));
 }
@@ -1446,12 +1446,12 @@ for example "3.0+/-0.4 m" or "2.5 m +/- 2 cm"
   @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
 	*/
 uncertain_measurement
-    uncertain_measurement_from_string(std::string measurement_string, uint32_t match_flags = 0);
+    uncertain_measurement_from_string(std::string measurement_string, std::uint32_t match_flags = 0);
 
 /// Convert a precise measurement to a string (with some extra decimal digits displayed
-std::string to_string(precise_measurement measure, uint32_t match_flags = 0);
+std::string to_string(precise_measurement measure, std::uint32_t match_flags = 0);
 /// Convert a measurement to a string
-std::string to_string(measurement measure, uint32_t match_flags = 0);
+std::string to_string(measurement measure, std::uint32_t match_flags = 0);
 
 /// Add a custom unit to be included in any string processing
 void addUserDefinedUnit(std::string name, precise_unit un);
@@ -1464,13 +1464,13 @@ void disableUserDefinedUnits();
 void enableUserDefinedUnits();
 
 /// get the code to use for a particular commodity
-uint32_t getCommodity(std::string comm);
+std::uint32_t getCommodity(std::string comm);
 
 /// get the code to use for a particular commodity
-std::string getCommodityName(uint32_t commodity);
+std::string getCommodityName(std::uint32_t commodity);
 
 /// add a custom commodity for later retrieval
-void addCustomCommodity(std::string comm, uint32_t code);
+void addCustomCommodity(std::string comm, std::uint32_t code);
 /// clear all custom commodities
 void clearCustomCommodities();
 /// Turn off the ability to add custom commodities for later access
