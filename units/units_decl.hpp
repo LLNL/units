@@ -7,9 +7,9 @@ SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
 #include <cmath>
-#include <functional> //for std::hash
 #include <cstdint> // for std::uint32_t
 #include <cstring> // for std::memcpy
+#include <functional> //for std::hash
 
 namespace units {
 namespace detail {
@@ -314,8 +314,8 @@ template<>
 struct hash<units::detail::unit_data> {
     size_t operator()(const units::detail::unit_data& x) const noexcept
     {
-		unsigned int val;
-		std::memcpy(&val, &x, sizeof(val));
+        unsigned int val;
+        std::memcpy(&val, &x, sizeof(val));
         return hash<unsigned int>()(val);
     }
 };
@@ -344,10 +344,10 @@ namespace detail {
         // taking 20 bits out of 24(roughly 10^6), adding 8 first 0b1000 to do rounding
 
         std::uint32_t bits;
-		std::memcpy(&bits, &val, sizeof(bits));
+        std::memcpy(&bits, &val, sizeof(bits));
         bits += 8UL;
         bits &= 0xFFFFFFF0UL;
-		std::memcpy(&val, &bits, sizeof(bits));
+        std::memcpy(&val, &bits, sizeof(bits));
         return val;
 #endif
     }
@@ -363,13 +363,13 @@ namespace detail {
 #else
         //what this is doing is assuming IEEE 754 floating point (double precision) definition
         // taking 40 bits out of 52(roughly 10^12), adding 2^11 to do rounding
-		// using memcpy to abide by strict aliasing rules
-		// based on godbolt.org this gets compiled to 2 instructions + the register loads
+        // using memcpy to abide by strict aliasing rules
+        // based on godbolt.org this gets compiled to 2 instructions + the register loads
         std::uint64_t bits;
         std::memcpy(&bits, &val, sizeof(bits));
         bits += 0x800ULL;
         bits &= 0xFFFFFFFFFFFFF000ULL;
-		std::memcpy(&val, &bits, sizeof(bits));
+        std::memcpy(&val, &bits, sizeof(bits));
         return val;
 #endif
     }
@@ -572,7 +572,10 @@ class precise_unit {
     {
     }
     /// Build a unit from another with a multiplier and commodity
-    constexpr precise_unit(double multiplier, precise_unit other, std::uint32_t commodity) noexcept :
+    constexpr precise_unit(
+        double multiplier,
+        precise_unit other,
+        std::uint32_t commodity) noexcept :
         precise_unit(other.base_units_, commodity, multiplier * other.multiplier_)
     {
     }

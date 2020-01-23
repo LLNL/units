@@ -1445,8 +1445,9 @@ for example "3.0+/-0.4 m" or "2.5 m +/- 2 cm"
 @param match_flags see / ref unit_conversion_flags to control the matching process somewhat
   @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
 	*/
-uncertain_measurement
-    uncertain_measurement_from_string(std::string measurement_string, std::uint32_t match_flags = 0);
+uncertain_measurement uncertain_measurement_from_string(
+    std::string measurement_string,
+    std::uint32_t match_flags = 0);
 
 /// Convert a precise measurement to a string (with some extra decimal digits displayed
 std::string to_string(precise_measurement measure, std::uint32_t match_flags = 0);

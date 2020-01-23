@@ -338,10 +338,10 @@ static inline bool isNumericalCharacter(char X)
     return ((X >= '0' && X <= '9') || X == '-' || X == '+' || X == '.');
 }
 // forward declaration of the internal from_string function
-static precise_unit unit_from_string_internal(std::string unit_string,std::uint32_t match_flags);
+static precise_unit unit_from_string_internal(std::string unit_string, std::uint32_t match_flags);
 
 // forward declaration of the quick find function
-static precise_unit unit_quick_match(std::string unit_string,std::uint32_t match_flags);
+static precise_unit unit_quick_match(std::string unit_string, std::uint32_t match_flags);
 // forward declaration of the function to check for custom units
 static precise_unit checkForCustomUnit(const std::string& unit_string);
 
@@ -698,7 +698,7 @@ static std::string find_unit(unit un)
     }
     return std::string{};
 }
-static std::string to_string_internal(precise_unit un,std::uint32_t match_flags)
+static std::string to_string_internal(precise_unit un, std::uint32_t match_flags)
 {
     if (!std::isnormal(un.multiplier())) {
         if (std::isinf(un.multiplier())) {
@@ -982,12 +982,12 @@ static std::string to_string_internal(precise_unit un,std::uint32_t match_flags)
         mino_unit.multiplier(), min_mult + generateRawUnitString(mino_unit));
 }
 
-std::string to_string(precise_unit un,std::uint32_t match_flags)
+std::string to_string(precise_unit un, std::uint32_t match_flags)
 {
     return clean_unit_string(to_string_internal(un, match_flags), un.commodity());
 }
 
-std::string to_string(precise_measurement measure,std::uint32_t match_flags)
+std::string to_string(precise_measurement measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(12);
@@ -997,7 +997,7 @@ std::string to_string(precise_measurement measure,std::uint32_t match_flags)
     return ss.str();
 }
 
-std::string to_string(measurement measure,std::uint32_t match_flags)
+std::string to_string(measurement measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(12);
@@ -3827,7 +3827,7 @@ static precise_unit
     return {1.0, actUnit, hcode};
 }
 
-static precise_unit commoditizedUnit(const std::string& unit_string,std::uint32_t match_flags)
+static precise_unit commoditizedUnit(const std::string& unit_string, std::uint32_t match_flags)
 {
     auto finish = unit_string.find_last_of('}');
     if (finish == std::string::npos) {
@@ -4130,7 +4130,7 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
     return spacesRemoved;
 }
 
-static void cleanDotNotation(std::string& unit_string,std::uint32_t match_flags)
+static void cleanDotNotation(std::string& unit_string, std::uint32_t match_flags)
 {
     // replace all dots with '*'
     std::replace(unit_string.begin(), unit_string.end(), '.', '*');
@@ -4183,7 +4183,7 @@ static void ciConversion(std::string& unit_string)
 }
 
 // run a few checks on the string to verify it looks somewhat valid
-static bool checkValidUnitString(const std::string& unit_string,std::uint32_t match_flags)
+static bool checkValidUnitString(const std::string& unit_string, std::uint32_t match_flags)
 {
     static constexpr std::array<const char*, 2> invalidSequences{{"-+", "+-"}};
     if (unit_string.front() == '^' || unit_string.back() == '^') {
@@ -4470,7 +4470,7 @@ static bool unicodeReplacement(std::string& unit_string)
 
 // do some cleaning on the unit string to standardize formatting and deal with some extended ascii and unicode
 // characters
-static bool cleanUnitString(std::string& unit_string,std::uint32_t match_flags)
+static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
 {
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
@@ -4811,7 +4811,7 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
     return (len != unit_string.length());
 }
 
-static precise_unit unit_quick_match(std::string unit_string,std::uint32_t match_flags)
+static precise_unit unit_quick_match(std::string unit_string, std::uint32_t match_flags)
 {
     if ((match_flags & case_insensitive) !=
         0) { // if not a case insensitive matching process just do a quick scan first
@@ -4844,7 +4844,7 @@ static precise_unit unit_quick_match(std::string unit_string,std::uint32_t match
 /** Under the assumption units were mashed together to for some new work or spaces were used as multiplies
 this function will progressively try to split apart units and combine them.
 */
-static precise_unit tryUnitPartitioning(const std::string& unit_string,std::uint32_t match_flags)
+static precise_unit tryUnitPartitioning(const std::string& unit_string, std::uint32_t match_flags)
 {
     std::string ustring = unit_string;
     // lets try checking for meter next which is one of the most common reasons for getting here
@@ -4986,7 +4986,7 @@ static precise_unit checkForCustomUnit(const std::string& unit_string)
     return precise::invalid;
 }
 
-precise_unit unit_from_string(std::string unit_string,std::uint32_t match_flags)
+precise_unit unit_from_string(std::string unit_string, std::uint32_t match_flags)
 {
     // always allow the code replacements on first run
     match_flags &= (~skip_code_replacements);
@@ -5001,7 +5001,7 @@ precise_unit unit_from_string(std::string unit_string,std::uint32_t match_flags)
 // found goto step 1 Step 7.  Check for a SI prefix on the unit Step 8.  Check if the first character is upper
 // case and if so and the string is long make it lower case Step 9.  Check to see if it is a number of some
 // kind and make numerical unit Step 10.  Return an error unit
-static precise_unit unit_from_string_internal(std::string unit_string,std::uint32_t match_flags)
+static precise_unit unit_from_string_internal(std::string unit_string, std::uint32_t match_flags)
 {
     if (unit_string.empty()) {
         return precise::one;
@@ -5030,7 +5030,7 @@ static precise_unit unit_from_string_internal(std::string unit_string,std::uint3
     }
     // don't do the code replacements again as it won't be needed
     match_flags |= skip_code_replacements;
-   std::uint32_t recursion_modifier = recursion_depth1;
+    std::uint32_t recursion_modifier = recursion_depth1;
     if ((match_flags & no_recursion) != 0) {
         recursion_modifier = 0;
     }
@@ -5505,7 +5505,8 @@ static precise_unit unit_from_string_internal(std::string unit_string,std::uint3
     return precise::invalid;
 } // namespace units
 
-precise_measurement measurement_from_string(std::string measurement_string,std::uint32_t match_flags)
+precise_measurement
+    measurement_from_string(std::string measurement_string, std::uint32_t match_flags)
 {
     // do a cleaning first to get rid of spaces and other issues
     match_flags &= (~skip_code_replacements);
@@ -5557,7 +5558,7 @@ precise_measurement measurement_from_string(std::string measurement_string,std::
 }
 
 uncertain_measurement
-    uncertain_measurement_from_string(std::string measurement_string,std::uint32_t match_flags)
+    uncertain_measurement_from_string(std::string measurement_string, std::uint32_t match_flags)
 {
     //first task is to find the +/-
     static UNITS_CPP14_CONSTEXPR std::array<const char*, 9> pmsequences{
