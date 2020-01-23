@@ -61,6 +61,7 @@ Basic operations
 Some mathematical operations between units are supported.  `*` and `/` with units produce a new unit.  
 
 .. code-block:: c++
+
    auto new_unit=m/s;  
    auto another=new_unit*s;
    //another == m 
