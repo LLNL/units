@@ -559,6 +559,9 @@ TEST(specialOps, rootHertz)
 	EXPECT_EQ(rh.pow(2), Hz);
 	EXPECT_EQ(rh.pow(-2), s);
 
+	EXPECT_EQ(rh.pow(4), Hz.pow(2));
+	EXPECT_EQ(rh.pow(-4), s.pow(2));
+
 	auto rhinv = rh.inv();
 	EXPECT_EQ(rhinv.pow(2), s);
 
