@@ -297,10 +297,9 @@ namespace detail {
                 radians_ % power == 0 && currency_ == 0 && count_ == 0 && equation_ == 0 &&
                 e_flag_ == 0;
         }
-		static constexpr int rHmodifiers[16] = { 0,27,-18,9,0,-9,18,-9, 0,27,-18,9,0,-9,18,-9 };
 		constexpr int rootHertzModifier(int power) const
 		{
-			return (second_*power == 0 || ((e_flag_&i_flag_) == 0) || power % 2 != 0) ? 0 : rHmodifiers[(static_cast<unsigned int>(second_*power)>>1U)&0x0FU];
+			return (second_*power == 0 || ((e_flag_&i_flag_) == 0) || power % 2 != 0) ? 0 : (power >> 1) * (second_*power < 0) ? 9 : -9;
 		}
         // needs to be defined for the full 32 bits
         signed int meter_ : 4;
