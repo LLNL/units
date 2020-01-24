@@ -61,15 +61,9 @@ namespace detail {
                 currency_ + other.currency_,
                 count_ + other.count_,
                 radians_ + other.radians_,
-                //(per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
                 static_cast<unsigned int>(per_unit_ | other.per_unit_),
-                //(i_flag_ + other.i_flag_) & 0x01U,
                 static_cast<unsigned int>(i_flag_ ^ other.i_flag_),
-                // (i_flag_ != 0 || other.i_flag_ != 0) ? 1u : 0,
-                //(e_flag_ + other.e_flag_) & 0x01U,
                 static_cast<unsigned int>(e_flag_ ^ other.e_flag_),
-                // (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
-                // (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
                 static_cast<unsigned int>(equation_ | other.equation_),
             };
         }
@@ -87,23 +81,11 @@ namespace detail {
                 currency_ - other.currency_,
                 count_ - other.count_,
                 radians_ - other.radians_,
-                //(per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
                 static_cast<unsigned int>(per_unit_ | other.per_unit_),
-                //(i_flag_ + other.i_flag_) & 0x01U,
                 static_cast<unsigned int>(i_flag_ ^ other.i_flag_),
-                // (i_flag_ != 0 || other.i_flag_ != 0) ? 1u : 0,
-                //(e_flag_ + other.e_flag_) & 0x01U,
                 static_cast<unsigned int>(e_flag_ ^ other.e_flag_),
-                // (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
-                // (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
                 static_cast<unsigned int>(equation_ | other.equation_),
             };
-            //   (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-            //    (i_flag_ - other.i_flag_) & 0x01U,
-            // ((i_flag_ != 0) ^ (other.i_flag_ != 0)) ? 1u : 0,
-            // ((e_flag_ != 0) ^ (other.e_flag_ != 0)) ? 1u : 0,
-            //   (e_flag_ - other.e_flag_) & 0x01U,
-            //   (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
         }
         /// invert the unit
         constexpr unit_data inv() const
