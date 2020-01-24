@@ -2,7 +2,7 @@
 Units
 ============
 
-Basic unit types
+Basic Unit Types
 -----------------
 
 There are two basic units classes
