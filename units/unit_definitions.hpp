@@ -1247,7 +1247,7 @@ namespace precise {
     namespace special {
         // Amplitude spectral density
         constexpr precise_unit ASD =
-            precise_unit(detail::unit_data(1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
+            precise_unit(detail::unit_data(1, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
         // Moment magnitude scale for earthquakes
         constexpr precise_unit moment_magnitude =
             precise_unit(custom::equation_unit(29)) * precise::cgs::dyn * precise::cm;
@@ -1263,7 +1263,7 @@ namespace precise {
         constexpr precise_unit mach = m / s * pu;
         // square root of Hertz
         constexpr precise_unit rootHertz =
-            precise_unit(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
+            precise_unit(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
     } // namespace special
 
