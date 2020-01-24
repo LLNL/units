@@ -50,44 +50,59 @@ namespace detail {
         // perform a multiply operation by adding the powers together
         constexpr unit_data operator*(unit_data other) const
         {
-            return {
-                meter_ + other.meter_,
-                kilogram_ + other.kilogram_,
-                second_ + other.second_,
-                ampere_ + other.ampere_,
-                kelvin_ + other.kelvin_,
-                mole_ + other.mole_,
-                candela_ + other.candela_,
-                currency_ + other.currency_,
-                count_ + other.count_,
-                radians_ + other.radians_,
-                (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                (i_flag_ + other.i_flag_) & 0x01U,
+			return {
+				meter_ + other.meter_,
+				kilogram_ + other.kilogram_,
+				second_ + other.second_,
+				ampere_ + other.ampere_,
+				kelvin_ + other.kelvin_,
+				mole_ + other.mole_,
+				candela_ + other.candela_,
+				currency_ + other.currency_,
+				count_ + other.count_,
+				radians_ + other.radians_,
+				//(per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
+				per_unit_ | other.per_unit_,
+				//(i_flag_ + other.i_flag_) & 0x01U,
+				i_flag_^other.i_flag_,
                 // (i_flag_ != 0 || other.i_flag_ != 0) ? 1u : 0,
-                (e_flag_ + other.e_flag_) & 0x01U,
+                //(e_flag_ + other.e_flag_) & 0x01U,
+				e_flag_^other.e_flag_,
                 // (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
-                (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
+               // (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
+			   equation_|other.equation_,
             };
         }
         /// Division equivalent operator
         constexpr unit_data operator/(unit_data other) const
         {
-            return {meter_ - other.meter_,
-                    kilogram_ - other.kilogram_,
-                    second_ - other.second_,
-                    ampere_ - other.ampere_,
-                    kelvin_ - other.kelvin_,
-                    mole_ - other.mole_,
-                    candela_ - other.candela_,
-                    currency_ - other.currency_,
-                    count_ - other.count_,
-                    radians_ - other.radians_,
-                    (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                    (i_flag_ - other.i_flag_) & 0x01U,
+			return { meter_ - other.meter_,
+					kilogram_ - other.kilogram_,
+					second_ - other.second_,
+					ampere_ - other.ampere_,
+					kelvin_ - other.kelvin_,
+					mole_ - other.mole_,
+					candela_ - other.candela_,
+					currency_ - other.currency_,
+					count_ - other.count_,
+					radians_ - other.radians_,
+				//(per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
+				per_unit_ | other.per_unit_,
+				//(i_flag_ + other.i_flag_) & 0x01U,
+				i_flag_^other.i_flag_,
+				// (i_flag_ != 0 || other.i_flag_ != 0) ? 1u : 0,
+				//(e_flag_ + other.e_flag_) & 0x01U,
+				e_flag_^other.e_flag_,
+				// (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
+			   // (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
+			   equation_ | other.equation_,
+			};
+                 //   (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
+                //    (i_flag_ - other.i_flag_) & 0x01U,
                     // ((i_flag_ != 0) ^ (other.i_flag_ != 0)) ? 1u : 0,
                     // ((e_flag_ != 0) ^ (other.e_flag_ != 0)) ? 1u : 0,
-                    (e_flag_ - other.e_flag_) & 0x01U,
-                    (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
+                 //   (e_flag_ - other.e_flag_) & 0x01U,
+                 //   (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
         }
         /// invert the unit
         constexpr unit_data inv() const
