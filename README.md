@@ -10,9 +10,10 @@
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
 
-This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    
-
+This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    An in development set of [documentation](https://units.readthedocs.io/en/latest/) is available.
+ 
 ## Table of contents
+
 -   [Purpose](#purpose)
 -   [Limitations](#limitations)
 -   [Alternatives](#alternatives)
