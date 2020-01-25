@@ -109,9 +109,9 @@ namespace detail {
         constexpr unit_data pow(int power) const
         { // the +e_flag_ on seconds is to handle a few weird operations that generate a square_root hz operation,
             // the e_flag allows some recovery of that unit and handling of that peculiar situation
-			return { meter_ * power,
-					kilogram_ * power,
-					(second_ * power) + rootHertzModifier(power),
+            return {meter_ * power,
+                    kilogram_ * power,
+                    (second_ * power) + rootHertzModifier(power),
                     ampere_ * power,
                     kelvin_ * power,
                     mole_ * power,
@@ -279,10 +279,12 @@ namespace detail {
                 radians_ % power == 0 && currency_ == 0 && count_ == 0 && equation_ == 0 &&
                 e_flag_ == 0;
         }
-		constexpr int rootHertzModifier(int power) const
-		{
-			return (second_*power == 0 || ((e_flag_&i_flag_) == 0) || power % 2 != 0) ? 0 : (power >> 1) *( (second_<0)||(power < 0) ? 9 : -9);
-		}
+        constexpr int rootHertzModifier(int power) const
+        {
+            return (second_ * power == 0 || ((e_flag_ & i_flag_) == 0) || power % 2 != 0) ?
+                0 :
+                (power >> 1) * ((second_ < 0) || (power < 0) ? 9 : -9);
+        }
         // needs to be defined for the full 32 bits
         signed int meter_ : 4;
         signed int second_ : 4; // 8

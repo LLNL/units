@@ -892,8 +892,8 @@ namespace precise {
         /// Get the number code for the custom count unit
         inline unsigned short custom_count_unit_number(detail::unit_data UT)
         {
-            unsigned int num =
-                (UT.has_e_flag() ? 1U : 0U) + (UT.has_i_flag() ? 2U : 0U) + (UT.is_per_unit() ? 4U : 0U);
+            unsigned int num = (UT.has_e_flag() ? 1U : 0U) + (UT.has_i_flag() ? 2U : 0U) +
+                (UT.is_per_unit() ? 4U : 0U);
             num += (UT.candela() == 0) ? 0U : 8U;
             return static_cast<unsigned short>(num);
         }
