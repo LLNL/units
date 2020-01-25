@@ -193,11 +193,22 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
             res.keep_alive(req.keep_alive());
             auto resp = response_page;
             auto v = resp.find("$M1$");
-            resp.replace(v, 4, M1);
+            while (v != std::string::npos) {
+                resp.replace(v, 4, M1);
+                v = resp.find("$M1$");
+            }
+
             v = resp.find("$U1$", v + 4);
-            resp.replace(v, 4, U1);
+            while (v != std::string::npos) {
+                resp.replace(v, 4, U1);
+                v = resp.find("$U1$");
+            }
             v = resp.find("$VALUE$", v + 4);
-            resp.replace(v, 7, value);
+            while (v != std::string::npos) {
+                resp.replace(v, 7, value);
+                v = resp.find("$VALUE$");
+            }
+
             if (req.method() != http::verb::head) {
                 res.body() = resp;
                 res.prepare_payload();
@@ -490,7 +501,7 @@ int main(int argc, char* argv[])
     if (argc < 3) {
         std::cerr << "Usage: unit_web_server <address> <port>\n"
                   << "Example:\n"
-                  << "    unit_web_server 0.0.0.0 8080\n";
+                  << "    unit_web_server 0.0.0.0 80\n";
         return EXIT_FAILURE;
     }
     auto const address = net::ip::make_address(argv[1]);
