@@ -166,6 +166,8 @@ namespace precise {
     constexpr precise_unit tebi = gibi * kibi;
     constexpr precise_unit pebi = tebi * kibi;
     constexpr precise_unit exbi = pebi * kibi;
+    constexpr precise_unit zebi = exbi * kibi;
+    constexpr precise_unit yobi = zebi * kibi;
 
     // Derived SI units:
     constexpr precise_unit Hz(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -456,7 +458,7 @@ namespace precise {
         }
     } // namespace canada
 
-    /// Some Austrailia specific variants on the us units
+    /// Some Australia specific variants on the us units
     namespace australia {
         constexpr precise_unit tbsp{20.0, mL};
         constexpr precise_unit tsp{5.0, mL};
@@ -888,12 +890,12 @@ namespace precise {
             return false;
         }
         /// Get the number code for the custom count unit
-        inline int custom_count_unit_number(detail::unit_data UT)
+        inline unsigned short custom_count_unit_number(detail::unit_data UT)
         {
-            int num =
-                (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
-            num += (UT.candela() == 0) ? 0 : 8;
-            return num;
+            unsigned int num = (UT.has_e_flag() ? 1U : 0U) + (UT.has_i_flag() ? 2U : 0U) +
+                (UT.is_per_unit() ? 4U : 0U);
+            num += (UT.candela() == 0) ? 0U : 8U;
+            return static_cast<unsigned short>(num);
         }
         /// check if 1/custom unit
         inline bool is_custom_count_unit_inverted(detail::unit_data UT)
@@ -1245,7 +1247,7 @@ namespace precise {
     namespace special {
         // Amplitude spectral density
         constexpr precise_unit ASD =
-            precise_unit(detail::unit_data(1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
+            precise_unit(detail::unit_data(1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
         // Moment magnitude scale for earthquakes
         constexpr precise_unit moment_magnitude =
             precise_unit(custom::equation_unit(29)) * precise::cgs::dyn * precise::cm;
@@ -1261,7 +1263,7 @@ namespace precise {
         constexpr precise_unit mach = m / s * pu;
         // square root of Hertz
         constexpr precise_unit rootHertz =
-            precise_unit(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
+            precise_unit(detail::unit_data(0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
     } // namespace special
 

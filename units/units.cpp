@@ -1072,7 +1072,7 @@ static constexpr uint16_t charindex(char ch1, char ch2)
 static double getPrefixMultiplier2Char(char c1, char c2)
 {
     using cpair = std::pair<uint16_t, double>;
-    static UNITS_CPP14_CONSTEXPR std::array<cpair, 21> char2prefix{{
+    static UNITS_CPP14_CONSTEXPR std::array<cpair, 23> char2prefix{{
         cpair{charindex('D', 'A'), 10.0},
         cpair{charindex('E', 'X'), 1e18},
         cpair{charindex('E', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
@@ -1083,13 +1083,16 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('M', 'M'), 1e6},
         cpair{charindex('M', 'i'), 1024.0 * 1024.0},
         cpair{charindex('P', 'T'), 1e15},
-        cpair{charindex('P', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0},
+        cpair{charindex('P', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('T', 'R'), 1e15},
         cpair{charindex('T', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('Y', 'A'), 1e24},
         cpair{charindex('Y', 'O'), 1e-24},
+        cpair{charindex('Y', 'i'),
+              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('Z', 'A'), 1e21},
         cpair{charindex('Z', 'O'), 1e-21},
+        cpair{charindex('Z', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('d', 'a'), 10.0},
         cpair{charindex('m', 'A'), 1e6},
         cpair{charindex('m', 'c'), 1e-6},
@@ -1459,7 +1462,7 @@ https://physics.nist.gov/cuu/Units/prefixes.html
 https://physics.nist.gov/cuu/Units/binary.html
 */
 using utup = std::tuple<const char*, double, int>;
-static UNITS_CPP14_CONSTEXPR std::array<utup, 27> prefixWords{{
+static UNITS_CPP14_CONSTEXPR std::array<utup, 29> prefixWords{{
     utup{"atto", 1e-18, 4},
     utup{"centi", 0.01, 5},
     utup{"deca", 10.0, 4},
@@ -1487,6 +1490,8 @@ static UNITS_CPP14_CONSTEXPR std::array<utup, 27> prefixWords{{
     utup{"yotta", 1e24, 4},
     utup{"zepto", 1e-21, 5},
     utup{"zetta", 1e21, 5},
+    utup{"zebi", 1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0, 4},
+    utup{"yobi", 1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0, 4},
 }};
 
 bool clearEmptySegments(std::string& unit)

@@ -10,14 +10,52 @@
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
 
-This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    
+This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    An in development set of [documentation](https://units.readthedocs.io/en/latest/) is available.
+ 
+## Table of contents
+
+-   [Purpose](#purpose)
+-   [Limitations](#limitations)
+-   [Alternatives](#alternatives)
+-   [Types](#types)
+-   [Unit representation](#unit-representation)
+-   [Building The Library](#building-the-library)
+-   [Usage](#usage)
+    -   [Units](#unit-methods)
+    -   [Measurements](#measurement-operations)
+    -   [String Conversions](#available-library-functions)
+-   [Contributing](./CONTRIBUTING.md)
+-   [Release](#release)
 
 ## Purpose
 A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units, often represented by strings, to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
 
 It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units.  The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that.  This library does **NOT** provide compile time checking of units.  The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time, and may be of a wide variety of units.  
 
-This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates.  It supports conversion of units to and from strings.  It supports mathematical operations on units and measurements which is `constexpr` where possible.  It supports units used in power systems and electrical engineering, and conversions between them as well as some typical assumptions for supporting conversions.  In some cases it also has some notion of commodities, and support for existing unit standards for strings and namings.  
+This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates.  It supports conversion of units to and from strings.  It supports mathematical operations on units and measurements which is `constexpr` where possible.  It supports units used in power systems and electrical engineering, and conversions between them as well as some typical assumptions for supporting conversions.  In some cases it also has some notion of commodities, and support for existing unit standards for strings and naming.
+
+### Basic use case
+The primary use case for the library is string operations and conversion.  For example if you have a library that does some computations with physical units.  In the library code itself the units are standardized and well defined.  Say a velocity,  internally everything is in meters per second.  But there is a configuration file that takes in the initial data and you would like to broadly support different units on the input
+
+``` cpp
+#include <units/units.hpp>
+
+double GetInputValueAs(const std::string &input, precise_units out)
+{
+   auto meas=measurement_from_string(input);
+   return meas.value_as(out);
+}
+
+```
+
+the return value can be checked for validity as an invalid conversion would result in `constants::invalid_conversion`  or `Nan` so can be checked by `std::isnan`  
+or
+```cpp
+if (!meas.units().is_convertible(out)
+{
+	throw(std::invalid_argument);  
+}
+```
 
 ## Limitations
 -   The powers represented by units are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported.
@@ -130,7 +168,7 @@ There are two parts of the library  a header only portion that can simply be cop
 
   The second part is a few cpp files that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit.  The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.  
 
-## How to use the library
+## Usage
 Many units are defined as `constexpr` objects and can be used directly
 
 ```cpp
@@ -184,7 +222,7 @@ For precise_units only
 
 precise_units can usually operate with a precise unit or unit, unit usually can't operate on precise_unit.  
 
-### Unit free functions
+#### Unit free functions
 
 These functions are not class methods but operate on units  
 
@@ -214,7 +252,7 @@ These functions are not class methods but operate on units
 -   `<measurement> convert_to_base() const`  convert to a base unit, i.e. a unit whose multiplier is 1.0.  
 -   `<unit> units() const`  get the units used as a basis for the measurement
 -   `<unit> as_unit() const`  take the measurement as is and convert it into a single unit.  For Examples say a was 10 m.    calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
--   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit>
+-   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit\>
 
 #### Uncertain measurement methods
 Uncertatin measurements have a few additional functions to support the uncertainty calculations
@@ -248,13 +286,17 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 
 ### Available library functions
 
+#### String Conversions
+
 -   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a precise_unit value.  
 -   `unit unit_cast_from_string( string, flags)`: convert a string representation of units into a unit value  NOTE:  same as previous function except has an included unit cast for convenience.    
 -   `precise_unit default_unit( string)`: get a unit associated with a particular kind of measurement.  for example `default_unit("length")` would return `precise::m`  
 -   `precise_measurement measurement_from_string(string,flags)`: convert a string to a precise_measurement
 -   `measurement measurement_cast_from_string(string,flags)`: convert a string to a measurement calls measurement_from_string and does a measurement_cast.  
--   `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement.   Typically the string will have some segment with a �, `+/-` or the html equivalent in it to signify the uncertainty.  
--   `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported
+-   `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement.   Typically the string will have some segment with a ±, `+/-` or the html equivalent in it to signify the uncertainty.  
+-   `std::string to_string([unit|measurement],flags=0)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported.  The eventual plan is to support a couple different standards for the strings through the flags, But for now they don't do much.  
+
+#### Custom Units
 -   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.  
 -   `clearUserDefinedUnits()`  remove all user defined units from the library.
 -   `disableUserDefinedUnits()`  there is a(likely small-an additional unordered map lookup) performance hit in the string conversions functions if custom units are used so they can be disabled completely if desired.

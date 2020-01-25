@@ -63,33 +63,31 @@ namespace detail {
                 currency_ + other.currency_,
                 count_ + other.count_,
                 radians_ + other.radians_,
-                (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                (i_flag_ + other.i_flag_) & 0x01U,
-                // (i_flag_ != 0 || other.i_flag_ != 0) ? 1u : 0,
-                (e_flag_ + other.e_flag_) & 0x01U,
-                // (e_flag_ != 0 || other.e_flag_ != 0) ? 1u : 0,
-                (equation_ != 0 || other.equation_ != 0) ? 1u : 0,
+                static_cast<unsigned int>(per_unit_ | other.per_unit_),
+                static_cast<unsigned int>(i_flag_ ^ other.i_flag_),
+                static_cast<unsigned int>(e_flag_ ^ other.e_flag_),
+                static_cast<unsigned int>(equation_ | other.equation_),
             };
         }
         /// Division equivalent operator
         constexpr unit_data operator/(unit_data other) const
         {
-            return {meter_ - other.meter_,
-                    kilogram_ - other.kilogram_,
-                    second_ - other.second_,
-                    ampere_ - other.ampere_,
-                    kelvin_ - other.kelvin_,
-                    mole_ - other.mole_,
-                    candela_ - other.candela_,
-                    currency_ - other.currency_,
-                    count_ - other.count_,
-                    radians_ - other.radians_,
-                    (per_unit_ != 0 || other.per_unit_ != 0) ? 1u : 0,
-                    (i_flag_ - other.i_flag_) & 0x01U,
-                    // ((i_flag_ != 0) ^ (other.i_flag_ != 0)) ? 1u : 0,
-                    // ((e_flag_ != 0) ^ (other.e_flag_ != 0)) ? 1u : 0,
-                    (e_flag_ - other.e_flag_) & 0x01U,
-                    (equation_ != 0 || other.equation_ != 0) ? 1u : 0};
+            return {
+                meter_ - other.meter_,
+                kilogram_ - other.kilogram_,
+                second_ - other.second_,
+                ampere_ - other.ampere_,
+                kelvin_ - other.kelvin_,
+                mole_ - other.mole_,
+                candela_ - other.candela_,
+                currency_ - other.currency_,
+                count_ - other.count_,
+                radians_ - other.radians_,
+                static_cast<unsigned int>(per_unit_ | other.per_unit_),
+                static_cast<unsigned int>(i_flag_ ^ other.i_flag_),
+                static_cast<unsigned int>(e_flag_ ^ other.e_flag_),
+                static_cast<unsigned int>(equation_ | other.equation_),
+            };
         }
         /// invert the unit
         constexpr unit_data inv() const
@@ -115,10 +113,7 @@ namespace detail {
             // the e_flag allows some recovery of that unit and handling of that peculiar situation
             return {meter_ * power,
                     kilogram_ * power,
-                    second_ * power -
-                        ((e_flag_ > 0u && second_ != 0) ?
-                             ((second_ < 0) ? (power >> 1) : -(power >> 1)) :
-                             0),
+                    (second_ * power) + rootHertzModifier(power),
                     ampere_ * power,
                     kelvin_ * power,
                     mole_ * power,
@@ -127,8 +122,8 @@ namespace detail {
                     count_ * power,
                     radians_ * power,
                     per_unit_,
-                    (i_flag_ * static_cast<unsigned int>(power)) & 0x01U,
-                    (e_flag_ * static_cast<unsigned int>(power)) & 0x01U,
+                    (power % 2 == 0) ? 0U : i_flag_,
+                    (power % 2 == 0) ? 0U : e_flag_,
                     equation_};
         }
         constexpr unit_data root(int power) const
@@ -285,6 +280,12 @@ namespace detail {
                 ampere_ % power == 0 && candela_ == 0 && kelvin_ % power == 0 && mole_ == 0 &&
                 radians_ % power == 0 && currency_ == 0 && count_ == 0 && equation_ == 0 &&
                 e_flag_ == 0;
+        }
+        constexpr int rootHertzModifier(int power) const
+        {
+            return (second_ * power == 0 || ((e_flag_ & i_flag_) == 0) || power % 2 != 0) ?
+                0 :
+                (power >> 1) * ((second_ < 0) || (power < 0) ? 9 : -9);
         }
         // needs to be defined for the full 32 bits
         signed int meter_ : 4;

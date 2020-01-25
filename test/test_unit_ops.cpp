@@ -551,6 +551,26 @@ TEST(specialOps, rootHertz)
     auto res = precise::special::ASD.pow(2);
     EXPECT_EQ(res, precise::m.pow(2) / precise::s.pow(4) / precise::Hz);
     EXPECT_FALSE(is_error(precise::special::ASD));
+
+    auto rh = precise::special::rootHertz;
+
+    EXPECT_EQ(rh.pow(1), rh);
+    EXPECT_EQ(rh.pow(0), precise::one);
+    EXPECT_EQ(rh.pow(2), Hz);
+    EXPECT_EQ(rh.pow(-2), s);
+
+    EXPECT_EQ(rh.pow(4), Hz.pow(2));
+    EXPECT_EQ(rh.pow(-4), s.pow(2));
+
+    auto rhinv = rh.inv();
+    EXPECT_EQ(rhinv.pow(2), s);
+
+    //EXPECT_EQ(rh.pow(3).pow(2), Hz.pow(3));
+    //EXPECT_EQ(rh.pow(4), Hz.pow(2));
+    //EXPECT_EQ(rh.pow(6), Hz.pow(3));
+    //EXPECT_EQ(rh.pow(-2), s);
+    //EXPECT_EQ(rh.pow(-4), s.pow(2));
+    //EXPECT_EQ(rh.pow(-6), s.pow(3));
 }
 
 TEST(customUnits, definition)
