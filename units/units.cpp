@@ -400,7 +400,15 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     std::stringstream ss;
     ss << std::setprecision(18);
     ss << multiplier;
-    return ss.str();
+    auto rv = ss.str();
+    //modify some improper strings that cause issues later on
+    if (rv == "inf") {
+        return "1.0*(infinity)";
+    }
+    if (rv == "-inf") {
+        return "1.0*(-1.0*infinity)";
+    }
+    return rv;
 }
 
 static std::string generateUnitSequence(double mux, std::string seq)

@@ -230,7 +230,32 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 24));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 27));
+
+TEST(fuzzFailures, rtripSingleProblems)
+{
+    auto cdata = loadFailureFile("rtrip_fail", 24);
+    auto u1 = unit_from_string(cdata);
+    if (!is_error(u1)) {
+        auto str = to_string(u1);
+        auto u2 = unit_from_string(str);
+        EXPECT_FALSE(is_error(u2));
+        if (u2 == u1) {
+            EXPECT_EQ(u2, u1);
+            EXPECT_EQ(unit_cast(u2), unit_cast(u1));
+            EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
+        } else if (!is_error(root(u2, 2))) {
+            EXPECT_EQ(root(unit_cast(u2), 2), root(unit_cast(u1), 2));
+            EXPECT_FALSE(root(units::unit_cast(u2), 2) != root(units::unit_cast(u1), 2));
+        } else if (!is_error(root(u2, 3))) {
+            EXPECT_EQ(root(unit_cast(u2), 3), root(unit_cast(u1), 3));
+            EXPECT_FALSE(root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
+        } else {
+            EXPECT_EQ(unit_cast(u2), unit_cast(u1));
+            EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
+        }
+    }
+}
 
 class rtripflagProblems : public ::testing::TestWithParam<int> {
 };
