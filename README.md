@@ -17,9 +17,13 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
 -   [Limitations](#limitations)
 -   [Alternatives](#alternatives)
 -   [Types](#types)
--   [Unit representation](#unit_representation)
+-   [Unit representation](#unit-representation)
+-   [Building The Library](#building-the-library)
 -   [Usage](#usage)
--   [Contributing](#contributing)
+    -   [Units](#unit-methods)
+    -   [Measurements](#measurement-operations)
+    -   [String Conversions](#available-library-functions)
+-   [Contributing](./CONTRIBUTING.md)
 -   [Release](#release)
 
 ## Purpose
@@ -217,7 +221,7 @@ For precise_units only
 
 precise_units can usually operate with a precise unit or unit, unit usually can't operate on precise_unit.  
 
-### Unit free functions
+#### Unit free functions
 
 These functions are not class methods but operate on units  
 
@@ -247,7 +251,7 @@ These functions are not class methods but operate on units
 -   `<measurement> convert_to_base() const`  convert to a base unit, i.e. a unit whose multiplier is 1.0.  
 -   `<unit> units() const`  get the units used as a basis for the measurement
 -   `<unit> as_unit() const`  take the measurement as is and convert it into a single unit.  For Examples say a was 10 m.    calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
--   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit>
+-   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit\>
 
 #### Uncertain measurement methods
 Uncertatin measurements have a few additional functions to support the uncertainty calculations
@@ -281,13 +285,17 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 
 ### Available library functions
 
+#### String Conversions
+
 -   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a precise_unit value.  
 -   `unit unit_cast_from_string( string, flags)`: convert a string representation of units into a unit value  NOTE:  same as previous function except has an included unit cast for convenience.    
 -   `precise_unit default_unit( string)`: get a unit associated with a particular kind of measurement.  for example `default_unit("length")` would return `precise::m`  
 -   `precise_measurement measurement_from_string(string,flags)`: convert a string to a precise_measurement
 -   `measurement measurement_cast_from_string(string,flags)`: convert a string to a measurement calls measurement_from_string and does a measurement_cast.  
--   `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement.   Typically the string will have some segment with a �, `+/-` or the html equivalent in it to signify the uncertainty.  
--   `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported
+-   `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement.   Typically the string will have some segment with a ±, `+/-` or the html equivalent in it to signify the uncertainty.  
+-   `std::string to_string([unit|measurement],flags=0)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported.  The eventual plan is to support a couple different standards for the strings through the flags, But for now they don't do much.  
+
+#### Custom Units
 -   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.  
 -   `clearUserDefinedUnits()`  remove all user defined units from the library.
 -   `disableUserDefinedUnits()`  there is a(likely small-an additional unordered map lookup) performance hit in the string conversions functions if custom units are used so they can be disabled completely if desired.
