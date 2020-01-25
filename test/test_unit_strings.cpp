@@ -108,6 +108,15 @@ TEST(unitStrings, infinite)
     EXPECT_EQ(to_string(unit(-std::numeric_limits<double>::infinity(), m / s)), "-INF*m/s");
 }
 
+TEST(unitString, almostInfinite)
+{
+    precise_unit almost_inf(precise::s.pow(3) * precise::kg * precise::mol, 4.414e307);
+
+    auto res = to_string(almost_inf);
+    auto ai2 = unit_from_string(res);
+    EXPECT_EQ(unit_cast(almost_inf), unit_cast(ai2));
+}
+
 TEST(unitStrings, nan)
 {
     EXPECT_EQ(to_string(precise::error), "ERROR");

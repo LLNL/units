@@ -403,10 +403,10 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     auto rv = ss.str();
     //modify some improper strings that cause issues later on
     if (rv == "inf") {
-        return "1.0*(infinity)";
+        return "1.00000000000000*(infinity)"; // LCOV_EXCL_LINE
     }
     if (rv == "-inf") {
-        return "1.0*(-1.0*infinity)";
+        return "1.00000000000000*(-1.00000000000000*infinity)";
     }
     return rv;
 }
