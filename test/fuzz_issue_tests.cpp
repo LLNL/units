@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019,
+Copyright (c) 2019-2020,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -251,8 +251,8 @@ TEST(fuzzFailures, rtripSingleProblems)
             EXPECT_EQ(root(unit_cast(u2), 3), root(unit_cast(u1), 3));
             EXPECT_FALSE(root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
         } else {
-			auto uc1 = unit_cast(u1);
-			auto uc2 = unit_cast(u2);
+            auto uc1 = unit_cast(u1);
+            auto uc2 = unit_cast(u2);
             EXPECT_EQ(uc2, uc1);
             EXPECT_FALSE(uc2 != uc1);
         }

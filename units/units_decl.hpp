@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019,
+Copyright (c) 2019-2020,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -378,10 +378,9 @@ namespace detail {
     /// Do a rounding compare for equality on floats.
     inline bool compare_round_equals(float val1, float val2)
     {
-		if (std::fpclassify(val1 - val2) == FP_SUBNORMAL)
-		{
-			return true;
-		}
+        if (std::fpclassify(val1 - val2) == FP_SUBNORMAL) {
+            return true;
+        }
         auto c1 = cround(val2);
         if (cround(val1) == c1) {
             return true;
@@ -391,16 +390,15 @@ namespace detail {
         if (cround(val1 * (1.0F + 5.4e-7F)) == c1) {
             return true;
         }
-		return (cround(val1 * (1.0F - 5.1e-7F)) == c1);
+        return (cround(val1 * (1.0F - 5.1e-7F)) == c1);
     }
 
     /// Do a rounding compare for equality on double
     inline bool compare_round_equals_precise(double val1, double val2)
     {
-		if (std::fpclassify(val1 - val2) == FP_SUBNORMAL)
-		{
-			return true;
-		}
+        if (std::fpclassify(val1 - val2) == FP_SUBNORMAL) {
+            return true;
+        }
         auto c1 = cround_precise(val2);
 
         if (cround_precise(val1) == c1) {
@@ -411,7 +409,7 @@ namespace detail {
         if (cround_precise(val1 * (1.0 + 5.000e-13)) == c1) {
             return true;
         }
-		return (cround_precise(val1 * (1.0 - 5.000e-13)) == c1);
+        return (cround_precise(val1 * (1.0 - 5.000e-13)) == c1);
     }
 } // namespace detail
 
