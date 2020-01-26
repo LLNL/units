@@ -71,9 +71,13 @@ static std::string uri_decode(beast::string_view str)
                 ret.push_back(str[ii]);
         } else {
             unsigned int spchar;
-            sscanf(std::string(str.substr(ii + 1, 2)).c_str(), "%x", &spchar);
-            ret.push_back(static_cast<char>(spchar));
-            ii = ii + 2;
+            auto converted = sscanf(std::string(str.substr(ii + 1, 2)).c_str(), "%x", &spchar);
+            if (converted == 1) {
+                ret.push_back(static_cast<char>(spchar));
+                ii = ii + 2;
+            } else {
+                ret.push_back(str[ii]);
+            }
         }
     }
     return ret;

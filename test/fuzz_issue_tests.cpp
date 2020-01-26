@@ -230,11 +230,11 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 27));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 28));
 
 TEST(fuzzFailures, rtripSingleProblems)
 {
-    auto cdata = loadFailureFile("rtrip_fail", 24);
+    auto cdata = loadFailureFile("rtrip_fail", 27);
     auto u1 = unit_from_string(cdata);
     if (!is_error(u1)) {
         auto str = to_string(u1);
@@ -251,8 +251,10 @@ TEST(fuzzFailures, rtripSingleProblems)
             EXPECT_EQ(root(unit_cast(u2), 3), root(unit_cast(u1), 3));
             EXPECT_FALSE(root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
         } else {
-            EXPECT_EQ(unit_cast(u2), unit_cast(u1));
-            EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
+			auto uc1 = unit_cast(u1);
+			auto uc2 = unit_cast(u2);
+            EXPECT_EQ(uc2, uc1);
+            EXPECT_FALSE(uc2 != uc1);
         }
     }
 }
