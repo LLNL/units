@@ -387,7 +387,12 @@ TEST(UCUM, TestMatchingSynonym)
                             continue;
                         }
                     }
-                    std::cout << synonym << " is not a synonym for " << csCode << '\n';
+                    if (nameact.has_same_base(csact)) {
+                        std::cout << synonym << " is not an exact match for " << csCode
+                                  << " but has the same base units\n";
+                    } else {
+                        std::cout << synonym << " is not a synonym for " << csCode << '\n';
+                    }
                     ++nameMismatch;
                     nameact = units::unit_from_string(synonym);
                 }
