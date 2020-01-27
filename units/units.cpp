@@ -202,6 +202,7 @@ static const umap base_unit_names{
     {unit_cast(precise::distance::au), "au"},
     {percent, "%"},
     {unit_cast(precise::special::ASD), "ASD"},
+    {unit_cast(precise::special::rootHertz), "rootHertz"},
     {currency, "$"},
     {count, "item"},
     {ratio, ""},
@@ -2535,6 +2536,10 @@ static const smap base_unit_vals{
     {"eps_0", constants::eps0.as_unit()},
     {"vacuumpermittivity", constants::eps0.as_unit()},
     {"[EPS_0]", constants::eps0.as_unit()},
+    {u8"\u03B5"
+     "0",
+     constants::eps0.as_unit()},
+    {u8"\u03B5\u2080", constants::eps0.as_unit()},
     {"mu_0", constants::mu0.as_unit()},
     {"[MU_0]", constants::mu0.as_unit()},
     {"[e]", constants::e.as_unit()},
@@ -3278,6 +3283,8 @@ static const smap base_unit_vals{
     {"scruple", precise::apothecaries::scruple},
     {"scruple_ap", precise::apothecaries::scruple},
     {"dr_ap", precise::apothecaries::drachm},
+    {u8"\u01B7", precise::apothecaries::drachm},
+    {u8"\u0292", precise::apothecaries::drachm},
     {"dram_ap", precise::apothecaries::drachm},
     {"[DR_AP]", precise::apothecaries::drachm},
     {"oz_ap", precise::apothecaries::ounce},
@@ -4488,7 +4495,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
 
-    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 25> allCodeReplacements{{
+    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 30> allCodeReplacements{{
         ckpair{"sq.", "square"},
         ckpair{"cu.", "cubic"},
         ckpair{"(US)", "US"},
@@ -4499,8 +4506,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         ckpair{"Ampere", "amp"},
         ckpair{"metre", "meter"},
         ckpair{"litre", "liter"},
-        ckpair{"B.T.U.", "BTU"},
         ckpair{"B.Th.U.", "BTU"},
+        ckpair{"B.T.U.", "BTU"},
         ckpair{"Britishthermalunits", "BTU"},
         ckpair{"Britishthermalunitat", "BTU"},
         ckpair{"Britishthermalunit", "BTU"},
@@ -4519,6 +4526,11 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         ckpair{"/cubic*", "/cubic"},
         ckpair{"degrees", "deg"},
         ckpair{"degree", "deg"},
+        ckpair{"Hz^0.5", "rootHertz"},
+        ckpair{"Hz^.5", "rootHertz"},
+        ckpair{"Hz^(1/2)", "rootHertz"},
+        ckpair{"Hz^1/2", "rootHertz"},
+        ckpair{u8"\u221AHz", "rootHertz"},
     }};
 
     static const std::string spchar = std::string(" \t\n\r") + '\0';

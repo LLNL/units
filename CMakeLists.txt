@@ -7,6 +7,17 @@
 
 cmake_minimum_required(VERSION 3.0)
 
+# Make sure users don't get warnings on a tested (3.0 to 3.16) version
+# of CMake. For most of the policies, the new version is better (hence the change).
+# We don't use the 3.0...3.16 syntax because of a bug in an older MSVC's
+# built-in and modified CMake 3.11
+if(${CMAKE_VERSION} VERSION_LESS 3.16)
+    cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+    cmake_policy(VERSION 3.16)
+endif()
+
+
 project(
     UNITS
     LANGUAGES CXX
@@ -14,16 +25,21 @@ project(
 )
 include(CMakeDependentOption)
 include(CTest)
+include(GNUInstallDirs)
 
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT DEFINED CMAKE_CXX_STANDARD)
     # User settable
-	if (NOT DEFINED CMAKE_CXX_STANDARD)
 		set(CMAKE_CXX_STANDARD 11)
-	endif()
-    set(CMAKE_CXX_EXTENSIONS OFF)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-    include(GNUInstallDirs)
 endif()
+
+if(NOT DEFINED CMAKE_CXX_EXTENSIONS)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
+
+if(NOT DEFINED CMAKE_CXX_STANDARD_REQUIRED)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
 
 list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")
 
@@ -48,6 +64,11 @@ cmake_dependent_option(
 
 mark_as_advanced(UNITS_WITH_CMAKE_PACKAGE)
 
+cmake_dependent_option(
+    UNITS_BUILD_FUZZ_TARGETS "Build the targets for a fuzzing system" OFF
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
+)
+
 # Install instructions for this target
 if(UNITS_WITH_CMAKE_PACKAGE)
     set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT unitsConfig)
@@ -56,11 +77,6 @@ else(UNITS_WITH_CMAKE_PACKAGE)
 endif(UNITS_WITH_CMAKE_PACKAGE)
 
 option(UNITS_HEADER_ONLY "Expose the units library as header-only" OFF)
-
-cmake_dependent_option(
-    UNITS_BUILD_FUZZ_TARGETS "Build the targets for a fuzzing system" OFF
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
-)
 
 if(NOT TARGET compile_flags_target)
     add_library(compile_flags_target INTERFACE)
