@@ -365,8 +365,8 @@ TEST(stringToUnits, interestingUnits)
     unit = unit_from_string("ZAM", case_insensitive);
     EXPECT_EQ(unit, precise_unit(1e21, precise::m));
 
-    auto u = unit_from_string("m per s2 per Hz^1/2");
-    EXPECT_EQ(u, precise::special::ASD);
+    unit = unit_from_string("m per s2 per Hz^1/2");
+    EXPECT_EQ(unit, precise::special::ASD);
 }
 
 TEST(stringToUnits, customUnitforms)
