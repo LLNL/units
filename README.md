@@ -10,16 +10,17 @@
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
 
-This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    An in development set of [documentation](https://units.readthedocs.io/en/latest/) is available.
- 
+This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    An \[in development\] set of [documentation](https://units.readthedocs.io/en/latest/) is available.
+
 ## Table of contents
 
 -   [Purpose](#purpose)
 -   [Limitations](#limitations)
 -   [Alternatives](#alternatives)
--   [Types](#types)
--   [Unit representation](#unit-representation)
+-   [C++ Types](#types)
+-   [Unit Representation](#unit-representation)
 -   [Building The Library](#building-the-library)
+-   [Try it out](#try-it-out)
 -   [Usage](#usage)
     -   [Units](#unit-methods)
     -   [Measurements](#measurement-operations)
@@ -64,7 +65,7 @@ if (!meas.units().is_convertible(out)
 -   Fractional unit powers are not supported in general.  While some mathematical operations on units are supported any root operations `sqrt` or `cbrt` will only produce valid results if the result is integral powers of the base units.  One exception is limited support for root Hz operations in measurements of Amplitude spectral density.  A specific definition of a unit representing square root of Hz is available.  
 -   While conversions of various temperature definitions are supported, there is no generalized support for datums and bias shifts.  It may be possible to add some specific cases in the future for common uses cases but the space requirement limits such use.  Some of the other libraries have general support for this.
 -   A few equation like units are supported  these include logarithms, nepers, and some things like Saffir-Simpson, Beaufort, and Fujita scales for wind  Richter scales for earthquakes.  There is capacity within the framework to add a few more equation like units if a need arises.
--   The unit `rad` in the nature of  radiation absorbed dose is not recognized as it would conflicts with `rad` in terms of radians. So `rad` means radians since that is the more common use in electrical engineering.  There is support for custom unit strings so "rad" can be overwridden if required using custom units for string conversion operations.  
+-   The unit `rad` in the nature of  radiation absorbed dose is not recognized as it would conflicts with `rad` in terms of radians. So `rad` means radians since that is the more common use in electrical engineering.  There is support for custom unit strings so "rad" can be overridden if required using custom units for string conversion operations.  
 
 ## Alternatives
 If you are looking for compile time and prevention of unit errors in equations for dimensional analysis one of these libraries might work for you.  
@@ -166,7 +167,15 @@ constexpr precise_measurement sigma{5.67036713e-8,
 ## Building the library
 There are two parts of the library  a header only portion that can simply be copied and used. There are 3 headers `units_decl.hpp` declares the underlying classes.  `unit_defintions.hpp` declares constants for many of the units, and `units.hpp` which is the primary public interface to units.  If `units.hpp` is included in another file and the variable `UNITS_HEADER_ONLY` is defined then none of the functions that require the cpp files are defined. These header files can simply be included in your project and used with no additional building required.  
 
-  The second part is a few cpp files that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit.  The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.  
+The second part is a few cpp files that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit.  The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.  
+
+## Try It out
+
+If you want to try out the string conversion components.  There is server running that can do the string conversions
+
+[Unit String Conversions](https://units.readthedocs.io/en/latest/_static/convert.html)
+
+For more details see the [documentation](https://units.readthedocs.io/en/latest/web/index.html)
 
 ## Usage
 Many units are defined as `constexpr` objects and can be used directly
