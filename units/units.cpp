@@ -3112,6 +3112,7 @@ static const smap base_unit_vals{
     {"drum", precise::volume::drum},
     {"gallon", precise::gal},
     {"hogshead", precise::us::hogshead},
+    {"canada", precise_unit(1.4, precise::L)},
     {"tonregister", precise_unit(100.0, precise::ft.pow(3))},
     {"tonreg", precise_unit(100.0, precise::ft.pow(3))},
     {"registerton", precise_unit(100.0, precise::ft.pow(3))},
