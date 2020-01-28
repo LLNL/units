@@ -536,6 +536,22 @@ TEST(preciseunitOps, inequality1)
     EXPECT_EQ(eqFailNeg, 0);
 }
 
+TEST(preciseunitOps, subnormal_test)
+{
+    precise_unit u1(2.3456e-306, precise::m);
+    precise_unit u2(2.3457e-306, precise::m);
+    //these are equal to within a normal precision floating point.
+    EXPECT_TRUE(u1 == u2);
+    EXPECT_FALSE(u1 != u2);
+    EXPECT_TRUE(u2 == u1);
+
+    precise_unit u3(2.3456e-300, precise::m);
+    precise_unit u4(2.3457e-300, precise::m);
+    //these are not equal.
+    EXPECT_FALSE(u3 == u4);
+    EXPECT_TRUE(u3 != u4);
+    EXPECT_FALSE(u4 == u3);
+}
 TEST(invalidOps, saturate)
 {
     for (int ii = -8; ii < 8; ++ii) {
