@@ -8,6 +8,9 @@
 [![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/units/badge/?version=latest)](https://units.readthedocs.io/en/latest/?badge=latest)
 
+[What's new](./CHANGELOG.md) •
+[Documentation](https://units.readthedocs.io/en/latest/)
+
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.  
 
 This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and is currently a work in progress (though getting closer).  Namespaces, function names, and code organization is subject to change, input is welcome.    An \[in development\] set of [documentation](https://units.readthedocs.io/en/latest/) is available.
@@ -27,6 +30,7 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
     -   [String Conversions](#available-library-functions)
 -   [Contributing](./CONTRIBUTING.md)
 -   [Release](#release)
+
 
 ## Purpose
 A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units, often represented by strings, to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
@@ -318,7 +322,7 @@ The units library has some support for commodities,  more might be added in the 
 -   `addUserDefinedCommodity(std::string name, std::uint32_t code)`  add a new commodity that can be used in the string operations.  
 -   `clearUserDefinedCommodities()`  remove all user defined commodities from the library.
 -   `disableUserDefinedCommodities()`  there is a (likely small) performance hit in string conversions if custom commodities are used so they can be disabled completely if desired.
--   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  they are enabled by default.
+-   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  User defined commodities are enabled by default.  Defining user specified commodities is thread-safe
 
 #### Other unit definitions
 These are all only partially implemented, not recommended for use yet
@@ -326,9 +330,12 @@ These are all only partially implemented, not recommended for use yet
 -   `precise_unit dod_unit(string)`  get a unit from a DOD code string.
 -   `precise_unit r20_unit(string)`  get a unit from an r20 code string.
 
+## Contributions 
+Contributions are welcome.  See [Contributing](./CONTRIBUTING.md) for more details  and [Contributors](./CONTRIBUTORS.md) for a list of the current and past Contributors to this project.  
+
 ## Release
 This units library is distributed under the terms of the BSD-3 clause license. All new
-contributions must be made under this license. [LICENSE](LICENSE)
+contributions must be made under this license. [LICENSE](./LICENSE)
 
 SPDX-License-Identifier: BSD-3-Clause
 

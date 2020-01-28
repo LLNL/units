@@ -6,6 +6,7 @@
 
 ## Other
 -   [Greg Sjaardema](https://github.com/gsjaardema)
+-   [JensMunkHansen](https://github.com/JensMunkHansen)
 
 ## Used Libraries or Code
 
@@ -13,7 +14,10 @@
 This library was based on some code used inside GridDyn and was developed when that code reached the limits of its capabilities.  It was pulled out as the units are not core to GridDyn and could serve useful purposes in other applications.  GridDyn is licensed with a BSD-3-Clause license
 
 ### [googleTest](https://github.com/google/googletest)  
-The tests are written to use google test and mock frameworks and is included as a submodule.  Googletest is released with a BSD-3-clause licensed
+The tests are written to use google test and mock frameworks and is included as a submodule.  Googletest is released with a BSD-3-clause licensed.
+
+### [BOOST](https://www.boost.org)
+Boost is used for the webserver code.  There is no dependency elsewhere In the webeserver Boost\::Beast is used for the http processing and that also uses boost\::ASIO and boost\::flat_map.  Boost is licensed under the Boost Software License.  The Webserver is not built by default so boost is not required for most builds or to use Units as a library.  
 
 ## References for Unit definitions
 
@@ -23,4 +27,5 @@ The tests are written to use google test and mock frameworks and is included as 
 ### cmake scripts
 Several cmake scripts came from other sources and were either used or modified for use in HELICS.
 -   Lars Bilke [CodeCoverage.cmake](https://github.com/bilke/cmake-modules/blob/master/CodeCoverage.cmake)
--   CLI11 [CLI11](https://github.com/CLIUtils/CLI11)  while CLI11 was not used directly many of the CI scripts and structure were borrowed to set up the CI builds.  
+-   [CLI11](https://github.com/CLIUtils/CLI11)  while CLI11 was not used directly many of the CI scripts and structure were borrowed to set up the CI builds.  
+-   [HELICS](https://github.com/GMLC-TDC/HELICS)  Some of the code for cmake and some of the build scripts and a few of the docker images used for testing are maintained through the HELICS library.  HELICS also uses the units library for unit translations.  

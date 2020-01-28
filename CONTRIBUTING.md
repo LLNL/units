@@ -39,7 +39,7 @@ This section guides you through submitting a feature request, or enhancement for
 Unsure where to begin contributing to UNITS? You can start by looking for \[`help wanted`\]
 
 ### Submitting a pull request
-Typically you would want to submit a pull request against the develop branch.  That branch gets merged into master periodically but the develop branch is the active development branch where all the code is tested and merged before making a release.  There is a [Pull request template](.github/PULL_REQUEST_TEMPLATE.md) that will guide you through the needed information.  The pull requests are run through several automated checks in Travis and AppVeyor and for the most part must pass these tests before merging.  The Codacy check is evaluated but not required as the checks are sometimes a bit aggressive.
+Typically you would want to submit a pull request against the master branch.   The pull requests are run through several automated checks in Travis and CircleCI and for the most part must pass these tests before merging. The goal is 100% coverage so if a new feature is added, then it should have tests to cover the new code.   The Codacy check is evaluated but not required as the checks are sometimes a bit aggressive.
 
 ## Styleguides
 Code formatting is controlled via clang-format
