@@ -5,9 +5,9 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.0][] - 2020-01-29
+## [0.3.0][] - 2020-01-28
 
-Continued work on cleaning up the library and starting to add main documentation, as well as adding more units and cleaning up string conversions
+Continued work on cleaning up the library and starting to add main documentation, as well as adding more units and cleaning up string conversions and some additional tests.  Additional fuzzing fixes and add a webserver for exploring conversions.  
 ### Changed
 -   Change the unit_data operators from '+', '-' to '*' and '/' so they actually match the operation they are performing [#12][]
 -   Pow on measurements is a free function instead of operator [#12][]
@@ -25,7 +25,7 @@ Continued work on cleaning up the library and starting to add main documentation
 -   Added uncertain measurment class for dealing with uncertainties [#9][], later modified in the primary method of uncertainty propagation[#32][]  
 -   Added a webserver for doing conversions through an html based interface [#11][]
 -   Added a docker file for doing fuzzing [#16][]
--   Added initial set of [documention](https://units.readthedocs.io/en/latest/) on readthedocs.io
+-   Added initial set of [documention](https://units.readthedocs.io/en/latest/) on readthedocs.io [#25][],[#27][]
 
 ### Removed
 -   member methods of pow and root for measurements
@@ -44,7 +44,9 @@ Continued work on cleaning up the library and starting to add main documentation
 [#22]: https://github.com/LLNL/units/pull/22
 [#23]: https://github.com/LLNL/units/pull/23
 [#24]: https://github.com/LLNL/units/pull/24
+[#25]: https://github.com/LLNL/units/pull/25
 [#26]: https://github.com/LLNL/units/pull/26
+[#27]: https://github.com/LLNL/units/pull/27
 [#28]: https://github.com/LLNL/units/pull/28
 [#30]: https://github.com/LLNL/units/pull/30
 [#31]: https://github.com/LLNL/units/pull/31
