@@ -564,12 +564,15 @@ class uncertain_measurement {
   public:
     constexpr uncertain_measurement() = default;
     /// construct from a single precision value, uncertainty, and unit
-    constexpr uncertain_measurement(float val, float uncertainty, unit base) noexcept:
+    constexpr uncertain_measurement(float val, float uncertainty, unit base) noexcept :
         value_(val), uncertainty_(uncertainty), units_(base)
     {
     }
     /// construct from a single precision value, and unit assume uncertainty is 0
-    explicit constexpr uncertain_measurement(float val, unit base) noexcept: value_(val), units_(base) {}
+    explicit constexpr uncertain_measurement(float val, unit base) noexcept :
+        value_(val), units_(base)
+    {
+    }
 
     /// construct from a double precision value, and unit assume uncertainty is 0
     explicit constexpr uncertain_measurement(double val, unit base) noexcept :
@@ -588,7 +591,7 @@ class uncertain_measurement {
     {
     }
     /// construct from a double precision value, uncertainty, and unit
-    explicit constexpr uncertain_measurement(double val, double uncertainty, unit base) noexcept:
+    explicit constexpr uncertain_measurement(double val, double uncertainty, unit base) noexcept :
         value_(static_cast<float>(val)), uncertainty_(static_cast<float>(uncertainty)), units_(base)
     {
     }
@@ -603,11 +606,10 @@ class uncertain_measurement {
     constexpr double value() const { return static_cast<double>(value_); }
     /// Get the uncertainty with no units
     constexpr double uncertainty() const { return static_cast<double>(uncertainty_); }
-	/// Get the base value with no units as a single precision float
-	constexpr float value_f() const { return value_; }
-	/// Get the uncertainty with no units as a single precision float
-	constexpr float uncertainty_f() const { return uncertainty_; }
-
+    /// Get the base value with no units as a single precision float
+    constexpr float value_f() const { return value_; }
+    /// Get the uncertainty with no units as a single precision float
+    constexpr float uncertainty_f() const { return uncertainty_; }
 
     /// Set the uncertainty
     uncertain_measurement& uncertainty(float newUncertainty)
@@ -1215,8 +1217,8 @@ class fixed_precise_measurement {
     /// take the measurement to some power
     constexpr friend fixed_precise_measurement pow(const fixed_precise_measurement& meas, int power)
     {
-        return fixed_precise_measurement{
-            detail::power_const(meas.value_, power), meas.units_.pow(power)};
+        return fixed_precise_measurement{detail::power_const(meas.value_, power),
+                                         meas.units_.pow(power)};
     }
 
     /// Convert a unit to have a new base
