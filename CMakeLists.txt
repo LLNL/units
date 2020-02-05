@@ -122,6 +122,7 @@ elseif(UNITS_ENABLE_TESTS)
 endif()
 
 add_subdirectory(webserver)
+add_subdirectory(converter)
 
 if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
