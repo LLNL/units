@@ -121,8 +121,10 @@ elseif(UNITS_ENABLE_TESTS)
     endif()
 endif()
 
-add_subdirectory(webserver)
-add_subdirectory(converter)
+if(NOT UNITS_HEADER_ONLY)
+	add_subdirectory(webserver)
+	add_subdirectory(converter)
+endif()
 
 if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
