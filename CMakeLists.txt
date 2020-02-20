@@ -119,10 +119,14 @@ elseif(UNITS_ENABLE_TESTS)
     if(BUILD_TESTING)
         add_subdirectory(test)
     endif()
+    if(NOT UNITS_HEADER_ONLY)
+        add_subdirectory(webserver)
+        add_subdirectory(converter)
+    endif()
 endif()
 
-add_subdirectory(webserver)
 add_subdirectory(converter)
+
 
 if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
