@@ -66,10 +66,16 @@ TEST_P(timeoutProblems, timeoutFiles)
 {
     auto cdata = loadFailureFile("timeout", GetParam());
     ASSERT_FALSE(cdata.empty());
-    EXPECT_NO_THROW(unit_from_string(cdata));
+    precise_unit val;
+    EXPECT_NO_THROW(val = unit_from_string(cdata));
+    if (!is_error(val)) {
+        auto str = to_string(val);
+        auto u2 = unit_from_string(str);
+        EXPECT_FALSE(is_error(u2));
+    }
 }
 
-INSTANTIATE_TEST_SUITE_P(timeoutFiles, timeoutProblems, ::testing::Range(1, 22));
+INSTANTIATE_TEST_SUITE_P(timeoutFiles, timeoutProblems, ::testing::Range(1, 25));
 
 class slowProblems : public ::testing::TestWithParam<int> {
 };

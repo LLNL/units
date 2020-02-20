@@ -125,9 +125,6 @@ elseif(UNITS_ENABLE_TESTS)
     endif()
 endif()
 
-add_subdirectory(converter)
-
-
 if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
