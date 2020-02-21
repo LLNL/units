@@ -13,7 +13,7 @@ CMake variables
 -  `UNITS_BUILD_SHARED_LIBRARY`:  Controls whether to build a shared library or not
 -  `UNITS_BUILD_FUZZ_TARGETS`:  If set to `ON`, the library will try to compile the fuzzing targets for clang libFuzzer
 -  `UNITS_BUILD_WEB_SERVER`:  If set to `ON`,  build a webserver,  This uses boost::beast and requires boost 1.70 or greater to build it also requires cmake 3.12 or greater
-
+-  `UNITS_BUILD_CONVERTER_APP`: enables building a simple command line converter application that can convert units from the command line
 -  `UNITS_ENABLE_EXTRA_COMPILER_WARNINGS`: Turn on bunch of extra compiler warnings, on by default
 -  `UNITS_ENABLE_ERROR_ON_WARNINGS`:  Mostly useful in some testing contexts but will turn on Werror so any normal warnings generate an error.
 -  `CMAKE_CXX_STANDARD`:  Compile with a particular C++ standard, valid values are `11`, `14`, `17`, and likely `20` though that isn't broadly supported.

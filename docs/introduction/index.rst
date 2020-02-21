@@ -26,7 +26,7 @@ Many of the dimensional analysis libraries, actually all as far as I can tell in
 -   The library should be compatible with a broad range of compilers including some older ones back to GCC 4.7.
 -   a fairly expansive list of predefined units to simplify operation
 
-Speaking with others a few items and contexts came up such as recipes, trade documents, other software package unit representations,  standardized string representation.  And sometimes a lot of precision is needed other times this is not the case.
+Speaking with others, a few items and contexts came up such as recipes, trade documents, other software package unit representations,  standardized string representation.  And sometimes a lot of precision is needed other times this is not the case.
 
 Down the road deal with uncertainties in measurements and commodities, and containers.
 
@@ -36,3 +36,4 @@ Down the road deal with uncertainties in measurements and commodities, and conta
    how
    testing
    sources
+   converter
