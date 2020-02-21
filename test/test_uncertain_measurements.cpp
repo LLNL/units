@@ -425,6 +425,11 @@ TEST(uncertainStrings, test1)
     EXPECT_FLOAT_EQ(um5.value(), 12.8F);
     EXPECT_EQ(um5.uncertainty(), 0.0);
     EXPECT_EQ(um4.units(), m);
+
+    uncertain_measurement um6;
+    EXPECT_NO_THROW(um6 = uncertain_measurement_from_string(""));
+    EXPECT_EQ(um6.uncertainty(), 0.0);
+    EXPECT_EQ(um6.value(), 0.0);
 }
 #endif
 

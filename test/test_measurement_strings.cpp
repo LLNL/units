@@ -23,6 +23,9 @@ TEST(MeasurementStrings, basic)
     EXPECT_EQ(pm, 23.7 * precise::m / precise::s);
     pm = measurement_from_string("99.9 N * m");
     EXPECT_EQ(pm, 99.9 * precise::N * precise::m);
+
+    EXPECT_NO_THROW(pm = measurement_from_string(""));
+    EXPECT_EQ(pm.value(), 0.0);
 }
 
 TEST(MeasurementStrings, basic_cast)
