@@ -288,36 +288,34 @@ static const umap base_unit_names{
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
-static UNITS_CPP14_CONSTEXPR std::array<ustr, 22> testUnits{
-    {ustr{precise::m, "m"},
-     ustr{precise::s, "s"},
-     ustr{precise::ms, "ms"},
-     ustr{precise::min, "min"},
-     ustr{precise::hr, "hr"},
-     ustr{precise::time::day, "day"},
-     ustr{precise::lb, "lb"},
-     ustr{precise::ft, "ft"},
-     ustr{precise::ft.pow(2), "ft^2"},
-     ustr{precise::ft.pow(3), "ft^3"},
-     ustr{precise::m.pow(2), "m^2"},
-     ustr{precise::L, "L"},
-     ustr{precise::kg, "kg"},
-     ustr{precise::km, "km"},
-     ustr{precise::currency, "$"},
-     ustr{precise::volt, "V"},
-     ustr{precise::watt, "W"},
-     ustr{precise::kW, "kW"},
-     ustr{precise::mW, "mW"},
-     ustr{precise::MW, "MW"},
-     ustr{precise::s.pow(2), "s^2"},
-     ustr{precise::count, "item"}}};
+static UNITS_CPP14_CONSTEXPR std::array<ustr, 22> testUnits{{ustr{precise::m, "m"},
+                                                             ustr{precise::s, "s"},
+                                                             ustr{precise::ms, "ms"},
+                                                             ustr{precise::min, "min"},
+                                                             ustr{precise::hr, "hr"},
+                                                             ustr{precise::time::day, "day"},
+                                                             ustr{precise::lb, "lb"},
+                                                             ustr{precise::ft, "ft"},
+                                                             ustr{precise::ft.pow(2), "ft^2"},
+                                                             ustr{precise::ft.pow(3), "ft^3"},
+                                                             ustr{precise::m.pow(2), "m^2"},
+                                                             ustr{precise::L, "L"},
+                                                             ustr{precise::kg, "kg"},
+                                                             ustr{precise::km, "km"},
+                                                             ustr{precise::currency, "$"},
+                                                             ustr{precise::volt, "V"},
+                                                             ustr{precise::watt, "W"},
+                                                             ustr{precise::kW, "kW"},
+                                                             ustr{precise::mW, "mW"},
+                                                             ustr{precise::MW, "MW"},
+                                                             ustr{precise::s.pow(2), "s^2"},
+                                                             ustr{precise::count, "item"}}};
 
 // complex units used to reduce unit complexity
-static UNITS_CPP14_CONSTEXPR std::array<ustr, 4> creduceUnits{
-    {ustr{precise::V.inv(), "V*"},
-     ustr{precise::V, "V^-1*"},
-     ustr{precise::W, "W^-1*"},
-     ustr{precise::W.inv(), "W*"}}};
+static UNITS_CPP14_CONSTEXPR std::array<ustr, 4> creduceUnits{{ustr{precise::V.inv(), "V*"},
+                                                               ustr{precise::V, "V^-1*"},
+                                                               ustr{precise::W, "W^-1*"},
+                                                               ustr{precise::W.inv(), "W*"}}};
 
 // thought about making this constexpr array, but the problem is that runtime floats are not guaranteed to be the
 // same as compile time floats
@@ -1099,9 +1097,8 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('T', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('Y', 'A'), 1e24},
         cpair{charindex('Y', 'O'), 1e-24},
-        cpair{
-            charindex('Y', 'i'),
-            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
+        cpair{charindex('Y', 'i'),
+              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('Z', 'A'), 1e21},
         cpair{charindex('Z', 'O'), 1e-21},
         cpair{charindex('Z', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
@@ -1300,16 +1297,15 @@ static bool hasValidNumericalWordStart(const std::string& ustring)
 }
 using wordpair = std::tuple<const char*, double, int>;
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 9> lt10{
-    {wordpair{"one", 1.0, 3},
-     wordpair{"two", 2.0, 3},
-     wordpair{"three", 3.0, 5},
-     wordpair{"four", 4.0, 4},
-     wordpair{"five", 5.0, 4},
-     wordpair{"six", 6.0, 3},
-     wordpair{"seven", 7.0, 5},
-     wordpair{"eight", 8.0, 5},
-     wordpair{"nine", 9.0, 4}}};
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 9> lt10{{wordpair{"one", 1.0, 3},
+                                                           wordpair{"two", 2.0, 3},
+                                                           wordpair{"three", 3.0, 5},
+                                                           wordpair{"four", 4.0, 4},
+                                                           wordpair{"five", 5.0, 4},
+                                                           wordpair{"six", 6.0, 3},
+                                                           wordpair{"seven", 7.0, 5},
+                                                           wordpair{"eight", 8.0, 5},
+                                                           wordpair{"nine", 9.0, 4}}};
 
 static double read1To10(const std::string& str, size_t& index)
 {
@@ -1322,18 +1318,17 @@ static double read1To10(const std::string& str, size_t& index)
     return constants::invalid_conversion;
 }
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 11> teens{
-    {wordpair{"ten", 10.0, 3},
-     wordpair{"eleven", 11.0, 6},
-     wordpair{"twelve", 12.0, 6},
-     wordpair{"thirteen", 13.0, 8},
-     wordpair{"fourteen", 14.0, 8},
-     wordpair{"fifteen", 15.0, 7},
-     wordpair{"sixteen", 16.0, 7},
-     wordpair{"seventeen", 17.0, 9},
-     wordpair{"eighteen", 18.0, 8},
-     wordpair{"nineteen", 19.0, 8},
-     wordpair{"zero", 0.0, 4}}};
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 11> teens{{wordpair{"ten", 10.0, 3},
+                                                             wordpair{"eleven", 11.0, 6},
+                                                             wordpair{"twelve", 12.0, 6},
+                                                             wordpair{"thirteen", 13.0, 8},
+                                                             wordpair{"fourteen", 14.0, 8},
+                                                             wordpair{"fifteen", 15.0, 7},
+                                                             wordpair{"sixteen", 16.0, 7},
+                                                             wordpair{"seventeen", 17.0, 9},
+                                                             wordpair{"eighteen", 18.0, 8},
+                                                             wordpair{"nineteen", 19.0, 8},
+                                                             wordpair{"zero", 0.0, 4}}};
 
 static double readTeens(const std::string& str, size_t& index)
 {
@@ -1354,15 +1349,14 @@ static UNITS_CPP14_CONSTEXPR std::array<wordpair, 5> groupNumericalWords{
      wordpair{"thousand", 1e3, 8},
      wordpair{"hundred", 100.0, 7}}};
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{
-    {wordpair{"twenty", 20.0, 6},
-     wordpair{"thirty", 30.0, 6},
-     wordpair{"forty", 40.0, 5},
-     wordpair{"fifty", 50.0, 5},
-     wordpair{"sixty", 60.0, 5},
-     wordpair{"seventy", 70.0, 7},
-     wordpair{"eighty", 80.0, 6},
-     wordpair{"ninety", 90.0, 6}}};
+static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{{wordpair{"twenty", 20.0, 6},
+                                                                  wordpair{"thirty", 30.0, 6},
+                                                                  wordpair{"forty", 40.0, 5},
+                                                                  wordpair{"fifty", 50.0, 5},
+                                                                  wordpair{"sixty", 60.0, 5},
+                                                                  wordpair{"seventy", 70.0, 7},
+                                                                  wordpair{"eighty", 80.0, 6},
+                                                                  wordpair{"ninety", 90.0, 6}}};
 
 static double readNumericalWords(const std::string& ustring, size_t& index)
 {
@@ -4520,9 +4514,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         ckpair{"Britishthermalunit", "BTU"},
         ckpair{"BThU", "BTU"},
         ckpair{"-US", "US"},
-        ckpair{
-            "--",
-            "*"}, // -- is either a double negative or a separator, so make it a multiplier so it
+        ckpair{"--",
+               "*"}, // -- is either a double negative or a separator, so make it a multiplier so it
         // doesn't get erased and then converted to a power
         ckpair{
             "\\\\",
@@ -4793,14 +4786,13 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                 if (fnd + seq > unit_string.size() - 1U) {
                     break;
                 }
-				if (seq > 1)
-				{
-					auto c2 = unit_string[fnd + seq];
-					if (c2 != '\0' && c2 != '*' && c2 != '/' && c2 != '^' && c2!='e'&&c2!='E') {
-						unit_string.insert(fnd + seq, 1, '*');
-					}
-				}
-                
+                if (seq > 1) {
+                    auto c2 = unit_string[fnd + seq];
+                    if (c2 != '\0' && c2 != '*' && c2 != '/' && c2 != '^' && c2 != 'e' &&
+                        c2 != 'E') {
+                        unit_string.insert(fnd + seq, 1, '*');
+                    }
+                }
             }
             fnd = unit_string.find_first_of('^', fnd + 2);
         }
@@ -5551,6 +5543,9 @@ static precise_unit unit_from_string_internal(std::string unit_string, std::uint
 precise_measurement
     measurement_from_string(std::string measurement_string, std::uint32_t match_flags)
 {
+    if (measurement_string.empty()) {
+        return {};
+    }
     // do a cleaning first to get rid of spaces and other issues
     match_flags &= (~skip_code_replacements);
     cleanUnitString(measurement_string, match_flags);
@@ -5603,6 +5598,9 @@ precise_measurement
 uncertain_measurement
     uncertain_measurement_from_string(std::string measurement_string, std::uint32_t match_flags)
 {
+    if (measurement_string.empty()) {
+        return {};
+    }
     //first task is to find the +/-
     static UNITS_CPP14_CONSTEXPR std::array<const char*, 9> pmsequences{
         {"+/-", "\xB1", u8"\u00B1", "&plusmn;", "+-", "<u>+</u>", "&#xB1;", "&pm;", " \\pm "}};
