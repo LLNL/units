@@ -184,7 +184,7 @@ There are two parts of the library  a header only portion that can simply be cop
 
 The second part is a few cpp files that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit.  The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.  
 
-## Try It out
+## Try it out
 
 If you want to try out the string conversion components.  There is server running that can do the string conversions
 
@@ -192,11 +192,9 @@ If you want to try out the string conversion components.  There is server runnin
 
 For more details see the [documentation](https://units.readthedocs.io/en/latest/web/index.html)
 
-### Converter App
-A converter app can be built as part the units library by setting
+### Converter Application
+A converter command line application can be built as part the units library by setting
 `UNITS_BUILD_CONVERTER_APP=ON` in the CMake build.  This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form.  
-
-
 
 ## Usage
 Many units are defined as `constexpr` objects and can be used directly

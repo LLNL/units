@@ -5,9 +5,9 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0][] - ?
+## [0.4.0][] ~ Sometime in the next month
 
-Add a converter app and fix a few slow conversion issues and some other fuzz issues that came up recently.
+Add a converter command line application and fix a few slow conversion issues and some other fuzz issues that came up recently.
 
 ### Changed
 
@@ -16,7 +16,7 @@ Add a converter app and fix a few slow conversion issues and some other fuzz iss
 -   An asymmetry was observed in the unit equality from on the fuzzers, this resulted in some modifications of the `cround_equal` and `cround_precice_equals` functions.  Also noted that the functions weren't aborting on exact floating point equality so were doing quite a bit of extra calculations. [#34][]
   
 ### Added
--   added a converter command line app that can convert units on the command line [#34][]
+-   added a [converter](https://units.readthedocs.io/en/latest/converter) command line application that can convert units on the command line [#34][]
 
 ### Removed
   
@@ -66,9 +66,8 @@ Continued work on cleaning up the library and starting to add main documentation
 [#30]: https://github.com/LLNL/units/pull/30
 [#31]: https://github.com/LLNL/units/pull/31
 [#32]: https://github.com/LLNL/units/pull/32
-[#33]: https://github.com/LLNL/units/pull/33
 [#34]: https://github.com/LLNL/units/pull/34
 
+[0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
-
 [0.2.0]: https://github.com/LLNL/units/releases/tag/v0.2.0

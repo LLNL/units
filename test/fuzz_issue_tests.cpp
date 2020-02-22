@@ -230,7 +230,7 @@ TEST_P(rtripProblems, rtripFiles)
             EXPECT_EQ(root(unit_cast(u2), 3), root(unit_cast(u1), 3));
             EXPECT_FALSE(root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
         } else {
-            EXPECT_TRUE(unit_cast(u2)==unit_cast(u1));
+            EXPECT_TRUE(unit_cast(u2) == unit_cast(u1));
             EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
         }
     }
