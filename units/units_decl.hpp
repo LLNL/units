@@ -343,7 +343,8 @@ namespace detail {
 #else
         //what this is doing is assuming IEEE 754 floating point definition
         // taking 20 bits out of 24(roughly 10^6), adding 8 first 0b1000 to do rounding
-
+        // using memcpy to abide by strict aliasing rules
+        // based on godbolt.org this gets compiled to 2 instructions + the register loads
         std::uint32_t bits;
         std::memcpy(&bits, &val, sizeof(bits));
         bits += 8UL;
@@ -378,37 +379,33 @@ namespace detail {
     /// Do a rounding compare for equality on floats.
     inline bool compare_round_equals(float val1, float val2)
     {
-        if (std::fpclassify(val1 - val2) == FP_SUBNORMAL) {
+        auto v1 = val1 - val2;
+        if (v1 == 0.0F || std::fpclassify(v1) == FP_SUBNORMAL) {
             return true;
         }
         auto c1 = cround(val1);
         auto c2 = cround(val2);
-        if (c1 == c1) {
-            return true;
-        }
-        // yes these are magic numbers roughly half the value specified precision of 1e-6
-        // they were arrived at by running a bunch of tests to meet the design requirements
-        return (cround(val2 * (1.0F + 5.4e-7F)) == c1) || (cround(val2 * (1.0F - 5.1e-7F)) == c1) ||
-            (cround(val1 * (1.0F + 5.4e-7F)) == c2) || (cround(val1 * (1.0F - 5.1e-7F)) == c2);
+        // yes these are magic numbers half the value of specified precision of 1e-6 for units
+        return (c1 == c2) || (cround(val2 * (1.0F + 5e-7F)) == c1) ||
+            (cround(val2 * (1.0F - 5e-7F)) == c1) || (cround(val1 * (1.0F + 5e-7F)) == c2) ||
+            (cround(val1 * (1.0F - 5e-7F)) == c2);
     }
 
     /// Do a rounding compare for equality on double
     inline bool compare_round_equals_precise(double val1, double val2)
     {
-        if (std::fpclassify(val1 - val2) == FP_SUBNORMAL) {
+        auto v1 = val1 - val2;
+        if (v1 == 0.0 || std::fpclassify(v1) == FP_SUBNORMAL) {
             return true;
         }
-        auto c1 = cround_precise(val2);
-
-        if (cround_precise(val1) == c1) {
-            return true;
-        }
-        // yes these are magic numbers half the value specified precision of 1e-12
+        auto c1 = cround_precise(val1);
+        auto c2 = cround_precise(val2);
+        // yes these are magic numbers half the value of specified precision of 1e-12 for precise units
         // and yes I am purposely using the floating point equality here
-        if (cround_precise(val1 * (1.0 + 5.000e-13)) == c1) {
-            return true;
-        }
-        return (cround_precise(val1 * (1.0 - 5.000e-13)) == c1);
+        return (c1 == c2) || (cround_precise(val2 * (1.0 + 5e-13)) == c1) ||
+            (cround_precise(val2 * (1.0 - 5e-13)) == c1) ||
+            (cround_precise(val1 * (1.0 + 5e-13)) == c2) ||
+            (cround_precise(val1 * (1.0 - 5e-13)) == c2);
     }
 } // namespace detail
 

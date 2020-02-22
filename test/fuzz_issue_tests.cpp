@@ -299,4 +299,4 @@ TEST_P(rtripflagProblems, rtripflagFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripflagFiles, rtripflagProblems, ::testing::Range(6, 7));
+INSTANTIATE_TEST_SUITE_P(rtripflagFiles, rtripflagProblems, ::testing::Range(1, 7));
