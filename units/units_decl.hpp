@@ -381,16 +381,15 @@ namespace detail {
         if (std::fpclassify(val1 - val2) == FP_SUBNORMAL) {
             return true;
         }
-        auto c1 = cround(val2);
-        if (cround(val1) == c1) {
+        auto c1 = cround(val1);
+        auto c2 = cround(val2);
+        if (c1 == c1) {
             return true;
         }
         // yes these are magic numbers roughly half the value specified precision of 1e-6
         // they were arrived at by running a bunch of tests to meet the design requirements
-        if (cround(val1 * (1.0F + 5.4e-7F)) == c1) {
-            return true;
-        }
-        return (cround(val1 * (1.0F - 5.1e-7F)) == c1);
+        return (cround(val2 * (1.0F + 5.4e-7F)) == c1) || (cround(val2 * (1.0F - 5.1e-7F)) == c1) ||
+            (cround(val1 * (1.0F + 5.4e-7F)) == c2) || (cround(val1 * (1.0F - 5.1e-7F)) == c2);
     }
 
     /// Do a rounding compare for equality on double
