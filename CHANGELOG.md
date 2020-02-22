@@ -16,7 +16,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   An asymmetry was observed in the unit equality from on the fuzzers, this resulted in some modifications of the `cround_equal` and `cround_precice_equals` functions.  Also noted that the functions weren't aborting on exact floating point equality so were doing quite a bit of extra calculations. [#34][]
   
 ### Added
--   added a [converter](https://units.readthedocs.io/en/latest/converter) command line application that can convert units on the command line [#34][]
+-   added a [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application that can convert units on the command line [#34][]
 
 ### Removed
   

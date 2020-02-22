@@ -193,7 +193,7 @@ If you want to try out the string conversion components.  There is server runnin
 For more details see the [documentation](https://units.readthedocs.io/en/latest/web/index.html)
 
 ### Converter Application
-A converter command line application can be built as part the units library by setting
+A [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application can be built as part the units library by setting
 `UNITS_BUILD_CONVERTER_APP=ON` in the CMake build.  This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form.  
 
 ## Usage
