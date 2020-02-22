@@ -22,7 +22,7 @@ As a simple example and potentially useful tool we made the converter app.  It i
    473 kg/hr = 17.3798 lb/min
 
 
-basically there are two options --full,-f and --simplified,-s  a measurement which will take an arbittrary number of strings and a final string as a unit to convert to.  It outputs the conversion and if specified the surrounding measurement and units either simplified or in the original.
+basically there are two options `--full,-f` and `--simplified,-s`  a measurement which will take an arbitrary number of strings and a final string as a unit to convert to.  It outputs the conversion and if specified the surrounding measurement and units either simplified or in the original.
 
 .. code-block:: bash
 
