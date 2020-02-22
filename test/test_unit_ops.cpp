@@ -552,6 +552,7 @@ TEST(preciseunitOps, subnormal_test)
     EXPECT_TRUE(u3 != u4);
     EXPECT_FALSE(u4 == u3);
 }
+
 TEST(invalidOps, saturate)
 {
     for (int ii = -8; ii < 8; ++ii) {

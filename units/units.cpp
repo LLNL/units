@@ -4734,9 +4734,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         auto fnd = unit_string.find_first_of(")]}");
         while (fnd < unit_string.size() - 1) {
             switch (unit_string[fnd + 1]) {
+                case '^':
                 case '*':
                 case '/':
-                case '^':
                 case ')':
                 case ']':
                 case '}':
@@ -4777,11 +4777,20 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                 ++fnd;
             }
             if (fnd < unit_string.size() - 3) {
-                auto p = unit_string[fnd + 1];
-                if (p >= '0' && p <= '9') {
-                    auto c2 = unit_string[fnd + 2];
-                    if ((c2 < '0' || c2 > '9') && c2 && c2 != '*' && c2 != '/' && c2 != '^') {
-                        unit_string.insert(fnd + 2, 1, '*');
+                std::size_t seq = 1;
+                auto p = unit_string[fnd + seq];
+                while (p >= '0' && p <= '9' && fnd + seq <= unit_string.size() - 1U) {
+                    ++seq;
+                    p = unit_string[fnd + seq];
+                }
+                if (fnd + seq > unit_string.size() - 1U) {
+                    break;
+                }
+                if (seq > 1) {
+                    auto c2 = unit_string[fnd + seq];
+                    if (c2 != '\0' && c2 != '*' && c2 != '/' && c2 != '^' && c2 != 'e' &&
+                        c2 != 'E') {
+                        unit_string.insert(fnd + seq, 1, '*');
                     }
                 }
             }
@@ -5534,6 +5543,9 @@ static precise_unit unit_from_string_internal(std::string unit_string, std::uint
 precise_measurement
     measurement_from_string(std::string measurement_string, std::uint32_t match_flags)
 {
+    if (measurement_string.empty()) {
+        return {};
+    }
     // do a cleaning first to get rid of spaces and other issues
     match_flags &= (~skip_code_replacements);
     cleanUnitString(measurement_string, match_flags);
@@ -5586,6 +5598,9 @@ precise_measurement
 uncertain_measurement
     uncertain_measurement_from_string(std::string measurement_string, std::uint32_t match_flags)
 {
+    if (measurement_string.empty()) {
+        return {};
+    }
     //first task is to find the +/-
     static UNITS_CPP14_CONSTEXPR std::array<const char*, 9> pmsequences{
         {"+/-", "\xB1", u8"\u00B1", "&plusmn;", "+-", "<u>+</u>", "&#xB1;", "&pm;", " \\pm "}};

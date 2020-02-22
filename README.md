@@ -30,7 +30,7 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
 -   [Building The Library](#building-the-library)
 
 -   [Try it out](#try-it-out)
- 
+
 -   [Usage](#usage)
     -   [Units](#unit-methods)
     -   [Measurements](#measurement-operations)
@@ -98,6 +98,8 @@ Includes all SI and pseudo SI units and thousands of US, Imperial and other unit
 -   [unitscpp](http://code.google.com/p/unitscpp/) - A lightweight C++ library for physical calculation with units.
 
 -   [mpusz/units](https://github.com/mpusz/units) -A compile-time enabled Modern C++ library that provides compile-time dimensional analysis and unit/quantity manipulation.
+
+-   [bernedom/SI](https://github.com/bernedom/SI) - A header only C++ library that provides type safety and user defined literals for handling physical values defined in the International System of Units)
 
 These libraries will work well if the number of units being dealt with is known at compile time.  Many also produce zero overhead operations and checking.  Therefore in situations where this is possible other libraries are a preferred alternative.  
 
@@ -182,13 +184,17 @@ There are two parts of the library  a header only portion that can simply be cop
 
 The second part is a few cpp files that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit.  The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.  
 
-## Try It out
+## Try it out
 
 If you want to try out the string conversion components.  There is server running that can do the string conversions
 
 [Unit String Conversions](https://units.readthedocs.io/en/latest/_static/convert.html)
 
 For more details see the [documentation](https://units.readthedocs.io/en/latest/web/index.html)
+
+### Converter Application
+A [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application can be built as part the units library by setting
+`UNITS_BUILD_CONVERTER_APP=ON` in the CMake build.  This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form.  
 
 ## Usage
 Many units are defined as `constexpr` objects and can be used directly
@@ -339,7 +345,7 @@ These are all only partially implemented, not recommended for use yet
 -   `precise_unit dod_unit(string)`  get a unit from a DOD code string.
 -   `precise_unit r20_unit(string)`  get a unit from an r20 code string.
 
-## Contributions 
+## Contributions
 Contributions are welcome.  See [Contributing](./CONTRIBUTING.md) for more details  and [Contributors](./CONTRIBUTORS.md) for a list of the current and past Contributors to this project.  
 
 ## Release

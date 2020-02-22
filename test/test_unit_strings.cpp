@@ -435,6 +435,8 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(u2, precise::mol * precise::ft.pow(3));
     EXPECT_EQ(unit_from_string("(1)^345"), precise::one);
     EXPECT_EQ(unit_from_string("\t\t\t\t \r\n\n"), precise::defunit);
+    auto u3 = unit_from_string("2^345");
+    EXPECT_EQ(u3.multiplier(), std::pow(2.0, 345.0));
 }
 
 class roundTripString : public ::testing::TestWithParam<std::string> {
