@@ -4537,7 +4537,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     static const std::string spchar = std::string(" \t\n\r") + '\0';
     bool changed = false;
     bool skipMultiply = false;
-    auto skipMultiplyInsertionAfter{std::string::npos};
+    std::size_t skipMultiplyInsertionAfter{std::string::npos};
     char tail = unit_string.back();
     if (tail == '^' || tail == '*' || tail == '/' || tail == '.') {
         unit_string.pop_back();
