@@ -4070,16 +4070,15 @@ static size_t findWordOperatorSep(const std::string& ustring, const std::string&
         }
         if (lbrack < sep) {
             // this should not happen as it would mean the operator separator didn't function properly
-            // LCOV_EXCL_START
-            return sep;
-            // LCOV_EXCL_STOP
+            return sep; // LCOV_EXCL_LINE
         }
         auto cchar = getMatchCharacter(ustring[lbrack]);
         --lbrack;
         int index = static_cast<int>(lbrack) - 1;
         segmentcheckReverse(ustring, cchar, index);
         if (index < 0) {
-            return std::string::npos;
+			// this should not happen as it would mean we got this point by bypassing some other checks
+            return std::string::npos; // LCOV_EXCL_LINE
         }
         findex = static_cast<size_t>(index);
         if (findex < sep) {
@@ -5187,21 +5186,21 @@ static precise_unit unit_from_string_internal(std::string unit_string, std::uint
         if (c1 == '-' || c1 == '+') {
             ++sep;
             if (unit_string.length() < sep + 2) {
-                return precise::invalid;
+                // this should have been caught as an invalid sequence earlier
+                return precise::invalid; // LCOV_EXCL_LINE
             }
             if (isDigitCharacter(unit_string[sep + 1])) { // the - ',' is a +/- sign
                 power = -(c1 - ',') * (unit_string[sep + 1] - '0');
             } else {
                 // the check function should catch this but it would be problematic if not not caught
-                // LCOV_EXCL_START
-                return precise::invalid;
-                // LCOV_EXCL_STOP
+                return precise::invalid; // LCOV_EXCL_LINE
             }
         } else {
             if (isDigitCharacter(c1)) {
                 power = (c1 - '0');
             } else {
-                return precise::invalid;
+                // the check functions should catch this but it would be problematic if not not caught
+                return precise::invalid; // LCOV_EXCL_LINE
             }
         }
 
