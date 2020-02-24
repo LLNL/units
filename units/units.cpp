@@ -4537,7 +4537,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     static const std::string spchar = std::string(" \t\n\r") + '\0';
     bool changed = false;
     bool skipMultiply = false;
-    bool skipMultiplyInsertion = skipcodereplacement;
+    auto skipMultiplyInsertionAfter{std::string::npos};
     char tail = unit_string.back();
     if (tail == '^' || tail == '*' || tail == '/' || tail == '.') {
         unit_string.pop_back();
@@ -4586,7 +4586,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             auto nchar = unit_string.find_first_not_of(std::string(" \t\n\r") + '\0', fndP + 4);
             if (nchar != std::string::npos) {
                 if (unit_string[nchar] == '(' || unit_string[nchar] == '[') {
-                    skipMultiplyInsertion = true;
+                    skipMultiplyInsertionAfter = fndP;
                     break;
                 }
             }
@@ -4617,6 +4617,11 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                 }
             }
             fndP = unit_string.find("10*", fndP + 3);
+        }
+    } else {
+        auto fndP = unit_string.find("of(");
+        if (fndP != std::string::npos) {
+            skipMultiplyInsertionAfter = fndP;
         }
     }
     if (unit_string.front() == '(') {
@@ -4730,73 +4735,71 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         changed = true;
     }
     // inject multiplies after bracket terminators
-    if (!skipMultiplyInsertion) {
-        auto fnd = unit_string.find_first_of(")]}");
-        while (fnd < unit_string.size() - 1) {
-            switch (unit_string[fnd + 1]) {
-                case '^':
-                case '*':
-                case '/':
-                case ')':
-                case ']':
-                case '}':
-                case '>':
+    auto fnd = unit_string.find_first_of(")]}");
+    while (fnd < unit_string.size() - 1 && fnd < skipMultiplyInsertionAfter) {
+        switch (unit_string[fnd + 1]) {
+            case '^':
+            case '*':
+            case '/':
+            case ')':
+            case ']':
+            case '}':
+            case '>':
+                fnd = unit_string.find_first_of(")]}", fnd + 1);
+                break;
+            case 'o': // handle special case of commodity modifier using "of"
+                if (unit_string.size() > fnd + 3) {
+                    auto tc2 = unit_string[fnd + 3];
+                    if (unit_string[fnd + 2] == 'f' && tc2 != ')' && tc2 != ']' && tc2 != '}') {
+                        fnd = unit_string.find_first_of(")]}", fnd + 3);
+                        break;
+                    }
+                }
+                unit_string.insert(fnd + 1, 1, '*');
+                fnd = unit_string.find_first_of(")]}", fnd + 3);
+                break;
+            case '{':
+                if (unit_string[fnd] != '}') {
                     fnd = unit_string.find_first_of(")]}", fnd + 1);
                     break;
-                case 'o': // handle special case of commodity modifier using "of"
-                    if (unit_string.size() > fnd + 3) {
-                        auto tc2 = unit_string[fnd + 3];
-                        if (unit_string[fnd + 2] == 'f' && tc2 != ')' && tc2 != ']' && tc2 != '}') {
-                            fnd = unit_string.find_first_of(")]}", fnd + 3);
-                            break;
-                        }
-                    }
-                    unit_string.insert(fnd + 1, 1, '*');
-                    fnd = unit_string.find_first_of(")]}", fnd + 3);
-                    break;
-                case '{':
-                    if (unit_string[fnd] != '}') {
-                        fnd = unit_string.find_first_of(")]}", fnd + 1);
-                        break;
-                    }
-                    // FALLTHRU
-                default:
-                    if (unit_string[fnd - 1] == '\\') { // ignore escape sequences
-                        fnd = unit_string.find_first_of(")]}", fnd + 1);
-                        break;
-                    }
-                    unit_string.insert(fnd + 1, 1, '*');
-                    fnd = unit_string.find_first_of(")]}", fnd + 2);
-                    break;
-            }
-        }
-        // insert multiplies after ^#
-        fnd = unit_string.find_first_of('^');
-        while (fnd < unit_string.size() - 3) {
-            if (unit_string[fnd + 1] == '-') {
-                ++fnd;
-            }
-            if (fnd < unit_string.size() - 3) {
-                std::size_t seq = 1;
-                auto p = unit_string[fnd + seq];
-                while (p >= '0' && p <= '9' && fnd + seq <= unit_string.size() - 1U) {
-                    ++seq;
-                    p = unit_string[fnd + seq];
                 }
-                if (fnd + seq > unit_string.size() - 1U) {
+                // FALLTHRU
+            default:
+                if (unit_string[fnd - 1] == '\\') { // ignore escape sequences
+                    fnd = unit_string.find_first_of(")]}", fnd + 1);
                     break;
                 }
-                if (seq > 1) {
-                    auto c2 = unit_string[fnd + seq];
-                    if (c2 != '\0' && c2 != '*' && c2 != '/' && c2 != '^' && c2 != 'e' &&
-                        c2 != 'E') {
-                        unit_string.insert(fnd + seq, 1, '*');
-                    }
-                }
-            }
-            fnd = unit_string.find_first_of('^', fnd + 2);
+                unit_string.insert(fnd + 1, 1, '*');
+                fnd = unit_string.find_first_of(")]}", fnd + 2);
+                break;
         }
     }
+    // insert multiplies after ^#
+    fnd = unit_string.find_first_of('^');
+    while (fnd < unit_string.size() - 3 && fnd < skipMultiplyInsertionAfter) {
+        if (unit_string[fnd + 1] == '-') {
+            ++fnd;
+        }
+        if (fnd < unit_string.size() - 3) {
+            std::size_t seq = 1;
+            auto p = unit_string[fnd + seq];
+            while (p >= '0' && p <= '9' && fnd + seq <= unit_string.size() - 1U) {
+                ++seq;
+                p = unit_string[fnd + seq];
+            }
+            if (fnd + seq > unit_string.size() - 1U) {
+                break;
+            }
+            if (seq > 1) {
+                auto c2 = unit_string[fnd + seq];
+                if (c2 != '\0' && c2 != '*' && c2 != '/' && c2 != '^' && c2 != 'e' && c2 != 'E') {
+                    unit_string.insert(fnd + seq, 1, '*');
+                }
+            }
+        }
+        fnd = unit_string.find_first_of('^', fnd + 2);
+    }
+
     // this still might occur from code replacements or other removal
     if (!unit_string.empty() && unit_string.front() == '/') {
         unit_string.insert(unit_string.begin(), '1');

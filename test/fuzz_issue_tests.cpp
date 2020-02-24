@@ -75,7 +75,20 @@ TEST_P(timeoutProblems, timeoutFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(timeoutFiles, timeoutProblems, ::testing::Range(1, 25));
+INSTANTIATE_TEST_SUITE_P(timeoutFiles, timeoutProblems, ::testing::Range(1, 29));
+
+TEST(fuzzFailures, timeoutSingleProblems)
+{
+    auto cdata = loadFailureFile("timeout", 28);
+    ASSERT_FALSE(cdata.empty());
+    precise_unit val;
+    EXPECT_NO_THROW(val = unit_from_string(cdata));
+    if (!is_error(val)) {
+        auto str = to_string(val);
+        auto u2 = unit_from_string(str);
+        EXPECT_FALSE(is_error(u2));
+    }
+}
 
 class slowProblems : public ::testing::TestWithParam<int> {
 };
