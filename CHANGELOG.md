@@ -14,6 +14,7 @@ Add a converter command line application and fix a few slow conversion issues an
 ### Fixed
 -   A few timeouts on the fuzzer- the fix was to generalize the multiplier insertion after ^ to accept multiple digits after the ^ instead of just ignoring it after more than one. [#34][]  
 -   An asymmetry was observed in the unit equality from on the fuzzers, this resulted in some modifications of the `cround_equal` and `cround_precice_equals` functions.  Also noted that the functions weren't aborting on exact floating point equality so were doing quite a bit of extra calculations. [#34][]
+-  A timeout issue from fuzzing having to do with not injecting multiplies after `[]` in some circumstances.  The fix was to be a little more refined of at which point to not inject the multiplies and to do it in multiple stages so as to not rely on the partitioner so much.  [#35][]
   
 ### Added
 -   added a [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application that can convert units on the command line [#34][]
@@ -67,6 +68,7 @@ Continued work on cleaning up the library and starting to add main documentation
 [#31]: https://github.com/LLNL/units/pull/31
 [#32]: https://github.com/LLNL/units/pull/32
 [#34]: https://github.com/LLNL/units/pull/34
+[#35]: https://github.com/LLNL/units/pull/35
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
