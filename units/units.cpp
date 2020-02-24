@@ -4077,7 +4077,7 @@ static size_t findWordOperatorSep(const std::string& ustring, const std::string&
         int index = static_cast<int>(lbrack) - 1;
         segmentcheckReverse(ustring, cchar, index);
         if (index < 0) {
-			// this should not happen as it would mean we got this point by bypassing some other checks
+            // this should not happen as it would mean we got this point by bypassing some other checks
             return std::string::npos; // LCOV_EXCL_LINE
         }
         findex = static_cast<size_t>(index);
