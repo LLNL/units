@@ -11,10 +11,10 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <atomic>
 #include <cctype>
 #include <cstring>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <fstream>
 #include <string>
 #include <tuple>
 #include <unordered_map>
@@ -583,45 +583,62 @@ void addUserDefinedUnit(std::string name, precise_unit un)
     }
 }
 
-std::string definedUnitsFromFile(const std::string &filename) noexcept
+void addUserDefinedInputUnit(std::string name, precise_unit un)
 {
-	std::string output;
-	try
-	{
-		std::ifstream infile(filename);
-		if (!infile.is_open())
-		{
-			output = "unable to read file " + filename;
-			return output;
-		}
-		std::string line;
-		while (std::getline(infile, line))
-		{
-			auto sep = line.find("==");
-			if (sep == std::string::npos)
+    if (allowUserDefinedUnits.load()) {
+        user_defined_units[name] = un;
+    }
+}
+
+std::string definedUnitsFromFile(const std::string& filename) noexcept
+{
+    std::string output;
+    try {
+        std::ifstream infile(filename);
+        if (!infile.is_open()) {
+            output = "unable to read file " + filename;
+            return output;
+        }
+        std::string line;
+        while (std::getline(infile, line)) {
+            auto commentloc = line.find_first_not_of(" \t");
+            if (commentloc == std::string::npos || line[commentloc] == '#') {
+                continue;
+            }
+            auto sep = line.find("==");
+            if (sep == std::string::npos) {
+                sep = line.find("=>");
+                if (sep == std::string::npos) {
+                    output += line + " is not a valid user defined unit definition";
+                    continue;
+                }
+            }
+            auto meas = measurement_from_string(line.substr(0, sep));
+			if (!is_valid(meas))
 			{
-				output += line + " is not a valid user defined unit definition";
+				output += line.substr(0, sep) + " does not generate a valid unit";
 				continue;
 			}
-			auto meas = measurement_from_string(line.substr(0, sep));
-			auto sloc = line.find_first_not_of(' \t', sep + 2);
-			if (sloc == std::string::npos)
-			{
-				output += line + " does not specify a user string";
-				continue;
-			}
-			std::string userdef = line.substr(sloc);
-			while (userdef.back() == ' ')
-			{
-				userdef.pop_back();
-			}
-			addUserDefinedUnit(userdef, meas.as_unit());
-		}
-	}
-	catch (const std::exception &e)
-	{
-		output += e.what();
-	}
+            auto sloc = line.find_first_not_of(" \t", sep + 2);
+            if (sloc == std::string::npos) {
+                output += line + " does not specify a user string";
+                continue;
+            }
+            std::string userdef = line.substr(sloc);
+            while (userdef.back() == ' ') {
+                userdef.pop_back();
+            }
+            if (line[sep + 1] == '=') {
+                addUserDefinedUnit(userdef, meas.as_unit());
+            } else {
+                addUserDefinedInputUnit(userdef, meas.as_unit());
+            }
+        }
+    }
+    catch (const std::exception& e) {
+        output += e.what();
+    }
+	return output;
 }
 
 void clearUserDefinedUnits()

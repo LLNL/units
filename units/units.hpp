@@ -1314,6 +1314,35 @@ class fixed_precise_measurement {
     const precise_unit units_; //!< the units associated with the quantity
 };
 
+/// Check if the measurement is a valid_measurement
+constexpr inline bool is_valid(measurement meas)
+{
+	return is_valid(meas.units()) && (meas.value() == meas.value());
+}
+/// Check if the precise_measurement is a valid_measurement
+constexpr inline bool is_valid(precise_measurement meas)
+{
+	return is_valid(meas.units()) && (meas.value() == meas.value());
+}
+
+/// Check if the fixed_measurement is a valid_measurement
+constexpr inline bool is_valid(fixed_measurement meas)
+{
+	return is_valid(meas.units()) && (meas.value() == meas.value());
+}
+
+/// Check if the fixed_precise_measurement is a valid_measurement
+constexpr inline bool is_valid(fixed_precise_measurement meas)
+{
+	return is_valid(meas.units()) && (meas.value() == meas.value());
+}
+
+/// Check if the uncertain_measurement is a valid_measurement
+constexpr inline bool is_valid(uncertain_measurement meas)
+{
+	return is_valid(meas.units()) && meas.value_f() == meas.value_f()&& meas.uncertainty_f()==meas.uncertainty_f();
+}
+
 /// perform a down-conversion from a precise measurement to a measurement
 constexpr measurement measurement_cast(const precise_measurement& measure)
 {
@@ -1465,16 +1494,22 @@ std::string to_string(measurement measure, std::uint32_t match_flags = 0);
 
 /// Add a custom unit to be included in any string processing
 void addUserDefinedUnit(std::string name, precise_unit un);
+
+/// Add a custom unit to be included in from string interpretation
+void addUserDefinedInputUnit(std::string name, precise_unit un);
+
 /// Clear all user defined units from memory
 void clearUserDefinedUnits();
 
 /** load a set of user define units from a file
-@details  file should consist of lines formatted like <definition> == <user_string> where definition is some string that can include spaces
+@details  file should consist of lines formatted like <user_string> == <definition> where definition is some string that can include spaces
 <user_string> is the name of the custom unit.  
+<user_string> => <definition> defines a 1-way translation so input units are interpreted but the output units are not modified.
+# indicates a comment line
 @param filename  the name of the file to load
 @return a string which will be empty if everything worked and an error message if it didn't
 */
-std::string definedUnitsFromFile(const std::string &filename) noexcept;
+std::string definedUnitsFromFile(const std::string& filename) noexcept;
 
 /// Turn off the ability to add custom units for later access
 void disableUserDefinedUnits();
