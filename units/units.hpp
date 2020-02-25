@@ -1431,7 +1431,7 @@ precise_unit default_unit(std::string unit_type);
 /** Generate a precise_measurement from a string
 @param measurement_string the string to convert
 @param match_flags see / ref unit_conversion_flags to control the matching process somewhat
-  @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
+@return a precise unit corresponding to the string if no match was found the unit will be an error unit
     */
 precise_measurement
     measurement_from_string(std::string measurement_string, std::uint32_t match_flags = 0);
@@ -1439,7 +1439,7 @@ precise_measurement
 /** Generate a measurement from a string
 @param measurement_string the string to convert
 @param match_flags see / ref unit_conversion_flags to control the matching process somewhat
-  @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
+@return a precise unit corresponding to the string if no match was found the unit will be an error unit
 	*/
 inline measurement
     measurement_cast_from_string(std::string measurement_string, std::uint32_t match_flags = 0)
@@ -1452,7 +1452,7 @@ the string should contain some symbol of the form +/- in one of the various form
 for example "3.0+/-0.4 m" or "2.5 m +/- 2 cm"
 @param measurement_string the string to convert
 @param match_flags see / ref unit_conversion_flags to control the matching process somewhat
-  @ return a precise unit corresponding to the string if no match was found the unit will be an error unit
+  @return a precise unit corresponding to the string if no match was found the unit will be an error unit
 	*/
 uncertain_measurement uncertain_measurement_from_string(
     std::string measurement_string,
@@ -1467,6 +1467,14 @@ std::string to_string(measurement measure, std::uint32_t match_flags = 0);
 void addUserDefinedUnit(std::string name, precise_unit un);
 /// Clear all user defined units from memory
 void clearUserDefinedUnits();
+
+/** load a set of user define units from a file
+@details  file should consist of lines formatted like <definition> == <user_string> where definition is some string that can include spaces
+<user_string> is the name of the custom unit.  
+@param filename  the name of the file to load
+@return a string which will be empty if everything worked and an error message if it didn't
+*/
+std::string definedUnitsFromFile(const std::string &filename) noexcept;
 
 /// Turn off the ability to add custom units for later access
 void disableUserDefinedUnits();

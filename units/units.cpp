@@ -14,6 +14,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <string>
 #include <tuple>
 #include <unordered_map>
@@ -580,6 +581,47 @@ void addUserDefinedUnit(std::string name, precise_unit un)
         user_defined_unit_names[unit_cast(un)] = name;
         user_defined_units[name] = un;
     }
+}
+
+std::string definedUnitsFromFile(const std::string &filename) noexcept
+{
+	std::string output;
+	try
+	{
+		std::ifstream infile(filename);
+		if (!infile.is_open())
+		{
+			output = "unable to read file " + filename;
+			return output;
+		}
+		std::string line;
+		while (std::getline(infile, line))
+		{
+			auto sep = line.find("==");
+			if (sep == std::string::npos)
+			{
+				output += line + " is not a valid user defined unit definition";
+				continue;
+			}
+			auto meas = measurement_from_string(line.substr(0, sep));
+			auto sloc = line.find_first_not_of(' \t', sep + 2);
+			if (sloc == std::string::npos)
+			{
+				output += line + " does not specify a user string";
+				continue;
+			}
+			std::string userdef = line.substr(sloc);
+			while (userdef.back() == ' ')
+			{
+				userdef.pop_back();
+			}
+			addUserDefinedUnit(userdef, meas.as_unit());
+		}
+	}
+	catch (const std::exception &e)
+	{
+		output += e.what();
+	}
 }
 
 void clearUserDefinedUnits()

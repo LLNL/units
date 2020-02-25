@@ -596,6 +596,21 @@ TEST(userDefinedUnits, definitions)
     EXPECT_EQ(to_string(clucks), "clucks");
 }
 
+TEST(userDefinedUnits, definitionStrings)
+{
+	precise_unit idgit(4.754, mol/m.pow(2));
+	addUserDefinedUnit("idgit", idgit);
+
+	auto ipm=unit_from_string("idgit/min");
+	EXPECT_EQ(ipm, idgit / min);
+	 
+	auto str = to_string(ipm);
+	EXPECT_EQ(str, "idgit/min");
+
+	str = to_string(ipm.inv());
+	EXPECT_EQ(str, "min/idgit");
+}
+
 TEST(userDefinedUnits, disableUserDefinitions)
 {
     clearUserDefinedUnits();
