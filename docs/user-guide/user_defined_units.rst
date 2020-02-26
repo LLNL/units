@@ -24,8 +24,36 @@ For example from a test in the library
 
    str = to_string(ipm.inv());
    EXPECT_EQ(str, "min/idgit");
-   
+
 Basically user defined units can interact with the string conversion functions just like any other unit defined in the library.
+
+If only an ability to interpret strings is needed the `addUserDefinedInputUnit` can be used
+
+.. code-block:: c++
+
+   precise_unit idgit(4.754, mol/m.pow(2));
+   addUserDefinedInputUnit("idgit", idgit);
+
+   auto ipm = unit_from_string("idgit/min");
+   EXPECT_EQ(ipm, idgit / min);
+
+   auto str = to_string(ipm);
+   EXPECT_EQ(str.find("idgit"), std::string::npos);
+   EXPECT_NE(str.find("kat") , std::string::npos);
+
+Input File 
+------------------
+Sometimes it isful to have a larger library of units in this case the `std::string definedUnitsFromFile(const std::string& filename)` can be used to load a number of units at once. 
+
+The file format is quite simple.  
+`#` at the beginning of a line indicates a comment
+other wise 
+
+.. 
+
+   # comment
+   meeter == meter
+   meh == meeter per hour
 
 Other Library Operations
 ---------------------------

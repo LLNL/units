@@ -601,34 +601,42 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
         }
         std::string line;
         while (std::getline(infile, line)) {
-            auto commentloc = line.find_first_not_of(" \t");
+            auto commentloc = line.find_first_not_of(" \t\n");
             if (commentloc == std::string::npos || line[commentloc] == '#') {
                 continue;
             }
             auto sep = line.find("==");
+			int length{ 1 }; //the length of the separator character
             if (sep == std::string::npos) {
                 sep = line.find("=>");
                 if (sep == std::string::npos) {
-                    output += line + " is not a valid user defined unit definition";
-                    continue;
+					sep = line.find_first_of(",;");
+					if (sep == std::string::npos) {
+						output += line + " is not a valid user defined unit definition";
+						continue;
+					}
+					length = 0;
                 }
             }
-            auto meas = measurement_from_string(line.substr(0, sep));
-			if (!is_valid(meas))
-			{
-				output += line.substr(0, sep) + " does not generate a valid unit";
+			// get the new definition name
+			std::string userdef = line.substr(0,sep);
+			while (userdef.back() == ' ') {
+				userdef.pop_back();
+			}
+			// the unit string
+			auto sloc = line.find_first_not_of(" \t", sep + length + 1);
+			if (sloc == std::string::npos) {
+				output += line + " does not specify a user string";
 				continue;
 			}
-            auto sloc = line.find_first_not_of(" \t", sep + 2);
-            if (sloc == std::string::npos) {
-                output += line + " does not specify a user string";
-                continue;
-            }
-            std::string userdef = line.substr(sloc);
-            while (userdef.back() == ' ') {
-                userdef.pop_back();
-            }
-            if (line[sep + 1] == '=') {
+            auto meas = measurement_from_string(line.substr(sloc));
+			if (!is_valid(meas))
+			{
+				output += line.substr(sloc) + " does not generate a valid unit";
+				continue;
+			}
+            
+            if (line[sep + length] == '='||line[sep+length]==','||line[sep+length]==';') {
                 addUserDefinedUnit(userdef, meas.as_unit());
             } else {
                 addUserDefinedInputUnit(userdef, meas.as_unit());

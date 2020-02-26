@@ -609,6 +609,22 @@ TEST(userDefinedUnits, definitionStrings)
 
 	str = to_string(ipm.inv());
 	EXPECT_EQ(str, "min/idgit");
+	clearUserDefinedUnits();
+}
+
+TEST(userDefinedUnits, definitionStringsInputOnly)
+{
+	precise_unit idgit(4.754, mol / m.pow(2));
+	addUserDefinedInputUnit("idgit", idgit);
+
+	auto ipm = unit_from_string("idgit/min");
+	EXPECT_EQ(ipm, idgit / min);
+
+	auto str = to_string(ipm);
+	EXPECT_EQ(str.find("idgit"), std::string::npos);
+	EXPECT_NE(str.find("kat") , std::string::npos);
+	clearUserDefinedUnits();
+
 }
 
 TEST(userDefinedUnits, disableUserDefinitions)
