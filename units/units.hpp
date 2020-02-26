@@ -1495,7 +1495,7 @@ std::string to_string(measurement measure, std::uint32_t match_flags = 0);
 /// Add a custom unit to be included in any string processing
 void addUserDefinedUnit(std::string name, precise_unit un);
 
-/// Add a custom unit to be included in from string interpretation
+/// Add a custom unit to be included in from string interpretation but not used in generating string representations of units
 void addUserDefinedInputUnit(std::string name, precise_unit un);
 
 /// Clear all user defined units from memory
