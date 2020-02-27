@@ -1317,30 +1317,31 @@ class fixed_precise_measurement {
 /// Check if the measurement is a valid_measurement
 constexpr inline bool is_valid(measurement meas)
 {
-	return is_valid(meas.units()) && (meas.value() == meas.value());
+    return is_valid(meas.units()) && (meas.value() == meas.value());
 }
 /// Check if the precise_measurement is a valid_measurement
 constexpr inline bool is_valid(precise_measurement meas)
 {
-	return is_valid(meas.units()) && (meas.value() == meas.value());
+    return is_valid(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the fixed_measurement is a valid_measurement
 constexpr inline bool is_valid(fixed_measurement meas)
 {
-	return is_valid(meas.units()) && (meas.value() == meas.value());
+    return is_valid(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the fixed_precise_measurement is a valid_measurement
 constexpr inline bool is_valid(fixed_precise_measurement meas)
 {
-	return is_valid(meas.units()) && (meas.value() == meas.value());
+    return is_valid(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the uncertain_measurement is a valid_measurement
 constexpr inline bool is_valid(uncertain_measurement meas)
 {
-	return is_valid(meas.units()) && meas.value_f() == meas.value_f()&& meas.uncertainty_f()==meas.uncertainty_f();
+    return is_valid(meas.units()) && meas.value_f() == meas.value_f() &&
+        meas.uncertainty_f() == meas.uncertainty_f();
 }
 
 /// perform a down-conversion from a precise measurement to a measurement
