@@ -1,5 +1,5 @@
 # comment
-meter == meeter
+meeter == meter
  meh == meeter per hour
  # another comment
         mehmeh => meh/s

@@ -47,13 +47,21 @@ Sometimes it isful to have a larger library of units in this case the `std::stri
 
 The file format is quite simple.  
 `#` at the beginning of a line indicates a comment
-other wise 
-
-.. 
+other wise ::
 
    # comment
    meeter == meter
    meh == meeter per hour
+   
+or ::
+
+   # comment
+   yodles=73 counts
+
+   # comment
+   "yeedles", 19 yodles
+
+   yimdles; dozen yeedles
 
 Other Library Operations
 ---------------------------

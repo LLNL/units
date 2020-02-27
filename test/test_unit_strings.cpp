@@ -660,6 +660,20 @@ TEST(userDefinedUnits, clearDefs)
     EXPECT_NE(to_string(clucks), "clucks");
 }
 
+TEST(userDefinedUnits, fileOp1)
+{
+	auto outputstr=definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/other_units.txt");
+	EXPECT_TRUE(outputstr.empty());
+	auto res = unit_from_string("meeter");
+	EXPECT_EQ(res, precise::m);
+
+	res = unit_from_string("meh");
+	EXPECT_EQ(res, precise::m / precise::hr);
+	res = unit_from_string("mehmeh");
+	EXPECT_EQ(res, precise::m / precise::hr/precise::s);
+	EXPECT_EQ(unit_from_string("mehmeh"), unit_from_string("meh/s"));
+}
+
 TEST(defaultUnits, unitTypes)
 {
     EXPECT_EQ(default_unit("impedance quantity"), precise::ohm);
