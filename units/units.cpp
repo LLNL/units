@@ -665,9 +665,13 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             }
         }
     }
+    // LCOV_EXCL_START
     catch (const std::exception& e) {
         output += e.what();
+        output.push_back('\n');
+        //this is mainly just to catch any weird errors coming from somewhere so this function can be noexcept
     }
+    // LCOV_EXCL_STOP
     return output;
 }
 

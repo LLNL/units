@@ -672,7 +672,7 @@ TEST(userDefinedUnits, fileOp1)
     res = unit_from_string("mehmeh");
     EXPECT_EQ(res, precise::m / precise::hr / precise::s);
     EXPECT_EQ(unit_from_string("mehmeh"), unit_from_string("meh/s"));
-	clearUserDefinedUnits();
+    clearUserDefinedUnits();
 }
 
 TEST(userDefinedUnits, fileOp2)
@@ -687,21 +687,22 @@ TEST(userDefinedUnits, fileOp2)
     auto y3 = unit_from_string("yimdles");
     EXPECT_EQ(y3, precise_unit(y2, 12.0));
     EXPECT_EQ(unit_from_string("yimdles"), unit_from_string("19*yodles*12"));
-	clearUserDefinedUnits();
+    clearUserDefinedUnits();
 }
 
 TEST(userDefinedUnits, invalidFile)
 {
-	auto outputstr = definedUnitsFromFile("not_a_file.txt");
-	EXPECT_FALSE(outputstr.empty());
+    auto outputstr = definedUnitsFromFile("not_a_file.txt");
+    EXPECT_FALSE(outputstr.empty());
 }
 
 TEST(userDefinedUnits, badDefinitions)
 {
-	auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/bad_unit_definitions.txt");
-	EXPECT_FALSE(outputstr.empty());
-	auto cnt = std::count(outputstr.begin(), outputstr.end(), '\n');
-	EXPECT_EQ(cnt, 5);
+    auto outputstr =
+        definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/bad_unit_definitions.txt");
+    EXPECT_FALSE(outputstr.empty());
+    auto cnt = std::count(outputstr.begin(), outputstr.end(), '\n');
+    EXPECT_EQ(cnt, 5);
 }
 
 TEST(defaultUnits, unitTypes)
