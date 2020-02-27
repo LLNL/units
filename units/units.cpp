@@ -600,7 +600,7 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
     try {
         std::ifstream infile(filename);
         if (!infile.is_open()) {
-            output = "unable to read file " + filename;
+            output = "unable to read file " + filename+"\n";
             return output;
         }
         std::string line;
@@ -611,11 +611,11 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             }
             auto sep = line.find_first_of(",;=", commentloc);
             if (sep == std::string::npos) {
-                output += line + " is not a valid user defined unit definition";
+                output += line + " is not a valid user defined unit definition\n";
                 continue;
             }
             if (sep == line.size() - 1) {
-                output += line + " does not have any valid definitions";
+                output += line + " does not have any valid definitions\n";
             }
             int length{0};
             if (line[sep + 1] == '=' || line[sep + 1] == '>') {
@@ -631,12 +631,17 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             if ((userdef.front() == '\"' || userdef.front() == '\'') &&
                 userdef.back() == userdef.front()) {
                 userdef.pop_back();
-                userdef.erase(userdef.front());
+                userdef.erase(userdef.begin());
             }
+			if (userdef.empty())
+			{
+				output += line + " does not specify a user string\n";
+				continue;
+			}
             // the unit string
             auto sloc = line.find_first_not_of(" \t", sep + length + 1);
             if (sloc == std::string::npos) {
-                output += line + " does not specify a user string";
+                output += line + " does not specify a unit definition string\n";
                 continue;
             }
             auto meas_string = line.substr(sloc);
@@ -646,11 +651,11 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             if ((meas_string.front() == '\"' || meas_string.front() == '\'') &&
                 meas_string.back() == meas_string.front()) {
                 meas_string.pop_back();
-                meas_string.erase(meas_string.front());
+                meas_string.erase(meas_string.begin());
             }
             auto meas = measurement_from_string(meas_string);
             if (!is_valid(meas)) {
-                output += line.substr(sloc) + " does not generate a valid unit";
+                output += line.substr(sloc) + " does not generate a valid unit\n";
                 continue;
             }
 
