@@ -598,33 +598,32 @@ TEST(userDefinedUnits, definitions)
 
 TEST(userDefinedUnits, definitionStrings)
 {
-	precise_unit idgit(4.754, mol/m.pow(2));
-	addUserDefinedUnit("idgit", idgit);
+    precise_unit idgit(4.754, mol / m.pow(2));
+    addUserDefinedUnit("idgit", idgit);
 
-	auto ipm=unit_from_string("idgit/min");
-	EXPECT_EQ(ipm, idgit / min);
-	 
-	auto str = to_string(ipm);
-	EXPECT_EQ(str, "idgit/min");
+    auto ipm = unit_from_string("idgit/min");
+    EXPECT_EQ(ipm, idgit / min);
 
-	str = to_string(ipm.inv());
-	EXPECT_EQ(str, "min/idgit");
-	clearUserDefinedUnits();
+    auto str = to_string(ipm);
+    EXPECT_EQ(str, "idgit/min");
+
+    str = to_string(ipm.inv());
+    EXPECT_EQ(str, "min/idgit");
+    clearUserDefinedUnits();
 }
 
 TEST(userDefinedUnits, definitionStringsInputOnly)
 {
-	precise_unit idgit(4.754, mol / m.pow(2));
-	addUserDefinedInputUnit("idgit", idgit);
+    precise_unit idgit(4.754, mol / m.pow(2));
+    addUserDefinedInputUnit("idgit", idgit);
 
-	auto ipm = unit_from_string("idgit/min");
-	EXPECT_EQ(ipm, idgit / min);
+    auto ipm = unit_from_string("idgit/min");
+    EXPECT_EQ(ipm, idgit / min);
 
-	auto str = to_string(ipm);
-	EXPECT_EQ(str.find("idgit"), std::string::npos);
-	EXPECT_NE(str.find("kat") , std::string::npos);
-	clearUserDefinedUnits();
-
+    auto str = to_string(ipm);
+    EXPECT_EQ(str.find("idgit"), std::string::npos);
+    EXPECT_NE(str.find("kat"), std::string::npos);
+    clearUserDefinedUnits();
 }
 
 TEST(userDefinedUnits, disableUserDefinitions)
@@ -662,16 +661,30 @@ TEST(userDefinedUnits, clearDefs)
 
 TEST(userDefinedUnits, fileOp1)
 {
-	auto outputstr=definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/other_units.txt");
-	EXPECT_TRUE(outputstr.empty());
-	auto res = unit_from_string("meeter");
-	EXPECT_EQ(res, precise::m);
+    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/other_units.txt");
+    EXPECT_TRUE(outputstr.empty());
+    auto res = unit_from_string("meeter");
+    EXPECT_EQ(res, precise::m);
 
-	res = unit_from_string("meh");
-	EXPECT_EQ(res, precise::m / precise::hr);
-	res = unit_from_string("mehmeh");
-	EXPECT_EQ(res, precise::m / precise::hr/precise::s);
-	EXPECT_EQ(unit_from_string("mehmeh"), unit_from_string("meh/s"));
+    res = unit_from_string("meh");
+    EXPECT_EQ(res, precise::m / precise::hr);
+    res = unit_from_string("mehmeh");
+    EXPECT_EQ(res, precise::m / precise::hr / precise::s);
+    EXPECT_EQ(unit_from_string("mehmeh"), unit_from_string("meh/s"));
+}
+
+TEST(userDefinedUnits, fileOp2)
+{
+    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/other_units2.txt");
+    EXPECT_TRUE(outputstr.empty());
+    auto y1 = unit_from_string("yodles");
+    EXPECT_EQ(y1, precise_unit(count, 73.0));
+
+    auto y2 = unit_from_string("yeedles");
+    EXPECT_EQ(y2, precise_unit(y1, 19.0));
+    auto y3 = unit_from_string("yimdles");
+    EXPECT_EQ(y3, precise_unit(y2, 12.0));
+    EXPECT_EQ(unit_from_string("yimdles"), unit_from_string("19*yodles*12"));
 }
 
 TEST(defaultUnits, unitTypes)

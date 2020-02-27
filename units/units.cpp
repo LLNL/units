@@ -580,7 +580,8 @@ void addUserDefinedUnit(std::string name, precise_unit un)
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_unit_names[unit_cast(un)] = name;
         user_defined_units[name] = un;
-		allowUserDefinedUnits.store(allowUserDefinedUnits.load(std::memory_order_acquire), std::memory_order_release);
+        allowUserDefinedUnits.store(
+            allowUserDefinedUnits.load(std::memory_order_acquire), std::memory_order_release);
     }
 }
 
@@ -588,7 +589,8 @@ void addUserDefinedInputUnit(std::string name, precise_unit un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_units[name] = un;
-		allowUserDefinedUnits.store(allowUserDefinedUnits.load(std::memory_order_acquire),std::memory_order_release);
+        allowUserDefinedUnits.store(
+            allowUserDefinedUnits.load(std::memory_order_acquire), std::memory_order_release);
     }
 }
 
@@ -607,54 +609,51 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             if (commentloc == std::string::npos || line[commentloc] == '#') {
                 continue;
             }
-			auto sep = line.find_first_of(",;=",commentloc);
-			if (sep == std::string::npos) {
-				output += line + " is not a valid user defined unit definition";
-				continue;
-			}
-			if (sep == line.size() - 1)
-			{
-				output += line + " does not have any valid definitions";
-			}
-			int length{ 0 };
-			if (line[sep + 1] == '=' || line[sep + 1] == '>')
-			{
-				length = 1;
-			}
-            
-			// get the new definition name
-			std::string userdef = line.substr(commentloc,sep-commentloc);
-			while (userdef.back() == ' ') {
-				userdef.pop_back();
-			}
-			//remove quotes
-			if ((userdef.front() == '\"'||userdef.front()=='\'')&& userdef.back() == userdef.front())
-			{
-				userdef.pop_back();
-				userdef.erase(userdef.front());
-			}
-			// the unit string
-			auto sloc = line.find_first_not_of(" \t", sep + length + 1);
-			if (sloc == std::string::npos) {
-				output += line + " does not specify a user string";
-				continue;
-			}
-			auto meas_string = line.substr(sloc);
-			while (meas_string.back() == ' ') {
-				meas_string.pop_back();
-			}
-			if ((meas_string.front() == '\"' || meas_string.front() == '\'') && meas_string.back() == meas_string.front())
-			{
-				meas_string.pop_back();
-				meas_string.erase(meas_string.front());
-			}
+            auto sep = line.find_first_of(",;=", commentloc);
+            if (sep == std::string::npos) {
+                output += line + " is not a valid user defined unit definition";
+                continue;
+            }
+            if (sep == line.size() - 1) {
+                output += line + " does not have any valid definitions";
+            }
+            int length{0};
+            if (line[sep + 1] == '=' || line[sep + 1] == '>') {
+                length = 1;
+            }
+
+            // get the new definition name
+            std::string userdef = line.substr(commentloc, sep - commentloc);
+            while (userdef.back() == ' ') {
+                userdef.pop_back();
+            }
+            //remove quotes
+            if ((userdef.front() == '\"' || userdef.front() == '\'') &&
+                userdef.back() == userdef.front()) {
+                userdef.pop_back();
+                userdef.erase(userdef.front());
+            }
+            // the unit string
+            auto sloc = line.find_first_not_of(" \t", sep + length + 1);
+            if (sloc == std::string::npos) {
+                output += line + " does not specify a user string";
+                continue;
+            }
+            auto meas_string = line.substr(sloc);
+            while (meas_string.back() == ' ') {
+                meas_string.pop_back();
+            }
+            if ((meas_string.front() == '\"' || meas_string.front() == '\'') &&
+                meas_string.back() == meas_string.front()) {
+                meas_string.pop_back();
+                meas_string.erase(meas_string.front());
+            }
             auto meas = measurement_from_string(meas_string);
-			if (!is_valid(meas))
-			{
-				output += line.substr(sloc) + " does not generate a valid unit";
-				continue;
-			}
-            
+            if (!is_valid(meas)) {
+                output += line.substr(sloc) + " does not generate a valid unit";
+                continue;
+            }
+
             if (line[sep + length] == '>') {
                 addUserDefinedInputUnit(userdef, meas.as_unit());
             } else {
@@ -665,7 +664,7 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
     catch (const std::exception& e) {
         output += e.what();
     }
-	return output;
+    return output;
 }
 
 void clearUserDefinedUnits()
