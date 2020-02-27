@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units.hpp"
 
 #include "test.hpp"
+#include <algorithm>
 
 using namespace units;
 TEST(unitStrings, Simple)

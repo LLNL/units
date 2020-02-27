@@ -600,7 +600,7 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
     try {
         std::ifstream infile(filename);
         if (!infile.is_open()) {
-            output = "unable to read file " + filename+"\n";
+            output = "unable to read file " + filename + "\n";
             return output;
         }
         std::string line;
@@ -633,11 +633,10 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
                 userdef.pop_back();
                 userdef.erase(userdef.begin());
             }
-			if (userdef.empty())
-			{
-				output += line + " does not specify a user string\n";
-				continue;
-			}
+            if (userdef.empty()) {
+                output += line + " does not specify a user string\n";
+                continue;
+            }
             // the unit string
             auto sloc = line.find_first_not_of(" \t", sep + length + 1);
             if (sloc == std::string::npos) {
@@ -4852,7 +4851,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                     fnd = unit_string.find_first_of(")]}", fnd + 1);
                     break;
                 }
-                // FALLTHRU
+                /* FALLTHRU */
             default:
                 if (unit_string[fnd - 1] == '\\') { // ignore escape sequences
                     fnd = unit_string.find_first_of(")]}", fnd + 1);
