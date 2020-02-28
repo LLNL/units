@@ -1,0 +1,17 @@
+# test the quotes for inclusion
+"bl==p"=18.7 cups
+
+# test single quotes for inclusion
+'y,,p',9 tons
+
+#ignore just one quote
+'np==14 kg
+
+#escaped quotes
+"j\"\""= 13.5 W
+
+#escaped quotes
+'q""'= 15.5 W
+
+
+

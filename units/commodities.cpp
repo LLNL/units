@@ -318,16 +318,20 @@ uint32_t getCommodity(std::string comm)
 {
     removeEscapeSequences(comm);
     std::transform(comm.begin(), comm.end(), comm.begin(), ::tolower);
+    if (allowCustomCommodities.load(std::memory_order_acquire)) {
+        if (!customCommodityCodes.empty()) {
+            auto fnd2 = customCommodityCodes.find(comm);
+            if (fnd2 != customCommodityCodes.end()) {
+                return fnd2->second;
+            }
+        }
+    }
+
     auto fnd = commodities::commodity_codes.find(comm);
     if (fnd != commodities::commodity_codes.end()) {
         return fnd->second;
     }
-    if (!customCommodityCodes.empty()) {
-        auto fnd2 = customCommodityCodes.find(comm);
-        if (fnd2 != customCommodityCodes.end()) {
-            return fnd2->second;
-        }
-    }
+
     if (comm.compare(0, 7, "cxcomm[") == 0) {
         return static_cast<int32_t>(atoi(comm.c_str() + 7));
     }
@@ -358,16 +362,19 @@ uint32_t getCommodity(std::string comm)
 // get the code to use for a particular commodity
 std::string getCommodityName(std::uint32_t commodity)
 {
+    if (allowCustomCommodities.load(std::memory_order_acquire)) {
+        if (!customCommodityNames.empty()) {
+            auto fnd2 = customCommodityNames.find(commodity);
+            if (fnd2 != customCommodityNames.end()) {
+                return fnd2->second;
+            }
+        }
+    }
     auto fnd = commodities::commodity_names.find(commodity);
     if (fnd != commodities::commodity_names.end()) {
         return fnd->second;
     }
-    if (!customCommodityNames.empty()) {
-        auto fnd2 = customCommodityNames.find(commodity);
-        if (fnd2 != customCommodityNames.end()) {
-            return fnd2->second;
-        }
-    }
+
     if ((commodity & 0x60000000) == 0x40000000) {
         std::string ret;
         ret.push_back((commodity & 0X1F) + '_');

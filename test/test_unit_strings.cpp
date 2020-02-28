@@ -690,6 +690,33 @@ TEST(userDefinedUnits, fileOp2)
     clearUserDefinedUnits();
 }
 
+TEST(userDefinedUnits, fileOp3)
+{
+	auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/other_units3.txt");
+	EXPECT_TRUE(outputstr.empty());
+	auto y1 = unit_from_string("bl==p");
+	EXPECT_EQ(y1, precise_unit(precise::us::cup, 18.7));
+	EXPECT_EQ(to_string(y1),"bl==p");
+	
+
+	auto y2 = unit_from_string("y,,p");
+	EXPECT_EQ(y2, precise_unit(precise::ton, 9.0));
+	EXPECT_EQ(to_string(y2), "y,,p");
+
+	auto y3 = unit_from_string("'np");
+	EXPECT_EQ(y3, precise_unit(precise::kg, 14.0));
+	EXPECT_EQ(to_string(y3), "'np");
+
+	auto y4 = unit_from_string("j\"\"");
+	EXPECT_EQ(y4, precise_unit(precise::W, 13.5));
+	EXPECT_EQ(to_string(y4), "j\"\"");
+
+	auto y5 = unit_from_string("q\"\"");
+	EXPECT_EQ(y5, precise_unit(precise::W, 15.5));
+	EXPECT_EQ(to_string(y5), "q\"\"");
+	clearUserDefinedUnits();
+}
+
 TEST(userDefinedUnits, invalidFile)
 {
     auto outputstr = definedUnitsFromFile("not_a_file.txt");
