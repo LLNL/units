@@ -2,7 +2,7 @@
 User defined units
 ==================
 
-The units library has support for user defined units and commodities.  These interact with the `*_from_string` and `to_string` operations to allow custom conversions and definitions.  
+The units library has support for user defined units and commodities.  These interact with the `*_from_string` and `to_string` operations to allow custom conversions and definitions.
 
 Defining a custom unit
 --------------------------
@@ -41,11 +41,11 @@ If only an ability to interpret strings is needed the `addUserDefinedInputUnit` 
    EXPECT_EQ(str.find("idgit"), std::string::npos);
    EXPECT_NE(str.find("kat") , std::string::npos);
 
-Input File 
+Input File
 ------------------
-Sometimes it is useful to have a larger library of units in this case the `std::string definedUnitsFromFile(const std::string& filename)` can be used to load a number of units at once. 
+Sometimes it is useful to have a larger library of units in this case the `std::string definedUnitsFromFile(const std::string& filename)` can be used to load a number of units at once.
 
-The file format is quite simple.  
+The file format is quite simple.
 `#` at the beginning of a line indicates a comment
 other wise ::
 
@@ -54,7 +54,7 @@ other wise ::
    meh == meeter per hour
    # => indicates input only unit
         mehmeh => meh/s
-   
+
 or ::
 
    # comment
@@ -66,6 +66,7 @@ or ::
    yimdles; dozen yeedles
 
 or ::
+
    # test the quotes for inclusion
    "bl==p"=18.7 cups
 
@@ -81,15 +82,15 @@ or ::
    # escaped quotes
    'q""'= 15.5 W
 
-The basic rule is that an `=`, `,`,or `;` will separate a definition name from a unit definition.  if the next character after the separator is an '=' is it ignored.  if it is a `>` it implies input only definition.  Otherwise it just calls `addUserDefinedUnit`.  The function will not generate exceptions and will return a string with each error separated by a newline.  So if the result string is `empty()` there was no errors.  
+The basic rule is that an '=', ',',or ',' will separate a definition name from a unit definition.  if the next character after the separator is an '=' it is ignored.  If it is a '>' it implies input only definition.  Otherwise it just calls `addUserDefinedUnit`.  The function will not generate exceptions and will return a string with each error separated by a newline.  So if the result string is `empty()` there was no errors.
 
 Other Library Operations
 ---------------------------
 
-*   `clearUserDefinedUnits()`  will erase all previously defined units 
-*   `disableUserDefinedUnits()`   will disable the use of user defined units 
-*   `enableUserDefinedUnits()`  will enable their use if they had been disabled,  they are enabled by default.  
+*   `clearUserDefinedUnits()`  will erase all previously defined units
+*   `disableUserDefinedUnits()`   will disable the use of user defined units
+*   `enableUserDefinedUnits()`  will enable their use if they had been disabled,  they are enabled by default.
 
 Notes on units and threads
 ----------------------------
-The user defined units usage is an atomic variable but the modification of the user defined library are not thread safe, so if threads are needed make all the changes in one thread before using it in other threads.   The disable and enable functions trigger an atomic variable that enables the use of user defined units in the string translation functions.  disableUserDefinedUnits() also turns off the ability specify new user defined units but does not erase those already defined.  
+The user defined units usage is an atomic variable but the modification of the user defined library are not thread safe, so if threads are needed make all the changes in one thread before using it in other threads.   The disable and enable functions trigger an atomic variable that enables the use of user defined units in the string translation functions.  disableUserDefinedUnits() also turns off the ability specify new user defined units but does not erase those already defined.

@@ -101,8 +101,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Units'
-copyright = 'Copyright (c) 2019-2020,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n'
-author = 'Philip Top, Ryan Mast, Corey McNeash'
+copyright = '2019-2020,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n'
+author = 'Philip Top, Ryan Mast, Corey McNeish'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
