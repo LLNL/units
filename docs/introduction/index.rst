@@ -5,7 +5,7 @@ Introduction
 Why?
 -----
 So why have another units library?  This was something we poked at for a while before writing the library.
-There are number of other alternatives in what are well designed C++ libraries but none of them met our needs, some of which are pretty general, and others specific to power systems and electrical engineering.
+There are number of other alternatives in what are well designed C++ libraries but none of them met our needs. Some needs are pretty general, and others specific to power systems and electrical engineering.
 
 Design Requirements
 ++++++++++++++++++++

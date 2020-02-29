@@ -2,7 +2,7 @@
 User defined units
 ==================
 
-The units library has support for user defined units and commodities.  These interact with the `*_from_string` and `to_string` operations to allow custom conversions and definitions.
+The units library has support for user defined units and :ref:`Commodities`.  These interact with the `*_from_string` and `to_string` operations to allow custom conversions and definitions.
 
 Defining a custom unit
 --------------------------
@@ -82,7 +82,7 @@ or ::
    # escaped quotes
    'q""'= 15.5 W
 
-The basic rule is that an '=', ',',or ',' will separate a definition name from a unit definition.  if the next character after the separator is an '=' it is ignored.  If it is a '>' it implies input only definition.  Otherwise it just calls `addUserDefinedUnit`.  The function will not generate exceptions and will return a string with each error separated by a newline.  So if the result string is `empty()` there was no errors.
+The basic rule is that one of `[=,;]` will separate a definition name from a unit definition.  If the next character after the separator is an '=' it is ignored.  If it is a '>' it implies input only definition.  Otherwise it calls `addUserDefinedUnit` for each definition.  The function is declared `noexcept` and will return a string with each error separated by a newline.  So if the result string is `empty()` there were no errors.
 
 Other Library Operations
 ---------------------------
@@ -93,4 +93,4 @@ Other Library Operations
 
 Notes on units and threads
 ----------------------------
-The user defined units usage is an atomic variable but the modification of the user defined library are not thread safe, so if threads are needed make all the changes in one thread before using it in other threads.   The disable and enable functions trigger an atomic variable that enables the use of user defined units in the string translation functions.  disableUserDefinedUnits() also turns off the ability specify new user defined units but does not erase those already defined.
+The user defined units usage flag is an atomic variable but the modification of the user defined library are not thread safe, so if threads are needed make all the changes in one thread before using it in other threads, or protect the calls with a separate mutex.  The disable and enable functions trigger an atomic variable that enables the use of user defined units in the string translation functions.  disableUserDefinedUnits() also turns off the ability to specify new user defined units but does not erase those already defined.
