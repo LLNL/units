@@ -69,6 +69,7 @@ TEST(uncertainOps, construction)
     EXPECT_FLOAT_EQ(um10.value(), 0.0F);
     EXPECT_FLOAT_EQ(um10.uncertainty(), 0.0F);
     EXPECT_EQ(um10.units(), one);
+    EXPECT_TRUE(is_valid(um10));
 }
 
 // from https://www2.southeastern.edu/Academics/Faculty/rallain/plab194/error.html

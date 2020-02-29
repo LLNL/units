@@ -42,7 +42,7 @@ TEST(Measurement, ops)
     auto fd11 = (2.0 * m) % (6 * in);
     EXPECT_LT(fd11, (6 * in));
 
-	EXPECT_TRUE(is_valid(d1));
+    EXPECT_TRUE(is_valid(d1));
 }
 
 TEST(Measurement, doubleOps)
@@ -278,7 +278,7 @@ TEST(fixedMeasurement, methods)
     EXPECT_TRUE(size <= 1.2);
     EXPECT_TRUE(1.2 <= size);
 
-	EXPECT_TRUE(is_valid(size));
+    EXPECT_TRUE(is_valid(size));
 }
 
 TEST(fixedMeasurement, doubleOps)
@@ -383,7 +383,7 @@ TEST(PreciseMeasurement, ops)
     auto rat = d1 / d2;
     EXPECT_EQ(rat.value(), 45.0 / 79);
     EXPECT_TRUE(rat.units() == ratio);
-	EXPECT_TRUE(is_valid(d1));
+    EXPECT_TRUE(is_valid(d1));
 }
 
 TEST(PreciseMeasurement, doubleOps)
@@ -519,7 +519,7 @@ TEST(fixedPreciseMeasurement, ops)
     EXPECT_DOUBLE_EQ(y.value(), 5.0);
     y = 7.0;
     EXPECT_DOUBLE_EQ(y.value(), 7.0);
-	EXPECT_TRUE(is_valid(d1));
+    EXPECT_TRUE(is_valid(d1));
 }
 
 TEST(fixedPreciseMeasurement, powroot)
