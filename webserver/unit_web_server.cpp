@@ -295,23 +295,31 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
                 bad_request("conversion units string size exceeds limits of 256 characters"));
         }
     }
-    if (reqpr.first == "convert") {
-        auto meas = units::measurement_from_string(measurement);
-        auto u2 = units::unit_from_string(toUnits);
-        double V = meas.value_as(u2);
-        return send(conversion_response(as_string(V), measurement, toUnits));
-    } else if (reqpr.first == "convert_trivial") {
-        auto meas = units::measurement_from_string(measurement);
-        auto u2 = units::unit_from_string(toUnits);
-        double V = meas.value_as(u2);
-        return send(conversion_response_trivial(as_string(V)));
-    } else if (reqpr.first == "convert_json") {
-        auto meas = units::measurement_from_string(measurement);
-        auto u2 = units::unit_from_string(toUnits);
-        double V = meas.value_as(u2);
-        return send(conversion_response_json(as_string(V), measurement, toUnits));
+    bool simplify = false;
+    if (fields.find("caction") != fields.end()) {
+        if (fields["caction"] == "simplify") {
+            simplify = true;
+        }
     }
-    return send(bad_request("#unknown"));
+    auto meas = units::measurement_from_string(measurement);
+    units::precise_unit u2;
+    if (toUnits == "*" || toUnits == "<base>") {
+		u2 = meas.convert_to_base().units();
+		toUnits = units::to_string(u2);
+    } else {
+        u2 = units::unit_from_string(toUnits);
+    }
+
+    auto Vstr = as_string(meas.value_as(u2));
+    std::string string1 = (simplify) ? units::to_string(meas) : measurement;
+    std::string string2 = (simplify) ? units::to_string(u2) : toUnits;
+    if (reqpr.first == "convert") {
+        return send(conversion_response(Vstr, string1, string2));
+    } else if (reqpr.first == "convert_json") {
+        return send(conversion_response_json(Vstr, string1, string2));
+    } else {
+        return send(conversion_response_trivial(Vstr));
+    }
 }
 
 //------------------------------------------------------------------------------
