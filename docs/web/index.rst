@@ -21,18 +21,18 @@ the unit string should be some unit that is convertible from the measurement uni
 -   `kiB`
 -   `british fathoms`
 
-The conversion also supports mathematical operations  see :ref:`Units From Strings` for additional details on string conversions
+The conversion also supports mathematical operations  see :ref:`Units From Strings` for additional details on string conversions.  The units can also be set to `*`or `<base>` to convert the measurement to base units.
 
 Rest API
 -----------
 
 The units web server does not serve files, it generates all responses on the fly.  There are 3 URI indicators it responds to beyond the root page.
 
--  `/convert`  : respond with an html page
--  `/convert_trivial` : respond with the results as a simple text
--  `/convert_json` : respond with a json string containing the requested conversions and the results.
+-  `/convert`  : responds with an html page
+-  `/convert_trivial` : responds with the results as a simple text
+-  `/convert_json` : responds with a json string containing the requested conversions and the results.
 
-For example in linux or anything with curl
+For example in Linux or anything with curl
 
 .. code-block:: bash
 
@@ -41,9 +41,20 @@ For example in linux or anything with curl
 
    $ curl -s "13.52.135.81/convert_json?measurement=10%20tons&units=lb"
    {
-   "measurement":"10 tons",
-   "units":"lb",
-   "value":"20000"
+   "request_measurement":"",
+   "request_units":"lb"",
+   "measurement":"",
+   "units":"lb"",
+   "value":"nan"
    }
 
-This works with POST or GET methods
+    $ curl -s "13.52.135.81/convert_json?measurement=ten%20meterspersecond&units=feetperminute&caction=to_string"
+   {
+   "request_measurement":"ten meterspersecond",
+   "request_units":"feetperminute",
+   "measurement":"10 m/s",
+   "units":"ft/min",
+   "value":"1968.5"
+   }
+
+This works with POST or GET methods.  The `caction` field can be set to "to_string" this will "simplify" the units in the result or at least use the internal to_string operations to convert to an interpretable string in more accessible units.   
