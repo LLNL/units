@@ -609,32 +609,25 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             if (commentloc == std::string::npos || line[commentloc] == '#') {
                 continue;
             }
-			std::size_t esep{ 1 }; //extra separation location to handle quotes
-			if (line[commentloc] == '\"' || line[commentloc] == '\'')
-			{
-				bool notfound{ true };
-				while (notfound)
-				{
-					esep = line.find_first_of(line[commentloc], commentloc + esep);
-					if (esep == std::string::npos)
-					{
-						esep = 1;
-						break;
-					}
-					if (line[esep - 1] != '\\')
-					{
-						notfound = false;
-					}
-					else
-					{
-						//remove the escaped quote
-						line.erase(esep-1, 1);
-					}
-					esep -= commentloc;
-				}
-				
-			}
-            auto sep = line.find_first_of(",;=", commentloc+esep);
+            std::size_t esep{1}; //extra separation location to handle quotes
+            if (line[commentloc] == '\"' || line[commentloc] == '\'') {
+                bool notfound{true};
+                while (notfound) {
+                    esep = line.find_first_of(line[commentloc], commentloc + esep);
+                    if (esep == std::string::npos) {
+                        esep = 1;
+                        break;
+                    }
+                    if (line[esep - 1] != '\\') {
+                        notfound = false;
+                    } else {
+                        //remove the escaped quote
+                        line.erase(esep - 1, 1);
+                    }
+                    esep -= commentloc;
+                }
+            }
+            auto sep = line.find_first_of(",;=", commentloc + esep);
             if (sep == std::string::npos) {
                 output += line + " is not a valid user defined unit definition\n";
                 continue;
@@ -813,15 +806,14 @@ std::string clean_unit_string(std::string propUnitString, std::uint32_t commodit
 
 static std::string find_unit(unit un)
 {
-	if (allowUserDefinedUnits.load(std::memory_order_acquire))
-	{
-		if (!user_defined_unit_names.empty()) {
-			auto fndud = user_defined_unit_names.find(un);
-			if (fndud != user_defined_unit_names.end()) {
-				return fndud->second;
-			}
-		}
-	}
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        if (!user_defined_unit_names.empty()) {
+            auto fndud = user_defined_unit_names.find(un);
+            if (fndud != user_defined_unit_names.end()) {
+                return fndud->second;
+            }
+        }
+    }
     auto fnd = base_unit_names.find(un);
     if (fnd != base_unit_names.end()) {
         return fnd->second;
@@ -4004,16 +3996,15 @@ static bool hasAdditionalOps(const std::string& unit_string)
 
 static precise_unit get_unit(const std::string& unit_string)
 {
-	if (allowUserDefinedUnits.load(std::memory_order_acquire))
-	{
-		if (!user_defined_units.empty()) {
-			auto fnd2 = user_defined_units.find(unit_string);
-			if (fnd2 != user_defined_units.end()) {
-				return fnd2->second;
-			}
-		}
-	}
-   
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        if (!user_defined_units.empty()) {
+            auto fnd2 = user_defined_units.find(unit_string);
+            if (fnd2 != user_defined_units.end()) {
+                return fnd2->second;
+            }
+        }
+    }
+
     auto fnd = base_unit_vals.find(unit_string);
     if (fnd != base_unit_vals.end()) {
         return fnd->second;
