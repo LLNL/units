@@ -11,6 +11,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <atomic>
 #include <cctype>
 #include <cstring>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -576,10 +577,120 @@ static smap user_defined_units;
 
 void addUserDefinedUnit(std::string name, precise_unit un)
 {
-    if (allowUserDefinedUnits.load()) {
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_unit_names[unit_cast(un)] = name;
         user_defined_units[name] = un;
+        allowUserDefinedUnits.store(
+            allowUserDefinedUnits.load(std::memory_order_acquire), std::memory_order_release);
     }
+}
+
+void addUserDefinedInputUnit(std::string name, precise_unit un)
+{
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        user_defined_units[name] = un;
+        allowUserDefinedUnits.store(
+            allowUserDefinedUnits.load(std::memory_order_acquire), std::memory_order_release);
+    }
+}
+
+std::string definedUnitsFromFile(const std::string& filename) noexcept
+{
+    std::string output;
+    try {
+        std::ifstream infile(filename);
+        if (!infile.is_open()) {
+            output = "unable to read file " + filename + "\n";
+            return output;
+        }
+        std::string line;
+        while (std::getline(infile, line)) {
+            auto commentloc = line.find_first_not_of(" \t\n");
+            if (commentloc == std::string::npos || line[commentloc] == '#') {
+                continue;
+            }
+            std::size_t esep{1}; //extra separation location to handle quotes
+            if (line[commentloc] == '\"' || line[commentloc] == '\'') {
+                bool notfound{true};
+                while (notfound) {
+                    esep = line.find_first_of(line[commentloc], commentloc + esep);
+                    if (esep == std::string::npos) {
+                        esep = 1;
+                        break;
+                    }
+                    if (line[esep - 1] != '\\') {
+                        notfound = false;
+                    } else {
+                        //remove the escaped quote
+                        line.erase(esep - 1, 1);
+                    }
+                    esep -= commentloc;
+                }
+            }
+            auto sep = line.find_first_of(",;=", commentloc + esep);
+            if (sep == std::string::npos) {
+                output += line + " is not a valid user defined unit definition\n";
+                continue;
+            }
+            if (sep == line.size() - 1) {
+                output += line + " does not have any valid definitions\n";
+            }
+            int length{0};
+            if (line[sep + 1] == '=' || line[sep + 1] == '>') {
+                length = 1;
+            }
+
+            // get the new definition name
+            std::string userdef = line.substr(commentloc, sep - commentloc);
+            while (userdef.back() == ' ') {
+                userdef.pop_back();
+            }
+            //remove quotes
+            if ((userdef.front() == '\"' || userdef.front() == '\'') &&
+                userdef.back() == userdef.front()) {
+                userdef.pop_back();
+                userdef.erase(userdef.begin());
+            }
+            if (userdef.empty()) {
+                output += line + " does not specify a user string\n";
+                continue;
+            }
+            // the unit string
+            auto sloc = line.find_first_not_of(" \t", sep + length + 1);
+            if (sloc == std::string::npos) {
+                output += line + " does not specify a unit definition string\n";
+                continue;
+            }
+            auto meas_string = line.substr(sloc);
+            while (meas_string.back() == ' ') {
+                meas_string.pop_back();
+            }
+            if ((meas_string.front() == '\"' || meas_string.front() == '\'') &&
+                meas_string.back() == meas_string.front()) {
+                meas_string.pop_back();
+                meas_string.erase(meas_string.begin());
+            }
+            auto meas = measurement_from_string(meas_string);
+            if (!is_valid(meas)) {
+                output += line.substr(sloc) + " does not generate a valid unit\n";
+                continue;
+            }
+
+            if (line[sep + length] == '>') {
+                addUserDefinedInputUnit(userdef, meas.as_unit());
+            } else {
+                addUserDefinedUnit(userdef, meas.as_unit());
+            }
+        }
+    }
+    // LCOV_EXCL_START
+    catch (const std::exception& e) {
+        output += e.what();
+        output.push_back('\n');
+        //this is mainly just to catch any weird errors coming from somewhere so this function can be noexcept
+    }
+    // LCOV_EXCL_STOP
+    return output;
 }
 
 void clearUserDefinedUnits()
@@ -695,10 +806,12 @@ std::string clean_unit_string(std::string propUnitString, std::uint32_t commodit
 
 static std::string find_unit(unit un)
 {
-    if (!user_defined_unit_names.empty()) {
-        auto fndud = user_defined_unit_names.find(un);
-        if (fndud != user_defined_unit_names.end()) {
-            return fndud->second;
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        if (!user_defined_unit_names.empty()) {
+            auto fndud = user_defined_unit_names.find(un);
+            if (fndud != user_defined_unit_names.end()) {
+                return fndud->second;
+            }
         }
     }
     auto fnd = base_unit_names.find(un);
@@ -3883,12 +3996,15 @@ static bool hasAdditionalOps(const std::string& unit_string)
 
 static precise_unit get_unit(const std::string& unit_string)
 {
-    if (!user_defined_units.empty()) {
-        auto fnd2 = user_defined_units.find(unit_string);
-        if (fnd2 != user_defined_units.end()) {
-            return fnd2->second;
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        if (!user_defined_units.empty()) {
+            auto fnd2 = user_defined_units.find(unit_string);
+            if (fnd2 != user_defined_units.end()) {
+                return fnd2->second;
+            }
         }
     }
+
     auto fnd = base_unit_vals.find(unit_string);
     if (fnd != base_unit_vals.end()) {
         return fnd->second;
@@ -4762,7 +4878,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                     fnd = unit_string.find_first_of(")]}", fnd + 1);
                     break;
                 }
-                // FALLTHRU
+                /* FALLTHRU */
             default:
                 if (unit_string[fnd - 1] == '\\') { // ignore escape sequences
                     fnd = unit_string.find_first_of(")]}", fnd + 1);

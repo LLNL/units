@@ -1,0 +1,7 @@
+# comment
+yodles=73 counts
+
+# comment
+yeedles, 19 yodles
+
+ "yimdles"; "twelve yeedles"

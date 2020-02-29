@@ -16,4 +16,4 @@ The guide covers the basic types and what operations are available on them, as w
    from_string
    to_string
    commodities
-   defined_units
+   user_defined_units

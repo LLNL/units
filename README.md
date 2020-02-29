@@ -302,15 +302,16 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 -   `<measurement>=<double>*<unit>`  
 -   `<measurement>=<unit>*<double>`  
 -   `<measurement>=<unit>/<double>`  
--   `<measurement>=<double>/<unit>`  basically calling a number multiplied or divided by a <unit> produces a measurement,  `unit` produces a measurement and `precise_unit` produces a precise_measurement.  
+-   `<measurement>=<double>/<unit>`  basically calling a number multiplied or divided by a `<unit>` produces a measurement,  specifically `unit` produces a measurement and `precise_unit` produces a precise_measurement.  
 
 #### Measurement functions
 
 -   `measurement measurement_cast(<measurement>)`  convert a precise_measurement into measurement
--   `fixed_measurement measurement_cast(<fixed*_measurement>)`  convert a fixed_precise_measurement or fixed_measurement into a fixed_measurement
+-   `fixed_measurement measurement_cast(<fixed_measurement>)`  convert a fixed_precise_measurement or fixed_measurement into a fixed_measurement
 -   `<measurement> pow(<measurement>, int)`  generate a measurement which is a specific power of another measurement
 -   `<measurement> root(<measurement>, int)` generate a root of a measurement
 -   `<measurement>  sqrt(<measurement>)`  take the square root of a measurement of any kind,  the units need to have a valid root.  
+-   `bool is_valid(<measurement>)`  will result in true if the underlying unit is valid and the value is not a nan.  
 
 ### Available library functions
 
