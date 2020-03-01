@@ -55,7 +55,7 @@ static std::string loadFile(const std::string& fileName)
 static const std::string index_page = loadFile("index.html");
 static const std::string response_page = loadFile("convert.html");
 static const std::string response_json =
-    "{\n\"measurement\":\"$M1$\",\n\"units\":\"$U1$\",\n\"value\":\"$VALUE$\"\n}";
+    "{\n\"request_measurement\":\"$M1$\",\n\"request_units\":\"$U1$\",\n\"measurement\":\"$M2$\",\n\"units\":\"$U2$\",\n\"value\":\"$VALUE$\"\n}";
 
 //decode a uri to clean up a string, convert character codes in a uri to the original character
 static std::string uri_decode(beast::string_view str)
@@ -81,6 +81,25 @@ static std::string uri_decode(beast::string_view str)
         }
     }
     return ret;
+}
+
+static void
+    string_substitution_single(std::string& page, const std::string& search, const std::string& rep)
+{
+    auto v = page.find(search);
+    while (v != std::string::npos) {
+        page.replace(v, search.size(), rep);
+        v = page.find(search);
+    }
+}
+
+static void string_substitution(
+    std::string& page,
+    const std::vector<std::pair<std::string, std::string>>& subs)
+{
+    for (const auto& sub_pair : subs) {
+        string_substitution_single(page, sub_pair.first, sub_pair.second);
+    }
 }
 
 // function to extract the request parameters and clean up the target
@@ -189,29 +208,16 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
     };
 
     // generate a conversion response
-    auto const conversion_response =
-        [&req](const std::string& value, const std::string& M1, const std::string& U1) {
+    auto const html_response =
+        [&req](
+            const std::string& html_page,
+            const std::vector<std::pair<std::string, std::string>>& substitutions) {
             http::response<http::string_body> res{http::status::ok, req.version()};
             res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
             res.set(http::field::content_type, "text/html");
             res.keep_alive(req.keep_alive());
-            auto resp = response_page;
-            auto v = resp.find("$M1$");
-            while (v != std::string::npos) {
-                resp.replace(v, 4, M1);
-                v = resp.find("$M1$");
-            }
-
-            v = resp.find("$U1$", v + 4);
-            while (v != std::string::npos) {
-                resp.replace(v, 4, U1);
-                v = resp.find("$U1$");
-            }
-            v = resp.find("$VALUE$", v + 4);
-            while (v != std::string::npos) {
-                resp.replace(v, 7, value);
-                v = resp.find("$VALUE$");
-            }
+            auto resp = html_page;
+            string_substitution(resp, substitutions);
 
             if (req.method() != http::verb::head) {
                 res.body() = resp;
@@ -222,7 +228,7 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
             return res;
         };
     // generate a conversion response
-    auto const conversion_response_trivial = [&req](const std::string& value) {
+    auto const trivial_response = [&req](const std::string& value) {
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/plain");
@@ -237,19 +243,16 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
     };
 
     // generate a conversion response
-    auto const conversion_response_json =
-        [&req](const std::string& value, const std::string& M1, const std::string& U1) {
+    auto const json_response =
+        [&req](
+            const std::string& json_string,
+            const std::vector<std::pair<std::string, std::string>>& substitutions) {
             http::response<http::string_body> res{http::status::ok, req.version()};
             res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
             res.set(http::field::content_type, "application/json");
             res.keep_alive(req.keep_alive());
-            auto resp = response_json;
-            auto v = resp.find("$M1$");
-            resp.replace(v, 4, M1);
-            v = resp.find("$U1$", v + 4);
-            resp.replace(v, 4, U1);
-            v = resp.find("$VALUE$", v + 4);
-            resp.replace(v, 7, value);
+            auto resp = json_string;
+            string_substitution(resp, substitutions);
 
             if (req.method() != http::verb::head) {
                 res.body() = resp;
@@ -295,23 +298,38 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
                 bad_request("conversion units string size exceeds limits of 256 characters"));
         }
     }
-    if (reqpr.first == "convert") {
-        auto meas = units::measurement_from_string(measurement);
-        auto u2 = units::unit_from_string(toUnits);
-        double V = meas.value_as(u2);
-        return send(conversion_response(as_string(V), measurement, toUnits));
-    } else if (reqpr.first == "convert_trivial") {
-        auto meas = units::measurement_from_string(measurement);
-        auto u2 = units::unit_from_string(toUnits);
-        double V = meas.value_as(u2);
-        return send(conversion_response_trivial(as_string(V)));
-    } else if (reqpr.first == "convert_json") {
-        auto meas = units::measurement_from_string(measurement);
-        auto u2 = units::unit_from_string(toUnits);
-        double V = meas.value_as(u2);
-        return send(conversion_response_json(as_string(V), measurement, toUnits));
+    bool tstring{false};
+    if (fields.find("caction") != fields.end()) {
+        if (fields["caction"] == "to_string") {
+            tstring = true;
+        } else if (fields["caction"] == "reset") {
+            return send(main_page());
+        }
     }
-    return send(bad_request("#unknown"));
+    auto meas = units::measurement_from_string(measurement);
+    units::precise_unit u2;
+    if (toUnits == "*" || toUnits == "<base>") {
+        u2 = meas.convert_to_base().units();
+        toUnits = units::to_string(u2);
+    } else {
+        u2 = units::unit_from_string(toUnits);
+    }
+
+    auto Vstr = as_string(meas.value_as(u2));
+    std::vector<std::pair<std::string, std::string>> substitutions{
+        {"$M1$", measurement},
+        {"$U1$", toUnits},
+        {"$VALUE$", Vstr},
+        {"$M2$", (tstring) ? units::to_string(meas) : measurement},
+        {"$U2$", (tstring) ? units::to_string(u2) : toUnits}};
+
+    if (reqpr.first == "convert") {
+        return send(html_response(response_page, substitutions));
+    } else if (reqpr.first == "convert_json") {
+        return send(json_response(response_json, substitutions));
+    } else {
+        return send(trivial_response(Vstr));
+    }
 }
 
 //------------------------------------------------------------------------------

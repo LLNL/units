@@ -21,8 +21,8 @@ int main(int argc, char* argv[])
         "--simplified,-s",
         simplified,
         "simplify the units using the units library to_string functions and print the conversion string like full will take precedence over full string");
-    
-	std::string measurement;
+
+    std::string measurement;
     app.add_option(
            "--measurement,measure",
            measurement,
@@ -32,21 +32,30 @@ int main(int argc, char* argv[])
         ->required()
         ->join(' ');
     std::string newUnits;
-    app.add_option("--convert,convert", newUnits, "the units to convert the measurement to")
+    app.add_option(
+           "--convert,convert",
+           newUnits,
+           "the units to convert the measurement to, '*' to convert to base units")
         ->required();
     app.positionals_at_end();
 
     CLI11_PARSE(app, argc, argv);
 
     auto meas = units::measurement_from_string(measurement);
-    auto unit = units::unit_from_string(newUnits);
+    units::precise_unit u2;
+    if (newUnits == "*" || newUnits == "<base>") {
+        u2 = meas.convert_to_base().units();
+        newUnits = units::to_string(u2);
+    } else {
+        u2 = units::unit_from_string(newUnits);
+    }
     if (simplified) {
         std::printf(
-            "%s = %g %s\n", to_string(meas).c_str(), meas.value_as(unit), to_string(unit).c_str());
+            "%s = %g %s\n", to_string(meas).c_str(), meas.value_as(u2), to_string(u2).c_str());
     } else if (full_string) {
-        std::printf("%s = %g %s\n", measurement.c_str(), meas.value_as(unit), newUnits.c_str());
+        std::printf("%s = %g %s\n", measurement.c_str(), meas.value_as(u2), newUnits.c_str());
     } else {
-        std::printf("%g\n", meas.value_as(unit));
+        std::printf("%g\n", meas.value_as(u2));
     }
 
     return 0;

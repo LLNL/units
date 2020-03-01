@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 	<head>
 		<meta charset="utf-8" />
 		<title>Units Library String Conversions</title>
@@ -10,16 +10,27 @@
 			<a href="https://units.readthedocs.io/en/latest/index.html">Documentation</a></h2>
 
 		<form action="/convert" method="post">
-			<ul>
-					Measurement string:<br/>
-					<input type="text" id="m_string" name="measurement" value="$M1$" /><br/>
-          E.g.  "25 m", "ten tons", "3.252Tesla", "237uL" <br/>
-					<br/>convert to (units):<br/>
-					<input type="text" id="convert_units" name="units"  value="$U1$"/><br/>
-          E.g. "inches", "lb", "Gauss", "tsp" <br/><br/>
-					<input type="submit" value="convert" formmethod="post"/>
-			</ul>
+            <ul>
+                Measurement string:
+                <br />
+                <input type="text" id="m_string" name="measurement" value="$M1$" />
+                <br />
+                E.g.  "25 m", "ten tons", "3.252Tesla", "237uL"
+                <br />
+                <br />convert to (units):
+                <br />
+                <input type="text" id="convert_units" name="units" value="$U1$" />
+                <br />
+                E.g. "inches", "lb", "Gauss", "tsp"
+                <br />
+                "use '*' to convert to base units
+                <br />
+                <br />
+                <input type="submit" name="caction" value="convert" formmethod="post" />
+                <input type="submit" name="caction" value="to_string" formmethod="post" />
+                <input type="submit" name="caction" value="reset" formmethod="post" />
+            </ul>
 		</form>
-		$M1$ = <font size="5" color="blue"><strong>$VALUE$</strong></font> $U1$
+		$M2$ = <font size="5" color="blue"><strong>$VALUE$</strong></font> $U2$
 	</body>
 </html>
