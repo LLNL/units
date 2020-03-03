@@ -18,26 +18,17 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
 ## Table of contents
 
 -   [Purpose](#purpose)
-
 -   [Limitations](#limitations)
-
 -   [Alternatives](#alternatives)
-
 -   [C++ Types](#types)
-
 -   [Unit Representation](#unit-representation)
-
 -   [Building The Library](#building-the-library)
-
 -   [Try it out](#try-it-out)
-
 -   [Usage](#usage)
     -   [Units](#unit-methods)
     -   [Measurements](#measurement-operations)
     -   [String Conversions](#available-library-functions)
-
 -   [Contributions](#contributions)
-
 -   [Release](#release)
 
 
@@ -77,7 +68,7 @@ if (!meas.units().is_convertible(out)
 -   Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So if you are doing a lot of financial calculations or accounting use something more specific for currency manipulations.  
 -   Fractional unit powers are not supported in general.  While some mathematical operations on units are supported any root operations `sqrt` or `cbrt` will only produce valid results if the result is integral powers of the base units.  One exception is limited support for √Hz operations in measurements of Amplitude spectral density.  A specific definition of a unit representing square root of Hz is available and will work in combination with other units.  
 -   While conversions of various temperature definitions are supported, there is no generalized support for datums and bias shifts.  It may be possible to add some specific cases in the future for common uses cases but the space requirement limits such use.  Some of the other libraries have general support for this.
--   A few equation like units are supported  these include logarithms, nepers, and some things like Saffir-Simpson, Beaufort, and Fujita scales for wind, and Richter scales for earthquakes.  There is capacity within the framework to add a few more equation like units if a need arises.
+-   A few [equation](https://units.readthedocs.io/en/latest/user-guide/equation_units.html) like units are supported  these include logarithms, nepers, and some things like Saffir-Simpson, Beaufort, and Fujita scales for wind, and Richter scales for earthquakes.  There is capacity within the framework to add a few more equation like units if a need arises.
 -   The unit `rad` in the nature of  radiation absorbed dose is not recognized as it would conflicts with `rad` in terms of radians. So `rad` means radians since that is the more common use in electrical engineering.  There is support for custom unit strings so "rad" can be overridden if required using custom units for string conversion operations.  
 
 ## Alternatives
@@ -102,6 +93,23 @@ Includes all SI and pseudo SI units and thousands of US, Imperial and other unit
 -   [bernedom/SI](https://github.com/bernedom/SI) - A header only C++ library that provides type safety and user defined literals for handling physical values defined in the International System of Units)
 
 These libraries will work well if the number of units being dealt with is known at compile time.  Many also produce zero overhead operations and checking.  Therefore in situations where this is possible other libraries are a preferred alternative.  
+
+### Reasons to choose the units library vs. another option
+1.  Conversions to and from regular strings are required
+2.  The number of units in use is large
+3.  a specific unit or measurement type is required to handle many different kinds of units
+4.  Working with per unit values
+5.  dealing with commodities in addition to regular units.  i.e. differentiate between a gallon of water and a gallon of gasoline
+6.  dealing with equation type units
+7.  C++ Type safety is not a critical design feature
+8.  Support is needed for some funky custom unit with bizarre base units.  
+
+### Reasons to choose something else
+1.  You need type safety
+2.  Performance is absolutely critical (many other libraries are zero runtime overhead)
+3.  You are only working with a small number of known units
+4.  You cannot use C++11 yet.  
+5.  You need to operate on arbitrary powers of base units 
 
 ## Types
 There are only a few types in the library
