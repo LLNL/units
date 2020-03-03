@@ -9,6 +9,9 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "units/units.hpp"
 
+/** @file Test just to load up some unit definitions and do some operations with them
+it tests linking and some usefulness in code coverage */
+
 int main(int argc, char* argv[])
 {
     units::fixed_precise_measurement fpm1(1250.0, units::precise::cm.pow(3));

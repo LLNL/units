@@ -10,7 +10,7 @@ The units library contains a few functions to generate various types from string
 -  `measurement measurement_cast_from_string(const std::string& ustring, std::uint32_t flags=0)`: will generate a measurement from the data in the string
 -  `uncertain_measurement uncertain_measurement_from_string(const std::string& ustring, std::uint32_t flags=0)`: will generate an uncertain_measurement from the data in the string
 
-The general form is to take a string and optionally a flag object.  See :ref:`Conversion Flags` for a detailed description of the flags.  Generally it is fine to leave off the argument.
+The general form is to take a string and optionally a flag object.  See :ref:`Conversion Flags` for a detailed description of the flags.  Generally it is fine to leave off the flag argument.
 
 Unit Strings
 -------------
@@ -42,4 +42,4 @@ Measurement strings
 
 The conversion from a string to measurement looks for a leading number before the unit.  The "99 feet" in the previous example would then get a measurement value of 99 and the unit would be feet.  The measurement from string function also can interpret written numbers such as "three thousand four hundred and twenty-seven miles"  This should get correctly read as 3427 miles.
 
-The conversion function also handles a few cases where the unit symbol is written before the value such as currency `$27.92`  would be a value of 27.92 with the currency unit.  
+The conversion function also handles a few cases where the unit symbol is written before the value such as currency `$27.92`  would be a value of 27.92 with the currency unit.

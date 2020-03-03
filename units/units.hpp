@@ -1481,7 +1481,7 @@ inline measurement
 the string should contain some symbol of the form +/- in one of the various forms what comes after will determine the uncertainty
 for example "3.0+/-0.4 m" or "2.5 m +/- 2 cm"
 @param measurement_string the string to convert
-@param match_flags see / ref unit_conversion_flags to control the matching process somewhat
+@param match_flags see /ref unit_conversion_flags to control the matching process somewhat
   @return a precise unit corresponding to the string if no match was found the unit will be an error unit
 	*/
 uncertain_measurement uncertain_measurement_from_string(
