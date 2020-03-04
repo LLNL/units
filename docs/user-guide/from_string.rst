@@ -35,7 +35,7 @@ For example
 -  "100 centimeters / 1000 ms"
 
 Will all produce the unit of meters per second.   As a note there are quite a few more units that can be converted from strings than are listed in the defined units.
-Numbers are supports and become part of the unit.  "99 feet" would create a new unit with a definition of 99 ft.  The multiplier stored would include the conversion from meters to feet*99.  This allows for arbitrary unit definitions.
+Numbers are supported and become part of the unit.  "99 feet" would create a new unit with a definition of 99 ft.  The multiplier stored would include the conversion from meters to feet*99.  This allows for arbitrary unit definitions.
 
 Measurement strings
 --------------------

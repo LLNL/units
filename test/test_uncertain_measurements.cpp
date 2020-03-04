@@ -399,7 +399,7 @@ TEST(uncertainOps, testHeight)
 }
 
 #ifndef UNITS_HEADER_ONLY
-TEST(uncertainStrings, test1)
+TEST(uncertainStrings, from_string)
 {
     auto um1 = uncertain_measurement_from_string("12+/-3 m");
     EXPECT_EQ(um1.value(), 12.0);
@@ -431,6 +431,13 @@ TEST(uncertainStrings, test1)
     EXPECT_NO_THROW(um6 = uncertain_measurement_from_string(""));
     EXPECT_EQ(um6.uncertainty(), 0.0);
     EXPECT_EQ(um6.value(), 0.0);
+}
+
+TEST(uncertainStrings, to_string)
+{
+	uncertain_measurement um1(10.0, 0.4, m);
+	auto str = to_string(um1);
+	//EXPECT_EQ(str, "10+/-0.4 m");
 }
 #endif
 
