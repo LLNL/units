@@ -378,6 +378,7 @@ class fixed_measurement {
         value_ = val;
         return *this;
     }
+
     /// direct conversion operator
     operator measurement() { return measurement(value_, units_); }
 
