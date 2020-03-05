@@ -67,16 +67,15 @@ TEST(MeasurementToString, simple)
     EXPECT_EQ(to_string(meas), "45 m");
 }
 
-
 TEST(MeasurementToString, test)
 {
-	measurement density = 10.0*kg / m.pow(3);
-	measurement meas2=2.7*puMW;
+    measurement density = 10.0 * kg / m.pow(3);
+    measurement meas2 = 2.7 * puMW;
 
-	auto str1 = to_string(density);
-	auto str2 = to_string(meas2);
+    auto str1 = to_string(density);
+    auto str2 = to_string(meas2);
 
-	// from google tests 
-	EXPECT_EQ(str1, "10 g/L");
-	EXPECT_EQ(str2, "2.7 puMW");
+    // from google tests
+    EXPECT_EQ(str1, "10 g/L");
+    EXPECT_EQ(str2, "2.7 puMW");
 }

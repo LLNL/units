@@ -1378,6 +1378,7 @@ constexpr unit sievert = unit_cast(precise::sievert);
 constexpr unit katal = unit_cast(precise::katal);
 
 constexpr unit N = newton;
+//this is something in some Windows libraries that needs to be worked around
 #ifndef pascal
 constexpr unit pascal = Pa;
 #endif

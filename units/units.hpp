@@ -1482,16 +1482,20 @@ the string should contain some symbol of the form +/- in one of the various form
 for example "3.0+/-0.4 m" or "2.5 m +/- 2 cm"
 @param measurement_string the string to convert
 @param match_flags see /ref unit_conversion_flags to control the matching process somewhat
-  @return a precise unit corresponding to the string if no match was found the unit will be an error unit
-	*/
+@return a precise unit corresponding to the string if no match was found the unit will be an error unit
+*/
 uncertain_measurement uncertain_measurement_from_string(
     std::string measurement_string,
     std::uint32_t match_flags = 0);
 
-/// Convert a precise measurement to a string (with some extra decimal digits displayed
+/// Convert a precise measurement to a string (with some extra decimal digits displayed)
 std::string to_string(precise_measurement measure, std::uint32_t match_flags = 0);
+
 /// Convert a measurement to a string
 std::string to_string(measurement measure, std::uint32_t match_flags = 0);
+
+/// Convert an uncertain measurement to a string
+std::string to_string(uncertain_measurement measure, std::uint32_t match_flags = 0);
 
 /// Add a custom unit to be included in any string processing
 void addUserDefinedUnit(std::string name, precise_unit un);

@@ -109,8 +109,7 @@ namespace detail {
         }
         /// take a unit_data to some power
         constexpr unit_data pow(int power) const
-        { // the +e_flag_ on seconds is to handle a few weird operations that generate a square_root hz operation,
-            // the e_flag allows some recovery of that unit and handling of that peculiar situation
+        { // the modifier is to handle a few weird operations that operate on square_root Hz,
             return {meter_ * power,
                     kilogram_ * power,
                     (second_ * power) + rootHertzModifier(power),

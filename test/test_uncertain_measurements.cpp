@@ -435,9 +435,9 @@ TEST(uncertainStrings, from_string)
 
 TEST(uncertainStrings, to_string)
 {
-	uncertain_measurement um1(10.0, 0.4, m);
-	auto str = to_string(um1);
-	//EXPECT_EQ(str, "10+/-0.4 m");
+    uncertain_measurement um1(10.0, 0.4, m);
+    auto str = to_string(um1);
+    EXPECT_EQ(str, "10+/-0.4 m");
 }
 #endif
 

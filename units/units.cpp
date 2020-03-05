@@ -1122,11 +1122,23 @@ std::string to_string(precise_measurement measure, std::uint32_t match_flags)
 std::string to_string(measurement measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
-    ss.precision(12);
+    ss.precision(6);
     ss << measure.value();
     ss << ' ';
     ss << to_string(measure.units(), match_flags);
     return ss.str();
+}
+
+std::string to_string(uncertain_measurement measure, std::uint32_t match_flags)
+{
+	//TODO, this should really follow more appropriate rules for digits of precision
+	std::stringstream ss;
+	ss.precision(6);
+	ss << measure.value_f();
+	ss << "+/-";
+	ss << measure.uncertainty_f() << ' ';
+	ss << to_string(measure.units(), match_flags);
+	return ss.str();
 }
 
 /// Generate the prefix multiplier for SI units
