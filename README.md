@@ -158,6 +158,8 @@ There are 2 sets of defined units
 they are in the namespace `units`  these are the lower precision types
 the high precision units are in the namespace `units::precise`.
 Also defined are a number of physical constants in `units::constants`
+
+### Physics constants
 ```cpp
 /// Standard gravity
 constexpr precise_measurement g0(9.80665, precise::m / precise::s / precise::s);
