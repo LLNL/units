@@ -16,7 +16,9 @@ int main(int argc, char* argv[])
     bool full_string{false};
     bool simplified{false};
     app.add_flag(
-        "--full,-f", full_string, "specify that the output should include the measurement and units");
+        "--full,-f",
+        full_string,
+        "specify that the output should include the measurement and units");
     app.add_flag(
         "--simplified,-s",
         simplified,

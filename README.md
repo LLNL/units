@@ -97,15 +97,16 @@ These libraries will work well if the number of units being dealt with is known 
 ### Reasons to choose the units library vs. another option
 1.  Conversions to and from regular strings are required
 2.  The number of units in use is large
-3.  a specific unit or measurement type is required to handle many different kinds of units
-4.  Working with per unit values
-5.  dealing with commodities in addition to regular units.  i.e. differentiate between a gallon of water and a gallon of gasoline
-6.  dealing with equation type units
-7.  C++ Type safety is not a critical design feature
-8.  Support is needed for some funky custom unit with bizarre base units.  
+3.  A specific single unit or measurement type is required to handle many different kinds of units or measurements
+4.  Uncertainties are needed to be included with the measurements
+5.  Working with per unit values
+6.  Dealing with commodities in addition to regular units.  i.e. differentiate between a gallon of water and a gallon of gasoline
+7.  Dealing with equation type units
+8.  Complete C++ type safety is not a critical design requirement
+9.  Support is needed for some funky custom unit with bizarre base units.  
 
 ### Reasons to choose something else
-1.  You need type safety
+1.  Type safety and dimensional analysis is a design requirement
 2.  Performance is absolutely critical (many other libraries are zero runtime overhead)
 3.  You are only working with a small number of known units
 4.  You cannot use C++11 yet.  
@@ -113,29 +114,31 @@ These libraries will work well if the number of units being dealt with is known 
 
 ## Types
 There are only a few types in the library
--   `detail::unit_base` is the base representation of physical units and powers.  It uses a bitfield to store the base unit representation in a 4 byte representation.  It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
+-   `detail::unit_base` is the base representation of physical units and powers.  It uses a bitfield to store the base unit representation in a 4-byte representation.  It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
 -   `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type.  The float has an accuracy of around 6 decimal digits.  Units within that tolerance will compare equal.  
 -   `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The double has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal. The remaining 4 bytes are used to contain a commodity object code.  
 -   `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement.
 -   `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.  
 -   `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`.  The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types.
 -   `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template, except it is 24 bytes instead of 16.   
--   `uncertain_measurement` is similar to `measurement` except it uses a float for the value and contains and uncertainty field.  Mathematical operations on `uncertain_measurements` will propagate the uncertainty and convert it as necessary.  The class also includes functions for simple-uncertainty propragation like `simple_subtract` which uses the just sums the uncertainties.  The sum of squares methods is used in the overloaded math operators.  Mathematical operations are supported on the type and it interoperates with measurements.
+-   `uncertain_measurement` is similar to `measurement` except it uses a 32-bit float for the value and contains an uncertainty field which is also 32-bits.  Mathematical operations on `uncertain_measurements` will propagate the uncertainty and convert it as necessary.  The class also includes functions for simple-uncertainty propagation like `simple_subtract` which just sums the uncertainties.  The sum-of-squares methods is used in the overloaded math operators.  Mathematical operations are supported on the type and it interoperates with measurements.
 
 ## Unit representation
-The unit class consists of a multiplier and a representation of base units.
-The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-units) + radians + currency units + count units.  In addition a unit has 4 flags,  per-unit for per unit or ratio units. One flag\[i_flag\] that is a representation of imaginary units, one flags for a variety of purposes and to differentiate otherwise similar units\[e_flag\]. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4 byte type the represented powers of the units are limited.  The list below shows the bit representation range and observed range of use in equations and observed usage
+The `unit` class consists of a multiplier and a representation of base units.
+The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-units) + radians + currency units + count units.  In addition a `unit` has 4 flags,  per-unit for per unit or ratio units. One flag\[i_flag\] that is a representation of imaginary units, one flags for a variety of purposes and to differentiate otherwise similar units\[e_flag\]. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4 byte type the represented powers of the units are limited.  The table below shows the bit representation range and observed range of use in equations and observed usage
 
--   meter:\[-8,+7\]  :normal range \[-4,+4\], intermediate ops \[-6,+6\]
--   kilogram:\[-4,+3\] :normal range \[-1,+1\], intermediate ops \[-2,+2\]
--   second:\[-8,+7\] :normal range \[-4,+4\], intermediate ops \[-6,+6\]
--   ampere:\[-4,+3\] :normal range \[-2,+2\]
--   kelvin:\[-4,+3\] :normal range \[-4,+1\]
--   mole:\[-2,+1\] :normal range \[-1,+1\]
--   candela:\[-2,+1\] :normal range \[-1,+1\]
--   currency:\[-2,+1\] :normal range \[-1,+1\]
--   count:\[-2,+1\] :normal range \[-1,+1\]
--   radians:\[-4,+3\] :normal range \[-2,+2\]
+    | Base Unit | Bits | Representable range | Normal Range | Intermediate Operations |
+    | --------- | ------------------- | ------------ | ----------------------- |
+    | meter | 4 | \[-8,+7\] | \[-4,+4\] | \[-6,+6\] |
+    | kilogram | 3 | \[-4,+3\] | \[-1,+1\] | \[-2,+2\] |
+    | second | 4 | \[-8,+7\] | \[-4,+4\] | \[-6,+6\] |
+    | ampere | 3 | \[-4,+3\] | \[-2,+2\] |  |
+    | kelvin | 3 | \[-4,+3\] | \[-4,+1\] |  |
+    | mole | 2 | \[-2,+1\] | \[-1,+1\] |  |
+    | candela | 2 | \[-2,+1\] | \[-1,+1\] |  |
+    | currency | 2 | \[-2,+1\] | \[-1,+1\] |  |
+    | count | 2 | \[-2,+1\] | \[-1,+1\] |  |
+    | radians | 3 | \[-4,+3\] | \[-2,+2\] |  |
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.  
 
