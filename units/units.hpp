@@ -1345,6 +1345,30 @@ constexpr inline bool is_valid(uncertain_measurement meas)
         meas.uncertainty_f() == meas.uncertainty_f();
 }
 
+/// Check if the measurement is a normal measurement
+inline bool isnormal(measurement meas)
+{
+    const auto fclass = std::fpclassify(meas.value());
+    return isnormal(meas.units()) && (fclass == FP_NORMAL || fclass == FP_ZERO);
+}
+/// Check if the precise_measurement a normal measurement
+inline bool isnormal(precise_measurement meas)
+{
+    const auto fclass = std::fpclassify(meas.value());
+    return isnormal(meas.units()) && (fclass == FP_NORMAL || fclass == FP_ZERO);
+}
+
+//fixed measurement and fixed precise measurement should convert to measurement precise_measurement respectively
+
+/// Check if the uncertain_measurement is a normal measurement
+inline bool isnormal(uncertain_measurement meas)
+{
+    const auto fclass = std::fpclassify(meas.value_f());
+    const auto fclass2 = std::fpclassify(meas.uncertainty_f());
+    return isnormal(meas.units()) && (fclass == FP_NORMAL || fclass == FP_ZERO) &&
+        (fclass2 == FP_NORMAL || fclass2 == FP_ZERO);
+}
+
 /// perform a down-conversion from a precise measurement to a measurement
 constexpr measurement measurement_cast(const precise_measurement& measure)
 {
