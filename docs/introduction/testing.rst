@@ -14,19 +14,19 @@ The units library has a series of units tests that are executed as part of the C
 2.  fuzz_issue_tests  tests a set of past fuzzing failures, including, errors, glitches, timeouts, round trip failures, and some round trip failures with particular flags.
 3.  test_all_unit_base **DON'T RUN THIS TEST** it will take a very long time it does an exhaustive test of all possible unit bases to make sure the string conversion round trip works. I haven't actually executed it all yet.
 4.  test_commodities  Run test using the commodity related functions and operations on precise_unit's
-5.  test_conversions1
-6.  test_conversions2
-7.  test_equation_units
-8.  test_leadingNumbers
-9.  test_measurement
-10.  test_measurement_strings
-11.  test_pu
-12.  test_random_round_trip
-13.  test_ucum
-14.  test_udunits
-15.  test_uncertain_measurements
-16.  test_unit_ops
-17.  test_unit_strings
+5.  test_conversions1 a series of tests about specific conversions, such as temperature, SI prefixes, extended SI units, and some other general operations about conversions
+6.  test_conversions2 run through a series of test units and conversion from one of the converter websites,  there are number of files that get used that contain known conversions
+7.  test_equation_units direct testing of the established equation units
+8.  test_leadingNumbers run a bunch of checks on the leading number processing for units and measurements,  convert a leading string into a numerical value
+9.  test_measurement a series of tests on measurement objects including operations and comparisons, and construction
+10.  test_measurement_strings a few tests on the basic to and from string operations for measurements
+11.  test_pu tests of pu units and conversions
+12.  test_random_round_trip randomly pick a few 32 bit number, assume they are a unit and do a string conversion and interpretation on them and make sure they produce the same thing
+13.  test_ucum a series of tests coming from `UCUM <https://github.com/lhncbc/ucum-lhc>`_  the units library tries to handle all official strings and a majority of the full names, and aliases
+14.  test_udunits a series of tests and test files coming from  `UDUNITS-2 <https://github.com/Unidata/UDUNITS-2>`_  Not all the units convert, some never will since they are ambiguous but we will probably allow a few more over time
+15.  test_uncertain_measurements test uncertain measurement operations using examples taken from web sources
+16.  test_unit_ops test operations on units, including mathematical expressions and comparison operators
+17.  test_unit_strings Unit strings test conversion to and from strings
 
 
 CI systems

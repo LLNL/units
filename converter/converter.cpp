@@ -16,11 +16,11 @@ int main(int argc, char* argv[])
     bool full_string{false};
     bool simplified{false};
     app.add_flag(
-        "--full,-f", full_string, "specify that the out should include the measurement and units");
+        "--full,-f", full_string, "specify that the output should include the measurement and units");
     app.add_flag(
         "--simplified,-s",
         simplified,
-        "simplify the units using the units library to_string functions and print the conversion string like full will take precedence over full string");
+        "simplify the units using the units library to_string functions and print the conversion string like full. This option will take precedence over --full");
 
     std::string measurement;
     app.add_option(
