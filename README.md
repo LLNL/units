@@ -127,18 +127,18 @@ There are only a few types in the library
 The `unit` class consists of a multiplier and a representation of base units.
 The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-units) + radians + currency units + count units.  In addition a `unit` has 4 flags,  per-unit for per unit or ratio units. One flag\[i_flag\] that is a representation of imaginary units, one flags for a variety of purposes and to differentiate otherwise similar units\[e_flag\]. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4 byte type the represented powers of the units are limited.  The table below shows the bit representation range and observed range of use in equations and observed usage
 
-    | Base Unit | Bits | Representable range | Normal Range | Intermediate Operations |
-    | --------- | ------------------- | ------------ | ----------------------- |
-    | meter | 4 | \[-8,+7\] | \[-4,+4\] | \[-6,+6\] |
-    | kilogram | 3 | \[-4,+3\] | \[-1,+1\] | \[-2,+2\] |
-    | second | 4 | \[-8,+7\] | \[-4,+4\] | \[-6,+6\] |
-    | ampere | 3 | \[-4,+3\] | \[-2,+2\] |  |
-    | kelvin | 3 | \[-4,+3\] | \[-4,+1\] |  |
-    | mole | 2 | \[-2,+1\] | \[-1,+1\] |  |
-    | candela | 2 | \[-2,+1\] | \[-1,+1\] |  |
-    | currency | 2 | \[-2,+1\] | \[-1,+1\] |  |
-    | count | 2 | \[-2,+1\] | \[-1,+1\] |  |
-    | radians | 3 | \[-4,+3\] | \[-2,+2\] |  |
+| Base Unit | Bits | Representable range | Normal Range | Intermediate Operations |
+| --------- | ------------------- | ------------ | ----------------------- |
+| meter | 4 | \[-8,+7\] | \[-4,+4\] | \[-6,+6\] |
+| kilogram | 3 | \[-4,+3\] | \[-1,+1\] | \[-2,+2\] |
+| second | 4 | \[-8,+7\] | \[-4,+4\] | \[-6,+6\] |
+| ampere | 3 | \[-4,+3\] | \[-2,+2\] |  |
+| kelvin | 3 | \[-4,+3\] | \[-4,+1\] |  |
+| mole | 2 | \[-2,+1\] | \[-1,+1\] |  |
+| candela | 2 | \[-2,+1\] | \[-1,+1\] |  |
+| currency | 2 | \[-2,+1\] | \[-1,+1\] |  |
+| count | 2 | \[-2,+1\] | \[-1,+1\] |  |
+| radians | 3 | \[-4,+3\] | \[-2,+2\] |  |
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.  
 
