@@ -129,16 +129,16 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 
 | Base Unit | Bits | Representable range | Normal Range | Intermediate Operations |
 | --------- | ---- | ------------------- | ------------ | ----------------------- |
-| meter | 4 | \[-8,+7\] | \[-4,+4\] | \[-6,+6\] |
-| kilogram | 3 | \[-4,+3\] | \[-1,+1\] | \[-2,+2\] |
-| second | 4 | \[-8,+7\] | \[-4,+4\] | \[-6,+6\] |
-| ampere | 3 | \[-4,+3\] | \[-2,+2\] |  |
-| kelvin | 3 | \[-4,+3\] | \[-4,+1\] |  |
-| mole | 2 | \[-2,+1\] | \[-1,+1\] |  |
-| candela | 2 | \[-2,+1\] | \[-1,+1\] |  |
-| currency | 2 | \[-2,+1\] | \[-1,+1\] |  |
-| count | 2 | \[-2,+1\] | \[-1,+1\] |  |
-| radians | 3 | \[-4,+3\] | \[-2,+2\] |  |
+| meter     | 4    | \[-8,+7\]           | \[-4,+4\]    | \[-6,+6\]               |
+| kilogram  | 3    | \[-4,+3\]           | \[-1,+1\]    | \[-2,+2\]               |
+| second    | 4    | \[-8,+7\]           | \[-4,+4\]    | \[-6,+6\]               |
+| ampere    | 3    | \[-4,+3\]           | \[-2,+2\]    |                         |
+| kelvin    | 3    | \[-4,+3\]           | \[-4,+1\]    |                         |
+| mole      | 2    | \[-2,+1\]           | \[-1,+1\]    |                         |
+| candela   | 2    | \[-2,+1\]           | \[-1,+1\]    |                         |
+| currency  | 2    | \[-2,+1\]           | \[-1,+1\]    |                         |
+| count     | 2    | \[-2,+1\]           | \[-1,+1\]    |                         |
+| radians   | 3    | \[-4,+3\]           | \[-2,+2\]    |                         |
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.  
 
