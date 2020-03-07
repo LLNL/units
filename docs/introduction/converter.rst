@@ -40,8 +40,8 @@ basically there are two options `--full,-f` and `--simplified,-s`  a measurement
 
    Options:
      -h,--help                   Print this help message and exit
-     -f,--full                   specify that the out should include the measurement and units
-     -s,--simplified             simplify the units using the units library to_string functions and print the conversion string like full will take precedence over full string
+     -f,--full                   specify that the output should include the measurement and units
+     -s,--simplified             simplify the units using the units library to_string functions and print the conversion string like full. This option will take precedence over --full
      --measurement [TEXT ...] ... REQUIRED
                               measurement to convert .e.g '57.4 m', 'two thousand GB' '45.7*22.2 feet^3/s^2'
      --convert TEXT REQUIRED     the units to convert the measurement to

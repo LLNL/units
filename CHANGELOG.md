@@ -23,6 +23,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   Added addUserDefinedInputUnit to add user defined units only on the input  [#36][]
 -   The webserver gained a `to_string` option to use the internal to_string operations to simplify the measurement and units [#37][]
 -   The webserver and the converter gained an ability to handle `*` and `<base>` as the input unit to convert the measurement to base units.  [#37][]
+-   Added `to_string` operation for uncertain_measurements [#38][]
 
 ### Removed
 
@@ -76,6 +77,7 @@ Continued work on cleaning up the library and starting to add main documentation
 [#35]: https://github.com/LLNL/units/pull/35
 [#36]: https://github.com/LLNL/units/pull/36
 [#37]: https://github.com/LLNL/units/pull/37
+[#38]: https://github.com/LLNL/units/pull/37
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0

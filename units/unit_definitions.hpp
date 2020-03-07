@@ -1133,7 +1133,7 @@ namespace precise {
                 }
                 case 24: // fujita scale
                     return std::pow(val / 14.1, 2.0 / 3.0) - 2.0;
-                case 27:
+                case 27: //prism diopter
                     return 100.0 * std::tan(val);
                 case 29: // moment magnitude scale
                     return 2.0 / 3.0 * std::log10(val) - 10.7;
@@ -1378,6 +1378,7 @@ constexpr unit sievert = unit_cast(precise::sievert);
 constexpr unit katal = unit_cast(precise::katal);
 
 constexpr unit N = newton;
+//this is something in some Windows libraries that needs to be worked around
 #ifndef pascal
 constexpr unit pascal = Pa;
 #endif
