@@ -139,7 +139,7 @@ namespace precise {
     constexpr precise_unit hundred = precise_unit(100.0, one);
     constexpr precise_unit ten = precise_unit(10.0, one);
     constexpr precise_unit percent(0.01, one);
-    constexpr precise_unit ratio = one * pu;
+    constexpr precise_unit ratio = one;
     constexpr precise_unit error(detail::unit_data(nullptr));
     constexpr precise_unit
         infinite(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), constants::infinity);

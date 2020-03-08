@@ -1293,21 +1293,25 @@ class fixed_precise_measurement {
     };
 
     /// friend operators for math operators
-    friend constexpr double operator+(double v1, const fixed_precise_measurement& v2)
+    friend constexpr inline fixed_precise_measurement
+        operator+(double v1, const fixed_precise_measurement& v2)
     {
-        return v1 + v2.value();
+        return {v1 + v2.value(), v2.units()};
     }
-    friend constexpr double operator-(double v1, const fixed_precise_measurement& v2)
+    friend constexpr inline fixed_precise_measurement
+        operator-(double v1, const fixed_precise_measurement& v2)
     {
-        return v1 - v2.value();
+        return {v1 - v2.value(), v2.units()};
     }
-    friend constexpr double operator*(double v1, const fixed_precise_measurement& v2)
+    friend constexpr inline fixed_precise_measurement
+        operator*(double v1, const fixed_precise_measurement& v2)
     {
-        return v1 * v2.value();
+        return {v1 * v2.value(), v2.units()};
     }
-    friend constexpr double operator/(double v1, const fixed_precise_measurement& v2)
+    friend constexpr inline fixed_precise_measurement
+        operator/(double v1, const fixed_precise_measurement& v2)
     {
-        return v1 / v2.value();
+        return {v1 / v2.value(), v2.units().inv()};
     }
 
   private:
@@ -1316,52 +1320,61 @@ class fixed_precise_measurement {
 };
 
 /// Check if the measurement is a valid_measurement
-constexpr inline bool is_valid(measurement meas)
+constexpr inline bool is_valid(const measurement& meas)
 {
     return is_valid(meas.units()) && (meas.value() == meas.value());
 }
 /// Check if the precise_measurement is a valid_measurement
-constexpr inline bool is_valid(precise_measurement meas)
+constexpr inline bool is_valid(const precise_measurement& meas)
 {
     return is_valid(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the fixed_measurement is a valid_measurement
-constexpr inline bool is_valid(fixed_measurement meas)
+constexpr inline bool is_valid(const fixed_measurement& meas)
 {
     return is_valid(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the fixed_precise_measurement is a valid_measurement
-constexpr inline bool is_valid(fixed_precise_measurement meas)
+constexpr inline bool is_valid(const fixed_precise_measurement& meas)
 {
     return is_valid(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the uncertain_measurement is a valid_measurement
-constexpr inline bool is_valid(uncertain_measurement meas)
+constexpr inline bool is_valid(const uncertain_measurement& meas)
 {
     return is_valid(meas.units()) && meas.value_f() == meas.value_f() &&
         meas.uncertainty_f() == meas.uncertainty_f();
 }
 
 /// Check if the measurement is a normal measurement
-inline bool isnormal(measurement meas)
+inline bool isnormal(const measurement& meas)
 {
     const auto fclass = std::fpclassify(meas.value());
     return isnormal(meas.units()) && (fclass == FP_NORMAL || fclass == FP_ZERO);
 }
 /// Check if the precise_measurement a normal measurement
-inline bool isnormal(precise_measurement meas)
+inline bool isnormal(const precise_measurement& meas)
 {
     const auto fclass = std::fpclassify(meas.value());
     return isnormal(meas.units()) && (fclass == FP_NORMAL || fclass == FP_ZERO);
 }
-
-//fixed measurement and fixed precise measurement should convert to measurement precise_measurement respectively
-
+/// Check if the fixed_measurement a normal measurement
+inline bool isnormal(const fixed_measurement& meas)
+{
+    const auto fclass = std::fpclassify(meas.value());
+    return isnormal(meas.units()) && (fclass == FP_NORMAL || fclass == FP_ZERO);
+}
+/// Check if the fixed_precise_measurement a normal measurement
+inline bool isnormal(const fixed_precise_measurement& meas)
+{
+    const auto fclass = std::fpclassify(meas.value());
+    return isnormal(meas.units()) && (fclass == FP_NORMAL || fclass == FP_ZERO);
+}
 /// Check if the uncertain_measurement is a normal measurement
-inline bool isnormal(uncertain_measurement meas)
+inline bool isnormal(const uncertain_measurement& meas)
 {
     const auto fclass = std::fpclassify(meas.value_f());
     const auto fclass2 = std::fpclassify(meas.uncertainty_f());
