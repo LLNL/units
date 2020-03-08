@@ -157,25 +157,25 @@ TEST(Measurement, powroot)
 
 TEST(Measurement, invalid)
 {
-	measurement iv1(1.2, invalid);
-	EXPECT_FALSE(is_valid(iv1));
-	EXPECT_FALSE(isnormal(iv1));
+    measurement iv1(1.2, invalid);
+    EXPECT_FALSE(is_valid(iv1));
+    EXPECT_FALSE(isnormal(iv1));
 
-	measurement iv2(constants::invalid_conversion, m);
-	EXPECT_FALSE(is_valid(iv2));
-	EXPECT_FALSE(isnormal(iv2));
+    measurement iv2(constants::invalid_conversion, m);
+    EXPECT_FALSE(is_valid(iv2));
+    EXPECT_FALSE(isnormal(iv2));
 
-	measurement iv3(constants::infinity, m);
-	EXPECT_TRUE(is_valid(iv3));
-	EXPECT_FALSE(isnormal(iv3));
+    measurement iv3(constants::infinity, m);
+    EXPECT_TRUE(is_valid(iv3));
+    EXPECT_FALSE(isnormal(iv3));
 
-	measurement iv4(1e-311, m); //subnormal
-	EXPECT_TRUE(is_valid(iv4));
-	EXPECT_FALSE(isnormal(iv4));
+    measurement iv4(1e-311, m); //subnormal
+    EXPECT_TRUE(is_valid(iv4));
+    EXPECT_FALSE(isnormal(iv4));
 
-	measurement iv5(0.0, m);
-	EXPECT_TRUE(is_valid(iv5));
-	EXPECT_TRUE(isnormal(iv5));
+    measurement iv5(0.0, m);
+    EXPECT_TRUE(is_valid(iv5));
+    EXPECT_TRUE(isnormal(iv5));
 }
 
 using namespace units;
@@ -357,6 +357,12 @@ TEST(fixedMeasurement, comparison)
     EXPECT_TRUE(d2 == 79.0);
     EXPECT_TRUE(79.0 == d2);
 
+    EXPECT_TRUE(79.0001 > d2);
+    EXPECT_TRUE(d2 < 79.0001);
+
+    EXPECT_FALSE(79.0001 < d2);
+    EXPECT_FALSE(d2 > 79.0001);
+
     EXPECT_FALSE(d1 == 79.0);
     EXPECT_FALSE(79.0 == d1);
 
@@ -385,25 +391,25 @@ TEST(fixedMeasurement, powroot)
 
 TEST(fixedMeasurement, invalid)
 {
-	fixed_measurement iv1(1.2, invalid);
-	EXPECT_FALSE(is_valid(iv1));
-	EXPECT_FALSE(isnormal(iv1));
+    fixed_measurement iv1(1.2, invalid);
+    EXPECT_FALSE(is_valid(iv1));
+    EXPECT_FALSE(isnormal(iv1));
 
-	fixed_measurement iv2(constants::invalid_conversion, m);
-	EXPECT_FALSE(is_valid(iv2));
-	EXPECT_FALSE(isnormal(iv2));
+    fixed_measurement iv2(constants::invalid_conversion, m);
+    EXPECT_FALSE(is_valid(iv2));
+    EXPECT_FALSE(isnormal(iv2));
 
-	fixed_measurement iv3(constants::infinity, m);
-	EXPECT_TRUE(is_valid(iv3));
-	EXPECT_FALSE(isnormal(iv3));
+    fixed_measurement iv3(constants::infinity, m);
+    EXPECT_TRUE(is_valid(iv3));
+    EXPECT_FALSE(isnormal(iv3));
 
-	fixed_measurement iv4(1e-311, m); //subnormal
-	EXPECT_TRUE(is_valid(iv4));
-	EXPECT_FALSE(isnormal(iv4));
+    fixed_measurement iv4(1e-311, m); //subnormal
+    EXPECT_TRUE(is_valid(iv4));
+    EXPECT_FALSE(isnormal(iv4));
 
-	fixed_measurement iv5(0.0, m);
-	EXPECT_TRUE(is_valid(iv5));
-	EXPECT_TRUE(isnormal(iv5));
+    fixed_measurement iv5(0.0, m);
+    EXPECT_TRUE(is_valid(iv5));
+    EXPECT_TRUE(isnormal(iv5));
 }
 
 TEST(PreciseMeasurement, ops)
@@ -453,6 +459,15 @@ TEST(PreciseMeasurement, doubleOps)
     auto fd2 = 27.0 / freq;
     EXPECT_DOUBLE_EQ(fd2.value(), 3.0);
     EXPECT_EQ(fd2.units(), precise::s);
+
+    auto fd6 = precise::Hz * 9.0;
+    EXPECT_TRUE(fd6 == freq2);
+
+    auto fd7 = 9.0 / precise::s;
+    EXPECT_TRUE(fd7 == freq2);
+
+    auto fd8 = precise::Hz / 0.5;
+    EXPECT_DOUBLE_EQ(fd8.value(), 2.0);
 }
 
 TEST(PreciseMeasurement, help_constructors)
@@ -501,6 +516,17 @@ TEST(PreciseMeasurement, conversions)
     auto ud4 = d1.as_unit();
     auto d4 = d1.convert_to(ud4);
     EXPECT_EQ(d4.value(), 1.0);
+
+    constexpr auto d5 = 3.0 * precise::ft;
+    //convert to base
+    EXPECT_EQ(d5.convert_to_base().units(), precise::m);
+    static_assert(
+        (3.0 * precise::ft).convert_to_base().units().base_units() == precise::m.base_units(),
+        "constexpr convert_to_base not working");
+
+    EXPECT_EQ(d5.as_unit(), precise::yd);
+    EXPECT_DOUBLE_EQ(quick_convert(1.0, d5.as_unit(), precise::yd), 1.0);
+    //static_assert(==1.0, "constexpr convert_to_base not working");
 }
 
 TEST(PreciseMeasurement, comparison)
@@ -536,27 +562,40 @@ TEST(PreciseMeasurement, powroot)
 
 TEST(PreciseMeasurement, invalid)
 {
-	precise_measurement iv1(1.2, precise::invalid);
-	EXPECT_FALSE(is_valid(iv1));
-	EXPECT_FALSE(isnormal(iv1));
+    precise_measurement iv1(1.2, precise::invalid);
+    EXPECT_FALSE(is_valid(iv1));
+    EXPECT_FALSE(isnormal(iv1));
 
-	precise_measurement iv2(constants::invalid_conversion, precise::m);
-	EXPECT_FALSE(is_valid(iv2));
-	EXPECT_FALSE(isnormal(iv2));
+    precise_measurement iv2(constants::invalid_conversion, precise::m);
+    EXPECT_FALSE(is_valid(iv2));
+    EXPECT_FALSE(isnormal(iv2));
 
-	precise_measurement iv3(constants::infinity, precise::m);
-	EXPECT_TRUE(is_valid(iv3));
-	EXPECT_FALSE(isnormal(iv3));
+    precise_measurement iv3(constants::infinity, precise::m);
+    EXPECT_TRUE(is_valid(iv3));
+    EXPECT_FALSE(isnormal(iv3));
 
-	precise_measurement iv4(1e-311, precise::m); //subnormal
-	EXPECT_TRUE(is_valid(iv4));
-	EXPECT_FALSE(isnormal(iv4));
+    precise_measurement iv4(1e-311, precise::m); //subnormal
+    EXPECT_TRUE(is_valid(iv4));
+    EXPECT_FALSE(isnormal(iv4));
 
-	precise_measurement iv5(0.0, precise::m);
-	EXPECT_TRUE(is_valid(iv5));
-	EXPECT_TRUE(isnormal(iv5));
+    precise_measurement iv5(0.0, precise::m);
+    EXPECT_TRUE(is_valid(iv5));
+    EXPECT_TRUE(isnormal(iv5));
 }
 
+TEST(PreciseMeasurement, cast)
+{
+    precise_measurement m1(2.0, precise::m);
+    auto m3 = measurement_cast(m1);
+
+    auto m4 = measurement_cast(m3);
+    static_assert(
+        std::is_same<typename decltype(m3), measurement>::value,
+        "measurement cast not working for precise_measurement");
+    static_assert(
+        std::is_same<typename decltype(m4), measurement>::value,
+        "measurement cast not working for measurement");
+}
 
 using namespace units;
 TEST(fixedPreciseMeasurement, ops)
@@ -594,162 +633,168 @@ TEST(fixedPreciseMeasurement, ops)
 
 TEST(fixedPreciseMeasurement, ops_v2)
 {
-	fixed_precise_measurement d1(45.0, precise::m);
-	fixed_precise_measurement d2(79, precise::m);
+    fixed_precise_measurement d1(45.0, precise::m);
+    fixed_precise_measurement d2(79, precise::m);
 
-	auto area = d1 * d2;
-	EXPECT_EQ(area.value(), 45.0 * 79);
-	EXPECT_TRUE(area.units() == m * m);
+    auto area = d1 * d2;
+    EXPECT_EQ(area.value(), 45.0 * 79);
+    EXPECT_TRUE(area.units() == m * m);
 
-	EXPECT_TRUE(d1 * d2 == d2 * d1);
+    EXPECT_TRUE(d1 * d2 == d2 * d1);
 
-	auto sum = d1 + d2;
-	EXPECT_EQ(sum.value(), 45.0 + 79.0);
-	EXPECT_TRUE(sum.units() == m);
-	EXPECT_TRUE(d1 + d2 == d2 + d1);
+    auto sum = d1 + d2;
+    EXPECT_EQ(sum.value(), 45.0 + 79.0);
+    EXPECT_TRUE(sum.units() == m);
+    EXPECT_TRUE(d1 + d2 == d2 + d1);
 
-	auto diff = d2 - d1;
-	EXPECT_EQ(diff.value(), 79.0 - 45);
-	EXPECT_TRUE(diff.units() == m);
+    auto diff = d2 - d1;
+    EXPECT_EQ(diff.value(), 79.0 - 45);
+    EXPECT_TRUE(diff.units() == m);
 
-	auto rat = d1 / d2;
-	EXPECT_EQ(rat.value(), 45.0 / 79);
-	EXPECT_TRUE(rat.units() == ratio);
+    auto rat = d1 / d2;
+    EXPECT_EQ(rat.value(), 45.0 / 79);
+    EXPECT_TRUE(rat.units() == ratio);
 
-	auto m1 = d2 / precise::s;
-	fixed_precise_measurement spd(m1);
-	auto m3 = spd * precise::s;
+    auto m1 = d2 / precise::s;
+    fixed_precise_measurement spd(m1);
+    auto m3 = spd * precise::s;
 
-	EXPECT_TRUE(d2 == m3);
-	EXPECT_TRUE(m3 == d2);
+    EXPECT_TRUE(d2 == m3);
+    EXPECT_TRUE(m3 == d2);
 
-	fixed_precise_measurement fm3(2.0, precise::m);
-	fm3 *= 2.0;
-	EXPECT_EQ(fm3.value(), 4.0);
-	fm3 /= 4.0;
-	EXPECT_EQ(fm3.value(), 1.0);
+    fixed_precise_measurement fm3(2.0, precise::m);
+    fm3 *= 2.0;
+    EXPECT_EQ(fm3.value(), 4.0);
+    fm3 /= 4.0;
+    EXPECT_EQ(fm3.value(), 1.0);
 
-	auto v = fm3 *= 2.0;
-	EXPECT_EQ(v.value(), 2.0);
+    auto v = fm3 *= 2.0;
+    EXPECT_EQ(v.value(), 2.0);
 }
 
 TEST(fixedPreciseMeasurement, methods)
 {
-	fixed_precise_measurement size(1.2, precise::m);
-	auto f2 = size.convert_to(precise::in);
-	EXPECT_TRUE(f2 == size);
+    fixed_precise_measurement size(1.2, precise::m);
+    auto f2 = size.convert_to(precise::in);
+    EXPECT_TRUE(f2 == size);
 
-	precise_measurement m3(1.0, f2.as_unit());
-	EXPECT_DOUBLE_EQ(m3.value(), 1.0);
-	EXPECT_TRUE(m3 == f2);
+    precise_measurement m3(1.0, f2.as_unit());
+    EXPECT_DOUBLE_EQ(m3.value(), 1.0);
+    EXPECT_TRUE(m3 == f2);
 
-	EXPECT_DOUBLE_EQ(f2.value_as(precise::m), 1.2);
-	EXPECT_DOUBLE_EQ(size.value_as(f2.as_unit()), 1.0);
+    EXPECT_DOUBLE_EQ(f2.value_as(precise::m), 1.2);
+    EXPECT_DOUBLE_EQ(size.value_as(f2.as_unit()), 1.0);
 
-	size += 0.1;
-	EXPECT_TRUE(size > f2);
-	EXPECT_TRUE(size > m3);
-	EXPECT_TRUE(f2 < size);
-	EXPECT_TRUE(m3 < size);
-	EXPECT_TRUE(size > 1.2);
-	EXPECT_TRUE(1.2 < size);
+    size += 0.1;
+    EXPECT_TRUE(size > f2);
+    EXPECT_TRUE(size > m3);
+    EXPECT_TRUE(f2 < size);
+    EXPECT_TRUE(m3 < size);
+    EXPECT_TRUE(size > 1.2);
+    EXPECT_TRUE(1.2 < size);
 
-	EXPECT_TRUE(size >= f2);
-	EXPECT_TRUE(size >= m3);
-	EXPECT_TRUE(f2 <= size);
-	EXPECT_TRUE(m3 <= size);
-	EXPECT_TRUE(size >= 1.2);
-	EXPECT_TRUE(1.2 <= size);
+    EXPECT_TRUE(size >= f2);
+    EXPECT_TRUE(size >= m3);
+    EXPECT_TRUE(f2 <= size);
+    EXPECT_TRUE(m3 <= size);
+    EXPECT_TRUE(size >= 1.2);
+    EXPECT_TRUE(1.2 <= size);
 
-	size -= 0.1;
-	EXPECT_TRUE(size == f2);
-	EXPECT_TRUE(size == m3);
-	EXPECT_TRUE(f2 == size);
-	EXPECT_TRUE(m3 == size);
-	EXPECT_TRUE(size == 1.2);
-	EXPECT_TRUE(1.2 == size);
+    size -= 0.1;
+    EXPECT_TRUE(size == f2);
+    EXPECT_TRUE(size == m3);
+    EXPECT_TRUE(f2 == size);
+    EXPECT_TRUE(m3 == size);
+    EXPECT_TRUE(size == 1.2);
+    EXPECT_TRUE(1.2 == size);
 
-	EXPECT_FALSE(size != 1.2);
-	EXPECT_FALSE(1.2 != size);
+    EXPECT_FALSE(size != 1.2);
+    EXPECT_FALSE(1.2 != size);
 
-	EXPECT_TRUE(size >= f2);
-	EXPECT_TRUE(size >= m3);
-	EXPECT_TRUE(f2 >= size);
-	EXPECT_TRUE(m3 >= size);
-	EXPECT_TRUE(size >= 1.2);
-	EXPECT_TRUE(1.2 >= size);
+    EXPECT_TRUE(size >= f2);
+    EXPECT_TRUE(size >= m3);
+    EXPECT_TRUE(f2 >= size);
+    EXPECT_TRUE(m3 >= size);
+    EXPECT_TRUE(size >= 1.2);
+    EXPECT_TRUE(1.2 >= size);
 
-	EXPECT_TRUE(size <= f2);
-	EXPECT_TRUE(size <= m3);
-	EXPECT_TRUE(f2 <= size);
-	EXPECT_TRUE(m3 <= size);
-	EXPECT_TRUE(size <= 1.2);
-	EXPECT_TRUE(1.2 <= size);
+    EXPECT_TRUE(size <= f2);
+    EXPECT_TRUE(size <= m3);
+    EXPECT_TRUE(f2 <= size);
+    EXPECT_TRUE(m3 <= size);
+    EXPECT_TRUE(size <= 1.2);
+    EXPECT_TRUE(1.2 <= size);
 
-	EXPECT_TRUE(is_valid(size));
+    EXPECT_TRUE(is_valid(size));
 }
 
 TEST(fixedPreciseMeasurement, doubleOps)
 {
-	fixed_precise_measurement freq(9.0, precise::Hz);
-	EXPECT_EQ(freq.units(), precise::one / precise::s);
-	auto freq2 = 2.0 * freq;
-	EXPECT_DOUBLE_EQ(freq2.value(), 18.0);
-	bool res = std::is_same<decltype(freq), decltype(freq2)>::value;
-	EXPECT_TRUE(res);
+    fixed_precise_measurement freq(9.0, precise::Hz);
+    EXPECT_EQ(freq.units(), precise::one / precise::s);
+    auto freq2 = 2.0 * freq;
+    EXPECT_DOUBLE_EQ(freq2.value(), 18.0);
+    bool res = std::is_same<decltype(freq), decltype(freq2)>::value;
+    EXPECT_TRUE(res);
 
-	auto f4 = freq * 3;
-	EXPECT_DOUBLE_EQ(f4.value(), 27.0);
+    auto f4 = freq * 3;
+    EXPECT_DOUBLE_EQ(f4.value(), 27.0);
 
-	auto f3 = freq / 3;
-	EXPECT_DOUBLE_EQ(static_cast<float>(f3.value()), 3.0);
+    auto f3 = freq / 3;
+    EXPECT_DOUBLE_EQ(static_cast<float>(f3.value()), 3.0);
 
-	auto f1 = 9.0 / freq;
-	EXPECT_TRUE(f1 == (1.0 * precise::s));
-	EXPECT_TRUE((1.0 * precise::s) == f1);
+    auto f1 = 9.0 / freq;
+    EXPECT_TRUE(f1 == (1.0 * precise::s));
+    EXPECT_TRUE((1.0 * precise::s) == f1);
 
-	auto fp1 = freq + 3.0;
-	EXPECT_DOUBLE_EQ(fp1.value(), 12.0);
+    auto fp1 = freq + 3.0;
+    EXPECT_DOUBLE_EQ(fp1.value(), 12.0);
 
-	auto fp2 = 3.0 + freq;
-	EXPECT_DOUBLE_EQ(fp2.value(), 12.0);
+    auto fp2 = 3.0 + freq;
+    EXPECT_DOUBLE_EQ(fp2.value(), 12.0);
 
-	auto fp3 = freq - 3.0;
-	EXPECT_DOUBLE_EQ(fp3.value(), 6.0);
+    auto fp3 = freq - 3.0;
+    EXPECT_DOUBLE_EQ(fp3.value(), 6.0);
 
-	auto fp4 = 12.0 - freq;
-	EXPECT_DOUBLE_EQ(fp4.value(), 3.0);
+    auto fp4 = 12.0 - freq;
+    EXPECT_DOUBLE_EQ(fp4.value(), 3.0);
 
-	fixed_precise_measurement y(2.0 * precise::m);
-	EXPECT_DOUBLE_EQ(y.value(), 2.0);
-	y = 5.0 * m;
-	EXPECT_DOUBLE_EQ(y.value(), 5.0);
-	y = 7.0;
-	EXPECT_DOUBLE_EQ(y.value(), 7.0);
+    fixed_precise_measurement y(2.0 * precise::m);
+    EXPECT_DOUBLE_EQ(y.value(), 2.0);
+    y = 5.0 * m;
+    EXPECT_DOUBLE_EQ(y.value(), 5.0);
+    y = 7.0;
+    EXPECT_DOUBLE_EQ(y.value(), 7.0);
 }
 
 TEST(fixedPreciseMeasurement, comparison)
 {
-	fixed_precise_measurement d1(45.0, precise::m);
-	fixed_precise_measurement d2(79, precise::m);
-	fixed_precise_measurement d3(d2);
+    fixed_precise_measurement d1(45.0, precise::m);
+    fixed_precise_measurement d2(79, precise::m);
+    fixed_precise_measurement d3(d2);
 
-	EXPECT_TRUE(d1 < d2);
-	EXPECT_TRUE(d2 == d3);
-	EXPECT_FALSE(d2 != d3);
-	EXPECT_FALSE(d1 == d2);
+    EXPECT_TRUE(d1 < d2);
+    EXPECT_TRUE(d2 == d3);
+    EXPECT_FALSE(d2 != d3);
+    EXPECT_FALSE(d1 == d2);
 
-	EXPECT_TRUE(d2 == 79.0);
-	EXPECT_TRUE(79.0 == d2);
+    EXPECT_TRUE(d2 == 79.0);
+    EXPECT_TRUE(79.0 == d2);
 
-	EXPECT_FALSE(d1 == 79.0);
-	EXPECT_FALSE(79.0 == d1);
+    EXPECT_FALSE(d1 == 79.0);
+    EXPECT_FALSE(79.0 == d1);
 
-	EXPECT_TRUE((1 * in) >= (2.54 * cm));
-	EXPECT_TRUE((1 * in) <= (2.54 * cm));
-	EXPECT_FALSE((1 * in) >= (2.541 * cm));
-	EXPECT_TRUE((1 * in) <= (2.54001 * cm));
-	EXPECT_FALSE((1 * in) <= (2.0 * cm));
+    EXPECT_TRUE(79.0001 > d2);
+    EXPECT_TRUE(d2 < 79.0001);
+
+    EXPECT_FALSE(79.0001 < d2);
+    EXPECT_FALSE(d2 > 79.0001);
+
+    EXPECT_TRUE((1 * in) >= (2.54 * cm));
+    EXPECT_TRUE((1 * in) <= (2.54 * cm));
+    EXPECT_FALSE((1 * in) >= (2.541 * cm));
+    EXPECT_TRUE((1 * in) <= (2.54001 * cm));
+    EXPECT_FALSE((1 * in) <= (2.0 * cm));
 }
 
 TEST(fixedPreciseMeasurement, powroot)
@@ -770,23 +815,37 @@ TEST(fixedPreciseMeasurement, powroot)
 
 TEST(fixedPreciseMeasurement, invalid)
 {
-	fixed_precise_measurement iv1(1.2, precise::invalid);
-	EXPECT_FALSE(is_valid(iv1));
-	EXPECT_FALSE(isnormal(iv1));
+    fixed_precise_measurement iv1(1.2, precise::invalid);
+    EXPECT_FALSE(is_valid(iv1));
+    EXPECT_FALSE(isnormal(iv1));
 
-	fixed_precise_measurement iv2(constants::invalid_conversion, precise::m);
-	EXPECT_FALSE(is_valid(iv2));
-	EXPECT_FALSE(isnormal(iv2));
+    fixed_precise_measurement iv2(constants::invalid_conversion, precise::m);
+    EXPECT_FALSE(is_valid(iv2));
+    EXPECT_FALSE(isnormal(iv2));
 
-	fixed_precise_measurement iv3(constants::infinity, precise::m);
-	EXPECT_TRUE(is_valid(iv3));
-	EXPECT_FALSE(isnormal(iv3));
+    fixed_precise_measurement iv3(constants::infinity, precise::m);
+    EXPECT_TRUE(is_valid(iv3));
+    EXPECT_FALSE(isnormal(iv3));
 
-	fixed_precise_measurement iv4(1e-311, precise::m); //subnormal
-	EXPECT_TRUE(is_valid(iv4));
-	EXPECT_FALSE(isnormal(iv4));
+    fixed_precise_measurement iv4(1e-311, precise::m); //subnormal
+    EXPECT_TRUE(is_valid(iv4));
+    EXPECT_FALSE(isnormal(iv4));
 
-	fixed_precise_measurement iv5(0.0, precise::m);
-	EXPECT_TRUE(is_valid(iv5));
-	EXPECT_TRUE(isnormal(iv5));
+    fixed_precise_measurement iv5(0.0, precise::m);
+    EXPECT_TRUE(is_valid(iv5));
+    EXPECT_TRUE(isnormal(iv5));
+}
+
+TEST(fixedPreciseMeasurement, cast)
+{
+    fixed_precise_measurement m1(2.0, precise::m);
+    auto m3 = measurement_cast(m1);
+
+    auto m4 = measurement_cast(m3);
+    static_assert(
+        std::is_same<typename decltype(m3), fixed_measurement>::value,
+        "measurement cast not working for fixed_precise_measurement");
+    static_assert(
+        std::is_same<typename decltype(m4), fixed_measurement>::value,
+        "measurement cast not working for fixed_measurement");
 }

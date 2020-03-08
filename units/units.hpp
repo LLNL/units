@@ -1388,16 +1388,28 @@ constexpr measurement measurement_cast(const precise_measurement& measure)
     return measurement(measure.value(), unit_cast(measure.units()));
 }
 
-/// perform a down-conversion from a precise measurement to a measurement
+/// perform a down-conversion from a fixed precise measurement to a fixed measurement
 constexpr fixed_measurement measurement_cast(const fixed_precise_measurement& measure)
 {
     return fixed_measurement(measure.value(), unit_cast(measure.units()));
+}
+
+/// perform a down-conversion from a fixed precise measurement to a fixed measurement
+constexpr fixed_measurement measurement_cast(const fixed_measurement& measure)
+{
+    return measure;
 }
 
 /// define measurement cast on measurement so it works in templates
 constexpr measurement measurement_cast(measurement measure)
 {
     return measure;
+}
+
+/// perform a conversion from a uncertain measurement to a measurement so it can work in templates
+constexpr measurement measurement_cast(const uncertain_measurement& measure)
+{
+    return measurement(measure.value(), measure.units());
 }
 
 #ifndef UNITS_HEADER_ONLY
