@@ -590,10 +590,10 @@ TEST(PreciseMeasurement, cast)
 
     auto m4 = measurement_cast(m3);
     static_assert(
-        std::is_same<typename decltype(m3), measurement>::value,
+        std::is_same<decltype(m3), measurement>::value,
         "measurement cast not working for precise_measurement");
     static_assert(
-        std::is_same<typename decltype(m4), measurement>::value,
+        std::is_same<decltype(m4), measurement>::value,
         "measurement cast not working for measurement");
 }
 

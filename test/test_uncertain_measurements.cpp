@@ -504,7 +504,7 @@ TEST(uncertainOps, cast)
 	static_assert(std::is_same<decltype(measurement_cast(v0)), measurement>::value, "uncertain measurement cast not working properly");
 
 	uncertain_measurement v1(10.0F, V);
-	EXPECT_TRUE(v1 == 10.0F*V);
+	EXPECT_TRUE(v1 == 10.0*V);
 
 	uncertain_measurement v2(10.0, V);
 	EXPECT_TRUE(v1 == 10.0*V);
