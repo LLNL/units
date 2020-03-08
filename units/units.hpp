@@ -360,13 +360,13 @@ class fixed_measurement {
     {
     }
     /// assignment operator
-    fixed_measurement& operator=(measurement val)
+    fixed_measurement& operator=(const measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
     /// assignment operator treat it the same as a measurement
-    fixed_measurement& operator=(fixed_measurement val)
+    fixed_measurement& operator=(const fixed_measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -1122,7 +1122,15 @@ class fixed_precise_measurement {
     {
     }
 
+    ///assign from a precise_measurement do the conversion and assign the value
     fixed_precise_measurement& operator=(const precise_measurement& val)
+    {
+        value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+        return *this;
+    }
+
+    ///assign from another fixed_precise_measurement treat like a precise_measurement
+    fixed_precise_measurement& operator=(const fixed_precise_measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;

@@ -184,7 +184,7 @@ TEST(fixedMeasurement, ops)
     fixed_measurement d1(45.0, m);
     fixed_measurement d2(79, m);
     fixed_measurement d3(79 * m);
-
+	fixed_measurement d4(1.0, ft);
     auto area = d1 * d2;
 
     EXPECT_TRUE(d2 == d3);
@@ -205,6 +205,10 @@ TEST(fixedMeasurement, ops)
     auto rat = d1 / d2;
     EXPECT_EQ(rat.value(), 45.0 / 79);
     EXPECT_TRUE(rat.units() == ratio);
+
+	d4 = d1;
+	EXPECT_TRUE(d4 == d1);
+	EXPECT_TRUE(d4.units() == ft);
 }
 
 TEST(fixedMeasurement, ops_v2)
@@ -602,7 +606,7 @@ TEST(fixedPreciseMeasurement, ops)
 {
     fixed_precise_measurement d1(45.0, precise::m);
     fixed_precise_measurement d2(79, precise::m);
-
+	fixed_precise_measurement d4(1.0, precise::ft);
     auto area = d1 * d2;
     EXPECT_EQ(area.value(), 45.0 * 79);
     EXPECT_TRUE(area.units() == precise::m * precise::m);
@@ -629,6 +633,10 @@ TEST(fixedPreciseMeasurement, ops)
     y = 7.0;
     EXPECT_DOUBLE_EQ(y.value(), 7.0);
     EXPECT_TRUE(is_valid(d1));
+
+	d4 = d1;
+	EXPECT_TRUE(d4 == d1);
+	EXPECT_TRUE(d4.units() == precise::ft);
 }
 
 TEST(fixedPreciseMeasurement, ops_v2)
