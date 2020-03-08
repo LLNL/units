@@ -843,9 +843,9 @@ TEST(fixedPreciseMeasurement, cast)
 
     auto m4 = measurement_cast(m3);
     static_assert(
-        std::is_same<typename decltype(m3), fixed_measurement>::value,
+        std::is_same<decltype(m3), fixed_measurement>::value,
         "measurement cast not working for fixed_precise_measurement");
     static_assert(
-        std::is_same<typename decltype(m4), fixed_measurement>::value,
+        std::is_same<decltype(m4), fixed_measurement>::value,
         "measurement cast not working for fixed_measurement");
 }

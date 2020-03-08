@@ -426,7 +426,7 @@ TEST(uncertainStrings, from_string)
     EXPECT_FLOAT_EQ(um5.value(), 12.8F);
     EXPECT_EQ(um5.uncertainty(), 0.0);
     EXPECT_EQ(um4.units(), m);
-	EXPECT_TRUE(isnormal(um5));
+    EXPECT_TRUE(isnormal(um5));
 
     uncertain_measurement um6;
     EXPECT_NO_THROW(um6 = uncertain_measurement_from_string(""));
@@ -464,48 +464,50 @@ TEST(uncertainOps, conversions)
 
 TEST(uncertainOps, invalid)
 {
-	uncertain_measurement iv1(1.2, 0.3, invalid);
-	EXPECT_FALSE(is_valid(iv1));
-	EXPECT_FALSE(isnormal(iv1));
+    uncertain_measurement iv1(1.2, 0.3, invalid);
+    EXPECT_FALSE(is_valid(iv1));
+    EXPECT_FALSE(isnormal(iv1));
 
-	uncertain_measurement iv2(constants::invalid_conversion, 0.4, m);
-	EXPECT_FALSE(is_valid(iv2));
-	EXPECT_FALSE(isnormal(iv2));
+    uncertain_measurement iv2(constants::invalid_conversion, 0.4, m);
+    EXPECT_FALSE(is_valid(iv2));
+    EXPECT_FALSE(isnormal(iv2));
 
-	uncertain_measurement iv3(2.7, constants::invalid_conversion, m);
-	EXPECT_FALSE(is_valid(iv3));
-	EXPECT_FALSE(isnormal(iv3));
+    uncertain_measurement iv3(2.7, constants::invalid_conversion, m);
+    EXPECT_FALSE(is_valid(iv3));
+    EXPECT_FALSE(isnormal(iv3));
 
-	uncertain_measurement iv4(constants::infinity, 0.5, m);
-	EXPECT_TRUE(is_valid(iv4));
-	EXPECT_FALSE(isnormal(iv4)); 
+    uncertain_measurement iv4(constants::infinity, 0.5, m);
+    EXPECT_TRUE(is_valid(iv4));
+    EXPECT_FALSE(isnormal(iv4));
 
-	uncertain_measurement iv5(1e-41, 0.5, m);
-	EXPECT_TRUE(is_valid(iv5));
-	EXPECT_FALSE(isnormal(iv5));
+    uncertain_measurement iv5(1e-41, 0.5, m);
+    EXPECT_TRUE(is_valid(iv5));
+    EXPECT_FALSE(isnormal(iv5));
 
-	uncertain_measurement iv6(0, 1e-23, m);
-	EXPECT_TRUE(is_valid(iv6));
-	EXPECT_TRUE(isnormal(iv6));
+    uncertain_measurement iv6(0, 1e-23, m);
+    EXPECT_TRUE(is_valid(iv6));
+    EXPECT_TRUE(isnormal(iv6));
 
-	uncertain_measurement iv7(1e-21, constants::infinity, m);
-	EXPECT_TRUE(is_valid(iv7));
-	EXPECT_FALSE(isnormal(iv7));
+    uncertain_measurement iv7(1e-21, constants::infinity, m);
+    EXPECT_TRUE(is_valid(iv7));
+    EXPECT_FALSE(isnormal(iv7));
 
-	uncertain_measurement iv8(1e-21, 1e-41, m);
-	EXPECT_TRUE(is_valid(iv8));
-	EXPECT_FALSE(isnormal(iv8));
+    uncertain_measurement iv8(1e-21, 1e-41, m);
+    EXPECT_TRUE(is_valid(iv8));
+    EXPECT_FALSE(isnormal(iv8));
 }
 
 TEST(uncertainOps, cast)
 {
-	uncertain_measurement v0(10.0, 1.0, V);
-	EXPECT_TRUE(measurement_cast(v0) == 10.0*V);
-	static_assert(std::is_same<decltype(measurement_cast(v0)), measurement>::value, "uncertain measurement cast not working properly");
+    uncertain_measurement v0(10.0, 1.0, V);
+    EXPECT_TRUE(measurement_cast(v0) == 10.0 * V);
+    static_assert(
+        std::is_same<decltype(measurement_cast(v0)), measurement>::value,
+        "uncertain measurement cast not working properly");
 
-	uncertain_measurement v1(10.0F, V);
-	EXPECT_TRUE(v1 == 10.0*V);
+    uncertain_measurement v1(10.0F, V);
+    EXPECT_TRUE(v1 == 10.0 * V);
 
-	uncertain_measurement v2(10.0, V);
-	EXPECT_TRUE(v1 == 10.0*V);
+    uncertain_measurement v2(10.0, V);
+    EXPECT_TRUE(v1 == 10.0 * V);
 }
