@@ -360,13 +360,13 @@ class fixed_measurement {
     {
     }
     /// assignment operator
-    fixed_measurement& operator=(measurement val)
+    fixed_measurement& operator=(const measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
     /// assignment operator treat it the same as a measurement
-    fixed_measurement& operator=(fixed_measurement val)
+    fixed_measurement& operator=(const fixed_measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -1122,7 +1122,15 @@ class fixed_precise_measurement {
     {
     }
 
+    ///assign from a precise_measurement do the conversion and assign the value
     fixed_precise_measurement& operator=(const precise_measurement& val)
+    {
+        value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+        return *this;
+    }
+
+    ///assign from another fixed_precise_measurement treat like a precise_measurement
+    fixed_precise_measurement& operator=(const fixed_precise_measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -1388,16 +1396,28 @@ constexpr measurement measurement_cast(const precise_measurement& measure)
     return measurement(measure.value(), unit_cast(measure.units()));
 }
 
-/// perform a down-conversion from a precise measurement to a measurement
+/// perform a down-conversion from a fixed precise measurement to a fixed measurement
 constexpr fixed_measurement measurement_cast(const fixed_precise_measurement& measure)
 {
     return fixed_measurement(measure.value(), unit_cast(measure.units()));
+}
+
+/// perform a down-conversion from a fixed precise measurement to a fixed measurement
+constexpr fixed_measurement measurement_cast(const fixed_measurement& measure)
+{
+    return measure;
 }
 
 /// define measurement cast on measurement so it works in templates
 constexpr measurement measurement_cast(measurement measure)
 {
     return measure;
+}
+
+/// perform a conversion from a uncertain measurement to a measurement so it can work in templates
+constexpr measurement measurement_cast(const uncertain_measurement& measure)
+{
+    return measurement(measure.value(), measure.units());
 }
 
 #ifndef UNITS_HEADER_ONLY

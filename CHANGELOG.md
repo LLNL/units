@@ -5,9 +5,9 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0][] ~ Sometime in the next month
+## [0.4.0][] ~ Sometime in March 2020
 
-Add a converter command line application and fix a few slow conversion issues and some other fuzz issues that came up recently.
+Add a converter command line application and fix a few slow conversion issues and some other fuzz issues that came up recently, add isnormal operation for measurements, better test coverage for fixed_precise_measurement
 
 ### Changed
 
@@ -15,6 +15,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   A few timeouts on the fuzzer- the fix was to generalize the multiplier insertion after ^ to accept multiple digits after the ^ instead of just ignoring it after more than one. [#34][]  
 -   An asymmetry was observed in the unit equality from on the fuzzers, this resulted in some modifications of the `cround_equal` and `cround_precice_equals` functions.  Also noted that the functions weren't aborting on exact floating point equality so were doing quite a bit of extra calculations. [#34][]
 -   A timeout issue from fuzzing having to do with not injecting multiplies after `[]` in some circumstances.  The fix was to be a little more refined as to which point to not inject the `*` and to do it in multiple stages so as to not rely on the partitioner so much.  [#35][]
+-   `fixed_measurement` and `fixed_precise_measurement` had incorrect subtraction operation in a few overloads.  [#39][]
 
 ### Added
 -   added a [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application that can convert units on the command line [#35][]
@@ -24,6 +25,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   The webserver gained a `to_string` option to use the internal to_string operations to simplify the measurement and units [#37][]
 -   The webserver and the converter gained an ability to handle `*` and `<base>` as the input unit to convert the measurement to base units.  [#37][]
 -   Added `to_string` operation for uncertain_measurements [#38][]
+-   Added `isnormal` operation for measurement types [#39][]
 
 ### Removed
 
@@ -77,7 +79,8 @@ Continued work on cleaning up the library and starting to add main documentation
 [#35]: https://github.com/LLNL/units/pull/35
 [#36]: https://github.com/LLNL/units/pull/36
 [#37]: https://github.com/LLNL/units/pull/37
-[#38]: https://github.com/LLNL/units/pull/37
+[#38]: https://github.com/LLNL/units/pull/38
+[#39]: https://github.com/LLNL/units/pull/39
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0

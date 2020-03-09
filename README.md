@@ -75,7 +75,7 @@ if (!meas.units().is_convertible(out)
 If you are looking for compile time and prevention of unit errors in equations for dimensional analysis one of these libraries might work for you.  
 -   [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
 
--   [Units](https://github.com/nholthaus/units) -A compile-time, header-only, dimensional analysis library built on `c++14` with no dependencies.
+-   [Units](https://github.com/nholthaus/units) -A compile-time, header-only, dimensional analysis library built on `C++14` with no dependencies.
 
 -   [Units](https://github.com/VincentDucharme/Units) -Another compile time library
 
@@ -110,7 +110,7 @@ These libraries will work well if the number of units being dealt with is known 
 2.  Performance is absolutely critical (many other libraries are zero runtime overhead)
 3.  You are only working with a small number of known units
 4.  You cannot use C++11 yet.  
-5.  You need to operate on arbitrary powers of base units 
+5.  You need to operate on arbitrary powers of base units
 
 ## Types
 There are only a few types in the library
@@ -318,6 +318,7 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 -   `<measurement>=<double>/<unit>`  basically calling a number multiplied or divided by a `<unit>` produces a measurement,  specifically `unit` produces a measurement and `precise_unit` produces a precise_measurement.  
 
 #### Measurement functions
+These free functions work on any of different measurement types.
 
 -   `measurement measurement_cast(<measurement>)`  convert a precise_measurement into measurement
 -   `fixed_measurement measurement_cast(<fixed_measurement>)`  convert a fixed_precise_measurement or fixed_measurement into a fixed_measurement
@@ -325,6 +326,7 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 -   `<measurement> root(<measurement>, int)` generate a root of a measurement
 -   `<measurement>  sqrt(<measurement>)`  take the square root of a measurement of any kind,  the units need to have a valid root.  
 -   `bool is_valid(<measurement>)`  will result in true if the underlying unit is valid and the value is not a nan.  
+-   `bool isnormal(<measurement>)`  will result in true if the underlying unit is normal and the value is not a nan or infinity or subnormal - zero is allowed in the measurement value, but not the unit multiplier.  
 
 ### Available library functions
 
