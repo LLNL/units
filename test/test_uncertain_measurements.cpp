@@ -505,9 +505,11 @@ TEST(uncertainOps, cast)
         std::is_same<decltype(measurement_cast(v0)), measurement>::value,
         "uncertain measurement cast not working properly");
 
-    uncertain_measurement v1(10.0F, V);
-    EXPECT_TRUE(v1 == 10.0 * V);
+    auto v1 = new uncertain_measurement(10.0F, V);
+    EXPECT_TRUE(*v1 == 10.0 * V);
+    delete v1;
 
-    uncertain_measurement v2(10.0, V);
-    EXPECT_TRUE(v1 == 10.0 * V);
+    auto v2 = new uncertain_measurement(10.0, V);
+    EXPECT_TRUE(*v2 == 10.0 * V);
+    delete v2;
 }

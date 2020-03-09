@@ -521,7 +521,7 @@ TEST(PreciseMeasurement, conversions)
     auto d4 = d1.convert_to(ud4);
     EXPECT_EQ(d4.value(), 1.0);
 
-    constexpr auto d5 = 3.0 * precise::ft;
+    constexpr auto d5 = precise::ft * 3.0;
     //convert to base
     EXPECT_EQ(d5.convert_to_base().units(), precise::m);
     static_assert(
