@@ -44,7 +44,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
             }
         }
         if (!match) {
-            throw(std::invalid_argument("measurement and conversion don't match");
+            throw(std::invalid_argument("measurement and conversion don't match"));
         }
     }
     // its::clearCustomCommodities();
