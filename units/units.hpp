@@ -1222,8 +1222,8 @@ class fixed_precise_measurement {
     /// take the measurement to some power
     constexpr friend fixed_precise_measurement pow(const fixed_precise_measurement& meas, int power)
     {
-        return fixed_precise_measurement{detail::power_const(meas.value_, power),
-                                         meas.units_.pow(power)};
+        return fixed_precise_measurement{
+            detail::power_const(meas.value_, power), meas.units_.pow(power)};
     }
 
     /// Convert a unit to have a new base
@@ -1326,30 +1326,30 @@ class fixed_precise_measurement {
 /// Check if the measurement is a valid_measurement
 constexpr inline bool is_valid(const measurement& meas)
 {
-    return is_valid(meas.units()) && (meas.value() == meas.value());
+    return is_valid(meas.units()) && !is_error(meas.units()) && (meas.value() == meas.value());
 }
 /// Check if the precise_measurement is a valid_measurement
 constexpr inline bool is_valid(const precise_measurement& meas)
 {
-    return is_valid(meas.units()) && (meas.value() == meas.value());
+    return is_valid(meas.units()) && !is_error(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the fixed_measurement is a valid_measurement
 constexpr inline bool is_valid(const fixed_measurement& meas)
 {
-    return is_valid(meas.units()) && (meas.value() == meas.value());
+    return is_valid(meas.units()) && !is_error(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the fixed_precise_measurement is a valid_measurement
 constexpr inline bool is_valid(const fixed_precise_measurement& meas)
 {
-    return is_valid(meas.units()) && (meas.value() == meas.value());
+    return is_valid(meas.units()) && !is_error(meas.units()) && (meas.value() == meas.value());
 }
 
 /// Check if the uncertain_measurement is a valid_measurement
 constexpr inline bool is_valid(const uncertain_measurement& meas)
 {
-    return is_valid(meas.units()) && meas.value_f() == meas.value_f() &&
+    return is_valid(meas.units()) && !is_error(meas.units()) && meas.value_f() == meas.value_f() &&
         meas.uncertainty_f() == meas.uncertainty_f();
 }
 

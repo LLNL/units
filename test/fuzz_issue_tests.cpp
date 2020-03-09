@@ -342,4 +342,4 @@ TEST_P(measProblems, measFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(1, 2));
+INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(1, 3));
