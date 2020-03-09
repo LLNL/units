@@ -20,10 +20,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
     std::string test1(reinterpret_cast<const char*>(Data), Size);
 
     auto meas1 = units::measurement_from_string(test1);
-    if (!units::is_valid(meas1)) {
+    if (units::is_valid(meas1)) {
         auto str = units::to_string(meas1);
         auto meas2 = units::measurement_from_string(str);
-        if (units::is_valid(meas2)) {
+        if (!units::is_valid(meas2)) {
             throw(6u);
         }
         bool match = false;
