@@ -26,21 +26,17 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
         if (!units::is_valid(meas2)) {
             throw(6u);
         }
-        bool match = false;
-        auto mc1 = units::measurement_cast(meas1);
-        auto mc2 = units::measurement_cast(meas2);
-        if (mc1 == mc2) {
-            match = true;
-        } else if (isnormal(root(mc2, 2))) {
-            if (root(mc2, 2) == root(mc1, 2)) {
-                match = true;
-            }
-        }
+        bool match = (meas1 == meas2);
         if (!match) {
-            if (isnormal(root(mc2, 3))) {
-                if (root(mc2, 3) == root(mc1, 3)) {
-                    match = true;
-                }
+            auto mc1 = units::measurement_cast(meas1);
+            auto mc2 = units::measurement_cast(meas2);
+            match = (mc1 == mc2);
+
+            if (!match && isnormal(root(mc2, 2))) {
+                match = (root(mc2, 2) == root(mc1, 2));
+            }
+            if (!match && isnormal(root(mc2, 3))) {
+                match = (root(mc2, 3) == root(mc1, 3));
             }
         }
         if (!match) {

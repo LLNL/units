@@ -1115,7 +1115,13 @@ std::string to_string(precise_measurement measure, std::uint32_t match_flags)
     ss.precision(12);
     ss << measure.value();
     ss << ' ';
-    ss << to_string(measure.units(), match_flags);
+	auto str = to_string(measure.units(), match_flags);
+	if (isNumericalCharacter(str.front()))
+	{
+		str.insert(str.begin(), '(');
+		str.push_back(')');
+	}
+	ss << std::move(str);
     return ss.str();
 }
 
@@ -1125,7 +1131,13 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
     ss.precision(6);
     ss << measure.value();
     ss << ' ';
-    ss << to_string(measure.units(), match_flags);
+	auto str = to_string(measure.units(), match_flags);
+	if (isNumericalCharacter(str.front()))
+	{
+		str.insert(str.begin(), '(');
+		str.push_back(')');
+	}
+	ss << std::move(str);
     return ss.str();
 }
 
