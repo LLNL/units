@@ -324,7 +324,7 @@ TEST_P(measProblems, measFiles)
     if (is_valid(m1)) {
         auto str = to_string(m1);
         auto m2 = measurement_from_string(str);
-        EXPECT_TRUE(is_valid(m2));
+        ASSERT_TRUE(is_valid(m2));
         if (m2 == m1) {
             EXPECT_EQ(m2, m1);
             EXPECT_EQ(measurement_cast(m2), measurement_cast(m1));
@@ -342,4 +342,4 @@ TEST_P(measProblems, measFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(1, 3));
+INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(1, 4));

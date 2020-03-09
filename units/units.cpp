@@ -4860,6 +4860,16 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             unit_string.front() == ')' || unit_string.front() == ']')) {
         unit_string.erase(0, 1);
         changed = true;
+        if (unit_string.empty()) {
+            return true;
+        }
+        // check for parenthesis again
+        if (unit_string.front() == '(') {
+            removeOuterParenthesis(unit_string);
+            if (unit_string.empty()) {
+                return true;
+            }
+        }
     }
     // inject multiplies after bracket terminators
     auto fnd = unit_string.find_first_of(")]}");
