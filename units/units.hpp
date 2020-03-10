@@ -966,7 +966,7 @@ static_assert(sizeof(uncertain_measurement) <= 16, "uncertain measurement is too
 class precise_measurement {
   public:
     /// Default constructor
-    constexpr precise_measurement() = default;
+	  constexpr precise_measurement() noexcept {};
     constexpr precise_measurement(double val, precise_unit base) : value_(val), units_(base) {}
     
 	/// implicit conversion from a lower precision measurement
@@ -1148,6 +1148,7 @@ class fixed_precise_measurement {
         return *this;
     }
     // direct conversion operator
+	// NOLINTNEXTLINE(google-explicit-constructor)
 	operator precise_measurement() { return { value_, units_ }; }
 
     constexpr double value() const { return value_; }

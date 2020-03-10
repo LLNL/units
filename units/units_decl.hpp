@@ -414,7 +414,7 @@ namespace detail {
 class unit {
   public:
     /// Default constructor
-    constexpr unit()=default;
+	  constexpr unit() noexcept {}
     explicit constexpr unit(detail::unit_data base_unit) : base_units_(base_unit) {}
     /// Construct unit from base unit and a multiplier
     constexpr unit(detail::unit_data base_unit, double multiplier) :
