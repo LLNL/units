@@ -40,7 +40,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
             }
         }
         if (!match) {
-            if (meas1.units == meas2.units()) {
+            if (meas1.units() == meas2.units()) {
                 throw(std::invalid_argument("measurement and conversion don't match but units do"));
             }
             throw(std::invalid_argument(
