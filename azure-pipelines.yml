@@ -2,25 +2,90 @@
 # Build your C/C++ project with GCC using make.
 # Add steps that publish test results, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
+#copied from https://github.com/CLIUtils/CLI11
 
 trigger:
 - master
 
+variables:
+  units.header: OFF
+  units.std: 14
+  units.build_type: Debug
+  units.options: -DUNITS_ENABLE_TESTS=ON
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+
 jobs:
-- job: Linux
-  pool:
-    vmImage: 'ubuntu-16.04'
-  steps:
-    - template: .ci/azure-steps.yml
 
-- job: macOS
+- job: ClangTidy
+  variables:
+    CXX_FLAGS: "-Werror -Wcast-align -Wfloat-equal -Wimplicit-atomic-properties -Wmissing-declarations -Woverlength-strings -Wshadow -Wstrict-selector-match -Wundeclared-selector -Wunreachable-code -std=c++11"
+    units.options: -DUNITS_CLANG_TIDY=ON -DUNITS_CLANG_TIDY_OPTIONS="-fix" -DUNITS_ENABLE_TESTS=OFF
+    units.std: 11
+    CMAKE_BUILD_PARALLEL_LEVEL: 1
   pool:
-    vmImage: 'macOS-10.13'
+    vmImage: 'ubuntu-latest'
+  container: silkeh/clang:8
   steps:
-    - template: .ci/azure-steps.yml
+    - template: .ci/azure-cmake.yml
+    - template: .ci/azure-build.yml
+    - script: git diff --exit-code --color
+      displayName: Check tidy
 
-- job: Windows
+#- job: CppLint
+#  variables:
+#    units.options:
+#  pool:
+#    vmImage: 'ubuntu-latest'
+#  container: sharaku/cpplint:latest
+#  steps:
+#    - bash: cpplint --counting=detailed --recursive units test
+#      displayName: Checking against google style guide
+
+- job: Native
+  strategy:
+    matrix:
+      Linux14:
+        vmImage: 'ubuntu-latest'
+      macOS17:
+        vmImage: 'macOS-latest'
+        units.std: 17
+      macOS11:
+        vmImage: 'macOS-latest'
+        units.std: 11
+      Windows17:
+        vmImage: 'vs2017-win2016'
+        units.std: 17
+      Windows11:
+        vmImage: 'vs2017-win2016'
+        units.std: 11
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: $(vmImage)
   steps:
-    - template: .ci/azure-steps.yml
+    - template: .ci/azure-build.yml
+    - template: .ci/azure-test.yml
+
+- job: Docker
+  variables:
+    units.header: OFF
+  pool:
+    vmImage: 'ubuntu-latest'
+  strategy:
+    matrix:
+      gcc9:
+        containerImage: gcc:9
+        units.std: 17
+      gcc4.8:
+        containerImage: gcc:4.8
+        units.std: 11
+        units.options:
+      clang3.4:
+        containerImage: silkeh/clang:3.4
+        units.std: 11
+      clang8:
+        containerImage: silkeh/clang:8
+        units.std: 14
+  container: $[ variables['containerImage'] ]
+  steps:
+    - template: .ci/azure-cmake.yml
+    - template: .ci/azure-build.yml
+    - template: .ci/azure-test.yml

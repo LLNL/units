@@ -42,9 +42,17 @@ Travis-CI
 
 Azure
 ---------
-1.  GCC 5.4
-2.  MSVC 2017
-3.  MACOS
+1.  GCC 7.4 C++14
+2.  AppleClang 11.0 (Xcode 11.3) C++17
+3.  AppleClang 11.0 (Xcode 11.3) C++11
+4.  MSVC 2017
+5.  MSVC 2017 C++11
+6.  GCC 9.2 C++17
+7.  GCC 4.8 C++11
+8.  Clang 3.4 C++11
+9.  Clang 8 C++14
+10. Clang-tidy (not doing much yet)
+
 
 Circle-CI
 -----------

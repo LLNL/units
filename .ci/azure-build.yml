@@ -1,0 +1,13 @@
+steps:
+
+- task: CMake@1
+  inputs:
+    cmakeArgs: .. -DUNITS_WARNINGS_AS_ERRORS=ON -DCMAKE_CXX_STANDARD=$(units.std) -DUNITS_HEADER_ONLY=$(units.header) -DCMAKE_BUILD_TYPE=$(units.build_type) $(units.options)
+  displayName: 'Configure'
+  env:
+    GIT_SSL_NO_VERIFY: 1
+
+- script: cmake --build .
+  displayName: 'Build'
+  workingDirectory: build
+
