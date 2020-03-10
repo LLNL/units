@@ -1222,8 +1222,8 @@ class fixed_precise_measurement {
     /// take the measurement to some power
     constexpr friend fixed_precise_measurement pow(const fixed_precise_measurement& meas, int power)
     {
-        return fixed_precise_measurement{
-            detail::power_const(meas.value_, power), meas.units_.pow(power)};
+        return fixed_precise_measurement{detail::power_const(meas.value_, power),
+                                         meas.units_.pow(power)};
     }
 
     /// Convert a unit to have a new base
