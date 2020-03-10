@@ -61,6 +61,9 @@ X numericalRoot(X value, int power)
             }
             return std::sqrt(std::sqrt(X{1.0} / value));
         default:
+			if (value < X{ 0.0 } && power % 2 == 0) {
+				return  constants::invalid_conversion;
+			}
             return std::pow(value, X{1.0} / static_cast<X>(power));
     }
 }
