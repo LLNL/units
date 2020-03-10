@@ -229,20 +229,20 @@ class measurement {
 
     constexpr measurement operator*(measurement other) const
     {
-        return measurement(value_ * other.value_, units_ * other.units_);
+		return { value_ * other.value_, units_ * other.units_ };
     }
     constexpr measurement operator*(unit other) const { return {value_, units_ * other}; }
     constexpr measurement operator*(double val) const { return measurement(value_ * val, units_); }
     constexpr measurement operator/(measurement other) const
     {
-        return measurement(value_ / other.value_, units_ / other.units_);
+		return { value_ / other.value_, units_ / other.units_ };
     }
     constexpr measurement operator/(unit other) const { return {value_, units_ / other}; }
 
     constexpr measurement operator/(double val) const { return measurement(value_ / val, units_); }
     measurement operator%(measurement other) const
     {
-        return measurement(fmod(value_, other.value_as(units_)), units_);
+		return { fmod(value_, other.value_as(units_)), units_ };
     }
     measurement operator%(double val) const { return measurement(fmod(value_, val), units_); }
     measurement operator+(measurement other) const
@@ -251,7 +251,7 @@ class measurement {
     }
     measurement operator-(measurement other) const
     {
-        return measurement(value_ - other.value_as(units_), units_);
+		return { value_ - other.value_as(units_), units_ };
     }
 
     // double multiplier
@@ -267,18 +267,18 @@ class measurement {
 
     friend constexpr measurement pow(const measurement& meas, int power)
     {
-        return measurement{detail::power_const(meas.value_, power), meas.units_.pow(power)};
+        return {detail::power_const(meas.value_, power), meas.units_.pow(power)};
     }
     /// Convert a unit to have a new base
     measurement convert_to(unit newUnits) const
     {
-        return measurement(units::convert(value_, units_, newUnits), newUnits);
+		return { units::convert(value_, units_, newUnits), newUnits };
     }
 
     /// Convert a unit into its base units
     constexpr measurement convert_to_base() const
     {
-        return measurement(value_ * units_.multiplier(), unit(units_.base_units()));
+		return { value_ * units_.multiplier(), unit(units_.base_units()) };
     }
 
     /// extract the current units from the measurement
@@ -640,7 +640,7 @@ class uncertain_measurement {
     /// Get the uncertainty as a separate measurement
     constexpr measurement uncertainty_measurement() const
     {
-        return measurement(uncertainty(), units_);
+		return { uncertainty(), units_ };
     }
 
     /// Cast operator to a measurement
@@ -652,7 +652,7 @@ class uncertain_measurement {
         float tval2 = other.uncertainty_ / other.value_;
         float ntol = std::sqrt(tval1 * tval1 + tval2 * tval2);
         float nval = value_ * other.value_;
-        return uncertain_measurement(nval, nval * ntol, units_ * other.units());
+		return { nval, nval * ntol, units_ * other.units() };
     }
 
     /** Perform a multiplication with uncertain measurements using the simple method for uncertainty propagation*/
@@ -673,16 +673,16 @@ class uncertain_measurement {
     }
     constexpr uncertain_measurement operator*(unit other) const
     {
-        return uncertain_measurement(value_, uncertainty_, units_ * other);
+		return { value_, uncertainty_, units_ * other };
     }
     constexpr uncertain_measurement operator*(float val) const
     {
-        return uncertain_measurement(value_ * val, uncertainty_ * val, units_);
+		return { value_ * val, uncertainty_ * val, units_ };
     }
 
     constexpr uncertain_measurement operator*(double val) const
     {
-        return uncertain_measurement(value() * val, uncertainty() * val, units_);
+		return uncertain_measurement( value() * val, uncertainty() * val, units_ );
     }
     /** compute a unit division and calculate the new uncertainties using the root sum of squares(rss) method*/
     uncertain_measurement operator/(uncertain_measurement other) const
@@ -691,7 +691,7 @@ class uncertain_measurement {
         float tval2 = other.uncertainty_ / other.value_;
         float ntol = std::sqrt(tval1 * tval1 + tval2 * tval2);
         float nval = value_ / other.value_;
-        return uncertain_measurement(nval, nval * ntol, units_ / other.units());
+		return { nval, nval * ntol, units_ / other.units() };
     }
 
     /** division operator propagate uncertainty using simple method allowing constexpr in C++14
@@ -700,7 +700,7 @@ class uncertain_measurement {
     {
         float ntol = uncertainty_ / value_ + other.uncertainty_ / other.value_;
         float nval = value_ / other.value_;
-        return uncertain_measurement(nval, nval * ntol, units_ / other.units());
+		return { nval, nval * ntol, units_ / other.units() };
     }
 
     constexpr uncertain_measurement operator/(measurement other) const
@@ -712,15 +712,15 @@ class uncertain_measurement {
     }
     constexpr uncertain_measurement operator/(unit other) const
     {
-        return uncertain_measurement(value_, uncertainty_, units_ / other);
+		return { value_, uncertainty_, units_ / other };
     }
     constexpr uncertain_measurement operator/(float val) const
     {
-        return uncertain_measurement(value_ / val, uncertainty_ / val, units_);
+		return uncertain_measurement(value_ / val, uncertainty_ / val, units_ );
     }
     constexpr uncertain_measurement operator/(double val) const
     {
-        return uncertain_measurement(value() / val, uncertainty() / val, units_);
+		return uncertain_measurement( value() / val, uncertainty() / val, units_ );
     }
 
     /** compute a unit addition and calculate the new uncertainties using the root sum of squares(rss) method*/
