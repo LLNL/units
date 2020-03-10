@@ -23,7 +23,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
     if (isnormal(meas1)) {
         auto str = to_string(meas1);
         auto meas2 = units::measurement_from_string(str);
-        if (!m2.units().has_same_base(m1.units()) && !isnormal(meas2)) {
+        if (!meas2.units().has_same_base(meas1.units()) && !isnormal(meas2)) {
             throw(6u);
         }
         bool match = (meas1 == meas2);
