@@ -1921,6 +1921,13 @@ static const smap base_unit_vals{
     {"def", precise::defunit},
     {"default", precise::defunit},
     {"defunit", precise::defunit},
+	{"*", precise::defunit},
+	{"**", precise::defunit},
+	{"***", precise::defunit},
+	{"****", precise::defunit},
+	{"*****", precise::defunit},
+	{"******", precise::defunit},
+	{"^^^", precise::defunit},
     {"1", precise::one},
     {"one", precise::one},
     {"inf", precise::infinite},
@@ -4891,9 +4898,6 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         // check for parenthesis again
         if (unit_string.front() == '(') {
             removeOuterParenthesis(unit_string);
-            if (unit_string.empty()) {
-                return true;
-            }
         }
     }
     // inject multiplies after bracket terminators
