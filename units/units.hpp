@@ -221,7 +221,8 @@ double convert(double val, UX start, UX2 result, double basePower, double baseVo
 class measurement {
   public:
     /// Default constructor
-    constexpr measurement() = default;
+	// NOLINTNEXTLINE(modernize-use-equals-default)
+	constexpr measurement() noexcept {}
     /// construct from a value and unit
     constexpr measurement(double val, unit base) : value_(val), units_(base) {}
     /// Get the base value with no units
@@ -966,6 +967,7 @@ static_assert(sizeof(uncertain_measurement) <= 16, "uncertain measurement is too
 class precise_measurement {
   public:
     /// Default constructor
+	  // NOLINTNEXTLINE(modernize-use-equals-default)
 	  constexpr precise_measurement() noexcept {};
     constexpr precise_measurement(double val, precise_unit base) : value_(val), units_(base) {}
     

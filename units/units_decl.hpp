@@ -414,6 +414,7 @@ namespace detail {
 class unit {
   public:
     /// Default constructor
+	  // NOLINTNEXTLINE(modernize-use-equals-default)
 	  constexpr unit() noexcept {}
     explicit constexpr unit(detail::unit_data base_unit) : base_units_(base_unit) {}
     /// Construct unit from base unit and a multiplier
@@ -531,7 +532,8 @@ class unit {
 class precise_unit {
   public:
     /// Default constructor
-	  constexpr precise_unit() = default;
+	  // NOLINTNEXTLINE(modernize-use-equals-default)
+	  constexpr precise_unit() noexcept {};
     explicit constexpr precise_unit(detail::unit_data base_unit) noexcept : base_units_(base_unit)
     {
     }
