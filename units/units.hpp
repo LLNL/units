@@ -380,6 +380,7 @@ class fixed_measurement {
     }
 
     /// direct conversion operator
+	// NOLINTNEXTLINE(google-explicit-constructor)
 	operator measurement() { return { value_, units_ }; }
 
     /// Get the base value with no units
@@ -644,6 +645,7 @@ class uncertain_measurement {
     }
 
     /// Cast operator to a measurement
+	// NOLINTNEXTLINE(google-explicit-constructor)
 	constexpr operator measurement() const { return { value(), units_ }; }
     /** Compute a product and calculate the new uncertainties using the root sum of squares(rss) method*/
     uncertain_measurement operator*(uncertain_measurement other) const
@@ -764,7 +766,7 @@ class uncertain_measurement {
 
     uncertain_measurement operator-(measurement other) const
     {
-        float cval = static_cast<float>(other.value_as(units_));
+        auto cval = static_cast<float>(other.value_as(units_));
 		return { value_ - cval, uncertainty_, units_ };
     }
 
@@ -781,8 +783,8 @@ class uncertain_measurement {
     /// Convert a unit to have a new base
     uncertain_measurement convert_to(unit newUnits) const
     {
-        float cval = static_cast<float>(convert(units_, newUnits));
-        return uncertain_measurement(cval * value_, uncertainty_ * cval, newUnits);
+        auto cval = static_cast<float>(convert(units_, newUnits));
+		return { cval * value_, uncertainty_ * cval, newUnits };
     }
     /// Get the underlying units value
     constexpr unit units() const { return units_; }
@@ -966,7 +968,9 @@ class precise_measurement {
     /// Default constructor
     constexpr precise_measurement() = default;
     constexpr precise_measurement(double val, precise_unit base) : value_(val), units_(base) {}
-    /// implicit conversion from a lower precision measurement
+    
+	/// implicit conversion from a lower precision measurement
+	// NOLINTNEXTLINE(google-explicit-constructor)
     constexpr precise_measurement(const measurement& other) :
         value_(other.value()), units_(other.units())
     {

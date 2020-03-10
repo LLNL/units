@@ -1131,7 +1131,7 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
 
 std::string to_string(uncertain_measurement measure, std::uint32_t match_flags)
 {
-    //TODO:PT, this should really follow more appropriate rules for digits of precision
+    // TODO(PT), this should really follow more appropriate rules for digits of precision
     std::stringstream ss;
     ss.precision(6);
     ss << measure.value_f();
