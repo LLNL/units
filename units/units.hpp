@@ -232,22 +232,22 @@ class measurement {
 		return { value_ * other.value_, units_ * other.units_ };
     }
     constexpr measurement operator*(unit other) const { return {value_, units_ * other}; }
-    constexpr measurement operator*(double val) const { return measurement(value_ * val, units_); }
+	constexpr measurement operator*(double val) const { return { value_ * val, units_ }; }
     constexpr measurement operator/(measurement other) const
     {
 		return { value_ / other.value_, units_ / other.units_ };
     }
     constexpr measurement operator/(unit other) const { return {value_, units_ / other}; }
 
-    constexpr measurement operator/(double val) const { return measurement(value_ / val, units_); }
+	constexpr measurement operator/(double val) const { return { value_ / val, units_ }; }
     measurement operator%(measurement other) const
     {
 		return { fmod(value_, other.value_as(units_)), units_ };
     }
-    measurement operator%(double val) const { return measurement(fmod(value_, val), units_); }
+	measurement operator%(double val) const { return { fmod(value_, val), units_ }; }
     measurement operator+(measurement other) const
     {
-        return measurement(value_ + other.value_as(units_), units_);
+		return { value_ + other.value_as(units_), units_ };
     }
     measurement operator-(measurement other) const
     {
@@ -285,7 +285,7 @@ class measurement {
     constexpr unit units() const { return units_; }
 
     // convert the measurement to a single unit
-    constexpr unit as_unit() const { return unit(value_, units_); }
+	constexpr unit as_unit() const { return { value_, units_ }; }
     /// Equality operator
     bool operator==(measurement other) const
     {
@@ -380,18 +380,18 @@ class fixed_measurement {
     }
 
     /// direct conversion operator
-    operator measurement() { return measurement(value_, units_); }
+	operator measurement() { return { value_, units_ }; }
 
     /// Get the base value with no units
     constexpr double value() const { return value_; }
 
     constexpr measurement operator*(measurement other) const
     {
-        return measurement(value_ * other.value(), units_ * other.units());
+		return { value_ * other.value(), units_ * other.units() };
     }
     constexpr measurement operator*(unit other) const
     {
-        return measurement(value_, units_ * other);
+		return { value_, units_ * other };
     }
     constexpr fixed_measurement operator*(double val) const
     {
@@ -399,11 +399,11 @@ class fixed_measurement {
     }
     constexpr measurement operator/(measurement other) const
     {
-        return measurement(value_ / other.value(), units_ / other.units());
+		return { value_ / other.value(), units_ / other.units() };
     }
     constexpr measurement operator/(unit other) const
     {
-        return measurement(value_, units_ / other);
+		return { value_, units_ / other };
     }
     constexpr fixed_measurement operator/(double val) const
     {
@@ -442,7 +442,7 @@ class fixed_measurement {
     constexpr unit units() const { return units_; }
 
     /// convert the measurement to a single unit
-    constexpr unit as_unit() const { return unit(value_, units_); }
+	constexpr unit as_unit() const { return { value_, units_ }; }
 
     /// Get the numerical value as a particular unit type
     double value_as(unit units) const
@@ -644,7 +644,7 @@ class uncertain_measurement {
     }
 
     /// Cast operator to a measurement
-    constexpr operator measurement() const { return measurement(value(), units_); }
+	constexpr operator measurement() const { return { value(), units_ }; }
     /** Compute a product and calculate the new uncertainties using the root sum of squares(rss) method*/
     uncertain_measurement operator*(uncertain_measurement other) const
     {
@@ -666,10 +666,10 @@ class uncertain_measurement {
 	equivalent to uncertain_measurement multiplication with 0 uncertainty*/
     constexpr uncertain_measurement operator*(measurement other) const
     {
-        return uncertain_measurement(
-            static_cast<float>(value() * other.value()),
-            static_cast<float>(other.value() * uncertainty()),
-            units_ * other.units());
+		return {
+			static_cast<float>(value() * other.value()),
+			static_cast<float>(other.value() * uncertainty()),
+			units_ * other.units() };
     }
     constexpr uncertain_measurement operator*(unit other) const
     {
@@ -705,10 +705,10 @@ class uncertain_measurement {
 
     constexpr uncertain_measurement operator/(measurement other) const
     {
-        return uncertain_measurement(
-            static_cast<float>(value() / other.value()),
-            static_cast<float>(uncertainty() / other.value()),
-            units_ / other.units());
+		return {
+			static_cast<float>(value() / other.value()),
+			static_cast<float>(uncertainty() / other.value()),
+			units_ / other.units() };
     }
     constexpr uncertain_measurement operator/(unit other) const
     {
@@ -716,7 +716,7 @@ class uncertain_measurement {
     }
     constexpr uncertain_measurement operator/(float val) const
     {
-		return uncertain_measurement(value_ / val, uncertainty_ / val, units_ );
+		return { value_ / val, uncertainty_ / val, units_ };
     }
     constexpr uncertain_measurement operator/(double val) const
     {
@@ -726,46 +726,46 @@ class uncertain_measurement {
     /** compute a unit addition and calculate the new uncertainties using the root sum of squares(rss) method*/
     uncertain_measurement operator+(uncertain_measurement other) const
     {
-        float cval = static_cast<float>(convert(other.units_, units_));
+        auto cval = static_cast<float>(convert(other.units_, units_));
         float ntol = std::sqrt(
             uncertainty_ * uncertainty_ + cval * cval * other.uncertainty_ * other.uncertainty_);
-        return uncertain_measurement(value_ + cval * other.value_, ntol, units_);
+		return { value_ + cval * other.value_, ntol, units_ };
     }
 
     uncertain_measurement simple_add(uncertain_measurement other) const
     {
-        float cval = static_cast<float>(convert(other.units_, units_));
+        auto cval = static_cast<float>(convert(other.units_, units_));
         float ntol = uncertainty_ + other.uncertainty_ * cval;
-        return uncertain_measurement(value_ + cval * other.value_, ntol, units_);
+		return { value_ + cval * other.value_, ntol, units_ };
     }
 
     /** compute a unit subtraction and calculate the new uncertainties using the root sum of squares(rss) method*/
     uncertain_measurement operator-(uncertain_measurement other) const
     {
-        float cval = static_cast<float>(convert(other.units_, units_));
+        auto cval = static_cast<float>(convert(other.units_, units_));
         float ntol = std::sqrt(
             uncertainty_ * uncertainty_ + cval * cval * other.uncertainty_ * other.uncertainty_);
-        return uncertain_measurement(value_ - cval * other.value_, ntol, units_);
+		return { value_ - cval * other.value_, ntol, units_ };
     }
 
     /** compute a unit subtraction and calculate the new uncertainties using the simple uncertainty summation method*/
     uncertain_measurement simple_subtract(uncertain_measurement other) const
     {
-        float cval = static_cast<float>(convert(other.units_, units_));
+        auto cval = static_cast<float>(convert(other.units_, units_));
         float ntol = uncertainty_ + other.uncertainty_ * cval;
-        return uncertain_measurement(value_ - cval * other.value_, ntol, units_);
+		return { value_ - cval * other.value_, ntol, units_ };
     }
 
     uncertain_measurement operator+(measurement other) const
     {
-        float cval = static_cast<float>(other.value_as(units_));
-        return uncertain_measurement(value_ + cval, uncertainty_, units_);
+        auto cval = static_cast<float>(other.value_as(units_));
+		return { value_ + cval, uncertainty_, units_ };
     }
 
     uncertain_measurement operator-(measurement other) const
     {
         float cval = static_cast<float>(other.value_as(units_));
-        return uncertain_measurement(value_ - cval, uncertainty_, units_);
+		return { value_ - cval, uncertainty_, units_ };
     }
 
     /// take the measurement to some power
@@ -1144,7 +1144,7 @@ class fixed_precise_measurement {
         return *this;
     }
     // direct conversion operator
-    operator precise_measurement() { return precise_measurement(value_, units_); }
+	operator precise_measurement() { return { value_, units_ }; }
 
     constexpr double value() const { return value_; }
     constexpr precise_unit units() const { return units_; }
@@ -1393,7 +1393,7 @@ inline bool isnormal(const uncertain_measurement& meas)
 /// perform a down-conversion from a precise measurement to a measurement
 constexpr measurement measurement_cast(const precise_measurement& measure)
 {
-    return measurement(measure.value(), unit_cast(measure.units()));
+	return { measure.value(), unit_cast(measure.units()) };
 }
 
 /// perform a down-conversion from a fixed precise measurement to a fixed measurement
@@ -1417,7 +1417,7 @@ constexpr measurement measurement_cast(measurement measure)
 /// perform a conversion from a uncertain measurement to a measurement so it can work in templates
 constexpr measurement measurement_cast(const uncertain_measurement& measure)
 {
-    return measurement(measure.value(), measure.units());
+	return { measure.value(), measure.units() };
 }
 
 #ifndef UNITS_HEADER_ONLY

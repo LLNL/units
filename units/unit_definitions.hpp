@@ -8,8 +8,9 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "units_decl.hpp"
 
-#include <limits>
 #include <array>
+#include <limits>
+
 
 namespace units {
 /// Constants used in definitions of units
