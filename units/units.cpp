@@ -5438,7 +5438,8 @@ static precise_unit unit_from_string_internal(std::string unit_string, std::uint
             }
         }
     }
-    if ((match_flags & no_commodities) == 0 && unit_string.back() == '}') {
+    if ((match_flags & no_commodities) == 0 && unit_string.back() == '}' &&
+        unit_string.find('{') != std::string::npos) {
         return commoditizedUnit(unit_string, match_flags);
     }
     if (unit_string.size() >= 3) {
