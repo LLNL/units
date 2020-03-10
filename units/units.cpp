@@ -37,16 +37,28 @@ X numericalRoot(X value, int power)
         case -1:
             return X{1.0} / value;
         case 2:
+            if (value < X{0.0}) {
+                return constants::invalid_conversion;
+            }
             return std::sqrt(value);
         case -2:
+            if (value < X{0.0}) {
+                return constants::invalid_conversion;
+            }
             return std::sqrt(X{1.0} / value);
         case 3:
             return std::cbrt(value);
         case -3:
             return std::cbrt(X{1.0} / value);
         case 4:
+            if (value < X{0.0}) {
+                return constants::invalid_conversion;
+            }
             return std::sqrt(std::sqrt(value));
         case -4:
+            if (value < X{0.0}) {
+                return constants::invalid_conversion;
+            }
             return std::sqrt(std::sqrt(X{1.0} / value));
         default:
             return std::pow(value, X{1.0} / static_cast<X>(power));
@@ -1115,13 +1127,12 @@ std::string to_string(precise_measurement measure, std::uint32_t match_flags)
     ss.precision(12);
     ss << measure.value();
     ss << ' ';
-	auto str = to_string(measure.units(), match_flags);
-	if (isNumericalCharacter(str.front()))
-	{
-		str.insert(str.begin(), '(');
-		str.push_back(')');
-	}
-	ss << std::move(str);
+    auto str = to_string(measure.units(), match_flags);
+    if (isNumericalCharacter(str.front())) {
+        str.insert(str.begin(), '(');
+        str.push_back(')');
+    }
+    ss << std::move(str);
     return ss.str();
 }
 
@@ -1131,13 +1142,12 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
     ss.precision(6);
     ss << measure.value();
     ss << ' ';
-	auto str = to_string(measure.units(), match_flags);
-	if (isNumericalCharacter(str.front()))
-	{
-		str.insert(str.begin(), '(');
-		str.push_back(')');
-	}
-	ss << std::move(str);
+    auto str = to_string(measure.units(), match_flags);
+    if (isNumericalCharacter(str.front())) {
+        str.insert(str.begin(), '(');
+        str.push_back(')');
+    }
+    ss << std::move(str);
     return ss.str();
 }
 

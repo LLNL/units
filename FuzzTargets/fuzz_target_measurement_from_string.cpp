@@ -20,10 +20,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
     std::string test1(reinterpret_cast<const char*>(Data), Size);
 
     auto meas1 = units::measurement_from_string(test1);
-    if (units::is_valid(meas1)) {
-        auto str = units::to_string(meas1);
+    if (is_valid(meas1)) {
+        auto str = to_string(meas1);
         auto meas2 = units::measurement_from_string(str);
-        if (!units::is_valid(meas2)) {
+        if (!is_valid(meas2)) {
             throw(6u);
         }
         bool match = (meas1 == meas2);
@@ -32,10 +32,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
             auto mc2 = units::measurement_cast(meas2);
             match = (mc1 == mc2);
 
-            if (!match && isnormal(root(mc2, 2))) {
+            if (!match && isnormal(root(meas2, 2))) {
                 match = (root(mc2, 2) == root(mc1, 2));
             }
-            if (!match && isnormal(root(mc2, 3))) {
+            if (!match && isnormal(root(meas2, 3))) {
                 match = (root(mc2, 3) == root(mc1, 3));
             }
         }
