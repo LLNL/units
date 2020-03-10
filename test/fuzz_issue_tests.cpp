@@ -324,7 +324,7 @@ TEST_P(measProblems, measFiles)
     if (isnormal(m1)) {
         auto str = to_string(m1);
         auto m2 = measurement_from_string(str);
-        ASSERT_TRUE(m2 == m1 || isnormal(m2));
+        ASSERT_TRUE(m2.units().has_same_base(m1.units()) || isnormal(m2));
         if (m2 == m1) {
             EXPECT_EQ(m2, m1);
             EXPECT_EQ(measurement_cast(m2), measurement_cast(m1));
@@ -342,4 +342,4 @@ TEST_P(measProblems, measFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(7, 8));
+INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(8, 9));
