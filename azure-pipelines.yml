@@ -11,7 +11,7 @@ variables:
   units.header: OFF
   units.std: 14
   units.build_type: Debug
-  units.options: -DUNITS_BUILD_TESTS=ON
+  units.options: -DUNITS_ENABLE_TESTS=ON
   CMAKE_BUILD_PARALLEL_LEVEL: 4
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
 - job: ClangTidy
   variables:
     CXX_FLAGS: "-Werror -Wcast-align -Wfloat-equal -Wimplicit-atomic-properties -Wmissing-declarations -Woverlength-strings -Wshadow -Wstrict-selector-match -Wundeclared-selector -Wunreachable-code -std=c++11"
-    units.options: -DUNITS_CLANG_TIDY=ON -DUNITS_CLANG_TIDY_OPTIONS="-fix"
+    units.options: -DUNITS_CLANG_TIDY=ON -DUNITS_CLANG_TIDY_OPTIONS="-fix" -DUNITS_ENABLE_TESTS=OFF
     units.std: 11
     CMAKE_BUILD_PARALLEL_LEVEL: 1
   pool:
@@ -32,6 +32,8 @@ jobs:
       displayName: Check tidy
 
 - job: CppLint
+  variables:
+    units.options:
   pool:
     vmImage: 'ubuntu-latest'
   container: sharaku/cpplint:latest
