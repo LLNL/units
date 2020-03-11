@@ -37,18 +37,33 @@ X numericalRoot(X value, int power)
         case -1:
             return X{1.0} / value;
         case 2:
+            if (value < X{0.0}) {
+                return constants::invalid_conversion;
+            }
             return std::sqrt(value);
         case -2:
+            if (value < X{0.0}) {
+                return constants::invalid_conversion;
+            }
             return std::sqrt(X{1.0} / value);
         case 3:
             return std::cbrt(value);
         case -3:
             return std::cbrt(X{1.0} / value);
         case 4:
+            if (value < X{0.0}) {
+                return constants::invalid_conversion;
+            }
             return std::sqrt(std::sqrt(value));
         case -4:
+            if (value < X{0.0}) {
+                return constants::invalid_conversion;
+            }
             return std::sqrt(std::sqrt(X{1.0} / value));
         default:
+            if (value < X{0.0} && power % 2 == 0) {
+                return constants::invalid_conversion;
+            }
             return std::pow(value, X{1.0} / static_cast<X>(power));
     }
 }
@@ -1115,7 +1130,12 @@ std::string to_string(precise_measurement measure, std::uint32_t match_flags)
     ss.precision(12);
     ss << measure.value();
     ss << ' ';
-    ss << to_string(measure.units(), match_flags);
+    auto str = to_string(measure.units(), match_flags);
+    if (isNumericalCharacter(str.front())) {
+        str.insert(str.begin(), '(');
+        str.push_back(')');
+    }
+    ss << std::move(str);
     return ss.str();
 }
 
@@ -1125,7 +1145,12 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
     ss.precision(6);
     ss << measure.value();
     ss << ' ';
-    ss << to_string(measure.units(), match_flags);
+    auto str = to_string(measure.units(), match_flags);
+    if (isNumericalCharacter(str.front())) {
+        str.insert(str.begin(), '(');
+        str.push_back(')');
+    }
+    ss << std::move(str);
     return ss.str();
 }
 
@@ -1896,6 +1921,13 @@ static const smap base_unit_vals{
     {"def", precise::defunit},
     {"default", precise::defunit},
     {"defunit", precise::defunit},
+    {"*", precise::defunit},
+    {"**", precise::defunit},
+    {"***", precise::defunit},
+    {"****", precise::defunit},
+    {"*****", precise::defunit},
+    {"******", precise::defunit},
+    {"^^^", precise::defunit},
     {"1", precise::one},
     {"one", precise::one},
     {"inf", precise::infinite},
@@ -4860,6 +4892,13 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             unit_string.front() == ')' || unit_string.front() == ']')) {
         unit_string.erase(0, 1);
         changed = true;
+        if (unit_string.empty()) {
+            return true;
+        }
+        // check for parenthesis again
+        if (unit_string.front() == '(') {
+            removeOuterParenthesis(unit_string);
+        }
     }
     // inject multiplies after bracket terminators
     auto fnd = unit_string.find_first_of(")]}");
@@ -5406,7 +5445,8 @@ static precise_unit unit_from_string_internal(std::string unit_string, std::uint
             }
         }
     }
-    if ((match_flags & no_commodities) == 0 && unit_string.back() == '}') {
+    if ((match_flags & no_commodities) == 0 && unit_string.back() == '}' &&
+        unit_string.find('{') != std::string::npos) {
         return commoditizedUnit(unit_string, match_flags);
     }
     if (unit_string.size() >= 3) {

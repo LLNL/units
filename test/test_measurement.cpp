@@ -152,6 +152,19 @@ TEST(Measurement, powroot)
 
     measurement m4(16.0, m.pow(2));
     EXPECT_EQ(sqrt(m4), measurement(4.0, m));
+
+    measurement mneg(-0.25, m.pow(6));
+    EXPECT_FALSE(is_valid(root(mneg, 2)));
+    EXPECT_FALSE(is_valid(root(mneg, -2)));
+    EXPECT_FALSE(is_valid(root(mneg, 4)));
+    EXPECT_FALSE(is_valid(root(mneg, -4)));
+    EXPECT_FALSE(is_valid(root(mneg, 6)));
+    EXPECT_FALSE(is_valid(root(mneg, -6)));
+    EXPECT_TRUE(is_valid(root(mneg, 0)));
+    EXPECT_TRUE(is_valid(root(mneg, 1)));
+    EXPECT_TRUE(is_valid(root(mneg, -1)));
+    EXPECT_TRUE(is_valid(root(mneg, 3)));
+    EXPECT_TRUE(is_valid(root(mneg, -3)));
 #endif
 }
 

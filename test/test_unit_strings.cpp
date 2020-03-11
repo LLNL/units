@@ -205,6 +205,16 @@ TEST(stringToUnits, Simple)
     EXPECT_EQ(precise::m, unit_from_string("meter"));
 }
 
+TEST(stringToUnits, to_default_unit)
+{
+    EXPECT_EQ(precise::defunit, unit_from_string("*"));
+    EXPECT_EQ(precise::defunit, unit_from_string("**"));
+    EXPECT_EQ(precise::defunit, unit_from_string("}"));
+    EXPECT_EQ(precise::defunit, unit_from_string("}()"));
+    EXPECT_EQ(precise::defunit, unit_from_string("***"));
+    EXPECT_EQ(precise::defunit, unit_from_string("*******"));
+}
+
 TEST(stringToUnits, Power)
 {
     EXPECT_EQ(precise::m.pow(2), unit_from_string("m^2"));

@@ -79,3 +79,14 @@ TEST(MeasurementToString, test)
     EXPECT_EQ(str1, "10 g/L");
     EXPECT_EQ(str2, "2.7 puMW");
 }
+
+TEST(MeasurementToString, unit_withNumbers)
+{
+    measurement ounit = 10.0 * unit(0.712412, kg.pow(2));
+    precise_measurement ounitp = 10.0 * precise_unit(0.712412, precise::kg.pow(2));
+    auto str1 = to_string(ounit);
+    auto str2 = to_string(ounitp);
+    // from google tests
+    EXPECT_TRUE(str1.compare(0, 11, "10 (0.71241") == 0);
+    EXPECT_TRUE(str2.compare(0, 11, "10 (0.71241") == 0);
+}

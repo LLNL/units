@@ -69,7 +69,7 @@ jobs:
       - store_artifacts:
           path: /root/project/build/FuzzTargets/units_fail_string_artifact.txt
       - store_artifacts:
-          path: /root/project/build/FuzzTargets/units_fail_flags_artifact.txt
+          path: /root/project/build/FuzzTargets/units_fail_measurement_artifact.txt
 
 workflows:
   version: 2
