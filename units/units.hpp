@@ -1437,8 +1437,8 @@ class fixed_precise_measurement {
             detail::compare_round_equals_precise(value_, val);
     }
     bool operator!=(double val) const { return !operator==(val); }
-    constexpr bool operator>(double val) const { return value_ > val; };
-    constexpr bool operator<(double val) const { return value_ < val; };
+    constexpr bool operator>(double val) const { return value_ > val; }
+    constexpr bool operator<(double val) const { return value_ < val; }
     bool operator>=(double val) const
     {
         return (value_ >= val) ? true : operator==(val);

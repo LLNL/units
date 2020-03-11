@@ -610,7 +610,7 @@ TEST(customUnits, definition)
 
 TEST(customUnits, testAllInv)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii) {
+    for (std::uint16_t ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()));
         EXPECT_FALSE(
@@ -645,13 +645,13 @@ TEST(customUnits, testAllInv)
 
 TEST(customUnits, uniqueness)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii) {
+    for (std::uint16_t ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1inv = cunit1.inv();
 
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1.base_units()), ii);
         EXPECT_EQ(precise::custom::custom_unit_number(cunit1.base_units()), ii);
-        for (unsigned short jj = 0; jj < 1024; ++jj) {
+        for (std::uint16_t jj = 0; jj < 1024; ++jj) {
             if (ii == jj) {
                 continue;
             }
@@ -673,7 +673,7 @@ TEST(customUnits, uniqueness)
 
 TEST(customUnits, uniquenesspermeter)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii) {
+    for (std::uint16_t ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::meter;
 
@@ -686,7 +686,7 @@ TEST(customUnits, uniquenesspermeter)
             << "Error with custom unit/meter detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
             << "Error with custom unit/meter detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj) {
+        for (std::uint16_t jj = 0; jj < 1024; ++jj) {
             if (ii == jj) {
                 continue;
             }
@@ -709,7 +709,7 @@ TEST(customUnits, uniquenesspermeter)
 
 TEST(customUnits, uniquenesspermeter2)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii) {
+    for (std::uint16_t ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::meter.pow(2);
         EXPECT_EQ(
@@ -722,7 +722,7 @@ TEST(customUnits, uniquenesspermeter2)
             << "Error with custom unit/meter2 detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
             << "Error with custom unit/meter2 detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj) {
+        for (std::uint16_t jj = 0; jj < 1024; ++jj) {
             if (ii == jj) {
                 continue;
             }
@@ -745,7 +745,7 @@ TEST(customUnits, uniquenesspermeter2)
 
 TEST(customUnits, uniquenesspermeter3)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii) {
+    for (std::uint16_t ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::meter.pow(3);
         EXPECT_EQ(
@@ -757,7 +757,7 @@ TEST(customUnits, uniquenesspermeter3)
             << "Error with custom unit/meter3 detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
             << "Error with custom unit/meter3 detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj) {
+        for (std::uint16_t jj = 0; jj < 1024; ++jj) {
             if (ii == jj) {
                 continue;
             }
@@ -780,7 +780,7 @@ TEST(customUnits, uniquenesspermeter3)
 
 TEST(customUnits, uniquenessperkg)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii) {
+    for (std::uint16_t ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::kg;
         EXPECT_EQ(
@@ -792,7 +792,7 @@ TEST(customUnits, uniquenessperkg)
             << "Error with custom unit/kg detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
             << "Error with custom unit/kg detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj) {
+        for (std::uint16_t jj = 0; jj < 1024; ++jj) {
             if (ii == jj) {
                 continue;
             }
@@ -815,7 +815,7 @@ TEST(customUnits, uniquenessperkg)
 
 TEST(customUnits, uniquenesspersecond)
 {
-    for (unsigned short ii = 0; ii < 1024; ++ii) {
+    for (std::uint16_t ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
         auto cunit1adj = cunit1 / precise::s;
         EXPECT_EQ(
@@ -827,7 +827,7 @@ TEST(customUnits, uniquenesspersecond)
             << "Error with custom unit/s detection " << ii;
         EXPECT_TRUE(precise::custom::is_custom_unit(cunit1adj.base_units()))
             << "Error with custom unit/s detection of inverse " << ii;
-        for (unsigned short jj = 0; jj < 1024; ++jj) {
+        for (std::uint16_t jj = 0; jj < 1024; ++jj) {
             if (ii == jj) {
                 continue;
             }
@@ -857,7 +857,7 @@ TEST(customCountUnits, definition)
 
 TEST(customCountUnits, testAllInv)
 {
-    for (unsigned short ii = 0; ii < 16; ++ii) {
+    for (std::uint16_t ii = 0; ii < 16; ++ii) {
         auto cunit1 = precise::generate_custom_count_unit(ii);
         EXPECT_TRUE(precise::custom::is_custom_count_unit(cunit1.base_units()));
         EXPECT_FALSE(precise::custom::is_custom_count_unit_inverted(
@@ -890,7 +890,7 @@ TEST(customCountUnits, testAllInv)
 
 TEST(customCountUnits, uniqueness)
 {
-    for (unsigned short ii = 0; ii < 16; ++ii) {
+    for (std::uint16_t ii = 0; ii < 16; ++ii) {
         auto cunit1 = precise::generate_custom_count_unit(ii);
         auto cunit1inv = cunit1.inv();
 
@@ -898,7 +898,7 @@ TEST(customCountUnits, uniqueness)
             precise::custom::custom_count_unit_number(cunit1.base_units()), ii);
         EXPECT_EQ(
             precise::custom::custom_count_unit_number(cunit1.base_units()), ii);
-        for (unsigned short jj = 0; jj < 16; ++jj) {
+        for (std::uint16_t jj = 0; jj < 16; ++jj) {
             if (ii == jj) {
                 continue;
             }

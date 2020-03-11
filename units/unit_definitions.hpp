@@ -10,6 +10,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <array>
 #include <limits>
+#include <algorithm>
 
 namespace units {
 /// Constants used in definitions of units
@@ -807,11 +808,11 @@ namespace precise {
 
     /// Some support for custom units
     namespace custom {
-        constexpr int bShift(unsigned short val, int bit)
+        constexpr int bShift(std::uint16_t val, int bit)
         {
             return (((val >> bit) & 0x1) > 0) ? 1 : 0;
         }
-        constexpr unsigned int bShiftu(unsigned short val, int bit)
+        constexpr unsigned int bShiftu(std::uint16_t val, int bit)
         {
             return (((val >> bit) & 0x1) > 0) ? 1u : 0u;
         }
@@ -822,7 +823,7 @@ namespace precise {
         units without undefined behavior something will happen but it may not be
         consistent,  there are 1024 possible custom units
         */
-        constexpr detail::unit_data custom_unit(unsigned short customX)
+        constexpr detail::unit_data custom_unit(std::uint16_t customX)
         {
             return {7 - 4 * bShift(customX, 8), // 3 or 7
                     -2 + 3 * bShift(customX, 7), //-2 or 1
@@ -913,7 +914,7 @@ namespace precise {
         meter/kg/s and inverted there are only 16 (0-15) available custom
         counting units due to the stringent requirement on extra operations
         */
-        constexpr detail::unit_data custom_count_unit(unsigned short customX)
+        constexpr detail::unit_data custom_count_unit(std::uint16_t customX)
         {
             return {0,
                     0,
@@ -943,12 +944,12 @@ namespace precise {
             return false;
         }
         /// Get the number code for the custom count unit
-        inline unsigned short custom_count_unit_number(detail::unit_data UT)
+        inline std::uint16_t custom_count_unit_number(detail::unit_data UT)
         {
             unsigned int num = (UT.has_e_flag() ? 1U : 0U) +
                 (UT.has_i_flag() ? 2U : 0U) + (UT.is_per_unit() ? 4U : 0U);
             num += (UT.candela() == 0) ? 0U : 8U;
-            return static_cast<unsigned short>(num);
+            return static_cast<std::uint16_t>(num);
         }
         /// check if 1/custom unit
         inline bool is_custom_count_unit_inverted(detail::unit_data UT)
@@ -960,7 +961,7 @@ namespace precise {
         @details an equation unit triggers the equation flag and an index 0-31
         */
         constexpr detail::unit_data
-            equation_unit(unsigned short equation_number)
+            equation_unit(std::uint16_t equation_number)
         {
             return {0,
                     0,
@@ -989,12 +990,12 @@ namespace precise {
     } // namespace custom
 
     /// Generate a custom unit from a code number
-    constexpr precise_unit generate_custom_unit(unsigned short code)
+    constexpr precise_unit generate_custom_unit(std::uint16_t code)
     {
         return precise_unit(custom::custom_unit(code));
     }
     /// Generate a custom counting unit from a code number
-    constexpr precise_unit generate_custom_count_unit(unsigned short code)
+    constexpr precise_unit generate_custom_count_unit(std::uint16_t code)
     {
         return precise_unit(custom::custom_count_unit(code));
     }
