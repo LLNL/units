@@ -9,7 +9,7 @@ RUN cmake ../units -DUNITS_BUILD_FUZZ_TARGETS=ON -DCMAKE_CXX_STANDARD=17 -DUNITS
 
 WORKDIR /root/develop/fuzz_targets
 
-RUN cp ../build/FuzzTargets/fuzz_from_string . && cp ../units/FuzzTargets/*.txt . && cp ../units/FuzzTargets/*.sh .
+RUN cp ../build/FuzzTargets/fuzz_measurement . && cp ../units/FuzzTargets/*.txt . && cp ../units/FuzzTargets/*.sh .
 
 FROM ubuntu:18.04
 
