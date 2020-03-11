@@ -177,11 +177,16 @@ namespace commodities {
 
     using commodityNameMap = std::unordered_map<std::string, std::uint32_t>;
     static const commodityNameMap commodity_codes{
-        {"_", 0}, // null commodity code, would cause some screwy things with the strings
-        {"__", 0}, // null commodity code, would cause some screwy things with the strings
-        {"___", 0}, // null commodity code, would cause some screwy things with the strings
-        {"____", 0}, // null commodity code, would cause some screwy things with the strings
-        {"_____", 0}, // null commodity code, would cause some screwy things with the strings
+        {"_",
+         0}, // null commodity code, would cause some screwy things with the strings
+        {"__",
+         0}, // null commodity code, would cause some screwy things with the strings
+        {"___",
+         0}, // null commodity code, would cause some screwy things with the strings
+        {"____",
+         0}, // null commodity code, would cause some screwy things with the strings
+        {"_____",
+         0}, // null commodity code, would cause some screwy things with the strings
         {"water", water},
         // metals
         {"gold", gold},

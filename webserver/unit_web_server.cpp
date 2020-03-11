@@ -49,7 +49,8 @@ static std::string as_string(double val)
 static std::string loadFile(const std::string& fileName)
 {
     std::ifstream t(fileName);
-    return std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+    return std::string(
+        (std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 }
 
 static const std::string index_page = loadFile("index.html");
@@ -71,7 +72,8 @@ static std::string uri_decode(beast::string_view str)
                 ret.push_back(str[ii]);
         } else {
             unsigned int spchar;
-            auto converted = sscanf(std::string(str.substr(ii + 1, 2)).c_str(), "%x", &spchar);
+            auto converted = sscanf(
+                std::string(str.substr(ii + 1, 2)).c_str(), "%x", &spchar);
             if (converted == 1) {
                 ret.push_back(static_cast<char>(spchar));
                 ii = ii + 2;
@@ -83,8 +85,10 @@ static std::string uri_decode(beast::string_view str)
     return ret;
 }
 
-static void
-    string_substitution_single(std::string& page, const std::string& search, const std::string& rep)
+static void string_substitution_single(
+    std::string& page,
+    const std::string& search,
+    const std::string& rep)
 {
     auto v = page.find(search);
     while (v != std::string::npos) {
@@ -103,10 +107,16 @@ static void string_substitution(
 }
 
 // function to extract the request parameters and clean up the target
-static std::pair<beast::string_view, boost::container::flat_map<beast::string_view, std::string>>
-    process_request_parameters(beast::string_view target, beast::string_view body)
+static std::pair<
+    beast::string_view,
+    boost::container::flat_map<beast::string_view, std::string>>
+    process_request_parameters(
+        beast::string_view target,
+        beast::string_view body)
 {
-    std::pair<beast::string_view, boost::container::flat_map<beast::string_view, std::string>>
+    std::pair<
+        beast::string_view,
+        boost::container::flat_map<beast::string_view, std::string>>
         results;
     auto param_mark = target.find('?');
     if (param_mark != beast::string_view::npos) {
@@ -146,7 +156,8 @@ static std::pair<beast::string_view, boost::container::flat_map<beast::string_vi
 
     for (auto& param : parameters) {
         auto eq_loc = param.find_first_of('=');
-        results.second[param.substr(0, eq_loc)] = uri_decode(param.substr(eq_loc + 1));
+        results.second[param.substr(0, eq_loc)] =
+            uri_decode(param.substr(eq_loc + 1));
     }
     return results;
 }
@@ -156,11 +167,14 @@ static std::pair<beast::string_view, boost::container::flat_map<beast::string_vi
 // contents of the request, so the interface requires the
 // caller to pass a generic lambda for receiving the response.
 template<class Body, class Allocator, class Send>
-void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Send&& send)
+void handle_request(
+    http::request<Body, http::basic_fields<Allocator>>&& req,
+    Send&& send)
 {
     // Returns a bad request response
     auto const bad_request = [&req](beast::string_view why) {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
+        http::response<http::string_body> res{http::status::bad_request,
+                                              req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
@@ -171,7 +185,8 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
 
     // Returns a not found response
     auto const not_found = [&req](beast::string_view target) {
-        http::response<http::string_body> res{http::status::not_found, req.version()};
+        http::response<http::string_body> res{http::status::not_found,
+                                              req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
@@ -208,25 +223,26 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
     };
 
     // generate a conversion response
-    auto const html_response =
-        [&req](
-            const std::string& html_page,
-            const std::vector<std::pair<std::string, std::string>>& substitutions) {
-            http::response<http::string_body> res{http::status::ok, req.version()};
-            res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-            res.set(http::field::content_type, "text/html");
-            res.keep_alive(req.keep_alive());
-            auto resp = html_page;
-            string_substitution(resp, substitutions);
+    auto const html_response = [&req](
+                                   const std::string& html_page,
+                                   const std::vector<
+                                       std::pair<std::string, std::string>>&
+                                       substitutions) {
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::content_type, "text/html");
+        res.keep_alive(req.keep_alive());
+        auto resp = html_page;
+        string_substitution(resp, substitutions);
 
-            if (req.method() != http::verb::head) {
-                res.body() = resp;
-                res.prepare_payload();
-            } else {
-                res.set(http::field::content_length, resp.size());
-            }
-            return res;
-        };
+        if (req.method() != http::verb::head) {
+            res.body() = resp;
+            res.prepare_payload();
+        } else {
+            res.set(http::field::content_length, resp.size());
+        }
+        return res;
+    };
     // generate a conversion response
     auto const trivial_response = [&req](const std::string& value) {
         http::response<http::string_body> res{http::status::ok, req.version()};
@@ -243,26 +259,27 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
     };
 
     // generate a conversion response
-    auto const json_response =
-        [&req](
-            const std::string& json_string,
-            const std::vector<std::pair<std::string, std::string>>& substitutions) {
-            http::response<http::string_body> res{http::status::ok, req.version()};
-            res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-            res.set(http::field::content_type, "application/json");
-            res.keep_alive(req.keep_alive());
-            auto resp = json_string;
-            string_substitution(resp, substitutions);
+    auto const json_response = [&req](
+                                   const std::string& json_string,
+                                   const std::vector<
+                                       std::pair<std::string, std::string>>&
+                                       substitutions) {
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        auto resp = json_string;
+        string_substitution(resp, substitutions);
 
-            if (req.method() != http::verb::head) {
-                res.body() = resp;
-                res.prepare_payload();
-            } else {
-                res.set(http::field::content_length, resp.size());
-            }
+        if (req.method() != http::verb::head) {
+            res.body() = resp;
+            res.prepare_payload();
+        } else {
+            res.set(http::field::content_length, resp.size());
+        }
 
-            return res;
-        };
+        return res;
+    };
 
     switch (req.method()) {
         case http::verb::head:
@@ -288,14 +305,15 @@ void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req, Se
     if (fields.find("measurement") != fields.end()) {
         measurement = fields["measurement"];
         if (measurement.size() > 256) {
-            return send(bad_request("measurement string size exceeds limits of 256 characters"));
+            return send(bad_request(
+                "measurement string size exceeds limits of 256 characters"));
         }
     }
     if (fields.find("units") != fields.end()) {
         toUnits = fields["units"];
         if (toUnits.size() > 256) {
-            return send(
-                bad_request("conversion units string size exceeds limits of 256 characters"));
+            return send(bad_request(
+                "conversion units string size exceeds limits of 256 characters"));
         }
     }
     bool tstring{false};
@@ -355,7 +373,8 @@ class session : public std::enable_shared_from_this<session> {
             // The lifetime of the message has to extend
             // for the duration of the async operation so
             // we use a shared_ptr to manage it.
-            auto sp = std::make_shared<http::message<isRequest, Body, Fields>>(std::move(msg));
+            auto sp = std::make_shared<http::message<isRequest, Body, Fields>>(
+                std::move(msg));
 
             // Store a type-erased version of the shared
             // pointer in the class to keep it alive.
@@ -366,7 +385,9 @@ class session : public std::enable_shared_from_this<session> {
                 self_.stream_,
                 *sp,
                 beast::bind_front_handler(
-                    &session::on_write, self_.shared_from_this(), sp->need_eof()));
+                    &session::on_write,
+                    self_.shared_from_this(),
+                    sp->need_eof()));
         }
     };
 
@@ -378,7 +399,10 @@ class session : public std::enable_shared_from_this<session> {
 
   public:
     // Take ownership of the stream
-    explicit session(tcp::socket&& socket) : stream_(std::move(socket)), lambda_(*this) {}
+    explicit session(tcp::socket&& socket) :
+        stream_(std::move(socket)), lambda_(*this)
+    {
+    }
 
     // Start the asynchronous operation
     void run() { do_read(); }
@@ -418,7 +442,10 @@ class session : public std::enable_shared_from_this<session> {
         handle_request(std::move(req_), lambda_);
     }
 
-    void on_write(bool close, beast::error_code ec, std::size_t bytes_transferred)
+    void on_write(
+        bool close,
+        beast::error_code ec,
+        std::size_t bytes_transferred)
     {
         boost::ignore_unused(bytes_transferred);
 
@@ -498,7 +525,8 @@ class listener : public std::enable_shared_from_this<listener> {
         // The new connection gets its own strand
         acceptor_.async_accept(
             net::make_strand(ioc_),
-            beast::bind_front_handler(&listener::on_accept, shared_from_this()));
+            beast::bind_front_handler(
+                &listener::on_accept, shared_from_this()));
     }
 
     void on_accept(beast::error_code ec, tcp::socket socket)

@@ -30,7 +30,7 @@ BreakBeforeTernaryOperators: 'false'
 BreakConstructorInitializers: AfterColon
 #BreakInheritanceList: AfterColon
 BreakStringLiterals: 'false'
-ColumnLimit: 100
+ColumnLimit: 80
 CompactNamespaces: 'false'
 ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
 ConstructorInitializerIndentWidth: '4'
@@ -50,8 +50,8 @@ MaxEmptyLinesToKeep: '1'
 NamespaceIndentation: Inner
 ObjCSpaceAfterProperty: 'true'
 ObjCSpaceBeforeProtocolList: 'true'
-PenaltyBreakBeforeFirstCallParameter: '120'
-PenaltyBreakComment: '300'
+PenaltyBreakBeforeFirstCallParameter: '90'
+PenaltyBreakComment: '120'
 PenaltyBreakFirstLessLess: '30'
 PenaltyBreakString: '1000'
 PenaltyExcessCharacter: '1000000'

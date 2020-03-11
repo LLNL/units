@@ -31,15 +31,15 @@ TEST(UCUM, TestAllUnits)
         auto csact = units::unit_from_string(csCode);
 
         if (is_error(csact)) {
-            std::cout << csCode << " does not result in a valid cs unit for " << junit["name_"]
-                      << '\n';
+            std::cout << csCode << " does not result in a valid cs unit for "
+                      << junit["name_"] << '\n';
             units::unit_from_string(csCode, 0);
             ++csFail;
         }
         auto ciact = units::unit_from_string(ciCode, units::case_insensitive);
         if (is_error(ciact)) {
-            std::cout << ciCode << " does not result in a valid ci unit for " << junit["name_"]
-                      << '\n';
+            std::cout << ciCode << " does not result in a valid ci unit for "
+                      << junit["name_"] << '\n';
 
             ++ciFail;
         }
@@ -51,8 +51,9 @@ TEST(UCUM, TestAllUnits)
                 if (csact / units::precise::count == ciact) {
                     continue;
                 }
-                std::cout << ciCode << " and " << csCode << " do not produce the same unit "
-                          << junit["name_"] << '\n';
+                std::cout << ciCode << " and " << csCode
+                          << " do not produce the same unit " << junit["name_"]
+                          << '\n';
                 ++ceqFail;
             }
         }
@@ -64,7 +65,8 @@ TEST(UCUM, TestAllUnits)
         std::cout << ciFail << " units failed Case insensitive conversion\n";
     }
     if (ceqFail > 0) {
-        std::cout << ceqFail << " units failed to produce matching conversions\n";
+        std::cout << ceqFail
+                  << " units failed to produce matching conversions\n";
     }
 }
 
@@ -126,7 +128,8 @@ TEST(UCUM, TestAllVerify)
             mag /= pow(1000, kgs);
         }
         EXPECT_NEAR(mag / csact.multiplier(), 1.0, 0.01)
-            << csCode << ":error in magnitude " << mag << " to " << csact.multiplier();
+            << csCode << ":error in magnitude " << mag << " to "
+            << csact.multiplier();
         if (std::abs(mag / csact.multiplier() - 1.0) >= 0.01) {
             ++magError;
         }
@@ -191,7 +194,8 @@ TEST(UCUM, TestMatchingName)
         }
     }
     if (nameMismatch > 0) {
-        std::cout << nameMismatch << "name mismatches between written name and csName\n";
+        std::cout << nameMismatch
+                  << "name mismatches between written name and csName\n";
     }
 }
 
@@ -224,12 +228,15 @@ TEST(UCUM, TestClass)
         }
         if (!junit["loincProperty_"].is_null()) {
             auto propertyCode = junit["loincProperty_"].get<std::string>();
-            if (!propertyCode.empty() && propertyCode.find_first_of(';') == std::string::npos) {
+            if (!propertyCode.empty() &&
+                propertyCode.find_first_of(';') == std::string::npos) {
                 if (propertyCode.find("Rat") == std::string::npos) {
                     auto defMUnit = units::default_unit(propertyCode);
                     if (is_error(defMUnit)) {
-                        std::cout << propertyCode << " does not produce a valid unit LPROP for "
-                                  << junit["csCode_"].get<std::string>() << '\n';
+                        std::cout << propertyCode
+                                  << " does not produce a valid unit LPROP for "
+                                  << junit["csCode_"].get<std::string>()
+                                  << '\n';
                         ++loincErr;
                     }
                 }
@@ -239,7 +246,8 @@ TEST(UCUM, TestClass)
             auto propertyCode = junit["property_"].get<std::string>();
             auto defMUnit = units::default_unit(propertyCode);
             if (is_error(defMUnit)) {
-                std::cout << propertyCode << " does not produce a valid unit for "
+                std::cout << propertyCode
+                          << " does not produce a valid unit for "
                           << junit["csCode_"].get<std::string>() << "\n";
                 ++propErr;
             }
@@ -287,14 +295,18 @@ TEST(UCUM, TestMatchingPrint)
             if (name.find("<r>") != std::string::npos) {
                 continue;
             }
-            if (name == "a" || name == "K" || name == "oz fl" || name == "btu" ||
-                name == "S") { // known conflicts are and Kayser with annum and Kelvin
+            if (name == "a" || name == "K" || name == "oz fl" ||
+                name == "btu" ||
+                name ==
+                    "S") { // known conflicts are and Kayser with annum and Kelvin
                 // oz fl has multiple meanings
                 // btu default is different for power dominant vs thermal dominant
                 continue;
             }
-            if (name == "X" || name == "C" || name == "M" || name == "Q" || name == "B" ||
-                name == "%") { // known conflicts are and Kayser with annum and Kelvin
+            if (name == "X" || name == "C" || name == "M" || name == "Q" ||
+                name == "B" ||
+                name ==
+                    "%") { // known conflicts are and Kayser with annum and Kelvin
                 // oz fl has multiple meanings
                 // btu default is different for power dominant vs thermal dominant
                 continue;
@@ -323,7 +335,8 @@ TEST(UCUM, TestMatchingPrint)
         }
     }
     if (nameMismatch > 0) {
-        std::cout << nameMismatch << "Print symbol mismatches between print name and csName\n";
+        std::cout << nameMismatch
+                  << "Print symbol mismatches between print name and csName\n";
     }
 }
 
@@ -388,10 +401,11 @@ TEST(UCUM, TestMatchingSynonym)
                         }
                     }
                     if (nameact.has_same_base(csact)) {
-                        std::cout << synonym << " is not an exact match for " << csCode
-                                  << " but has the same base units\n";
+                        std::cout << synonym << " is not an exact match for "
+                                  << csCode << " but has the same base units\n";
                     } else {
-                        std::cout << synonym << " is not a synonym for " << csCode << '\n';
+                        std::cout << synonym << " is not a synonym for "
+                                  << csCode << '\n';
                     }
                     ++nameMismatch;
                     nameact = units::unit_from_string(synonym);
@@ -400,7 +414,8 @@ TEST(UCUM, TestMatchingSynonym)
         }
     }
     if (nameMismatch > 0) {
-        std::cout << nameMismatch << "synonym name mismatches between synonym and csName\n";
+        std::cout << nameMismatch
+                  << "synonym name mismatches between synonym and csName\n";
     }
 }
 
@@ -416,8 +431,9 @@ TEST(UCUM, TestExampleCodes)
         auto name = line.substr(fc2 + 1);
         auto csact = units::unit_from_string(ustring);
         if (is_error(csact)) {
-            std::cout << ustring
-                      << " did not produce a valid defined unit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+            std::cout
+                << ustring
+                << " did not produce a valid defined unit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
         }
         if (units::precise::custom::is_custom_unit(csact.base_units())) {
             continue;
@@ -432,7 +448,8 @@ TEST(UCUM, TestExampleCodes)
         bool hasCommodity = (csact.commodity() != 0);
         if (is_error(nameact)) {
             if (!hasCommodity) {
-                std::cout << name << " did not produce a valid unit for " << ustring << "\n";
+                std::cout << name << " did not produce a valid unit for "
+                          << ustring << "\n";
                 nameact = units::unit_from_string(name);
             }
             continue;
@@ -449,7 +466,8 @@ TEST(UCUM, TestExampleCodes)
                 continue;
             }
             if (!hasCommodity) {
-                std::cout << name << " is not a matching unit for " << ustring << '\n';
+                std::cout << name << " is not a matching unit for " << ustring
+                          << '\n';
                 ++nameMismatch;
                 nameact = units::unit_from_string(name);
             }
@@ -458,7 +476,8 @@ TEST(UCUM, TestExampleCodes)
         }
     }
     if (nameMismatch > 0) {
-        std::cout << nameMismatch << "test unit name mismatches between unit and description\n";
+        std::cout << nameMismatch
+                  << "test unit name mismatches between unit and description\n";
     }
 }
 
@@ -480,14 +499,16 @@ TEST(UCUM, TestRoundTrip)
 
         if (is_error(uact)) {
             std::cout << csCode << "->" << ustring
-                      << " does not result in a valid ustring unit for " << junit["name_"] << '\n';
+                      << " does not result in a valid ustring unit for "
+                      << junit["name_"] << '\n';
 
             ++ciFail;
         }
 
         if (uact != csact) {
-            std::cout << ustring << " and " << csCode << " do not produce the same unit "
-                      << junit["name_"] << '\n';
+            std::cout << ustring << " and " << csCode
+                      << " do not produce the same unit " << junit["name_"]
+                      << '\n';
             ++ceqFail;
         }
     }
@@ -495,7 +516,8 @@ TEST(UCUM, TestRoundTrip)
     EXPECT_EQ(ciFail, 0);
     EXPECT_EQ(ceqFail, 0);
     if (ceqFail > 0) {
-        std::cout << ceqFail << " units failed to produce matching conversions\n";
+        std::cout << ceqFail
+                  << " units failed to produce matching conversions\n";
     }
 }
 
@@ -516,7 +538,8 @@ TEST(UCUM, TestRoundTrip2)
 
         if (is_error(uact)) {
             std::cout << ustring << "->" << genstring
-                      << " does not result in a valid ustring unit for " << name << '\n';
+                      << " does not result in a valid ustring unit for " << name
+                      << '\n';
 
             ++ciFail;
             // units::unit_from_string(ustring);
@@ -524,13 +547,14 @@ TEST(UCUM, TestRoundTrip2)
         }
 
         if (uact != csact) {
-            std::cout << genstring << " and " << ustring << " do not produce the same unit " << name
-                      << '\n';
+            std::cout << genstring << " and " << ustring
+                      << " do not produce the same unit " << name << '\n';
             ++ceqFail;
         }
     }
     if (ceqFail > 0) {
-        std::cout << ceqFail << "test unit name mismatches between unit and description\n";
+        std::cout << ceqFail
+                  << "test unit name mismatches between unit and description\n";
     }
     EXPECT_EQ(ceqFail, 0);
     EXPECT_EQ(ciFail, 0);
@@ -552,14 +576,14 @@ TEST(UCUMConversions, Interpret1)
         auto prodUnit = units::unit_from_string(unit);
         if (is_error(prodUnit)) {
             if (valid) {
-                std::cout << "unable to convert " << unit << " into a valid unit : unit test id "
-                          << id << '\n';
+                std::cout << "unable to convert " << unit
+                          << " into a valid unit : unit test id " << id << '\n';
                 ++failConvert;
             }
         } else if (!valid) {
             if (unit.back() != 'h') {
-                std::cout << "converted " << unit << " even though specified invalid " << id
-                          << '\n';
+                std::cout << "converted " << unit
+                          << " even though specified invalid " << id << '\n';
             }
         }
 
@@ -591,7 +615,8 @@ TEST(UCUMConversions, convert1)
         if (!std::isnan(act)) {
             EXPECT_NEAR(outcome, act, 0.001 * outcome);
             if (std::abs(outcome - act) / outcome > 0.001) {
-                std::cout << unitFromString << " and " << unitToString << " do not convert " << act
+                std::cout << unitFromString << " and " << unitToString
+                          << " do not convert " << act
                           << " and expected=" << outcome << '\n';
             }
         }

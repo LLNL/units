@@ -83,7 +83,8 @@ TEST(MeasurementToString, test)
 TEST(MeasurementToString, unit_withNumbers)
 {
     measurement ounit = 10.0 * unit(0.712412, kg.pow(2));
-    precise_measurement ounitp = 10.0 * precise_unit(0.712412, precise::kg.pow(2));
+    precise_measurement ounitp =
+        10.0 * precise_unit(0.712412, precise::kg.pow(2));
     auto str1 = to_string(ounit);
     auto str2 = to_string(ounitp);
     // from google tests
