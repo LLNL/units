@@ -2129,6 +2129,7 @@ static const smap base_unit_vals{
     {"liang", precise::chinese::liang},
     {"qian", precise::chinese::qian},
     {"mol", precise::mol},
+    {"einstein", precise::mol},  // technically of photons
     {"gmol", precise::mol},
     {"lbmol", precise_unit(424.0, precise::mol)},
     {"atom", constants::Na.as_unit().inv()},
@@ -2507,9 +2508,8 @@ static const smap base_unit_vals{
     {"yard", precise::yd},
     {"cubit", precise::distance::cubit},
     {"cubit_br", precise::distance::cubit},
-    {"cubit(UK)",
-     precise::distance::cubit},  // because cubit has cu in it which
-                                 // indicates cubed
+    {"cubit(UK)", precise::distance::cubit},  
+		// because cubit has cu in it which indicates cubed
     {"longcubit", precise::distance::longcubit},
     {"arpent", precise::distance::arpent_us},
     {"arpent_fr", precise::distance::arpent_fr},
@@ -2563,6 +2563,8 @@ static const smap base_unit_vals{
     {"syr", precise::time::syr},  // sidereal year
     {"year_sdr", precise::time::syr},  // sidereal year
     {"yr_sdr", precise::time::syr},  // sidereal year
+	{ "month_sdr", precise_unit(1.0/12.0,precise::time::syr) },  // sidereal month
+	{ "mo_sdr", precise_unit(1.0 / 12.0,precise::time::syr) },  // sidereal month
     {"sday", precise::time::sday},  // sidereal day
     {"day_sdr", precise::time::sday},  // sidereal day
     {"dy_sdr", precise::time::sday},  // sidereal day
@@ -2580,15 +2582,17 @@ static const smap base_unit_vals{
     {"sec_sdr",
      precise_unit(1.0 / 24.0 / 60.0 / 60.0, precise::time::sday)},  // sidereal
                                                                     // second
-    {"a_t", precise::time::at},  // year
-    {"year_t", precise::time::at},  // year
+    {"a_t", precise::time::at},  // tropical year
+    {"year_t", precise::time::at},  // tropical year
+	{ "month_t", precise_unit(1.0/12.0,precise::time::at) },  // tropical month
+	{ "mo_t", precise_unit(1.0 / 12.0,precise::time::at) },  // tropical month
     {"solaryear", precise::time::at},  // year
     {"ANN_T", precise::time::at},  // year
     {"a_j", precise::time::aj},  // year
     {"meanyear_j", precise::time::aj},  // year
     {"meanyr_j", precise::time::aj},  // year
     {"year_j", precise::time::aj},  // year
-    {"yr_j", precise::time::aj},  // yea
+    {"yr_j", precise::time::aj},  // year
     {"ANN_J", precise::time::aj},  // year
     {"year(leap)", precise_unit(366.0, precise::time::day)},  // year
     {"commonyear", precise_unit(365.0, precise::time::day)},  // year
@@ -2633,6 +2637,16 @@ static const smap base_unit_vals{
     {"angulardeg", precise::deg},
     {"deg", precise::deg},
     {"DEG", precise::deg},
+	{ "degE", precise::deg*precise::direction::east },
+	{ "east", precise::direction::east },
+	{ "degW", precise::deg*precise::direction::west },
+	{ "west", precise::direction::west },
+	{ "degS", precise::deg*precise::direction::south },
+	{ "south", precise::direction::south },
+	{ "degN", precise::deg*precise::direction::north },
+	{ "north", precise::direction::north },
+	{ "degT", precise::deg*precise::direction::north },
+	{ "true", precise::direction::north },
     {"o", precise::deg},
     {u8"\u00B0", precise::deg},  // unicode degree symbol
     {"\xB0", precise::deg},  // latin-1 degree
@@ -2690,10 +2704,12 @@ static const smap base_unit_vals{
      "C",
      precise::degC},
     {u8"\u00B0C", precise::degC},
+	{ u8"\u2103", precise::degC }, // direct unicode symbol
     {"\xB0"
      "K",
      precise::K},
     {u8"\u00B0K", precise::K},
+	
     {"degC", precise::degC},
     {"oC", precise::degC},
     {"Cel", precise::degC},
@@ -2703,6 +2719,7 @@ static const smap base_unit_vals{
     {"degF", precise::degF},
     {"degsF", precise::degF},
     {"[DEGF]", precise::degF},
+	{ u8"\u2109", precise::degF }, // direct unicode symbol
     {"degR", precise::temperature::degR},
     {"degsR", precise::temperature::degR},
     {"[DEGR]", precise::temperature::degR},
@@ -2784,6 +2801,8 @@ static const smap base_unit_vals{
     {"light", constants::c.as_unit()},
     {"[h]", constants::h.as_unit()},
     {"[H]", constants::h.as_unit()},
+	 { u8"\u210E", constants::h.as_unit() },
+	 { u8"\u210F", precise_unit(1.0/tau,constants::h.as_unit()) },
     {"[k]", constants::k.as_unit()},
     {"[K]", constants::k.as_unit()},
     {"eps_0", constants::eps0.as_unit()},
@@ -2803,6 +2822,8 @@ static const smap base_unit_vals{
     {"[GC]", constants::G.as_unit()},
     {"[g]", constants::g0.as_unit()},
     {"standardgravity", constants::g0.as_unit()},
+	{ "standardfreefall", constants::g0.as_unit() },
+	{ "freefall", constants::g0.as_unit() },
     {"standardaccelerationoffreefall", constants::g0.as_unit()},
     {"accelerationofgravity", constants::g0.as_unit()},
     {"m_e", constants::me.as_unit()},
@@ -2854,9 +2875,8 @@ static const smap base_unit_vals{
     {"tenth", precise_unit(0.1, precise::one)},
     {"cell", precise_unit(1.0, precise::count, commodities::cell)},
     {"{cells}",
-     precise_unit(1.0, precise::count, commodities::cell)},  // mainly to catch
-                                                             // the commodity
-                                                             // for using cell
+     precise_unit(1.0, precise::count, commodities::cell)},  
+		// mainly to catch the commodity for using cell
     {"{#}", precise::count},
     {"[#]", precise::count},
     {"#", precise::count},
@@ -2885,6 +2905,7 @@ static const smap base_unit_vals{
     {"Sv", precise::Sv},
     {"SV", precise::Sv},
     {"sievert", precise::Sv},
+	{"sverdrup",precise_unit(1e6,precise::m.pow(3)/precise::s)},
     {"rem", precise::cgs::REM},
     {"[REM]", precise::cgs::REM},
     {"REM", precise::cgs::REM},
@@ -2916,13 +2937,15 @@ static const smap base_unit_vals{
     {"Gb", precise::cgs::gilbert},
     {"Gi", precise::cgs::gilbert},
     {"p", precise::cgs::poise},
-    {"cps", precise_unit(0.01, precise::cgs::poise)},  // centipoise doesn't
-                                                       // conflict with ps
+    {"cps", precise_unit(0.01, precise::cgs::poise)},
+    // centipoise doesn't conflict with ps
     {"P", precise::cgs::poise},
     {"poise", precise::cgs::poise},
+	{ "rhe", precise_unit(10.0,(precise::Pa*precise::s).inv())},
     {"Ba", precise::cgs::barye},
     {"BA", precise::cgs::barye},
     {"barye", precise::cgs::barye},
+    {"barie", precise::cgs::barye},
     {"D", precise::cgs::debye},
     {"debye", precise::cgs::debye},
     {"roentgen", precise::cgs::roentgen},
@@ -2965,6 +2988,7 @@ static const smap base_unit_vals{
     {"HZ", precise::Hz},
     {"hertz", precise::Hz},
     {"rpm", precise::rpm},
+    {"rps", precise_unit(constants::tau, precise::rad / precise::s)},
     {"r", precise_unit(constants::tau, precise::rad)},
     {"revolutions", precise_unit(constants::tau, precise::rad)},
     {"revolution", precise_unit(constants::tau, precise::rad)},
@@ -3005,8 +3029,8 @@ static const smap base_unit_vals{
     {"b", precise::area::barn},
     {"BRN", precise::area::barn},
     {"ha", precise::area::hectare},
-    {"darcy", precise_unit(9.869233e-13, precise::m.pow(2))},  // porous solid
-                                                               // permeability
+    // porous solid permeability
+    {"darcy", precise_unit(9.869233e-13, precise::m.pow(2))},
     {"mW", precise::mW},
     {"milliwatt", precise::mW},
     {"puW", precise::puMW / precise::mega},
@@ -3090,8 +3114,8 @@ static const smap base_unit_vals{
     {"nauticalleague", precise::nautical::league},
     {"nauticalleage_i", precise::nautical::league},
     {"nauticalleague_i", precise::nautical::league},
-    {"br",
-     precise::invalid},  // this prevents some other issues with the string "br"
+    // this prevents some other issues with the string "br"
+    {"br", precise::invalid},
     {"nmi", precise::nautical::mile},
     {"nmi_i", precise::nautical::mile},
     {"[NMI_I]", precise::nautical::mile},
@@ -3114,6 +3138,7 @@ static const smap base_unit_vals{
     {"fph", precise::ft / precise::hr},
     {"mps", precise::m / precise::s},
     {"eV", precise::energy::eV},
+	{ "bev", precise_unit(1e9,precise::energy::eV) },
     {"EV", precise::energy::eV},
     {"Ry", precise_unit(13.60583, precise::energy::eV)},  // Rydberg
     {"electronvolt", precise::energy::eV},
@@ -3171,10 +3196,8 @@ static const smap base_unit_vals{
     {"MBTU", precise_unit(1000.0, precise::energy::btu_it)},
     {"[Btu]", precise::energy::btu_th},
     {"[BTU]", precise::energy::btu_th},
-    {"British thermal unit",
-     precise::energy::btu_th},  // this is for name
-                                // matching with the UCUM
-                                // standard
+    {"British thermal unit", precise::energy::btu_th},
+    // this is for name matching with the UCUM standard
     {"Btu_39", precise::energy::btu_39},
     {"BTU_39", precise::energy::btu_39},
     {"BTU39F", precise::energy::btu_39},
@@ -3357,6 +3380,7 @@ static const smap base_unit_vals{
     {"[GAL_WI]", precise::us::dry::gallon},
     {"drygallon_us", precise::us::dry::gallon},
     {"gallon-historical", precise::us::dry::gallon},
+    {"firkin", precise_unit(9.0, precise::us::dry::gallon)},
     {"bbl", precise::us::barrel},
     {"barrel", precise::us::barrel},
     {"bbl(oil)", precise::us::barrel},
@@ -3403,6 +3427,7 @@ static const smap base_unit_vals{
     {"ton(refrigeration)", precise::energy::tonc},  // ton cooling
     {"tonofrefrigeration", precise::energy::tonc},  // ton cooling
     {"tonsofrefrigeration", precise::energy::tonc},  // ton cooling
+    {"refridgerationton", precise::energy::tonc},  // ton cooling
     {"ton(cooling)", precise::energy::tonc},  // ton cooling
     {"ton{refrigeration}", precise::energy::tonc},  // ton cooling
     {"ton{cooling}", precise::energy::tonc},  // ton cooling
@@ -3470,6 +3495,7 @@ static const smap base_unit_vals{
     {"fluidounce", precise::us::floz},
     {"fluidoz", precise::us::floz},
     {"oz", precise::oz},
+	{ u8"\u2125", precise::oz },
     {"gr", precise::i::grain},
     {"[GR]", precise::i::grain},
     {"grain", precise::i::grain},
@@ -3543,6 +3569,7 @@ static const smap base_unit_vals{
     {"[SC_AP]", precise::apothecaries::scruple},
     {"scruple", precise::apothecaries::scruple},
     {"scruple_ap", precise::apothecaries::scruple},
+	{ u8"\u2108", precise::apothecaries::scruple },
     {"dr_ap", precise::apothecaries::drachm},
     {u8"\u01B7", precise::apothecaries::drachm},
     {u8"\u0292", precise::apothecaries::drachm},
@@ -3584,17 +3611,15 @@ static const smap base_unit_vals{
     {"gamma(geo)", precise::nano* precise::T},  // two different uses of gamma
     {"gamma{geo}", precise::nano* precise::T},  // two different uses of gamma
     {"gf", precise::g* constants::g0.as_unit()},
-    {"gramforce", precise::g* constants::g0.as_unit()},
-    {"kp", precise::kilo* precise::gm::pond},  // this is probably more common
-                                               // than kilopoise
+	{"gravity",constants::g0.as_unit() }, //force of gravity
+	{ "force",constants::g0.as_unit() }, //force of gravity
+	{ "frc",constants::g0.as_unit() }, //force of gravity
+    {"kp", precise::kilo* precise::gm::pond},  
+		// this is probably more common than kilopoise
     {"kipf", precise::kilo* precise::lbf},
     {"kipforce", precise::kilo* precise::lbf},
-    {"tonforce", precise::ton* constants::g0.as_unit()},
     {"tonforce_m", precise::tonne* constants::g0.as_unit()},
-    {"tonneforce", precise::tonne* constants::g0.as_unit()},
     {"tf", precise::tonne* constants::g0.as_unit()},
-    {"longtonforce", precise::av::longton* constants::g0.as_unit()},
-    {"shorttonforce", precise::av::ton* constants::g0.as_unit()},
     {"tonforce(long)", precise::av::longton* constants::g0.as_unit()},
     {"tonforce(short)", precise::av::ton* constants::g0.as_unit()},
     {"tonforce_us", precise::av::ton* constants::g0.as_unit()},
@@ -3611,9 +3636,7 @@ static const smap base_unit_vals{
     {"lbf_us", precise::av::lbf},
     {"[LBF_AV]", precise::av::lbf},
     {"lbf", precise::lbf},
-    {"ounceforce", precise::av::ozf},
     {"ozf", precise::av::ozf},
-    {"poundforce", precise::lbf},
     {"poundforce_us", precise::lbf},
     {"slug", precise::av::slug},
     {"gram", precise::g},
@@ -3647,9 +3670,8 @@ static const smap base_unit_vals{
     {"tad", precise_unit(1.0 / 8.0, precise::us::tsp)},
     {"cup_m", precise::metric::cup},
     {"[CUP_M]", precise::metric::cup_uslegal},
-    {"[cup_m]",
-     precise::metric::cup_uslegal},  // ucum definitions I think it is
-                                     // wrong there
+    {"[cup_m]", precise::metric::cup_uslegal},  // ucum definitions I think it
+                                                // is wrong there
     {"cupUSlegal", precise::metric::cup_uslegal},
     {"tsp_m", precise::metric::tsp},
     {"[TSP_M]", precise::metric::tsp},
@@ -3920,6 +3942,8 @@ static const smap base_unit_vals{
     {"belkilowatt", precise::log::B_kW},
     {"belkW", precise::log::B_kW},
     {"DB[KW]", precise::log::dB_kW},
+	{"dBZ",precise::log::dBZ},
+	{"BZ",precise::log::BZ},
     {"[S]", precise::laboratory::svedberg},
     {"svedbergunit", precise::laboratory::svedberg},
     {"HPF", precise::laboratory::HPF},
@@ -4795,9 +4819,8 @@ static bool unicodeReplacement(std::string& unit_string)
         ckpair{"-\xb9", "^(-1)"},
         ckpair{"-\xb2", "^(-2)"},
         ckpair{"\xb3", "^(3)"},
-        ckpair{"\xb9",
-               "*"},  // superscript 1 which doesn't do anything, replace
-                      // with multiply
+        ckpair{"\xb9", "*"},
+        // superscript 1 which doesn't do anything, replace with multiply
         ckpair{"\xb2", "^(2)"},
         ckpair{"\xf7", "/"},
         ckpair{"\xB7", "*"},
@@ -4849,13 +4872,12 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         ckpair{"Britishthermalunit", "BTU"},
         ckpair{"BThU", "BTU"},
         ckpair{"-US", "US"},
-        ckpair{"--", "*"},  // -- is either a double negative or a separator, so
-                            // make it a multiplier so it
-        // doesn't get erased and then converted to a power
-        ckpair{"\\\\",
-               "\\\\*"},  // \\ is always considered a segment terminator
-                          // so it won't be misinterpreted
-        // as a known escape sequence
+        ckpair{"--", "*"},
+        // -- is either a double negative or a separator, so make it a
+        // multiplier so it doesn't get erased and then converted to a power
+        ckpair{"\\\\", "\\\\*"},
+        // \\ is always considered a segment terminator so it won't be
+        // misinterpreted as a known escape sequence
         ckpair{"perunit", "pu"},
         ckpair{"per-unit", "pu"},
         ckpair{"/square*", "/square"},
@@ -6080,6 +6102,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"magnetomotiveforce", precise::A},
     {"temperature", precise::K},
     {u8"\u2C90", precise::K},
+	{u8"\u2129", precise::K},
     {u8"\u03F4", precise::K},
     {u8"\u0398", precise::K},
     {"celsiustemperature", precise::degC},
@@ -6209,8 +6232,8 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"specificenergy", precise::J / precise::kg / precise::K},
     {"dynamicviscosity", precise::Pa* precise::s},
     {"viscosity", precise::Pa* precise::s},
-    {"visc", precise::one / precise::Pa / precise::s},
-    {"fluidity", precise::Pa* precise::s},
+    {"visc",  precise::Pa * precise::s},
+    {"fluidity", precise::one / precise::Pa/ precise::s},
     {"kinematicviscosity", precise::m.pow(2) / precise::s},
     {"radiantintensity", precise::W / precise::rad.pow(2)},
     {"radiance", precise::W / precise::rad.pow(2) / precise::m.pow(2)},

@@ -112,7 +112,7 @@ namespace detail {
         /// take a unit_data to some power
         constexpr unit_data pow(int power) const
         {  // the modifier is to handle a few weird operations that operate on
-           // square_root Hz,
+           // square_root Hz or square_root M,
             return {meter_ * power,
                     kilogram_ * power,
                     (second_ * power) + rootHertzModifier(power),
@@ -297,6 +297,7 @@ namespace detail {
                 0 :
                 (power >> 1) * ((second_ < 0) || (power < 0) ? 9 : -9);
         }
+		
         // needs to be defined for the full 32 bits
         signed int meter_ : 4;
         signed int second_ : 4;  // 8
