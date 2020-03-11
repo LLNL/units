@@ -75,7 +75,10 @@ TEST_P(timeoutProblems, timeoutFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(timeoutFiles, timeoutProblems, ::testing::Range(1, 29));
+INSTANTIATE_TEST_SUITE_P(
+    timeoutFiles,
+    timeoutProblems,
+    ::testing::Range(1, 29));
 
 TEST(fuzzFailures, timeoutSingleProblems)
 {
@@ -155,7 +158,10 @@ static const std::vector<std::string> testStrings{
     "sqZ+l",
 };
 
-INSTANTIATE_TEST_SUITE_P(fuzzFailure, roundTripString, ::testing::ValuesIn(testStrings));
+INSTANTIATE_TEST_SUITE_P(
+    fuzzFailure,
+    roundTripString,
+    ::testing::ValuesIn(testStrings));
 
 class errorString : public ::testing::TestWithParam<std::string> {
 };
@@ -166,9 +172,15 @@ TEST_P(errorString, conversionErrors)
     EXPECT_TRUE(is_error(u1));
 }
 // these are all strings that at one point produced issues
-static const std::vector<std::string> errorStrings{"Au0m", "br0", "\\\\{U}", "--0-5"};
+static const std::vector<std::string> errorStrings{"Au0m",
+                                                   "br0",
+                                                   "\\\\{U}",
+                                                   "--0-5"};
 
-INSTANTIATE_TEST_SUITE_P(fuzzFailure, errorString, ::testing::ValuesIn(errorStrings));
+INSTANTIATE_TEST_SUITE_P(
+    fuzzFailure,
+    errorString,
+    ::testing::ValuesIn(errorStrings));
 
 TEST(fuzzFailures, rtripconversions)
 {
@@ -238,10 +250,12 @@ TEST_P(rtripProblems, rtripFiles)
             EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
         } else if (!is_error(root(u2, 2))) {
             EXPECT_EQ(root(unit_cast(u2), 2), root(unit_cast(u1), 2));
-            EXPECT_FALSE(root(units::unit_cast(u2), 2) != root(units::unit_cast(u1), 2));
+            EXPECT_FALSE(
+                root(units::unit_cast(u2), 2) != root(units::unit_cast(u1), 2));
         } else if (!is_error(root(u2, 3))) {
             EXPECT_EQ(root(unit_cast(u2), 3), root(unit_cast(u1), 3));
-            EXPECT_FALSE(root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
+            EXPECT_FALSE(
+                root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
         } else {
             EXPECT_TRUE(unit_cast(u2) == unit_cast(u1));
             EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
@@ -265,10 +279,12 @@ TEST(fuzzFailures, rtripSingleProblems)
             EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
         } else if (!is_error(root(u2, 2))) {
             EXPECT_EQ(root(unit_cast(u2), 2), root(unit_cast(u1), 2));
-            EXPECT_FALSE(root(units::unit_cast(u2), 2) != root(units::unit_cast(u1), 2));
+            EXPECT_FALSE(
+                root(units::unit_cast(u2), 2) != root(units::unit_cast(u1), 2));
         } else if (!is_error(root(u2, 3))) {
             EXPECT_EQ(root(unit_cast(u2), 3), root(unit_cast(u1), 3));
-            EXPECT_FALSE(root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
+            EXPECT_FALSE(
+                root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
         } else {
             auto uc1 = unit_cast(u1);
             auto uc2 = unit_cast(u2);
@@ -301,10 +317,12 @@ TEST_P(rtripflagProblems, rtripflagFiles)
             EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
         } else if (!is_error(root(u2, 2))) {
             EXPECT_EQ(root(unit_cast(u2), 2), root(unit_cast(u1), 2));
-            EXPECT_FALSE(root(units::unit_cast(u2), 2) != root(units::unit_cast(u1), 2));
+            EXPECT_FALSE(
+                root(units::unit_cast(u2), 2) != root(units::unit_cast(u1), 2));
         } else if (!is_error(root(u2, 3))) {
             EXPECT_EQ(root(unit_cast(u2), 3), root(unit_cast(u1), 3));
-            EXPECT_FALSE(root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
+            EXPECT_FALSE(
+                root(units::unit_cast(u2), 3) != root(units::unit_cast(u1), 3));
         } else {
             EXPECT_TRUE(unit_cast(u2) == unit_cast(u1));
             EXPECT_FALSE(units::unit_cast(u2) != units::unit_cast(u1));
@@ -312,7 +330,10 @@ TEST_P(rtripflagProblems, rtripflagFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripflagFiles, rtripflagProblems, ::testing::Range(1, 7));
+INSTANTIATE_TEST_SUITE_P(
+    rtripflagFiles,
+    rtripflagProblems,
+    ::testing::Range(1, 7));
 
 class measProblems : public ::testing::TestWithParam<int> {
 };
@@ -330,11 +351,15 @@ TEST_P(measProblems, measFiles)
             EXPECT_EQ(measurement_cast(m2), measurement_cast(m1));
             EXPECT_FALSE(measurement_cast(m2) != measurement_cast(m1));
         } else if (isnormal(root(m2, 2))) {
-            EXPECT_EQ(root(measurement_cast(m2), 2), root(measurement_cast(m1), 2));
-            EXPECT_FALSE(root(measurement_cast(m2), 2) != root(measurement_cast(m1), 2));
+            EXPECT_EQ(
+                root(measurement_cast(m2), 2), root(measurement_cast(m1), 2));
+            EXPECT_FALSE(
+                root(measurement_cast(m2), 2) != root(measurement_cast(m1), 2));
         } else if (isnormal(root(m2, 3))) {
-            EXPECT_EQ(root(measurement_cast(m2), 3), root(measurement_cast(m1), 3));
-            EXPECT_FALSE(root(measurement_cast(m2), 3) != root(measurement_cast(m1), 3));
+            EXPECT_EQ(
+                root(measurement_cast(m2), 3), root(measurement_cast(m1), 3));
+            EXPECT_FALSE(
+                root(measurement_cast(m2), 3) != root(measurement_cast(m1), 3));
         } else {
             EXPECT_TRUE(measurement_cast(m2) == measurement_cast(m1));
             EXPECT_FALSE(measurement_cast(m2) != measurement_cast(m1));
