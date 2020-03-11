@@ -77,7 +77,7 @@ precise_unit root(precise_unit un, int power)
 
 measurement root(const measurement& meas, int power)
 {
-	return { numericalRoot(meas.value(), power), root(meas.units(), power) };
+    return {numericalRoot(meas.value(), power), root(meas.units(), power)};
 }
 
 fixed_measurement root(const fixed_measurement& fm, int power)
@@ -95,7 +95,7 @@ uncertain_measurement root(const uncertain_measurement& um, int power)
 
 precise_measurement root(const precise_measurement& pm, int power)
 {
-	return { numericalRoot(pm.value(), power), root(pm.units(), power) };
+    return {numericalRoot(pm.value(), power), root(pm.units(), power)};
 }
 
 fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power)

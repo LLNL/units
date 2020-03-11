@@ -11,7 +11,6 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <array>
 #include <limits>
 
-
 namespace units {
 /// Constants used in definitions of units
 
@@ -1638,11 +1637,12 @@ namespace detail {
             ((rad_start == 0 && (count_start == rad_result || count_start == 0)) ||
              (rad_result == 0 && (count_result == rad_start || count_result == 0)))) {
             //define a conversion multiplier for radians<->count(rotations) of various powers
-			static constexpr std::array<double, 5> muxrad{ {1.0 / (4.0 * constants::pi * constants::pi),
-											  1.0 / (2.0 * constants::pi),
-											  0.0,
-											  2.0 * constants::pi,
-											  4.0 * constants::pi * constants::pi} };
+            static constexpr std::array<double, 5> muxrad{
+                {1.0 / (4.0 * constants::pi * constants::pi),
+                 1.0 / (2.0 * constants::pi),
+                 0.0,
+                 2.0 * constants::pi,
+                 4.0 * constants::pi * constants::pi}};
             int muxIndex = rad_result - rad_start + 2; //+2 is to shift the index
             if (muxIndex < 0 || muxIndex > 4) {
                 return constants::invalid_conversion;
@@ -1656,7 +1656,7 @@ namespace detail {
             ((mol_start == 0 && (count_start == mol_result || count_start == 0)) ||
              (mol_result == 0 && (count_result == mol_start || count_result == 0)))) {
             //define multipliers for mol<->count conversions based on powers
-			static constexpr std::array<double, 3> muxmol{ {6.02214076e23, 0, 1.0 / 6.02214076e23} };
+            static constexpr std::array<double, 3> muxmol{{6.02214076e23, 0, 1.0 / 6.02214076e23}};
 
             int muxIndex = mol_result - mol_start + 1; //+1 is to shift the index
             if (muxIndex < 0 || muxIndex > 2) {
