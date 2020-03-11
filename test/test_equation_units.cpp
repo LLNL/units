@@ -463,7 +463,7 @@ TEST(otherUnits, saffirSimpson2Sbeaufort)
     EXPECT_NEAR(
         convert(0.0, precise::special::sshws, precise::special::beaufort),
         8.0,
-        0.05); // tropical storm
+        0.05);  // tropical storm
 }
 
 class fujita : public ::testing::TestWithParam<std::pair<double, double>> {

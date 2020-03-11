@@ -27,7 +27,7 @@ namespace constants {
     constexpr double invalid_conversion =
         std::numeric_limits<double>::signaling_NaN();
     constexpr double infinity = std::numeric_limits<double>::infinity();
-} // namespace constants
+}  // namespace constants
 
 /// basic commodity definitions
 namespace commodities {
@@ -110,7 +110,7 @@ namespace commodities {
         pixel = 516115414,
         voxel = 516115415,
     };
-} // namespace commodities
+}  // namespace commodities
 
 namespace precise {
     // base units
@@ -273,7 +273,7 @@ namespace precise {
 
     /// Units from the cgs system
     namespace cgs {
-        constexpr double c_const = 29979245800.0; // speed of light in cm/s
+        constexpr double c_const = 29979245800.0;  // speed of light in cm/s
         constexpr precise_unit erg(1e-7, J);
         constexpr precise_unit dyn(1e-5, N);
         constexpr precise_unit barye(0.1, Pa);
@@ -311,7 +311,7 @@ namespace precise {
         constexpr precise_unit statOhm{c_const * c_const, abOhm};
         constexpr precise_unit statFarad{1.0 / (c_const * c_const), abFarad};
 
-    } // namespace cgs
+    }  // namespace cgs
 
     /// meter-gram-force system of units
     namespace gm {
@@ -319,9 +319,9 @@ namespace precise {
         constexpr precise_unit hyl{9.80665, kg};
         constexpr precise_unit at{98066.5, Pa};
         constexpr precise_unit poncelet{980.665, W};
-        constexpr precise_unit PS{735.49875, W}; // metric horsepower
+        constexpr precise_unit PS{735.49875, W};  // metric horsepower
 
-    } // namespace gm
+    }  // namespace gm
 
     /// Meter tonne second system of units
     namespace MTS {
@@ -329,7 +329,7 @@ namespace precise {
         constexpr precise_unit pieze{1000.0, Pa};
         constexpr precise_unit thermie{4.186, mega* J};
 
-    } // namespace MTS
+    }  // namespace MTS
 
     /// Units of time
     namespace time {
@@ -340,19 +340,19 @@ namespace precise {
         constexpr precise_unit hr(60.0, min);
         constexpr precise_unit day(24.0, hr);
         constexpr precise_unit week(7.0, day);
-        constexpr precise_unit yr(8760.0, hr); // median calendar year;
+        constexpr precise_unit yr(8760.0, hr);  // median calendar year;
         constexpr precise_unit fortnight(14, day);
 
-        constexpr precise_unit sday{365.24 / 366.24, day}; // sidereal day
-        constexpr precise_unit syr(365.256363004, day); // sidereal year
-        constexpr precise_unit at{365.24219, day* eflag}; // mean tropical year
-        constexpr precise_unit aj{365.25, day}; // julian year
-        constexpr precise_unit ag{365.2425, day}; // gregorian year
-        constexpr precise_unit year = aj; // standard year
-        constexpr precise_unit mos{29.53059, day}; // synodal month
-        constexpr precise_unit moj{1.0 / 12.0, aj}; // mean julian month
-        constexpr precise_unit mog{1.0 / 12.0, ag}; // mean gregorian month
-    } // namespace time
+        constexpr precise_unit sday{365.24 / 366.24, day};  // sidereal day
+        constexpr precise_unit syr(365.256363004, day);  // sidereal year
+        constexpr precise_unit at{365.24219, day* eflag};  // mean tropical year
+        constexpr precise_unit aj{365.25, day};  // julian year
+        constexpr precise_unit ag{365.2425, day};  // gregorian year
+        constexpr precise_unit year = aj;  // standard year
+        constexpr precise_unit mos{29.53059, day};  // synodal month
+        constexpr precise_unit moj{1.0 / 12.0, aj};  // mean julian month
+        constexpr precise_unit mog{1.0 / 12.0, ag};  // mean gregorian month
+    }  // namespace time
 
     constexpr precise_unit min = time::min;
     constexpr precise_unit ms = time::ms;
@@ -379,7 +379,7 @@ namespace precise {
         constexpr precise_unit mil = milli * inch;
         constexpr precise_unit circ_mil = {constants::pi / 4.0, mil.pow(2)};
 
-    } // namespace i
+    }  // namespace i
 
     constexpr precise_unit in = i::inch;
 
@@ -403,7 +403,7 @@ namespace precise {
         constexpr precise_unit ozf{1.0 / 16.0, lbf};
         constexpr precise_unit slug = lbf * s.pow(2) / ft;
         constexpr precise_unit poundal{0.138254954376, N};
-    } // namespace av
+    }  // namespace av
 
     constexpr precise_unit lb = av::pound;
     constexpr precise_unit ton = av::ton;
@@ -414,7 +414,7 @@ namespace precise {
         constexpr precise_unit pennyweight{24.0, i::grain};
         constexpr precise_unit oz{31.1034768, g};
         constexpr precise_unit pound{12.0, oz};
-    } // namespace troy
+    }  // namespace troy
 
     // US customary units (survey)
     namespace us {
@@ -431,7 +431,7 @@ namespace precise {
         namespace engineers {
             constexpr precise_unit chain(100.0, foot);
             constexpr precise_unit link(0.01, chain);
-        } // namespace engineers
+        }  // namespace engineers
         // area
         constexpr precise_unit acre(43560.0, foot.pow(2));
         constexpr precise_unit homestead(160.0, acre);
@@ -467,15 +467,15 @@ namespace precise {
             constexpr precise_unit barrel{7056, i::inch.pow(3)};
             constexpr precise_unit sack{3.0, bushel};
             constexpr precise_unit strike{2.0, bushel};
-        } // namespace dry
+        }  // namespace dry
         namespace grain {
             constexpr precise_unit bushel_corn{56.0, av::pound};
             constexpr precise_unit bushel_wheat{60.0, av::pound};
             constexpr precise_unit bushel_barley{48.0, av::pound};
             constexpr precise_unit bushel_oats{32.0, av::pound};
-        } // namespace grain
+        }  // namespace grain
 
-    } // namespace us
+    }  // namespace us
 
     // Volume units
     constexpr precise_unit gal = us::gallon;
@@ -488,7 +488,7 @@ namespace precise {
         constexpr precise_unit cup{250.0, mL};
         constexpr precise_unit cup_uslegal{240.0, mL};
         constexpr precise_unit carat{0.2, g};
-    } // namespace metric
+    }  // namespace metric
 
     /// Some Canada specific variants on the us units
     namespace canada {
@@ -498,15 +498,15 @@ namespace precise {
         constexpr precise_unit cup_trad{227.3045, mL};
         namespace grain {
             constexpr precise_unit bushel_oats{34.0, av::pound};
-        } // namespace grain
-    } // namespace canada
+        }  // namespace grain
+    }  // namespace canada
 
     /// Some Australia specific variants on the us units
     namespace australia {
         constexpr precise_unit tbsp{20.0, mL};
         constexpr precise_unit tsp{5.0, mL};
         constexpr precise_unit cup{250.0, mL};
-    } // namespace australia
+    }  // namespace australia
 
     /// Imperial system units (British)
     namespace imp {
@@ -551,7 +551,7 @@ namespace precise {
         constexpr precise_unit hundredweight{112.0, av::pound};
         constexpr precise_unit ton{2240.0, av::pound};
         constexpr precise_unit slug{14.59390294, kg};
-    } // namespace imp
+    }  // namespace imp
 
     namespace apothecaries {
         constexpr precise_unit floz = imp::floz;
@@ -563,7 +563,7 @@ namespace precise {
         constexpr precise_unit pint = imp::pint;
         constexpr precise_unit gallon = imp::gallon;
         constexpr precise_unit metric_ounce{28.0, g};
-    } // namespace apothecaries
+    }  // namespace apothecaries
 
     // Nautical units
     namespace nautical {
@@ -572,7 +572,7 @@ namespace precise {
         constexpr precise_unit mile(1.852, km);
         constexpr precise_unit knot = mile / hr;
         constexpr precise_unit league(3.0, mile);
-    } // namespace nautical
+    }  // namespace nautical
 
     /// Some historical Japanese units
     namespace japan {
@@ -584,7 +584,7 @@ namespace precise {
         constexpr precise_unit kan{15.0 / 4.0, kg};
         constexpr precise_unit go{2401.0 / 13310, L};
         constexpr precise_unit cup{200.0, mL};
-    } // namespace japan
+    }  // namespace japan
 
     /// Some historical chinese units
     namespace chinese {
@@ -597,7 +597,7 @@ namespace precise {
         constexpr precise_unit chi{10.0, cun};
         constexpr precise_unit zhang{10.0, chi};
 
-    } // namespace chinese
+    }  // namespace chinese
 
     /// Typographic units for typesetting or printing
     namespace typographic {
@@ -607,11 +607,11 @@ namespace precise {
             constexpr precise_unit pica{12.0, point};
             constexpr precise_unit twip{1.0 / 20.0, point};
 
-        } // namespace american
+        }  // namespace american
         namespace printers {
             constexpr precise_unit point{0.013837, i::inch};
             constexpr precise_unit pica{12.0, point};
-        } // namespace printers
+        }  // namespace printers
 
         namespace french {
             constexpr precise_unit point{15625.0 / 41559.0, mm};
@@ -622,15 +622,15 @@ namespace precise {
             constexpr precise_unit pied{12.0, pouce};
             constexpr precise_unit toise{6.0, pied};
 
-        } // namespace french
+        }  // namespace french
 
         namespace metric {
             constexpr precise_unit point{375.0, micro* m};
             constexpr precise_unit quart{0.25, mm};
 
-        } // namespace metric
+        }  // namespace metric
 
-    } // namespace typographic
+    }  // namespace typographic
 
     /// units related to distance
     namespace distance {
@@ -646,7 +646,7 @@ namespace precise {
         constexpr precise_unit arpent_fr{71.46466, m};
         constexpr precise_unit xu{0.1, precise::pico* precise::m};
 
-    } // namespace distance
+    }  // namespace distance
 
     /// Units related to compass directions
     namespace direction {
@@ -655,7 +655,7 @@ namespace precise {
         constexpr precise_unit north = precise::iflag;
         constexpr precise_unit south{-1.0, precise::iflag};
         constexpr precise_unit west{-1.0, precise::one};
-    } // namespace direction
+    }  // namespace direction
 
     //  Area units
     constexpr precise_unit acre = us::acre;
@@ -665,20 +665,20 @@ namespace precise {
         constexpr precise_unit hectare(100.0, are);
         constexpr precise_unit barn{1e-28, m* m};
         constexpr precise_unit arpent{0.84628, acre};
-    } // namespace area
+    }  // namespace area
 
     /// additional mass units
     namespace mass {
         constexpr precise_unit quintal{100.0, kg};
         constexpr precise_unit ton_assay{29.0 + 1. / 6.0, g};
         constexpr precise_unit longton_assay{32.0 + 2.0 / 3.0, g};
-    } // namespace mass
+    }  // namespace mass
     /// some extra volume units
     namespace volume {
         constexpr precise_unit stere = m.pow(3);
         constexpr precise_unit acre_foot = acre * us::foot;
         constexpr precise_unit drum{55.0, us::gallon};
-    } // namespace volume
+    }  // namespace volume
 
     /// angle measure units
     namespace angle {
@@ -688,8 +688,8 @@ namespace precise {
         constexpr precise_unit arcmin(1.0 / 60.0, deg);
         constexpr precise_unit arcsec(1.0 / 60.0, arcmin);
         constexpr precise_unit
-            brad(constants::tau / 256.0, rad); // binary radian
-    } // namespace angle
+            brad(constants::tau / 256.0, rad);  // binary radian
+    }  // namespace angle
     constexpr precise_unit deg = angle::deg;
 
     /// units related to temperature
@@ -704,7 +704,7 @@ namespace precise {
         constexpr precise_unit degR = rankine;
 
         constexpr precise_unit reaumur{5.0 / 4.0, celsius};
-    } // namespace temperature
+    }  // namespace temperature
 
     constexpr precise_unit degC = temperature::celsius;
     constexpr precise_unit degF = temperature::fahrenheit;
@@ -719,16 +719,16 @@ namespace precise {
     /// Units related to pressure
     namespace pressure {
         constexpr precise_unit psi{6894.757293168, Pa};
-        constexpr precise_unit inHg{3376.849669, Pa}; // at 60 degF
+        constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};
         constexpr precise_unit torr{101325.0 / 760.0,
-                                    Pa* eflag}; // this is really close to mmHg
-        constexpr precise_unit inH2O{248.843004, Pa}; // at 60 degF
-        constexpr precise_unit mmH2O{1.0 / 25.4, inH2O}; // at 60 degF
+                                    Pa* eflag};  // this is really close to mmHg
+        constexpr precise_unit inH2O{248.843004, Pa};  // at 60 degF
+        constexpr precise_unit mmH2O{1.0 / 25.4, inH2O};  // at 60 degF
         constexpr precise_unit atm(101325.0, Pa);
-        constexpr precise_unit att = gm::at; //!< technical atmosphere same as
-                                             //!< gravitational metric system
-    } // namespace pressure
+        constexpr precise_unit att = gm::at;  //!< technical atmosphere same as
+                                              //!< gravitational metric system
+    }  // namespace pressure
 
     // Power system units
     constexpr precise_unit MW(1000000.0, W);
@@ -749,13 +749,13 @@ namespace precise {
 
     /// Power units
     namespace power {
-        constexpr precise_unit hpE(746.0, W); // electric horsepower
+        constexpr precise_unit hpE(746.0, W);  // electric horsepower
         constexpr precise_unit
-            hpI(745.69987158227022, W); // mechanical horsepower
-        constexpr precise_unit hpS(9812.5, W); // Boiler horsepower
-        constexpr precise_unit hpM(735.49875, W); // Boiler horsepower
+            hpI(745.69987158227022, W);  // mechanical horsepower
+        constexpr precise_unit hpS(9812.5, W);  // Boiler horsepower
+        constexpr precise_unit hpM(735.49875, W);  // Boiler horsepower
 
-    } // namespace power
+    }  // namespace power
 
     constexpr precise_unit hp = power::hpI;
 
@@ -768,31 +768,33 @@ namespace precise {
         constexpr precise_unit kWh(3600000.0, J);
         constexpr precise_unit MWh(1000.0, kWh);
         constexpr precise_unit
-            eV(1.602176634e-19, J); // updated to 2019 exact definition
+            eV(1.602176634e-19, J);  // updated to 2019 exact definition
 
         constexpr precise_unit kcal(4184.0, J);
         constexpr precise_unit cal_4(4.204, J);
-        constexpr precise_unit cal_15(4.18580, J); // calorie at 15 degC
-        constexpr precise_unit cal_20(4.18190, J); // calorie at 20 degC
-        constexpr precise_unit cal_mean(4.19002, J); // mean calorie
-        constexpr precise_unit cal_it(4.1868, J); // international table calorie
-        constexpr precise_unit cal_th(4.184, J); // thermochemical calorie
+        constexpr precise_unit cal_15(4.18580, J);  // calorie at 15 degC
+        constexpr precise_unit cal_20(4.18190, J);  // calorie at 20 degC
+        constexpr precise_unit cal_mean(4.19002, J);  // mean calorie
+        constexpr precise_unit
+            cal_it(4.1868, J);  // international table calorie
+        constexpr precise_unit cal_th(4.184, J);  // thermochemical calorie
 
-        constexpr precise_unit btu_th{1054.350, J}; // thermochemical btu
+        constexpr precise_unit btu_th{1054.350, J};  // thermochemical btu
         constexpr precise_unit btu_39{1059.67, J};
         constexpr precise_unit btu_59{1054.80, J};
         constexpr precise_unit btu_60{1054.68, J};
         constexpr precise_unit btu_mean{1055.87, J};
-        constexpr precise_unit btu_it{1055.05585, J}; // international table btu
-        constexpr precise_unit btu_iso{1055.06, J}; // rounded btu_it
+        constexpr precise_unit btu_it{1055.05585,
+                                      J};  // international table btu
+        constexpr precise_unit btu_iso{1055.06, J};  // rounded btu_it
         constexpr precise_unit quad(1055.05585262, J);
         constexpr precise_unit tonc(12000.0, btu_th / hr);
 
         constexpr precise_unit therm_us(100000.0, btu_59);
         constexpr precise_unit therm_br(105505585.257, J);
         constexpr precise_unit therm_ec(100000, btu_iso);
-        constexpr precise_unit EER(btu_th / W / hr); // Energy efficiency ratio
-        constexpr precise_unit SG(lb / ft.pow(3) * pu); // Specific gravity
+        constexpr precise_unit EER(btu_th / W / hr);  // Energy efficiency ratio
+        constexpr precise_unit SG(lb / ft.pow(3) * pu);  // Specific gravity
 
         constexpr precise_unit ton_tnt{4.184, precise::giga* precise::J};
         constexpr precise_unit boe{5.8e6, btu_59};
@@ -800,7 +802,7 @@ namespace precise {
         constexpr precise_unit hartree{4.35974465054e-18, J};
         constexpr precise_unit tonhour{3.5168528421, kWh};
 
-    } // namespace energy
+    }  // namespace energy
     constexpr precise_unit btu = energy::btu_it;
     constexpr precise_unit cal = energy::cal_th;
     constexpr precise_unit kWh = energy::kWh;
@@ -825,20 +827,20 @@ namespace precise {
         */
         constexpr detail::unit_data custom_unit(std::uint16_t customX)
         {
-            return {7 - 4 * bShift(customX, 8), // 3 or 7
-                    -2 + 3 * bShift(customX, 7), //-2 or 1
+            return {7 - 4 * bShift(customX, 8),  // 3 or 7
+                    -2 + 3 * bShift(customX, 7),  //-2 or 1
                     7 *
                         bShift(
                             customX,
-                            9), // 7 or 0  sometimes custom unit/time is used
+                            9),  // 7 or 0  sometimes custom unit/time is used
                     -3 -
                         bShift(
                             customX,
-                            6), //-3 or -4  //this is probably the most
-                                // important for isolating it
-                    3 * bShift(customX, 4), // 3 or 0
-                    -2, // this also is set so that 1/-2 == 2 for a 2 bit signed
-                        // number
+                            6),  //-3 or -4  //this is probably the most
+                                 // important for isolating it
+                    3 * bShift(customX, 4),  // 3 or 0
+                    -2,  // this also is set so that 1/-2 == 2 for a 2 bit
+                         // signed number
                     -2 + 2 * bShift(customX, 5),
                     -2 * bShift(customX, 3),
                     0,
@@ -851,11 +853,11 @@ namespace precise {
         /// Check if the unit is a custom unit or inverse custom unit
         inline bool is_custom_unit(detail::unit_data UT)
         {
-            if (UT.mole() != -2) { // mole is always -2 regardless of inversion
+            if (UT.mole() != -2) {  // mole is always -2 regardless of inversion
                 return false;
             }
             if (std::abs(UT.ampere()) <
-                2) { // ampere is either -3 or -4  or 3 or 4
+                2) {  // ampere is either -3 or -4  or 3 or 4
                 return false;
             }
             return true;
@@ -919,8 +921,8 @@ namespace precise {
             return {0,
                     0,
                     0,
-                    3, // detection codes
-                    -3, // detection codes
+                    3,  // detection codes
+                    -3,  // detection codes
                     0,
                     -1 * bShift(customX, 3),
                     0,
@@ -973,7 +975,7 @@ namespace precise {
                     bShift(equation_number, 3),
                     bShift(
                         equation_number,
-                        4), // switched on purpose so radian is the high bit
+                        4),  // switched on purpose so radian is the high bit
                     bShiftu(equation_number, 2),
                     bShiftu(equation_number, 1),
                     bShiftu(equation_number, 0),
@@ -986,7 +988,7 @@ namespace precise {
                 (UT.is_per_unit() ? 4 : 0) + (UT.has_i_flag() ? 2 : 0) +
                 (UT.has_e_flag() ? 1 : 0);
         }
-    } // namespace custom
+    }  // namespace custom
 
     /// Generate a custom unit from a code number
     constexpr precise_unit generate_custom_unit(std::uint16_t code)
@@ -1053,7 +1055,7 @@ namespace precise {
         constexpr precise_unit dB_10nV = dB * precise::ten * precise::nano * V;
         constexpr precise_unit dB_W = dB * W;
         constexpr precise_unit dB_kW = dB * kW;
-    } // namespace log
+    }  // namespace log
 
     /// additional equation based units
     namespace equations {
@@ -1106,7 +1108,7 @@ namespace precise {
                     return std::pow(3.0, val);
                 case 15:
                     return std::exp(val / 0.5);
-                case 22: // saffir simpson hurricane wind scale
+                case 22:  // saffir simpson hurricane wind scale
                 {
                     double out = -0.17613636364;
                     out = std::fma(out, val, 2.88510101010);
@@ -1115,7 +1117,7 @@ namespace precise {
                     out = std::fma(out, val, 38.90151515152);
                     return out;
                 }
-                case 23: { // Beaufort wind scale
+                case 23: {  // Beaufort wind scale
                     double out = 0.00177396133;
                     out = std::fma(out, val, -0.05860071301);
                     out = std::fma(out, val, 0.93621452077);
@@ -1123,11 +1125,11 @@ namespace precise {
                     out = std::fma(out, val, -0.12475759535);
                     return out;
                 }
-                case 24: // Fujita scale
+                case 24:  // Fujita scale
                     return 14.1 * std::pow(val + 2.0, 1.5);
-                case 27: // prism diopter
+                case 27:  // prism diopter
                     return std::atan(val / 100.0);
-                case 29: // moment magnitude scale
+                case 29:  // moment magnitude scale
                     return std::pow(10.0, (val + 10.7) * 1.5);
                 case 30:
                     return std::pow(10.0, (val + 3.2) * 1.5);
@@ -1180,9 +1182,9 @@ namespace precise {
                     return std::log10(val) / std::log10(3);
                 case 15:
                     return 0.5 * (std::log)(val);
-                case 22: // saffir simpson hurricane scale from wind speed
-                { // using horners method on polynomial approximation of
-                  // saffir-simpson wind speed scale
+                case 22:  // saffir simpson hurricane scale from wind speed
+                {  // using horners method on polynomial approximation of
+                   // saffir-simpson wind speed scale
                     double out = 1.75748569529e-10;
                     out = std::fma(out, val, -9.09204303833e-08);
                     out = std::fma(out, val, 1.52274455780e-05);
@@ -1191,7 +1193,7 @@ namespace precise {
                     out = std::fma(out, val, -6.67563481438e-01);
                     return out;
                 }
-                case 23: { // Beaufort wind scale
+                case 23: {  // Beaufort wind scale
                     double out = 2.18882896425e-08;
                     out = std::fma(out, val, -4.78236313769e-06);
                     out = std::fma(out, val, 3.91121840061e-04);
@@ -1200,19 +1202,19 @@ namespace precise {
                     out = std::fma(out, val, 4.99241689370e-01);
                     return out;
                 }
-                case 24: // fujita scale
+                case 24:  // fujita scale
                     return std::pow(val / 14.1, 2.0 / 3.0) - 2.0;
-                case 27: // prism diopter
+                case 27:  // prism diopter
                     return 100.0 * std::tan(val);
-                case 29: // moment magnitude scale
+                case 29:  // moment magnitude scale
                     return 2.0 / 3.0 * std::log10(val) - 10.7;
-                case 30: // energy magnitude scale
+                case 30:  // energy magnitude scale
                     return 2.0 / 3.0 * std::log10(val) - 3.2;
                 default:
                     return val;
             }
         }
-    } // namespace equations
+    }  // namespace equations
 
     /// Units used in the textile industry
     namespace textile {
@@ -1221,24 +1223,24 @@ namespace precise {
         constexpr precise_unit span{0.2286, m};
         constexpr precise_unit finger{0.1143, m};
         constexpr precise_unit nail{0.5, finger};
-    } // namespace textile
+    }  // namespace textile
 
     /// Units used in clinical medicine
     namespace clinical {
         constexpr precise_unit pru = precise::pressure::mmHg * precise::s /
-            precise::mL; //!< peripheral vascular resistance unit
+            precise::mL;  //!< peripheral vascular resistance unit
         constexpr precise_unit woodu =
-            precise::pressure::mmHg * precise::min / precise::L; //!< wood unit
+            precise::pressure::mmHg * precise::min / precise::L;  //!< wood unit
         constexpr precise_unit diopter = m.inv();
         constexpr precise_unit prism_diopter(custom::equation_unit(27));
         constexpr precise_unit mesh = i::inch.inv();
         constexpr precise_unit charriere{1.0 / 3.0, mm};
         constexpr precise_unit drop{0.05, mL};
         constexpr precise_unit met =
-            precise_unit{3.5, mL / min / kg}; //!< metabolic equivalent
+            precise_unit{3.5, mL / min / kg};  //!< metabolic equivalent
         constexpr precise_unit hounsfield = generate_custom_unit(37);
 
-    } // namespace clinical
+    }  // namespace clinical
 
     /// Units used in chemical and biological laboratories
     namespace laboratory {
@@ -1263,7 +1265,7 @@ namespace precise {
             precise::mol / precise::L * precise::log::neglog10;
         constexpr precise_unit molarity = precise::mol / precise::L;
         constexpr precise_unit molality = precise::mol / precise::kg;
-    } // namespace laboratory
+    }  // namespace laboratory
     // Weight units
 
     constexpr precise_unit tonne(1000.0, kg);
@@ -1298,7 +1300,7 @@ namespace precise {
             precise_unit(precise::custom::equation_unit(14));
         // compute the number of digits
         constexpr precise_unit digits = precise_unit(custom::equation_unit(10));
-    } // namespace data
+    }  // namespace data
 
     constexpr precise_unit bit = data::bit;
     constexpr precise_unit B = data::byte;
@@ -1315,7 +1317,7 @@ namespace precise {
             1.0,
             precise::count / precise::s,
             commodities::instruction);
-    } // namespace computation
+    }  // namespace computation
 
     // concentrations
     constexpr precise_unit ppm(1e-6, count);
@@ -1348,11 +1350,11 @@ namespace precise {
         constexpr precise_unit rootHertz = precise_unit(
             detail::unit_data(0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
-    } // namespace special
+    }  // namespace special
 
     constexpr precise_unit candle{0.981, cd};
     constexpr precise_unit faraday{9.648533289e4, C};
-} // namespace precise
+}  // namespace precise
 
 constexpr unit meter = unit_cast(precise::meter);
 constexpr unit m = meter;
@@ -1559,7 +1561,7 @@ namespace detail {
         }
         return val / result.multiplier();
     }
-} // namespace detail
+}  // namespace detail
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
 constexpr unit CFM = unit_cast(precise::CFM);
@@ -1614,16 +1616,16 @@ namespace puconversion {
     /// those
     inline double assumedBase(unit start, unit result)
     {
-        if (puHz == result || puHz == start) { // assume 60 Hz
+        if (puHz == result || puHz == start) {  // assume 60 Hz
             return 60.0;
         }
-        if (puMW == result || puMW == start) { // assume 100MVA for power base
+        if (puMW == result || puMW == start) {  // assume 100MVA for power base
             return 100.0;
         }
         // mach number
         if (unit_cast(precise::special::mach) == result ||
             unit_cast(precise::special::mach) ==
-                start) { // assume NASA mach number approximation conversions
+                start) {  // assume NASA mach number approximation conversions
             return 341.25;
         }
         return constants::invalid_conversion;
@@ -1637,25 +1639,27 @@ namespace puconversion {
     {
         if (start.has_same_base(puOhm.base_units())) {
             if (result.has_same_base(puMW.base_units()) ||
-                result.has_same_base(puA.base_units())) { // V^2/R assuming
-                                                          // voltage=1.0 pu; or
-                                                          // //I=V/R
+                result.has_same_base(puA.base_units())) {  // V^2/R assuming
+                                                           // voltage=1.0 pu; or
+                                                           // //I=V/R
                 return 1.0 / val;
             }
         } else if (start.has_same_base(puA.base_units())) {
-            if (result.has_same_base(puMW.base_units())) { // P=IV assuming
-                                                           // voltage=1.0 pu or
-                                                           // //R=V/I
-                return val;
-            }
-            if (result.has_same_base(puOhm.base_units())) { // P=IV assuming
+            if (result.has_same_base(puMW.base_units())) {  // P=IV assuming
                                                             // voltage=1.0 pu or
                                                             // //R=V/I
+                return val;
+            }
+            if (result.has_same_base(
+                    puOhm.base_units())) {  // P=IV assuming
+                                            // voltage=1.0 pu or
+                                            // //R=V/I
                 return 1.0 / val;
             }
-        } else if (start.has_same_base(puMW.base_units())) { // P=IV, or P=V^2/R
+        } else if (start.has_same_base(
+                       puMW.base_units())) {  // P=IV, or P=V^2/R
             if (result.has_same_base(
-                    puA.base_units())) { // IV assuming voltage=1.0 pu or
+                    puA.base_units())) {  // IV assuming voltage=1.0 pu or
                 return val;
             }
             if (result.has_same_base(puOhm.base_units())) {
@@ -1664,7 +1668,7 @@ namespace puconversion {
         }
         return constants::invalid_conversion;
     }
-} // namespace puconversion
+}  // namespace puconversion
 
 // Energy units
 constexpr unit kcal = unit_cast(precise::energy::kcal);
@@ -1753,7 +1757,7 @@ namespace detail {
                  2.0 * constants::pi,
                  4.0 * constants::pi * constants::pi}};
             int muxIndex =
-                rad_result - rad_start + 2; //+2 is to shift the index
+                rad_result - rad_start + 2;  //+2 is to shift the index
             if (muxIndex < 0 || muxIndex > 4) {
                 return constants::invalid_conversion;
             }
@@ -1773,7 +1777,7 @@ namespace detail {
                 {6.02214076e23, 0, 1.0 / 6.02214076e23}};
 
             int muxIndex =
-                mol_result - mol_start + 1; //+1 is to shift the index
+                mol_result - mol_start + 1;  //+1 is to shift the index
             if (muxIndex < 0 || muxIndex > 2) {
                 return constants::invalid_conversion;
             }
@@ -1787,5 +1791,5 @@ namespace detail {
     }
     // radians converted to mole is kind of dumb, theoretically possible but
     // probably shouldn't be supported
-} // namespace detail
-} // namespace units
+}  // namespace detail
+}  // namespace units

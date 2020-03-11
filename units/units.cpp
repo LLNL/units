@@ -142,14 +142,15 @@ static const umap base_unit_names{
     {m, "m"},
     {m * m, "m^2"},
     {m * m * m, "m^3"},
-    {(mega * m).pow(3), "(1e9km^3)"}, // Mm^3 is a unit in gas industry for 1000
-                                      // m^3 not mega meters cubed
+    {(mega * m).pow(3),
+     "(1e9km^3)"},  // Mm^3 is a unit in gas industry for 1000
+                    // m^3 not mega meters cubed
     {kg, "kg"},
     {mol, "mol"},
     {A, "A"},
     {V, "V"},
     {s, "s"},
-    {giga * s, "Bs"}, // this is so Gs doesn't get used which can cause issues
+    {giga * s, "Bs"},  // this is so Gs doesn't get used which can cause issues
     {cd, "cd"},
     {K, "K"},
     {N, "N"},
@@ -165,7 +166,7 @@ static const umap base_unit_names{
     {T, "T"},
     {H, "H"},
     {pico * H,
-     "(A^-2*pJ)"}, // deal with pico henry which is interpreted as acidity (pH)
+     "(A^-2*pJ)"},  // deal with pico henry which is interpreted as acidity (pH)
     {lm, "lm"},
     {lx, "lux"},
     {Bq, "Bq"},
@@ -187,7 +188,7 @@ static const umap base_unit_names{
     {unit_cast(precise::imp::knot), "kn_br"},
     {unit_cast(precise::cgs::curie), "Ci"},
     {(mega * m).pow(3),
-     "ZL"}, // another one of those units that can be confused
+     "ZL"},  // another one of those units that can be confused
     {bar, "bar"},
     {unit_cast(precise::nautical::knot), "knot"},
     {ft * ft, "ft^2"},
@@ -291,7 +292,7 @@ static const umap base_unit_names{
     {unit_cast(precise::us::barrel), "bbl"},
     {lb, "lb"},
     {ton, "ton"},
-    {tonne, "t"}, // metric ton
+    {tonne, "t"},  // metric ton
     {u, "u"},
     {kB, "kB"},
     {MB, "MB"},
@@ -435,7 +436,7 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     auto rv = ss.str();
     // modify some improper strings that cause issues later on
     if (rv == "inf") {
-        return "1.00000000000000*(infinity)"; // LCOV_EXCL_LINE
+        return "1.00000000000000*(infinity)";  // LCOV_EXCL_LINE
     }
     if (rv == "-inf") {
         return "1.00000000000000*(-1.00000000000000*infinity)";
@@ -642,7 +643,7 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             if (commentloc == std::string::npos || line[commentloc] == '#') {
                 continue;
             }
-            std::size_t esep{1}; // extra separation location to handle quotes
+            std::size_t esep{1};  // extra separation location to handle quotes
             if (line[commentloc] == '\"' || line[commentloc] == '\'') {
                 bool notfound{true};
                 while (notfound) {
@@ -754,14 +755,14 @@ std::string
 {
     using spair = std::tuple<const char*, const char*, int, int>;
     static UNITS_CPP14_CONSTEXPR std::array<spair, 8> powerseq{{
-        spair{"Mm^3", "(1e9km^3)", 4, 8}, // this needs to happen before ^3^2
-                                          // conversions
+        spair{"Mm^3", "(1e9km^3)", 4, 8},  // this needs to happen before ^3^2
+                                           // conversions
         spair{"^2^2", "^4", 4, 2},
         spair{"^3^2", "^6", 4, 2},
         spair{"^2^3", "^6", 4, 2},
         spair{"Gs", "Bs", 2, 2},
-        spair{"*K^", "*1*K^", 3, 5}, // this one is to prevent the next from
-                                     // screwing things up
+        spair{"*K^", "*1*K^", 3, 5},  // this one is to prevent the next from
+                                      // screwing things up
         spair{"eflag*K", "degC", 7, 4},
         spair{"*1*", "*", 3, 1},
 
@@ -820,13 +821,13 @@ std::string
                     propUnitString = cString + "*" + propUnitString;
                 }
             }
-        } else { // inverse commodity
+        } else {  // inverse commodity
             auto loc = propUnitString.find_last_of('/');
             if (loc == std::string::npos) {
                 auto rs = checkForCustomUnit(cString);
-                if (!is_error(rs)) { // this check is needed because it is
-                                     // possible to define a commodity that
-                                     // would look like a form
+                if (!is_error(rs)) {  // this check is needed because it is
+                                      // possible to define a commodity that
+                                      // would look like a form
                     // of custom unit
                     // The '1' forces the interpreter to interpret it as purely
                     // a commodity, but is only needed in very particular
@@ -1222,7 +1223,7 @@ static double getPrefixMultiplier(char p)
             return 1e6;
         case 'u':
         case 'U':
-        case '\xB5': // latin-1 encoding "micro"
+        case '\xB5':  // latin-1 encoding "micro"
             return 1e-6;
         case 'd':
         case 'D':
@@ -1238,7 +1239,7 @@ static double getPrefixMultiplier(char p)
         case 'p':
             return 1e-12;
         case 'G':
-        case 'B': // Billion
+        case 'B':  // Billion
             return 1e9;
         case 'T':
             return 1e12;
@@ -1497,7 +1498,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
 //    "on tw th fo fi si se ei ni te el hu mi bi tr ze";
 
 static bool hasValidNumericalWordStart(const std::string& ustring)
-{ // do a check if the first and second letters make sense
+{  // do a check if the first and second letters make sense
     static const std::string first_letters = "otfsenhmbtzaOTFSENHMBTZA";
     static const std::string second_letters = "nwhoielurNWHOIELUR";
     return (
@@ -1679,8 +1680,8 @@ namespace detail {
         {
             return readNumericalWords(test, index);
         }
-    } // namespace testing
-} // namespace detail
+    }  // namespace testing
+}  // namespace detail
 
 /** Words of SI prefixes
 https://physics.nist.gov/cuu/Units/prefixes.html
@@ -1790,11 +1791,11 @@ static bool wordModifiers(std::string& unit)
         modSeq{"cu", "^3", 2, modifier::tail_replace},
     }};
     if (unit.compare(0, 3, "cup") ==
-        0) { // this causes too many issues so skip it
+        0) {  // this causes too many issues so skip it
         return false;
     }
     if (unit.compare(0, 13, "hundredweight") ==
-        0) { // this is a specific unit and should not be cut off
+        0) {  // this is a specific unit and should not be cut off
         return false;
     }
     for (auto& mod : modifiers) {
@@ -1848,7 +1849,7 @@ static bool wordModifiers(std::string& unit)
                             // this path cannot currently be executed due to the
                             // limited use of the type but others may be added
                             // in the future that might trigger it
-                            unit.erase(0, std::get<2>(mod)); // LCOV_EXCL_LINE
+                            unit.erase(0, std::get<2>(mod));  // LCOV_EXCL_LINE
                         }
                         unit.append(std::get<1>(mod));
                         return true;
@@ -1930,9 +1931,9 @@ static precise_unit
         auto fnd = unit.find(irep.first);
         if (fnd != std::string::npos) {
             auto len = strlen(irep.first);
-            if (len == unit.size()) { // this is a modifier if we are checking
-                                      // the entire unit this is automatically
-                                      // false
+            if (len == unit.size()) {  // this is a modifier if we are checking
+                                       // the entire unit this is automatically
+                                       // false
                 return precise::invalid;
             }
             unit.erase(fnd, len);
@@ -2094,10 +2095,10 @@ static const smap base_unit_vals{
     {"percent", precise::percent},
     {"percentage", precise::percent},
     {"permille", precise::milli},
-    {u8"\u2030", precise::milli}, // per mille symbol
+    {u8"\u2030", precise::milli},  // per mille symbol
     {"bp", precise_unit(0.1, precise::milli)},
     {"basispoint", precise_unit(0.1, precise::milli)},
-    {u8"\u2031", precise_unit(0.1, precise::milli)}, // per ten thousand symbol
+    {u8"\u2031", precise_unit(0.1, precise::milli)},  // per ten thousand symbol
     {"pct", precise::percent},
     {"pi", precise_unit(constants::pi, one)},
     {"PI", precise_unit(constants::pi, one)},
@@ -2110,7 +2111,7 @@ static const smap base_unit_vals{
     {u8"\U0001D745", precise_unit(constants::pi, one)},
     {u8"\U0001D6D1", precise_unit(constants::pi, one)},
     {"m", precise::m},
-    {"Sm", precise::m}, // standard meter used in oil and gas usually Sm^3
+    {"Sm", precise::m},  // standard meter used in oil and gas usually Sm^3
     {"meter", precise::m},
     {"micron", precise::micro* precise::m},
     {"fermi", precise::femto* precise::m},
@@ -2150,9 +2151,9 @@ static const smap base_unit_vals{
     {"grampercent", precise_unit(10.0, precise::g / precise::L)},
     {"G%", precise_unit(10.0, precise::g / precise::L)},
     {"U", precise::laboratory::enzyme_unit},
-    {"units", precise::laboratory::enzyme_unit}, // this may not be best but it
-                                                 // doesn't actually conflict
-                                                 // with
+    {"units", precise::laboratory::enzyme_unit},  // this may not be best but it
+                                                  // doesn't actually conflict
+                                                  // with
     // anything else right now
     {"enzymeunit", precise::laboratory::enzyme_unit},
     {"A", precise::A},
@@ -2183,11 +2184,11 @@ static const smap base_unit_vals{
     {"second", precise::s},
     {"second-time", precise::s},
     {"shake", precise_unit(10.0, precise::ns)},
-    {"jiffy", precise_unit(0.01, precise::s)}, // use the computer science
-                                               // definition for playback and
-                                               // clock rate
+    {"jiffy", precise_unit(0.01, precise::s)},  // use the computer science
+                                                // definition for playback and
+                                                // clock rate
     {"cd", precise::cd},
-    {"mcd", precise::milli* precise::cd}, // prefer milli candela to micro-day
+    {"mcd", precise::milli* precise::cd},  // prefer milli candela to micro-day
     {"CD", precise::cd},
     {"candela", precise::cd},
     {"candle", precise::candle},
@@ -2208,10 +2209,10 @@ static const smap base_unit_vals{
     {"degK", precise::K},
     {"degsK", precise::K},
     {"N", precise::N},
-    {"Ns", precise::N* precise::s}, // this would not pass through to the
-                                    // separation functions
-    {"Nm", precise::N* precise::m}, // this would not pass through to the
-                                    // separation functions
+    {"Ns", precise::N* precise::s},  // this would not pass through to the
+                                     // separation functions
+    {"Nm", precise::N* precise::m},  // this would not pass through to the
+                                     // separation functions
     {"newton", precise::N},
     {"Pa", precise::Pa},
     {"pa", precise::Pa},
@@ -2235,8 +2236,8 @@ static const smap base_unit_vals{
     {"OHM", precise::ohm},
     {"ohm", precise::ohm},
     {"Ohm", precise::ohm},
-    {u8"\u03A9", precise::ohm}, // Greek Omega
-    {u8"\u2126", precise::ohm}, // Unicode Ohm symbol
+    {u8"\u03A9", precise::ohm},  // Greek Omega
+    {u8"\u2126", precise::ohm},  // Unicode Ohm symbol
     {"abOhm", precise::cgs::abOhm},
     {"abohm", precise::cgs::abOhm},
     {"statohm", precise::cgs::statOhm},
@@ -2307,7 +2308,7 @@ static const smap base_unit_vals{
     {"inches_i", precise::i::inch},
     {"in_us", precise::us::inch},
     {"inus", precise::us::inch},
-    {"usin", precise::us::inch}, // this is more likely than micro square in
+    {"usin", precise::us::inch},  // this is more likely than micro square in
     {"[IN_US]", precise::us::inch},
     {"inch_us", precise::us::inch},
     {"inches_us", precise::us::inch},
@@ -2412,24 +2413,25 @@ static const smap base_unit_vals{
     {"sin", precise::in* precise::in},
     {"sin_i", precise::in* precise::in},
     {"[SIN_I]", precise::in* precise::in},
-    {"cin", precise::in.pow(3)}, // cubic inch instead of centiinch
+    {"cin", precise::in.pow(3)},  // cubic inch instead of centiinch
     {"cin_i", precise::in.pow(3)},
     {"[CIN_I]", precise::in.pow(3)},
     {"sf", precise::ft* precise::ft},
     {"sft", precise::ft* precise::ft},
     {"sft_i", precise::ft* precise::ft},
     {"[SFT_I]", precise::ft* precise::ft},
-    {"SCF", precise::ft.pow(3)}, // standard cubic foot
-    {"CCF", precise_unit(100.0, precise::ft.pow(3))}, // centum cubic foot
-    {"MCF", precise_unit(1000.0, precise::ft.pow(3))}, // millum cubic foot
-    {"MMCF", precise_unit(1000000.0, precise::ft.pow(3))}, // million cubic foot
-    {"BCF", precise::giga* precise::ft.pow(3)}, // billion cubic foot
-    {"TCF", precise::tera* precise::ft.pow(3)}, // trillion cubic foot
-    {"Mm^3", precise_unit(1000.0, precise::m.pow(3))}, // millum cubic meters
+    {"SCF", precise::ft.pow(3)},  // standard cubic foot
+    {"CCF", precise_unit(100.0, precise::ft.pow(3))},  // centum cubic foot
+    {"MCF", precise_unit(1000.0, precise::ft.pow(3))},  // millum cubic foot
+    {"MMCF",
+     precise_unit(1000000.0, precise::ft.pow(3))},  // million cubic foot
+    {"BCF", precise::giga* precise::ft.pow(3)},  // billion cubic foot
+    {"TCF", precise::tera* precise::ft.pow(3)},  // trillion cubic foot
+    {"Mm^3", precise_unit(1000.0, precise::m.pow(3))},  // millum cubic meters
     {"MMm^3",
-     precise_unit(1000000.0, precise::m.pow(3))}, // million cubic meters
-    {"bm^3", precise::giga* precise::m.pow(3)}, // billion cubic meters
-    {"tm^3", precise::tera* precise::m.pow(3)}, // trillion cubic meters
+     precise_unit(1000000.0, precise::m.pow(3))},  // million cubic meters
+    {"bm^3", precise::giga* precise::m.pow(3)},  // billion cubic meters
+    {"tm^3", precise::tera* precise::m.pow(3)},  // trillion cubic meters
     {"cf", precise::ft.pow(3)},
     {"mcf", precise_unit(1000.0, precise::ft.pow(3))},
     {"ccf", precise_unit(100.0, precise::ft.pow(3))},
@@ -2505,15 +2507,16 @@ static const smap base_unit_vals{
     {"yard", precise::yd},
     {"cubit", precise::distance::cubit},
     {"cubit_br", precise::distance::cubit},
-    {"cubit(UK)", precise::distance::cubit}, // because cubit has cu in it which
-                                             // indicates cubed
+    {"cubit(UK)",
+     precise::distance::cubit},  // because cubit has cu in it which
+                                 // indicates cubed
     {"longcubit", precise::distance::longcubit},
     {"arpent", precise::distance::arpent_us},
     {"arpent_fr", precise::distance::arpent_fr},
     {"arpentlin", precise::distance::arpent_fr},
     {"ken", precise::japan::ken},
     {"cun", precise::chinese::cun},
-    {"cun(Chinese)", precise::chinese::cun}, // interaction with cu for cubic
+    {"cun(Chinese)", precise::chinese::cun},  // interaction with cu for cubic
     {"cun_ch", precise::chinese::cun},
     {"chi", precise::chinese::chi},
     {"chi_ch", precise::chinese::chi},
@@ -2547,78 +2550,78 @@ static const smap base_unit_vals{
     {"wk", precise::time::week},
     {"WK", precise::time::week},
     {"y", precise::time::year},
-    {"yr", precise::time::yr}, // this one gets 365 days exactly
-    {"a", precise::time::year}, // year vs are
-    {"year", precise::time::year}, // year
-    {"yearly", precise::time::year.inv()}, // year
-    {"annum", precise::time::year}, // year
-    {"ANN", precise::time::year}, // year
-    {"decade", precise::ten* precise::time::aj}, // year
-    {"century", precise::hundred* precise::time::aj}, // year
-    {"millennia", precise::kilo* precise::time::ag}, // year
-    {"millennium", precise::kilo* precise::time::ag}, // year
-    {"syr", precise::time::syr}, // sidereal year
-    {"year_sdr", precise::time::syr}, // sidereal year
-    {"yr_sdr", precise::time::syr}, // sidereal year
-    {"sday", precise::time::sday}, // sidereal day
-    {"day_sdr", precise::time::sday}, // sidereal day
-    {"dy_sdr", precise::time::sday}, // sidereal day
-    {"d_sdr", precise::time::sday}, // sidereal day
+    {"yr", precise::time::yr},  // this one gets 365 days exactly
+    {"a", precise::time::year},  // year vs are
+    {"year", precise::time::year},  // year
+    {"yearly", precise::time::year.inv()},  // year
+    {"annum", precise::time::year},  // year
+    {"ANN", precise::time::year},  // year
+    {"decade", precise::ten* precise::time::aj},  // year
+    {"century", precise::hundred* precise::time::aj},  // year
+    {"millennia", precise::kilo* precise::time::ag},  // year
+    {"millennium", precise::kilo* precise::time::ag},  // year
+    {"syr", precise::time::syr},  // sidereal year
+    {"year_sdr", precise::time::syr},  // sidereal year
+    {"yr_sdr", precise::time::syr},  // sidereal year
+    {"sday", precise::time::sday},  // sidereal day
+    {"day_sdr", precise::time::sday},  // sidereal day
+    {"dy_sdr", precise::time::sday},  // sidereal day
+    {"d_sdr", precise::time::sday},  // sidereal day
     {"hour_sdr",
-     precise_unit(1.0 / 24.0, precise::time::sday)}, // sidereal hour
+     precise_unit(1.0 / 24.0, precise::time::sday)},  // sidereal hour
     {"minute_sdr",
-     precise_unit(1.0 / 24.0 / 60.0, precise::time::sday)}, // sidereal minute
+     precise_unit(1.0 / 24.0 / 60.0, precise::time::sday)},  // sidereal minute
     {"second_sdr",
-     precise_unit(1.0 / 24.0 / 60.0 / 60.0, precise::time::sday)}, // sidereal
-                                                                   // second
-    {"hr_sdr", precise_unit(1.0 / 24.0, precise::time::sday)}, // sidereal hour
+     precise_unit(1.0 / 24.0 / 60.0 / 60.0, precise::time::sday)},  // sidereal
+                                                                    // second
+    {"hr_sdr", precise_unit(1.0 / 24.0, precise::time::sday)},  // sidereal hour
     {"min_sdr",
-     precise_unit(1.0 / 24.0 / 60.0, precise::time::sday)}, // sidereal minute
+     precise_unit(1.0 / 24.0 / 60.0, precise::time::sday)},  // sidereal minute
     {"sec_sdr",
-     precise_unit(1.0 / 24.0 / 60.0 / 60.0, precise::time::sday)}, // sidereal
-                                                                   // second
-    {"a_t", precise::time::at}, // year
-    {"year_t", precise::time::at}, // year
-    {"solaryear", precise::time::at}, // year
-    {"ANN_T", precise::time::at}, // year
-    {"a_j", precise::time::aj}, // year
-    {"meanyear_j", precise::time::aj}, // year
-    {"meanyr_j", precise::time::aj}, // year
-    {"year_j", precise::time::aj}, // year
-    {"yr_j", precise::time::aj}, // yea
-    {"ANN_J", precise::time::aj}, // year
-    {"year(leap)", precise_unit(366.0, precise::time::day)}, // year
-    {"commonyear", precise_unit(365.0, precise::time::day)}, // year
-    {"leapyear", precise_unit(366.0, precise::time::day)}, // year
-    {"yearcommon", precise_unit(365.0, precise::time::day)}, // year
-    {"yearleap", precise_unit(366.0, precise::time::day)}, // year
-    {"a_g", precise::time::ag}, // year
-    {"meanyear_g", precise::time::ag}, // year
-    {"meanyr_g", precise::time::ag}, // year
-    {"year_g", precise::time::ag}, // year
-    {"yr_g", precise::time::ag}, // year
-    {"ANN_G", precise::time::ag}, // year
-    {"mo", precise::time::mog}, // gregorian month
-    {"month", precise::time::mog}, // gregorian month
-    {"monthly", precise::time::mog.inv()}, // gregorian month
-    {"MO", precise::time::mog}, // gregorian month
-    {"mO", precise::time::mog}, // gregorian month
-    {"mos", precise::time::mos}, // synodal month
-    {"mo_s", precise::time::mos}, // synodal month
-    {"mO_S", precise::time::mos}, // synodal month
-    {"synodalmonth", precise::time::mos}, // synodal month
-    {"month_s", precise::time::mos}, // synodal month
-    {"lunarmonth", precise::time::mos}, // synodal month
-    {"moon", precise::time::mos}, // synodal month
-    {"mo_j", precise::time::moj}, //
-    {"month_j", precise::time::moj}, //
-    {"mO_J", precise::time::moj}, //
-    {"meanmonth_j", precise::time::moj}, //
-    {"mo_g", precise::time::mog}, //
-    {"mog", precise::time::mog}, //
-    {"month_g", precise::time::mog}, //
-    {"mO_G", precise::time::mog}, //
-    {"meanmonth_g", precise::time::mog}, //
+     precise_unit(1.0 / 24.0 / 60.0 / 60.0, precise::time::sday)},  // sidereal
+                                                                    // second
+    {"a_t", precise::time::at},  // year
+    {"year_t", precise::time::at},  // year
+    {"solaryear", precise::time::at},  // year
+    {"ANN_T", precise::time::at},  // year
+    {"a_j", precise::time::aj},  // year
+    {"meanyear_j", precise::time::aj},  // year
+    {"meanyr_j", precise::time::aj},  // year
+    {"year_j", precise::time::aj},  // year
+    {"yr_j", precise::time::aj},  // yea
+    {"ANN_J", precise::time::aj},  // year
+    {"year(leap)", precise_unit(366.0, precise::time::day)},  // year
+    {"commonyear", precise_unit(365.0, precise::time::day)},  // year
+    {"leapyear", precise_unit(366.0, precise::time::day)},  // year
+    {"yearcommon", precise_unit(365.0, precise::time::day)},  // year
+    {"yearleap", precise_unit(366.0, precise::time::day)},  // year
+    {"a_g", precise::time::ag},  // year
+    {"meanyear_g", precise::time::ag},  // year
+    {"meanyr_g", precise::time::ag},  // year
+    {"year_g", precise::time::ag},  // year
+    {"yr_g", precise::time::ag},  // year
+    {"ANN_G", precise::time::ag},  // year
+    {"mo", precise::time::mog},  // gregorian month
+    {"month", precise::time::mog},  // gregorian month
+    {"monthly", precise::time::mog.inv()},  // gregorian month
+    {"MO", precise::time::mog},  // gregorian month
+    {"mO", precise::time::mog},  // gregorian month
+    {"mos", precise::time::mos},  // synodal month
+    {"mo_s", precise::time::mos},  // synodal month
+    {"mO_S", precise::time::mos},  // synodal month
+    {"synodalmonth", precise::time::mos},  // synodal month
+    {"month_s", precise::time::mos},  // synodal month
+    {"lunarmonth", precise::time::mos},  // synodal month
+    {"moon", precise::time::mos},  // synodal month
+    {"mo_j", precise::time::moj},  //
+    {"month_j", precise::time::moj},  //
+    {"mO_J", precise::time::moj},  //
+    {"meanmonth_j", precise::time::moj},  //
+    {"mo_g", precise::time::mog},  //
+    {"mog", precise::time::mog},  //
+    {"month_g", precise::time::mog},  //
+    {"mO_G", precise::time::mog},  //
+    {"meanmonth_g", precise::time::mog},  //
     {"eon", precise_unit(1e9, precise::time::syr)},
     {"workyear", precise_unit(2056, precise::hr)},
     {"workmonth", precise_unit(2056.0 / 12.0, precise::hr)},
@@ -2631,28 +2634,28 @@ static const smap base_unit_vals{
     {"deg", precise::deg},
     {"DEG", precise::deg},
     {"o", precise::deg},
-    {u8"\u00B0", precise::deg}, // unicode degree symbol
-    {"\xB0", precise::deg}, // latin-1 degree
-    {u8"\u00B0(s)", precise::deg}, // unicode degree symbol
-    {"\xB0(s)", precise::deg}, // latin-1 degree
+    {u8"\u00B0", precise::deg},  // unicode degree symbol
+    {"\xB0", precise::deg},  // latin-1 degree
+    {u8"\u00B0(s)", precise::deg},  // unicode degree symbol
+    {"\xB0(s)", precise::deg},  // latin-1 degree
     {"arcminute", precise::angle::arcmin},
     {"arcmin", precise::angle::arcmin},
     {"amin", precise::angle::arcmin},
-    {"am", precise::angle::arcmin}, // as opposed to attometer
-    {"angularminute", precise::angle::arcmin}, // as opposed to attometer
+    {"am", precise::angle::arcmin},  // as opposed to attometer
+    {"angularminute", precise::angle::arcmin},  // as opposed to attometer
     {"'", precise::angle::arcmin},
     {"'", precise::angle::arcmin},
-    {u8"\u2032", precise::angle::arcmin}, // double prime
+    {u8"\u2032", precise::angle::arcmin},  // double prime
     {"arcsecond", precise::angle::arcsec},
     {"''", precise::angle::arcsec},
     {"''", precise::angle::arcsec},
     {"arcsec", precise::angle::arcsec},
     {"asec", precise::angle::arcsec},
-    {"as", precise::angle::arcsec}, // as opposed to attosecond
-    {"angularsecond", precise::angle::arcsec}, // as opposed to attosecond
+    {"as", precise::angle::arcsec},  // as opposed to attosecond
+    {"angularsecond", precise::angle::arcsec},  // as opposed to attosecond
     {"\"", precise::angle::arcsec},
-    {u8"\u2033", precise::angle::arcsec}, // double prime
-    {"mas", precise_unit(0.001, precise::angle::arcsec)}, // milliarcsec
+    {u8"\u2033", precise::angle::arcsec},  // double prime
+    {"mas", precise_unit(0.001, precise::angle::arcsec)},  // milliarcsec
     {"rad", precise::rad},
     {"radian", precise::rad},
     {"gon", precise::angle::gon},
@@ -2824,18 +2827,18 @@ static const smap base_unit_vals{
     {"$", precise::currency},
     {"dollar", precise::currency},
     {"currency", precise::currency},
-    {u8"\u00A2", precise_unit(0.01, precise::currency)}, // cent symbol
-    {"\xA2", precise_unit(0.01, precise::currency)}, // cent symbol latin-1
-    {u8"\u00A3", precise::currency}, // pound sign
-    {"\xA3", precise::currency}, // pound sign latin-1
-    {u8"\u00A4", precise::currency}, // currency sign
-    {"\xA4", precise::currency}, // currency sign latin-1
-    {u8"\u00A5", precise::currency}, // Yen sign
-    {"\xA5", precise::currency}, // Yen sign latin-1
-    {u8"\u0080", precise::currency}, // Euro sign
-    {u8"\u20AC", precise::currency}, // Euro sign
-    {"\x80", precise::currency}, // Euro sign extended ascii
-    {u8"\u20BD", precise::currency}, // Ruble sign
+    {u8"\u00A2", precise_unit(0.01, precise::currency)},  // cent symbol
+    {"\xA2", precise_unit(0.01, precise::currency)},  // cent symbol latin-1
+    {u8"\u00A3", precise::currency},  // pound sign
+    {"\xA3", precise::currency},  // pound sign latin-1
+    {u8"\u00A4", precise::currency},  // currency sign
+    {"\xA4", precise::currency},  // currency sign latin-1
+    {u8"\u00A5", precise::currency},  // Yen sign
+    {"\xA5", precise::currency},  // Yen sign latin-1
+    {u8"\u0080", precise::currency},  // Euro sign
+    {u8"\u20AC", precise::currency},  // Euro sign
+    {"\x80", precise::currency},  // Euro sign extended ascii
+    {u8"\u20BD", precise::currency},  // Ruble sign
     {"count", precise::count},
     {"unit", precise::count},
     {"pair", precise_unit(2.0, precise::count)},
@@ -2851,18 +2854,18 @@ static const smap base_unit_vals{
     {"tenth", precise_unit(0.1, precise::one)},
     {"cell", precise_unit(1.0, precise::count, commodities::cell)},
     {"{cells}",
-     precise_unit(1.0, precise::count, commodities::cell)}, // mainly to catch
-                                                            // the commodity for
-                                                            // using cell
+     precise_unit(1.0, precise::count, commodities::cell)},  // mainly to catch
+                                                             // the commodity
+                                                             // for using cell
     {"{#}", precise::count},
     {"[#]", precise::count},
     {"#", precise::count},
     {"number", precise::count},
     //{"ct", precise::count},
-    {"pix", precise_unit(1.0, precise::count, commodities::pixel)}, // Pixel
-    {"pixel", precise_unit(1.0, precise::count, commodities::pixel)}, // Pixel
-    {"dot", precise_unit(1.0, precise::count, commodities::voxel)}, // Pixel
-    {"voxel", precise_unit(1.0, precise::count, commodities::voxel)}, // Pixel
+    {"pix", precise_unit(1.0, precise::count, commodities::pixel)},  // Pixel
+    {"pixel", precise_unit(1.0, precise::count, commodities::pixel)},  // Pixel
+    {"dot", precise_unit(1.0, precise::count, commodities::voxel)},  // Pixel
+    {"voxel", precise_unit(1.0, precise::count, commodities::voxel)},  // Pixel
     {"item", precise::count},
     {"part", precise::count},
     {"ratio", precise::ratio},
@@ -2913,8 +2916,8 @@ static const smap base_unit_vals{
     {"Gb", precise::cgs::gilbert},
     {"Gi", precise::cgs::gilbert},
     {"p", precise::cgs::poise},
-    {"cps", precise_unit(0.01, precise::cgs::poise)}, // centipoise doesn't
-                                                      // conflict with ps
+    {"cps", precise_unit(0.01, precise::cgs::poise)},  // centipoise doesn't
+                                                       // conflict with ps
     {"P", precise::cgs::poise},
     {"poise", precise::cgs::poise},
     {"Ba", precise::cgs::barye},
@@ -3002,8 +3005,8 @@ static const smap base_unit_vals{
     {"b", precise::area::barn},
     {"BRN", precise::area::barn},
     {"ha", precise::area::hectare},
-    {"darcy", precise_unit(9.869233e-13, precise::m.pow(2))}, // porous solid
-                                                              // permeability
+    {"darcy", precise_unit(9.869233e-13, precise::m.pow(2))},  // porous solid
+                                                               // permeability
     {"mW", precise::mW},
     {"milliwatt", precise::mW},
     {"puW", precise::puMW / precise::mega},
@@ -3088,7 +3091,7 @@ static const smap base_unit_vals{
     {"nauticalleage_i", precise::nautical::league},
     {"nauticalleague_i", precise::nautical::league},
     {"br",
-     precise::invalid}, // this prevents some other issues with the string "br"
+     precise::invalid},  // this prevents some other issues with the string "br"
     {"nmi", precise::nautical::mile},
     {"nmi_i", precise::nautical::mile},
     {"[NMI_I]", precise::nautical::mile},
@@ -3112,7 +3115,7 @@ static const smap base_unit_vals{
     {"mps", precise::m / precise::s},
     {"eV", precise::energy::eV},
     {"EV", precise::energy::eV},
-    {"Ry", precise_unit(13.60583, precise::energy::eV)}, // Rydberg
+    {"Ry", precise_unit(13.60583, precise::energy::eV)},  // Rydberg
     {"electronvolt", precise::energy::eV},
     {"electronVolt", precise::energy::eV},
     {"cal", precise::cal},
@@ -3168,9 +3171,10 @@ static const smap base_unit_vals{
     {"MBTU", precise_unit(1000.0, precise::energy::btu_it)},
     {"[Btu]", precise::energy::btu_th},
     {"[BTU]", precise::energy::btu_th},
-    {"British thermal unit", precise::energy::btu_th}, // this is for name
-                                                       // matching with the UCUM
-                                                       // standard
+    {"British thermal unit",
+     precise::energy::btu_th},  // this is for name
+                                // matching with the UCUM
+                                // standard
     {"Btu_39", precise::energy::btu_39},
     {"BTU_39", precise::energy::btu_39},
     {"BTU39F", precise::energy::btu_39},
@@ -3242,9 +3246,9 @@ static const smap base_unit_vals{
     {"ksi", precise_unit(1000.0, precise::pressure::psi)},
     {"psia", precise::pressure::psi},
     {"poundpersquareinch",
-     precise::pressure::psi}, // pressure not areal density
+     precise::pressure::psi},  // pressure not areal density
     {"poundspersquareinch", precise::pressure::psi},
-    {"pound/squareinch", precise::pressure::psi}, // pressure not areal density
+    {"pound/squareinch", precise::pressure::psi},  // pressure not areal density
     {"pounds/squareinch", precise::pressure::psi},
     {"[PSI]", precise::pressure::psi},
     {"[psi]", precise::pressure::psi},
@@ -3336,12 +3340,12 @@ static const smap base_unit_vals{
     {"mil$", precise::MegaBuck},
     {"B$", precise::GigaBuck},
     {"bil$", precise::GigaBuck},
-    {"L", precise::L}, // preferred US notation
+    {"L", precise::L},  // preferred US notation
     {"l", precise::L},
     {"LT", precise::L},
     {"liter", precise::L},
     {"litre", precise::L},
-    {"mL", precise::mL}, // preferred US notation
+    {"mL", precise::mL},  // preferred US notation
     {"ml", precise::mL},
     {"gal", precise::gal},
     {"gal_us", precise::us::gallon},
@@ -3382,8 +3386,8 @@ static const smap base_unit_vals{
     {"bag", precise_unit(96.0, precise::lb)},
     {"ton", precise::ton},
     {"ton(short)", precise::ton},
-    {"t", precise::tonne}, // metric tonne
-    {"mt", precise::tonne}, // metric tonne
+    {"t", precise::tonne},  // metric tonne
+    {"mt", precise::tonne},  // metric tonne
     {"ton_m", precise::tonne},
     {"tonne", precise::tonne},
     {"TNE", precise::tonne},
@@ -3395,18 +3399,18 @@ static const smap base_unit_vals{
     {"unifiedatomicmassunit", precise::u},
     {"atomicmassunit", precise::u},
     {"longton", precise_unit(2240.0, precise::lb)},
-    {"tonc", precise::energy::tonc}, // ton cooling
-    {"ton(refrigeration)", precise::energy::tonc}, // ton cooling
-    {"tonofrefrigeration", precise::energy::tonc}, // ton cooling
-    {"tonsofrefrigeration", precise::energy::tonc}, // ton cooling
-    {"ton(cooling)", precise::energy::tonc}, // ton cooling
-    {"ton{refrigeration}", precise::energy::tonc}, // ton cooling
-    {"ton{cooling}", precise::energy::tonc}, // ton cooling
+    {"tonc", precise::energy::tonc},  // ton cooling
+    {"ton(refrigeration)", precise::energy::tonc},  // ton cooling
+    {"tonofrefrigeration", precise::energy::tonc},  // ton cooling
+    {"tonsofrefrigeration", precise::energy::tonc},  // ton cooling
+    {"ton(cooling)", precise::energy::tonc},  // ton cooling
+    {"ton{refrigeration}", precise::energy::tonc},  // ton cooling
+    {"ton{cooling}", precise::energy::tonc},  // ton cooling
     {"tonhour", precise::energy::tonhour},
     {"tonhour(refrigeration)", precise::energy::tonhour},
     {"tonhour{refrigeration}", precise::energy::tonhour},
-    {"RT", precise::energy::tonc}, // ton cooling
-    {"TR", precise::energy::tonc}, // ton cooling
+    {"RT", precise::energy::tonc},  // ton cooling
+    {"TR", precise::energy::tonc},  // ton cooling
     //{"tons", precise::energy::tonc* precise::s},
     {"tonh", precise::energy::tonc* precise::hr},
     {"angstrom", precise::distance::angstrom},
@@ -3418,7 +3422,7 @@ static const smap base_unit_vals{
     {u8"\u00C5", precise::distance::angstrom},
     {u8"A\u02DA", precise::distance::angstrom},
     {"\xC5", precise::distance::angstrom},
-    {u8"\u212B", precise::distance::angstrom}, // unicode
+    {u8"\u212B", precise::distance::angstrom},  // unicode
     {"bps", precise::bit / precise::s},
     {"baud", precise::bit / precise::s},
     {"Bd", precise::bit / precise::s},
@@ -3476,7 +3480,7 @@ static const smap base_unit_vals{
     {"pound_av", precise::av::pound},
     {"lb_av", precise::av::pound},
     {"[LB_AV]", precise::av::pound},
-    {"dr", precise::us::dram}, // this most commonly implies volume vs weight
+    {"dr", precise::us::dram},  // this most commonly implies volume vs weight
     {"dram", precise::us::dram},
     {"dr_av", precise::av::dram},
     {"dr_i", precise::av::dram},
@@ -3577,12 +3581,12 @@ static const smap base_unit_vals{
     {"gamma(volume)", precise::micro* precise::L},
     {"lambda{volume}", precise::micro* precise::L},
     {"lambda(volume)", precise::micro* precise::L},
-    {"gamma(geo)", precise::nano* precise::T}, // two different uses of gamma
-    {"gamma{geo}", precise::nano* precise::T}, // two different uses of gamma
+    {"gamma(geo)", precise::nano* precise::T},  // two different uses of gamma
+    {"gamma{geo}", precise::nano* precise::T},  // two different uses of gamma
     {"gf", precise::g* constants::g0.as_unit()},
     {"gramforce", precise::g* constants::g0.as_unit()},
-    {"kp", precise::kilo* precise::gm::pond}, // this is probably more common
-                                              // than kilopoise
+    {"kp", precise::kilo* precise::gm::pond},  // this is probably more common
+                                               // than kilopoise
     {"kipf", precise::kilo* precise::lbf},
     {"kipforce", precise::kilo* precise::lbf},
     {"tonforce", precise::ton* constants::g0.as_unit()},
@@ -3598,7 +3602,7 @@ static const smap base_unit_vals{
     {"tonf_us", precise::av::ton* constants::g0.as_unit()},
     {"tonf_br", precise::av::longton* constants::g0.as_unit()},
     {"hyl", precise::gm::hyl},
-    {"GF", precise::g* constants::g0.as_unit()}, // gram-force vs GF
+    {"GF", precise::g* constants::g0.as_unit()},  // gram-force vs GF
     {"sn", precise::MTS::sthene},
     {"sthene", precise::MTS::sthene},
     {"pz", precise::MTS::pieze},
@@ -3643,8 +3647,9 @@ static const smap base_unit_vals{
     {"tad", precise_unit(1.0 / 8.0, precise::us::tsp)},
     {"cup_m", precise::metric::cup},
     {"[CUP_M]", precise::metric::cup_uslegal},
-    {"[cup_m]", precise::metric::cup_uslegal}, // ucum definitions I think it is
-                                               // wrong there
+    {"[cup_m]",
+     precise::metric::cup_uslegal},  // ucum definitions I think it is
+                                     // wrong there
     {"cupUSlegal", precise::metric::cup_uslegal},
     {"tsp_m", precise::metric::tsp},
     {"[TSP_M]", precise::metric::tsp},
@@ -3729,7 +3734,7 @@ static const smap base_unit_vals{
     {"tsp_br", precise::imp::tsp},
     {"cup_br", precise::imp::cup},
     {"EER", precise::energy::EER},
-    {"ppv", precise::one}, // parts per volume
+    {"ppv", precise::one},  // parts per volume
     {"ppth", precise::ppm* precise::kilo},
     {"PPTH", precise::ppm* precise::kilo},
     {"ppm", precise::ppm},
@@ -4375,7 +4380,7 @@ static size_t
         if (lbrack < sep) {
             // this should not happen as it would mean the operator separator
             // didn't function properly
-            return sep; // LCOV_EXCL_LINE
+            return sep;  // LCOV_EXCL_LINE
         }
         auto cchar = getMatchCharacter(ustring[lbrack]);
         --lbrack;
@@ -4384,7 +4389,7 @@ static size_t
         if (index < 0) {
             // this should not happen as it would mean we got this point by
             // bypassing some other checks
-            return std::string::npos; // LCOV_EXCL_LINE
+            return std::string::npos;  // LCOV_EXCL_LINE
         }
         findex = static_cast<size_t>(index);
         if (findex < sep) {
@@ -4403,8 +4408,8 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
     while (fnd != std::string::npos) {
         spacesRemoved = true;
         if ((fnd > 0) && (!skipMultiply)) {
-            if (fnd == 1) { // if the second character is a space it almost
-                            // always means multiply
+            if (fnd == 1) {  // if the second character is a space it almost
+                             // always means multiply
                 if (unit_string.size() < 8) {
                     unit_string[fnd] = '*';
                     fnd = unit_string.find_first_of(spaceChars, fnd);
@@ -4608,20 +4613,20 @@ static bool checkValidUnitString(
                 break;
             }
             switch (cx - prev) {
-                case 2: // the only way this would get here is ^D^ which is not
-                        // allowed
+                case 2:  // the only way this would get here is ^D^ which is not
+                         // allowed
                     return false;
                 case 3:
                     if (unit_string[prev + 1] == '-') {
                         return false;
                     }
                     break;
-                case 4: // checking for ^(D)^
+                case 4:  // checking for ^(D)^
                     if (unit_string[prev + 1] == '(') {
                         return false;
                     }
                     break;
-                case 5: // checking for ^(-D)^
+                case 5:  // checking for ^(-D)^
                     if (unit_string[prev + 1] == '(' &&
                         unit_string[prev + 2] == '-') {
                         return false;
@@ -4667,7 +4672,7 @@ static void multiplyRep(std::string& unit_string, size_t loc, size_t sz)
 }
 
 static void cleanUpPowersOfOne(std::string& unit_string)
-{ // get rid of (1)^ sequences
+{  // get rid of (1)^ sequences
     auto fndP = unit_string.find("(1)^");
     while (fndP != std::string::npos) {
         // string cannot end in '^' from a previous check
@@ -4752,19 +4757,19 @@ static bool unicodeReplacement(std::string& unit_string)
 {
     static UNITS_CPP14_CONSTEXPR std::array<ckpair, 45> ucodeReplacements{{
         ckpair{u8"\u00d7", "*"},
-        ckpair{u8"\u00f7", "/"}, // division sign
+        ckpair{u8"\u00f7", "/"},  // division sign
         ckpair{u8"\u00b7", "*"},
-        ckpair{u8"\u2215", "*"}, // asterisk operator
+        ckpair{u8"\u2215", "*"},  // asterisk operator
         ckpair{u8"\u00B5", "u"},
         ckpair{u8"\u03BC", "u"},
         ckpair{u8"\u00E9", "e"},
         ckpair{u8"\u00E8", "e"},
-        ckpair{u8"\u0301", ""}, // just get rid of the accent
-        ckpair{u8"\u0300", ""}, // just get rid of the accent
+        ckpair{u8"\u0301", ""},  // just get rid of the accent
+        ckpair{u8"\u0300", ""},  // just get rid of the accent
         ckpair{u8"\u2212", "-"},
-        ckpair{u8"\u2009", ""}, // thin space
-        ckpair{u8"\u2007", ""}, // thin space
-        ckpair{u8"\u202f", ""}, // narrow no break space
+        ckpair{u8"\u2009", ""},  // thin space
+        ckpair{u8"\u2007", ""},  // thin space
+        ckpair{u8"\u202f", ""},  // narrow no break space
         ckpair{u8"\u207B\u00B9", "^(-1)"},
         ckpair{u8"\u207B\u00B2", "^(-2)"},
         ckpair{u8"\u207B\u00B3", "^(-3)"},
@@ -4772,31 +4777,32 @@ static bool unicodeReplacement(std::string& unit_string)
         ckpair{u8"-\u00B2", "^(-2)"},
         ckpair{u8"-\u00B3", "^(-3)"},
         ckpair{u8"\u00b2", "^(2)"},
-        ckpair{u8"\u00b9", "*"}, // superscript 1 which doesn't do anything
+        ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do anything
         ckpair{u8"\u00b3", "^(3)"},
-        ckpair{u8"\u2215", "/"}, // Division slash
-        ckpair{u8"\u00BD", "(0.5)"}, //(1/2) fraction
-        ckpair{u8"\u00BC", "(0.25)"}, //(1/4) fraction
-        ckpair{u8"\u00BE", "(0.75)"}, //(3/4) fraction
-        ckpair{u8"\u2153", "(1/3)"}, //(1/3) fraction
-        ckpair{u8"\u2154", "(2/3)"}, //(2/3) fraction
-        ckpair{u8"\u215B", "0.125"}, //(1/8) fraction
-        ckpair{u8"\u215F", "1/"}, //(1/ numerator operator
+        ckpair{u8"\u2215", "/"},  // Division slash
+        ckpair{u8"\u00BD", "(0.5)"},  //(1/2) fraction
+        ckpair{u8"\u00BC", "(0.25)"},  //(1/4) fraction
+        ckpair{u8"\u00BE", "(0.75)"},  //(3/4) fraction
+        ckpair{u8"\u2153", "(1/3)"},  //(1/3) fraction
+        ckpair{u8"\u2154", "(2/3)"},  //(2/3) fraction
+        ckpair{u8"\u215B", "0.125"},  //(1/8) fraction
+        ckpair{u8"\u215F", "1/"},  //(1/ numerator operator
         ckpair{"-\xb3", "^(-3)"},
         ckpair{"-\xb9", "^(-1)"},
         ckpair{"-\xb2", "^(-2)"},
         ckpair{"\xb3", "^(3)"},
-        ckpair{"\xb9", "*"}, // superscript 1 which doesn't do anything, replace
-                             // with multiply
+        ckpair{"\xb9",
+               "*"},  // superscript 1 which doesn't do anything, replace
+                      // with multiply
         ckpair{"\xb2", "^(2)"},
         ckpair{"\xf7", "/"},
         ckpair{"\xB7", "*"},
         ckpair{"\xD7", "*"},
-        ckpair{"\xE9", "e"}, // remove accent
-        ckpair{"\xE8", "e"}, // remove accent
-        ckpair{"\xBD", "(0.5)"}, //(1/2) fraction
-        ckpair{"\xBC", "(0.25)"}, //(1/4) fraction
-        ckpair{"\xBE", "(0.75)"}, //(3/4) fraction
+        ckpair{"\xE9", "e"},  // remove accent
+        ckpair{"\xE8", "e"},  // remove accent
+        ckpair{"\xBD", "(0.5)"},  //(1/2) fraction
+        ckpair{"\xBC", "(0.25)"},  //(1/4) fraction
+        ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
     }};
     bool changed{false};
     for (auto& ucode : ucodeReplacements) {
@@ -4839,11 +4845,12 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         ckpair{"Britishthermalunit", "BTU"},
         ckpair{"BThU", "BTU"},
         ckpair{"-US", "US"},
-        ckpair{"--", "*"}, // -- is either a double negative or a separator, so
-                           // make it a multiplier so it
+        ckpair{"--", "*"},  // -- is either a double negative or a separator, so
+                            // make it a multiplier so it
         // doesn't get erased and then converted to a power
-        ckpair{"\\\\", "\\\\*"}, // \\ is always considered a segment terminator
-                                 // so it won't be misinterpreted
+        ckpair{"\\\\",
+               "\\\\*"},  // \\ is always considered a segment terminator
+                          // so it won't be misinterpreted
         // as a known escape sequence
         ckpair{"perunit", "pu"},
         ckpair{"per-unit", "pu"},
@@ -4937,9 +4944,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                             unit_string.replace(fndP, 3, "1e");
                         }
                     }
-                    catch (const std::out_of_range&) { // if it is a really big
-                                                       // number we obviously
-                                                       // skip it
+                    catch (const std::out_of_range&) {  // if it is a really big
+                                                        // number we obviously
+                                                        // skip it
                     }
                 }
             }
@@ -5084,7 +5091,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             case '>':
                 fnd = unit_string.find_first_of(")]}", fnd + 1);
                 break;
-            case 'o': // handle special case of commodity modifier using "of"
+            case 'o':  // handle special case of commodity modifier using "of"
                 if (unit_string.size() > fnd + 3) {
                     auto tc2 = unit_string[fnd + 3];
                     if (unit_string[fnd + 2] == 'f' && tc2 != ')' &&
@@ -5103,7 +5110,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                 }
                 /* FALLTHRU */
             default:
-                if (unit_string[fnd - 1] == '\\') { // ignore escape sequences
+                if (unit_string[fnd - 1] == '\\') {  // ignore escape sequences
                     fnd = unit_string.find_first_of(")]}", fnd + 1);
                     break;
                 }
@@ -5146,7 +5153,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         changed = true;
         skipMultiply = true;
     }
-    if (!skipcodereplacement) { // make everything inside {} lower case
+    if (!skipcodereplacement) {  // make everything inside {} lower case
         auto bloc = unit_string.find_first_of('{');
         while (bloc != std::string::npos) {
             auto ind = bloc + 1;
@@ -5196,9 +5203,9 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
 static precise_unit
     unit_quick_match(std::string unit_string, std::uint32_t match_flags)
 {
-    if ((match_flags & case_insensitive) != 0) { // if not a case insensitive
-                                                 // matching process just do a
-                                                 // quick scan first
+    if ((match_flags & case_insensitive) != 0) {  // if not a case insensitive
+                                                  // matching process just do a
+                                                  // quick scan first
         cleanUnitString(unit_string, match_flags);
     }
     auto retunit = get_unit(unit_string);
@@ -5206,9 +5213,9 @@ static precise_unit
         return retunit;
     }
     if (unit_string.size() > 2 &&
-        unit_string.back() == 's') { // if the string is of length two this is
-                                     // too risky to try since there would be
-                                     // many incorrect matches
+        unit_string.back() == 's') {  // if the string is of length two this is
+                                      // too risky to try since there would be
+                                      // many incorrect matches
         unit_string.pop_back();
         retunit = get_unit(unit_string);
         if (is_valid(retunit)) {
@@ -5278,9 +5285,10 @@ static precise_unit tryUnitPartitioning(
         auto res = unit_quick_match(ustring, match_flags);
         if (!is_valid(res) && ustring.size() >= 3) {
             if (ustring.front() >= 'A' &&
-                ustring.front() <= 'Z') { // check the lower case version since
-                                          // we skipped partitioning when we did
-                                          // this earlier
+                ustring.front() <=
+                    'Z') {  // check the lower case version since
+                            // we skipped partitioning when we did
+                            // this earlier
                 ustring[0] += 32;
                 res = unit_quick_match(ustring, match_flags);
             }
@@ -5410,14 +5418,14 @@ static precise_unit unit_from_string_internal(
     if (unit_string.empty()) {
         return precise::one;
     }
-    if (unit_string.size() > 1024) { // there is no reason whatsoever that a
-                                     // unit string would be longer than 1024
-                                     // characters
+    if (unit_string.size() > 1024) {  // there is no reason whatsoever that a
+                                      // unit string would be longer than 1024
+                                      // characters
         return precise::invalid;
     }
     precise_unit retunit;
     if ((match_flags & case_insensitive) ==
-        0) { // if not a ci matching process just do a quick scan first
+        0) {  // if not a ci matching process just do a quick scan first
         retunit = get_unit(unit_string);
         if (is_valid(retunit)) {
             return retunit;
@@ -5443,7 +5451,7 @@ static precise_unit unit_from_string_internal(
     if ((match_flags & not_first_pass) == 0) {
         match_flags |= not_first_pass;
         match_flags +=
-            partition_check1; // only allow 3 deep for unit_partitioning
+            partition_check1;  // only allow 3 deep for unit_partitioning
     }
     if (unit_string.front() == '{' && unit_string.back() == '}') {
         if (unit_string.find_last_of("}", unit_string.size() - 2) ==
@@ -5461,10 +5469,10 @@ static precise_unit unit_from_string_internal(
     if (looksLikeNumber(unit_string)) {
         if (unit_string.front() != '1' ||
             unit_string[1] !=
-                '/') { // this catches 1/ which should be handled differently
+                '/') {  // this catches 1/ which should be handled differently
             size_t index;
             double front = generateLeadingNumber(unit_string, index);
-            if (std::isnan(front)) { // out of range
+            if (std::isnan(front)) {  // out of range
                 return precise::invalid;
             }
 
@@ -5473,7 +5481,8 @@ static precise_unit unit_from_string_internal(
             }
 
             auto front_unit = precise_unit(front, precise::one);
-            if (unit_string[index] == '*') { // for division just keep the slash
+            if (unit_string[index] ==
+                '*') {  // for division just keep the slash
                 ++index;
             }
             if ((match_flags & no_commodities) == 0 &&
@@ -5493,7 +5502,8 @@ static precise_unit unit_from_string_internal(
                         unit_string,
                         getMatchCharacter(unit_string[index]),
                         cparen);
-                    if (cparen == std::string::npos) { // malformed unit string;
+                    if (cparen ==
+                        std::string::npos) {  // malformed unit string;
                         return precise::invalid;
                     }
                     auto commodity = getCommodity(
@@ -5564,15 +5574,15 @@ static precise_unit unit_from_string_internal(
             ++sep;
             if (unit_string.length() < sep + 2) {
                 // this should have been caught as an invalid sequence earlier
-                return precise::invalid; // LCOV_EXCL_LINE
+                return precise::invalid;  // LCOV_EXCL_LINE
             }
             if (isDigitCharacter(
-                    unit_string[sep + 1])) { // the - ',' is a +/- sign
+                    unit_string[sep + 1])) {  // the - ',' is a +/- sign
                 power = -(c1 - ',') * (unit_string[sep + 1] - '0');
             } else {
                 // the check function should catch this but it would be
                 // problematic if not not caught
-                return precise::invalid; // LCOV_EXCL_LINE
+                return precise::invalid;  // LCOV_EXCL_LINE
             }
         } else {
             if (isDigitCharacter(c1)) {
@@ -5580,7 +5590,7 @@ static precise_unit unit_from_string_internal(
             } else {
                 // the check functions should catch this but it would be
                 // problematic if not not caught
-                return precise::invalid; // LCOV_EXCL_LINE
+                return precise::invalid;  // LCOV_EXCL_LINE
             }
         }
 
@@ -5756,7 +5766,7 @@ static precise_unit unit_from_string_internal(
     if (unit_string.front() == '[' && unit_string.back() == ']') {
         ustring = unit_string.substr(1);
         ustring.pop_back();
-        if (ustring.back() != 'U') // this means custom unit code
+        if (ustring.back() != 'U')  // this means custom unit code
         {
             retunit = get_unit(ustring);
             if (!is_error(retunit)) {
@@ -5833,15 +5843,15 @@ static precise_unit unit_from_string_internal(
                 unit_string.push_back('}');
                 return {number, commoditizedUnit(unit_string, match_flags)};
             }
-        } else { // if we erased everything this could lead to strange units so
-                 // just go back to the original
+        } else {  // if we erased everything this could lead to strange units so
+                  // just go back to the original
             unit_string = ustring;
         }
     }
     if (unit_string.front() == '[' && unit_string.back() == ']') {
         ustring = unit_string.substr(1);
         ustring.pop_back();
-        if (ustring.back() != 'U') // this means custom unit code
+        if (ustring.back() != 'U')  // this means custom unit code
         {
             retunit = get_unit(ustring);
             if (!is_error(retunit)) {
@@ -5936,7 +5946,7 @@ static precise_unit unit_from_string_internal(
         }
     }
     return precise::invalid;
-} // namespace units
+}  // namespace units
 
 precise_measurement measurement_from_string(
     std::string measurement_string,
@@ -6332,4 +6342,4 @@ precise_unit default_unit(std::string unit_type)
     return precise::invalid;
 }
 
-} // namespace units
+}  // namespace units

@@ -54,7 +54,7 @@ TEST_P(crashProblems, crashFiles)
 INSTANTIATE_TEST_SUITE_P(crashFiles, crashProblems, ::testing::Range(1, 28));
 
 TEST(fuzzFailures, timeouts)
-{ // testing string that have caused a timeout from fuzz testing
+{  // testing string that have caused a timeout from fuzz testing
     EXPECT_NO_THROW(unit_from_string("3*3*"));
     EXPECT_NO_THROW(unit_from_string("((())"));
 }

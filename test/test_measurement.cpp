@@ -183,7 +183,7 @@ TEST(Measurement, invalid)
     EXPECT_TRUE(is_valid(iv3));
     EXPECT_FALSE(isnormal(iv3));
 
-    measurement iv4(1e-311, m); // subnormal
+    measurement iv4(1e-311, m);  // subnormal
     EXPECT_TRUE(is_valid(iv4));
     EXPECT_FALSE(isnormal(iv4));
 
@@ -421,7 +421,7 @@ TEST(fixedMeasurement, invalid)
     EXPECT_TRUE(is_valid(iv3));
     EXPECT_FALSE(isnormal(iv3));
 
-    fixed_measurement iv4(1e-311, m); // subnormal
+    fixed_measurement iv4(1e-311, m);  // subnormal
     EXPECT_TRUE(is_valid(iv4));
     EXPECT_FALSE(isnormal(iv4));
 
@@ -593,7 +593,7 @@ TEST(PreciseMeasurement, invalid)
     EXPECT_TRUE(is_valid(iv3));
     EXPECT_FALSE(isnormal(iv3));
 
-    precise_measurement iv4(1e-311, precise::m); // subnormal
+    precise_measurement iv4(1e-311, precise::m);  // subnormal
     EXPECT_TRUE(is_valid(iv4));
     EXPECT_FALSE(isnormal(iv4));
 
@@ -850,7 +850,7 @@ TEST(fixedPreciseMeasurement, invalid)
     EXPECT_TRUE(is_valid(iv3));
     EXPECT_FALSE(isnormal(iv3));
 
-    fixed_precise_measurement iv4(1e-311, precise::m); // subnormal
+    fixed_precise_measurement iv4(1e-311, precise::m);  // subnormal
     EXPECT_TRUE(is_valid(iv4));
     EXPECT_FALSE(isnormal(iv4));
 

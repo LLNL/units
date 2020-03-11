@@ -85,11 +85,10 @@ double convert(double val, UX start, UX2 result)
     }
     // check if both are pu since this doesn't require knowing a base unit
     if (start.is_per_unit() &&
-        result.is_per_unit()) { // we know they have different unit basis
-        if (unit_cast(start) == pu ||
-            unit_cast(result) == pu) { // generic pu just means the units are
-                                       // equivalent since the the other is puXX
-                                       // already
+        result.is_per_unit()) {  // we know they have different unit basis
+        if (unit_cast(start) == pu || unit_cast(result) == pu) {
+            // generic pu just means the units are equivalent since the other is
+            // puXX already
             return val;
         }
         double converted_val = puconversion::knownConversions(
@@ -110,10 +109,9 @@ double convert(double val, UX start, UX2 result)
 
     auto base_start = start.base_units();
     auto base_result = result.base_units();
-    if (base_start.has_same_base(base_result)) { // ignore i flag and e flag,
-                                                 // special cases have been
-                                                 // dealt with already, so those
-                                                 // are just markers
+    if (base_start.has_same_base(base_result)) {
+        // ignore i flag and e flag, special cases have been dealt with already,
+        // so those are just markers
         return val * start.multiplier() / result.multiplier();
     }
     // deal with some counting conversions
@@ -124,10 +122,9 @@ double convert(double val, UX start, UX2 result)
         }
     }
     // check for inverse units
-    if (base_start.has_same_base(
-            base_result.inv())) { // ignore flag and e flag  special cases have
-                                  // been dealt with already, so those are just
-                                  // markers
+    if (base_start.has_same_base(base_result.inv())) {
+        // ignore flag and e flag  special cases have been dealt with already,
+        // so those are just markers
         return result.multiplier() / (val * start.multiplier());
     }
     return constants::invalid_conversion;
@@ -198,8 +195,8 @@ double convert(
     if (start.is_per_unit() == result.is_per_unit()) {
         auto base = puconversion::generate_base(
             start.base_units(), basePower, baseVoltage);
-        if (std::isnan(base)) { // no known base conversions so this means we
-                                // are converting bases
+        if (std::isnan(base)) {  // no known base conversions so this means we
+                                 // are converting bases
             if (start.is_per_unit() && start == result) {
                 return val * basePower / baseVoltage;
             }
@@ -213,9 +210,9 @@ double convert(
     }
     /// now we get into some power system specific conversions
     // deal with situations of same base in different quantities
-    if (start.has_same_base(result.base_units())) { // We have the same base now
-                                                    // we just need to figure
-                                                    // out which base to use
+    if (start.has_same_base(result.base_units())) {
+        // We have the same base now we just need to figure out which base to
+        // use
         auto base = puconversion::generate_base(
             result.base_units(), basePower, baseVoltage);
         if (start.is_per_unit()) {
@@ -231,7 +228,7 @@ double convert(
         auto base = puconversion::generate_base(
             start.base_units(), basePower, baseVoltage);
         auto puVal = val / base;
-        if (pu == unit_cast(result)) { // if result is generic pu
+        if (pu == unit_cast(result)) {  // if result is generic pu
             return puVal * start.multiplier();
         }
         // let the first function deal with both as PU
@@ -241,7 +238,7 @@ double convert(
     auto base = puconversion::generate_base(
         result.base_units(), basePower, baseVoltage);
     base *= start.multiplier();
-    if (pu == unit_cast(start)) { // if start is generic pu
+    if (pu == unit_cast(start)) {  // if start is generic pu
         return val * base;
     }
     return convert(val, start, result * pu) * base;
@@ -376,8 +373,8 @@ class measurement {
     }
 
   private:
-    double value_{0.0}; //!< the numerical quantity of the unit
-    unit units_; //!< the actual unit represented
+    double value_{0.0};  //!< the numerical quantity of the unit
+    unit units_;  //!< the actual unit represented
 };
 
 /// The design requirement is for this to fit in the space of 2 doubles
@@ -636,8 +633,8 @@ class fixed_measurement {
     }
 
   private:
-    double value_{0.0}; //!< the unit value
-    const unit units_; //!< a fixed unit of measurement
+    double value_{0.0};  //!< the unit value
+    const unit units_;  //!< a fixed unit of measurement
 };
 
 /// Design requirement this must fit in space of 2 doubles
@@ -1101,9 +1098,9 @@ class uncertain_measurement {
     }
 
   private:
-    float value_{0.0F}; //!< the unit value
+    float value_{0.0F};  //!< the unit value
     float uncertainty_{0.0F};
-    unit units_; //!< a fixed unit of measurement
+    unit units_;  //!< a fixed unit of measurement
 };
 
 /// Design requirement this must fit in space of 2 doubles
@@ -1532,8 +1529,8 @@ class fixed_precise_measurement {
     }
 
   private:
-    double value_{0.0}; //!< the quantity of units measured
-    const precise_unit units_; //!< the units associated with the quantity
+    double value_{0.0};  //!< the quantity of units measured
+    const precise_unit units_;  //!< the units associated with the quantity
 };
 
 /// Check if the measurement is a valid_measurement
@@ -1681,31 +1678,32 @@ operations, some are used internally some are meant for external use, though all
 are possible to use externally
 */
 enum unit_conversion_flags : std::uint32_t {
-    case_insensitive = 1u, //!< perform case insensitive matching for UCUM case
-                           //!< insensitive matching
-    single_slash = 2u, //!< specify that there is a single numerator and
-                       //!< denominator only a single slash in the unit
-                       //!< operations
-    recursion_depth1 = (1u << 15), // skip checking for SI prefixes
+    case_insensitive = 1u,  //!< perform case insensitive matching for UCUM case
+                            //!< insensitive matching
+    single_slash = 2u,  //!< specify that there is a single numerator and
+                        //!< denominator only a single slash in the unit
+                        //!< operations
+    recursion_depth1 = (1u << 15),  // skip checking for SI prefixes
     // don't put anything at   16, 15 through 17 are connected to limit
     // recursion depth
-    no_recursion = (1u << 17), // don't recurse through the string
-    not_first_pass = (1u << 18), // indicate that is not the first pass
-    per_operator1 = (1u << 19), // skip matching per
+    no_recursion = (1u << 17),  // don't recurse through the string
+    not_first_pass = (1u << 18),  // indicate that is not the first pass
+    per_operator1 = (1u << 19),  // skip matching per
     // don't put anything at 20, 19 and 21 are connected to limit per operations
-    no_per_operators = (1u << 21), // skip matching per
-    no_locality_modifiers = (1u << 22), // skip locality modifiers
-    no_of_operator = (1u << 23), // skip dealing with "of"
-    commodity_check1 = (1u << 24), // counter for skipping commodity check vi of
+    no_per_operators = (1u << 21),  // skip matching per
+    no_locality_modifiers = (1u << 22),  // skip locality modifiers
+    no_of_operator = (1u << 23),  // skip dealing with "of"
+    commodity_check1 =
+        (1u << 24),  // counter for skipping commodity check vi of
     // don't put anything at 25 24 and 26 are connected
-    no_commodities = (1u << 26), // skip commodity checks
-    partition_check1 = (1u << 27), // skip checking for SI prefixes
+    no_commodities = (1u << 26),  // skip commodity checks
+    partition_check1 = (1u << 27),  // skip checking for SI prefixes
     // don't put anything at 28, 27 and 28 are connected to limit partition
     // depth
-    skip_partition_check = (1u << 29), // skip checking for SI prefixes
-    skip_si_prefix_check = (1u << 30), // skip checking for SI prefixes
+    skip_partition_check = (1u << 29),  // skip checking for SI prefixes
+    skip_si_prefix_check = (1u << 30),  // skip checking for SI prefixes
     skip_code_replacements =
-        (1u << 31), // don't do some code and sequence replacements
+        (1u << 31),  // don't do some code and sequence replacements
 };
 /// Generate a string representation of the unit
 std::string to_string(precise_unit units, std::uint32_t match_flags = 0);
@@ -1854,7 +1852,7 @@ precise_unit dod_unit(std::string dod_string);
 precise_unit r20_unit(std::string r20_string);
 #endif
 
-#endif // UNITS_HEADER_ONLY
+#endif  // UNITS_HEADER_ONLY
 /// Physical constants in use with associated units
 namespace constants {
     /// Standard gravity
@@ -1908,9 +1906,9 @@ namespace constants {
         constexpr precise_measurement time{5.3911613e-44, precise::s};
         constexpr precise_measurement charge{1.87554595641e-18, precise::C};
         constexpr precise_measurement temperature{1.41680833e32, precise::K};
-    } // namespace planck
+    }  // namespace planck
     /// measurements related to an electron or atomic measurements
-    namespace atomic { // https://www.bipm.org/en/publications/si-brochure/table7.html
+    namespace atomic {  // https://www.bipm.org/en/publications/si-brochure/table7.html
         constexpr precise_measurement length{0.5291772109217e-10, precise::m};
         constexpr precise_measurement mass = me;
         constexpr precise_measurement time{2.41888432650212e-17, precise::s};
@@ -1918,8 +1916,8 @@ namespace constants {
         constexpr precise_measurement energy{4.3597443419e-18, precise::J};
         constexpr precise_measurement action{1.05457172647e-34,
                                              precise::J* precise::s};
-    } // namespace atomic
-} // namespace constants
+    }  // namespace atomic
+}  // namespace constants
 
 namespace detail {
     /// A namespace specifically for unit testing some components
@@ -1928,7 +1926,7 @@ namespace detail {
         double testLeadingNumber(const std::string& test, size_t& index);
         // generate a number from words
         double testNumericalWords(const std::string& test, size_t& index);
-    } // namespace testing
-} // namespace detail
+    }  // namespace testing
+}  // namespace detail
 
-} // namespace units
+}  // namespace units
