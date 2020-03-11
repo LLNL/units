@@ -18,6 +18,7 @@ CMake variables
 -  `UNITS_ENABLE_ERROR_ON_WARNINGS`:  Mostly useful in some testing contexts but will turn on Werror so any normal warnings generate an error.
 -  `CMAKE_CXX_STANDARD`:  Compile with a particular C++ standard, valid values are `11`, `14`, `17`, and likely `20` though that isn't broadly supported.
 -  `UNITS_BINARY_ONLY_INSTALL`:  Just install shared libraries and executables,  no headers or static libs or packaging information
+-  `UNITS_CLANG_TIDY`:  Enable the clang tidy tests as part of the build
 
 If compiling as part of a subproject then a few other options are useful
 

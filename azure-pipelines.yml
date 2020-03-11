@@ -19,7 +19,7 @@ jobs:
 - job: ClangTidy
   variables:
     CXX_FLAGS: "-Werror -Wcast-align -Wfloat-equal -Wimplicit-atomic-properties -Wmissing-declarations -Woverlength-strings -Wshadow -Wstrict-selector-match -Wundeclared-selector -Wunreachable-code -std=c++11"
-    units.options: -DUNITS_CLANG_TIDY=ON -DUNITS_CLANG_TIDY_OPTIONS="-fix" -DUNITS_ENABLE_TESTS=OFF
+    units.options: -DUNITS_CLANG_TIDY=ON -DUNITS_CLANG_TIDY_OPTIONS="-fix"
     units.std: 11
     CMAKE_BUILD_PARALLEL_LEVEL: 1
   pool:

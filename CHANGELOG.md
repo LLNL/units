@@ -5,12 +5,13 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0][] ~ Sometime in March 2020
+## [0.4.0][] ~ Sometime in Late March 2020
 
 Add a converter command line application and fix a few slow conversion issues and some other fuzz issues that came up recently, add isnormal operation for measurements, better test coverage for fixed_precise_measurement
 
 ### Changed
--   Added several tests run under Azure to remove deprecated image and add some new tests
+-   Added several tests run under Azure to remove deprecated image and add some new tests [#40][]
+-   clears up several warnings from clang-tidy [#41][]
 
 ### Fixed
 -   A few timeouts on the fuzzer- the fix was to generalize the multiplier insertion after ^ to accept multiple digits after the ^ instead of just ignoring it after more than one. [#34][]  
@@ -27,6 +28,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   The webserver and the converter gained an ability to handle `*` and `<base>` as the input unit to convert the measurement to base units.  [#37][]
 -   Added `to_string` operation for uncertain_measurements [#38][]
 -   Added `isnormal` operation for measurement types [#39][]
+-   Added `UNITS_CLANG_TIDY` option to run tests with Clang tidy [#41][]
 
 ### Removed
 
@@ -82,6 +84,8 @@ Continued work on cleaning up the library and starting to add main documentation
 [#37]: https://github.com/LLNL/units/pull/37
 [#38]: https://github.com/LLNL/units/pull/38
 [#39]: https://github.com/LLNL/units/pull/39
+[#40]: https://github.com/LLNL/units/pull/40
+[#41]: https://github.com/LLNL/units/pull/41
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
