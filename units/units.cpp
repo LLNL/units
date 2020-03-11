@@ -61,9 +61,9 @@ X numericalRoot(X value, int power)
             }
             return std::sqrt(std::sqrt(X{1.0} / value));
         default:
-			if (value < X{ 0.0 } && power % 2 == 0) {
-				return  constants::invalid_conversion;
-			}
+            if (value < X{0.0} && power % 2 == 0) {
+                return constants::invalid_conversion;
+            }
             return std::pow(value, X{1.0} / static_cast<X>(power));
     }
 }
@@ -1921,13 +1921,13 @@ static const smap base_unit_vals{
     {"def", precise::defunit},
     {"default", precise::defunit},
     {"defunit", precise::defunit},
-	{"*", precise::defunit},
-	{"**", precise::defunit},
-	{"***", precise::defunit},
-	{"****", precise::defunit},
-	{"*****", precise::defunit},
-	{"******", precise::defunit},
-	{"^^^", precise::defunit},
+    {"*", precise::defunit},
+    {"**", precise::defunit},
+    {"***", precise::defunit},
+    {"****", precise::defunit},
+    {"*****", precise::defunit},
+    {"******", precise::defunit},
+    {"^^^", precise::defunit},
     {"1", precise::one},
     {"one", precise::one},
     {"inf", precise::infinite},
