@@ -128,7 +128,6 @@ if(UNITS_CLANG_TIDY)
         )
 
     set(DO_CLANG_TIDY "${CLANG_TIDY_EXE}" ${UNITS_CLANG_TIDY_OPTIONS})
-	set(CMAKE_CXX_CLANG_TIDY ${DO_CLANG_TIDY})
 endif()
 
 add_subdirectory(units)
