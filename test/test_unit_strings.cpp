@@ -472,7 +472,8 @@ TEST(stringToUnits, equivalents2)
     EXPECT_EQ(unit_from_string("per mins"), unit_from_string("/min"));
     EXPECT_EQ(unit_from_string("/100 WBCs"), unit_from_string("/100{WBCs}"));
 
-    //   EXPECT_EQ(unit_from_string("lumen meters squared"), unit_from_string("lm.m2"));
+    //   EXPECT_EQ(unit_from_string("lumen meters squared"),
+    //   unit_from_string("lm.m2"));
 }
 
 TEST(stringToUnits, equivalents3)

@@ -296,19 +296,19 @@ TEST(UCUM, TestMatchingPrint)
                 continue;
             }
             if (name == "a" || name == "K" || name == "oz fl" ||
-                name == "btu" ||
-                name ==
-                    "S") { // known conflicts are and Kayser with annum and Kelvin
+                name == "btu" || name == "S") { // known conflicts are and
+                                                // Kayser with annum and Kelvin
                 // oz fl has multiple meanings
-                // btu default is different for power dominant vs thermal dominant
+                // btu default is different for power dominant vs thermal
+                // dominant
                 continue;
             }
             if (name == "X" || name == "C" || name == "M" || name == "Q" ||
-                name == "B" ||
-                name ==
-                    "%") { // known conflicts are and Kayser with annum and Kelvin
+                name == "B" || name == "%") { // known conflicts are and Kayser
+                                              // with annum and Kelvin
                 // oz fl has multiple meanings
-                // btu default is different for power dominant vs thermal dominant
+                // btu default is different for power dominant vs thermal
+                // dominant
                 continue;
             }
             if (csCode.front() == '[' && csCode.back() == ']' &&

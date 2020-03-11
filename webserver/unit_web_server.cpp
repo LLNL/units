@@ -58,7 +58,8 @@ static const std::string response_page = loadFile("convert.html");
 static const std::string response_json =
     "{\n\"request_measurement\":\"$M1$\",\n\"request_units\":\"$U1$\",\n\"measurement\":\"$M2$\",\n\"units\":\"$U2$\",\n\"value\":\"$VALUE$\"\n}";
 
-//decode a uri to clean up a string, convert character codes in a uri to the original character
+// decode a uri to clean up a string, convert character codes in a uri to the
+// original character
 static std::string uri_decode(beast::string_view str)
 {
     std::string ret;
@@ -198,7 +199,8 @@ void handle_request(
     // Returns a server error response
     /*
     auto const server_error = [&req](beast::string_view what) {
-        http::response<http::string_body> res{http::status::internal_server_error, req.version()};
+        http::response<http::string_body>
+    res{http::status::internal_server_error, req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
@@ -206,7 +208,7 @@ void handle_request(
         res.prepare_payload();
         return res;
     };
-	*/
+    */
     // generate the main page
     auto const main_page = [&req]() {
         http::response<http::string_body> res{http::status::ok, req.version()};

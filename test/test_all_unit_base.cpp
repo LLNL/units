@@ -13,7 +13,7 @@ using namespace units;
 
 TEST(all_units, all)
 {
-    //this type difference is on purpose
+    // this type difference is on purpose
     for (std::uint64_t ii = 0; ii <= std::numeric_limits<std::uint32_t>::max();
          ++ii) {
         detail::unit_data unitdata(nullptr);

@@ -54,7 +54,7 @@ TEST(unitOps, power)
 {
     auto m2 = m.pow(2);
     EXPECT_EQ(m * m, m2);
-    auto m4 = pow(m, 4); //use the free function form
+    auto m4 = pow(m, 4); // use the free function form
     EXPECT_EQ(m * m * m * m, m4);
     auto m4_b = m2.pow(2);
     EXPECT_EQ(m4_b, m * m * m * m);
@@ -250,9 +250,10 @@ while (diff < 2.75e-6)
     auto u3 = unit(start - diff, V);
 
     std::cout << "diff (" << diff << ") compares "
-              << ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
-    std::cout << "diff (-" << diff << ") compares "
-              << ((u1 == u2) ? std::string("equal") : std::string("not equal")) << std::endl;
+              << ((u1 == u2) ? std::string("equal") : std::string("not equal"))
+<< std::endl; std::cout << "diff (-" << diff << ") compares "
+              << ((u1 == u2) ? std::string("equal") : std::string("not equal"))
+<< std::endl;
 
     diff += 1e-8;
 }
@@ -333,7 +334,7 @@ TEST(preciseUnitOps, root)
     auto m1 = precise::m.pow(1);
     EXPECT_EQ(precise::m, root(m1, 1));
     EXPECT_EQ(precise::m.inv(), root(m1, -1));
-    auto m2 = pow(precise::m, 2); //use the alternate free function form
+    auto m2 = pow(precise::m, 2); // use the alternate free function form
     EXPECT_EQ(precise::m, root(m2, 2));
     EXPECT_EQ(precise::m, sqrt(m2));
     auto m4 = precise::m.pow(4);
@@ -550,14 +551,14 @@ TEST(preciseunitOps, subnormal_test)
 {
     precise_unit u1(2.3456e-306, precise::m);
     precise_unit u2(2.3457e-306, precise::m);
-    //these are equal to within a normal precision floating point.
+    // these are equal to within a normal precision floating point.
     EXPECT_TRUE(u1 == u2);
     EXPECT_FALSE(u1 != u2);
     EXPECT_TRUE(u2 == u1);
 
     precise_unit u3(2.3456e-300, precise::m);
     precise_unit u4(2.3457e-300, precise::m);
-    //these are not equal.
+    // these are not equal.
     EXPECT_FALSE(u3 == u4);
     EXPECT_TRUE(u3 != u4);
     EXPECT_FALSE(u4 == u3);
@@ -592,12 +593,12 @@ TEST(specialOps, rootHertz)
     auto rhinv = rh.inv();
     EXPECT_EQ(rhinv.pow(2), s);
 
-    //EXPECT_EQ(rh.pow(3).pow(2), Hz.pow(3));
-    //EXPECT_EQ(rh.pow(4), Hz.pow(2));
-    //EXPECT_EQ(rh.pow(6), Hz.pow(3));
-    //EXPECT_EQ(rh.pow(-2), s);
-    //EXPECT_EQ(rh.pow(-4), s.pow(2));
-    //EXPECT_EQ(rh.pow(-6), s.pow(3));
+    // EXPECT_EQ(rh.pow(3).pow(2), Hz.pow(3));
+    // EXPECT_EQ(rh.pow(4), Hz.pow(2));
+    // EXPECT_EQ(rh.pow(6), Hz.pow(3));
+    // EXPECT_EQ(rh.pow(-2), s);
+    // EXPECT_EQ(rh.pow(-4), s.pow(2));
+    // EXPECT_EQ(rh.pow(-6), s.pow(3));
 }
 
 TEST(customUnits, definition)

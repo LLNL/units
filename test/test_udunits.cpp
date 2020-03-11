@@ -142,7 +142,8 @@ TEST(UDUNITS, derived_name_symbols)
     int failConvert = 0;
     while (cs) {
         auto defEl = cs->FirstChildElement("def");
-        // the only one without a definition is the radian since it is dimensionless according to the xml
+        // the only one without a definition is the radian since it is
+        // dimensionless according to the xml
         std::string def =
             (defEl) ? defEl->FirstChild()->Value() : std::string("rad");
 
@@ -201,7 +202,8 @@ TEST(UDUNITS, derived_alias)
     int failConvert = 0;
     while (cs) {
         auto defEl = cs->FirstChildElement("def");
-        // the only one without a definition is the radian since it is dimensionless according to the xml
+        // the only one without a definition is the radian since it is
+        // dimensionless according to the xml
         std::string def =
             (defEl) ? defEl->FirstChild()->Value() : std::string("rad");
 

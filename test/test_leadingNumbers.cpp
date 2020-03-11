@@ -186,7 +186,7 @@ TEST(leadingNumbers, edge_cases)
 
     res = testLeadingNumber("5.6245e-425", index);
     EXPECT_EQ(res, 0.0);
-    //should be below representable range for even quad precision double
+    // should be below representable range for even quad precision double
     res = testLeadingNumber("5.6245e-6985", index);
     EXPECT_EQ(res, 0.0);
 }
