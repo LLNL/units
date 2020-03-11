@@ -4,6 +4,7 @@ Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
+#pragma once
 
 #include "gtest/gtest.h"
 
