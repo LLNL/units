@@ -14,10 +14,12 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <sstream>
 #include <string>
 #include <tuple>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 /** @file
@@ -865,15 +867,16 @@ static std::string find_unit(unit un)
 static std::string
     to_string_internal(precise_unit un, std::uint32_t match_flags)
 {
-    if (!std::isnormal(un.multiplier())) {
-        if (std::isinf(un.multiplier())) {
-            std::string inf = (un.multiplier() > 0) ? "INF" : "-INF";
+    switch (std::fpclassify(un.multiplier())) {
+        case FP_INFINITE: {
+            std::string inf = (un.multiplier() > 0.0) ? "INF" : "-INF";
             un = precise_unit(un.base_units(), 1.0);
             if (un == precise::one) {
                 return inf;
             }
             return inf + '*' + to_string_internal(un, match_flags);
-        } else if (std::isnan(un.multiplier())) {
+        }
+        case FP_NAN:
             un = precise_unit(un.base_units(), 1.0);
             if (is_error(un)) {
                 return "NaN*ERROR";
@@ -882,15 +885,19 @@ static std::string
                 return "NaN";
             }
             return "NaN*" + to_string_internal(un, match_flags);
-        } else // either denormal or 0.0 in either case close enough to 0
-        {
+        case FP_SUBNORMAL:
+        case FP_ZERO:
+            // either denormal or 0.0 in either case close enough to 0
             un = precise_unit(un.base_units(), 1.0);
             if (un == precise::one) {
                 return "0";
             }
             return "0*" + to_string_internal(un, match_flags);
-        }
+        case FP_NORMAL:
+        default:
+            break;
     }
+
     auto llunit = unit_cast(un);
     auto fnd = find_unit(llunit);
     if (!fnd.empty()) {
@@ -1189,7 +1196,7 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
 
 std::string to_string(uncertain_measurement measure, std::uint32_t match_flags)
 {
-    // TODO(PT), this should really follow more appropriate rules for digits of
+    // TODO(PT) this should really follow more appropriate rules for digits of
     // precision
     std::stringstream ss;
     ss.precision(6);

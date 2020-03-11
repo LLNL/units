@@ -9,6 +9,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <cmath>
 #include <string>
+#include <utility>
 #include <type_traits>
 
 #if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1910)
@@ -542,74 +543,74 @@ class fixed_measurement {
             true :
             detail::compare_round_equals(
                 static_cast<float>(value_), static_cast<float>(val));
-    };
-    bool operator!=(double val) const { return !operator==(val); };
-    constexpr bool operator>(double val) const { return value_ > val; };
-    constexpr bool operator<(double val) const { return value_ < val; };
+    }
+    bool operator!=(double val) const { return !operator==(val); }
+    constexpr bool operator>(double val) const { return value_ > val; }
+    constexpr bool operator<(double val) const { return value_ < val; }
     bool operator>=(double val) const
     {
         return (value_ > val) ? true : operator==(val);
-    };
+    }
     bool operator<=(double val) const
     {
         return value_ < val ? true : operator==(val);
-    };
+    }
 
     bool operator==(measurement val) const
     {
         return operator==(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
-    };
+    }
     bool operator!=(measurement val) const
     {
         return operator!=(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
-    };
+    }
     bool operator>(measurement val) const
     {
         return operator>(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
-    };
+    }
     bool operator<(measurement val) const
     {
         return operator<(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
-    };
+    }
     bool operator>=(measurement val) const
     {
         return operator>=(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
-    };
+    }
     bool operator<=(measurement val) const
     {
         return operator<=(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
-    };
+    }
 
     friend bool operator==(double val, const fixed_measurement& v2)
     {
         return v2 == val;
-    };
+    }
     friend bool operator!=(double val, const fixed_measurement& v2)
     {
         return v2 != val;
-    };
+    }
     friend constexpr bool operator>(double val, const fixed_measurement& v2)
     {
         return val > v2.value();
-    };
+    }
     friend constexpr bool operator<(double val, const fixed_measurement& v2)
     {
         return val < v2.value();
-    };
+    }
     friend bool operator>=(double val, const fixed_measurement& v2)
     {
         return (val > v2.value()) ? true : (v2 == val);
-    };
+    }
     friend bool operator<=(double val, const fixed_measurement& v2)
     {
         return (val < v2.value()) ? true : (v2 == val);
-    };
+    }
 
     // + and - are allowed for fixed_measurement since the units are known
     /// friend operators for math operators

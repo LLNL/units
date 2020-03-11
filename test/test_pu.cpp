@@ -102,7 +102,7 @@ TEST(PU, machNumber)
     EXPECT_NEAR(convert(1.0, precise::special::mach, m / s), 341.25, 0.0001);
     EXPECT_NEAR(convert(350.0, m / s, precise::special::mach), 1.0256, 0.001);
 
-    // TODO:: figure out how this might work
+    // TODO(PT) :: figure out how this might work
     // EXPECT_NEAR(convert(1.0, precise::special::mach,
     // precise::special::fujita), 12.0, 0.01);
 }

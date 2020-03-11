@@ -557,7 +557,7 @@ TEST(UnitDefinitions, SIextended)
     unit s_2 = s * s;
     unit m_2 = m * m;
 
-    // TODO check more of the possibilities
+    // TODO(PT) check more of the possibilities
     // https://en.wikipedia.org/wiki/SI_derived_unit#Derived_units_with_special_names
     EXPECT_TRUE((one / s).has_same_base(Hz));
     EXPECT_TRUE((kg * m / s_2).has_same_base(N));
@@ -590,7 +590,6 @@ TEST(UnitDefinitions, SIextendedPrecise)
     auto s_2 = s * s;
     auto m_2 = m * m;
 
-    // TODO check more of the possibilities
     // https://en.wikipedia.org/wiki/SI_derived_unit#Derived_units_with_special_names
     EXPECT_TRUE((one / s).has_same_base(Hz));
     EXPECT_TRUE((kg * m / s_2).has_same_base(N));
