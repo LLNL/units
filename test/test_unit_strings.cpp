@@ -871,21 +871,21 @@ TEST(funnyStrings, underscore)
 }
 
 TEST(funnyStrings, outofrange)
-{ // these are mainly testing that it doesn't throw
+{  // these are mainly testing that it doesn't throw
     EXPECT_FALSE(
-        isfinite(unit_from_string("1532^34e505"))); // out of range error
-    EXPECT_TRUE(isinf(unit_from_string("34e505"))); // out of range
-    EXPECT_TRUE(isinf(unit_from_string("-34e505"))); // out of range
+        isfinite(unit_from_string("1532^34e505")));  // out of range error
+    EXPECT_TRUE(isinf(unit_from_string("34e505")));  // out of range
+    EXPECT_TRUE(isinf(unit_from_string("-34e505")));  // out of range
 
     EXPECT_TRUE(isinf(
-        unit_from_string("34.785e12458"))); // out of range of quad precision
+        unit_from_string("34.785e12458")));  // out of range of quad precision
 }
 
 TEST(funnyStrings, powersof1)
-{ // check the power of 1 removals
+{  // check the power of 1 removals
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^5"));
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^"));
-    EXPECT_EQ(precise::m.pow(2), unit_from_string("m*(1)^2*m")); // invalid
+    EXPECT_EQ(precise::m.pow(2), unit_from_string("m*(1)^2*m"));  // invalid
 
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^-1"));
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^-1*(1)^7"));

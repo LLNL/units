@@ -7,9 +7,9 @@ SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
 #include <cmath>
-#include <cstdint> // for std::uint32_t
-#include <cstring> // for std::memcpy
-#include <functional> //for std::hash
+#include <cstdint>  // for std::uint32_t
+#include <cstring>  // for std::memcpy
+#include <functional>  //for std::hash
 
 namespace units {
 namespace detail {
@@ -111,8 +111,8 @@ namespace detail {
         }
         /// take a unit_data to some power
         constexpr unit_data pow(int power) const
-        { // the modifier is to handle a few weird operations that operate on
-          // square_root Hz,
+        {  // the modifier is to handle a few weird operations that operate on
+           // square_root Hz,
             return {meter_ * power,
                     kilogram_ * power,
                     (second_ * power) + rootHertzModifier(power),
@@ -299,25 +299,25 @@ namespace detail {
         }
         // needs to be defined for the full 32 bits
         signed int meter_ : 4;
-        signed int second_ : 4; // 8
+        signed int second_ : 4;  // 8
         signed int kilogram_ : 3;
         signed int ampere_ : 3;
-        signed int candela_ : 2; // 16
+        signed int candela_ : 2;  // 16
         signed int kelvin_ : 3;
         signed int mole_ : 2;
-        signed int radians_ : 3; // 24
+        signed int radians_ : 3;  // 24
         signed int currency_ : 2;
-        signed int count_ : 2; // 28
+        signed int count_ : 2;  // 28
         unsigned int per_unit_ : 1;
-        unsigned int i_flag_ : 1; // 30
-        unsigned int e_flag_ : 1; //
-        unsigned int equation_ : 1; // 32
+        unsigned int i_flag_ : 1;  // 30
+        unsigned int e_flag_ : 1;  //
+        unsigned int equation_ : 1;  // 32
     };
     // We want this to be exactly 4 bytes by design
     static_assert(sizeof(unit_data) == 4, "Unit data is too large");
 
-} // namespace detail
-} // namespace units
+}  // namespace detail
+}  // namespace units
 
 namespace std {
 /// Hash function for unit_data
@@ -330,7 +330,7 @@ struct hash<units::detail::unit_data> {
         return hash<unsigned int>()(val);
     }
 };
-} // namespace std
+}  // namespace std
 
 namespace units {
 namespace detail {
@@ -424,7 +424,7 @@ namespace detail {
             (cround_precise(val1 * (1.0 + 5e-13)) == c2) ||
             (cround_precise(val1 * (1.0 - 5e-13)) == c2);
     }
-} // namespace detail
+}  // namespace detail
 
 /**Class defining a basic unit module with float32 precision on the multiplier.
 @details The class consists of a unit_base along with a 32 bit floating point
@@ -840,8 +840,8 @@ class precise_unit {
 
   private:
     detail::unit_data base_units_{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    std::uint32_t commodity_{0}; //!< a commodity specifier
-    double multiplier_{1.0}; //!< unit multiplier
+    std::uint32_t commodity_{0};  //!< a commodity specifier
+    double multiplier_{1.0};  //!< unit multiplier
 };
 
 /// Check if a unit down cast is lossless
@@ -942,7 +942,7 @@ inline precise_unit sqrt(precise_unit u)
 static_assert(sizeof(unit) == 8, "Unit type is too large");
 static_assert(sizeof(precise_unit) == 16, "precise unit type is too large");
 
-} // namespace units
+}  // namespace units
 
 /// Defining the hash functions for a unit and precise_unit so they can be used
 /// in unordered_map
@@ -964,6 +964,6 @@ struct hash<units::precise_unit> {
             hash<double>()(x.cround());
     }
 };
-} // namespace std
+}  // namespace std
 
 // std::ostream &operator<<(std::ostream &stream, units::unit u);

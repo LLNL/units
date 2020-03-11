@@ -1042,4 +1042,4 @@ precise_unit dod_unit(std::string dod_string)
     return precise::error;
 }
 
-} // namespace units
+}  // namespace units

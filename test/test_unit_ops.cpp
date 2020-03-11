@@ -54,7 +54,7 @@ TEST(unitOps, power)
 {
     auto m2 = m.pow(2);
     EXPECT_EQ(m * m, m2);
-    auto m4 = pow(m, 4); // use the free function form
+    auto m4 = pow(m, 4);  // use the free function form
     EXPECT_EQ(m * m * m * m, m4);
     auto m4_b = m2.pow(2);
     EXPECT_EQ(m4_b, m * m * m * m);
@@ -334,7 +334,7 @@ TEST(preciseUnitOps, root)
     auto m1 = precise::m.pow(1);
     EXPECT_EQ(precise::m, root(m1, 1));
     EXPECT_EQ(precise::m.inv(), root(m1, -1));
-    auto m2 = pow(precise::m, 2); // use the alternate free function form
+    auto m2 = pow(precise::m, 2);  // use the alternate free function form
     EXPECT_EQ(precise::m, root(m2, 2));
     EXPECT_EQ(precise::m, sqrt(m2));
     auto m4 = precise::m.pow(4);

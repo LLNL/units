@@ -2861,7 +2861,7 @@ static const smap base_unit_vals{
     {"[#]", precise::count},
     {"#", precise::count},
     {"number", precise::count},
-    //{"ct", precise::count},
+    // {"ct", precise::count},
     {"pix", precise_unit(1.0, precise::count, commodities::pixel)},  // Pixel
     {"pixel", precise_unit(1.0, precise::count, commodities::pixel)},  // Pixel
     {"dot", precise_unit(1.0, precise::count, commodities::voxel)},  // Pixel
@@ -3411,7 +3411,7 @@ static const smap base_unit_vals{
     {"tonhour{refrigeration}", precise::energy::tonhour},
     {"RT", precise::energy::tonc},  // ton cooling
     {"TR", precise::energy::tonc},  // ton cooling
-    //{"tons", precise::energy::tonc* precise::s},
+    // {"tons", precise::energy::tonc* precise::s},
     {"tonh", precise::energy::tonc* precise::hr},
     {"angstrom", precise::distance::angstrom},
     {u8"\u00C5ngstr\u00F6m", precise::distance::angstrom},
@@ -3458,7 +3458,7 @@ static const smap base_unit_vals{
     {"foz", precise::us::floz},
     {"[FOZ_US]", precise::us::floz},
     {"fluidounce", precise::us::floz},
-    //{"fluidounces_us", precise::us::floz},
+    // {"fluidounces_us", precise::us::floz},
     {"fluidounce_us", precise::us::floz},
     {"fdr_us", precise::us::dram},
     {"[FDR_US]", precise::us::dram},
@@ -3623,7 +3623,7 @@ static const smap base_unit_vals{
     {"carat", precise_unit(200.0, precise::mg)},
     {"karat", precise_unit(200.0, precise::mg)},
     {"ct", precise_unit(200.0, precise::mg)},
-    //{"kt", precise_unit(200.0, precise::mg)},
+    // {"kt", precise_unit(200.0, precise::mg)},
     {"cup", precise::us::cup},
     {"cup_us", precise::us::cup},
     {"[CUP_US]", precise::us::cup},
@@ -4001,8 +4001,12 @@ static const smap base_unit_vals{
     {"[PH]", precise::laboratory::pH},
 };
 
+// LCOV_EXCL_START
+
 // this function is pulled from elsewhere and the coverage is not important for
-// error control LCOV_EXCL_START get a matching character for the sequence
+// error checking
+
+// get a matching character for the sequence
 static char getMatchCharacter(char mchar)
 {
     switch (mchar) {
@@ -4780,13 +4784,13 @@ static bool unicodeReplacement(std::string& unit_string)
         ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do anything
         ckpair{u8"\u00b3", "^(3)"},
         ckpair{u8"\u2215", "/"},  // Division slash
-        ckpair{u8"\u00BD", "(0.5)"},  //(1/2) fraction
-        ckpair{u8"\u00BC", "(0.25)"},  //(1/4) fraction
-        ckpair{u8"\u00BE", "(0.75)"},  //(3/4) fraction
-        ckpair{u8"\u2153", "(1/3)"},  //(1/3) fraction
-        ckpair{u8"\u2154", "(2/3)"},  //(2/3) fraction
-        ckpair{u8"\u215B", "0.125"},  //(1/8) fraction
-        ckpair{u8"\u215F", "1/"},  //(1/ numerator operator
+        ckpair{u8"\u00BD", "(0.5)"},  // (1/2) fraction
+        ckpair{u8"\u00BC", "(0.25)"},  // (1/4) fraction
+        ckpair{u8"\u00BE", "(0.75)"},  // (3/4) fraction
+        ckpair{u8"\u2153", "(1/3)"},  // (1/3) fraction
+        ckpair{u8"\u2154", "(2/3)"},  // (2/3) fraction
+        ckpair{u8"\u215B", "0.125"},  // (1/8) fraction
+        ckpair{u8"\u215F", "1/"},  // 1/ numerator operator
         ckpair{"-\xb3", "^(-3)"},
         ckpair{"-\xb9", "^(-1)"},
         ckpair{"-\xb2", "^(-2)"},
@@ -4800,9 +4804,9 @@ static bool unicodeReplacement(std::string& unit_string)
         ckpair{"\xD7", "*"},
         ckpair{"\xE9", "e"},  // remove accent
         ckpair{"\xE8", "e"},  // remove accent
-        ckpair{"\xBD", "(0.5)"},  //(1/2) fraction
-        ckpair{"\xBC", "(0.25)"},  //(1/4) fraction
-        ckpair{"\xBE", "(0.75)"},  //(3/4) fraction
+        ckpair{"\xBD", "(0.5)"},  // (1/2) fraction
+        ckpair{"\xBC", "(0.25)"},  // (1/4) fraction
+        ckpair{"\xBE", "(0.75)"},  // (3/4) fraction
     }};
     bool changed{false};
     for (auto& ucode : ucodeReplacements) {

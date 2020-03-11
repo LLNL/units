@@ -828,18 +828,14 @@ namespace precise {
         constexpr detail::unit_data custom_unit(std::uint16_t customX)
         {
             return {7 - 4 * bShift(customX, 8),  // 3 or 7
-                    -2 + 3 * bShift(customX, 7),  //-2 or 1
-                    7 *
-                        bShift(
-                            customX,
-                            9),  // 7 or 0  sometimes custom unit/time is used
-                    -3 -
-                        bShift(
-                            customX,
-                            6),  //-3 or -4  //this is probably the most
-                                 // important for isolating it
+                    -2 + 3 * bShift(customX, 7),  // -2 or 1
+                    // 7 or 0  sometimes custom unit/time is used
+                    7 * bShift(customX, 9),
+                    // -3 or -4  this is probably the most important for
+                    // identifying custom units
+                    -3 - bShift(customX, 6),
                     3 * bShift(customX, 4),  // 3 or 0
-                    -2,  // this also is set so that 1/-2 == 2 for a 2 bit
+                    -2,  // this also is set so that 1/-2 = -2 for a 2 bit
                          // signed number
                     -2 + 2 * bShift(customX, 5),
                     -2 * bShift(customX, 3),
@@ -853,11 +849,12 @@ namespace precise {
         /// Check if the unit is a custom unit or inverse custom unit
         inline bool is_custom_unit(detail::unit_data UT)
         {
-            if (UT.mole() != -2) {  // mole is always -2 regardless of inversion
+            if (UT.mole() != -2) {
+                // mole is always -2 regardless of inversion
                 return false;
             }
-            if (std::abs(UT.ampere()) <
-                2) {  // ampere is either -3 or -4  or 3 or 4
+            if (std::abs(UT.ampere()) < 2) {
+                // ampere is either -3 or -4  or 3 or 4
                 return false;
             }
             return true;
@@ -973,9 +970,8 @@ namespace precise {
                     0,
                     0,
                     bShift(equation_number, 3),
-                    bShift(
-                        equation_number,
-                        4),  // switched on purpose so radian is the high bit
+                    // 3 and 4 switched on purpose so radian is the high bit
+                    bShift(equation_number, 4),
                     bShiftu(equation_number, 2),
                     bShiftu(equation_number, 1),
                     bShiftu(equation_number, 0),
