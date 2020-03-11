@@ -18,16 +18,16 @@ SPDX-License-Identifier: BSD-3-Clause
 #endif
 
 namespace units {
-/// Generate a conversion factor between two units in a constexpr function, the units will only convert if they
-/// have the same base unit
+/// Generate a conversion factor between two units in a constexpr function, the
+/// units will only convert if they have the same base unit
 template<typename UX, typename UX2>
 constexpr double quick_convert(UX start, UX2 result)
 {
     return quick_convert(1.0, start, result);
 }
 
-/// Generate a conversion factor between two units in a constexpr function, the units will only convert if they
-/// have the same base unit
+/// Generate a conversion factor between two units in a constexpr function, the
+/// units will only convert if they have the same base unit
 template<typename UX, typename UX2>
 constexpr double quick_convert(double val, UX start, UX2 result)
 {
@@ -86,8 +86,9 @@ double convert(double val, UX start, UX2 result)
     if (start.is_per_unit() &&
         result.is_per_unit()) { // we know they have different unit basis
         if (unit_cast(start) == pu ||
-            unit_cast(result) ==
-                pu) { // generic pu just means the units are equivalent since the the other is puXX already
+            unit_cast(result) == pu) { // generic pu just means the units are
+                                       // equivalent since the the other is puXX
+                                       // already
             return val;
         }
         double converted_val = puconversion::knownConversions(
@@ -101,14 +102,17 @@ double convert(double val, UX start, UX2 result)
         if (!std::isnan(genBase)) {
             return convert(val, start, result, genBase);
         }
-        // other assumptions for PU base are probably dangerous so shouldn't be allowed
+        // other assumptions for PU base are probably dangerous so shouldn't be
+        // allowed
         return constants::invalid_conversion;
     }
 
     auto base_start = start.base_units();
     auto base_result = result.base_units();
-    if (base_start.has_same_base(
-            base_result)) { // ignore i flag and e flag,  special cases have been dealt with already, so those are just markers
+    if (base_start.has_same_base(base_result)) { // ignore i flag and e flag,
+                                                 // special cases have been
+                                                 // dealt with already, so those
+                                                 // are just markers
         return val * start.multiplier() / result.multiplier();
     }
     // deal with some counting conversions
@@ -120,14 +124,16 @@ double convert(double val, UX start, UX2 result)
     }
     // check for inverse units
     if (base_start.has_same_base(
-            base_result
-                .inv())) { // ignore flag and e flag  special cases have been dealt with already, so those are just markers
+            base_result.inv())) { // ignore flag and e flag  special cases have
+                                  // been dealt with already, so those are just
+                                  // markers
         return result.multiplier() / (val * start.multiplier());
     }
     return constants::invalid_conversion;
 }
 
-/// Convert a value from one unit base to another potentially involving pu base values
+/// Convert a value from one unit base to another potentially involving pu base
+/// values
 template<typename UX, typename UX2>
 double convert(double val, UX start, UX2 result, double baseValue)
 {
@@ -144,7 +150,8 @@ double convert(double val, UX start, UX2 result, double baseValue)
     if (start.base_units() == result.base_units()) {
         return val * start.multiplier() / result.multiplier();
     }
-    /// if it the per unit is equivalent no baseValue is needed so give to first function
+    /// if it the per unit is equivalent no baseValue is needed so give to first
+    /// function
     if (start.is_per_unit() == result.is_per_unit()) {
         return convert(val, start, result);
     }
@@ -160,7 +167,8 @@ double convert(double val, UX start, UX2 result, double baseValue)
         }
         return val;
     }
-    // this would require two base values which power might be assumed but assuming a base voltage is dangerous
+    // this would require two base values which power might be assumed but
+    // assuming a base voltage is dangerous
     return constants::invalid_conversion;
 }
 
@@ -184,12 +192,13 @@ double convert(
     if (is_default(start) || is_default(result)) {
         return val;
     }
-    /// if it isn't per unit or both are per unit give it to the other function since bases aren't needed
+    /// if it isn't per unit or both are per unit give it to the other function
+    /// since bases aren't needed
     if (start.is_per_unit() == result.is_per_unit()) {
         auto base = puconversion::generate_base(
             start.base_units(), basePower, baseVoltage);
-        if (std::isnan(
-                base)) { // no known base conversions so this means we are converting bases
+        if (std::isnan(base)) { // no known base conversions so this means we
+                                // are converting bases
             if (start.is_per_unit() && start == result) {
                 return val * basePower / baseVoltage;
             }
@@ -203,9 +212,9 @@ double convert(
     }
     /// now we get into some power system specific conversions
     // deal with situations of same base in different quantities
-    if (start.has_same_base(
-            result
-                .base_units())) { // We have the same base now we just need to figure out which base to use
+    if (start.has_same_base(result.base_units())) { // We have the same base now
+                                                    // we just need to figure
+                                                    // out which base to use
         auto base = puconversion::generate_base(
             result.base_units(), basePower, baseVoltage);
         if (start.is_per_unit()) {
@@ -421,8 +430,8 @@ class fixed_measurement {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
-    /// Assignment from number,  allow direct numerical assignment since the units are fixes and known at
-    /// construction time
+    /// Assignment from number,  allow direct numerical assignment since the
+    /// units are fixes and known at construction time
     fixed_measurement& operator=(double val)
     {
         value_ = val;
@@ -635,8 +644,9 @@ static_assert(
     sizeof(fixed_measurement) <= 16,
     "fixed measurement is too large");
 
-/** Class defining a measurement with tolerance (value+tolerance+unit) with a fixed unit type
-the tolerance is assumed to be some statistical reference either standard deviation or 95% confidence bounds or something like that
+/** Class defining a measurement with tolerance (value+tolerance+unit) with a
+fixed unit type the tolerance is assumed to be some statistical reference either
+standard deviation or 95% confidence bounds or something like that
 
 uncertainty propagation equations from
 http://www.geol.lsu.edu/jlorenzo/geophysics/uncertainties/Uncertaintiespart2.html
@@ -653,13 +663,15 @@ class uncertain_measurement {
         uncertainty_(uncertainty), units_(base)
     {
     }
-    /// construct from a single precision value, and unit assume uncertainty is 0
+    /// construct from a single precision value, and unit assume uncertainty is
+    /// 0
     explicit constexpr uncertain_measurement(float val, unit base) noexcept :
         value_(val), units_(base)
     {
     }
 
-    /// construct from a double precision value, and unit assume uncertainty is 0
+    /// construct from a double precision value, and unit assume uncertainty is
+    /// 0
     explicit constexpr uncertain_measurement(double val, unit base) noexcept :
         value_(static_cast<float>(val)), units_(base)
     {
@@ -746,7 +758,8 @@ class uncertain_measurement {
     /// Cast operator to a measurement
     // NOLINTNEXTLINE(google-explicit-constructor)
     constexpr operator measurement() const { return {value(), units_}; }
-    /** Compute a product and calculate the new uncertainties using the root sum of squares(rss) method*/
+    /** Compute a product and calculate the new uncertainties using the root sum
+     * of squares(rss) method*/
     uncertain_measurement operator*(uncertain_measurement other) const
     {
         float tval1 = uncertainty_ / value_;
@@ -756,7 +769,8 @@ class uncertain_measurement {
         return {nval, nval * ntol, units_ * other.units()};
     }
 
-    /** Perform a multiplication with uncertain measurements using the simple method for uncertainty propagation*/
+    /** Perform a multiplication with uncertain measurements using the simple
+     * method for uncertainty propagation*/
     UNITS_CPP14_CONSTEXPR uncertain_measurement
         simple_product(uncertain_measurement other) const
     {
@@ -764,8 +778,8 @@ class uncertain_measurement {
         float nval = value_ * other.value_;
         return uncertain_measurement(nval, nval * ntol, units_ * other.units());
     }
-    /** Multiply with another measurement 
-	equivalent to uncertain_measurement multiplication with 0 uncertainty*/
+    /** Multiply with another measurement
+    equivalent to uncertain_measurement multiplication with 0 uncertainty*/
     constexpr uncertain_measurement operator*(measurement other) const
     {
         return {static_cast<float>(value() * other.value()),
@@ -786,7 +800,8 @@ class uncertain_measurement {
         return uncertain_measurement(
             value() * val, uncertainty() * val, units_);
     }
-    /** compute a unit division and calculate the new uncertainties using the root sum of squares(rss) method*/
+    /** compute a unit division and calculate the new uncertainties using the
+     * root sum of squares(rss) method*/
     uncertain_measurement operator/(uncertain_measurement other) const
     {
         float tval1 = uncertainty_ / value_;
@@ -796,8 +811,9 @@ class uncertain_measurement {
         return {nval, nval * ntol, units_ / other.units()};
     }
 
-    /** division operator propagate uncertainty using simple method allowing constexpr in C++14
-	*/
+    /** division operator propagate uncertainty using simple method allowing
+     * constexpr in C++14
+     */
     UNITS_CPP14_CONSTEXPR uncertain_measurement
         simple_divide(uncertain_measurement other) const
     {
@@ -826,7 +842,8 @@ class uncertain_measurement {
             value() / val, uncertainty() / val, units_);
     }
 
-    /** compute a unit addition and calculate the new uncertainties using the root sum of squares(rss) method*/
+    /** compute a unit addition and calculate the new uncertainties using the
+     * root sum of squares(rss) method*/
     uncertain_measurement operator+(uncertain_measurement other) const
     {
         auto cval = static_cast<float>(convert(other.units_, units_));
@@ -843,7 +860,8 @@ class uncertain_measurement {
         return {value_ + cval * other.value_, ntol, units_};
     }
 
-    /** compute a unit subtraction and calculate the new uncertainties using the root sum of squares(rss) method*/
+    /** compute a unit subtraction and calculate the new uncertainties using the
+     * root sum of squares(rss) method*/
     uncertain_measurement operator-(uncertain_measurement other) const
     {
         auto cval = static_cast<float>(convert(other.units_, units_));
@@ -853,7 +871,8 @@ class uncertain_measurement {
         return {value_ - cval * other.value_, ntol, units_};
     }
 
-    /** compute a unit subtraction and calculate the new uncertainties using the simple uncertainty summation method*/
+    /** compute a unit subtraction and calculate the new uncertainties using the
+     * simple uncertainty summation method*/
     uncertain_measurement simple_subtract(uncertain_measurement other) const
     {
         auto cval = static_cast<float>(convert(other.units_, units_));
@@ -910,8 +929,9 @@ class uncertain_measurement {
     }
 
     /// comparison operators
-    /** the equality operator reverts to the measurement comparison if the uncertainty is 0 otherwise it returns true if the 
-	measurement that is being compared has a value within the 1 uncertainty of the value*/
+    /** the equality operator reverts to the measurement comparison if the
+    uncertainty is 0 otherwise it returns true if the measurement that is being
+    compared has a value within the 1 uncertainty of the value*/
     bool operator==(const measurement& other) const
     {
         auto val = static_cast<float>(other.value_as(units_));
@@ -1281,22 +1301,23 @@ class fixed_precise_measurement {
     {
     }
 
-    ///assign from a precise_measurement do the conversion and assign the value
+    /// assign from a precise_measurement do the conversion and assign the value
     fixed_precise_measurement& operator=(const precise_measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
 
-    ///assign from another fixed_precise_measurement treat like a precise_measurement
+    /// assign from another fixed_precise_measurement treat like a
+    /// precise_measurement
     fixed_precise_measurement& operator=(const fixed_precise_measurement& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
 
-    /// Assignment from double,  allow direct numerical assignment since the units are fixes and known at
-    /// construction time
+    /// Assignment from double,  allow direct numerical assignment since the
+    /// units are fixes and known at construction time
     fixed_precise_measurement& operator=(double val)
     {
         value_ = val;
@@ -1589,14 +1610,16 @@ constexpr measurement measurement_cast(const precise_measurement& measure)
     return {measure.value(), unit_cast(measure.units())};
 }
 
-/// perform a down-conversion from a fixed precise measurement to a fixed measurement
+/// perform a down-conversion from a fixed precise measurement to a fixed
+/// measurement
 constexpr fixed_measurement
     measurement_cast(const fixed_precise_measurement& measure)
 {
     return fixed_measurement(measure.value(), unit_cast(measure.units()));
 }
 
-/// perform a down-conversion from a fixed precise measurement to a fixed measurement
+/// perform a down-conversion from a fixed precise measurement to a fixed
+/// measurement
 constexpr fixed_measurement measurement_cast(const fixed_measurement& measure)
 {
     return measure;
@@ -1608,7 +1631,8 @@ constexpr measurement measurement_cast(measurement measure)
     return measure;
 }
 
-/// perform a conversion from a uncertain measurement to a measurement so it can work in templates
+/// perform a conversion from a uncertain measurement to a measurement so it can
+/// work in templates
 constexpr measurement measurement_cast(const uncertain_measurement& measure)
 {
     return {measure.value(), measure.units()};
@@ -1651,16 +1675,19 @@ inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
     return root(meas, 2);
 }
 
-/** The unit conversion flag are some modifiers for the string conversion operations,
-some are used internally some are meant for external use, though all are possible to use externally
+/** The unit conversion flag are some modifiers for the string conversion
+operations, some are used internally some are meant for external use, though all
+are possible to use externally
 */
 enum unit_conversion_flags : std::uint32_t {
-    case_insensitive =
-        1u, //!< perform case insensitive matching for UCUM case insensitive matching
-    single_slash =
-        2u, //!< specify that there is a single numerator and denominator only a single slash in the unit operations
+    case_insensitive = 1u, //!< perform case insensitive matching for UCUM case
+                           //!< insensitive matching
+    single_slash = 2u, //!< specify that there is a single numerator and
+                       //!< denominator only a single slash in the unit
+                       //!< operations
     recursion_depth1 = (1u << 15), // skip checking for SI prefixes
-    // don't put anything at   16, 15 through 17 are connected to limit recursion depth
+    // don't put anything at   16, 15 through 17 are connected to limit
+    // recursion depth
     no_recursion = (1u << 17), // don't recurse through the string
     not_first_pass = (1u << 18), // indicate that is not the first pass
     per_operator1 = (1u << 19), // skip matching per
@@ -1672,7 +1699,8 @@ enum unit_conversion_flags : std::uint32_t {
     // don't put anything at 25 24 and 26 are connected
     no_commodities = (1u << 26), // skip commodity checks
     partition_check1 = (1u << 27), // skip checking for SI prefixes
-    // don't put anything at 28, 27 and 28 are connected to limit partition depth
+    // don't put anything at 28, 27 and 28 are connected to limit partition
+    // depth
     skip_partition_check = (1u << 29), // skip checking for SI prefixes
     skip_si_prefix_check = (1u << 30), // skip checking for SI prefixes
     skip_code_replacements =
@@ -1690,8 +1718,10 @@ inline std::string to_string(unit units, std::uint32_t match_flags = 0)
 
 /** Generate a precise unit object from a string representation of it
 @param unit_string the string to convert
-@param match_flags see /ref unit_conversion_flags to control the matching process somewhat
-@return a precise unit corresponding to the string if no match was found the unit will be an error unit
+@param match_flags see /ref unit_conversion_flags to control the matching
+process somewhat
+@return a precise unit corresponding to the string if no match was found the
+unit will be an error unit
 */
 precise_unit
     unit_from_string(std::string unit_string, std::uint32_t match_flags = 0);
@@ -1699,8 +1729,10 @@ precise_unit
 /** Generate a unit object from a string representation of it
 @details uses a unit_cast to convert the precise_unit to a unit
 @param unit_string the string to convert
-@param match_flags see /ref unit_conversion_flags to control the matching process somewhat
-@return a unit corresponding to the string if no match was found the unit will be an error unit
+@param match_flags see /ref unit_conversion_flags to control the matching
+process somewhat
+@return a unit corresponding to the string if no match was found the unit will
+be an error unit
 */
 inline unit unit_cast_from_string(
     std::string unit_string,
@@ -1711,14 +1743,17 @@ inline unit unit_cast_from_string(
 
 /** Generate a unit object from the string definition of a type of measurement
 @param unit_type  string representing the type of measurement
-@return a precise unit corresponding to the SI unit for the measurement specified in unit_type
+@return a precise unit corresponding to the SI unit for the measurement
+specified in unit_type
 */
 precise_unit default_unit(std::string unit_type);
 
 /** Generate a precise_measurement from a string
 @param measurement_string the string to convert
-@param match_flags see / ref unit_conversion_flags to control the matching process somewhat
-@return a precise unit corresponding to the string if no match was found the unit will be an error unit
+@param match_flags see / ref unit_conversion_flags to control the matching
+process somewhat
+@return a precise unit corresponding to the string if no match was found the
+unit will be an error unit
     */
 precise_measurement measurement_from_string(
     std::string measurement_string,
@@ -1726,9 +1761,11 @@ precise_measurement measurement_from_string(
 
 /** Generate a measurement from a string
 @param measurement_string the string to convert
-@param match_flags see / ref unit_conversion_flags to control the matching process somewhat
-@return a precise unit corresponding to the string if no match was found the unit will be an error unit
-	*/
+@param match_flags see / ref unit_conversion_flags to control the matching
+process somewhat
+@return a precise unit corresponding to the string if no match was found the
+unit will be an error unit
+    */
 inline measurement measurement_cast_from_string(
     std::string measurement_string,
     std::uint32_t match_flags = 0)
@@ -1738,17 +1775,21 @@ inline measurement measurement_cast_from_string(
 }
 
 /** Generate an uncertain_measurement from a string
-the string should contain some symbol of the form +/- in one of the various forms what comes after will determine the uncertainty
-for example "3.0+/-0.4 m" or "2.5 m +/- 2 cm"
+the string should contain some symbol of the form +/- in one of the various
+forms what comes after will determine the uncertainty for example "3.0+/-0.4 m"
+or "2.5 m +/- 2 cm"
 @param measurement_string the string to convert
-@param match_flags see /ref unit_conversion_flags to control the matching process somewhat
-@return a precise unit corresponding to the string if no match was found the unit will be an error unit
+@param match_flags see /ref unit_conversion_flags to control the matching
+process somewhat
+@return a precise unit corresponding to the string if no match was found the
+unit will be an error unit
 */
 uncertain_measurement uncertain_measurement_from_string(
     std::string measurement_string,
     std::uint32_t match_flags = 0);
 
-/// Convert a precise measurement to a string (with some extra decimal digits displayed)
+/// Convert a precise measurement to a string (with some extra decimal digits
+/// displayed)
 std::string
     to_string(precise_measurement measure, std::uint32_t match_flags = 0);
 
@@ -1762,19 +1803,22 @@ std::string
 /// Add a custom unit to be included in any string processing
 void addUserDefinedUnit(std::string name, precise_unit un);
 
-/// Add a custom unit to be included in from string interpretation but not used in generating string representations of units
+/// Add a custom unit to be included in from string interpretation but not used
+/// in generating string representations of units
 void addUserDefinedInputUnit(std::string name, precise_unit un);
 
 /// Clear all user defined units from memory
 void clearUserDefinedUnits();
 
 /** load a set of user define units from a file
-@details  file should consist of lines formatted like <user_string> == <definition> where definition is some string that can include spaces
-<user_string> is the name of the custom unit.  
-<user_string> => <definition> defines a 1-way translation so input units are interpreted but the output units are not modified.
-# indicates a comment line
+@details  file should consist of lines formatted like <user_string> ==
+<definition> where definition is some string that can include spaces
+<user_string> is the name of the custom unit.
+<user_string> => <definition> defines a 1-way translation so input units are
+interpreted but the output units are not modified. # indicates a comment line
 @param filename  the name of the file to load
-@return a string which will be empty if everything worked and an error message if it didn't
+@return a string which will be empty if everything worked and an error message
+if it didn't
 */
 std::string definedUnitsFromFile(const std::string& filename) noexcept;
 

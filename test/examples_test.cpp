@@ -9,8 +9,8 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "units/units.hpp"
 
-/** @file Test just to load up some unit definitions and do some operations with them
-it tests linking and some usefulness in code coverage */
+/** @file Test just to load up some unit definitions and do some operations with
+them it tests linking and some usefulness in code coverage */
 
 int main(int argc, char* argv[])
 {

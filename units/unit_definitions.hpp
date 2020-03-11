@@ -234,7 +234,8 @@ namespace precise {
 
     constexpr precise_unit N = newton;
 #ifndef pascal
-    // in some windows networking applications  pascal is a #define that will cause all sorts of issues
+    // in some windows networking applications  pascal is a #define that will
+    // cause all sorts of issues
     constexpr precise_unit pascal = Pa;
 #endif
     constexpr precise_unit J = joule;
@@ -496,7 +497,7 @@ namespace precise {
         constexpr precise_unit cup_trad{227.3045, mL};
         namespace grain {
             constexpr precise_unit bushel_oats{34.0, av::pound};
-        } //namespace grain
+        } // namespace grain
     } // namespace canada
 
     /// Some Australia specific variants on the us units
@@ -724,8 +725,8 @@ namespace precise {
         constexpr precise_unit inH2O{248.843004, Pa}; // at 60 degF
         constexpr precise_unit mmH2O{1.0 / 25.4, inH2O}; // at 60 degF
         constexpr precise_unit atm(101325.0, Pa);
-        constexpr precise_unit att = gm::
-            at; //!< technical atmosphere same as gravitational metric system
+        constexpr precise_unit att = gm::at; //!< technical atmosphere same as
+                                             //!< gravitational metric system
     } // namespace pressure
 
     // Power system units
@@ -816,33 +817,35 @@ namespace precise {
         }
 
         /** Construct a custom unit of a specific number
-        @details the only valid operations are custom unit/s unit/m unit/m^2 unit/m^3 unit/kg
-        custom units cannot be inverted or multiplied by other units without undefined behavior
-        something will happen but it may not be consistent,  there are 1024 possible custom units
+        @details the only valid operations are custom unit/s unit/m unit/m^2
+        unit/m^3 unit/kg custom units cannot be inverted or multiplied by other
+        units without undefined behavior something will happen but it may not be
+        consistent,  there are 1024 possible custom units
         */
         constexpr detail::unit_data custom_unit(unsigned short customX)
         {
-            return {
-                7 - 4 * bShift(customX, 8), // 3 or 7
-                -2 + 3 * bShift(customX, 7), //-2 or 1
-                7 *
-                    bShift(
-                        customX,
-                        9), // 7 or 0  sometimes custom unit/time is used
-                -3 -
-                    bShift(
-                        customX,
-                        6), //-3 or -4  //this is probably the most important for isolating it
-                3 * bShift(customX, 4), // 3 or 0
-                -2, // this also is set so that 1/-2 == 2 for a 2 bit signed number
-                -2 + 2 * bShift(customX, 5),
-                -2 * bShift(customX, 3),
-                0,
-                0,
-                bShiftu(customX, 2),
-                bShiftu(customX, 1),
-                bShiftu(customX, 0),
-                0};
+            return {7 - 4 * bShift(customX, 8), // 3 or 7
+                    -2 + 3 * bShift(customX, 7), //-2 or 1
+                    7 *
+                        bShift(
+                            customX,
+                            9), // 7 or 0  sometimes custom unit/time is used
+                    -3 -
+                        bShift(
+                            customX,
+                            6), //-3 or -4  //this is probably the most
+                                //important for isolating it
+                    3 * bShift(customX, 4), // 3 or 0
+                    -2, // this also is set so that 1/-2 == 2 for a 2 bit signed
+                        // number
+                    -2 + 2 * bShift(customX, 5),
+                    -2 * bShift(customX, 3),
+                    0,
+                    0,
+                    bShiftu(customX, 2),
+                    bShiftu(customX, 1),
+                    bShiftu(customX, 0),
+                    0};
         }
         /// Check if the unit is a custom unit or inverse custom unit
         inline bool is_custom_unit(detail::unit_data UT)
@@ -906,9 +909,9 @@ namespace precise {
             return (UT.ampere() == 3);
         }
         /** Construct a custom counting unit
-        @details a counting unit is a custom unit that can be divided into meter/kg/s and inverted
-        there are only 16 (0-15) available custom counting units due to the stringent requirement on extra
-        operations
+        @details a counting unit is a custom unit that can be divided into
+        meter/kg/s and inverted there are only 16 (0-15) available custom
+        counting units due to the stringent requirement on extra operations
         */
         constexpr detail::unit_data custom_count_unit(unsigned short customX)
         {
@@ -1178,7 +1181,8 @@ namespace precise {
                 case 15:
                     return 0.5 * (std::log)(val);
                 case 22: // saffir simpson hurricane scale from wind speed
-                { // using horners method on polynomial approximation of saffir-simpson wind speed scale
+                { // using horners method on polynomial approximation of
+                  // saffir-simpson wind speed scale
                     double out = 1.75748569529e-10;
                     out = std::fma(out, val, -9.09204303833e-08);
                     out = std::fma(out, val, 1.52274455780e-05);
@@ -1198,7 +1202,7 @@ namespace precise {
                 }
                 case 24: // fujita scale
                     return std::pow(val / 14.1, 2.0 / 3.0) - 2.0;
-                case 27: //prism diopter
+                case 27: // prism diopter
                     return 100.0 * std::tan(val);
                 case 29: // moment magnitude scale
                     return 2.0 / 3.0 * std::log10(val) - 10.7;
@@ -1465,7 +1469,7 @@ constexpr unit sievert = unit_cast(precise::sievert);
 constexpr unit katal = unit_cast(precise::katal);
 
 constexpr unit N = newton;
-//this is something in some Windows libraries that needs to be worked around
+// this is something in some Windows libraries that needs to be worked around
 #ifndef pascal
 constexpr unit pascal = Pa;
 #endif
@@ -1582,7 +1586,8 @@ constexpr unit mph = unit_cast(precise::mph);
 
 /// conversion operations for per-unit fields
 namespace puconversion {
-    /// compute a base value for a particular value based on power system base values
+    /// compute a base value for a particular value based on power system base
+    /// values
     inline double generate_base(
         detail::unit_data unit,
         double basePower,
@@ -1605,7 +1610,8 @@ namespace puconversion {
         }
         return constants::invalid_conversion;
     }
-    /// some pu values have conventions for base values this function return those
+    /// some pu values have conventions for base values this function return
+    /// those
     inline double assumedBase(unit start, unit result)
     {
         if (puHz == result || puHz == start) { // assume 60 Hz
@@ -1631,18 +1637,20 @@ namespace puconversion {
     {
         if (start.has_same_base(puOhm.base_units())) {
             if (result.has_same_base(puMW.base_units()) ||
-                result.has_same_base(
-                    puA.base_units())) { // V^2/R assuming voltage=1.0 pu; or //I=V/R
+                result.has_same_base(puA.base_units())) { // V^2/R assuming
+                                                          // voltage=1.0 pu; or
+                                                          // //I=V/R
                 return 1.0 / val;
             }
         } else if (start.has_same_base(puA.base_units())) {
-            if (result.has_same_base(
-                    puMW.base_units())) { // P=IV assuming voltage=1.0 pu or //R=V/I
+            if (result.has_same_base(puMW.base_units())) { // P=IV assuming
+                                                           // voltage=1.0 pu or
+                                                           // //R=V/I
                 return val;
             }
-            if (result.has_same_base(
-                    puOhm
-                        .base_units())) { // P=IV assuming voltage=1.0 pu or //R=V/I
+            if (result.has_same_base(puOhm.base_units())) { // P=IV assuming
+                                                            // voltage=1.0 pu or
+                                                            // //R=V/I
                 return 1.0 / val;
             }
         } else if (start.has_same_base(puMW.base_units())) { // P=IV, or P=V^2/R
@@ -1690,7 +1698,8 @@ constexpr unit ppm = unit_cast(precise::ppm);
 constexpr unit ppb = unit_cast(precise::ppb);
 
 /** check if a unit is some normal valid unit
-@details not an error, not infinite, not one,not invalid, not defunit, the multiplier is a normal number and >0*/
+@details not an error, not infinite, not one,not invalid, not defunit, the
+multiplier is a normal number and >0*/
 inline bool isnormal(precise_unit utest)
 {
     return std::isnormal(utest.multiplier()) && (!is_error(utest)) &&
@@ -1699,7 +1708,8 @@ inline bool isnormal(precise_unit utest)
 }
 
 /** check if a unit is some normal valid unit
-@details not an error, not infinite,not invalid, not one, not defunit, the multiplier is a normal number and >0*/
+@details not an error, not infinite,not invalid, not one, not defunit, the
+multiplier is a normal number and >0*/
 inline bool isnormal(unit utest)
 {
     return std::isnormal(utest.multiplier_f()) && (!is_error(utest)) &&
@@ -1707,8 +1717,9 @@ inline bool isnormal(unit utest)
 }
 
 namespace detail {
-    /** Convert counting units into one another, radians, count, mole  these are all counting units but have
-    different assumptions so while they are convertible they need to be handled differently
+    /** Convert counting units into one another, radians, count, mole  these are
+    all counting units but have different assumptions so while they are
+    convertible they need to be handled differently
     */
     template<typename UX, typename UX2>
     inline double convertCountingUnits(double val, UX start, UX2 result)
@@ -1733,7 +1744,8 @@ namespace detail {
               (count_start == rad_result || count_start == 0)) ||
              (rad_result == 0 &&
               (count_result == rad_start || count_result == 0)))) {
-            //define a conversion multiplier for radians<->count(rotations) of various powers
+            // define a conversion multiplier for radians<->count(rotations) of
+            // various powers
             static constexpr std::array<double, 5> muxrad{
                 {1.0 / (4.0 * constants::pi * constants::pi),
                  1.0 / (2.0 * constants::pi),
@@ -1746,7 +1758,8 @@ namespace detail {
                 return constants::invalid_conversion;
             }
             val *= muxrad[muxIndex];
-            // either 1 or the other is 0 in this equation other it would have triggered before or not gotten here
+            // either 1 or the other is 0 in this equation other it would have
+            // triggered before or not gotten here
             val = val * start.multiplier() / result.multiplier();
             return val;
         }
@@ -1755,7 +1768,7 @@ namespace detail {
               (count_start == mol_result || count_start == 0)) ||
              (mol_result == 0 &&
               (count_result == mol_start || count_result == 0)))) {
-            //define multipliers for mol<->count conversions based on powers
+            // define multipliers for mol<->count conversions based on powers
             static constexpr std::array<double, 3> muxmol{
                 {6.02214076e23, 0, 1.0 / 6.02214076e23}};
 
@@ -1765,13 +1778,14 @@ namespace detail {
                 return constants::invalid_conversion;
             }
             val *= muxmol[muxIndex];
-            // either 1 or the other is 0 in this equation other it would have triggered before or not gotten here
+            // either 1 or the other is 0 in this equation other it would have
+            // triggered before or not gotten here
             val = val * start.multiplier() / result.multiplier();
             return val;
         }
         return constants::invalid_conversion;
     }
-    // radians converted to mole is kind of dumb, theoretically possible but probably shouldn't be
-    // supported
+    // radians converted to mole is kind of dumb, theoretically possible but
+    // probably shouldn't be supported
 } // namespace detail
 } // namespace units
