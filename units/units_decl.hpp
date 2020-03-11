@@ -9,7 +9,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <cmath>
 #include <cstdint>  // for std::uint32_t
 #include <cstring>  // for std::memcpy
-#include <functional>  //for std::hash
+#include <functional>  // for std::hash
 
 namespace units {
 namespace detail {

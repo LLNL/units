@@ -1753,7 +1753,7 @@ namespace detail {
                  2.0 * constants::pi,
                  4.0 * constants::pi * constants::pi}};
             int muxIndex =
-                rad_result - rad_start + 2;  //+2 is to shift the index
+                rad_result - rad_start + 2;  // +2 is to shift the index
             if (muxIndex < 0 || muxIndex > 4) {
                 return constants::invalid_conversion;
             }
@@ -1773,7 +1773,7 @@ namespace detail {
                 {6.02214076e23, 0, 1.0 / 6.02214076e23}};
 
             int muxIndex =
-                mol_result - mol_start + 1;  //+1 is to shift the index
+                mol_result - mol_start + 1;  // +1 is to shift the index
             if (muxIndex < 0 || muxIndex > 2) {
                 return constants::invalid_conversion;
             }
