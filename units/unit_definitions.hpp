@@ -834,7 +834,7 @@ namespace precise {
                         bShift(
                             customX,
                             6), //-3 or -4  //this is probably the most
-                                //important for isolating it
+                                // important for isolating it
                     3 * bShift(customX, 4), // 3 or 0
                     -2, // this also is set so that 1/-2 == 2 for a 2 bit signed
                         // number

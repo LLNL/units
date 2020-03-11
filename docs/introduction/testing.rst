@@ -51,7 +51,8 @@ Azure
 7.  GCC 4.8 C++11
 8.  Clang 3.4 C++11
 9.  Clang 8 C++14
-10. Clang-tidy (not doing much yet)
+10. Clang-tidy
+11. CPPLINT 
 
 
 Circle-CI
