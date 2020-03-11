@@ -12,7 +12,8 @@ SPDX-License-Identifier: BSD-3-Clause
 int main(int argc, char* argv[])
 {
     CLI::App app(
-        "application to perform a conversion of a value from one unit to another", "unit_convert");
+        "application to perform a conversion of a value from one unit to another",
+        "unit_convert");
     bool full_string{false};
     bool simplified{false};
     app.add_flag(
@@ -53,9 +54,16 @@ int main(int argc, char* argv[])
     }
     if (simplified) {
         std::printf(
-            "%s = %g %s\n", to_string(meas).c_str(), meas.value_as(u2), to_string(u2).c_str());
+            "%s = %g %s\n",
+            to_string(meas).c_str(),
+            meas.value_as(u2),
+            to_string(u2).c_str());
     } else if (full_string) {
-        std::printf("%s = %g %s\n", measurement.c_str(), meas.value_as(u2), newUnits.c_str());
+        std::printf(
+            "%s = %g %s\n",
+            measurement.c_str(),
+            meas.value_as(u2),
+            newUnits.c_str());
     } else {
         std::printf("%g\n", meas.value_as(u2));
     }

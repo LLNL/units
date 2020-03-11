@@ -24,136 +24,314 @@ static const double hundred_C_in_K = 373.15;
 TEST(Temperature, ConversionsUnit)
 {
     using namespace units;
-    EXPECT_NEAR(convert(neg_forty_C, degC, degF), neg_forty_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C, degC, K), neg_forty_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C, degC, degF),
+        neg_forty_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C, degC, K),
+        neg_forty_C_in_K,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(neg_forty_C_in_F, degF, degC), neg_forty_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C_in_K, K, degC), neg_forty_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C_in_K, K, degF), neg_forty_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_F, degF, degC),
+        neg_forty_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_K, K, degC),
+        neg_forty_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_K, K, degF),
+        neg_forty_C_in_F,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(zero_C, degC, degF), zero_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C, degC, degF), zero_C_in_F, test::precise_tolerance);
     EXPECT_NEAR(convert(zero_C, degC, K), zero_C_in_K, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(zero_C_in_F, degF, degC), zero_C, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_F, degF, degC), zero_C, test::precise_tolerance);
     EXPECT_NEAR(convert(zero_C_in_K, K, degC), zero_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(zero_C_in_K, K, degF), zero_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_K, K, degF), zero_C_in_F, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(five_C, degC, degF), five_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C, degC, degF), five_C_in_F, test::precise_tolerance);
     EXPECT_NEAR(convert(five_C, degC, K), five_C_in_K, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(five_C_in_F, degF, degC), five_C, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_F, degF, degC), five_C, test::precise_tolerance);
     EXPECT_NEAR(convert(five_C_in_K, K, degC), five_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(five_C_in_K, K, degF), five_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_K, K, degF), five_C_in_F, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(hundred_C, degC, degF), hundred_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C, degC, K), hundred_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C, degC, degF),
+        hundred_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C, degC, K), hundred_C_in_K, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(hundred_C_in_F, degF, degC), hundred_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C_in_K, K, degC), hundred_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C_in_K, K, degF), hundred_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_F, degF, degC),
+        hundred_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_K, K, degC), hundred_C, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_K, K, degF),
+        hundred_C_in_F,
+        test::precise_tolerance);
 }
 
 TEST(Temperature, ConversionsUnitPrecise)
 {
     using namespace units::precise;
 
-    EXPECT_NEAR(convert(neg_forty_C, degC, degF), neg_forty_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C, degC, K), neg_forty_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C, degC, degF),
+        neg_forty_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C, degC, K),
+        neg_forty_C_in_K,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(neg_forty_C_in_F, degF, degC), neg_forty_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C_in_K, K, degC), neg_forty_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C_in_K, K, degF), neg_forty_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_F, degF, degC),
+        neg_forty_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_K, K, degC),
+        neg_forty_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_K, K, degF),
+        neg_forty_C_in_F,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(zero_C, degC, degF), zero_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C, degC, degF), zero_C_in_F, test::precise_tolerance);
     EXPECT_NEAR(convert(zero_C, degC, K), zero_C_in_K, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(zero_C_in_F, degF, degC), zero_C, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_F, degF, degC), zero_C, test::precise_tolerance);
     EXPECT_NEAR(convert(zero_C_in_K, K, degC), zero_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(zero_C_in_K, K, degF), zero_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_K, K, degF), zero_C_in_F, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(five_C, degC, degF), five_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C, degC, degF), five_C_in_F, test::precise_tolerance);
     EXPECT_NEAR(convert(five_C, degC, K), five_C_in_K, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(five_C_in_F, degF, degC), five_C, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_F, degF, degC), five_C, test::precise_tolerance);
     EXPECT_NEAR(convert(five_C_in_K, K, degC), five_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(five_C_in_K, K, degF), five_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_K, K, degF), five_C_in_F, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(hundred_C, degC, degF), hundred_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C, degC, K), hundred_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C, degC, degF),
+        hundred_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C, degC, K), hundred_C_in_K, test::precise_tolerance);
 
-    EXPECT_NEAR(convert(hundred_C_in_F, degF, degC), hundred_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C_in_K, K, degC), hundred_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C_in_K, K, degF), hundred_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_F, degF, degC),
+        hundred_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_K, K, degC), hundred_C, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_K, K, degF),
+        hundred_C_in_F,
+        test::precise_tolerance);
 }
 
 TEST(Temperature, ConversionsUnitPreciseUnit2Precise)
 {
     using namespace units;
     EXPECT_NEAR(
-        convert(neg_forty_C, degC, precise::degF), neg_forty_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C, degC, precise::K), neg_forty_C_in_K, test::precise_tolerance);
+        convert(neg_forty_C, degC, precise::degF),
+        neg_forty_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C, degC, precise::K),
+        neg_forty_C_in_K,
+        test::precise_tolerance);
 
     EXPECT_NEAR(
-        convert(neg_forty_C_in_F, degF, precise::degC), neg_forty_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C_in_K, K, precise::degC), neg_forty_C, test::precise_tolerance);
+        convert(neg_forty_C_in_F, degF, precise::degC),
+        neg_forty_C,
+        test::precise_tolerance);
     EXPECT_NEAR(
-        convert(neg_forty_C_in_K, K, precise::degF), neg_forty_C_in_F, test::precise_tolerance);
+        convert(neg_forty_C_in_K, K, precise::degC),
+        neg_forty_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_K, K, precise::degF),
+        neg_forty_C_in_F,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(zero_C, degC, precise::degF), zero_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(zero_C, degC, precise::K), zero_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C, degC, precise::degF),
+        zero_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C, degC, precise::K),
+        zero_C_in_K,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(zero_C_in_F, degF, precise::degC), zero_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(zero_C_in_K, K, precise::degC), zero_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(zero_C_in_K, K, precise::degF), zero_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_F, degF, precise::degC),
+        zero_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_K, K, precise::degC),
+        zero_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_K, K, precise::degF),
+        zero_C_in_F,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(five_C, degC, precise::degF), five_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(five_C, degC, precise::K), five_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C, degC, precise::degF),
+        five_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C, degC, precise::K),
+        five_C_in_K,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(five_C_in_F, degF, precise::degC), five_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(five_C_in_K, K, precise::degC), five_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(five_C_in_K, K, precise::degF), five_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_F, degF, precise::degC),
+        five_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_K, K, precise::degC),
+        five_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_K, K, precise::degF),
+        five_C_in_F,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(hundred_C, degC, precise::degF), hundred_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C, degC, precise::K), hundred_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C, degC, precise::degF),
+        hundred_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C, degC, precise::K),
+        hundred_C_in_K,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(hundred_C_in_F, degF, precise::degC), hundred_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C_in_K, K, precise::degC), hundred_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C_in_K, K, precise::degF), hundred_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_F, degF, precise::degC),
+        hundred_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_K, K, precise::degC),
+        hundred_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_K, K, precise::degF),
+        hundred_C_in_F,
+        test::precise_tolerance);
 }
 
 TEST(Temperature, ConversionsUnitPrecise2Unit)
 {
     using namespace units;
     EXPECT_NEAR(
-        convert(neg_forty_C, precise::degC, degF), neg_forty_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C, precise::degC, K), neg_forty_C_in_K, test::precise_tolerance);
+        convert(neg_forty_C, precise::degC, degF),
+        neg_forty_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C, precise::degC, K),
+        neg_forty_C_in_K,
+        test::precise_tolerance);
 
     EXPECT_NEAR(
-        convert(neg_forty_C_in_F, precise::degF, degC), neg_forty_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(neg_forty_C_in_K, precise::K, degC), neg_forty_C, test::precise_tolerance);
+        convert(neg_forty_C_in_F, precise::degF, degC),
+        neg_forty_C,
+        test::precise_tolerance);
     EXPECT_NEAR(
-        convert(neg_forty_C_in_K, precise::K, degF), neg_forty_C_in_F, test::precise_tolerance);
+        convert(neg_forty_C_in_K, precise::K, degC),
+        neg_forty_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(neg_forty_C_in_K, precise::K, degF),
+        neg_forty_C_in_F,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(zero_C, precise::degC, degF), zero_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(zero_C, precise::degC, K), zero_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C, precise::degC, degF),
+        zero_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C, precise::degC, K),
+        zero_C_in_K,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(zero_C_in_F, precise::degF, degC), zero_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(zero_C_in_K, precise::K, degC), zero_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(zero_C_in_K, precise::K, degF), zero_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_F, precise::degF, degC),
+        zero_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_K, precise::K, degC),
+        zero_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(zero_C_in_K, precise::K, degF),
+        zero_C_in_F,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(five_C, precise::degC, degF), five_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(five_C, precise::degC, K), five_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C, precise::degC, degF),
+        five_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C, precise::degC, K),
+        five_C_in_K,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(five_C_in_F, precise::degF, degC), five_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(five_C_in_K, precise::K, degC), five_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(five_C_in_K, precise::K, degF), five_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_F, precise::degF, degC),
+        five_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_K, precise::K, degC),
+        five_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(five_C_in_K, precise::K, degF),
+        five_C_in_F,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(hundred_C, precise::degC, degF), hundred_C_in_F, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C, precise::degC, K), hundred_C_in_K, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C, precise::degC, degF),
+        hundred_C_in_F,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C, precise::degC, K),
+        hundred_C_in_K,
+        test::precise_tolerance);
 
-    EXPECT_NEAR(convert(hundred_C_in_F, precise::degF, degC), hundred_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C_in_K, precise::K, degC), hundred_C, test::precise_tolerance);
-    EXPECT_NEAR(convert(hundred_C_in_K, precise::K, degF), hundred_C_in_F, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_F, precise::degF, degC),
+        hundred_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_K, precise::K, degC),
+        hundred_C,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(hundred_C_in_K, precise::K, degF),
+        hundred_C_in_F,
+        test::precise_tolerance);
 }
 TEST(Temperature, Detection)
 {
@@ -181,7 +359,8 @@ TEST(Temperature, Rankine)
 
     EXPECT_FALSE(is_temperature(rankine));
     EXPECT_NEAR(convert(0.0, K, rankine), 0.0, test::tolerance);
-    EXPECT_NEAR(convert(459.67, rankine, precise::degC), -17.7777777, test::tolerance);
+    EXPECT_NEAR(
+        convert(459.67, rankine, precise::degC), -17.7777777, test::tolerance);
     EXPECT_NEAR(convert(0.0, precise::degC, rankine), 491.67, test::tolerance);
     EXPECT_NEAR(convert(100, precise::degC, rankine), 671.67, test::tolerance);
     EXPECT_NEAR(convert(0, rankine, degF), -459.67, test::tolerance);
@@ -196,7 +375,10 @@ TEST(Temperature, Reaumur)
     EXPECT_NEAR(convert(313.15, K, re), 32.0, test::tolerance);
     EXPECT_NEAR(convert(32.0, re, precise::degC), 40.0, test::tolerance);
     EXPECT_NEAR(convert(40.0, precise::degC, re), 32.0, test::tolerance);
-    EXPECT_NEAR(convert(563.67, precise::temperature::rankine, re), 32.0, test::tolerance);
+    EXPECT_NEAR(
+        convert(563.67, precise::temperature::rankine, re),
+        32.0,
+        test::tolerance);
     EXPECT_NEAR(convert(32.0, re, degF), 104.0, test::tolerance);
 }
 
@@ -211,12 +393,18 @@ TEST(TimeConversions, Correctness)
 
     EXPECT_NEAR(convert(min, s), one_min_in_sec, test::tolerance);
     EXPECT_NEAR(convert(hr, min), one_hour_in_min, test::tolerance);
-    EXPECT_NEAR(convert(unit_cast(precise::time::day), hr), one_day_in_hour, test::tolerance);
+    EXPECT_NEAR(
+        convert(unit_cast(precise::time::day), hr),
+        one_day_in_hour,
+        test::tolerance);
     EXPECT_NEAR(
         convert(unit_cast(precise::time::week), unit_cast(precise::time::day)),
         one_week_in_day,
         test::tolerance);
-    EXPECT_NEAR(convert(unit_cast(precise::time::day), s), one_day_in_sec, test::tolerance);
+    EXPECT_NEAR(
+        convert(unit_cast(precise::time::day), s),
+        one_day_in_sec,
+        test::tolerance);
     EXPECT_NEAR(
         convert(unit_cast(precise::time::yr), unit_cast(precise::time::day)),
         365.0,
@@ -232,12 +420,17 @@ TEST(TimeConversionsPrecise, Correctness)
     double one_week_in_day = 7.0;
     double one_day_in_sec = 86400.0;
 
-    EXPECT_NEAR(convert(min, units::precise::s), one_min_in_sec, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(min, units::precise::s),
+        one_min_in_sec,
+        test::precise_tolerance);
     EXPECT_NEAR(convert(hr, min), one_hour_in_min, test::precise_tolerance);
     EXPECT_NEAR(convert(day, hr), one_day_in_hour, test::precise_tolerance);
     EXPECT_NEAR(convert(week, day), one_week_in_day, test::precise_tolerance);
     EXPECT_NEAR(
-        convert(day, units::precise::s), one_day_in_sec, test::precise_tolerance * one_day_in_sec);
+        convert(day, units::precise::s),
+        one_day_in_sec,
+        test::precise_tolerance * one_day_in_sec);
     EXPECT_NEAR(convert(yr, day), 365.0, test::precise_tolerance * 365.0);
 }
 
@@ -245,9 +438,12 @@ TEST(countConversions, rotations)
 {
     using namespace units;
     EXPECT_NEAR(convert(Hz, rad / s), 2.0 * constants::pi, test::tolerance);
-    EXPECT_NEAR(convert(rad, one), 1.0 / (2.0 * constants::pi), test::tolerance);
-    EXPECT_NEAR(convert(2.0 * constants::pi, rad / s, Hz), 1.0, test::tolerance);
-    EXPECT_NEAR(convert(1.0 / (2.0 * constants::pi), one, rad), 1.0, test::tolerance);
+    EXPECT_NEAR(
+        convert(rad, one), 1.0 / (2.0 * constants::pi), test::tolerance);
+    EXPECT_NEAR(
+        convert(2.0 * constants::pi, rad / s, Hz), 1.0, test::tolerance);
+    EXPECT_NEAR(
+        convert(1.0 / (2.0 * constants::pi), one, rad), 1.0, test::tolerance);
     // failed conversion
     EXPECT_TRUE(std::isnan(convert(rad.pow(2), count)));
     EXPECT_TRUE(std::isnan(convert(rad.pow(3), one)));
@@ -257,9 +453,12 @@ TEST(countConversions, mols)
 {
     using namespace units;
     EXPECT_NEAR(convert(mol, count), 6.02214076e23, test::precise_tolerance);
-    EXPECT_NEAR(convert(mol.inv(), one), 1.0 / 6.02214076e23, test::precise_tolerance);
-    EXPECT_NEAR(convert(count, mol), 1.0 / 6.02214076e23, test::precise_tolerance);
-    EXPECT_NEAR(convert(one, mol.inv()), 6.02214076e23, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(mol.inv(), one), 1.0 / 6.02214076e23, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(count, mol), 1.0 / 6.02214076e23, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(one, mol.inv()), 6.02214076e23, test::precise_tolerance);
     // failed conversion
     EXPECT_TRUE(std::isnan(convert(mol.pow(2), count)));
     EXPECT_TRUE(std::isnan(convert(mol.pow(2), count.pow(2))));
@@ -276,23 +475,37 @@ TEST(ImperialTranslations, Correctness)
     double one_mi_in_yd = 1760.0;
     EXPECT_NEAR(convert(one_m, m, ft), one_m_in_ft, test::tolerance);
     EXPECT_NEAR(convert(ft, m), 0.3048, test::tolerance);
-    EXPECT_NEAR(convert(one_m, precise::m, precise::ft), one_m_in_ft, test::precise_tolerance);
-    EXPECT_NEAR(convert(precise::ft, precise::m), 0.3048, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(one_m, precise::m, precise::ft),
+        one_m_in_ft,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(precise::ft, precise::m), 0.3048, test::precise_tolerance);
 
     EXPECT_NEAR(convert(one_ft_in_in, in, ft), one_m, test::tolerance);
     EXPECT_NEAR(convert(one_yd_in_ft, ft, yd), one_m, test::tolerance);
     EXPECT_NEAR(convert(one_mi_in_yd, yd, mile), one_m, test::tolerance);
 
-    EXPECT_NEAR(convert(mile, yd), one_mi_in_yd, test::tolerance * one_mi_in_yd);
+    EXPECT_NEAR(
+        convert(mile, yd), one_mi_in_yd, test::tolerance * one_mi_in_yd);
     EXPECT_NEAR(convert(yd, foot), one_yd_in_ft, test::tolerance);
     EXPECT_NEAR(convert(ft, in), one_ft_in_in, test::tolerance);
     EXPECT_NEAR(convert(in, cm), 2.54, test::tolerance);
 
     EXPECT_NEAR(
-        convert(precise::mile, precise::yd), one_mi_in_yd, test::precise_tolerance * one_mi_in_yd);
-    EXPECT_NEAR(convert(precise::yd, precise::ft), one_yd_in_ft, test::precise_tolerance);
-    EXPECT_NEAR(convert(precise::ft, precise::in), one_ft_in_in, test::precise_tolerance);
-    EXPECT_NEAR(convert(precise::in, precise::cm), 2.54, test::precise_tolerance);
+        convert(precise::mile, precise::yd),
+        one_mi_in_yd,
+        test::precise_tolerance * one_mi_in_yd);
+    EXPECT_NEAR(
+        convert(precise::yd, precise::ft),
+        one_yd_in_ft,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(precise::ft, precise::in),
+        one_ft_in_in,
+        test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(precise::in, precise::cm), 2.54, test::precise_tolerance);
 }
 
 TEST(ImperialTranslations, matching)
@@ -327,12 +540,14 @@ TEST(SIPrefix, conversions)
     EXPECT_EQ(convert(precise::kilo, precise::mega), 1e-3);
     EXPECT_EQ(convert(precise::mega, precise::milli), 1e9);
     EXPECT_EQ(convert(precise::giga, precise::mega), 1e3);
-    EXPECT_NEAR(convert(precise::micro, precise::nano), 1e3, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(precise::micro, precise::nano), 1e3, test::precise_tolerance);
 
     EXPECT_EQ(convert(precise::mega, precise::kilo), 1e3);
     EXPECT_EQ(convert(precise::milli, precise::giga), 1e-12);
     EXPECT_EQ(convert(precise::mega, precise::giga), 1e-3);
-    EXPECT_NEAR(convert(precise::nano, precise::micro), 1e-3, test::precise_tolerance);
+    EXPECT_NEAR(
+        convert(precise::nano, precise::micro), 1e-3, test::precise_tolerance);
 }
 
 TEST(UnitDefinitions, SIextended)
@@ -443,7 +658,8 @@ TEST(quickConvert, const_constexpr)
 {
     using namespace units;
     static_assert(
-        quick_convert(precise::in, precise::cm) == 2.54, "results of quick_convert not correct");
+        quick_convert(precise::in, precise::cm) == 2.54,
+        "results of quick_convert not correct");
     static_assert(
         quick_convert(2.0, precise::in, precise::cm) == 2.0 * 2.54,
         "results of quick_convert 2 not correct");

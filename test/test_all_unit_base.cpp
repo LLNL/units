@@ -13,7 +13,9 @@ using namespace units;
 
 TEST(all_units, all)
 {
-    for (std::uint64_t ii = 0; ii <= std::numeric_limits<std::uint32_t>::max(); ++ii) {
+	//this type difference is on purpose
+    for (std::uint64_t ii = 0; ii <= std::numeric_limits<std::uint32_t>::max();
+         ++ii) {
         detail::unit_data unitdata(nullptr);
         auto data = static_cast<std::uint32_t>(ii & 0xFFFFFFFF);
         memcpy(static_cast<void*>(&unitdata), &data, 4);
@@ -22,7 +24,8 @@ TEST(all_units, all)
         auto resunit = unit_cast_from_string(str);
         EXPECT_EQ(startunit, resunit) << "round trip failed " << data;
         if (data % 0xFFFFFF == 1) {
-            std::cout << static_cast<double>(ii >> 24) / 256.0 << "% complete\n";
+            std::cout << static_cast<double>(ii >> 24) / 256.0
+                      << "% complete\n";
         }
     }
 }

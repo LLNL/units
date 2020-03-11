@@ -36,7 +36,8 @@ struct converterApp : public ::testing::TestWithParam<std::string> {
             auto ploc = line.find_first_of('.');
             auto namestartloc = line.find_first_not_of(' ', ploc + 1);
             auto nameend = line.find_first_of("[:", namestartloc + 1);
-            std::string name = line.substr(namestartloc, nameend - namestartloc);
+            std::string name =
+                line.substr(namestartloc, nameend - namestartloc);
             while (name.back() == ' ') {
                 name.pop_back();
             }
@@ -67,14 +68,16 @@ TEST_P(converterApp, fileConversions)
         EXPECT_FALSE(is_error(unit)) << "error converting " << convcode.name;
         if (!convcode.short_name.empty()) {
             auto unit_short = units::unit_from_string(convcode.short_name);
-            EXPECT_FALSE(is_error(unit_short)) << "error converting " << convcode.short_name;
-            EXPECT_EQ(unit, unit_short) << convcode.name << " and " << convcode.short_name
-                                        << " do not produce the same unit";
+            EXPECT_FALSE(is_error(unit_short))
+                << "error converting " << convcode.short_name;
+            EXPECT_EQ(unit, unit_short)
+                << convcode.name << " and " << convcode.short_name
+                << " do not produce the same unit";
         }
         double res = units::convert(baseValue, baseUnit, unit);
         EXPECT_NEAR(res / convcode.value, 1.0, 0.003)
-            << unit_conv[0].name << " to " << convcode.name << " produced " << res << " when "
-            << convcode.value << " expected";
+            << unit_conv[0].name << " to " << convcode.name << " produced "
+            << res << " when " << convcode.value << " expected";
         double return_value = units::convert(convcode.value, unit, baseUnit);
         EXPECT_NEAR(return_value / baseValue, 1.0, 0.003);
     }
@@ -162,4 +165,8 @@ static std::string testName(const testing::TestParamInfo<std::string>& tparam)
     return res;
 }
 
-INSTANTIATE_TEST_SUITE_P(conversionFiles, converterApp, ::testing::ValuesIn(testFiles), testName);
+INSTANTIATE_TEST_SUITE_P(
+    conversionFiles,
+    converterApp,
+    ::testing::ValuesIn(testFiles),
+    testName);

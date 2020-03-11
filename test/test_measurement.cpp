@@ -538,7 +538,8 @@ TEST(PreciseMeasurement, conversions)
     //convert to base
     EXPECT_EQ(d5.convert_to_base().units(), precise::m);
     static_assert(
-        (3.0 * precise::ft).convert_to_base().units().base_units() == precise::m.base_units(),
+        (3.0 * precise::ft).convert_to_base().units().base_units() ==
+            precise::m.base_units(),
         "constexpr convert_to_base not working");
 
     EXPECT_EQ(d5.as_unit(), precise::yd);

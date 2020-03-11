@@ -31,15 +31,17 @@ TEST(UDUNITS, accepted_name_symbols)
         } else {
             auto name = cs->FirstChildElement("name");
             if (name) {
-                auto sname = name->FirstChildElement("singular")->FirstChild()->Value();
+                auto sname =
+                    name->FirstChildElement("singular")->FirstChild()->Value();
                 auto nameUnit = units::unit_from_string(sname);
                 if (is_error(nameUnit)) {
-                    std::cout << "unable to convert " << sname << " into a valid unit \n";
+                    std::cout << "unable to convert " << sname
+                              << " into a valid unit \n";
                     ++failConvert;
                 } else {
                     if (unit_cast(nameUnit) != unit_cast(definitionUnit)) {
-                        std::cout << "name and unit do not match " << sname << " and " << def
-                                  << "\n";
+                        std::cout << "name and unit do not match " << sname
+                                  << " and " << def << "\n";
                         ++failConvert;
                     }
                 }
@@ -50,12 +52,13 @@ TEST(UDUNITS, accepted_name_symbols)
                 auto symString = sym->FirstChild()->Value();
                 auto symUnit = units::unit_from_string(symString);
                 if (is_error(symUnit)) {
-                    std::cout << "unable to convert " << symString << " into a valid unit \n";
+                    std::cout << "unable to convert " << symString
+                              << " into a valid unit \n";
                     ++failConvert;
                 } else {
                     if (unit_cast(symUnit) != unit_cast(definitionUnit)) {
-                        std::cout << "symbol and unit do not match " << symString << " and " << def
-                                  << "\n";
+                        std::cout << "symbol and unit do not match "
+                                  << symString << " and " << def << "\n";
                         ++failConvert;
                     }
                 }
@@ -86,16 +89,18 @@ TEST(UDUNITS, accepted_alias)
         }
         auto name = alias->FirstChildElement("name");
         while (name) {
-            auto sname = name->FirstChildElement("singular")->FirstChild()->Value();
+            auto sname =
+                name->FirstChildElement("singular")->FirstChild()->Value();
             auto nameUnit = units::unit_from_string(sname);
             if (is_error(nameUnit)) {
-                std::cout << "unable to convert " << sname << " into a valid unit \n";
+                std::cout << "unable to convert " << sname
+                          << " into a valid unit \n";
                 ++failConvert;
             } else {
                 if (unit_cast(nameUnit) != unit_cast(definitionUnit)) {
                     if (std::string(sname) != "gal") {
-                        std::cout << "name and unit do not match " << sname << " and " << def
-                                  << "\n";
+                        std::cout << "name and unit do not match " << sname
+                                  << " and " << def << "\n";
                         ++failConvert;
                     }
                 }
@@ -108,13 +113,14 @@ TEST(UDUNITS, accepted_alias)
             auto symString = sym->FirstChild()->Value();
             auto symUnit = units::unit_from_string(symString);
             if (is_error(symUnit)) {
-                std::cout << "unable to convert " << symString << " into a valid unit \n";
+                std::cout << "unable to convert " << symString
+                          << " into a valid unit \n";
                 ++failConvert;
             } else {
                 if (unit_cast(symUnit) != unit_cast(definitionUnit)) {
                     if (std::string(symString) != "a") {
-                        std::cout << "name and unit do not match " << symString << " and " << def
-                                  << "\n";
+                        std::cout << "name and unit do not match " << symString
+                                  << " and " << def << "\n";
                         ++failConvert;
                     }
                 }
@@ -137,7 +143,8 @@ TEST(UDUNITS, derived_name_symbols)
     while (cs) {
         auto defEl = cs->FirstChildElement("def");
         // the only one without a definition is the radian since it is dimensionless according to the xml
-        std::string def = (defEl) ? defEl->FirstChild()->Value() : std::string("rad");
+        std::string def =
+            (defEl) ? defEl->FirstChild()->Value() : std::string("rad");
 
         auto definitionUnit = units::unit_from_string(def);
         if (is_error(definitionUnit)) {
@@ -146,15 +153,17 @@ TEST(UDUNITS, derived_name_symbols)
         } else {
             auto name = cs->FirstChildElement("name");
             if (name) {
-                auto sname = name->FirstChildElement("singular")->FirstChild()->Value();
+                auto sname =
+                    name->FirstChildElement("singular")->FirstChild()->Value();
                 auto nameUnit = units::unit_from_string(sname);
                 if (is_error(nameUnit)) {
-                    std::cout << "unable to convert " << sname << " into a valid unit \n";
+                    std::cout << "unable to convert " << sname
+                              << " into a valid unit \n";
                     ++failConvert;
                 } else {
                     if (unit_cast(nameUnit) != unit_cast(definitionUnit)) {
-                        std::cout << "name and unit do not match " << sname << " and " << def
-                                  << "\n";
+                        std::cout << "name and unit do not match " << sname
+                                  << " and " << def << "\n";
                         ++failConvert;
                     }
                 }
@@ -165,12 +174,13 @@ TEST(UDUNITS, derived_name_symbols)
                 auto symString = sym->FirstChild()->Value();
                 auto symUnit = units::unit_from_string(symString);
                 if (is_error(symUnit)) {
-                    std::cout << "unable to convert " << symString << " into a valid unit \n";
+                    std::cout << "unable to convert " << symString
+                              << " into a valid unit \n";
                     ++failConvert;
                 } else {
                     if (unit_cast(symUnit) != unit_cast(definitionUnit)) {
-                        std::cout << "symbol and unit do not match " << symString << " and " << def
-                                  << "\n";
+                        std::cout << "symbol and unit do not match "
+                                  << symString << " and " << def << "\n";
                         ++failConvert;
                     }
                 }
@@ -192,7 +202,8 @@ TEST(UDUNITS, derived_alias)
     while (cs) {
         auto defEl = cs->FirstChildElement("def");
         // the only one without a definition is the radian since it is dimensionless according to the xml
-        std::string def = (defEl) ? defEl->FirstChild()->Value() : std::string("rad");
+        std::string def =
+            (defEl) ? defEl->FirstChild()->Value() : std::string("rad");
 
         auto definitionUnit = units::unit_from_string(def);
 
@@ -203,14 +214,18 @@ TEST(UDUNITS, derived_alias)
         }
         auto name = alias->FirstChildElement("name");
         while (name) {
-            auto sname = name->FirstChildElement("singular")->FirstChild()->Value();
+            auto sname =
+                name->FirstChildElement("singular")->FirstChild()->Value();
             auto nameUnit = units::unit_from_string(sname);
             if (is_error(nameUnit)) {
-                std::cout << "unable to convert " << sname << " into a valid unit \n";
+                std::cout << "unable to convert " << sname
+                          << " into a valid unit \n";
                 ++failConvert;
             } else {
-                if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) != 1.0) {
-                    std::cout << "name and unit do not match " << sname << " and " << def << "\n";
+                if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) !=
+                    1.0) {
+                    std::cout << "name and unit do not match " << sname
+                              << " and " << def << "\n";
                     ++failConvert;
                 }
             }
@@ -222,12 +237,14 @@ TEST(UDUNITS, derived_alias)
             auto symString = sym->FirstChild()->Value();
             auto symUnit = units::unit_from_string(symString);
             if (is_error(symUnit)) {
-                std::cout << "unable to convert " << symString << " into a valid unit \n";
+                std::cout << "unable to convert " << symString
+                          << " into a valid unit \n";
                 ++failConvert;
             } else {
-                if (convert(unit_cast(symUnit), unit_cast(definitionUnit)) != 1.0) {
-                    std::cout << "name and unit do not match " << symString << " and " << def
-                              << "\n";
+                if (convert(unit_cast(symUnit), unit_cast(definitionUnit)) !=
+                    1.0) {
+                    std::cout << "name and unit do not match " << symString
+                              << " and " << def << "\n";
                     ++failConvert;
                 }
             }
@@ -258,28 +275,35 @@ TEST(UDUNITS, common_alias)
         }
         auto name = alias->FirstChildElement("name");
         while (name) {
-            auto sname = name->FirstChildElement("singular")->FirstChild()->Value();
+            auto sname =
+                name->FirstChildElement("singular")->FirstChild()->Value();
             auto nameUnit = units::unit_from_string(sname);
             if (is_error(nameUnit)) {
-                std::cout << "unable to convert " << sname << " into a valid unit \n";
+                std::cout << "unable to convert " << sname
+                          << " into a valid unit \n";
                 ++failConvert;
             } else {
-                if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) != 1.0) {
-                    std::cout << "name and unit do not match " << sname << " and " << def << "\n";
+                if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) !=
+                    1.0) {
+                    std::cout << "name and unit do not match " << sname
+                              << " and " << def << "\n";
                     ++failConvert;
                 }
             }
             if (name->FirstChildElement("plural")) {
-                auto pname = name->FirstChildElement("plural")->FirstChild()->Value();
+                auto pname =
+                    name->FirstChildElement("plural")->FirstChild()->Value();
                 nameUnit = units::unit_from_string(pname);
                 if (is_error(nameUnit)) {
                     std::cout << "unable to convert plural name " << pname
                               << " into a valid unit \n";
                     ++failConvert;
                 } else {
-                    if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) != 1.0) {
-                        std::cout << "name and unit do not match " << pname << " and " << def
-                                  << "\n";
+                    if (convert(
+                            unit_cast(nameUnit), unit_cast(definitionUnit)) !=
+                        1.0) {
+                        std::cout << "name and unit do not match " << pname
+                                  << " and " << def << "\n";
                         ++failConvert;
                     }
                 }
@@ -292,12 +316,14 @@ TEST(UDUNITS, common_alias)
             auto symString = sym->FirstChild()->Value();
             auto symUnit = units::unit_from_string(symString);
             if (is_error(symUnit)) {
-                std::cout << "unable to convert " << symString << " into a valid unit \n";
+                std::cout << "unable to convert " << symString
+                          << " into a valid unit \n";
                 ++failConvert;
             } else {
-                if (convert(unit_cast(symUnit), unit_cast(definitionUnit)) != 1.0) {
-                    std::cout << "name and unit do not match " << symString << " and " << def
-                              << "\n";
+                if (convert(unit_cast(symUnit), unit_cast(definitionUnit)) !=
+                    1.0) {
+                    std::cout << "name and unit do not match " << symString
+                              << " and " << def << "\n";
                     ++failConvert;
                 }
             }
@@ -307,7 +333,8 @@ TEST(UDUNITS, common_alias)
         cs = cs->NextSiblingElement("unit");
     }
     if (failConvert > 0) {
-        std::cout << "unable to match " << failConvert << " units and symbols\n";
+        std::cout << "unable to match " << failConvert
+                  << " units and symbols\n";
     }
     // EXPECT_EQ(failConvert, 0);
 }

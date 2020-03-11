@@ -136,7 +136,8 @@ TEST(leadingNumbers, complex)
     EXPECT_EQ(res, 4.1 * 0.7 / (9.5 * 8.6));
 
     res = testLeadingNumber(
-        "(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2", index);
+        "(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2*(1/2)^2",
+        index);
     EXPECT_NEAR(res, pow(0.5, 18), 1e-20);
 }
 
@@ -231,10 +232,26 @@ TEST(numericalwords, compound)
 
 TEST(numericalwords, below_hundred)
 {
-    std::vector<std::string> ones{
-        "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    std::vector<std::string> tens{
-        "", "-", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+    std::vector<std::string> ones{"",
+                                  "one",
+                                  "two",
+                                  "three",
+                                  "four",
+                                  "five",
+                                  "six",
+                                  "seven",
+                                  "eight",
+                                  "nine"};
+    std::vector<std::string> tens{"",
+                                  "-",
+                                  "twenty",
+                                  "thirty",
+                                  "forty",
+                                  "fifty",
+                                  "sixty",
+                                  "seventy",
+                                  "eighty",
+                                  "ninety"};
     size_t index = 0;
     for (int ii = 1; ii <= 99; ++ii) {
         std::string st = tens[ii / 10];
