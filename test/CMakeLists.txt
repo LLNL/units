@@ -37,7 +37,9 @@ foreach(T ${UNIT_TEST_HEADER_ONLY})
 
     add_unit_test(${T}.cpp)
     target_link_libraries(${T} units::units-header-only compile_flags_target)
-
+	if (UNITS_CLANG_TIDY)
+		set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
+	endif()
 endforeach()
 
 else()
@@ -85,6 +87,7 @@ set_target_properties(examples_test PROPERTIES FOLDER "Tests")
 add_test(examples_test examples_test)
 
 add_executable(test_all_unit_base test_all_unit_base.cpp)
+
 target_link_libraries(
     test_all_unit_base gtest gmock gtest_main units::units compile_flags_target
 )

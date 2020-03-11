@@ -77,7 +77,7 @@ precise_unit root(precise_unit un, int power)
 
 measurement root(const measurement& meas, int power)
 {
-    return measurement(numericalRoot(meas.value(), power), root(meas.units(), power));
+    return {numericalRoot(meas.value(), power), root(meas.units(), power)};
 }
 
 fixed_measurement root(const fixed_measurement& fm, int power)
@@ -95,7 +95,7 @@ uncertain_measurement root(const uncertain_measurement& um, int power)
 
 precise_measurement root(const precise_measurement& pm, int power)
 {
-    return precise_measurement(numericalRoot(pm.value(), power), root(pm.units(), power));
+    return {numericalRoot(pm.value(), power), root(pm.units(), power)};
 }
 
 fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power)
@@ -1131,7 +1131,7 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
 
 std::string to_string(uncertain_measurement measure, std::uint32_t match_flags)
 {
-    //TODO, this should really follow more appropriate rules for digits of precision
+    // TODO(PT), this should really follow more appropriate rules for digits of precision
     std::stringstream ss;
     ss.precision(6);
     ss << measure.value_f();

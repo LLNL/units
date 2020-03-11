@@ -69,6 +69,14 @@ cmake_dependent_option(
     "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
 
+cmake_dependent_option(UNITS_CLANG_TIDY
+    "Look for and use Clang-Tidy" OFF
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT CMAKE_VERSION VERSION_LESS 3.6" OFF)
+set(UNITS_CLANG_TIDY_OPTIONS "" CACHE STRING "Clang tidy options, such as -fix, semicolon separated")
+
+mark_as_advanced(UNITS_CLANG_TIDY_OPTIONS)
+mark_as_advanced(UNITS_CLANG_TIDY)
+
 # Install instructions for this target
 if(UNITS_WITH_CMAKE_PACKAGE)
     set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT unitsConfig)
@@ -110,7 +118,21 @@ if(NOT UNITS_HEADER_ONLY)
 
 endif(NOT UNITS_HEADER_ONLY)
 
+# Prepare Clang-Tidy
+if(UNITS_CLANG_TIDY)
+    find_program(
+        CLANG_TIDY_EXE
+        NAMES "clang-tidy"
+        DOC "Path to clang-tidy executable"
+        REQUIRED
+        )
+
+    set(DO_CLANG_TIDY "${CLANG_TIDY_EXE}" ${UNITS_CLANG_TIDY_OPTIONS})
+endif()
+
 add_subdirectory(units)
+
+
 
 if(UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(FuzzTargets)
