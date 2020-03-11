@@ -9,8 +9,8 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <cmath>
 #include <string>
-#include <utility>
 #include <type_traits>
+#include <utility>
 
 #if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1910)
 #define UNITS_CPP14_CONSTEXPR constexpr
@@ -1435,18 +1435,18 @@ class fixed_precise_measurement {
         return (value_ == val) ?
             true :
             detail::compare_round_equals_precise(value_, val);
-    };
-    bool operator!=(double val) const { return !operator==(val); };
+    }
+    bool operator!=(double val) const { return !operator==(val); }
     constexpr bool operator>(double val) const { return value_ > val; };
     constexpr bool operator<(double val) const { return value_ < val; };
     bool operator>=(double val) const
     {
         return (value_ >= val) ? true : operator==(val);
-    };
+    }
     bool operator<=(double val) const
     {
         return value_ <= val ? true : operator==(val);
-    };
+    }
 
     /// Equality operator
     bool operator==(const precise_measurement& val) const

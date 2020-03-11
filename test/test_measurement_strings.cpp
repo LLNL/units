@@ -87,6 +87,6 @@ TEST(MeasurementToString, unit_withNumbers)
         10.0 * precise_unit(0.712412, precise::kg.pow(2));
     auto str1 = to_string(ounit);
     auto str2 = to_string(ounitp);
-    EXPECT_EQ(str1.compare(0, 11, "10 (0.71241"),0);
-    EXPECT_EQ(str2.compare(0, 11, "10 (0.71241"),0);
+    EXPECT_EQ(str1.compare(0, 11, "10 (0.71241"), 0);
+    EXPECT_EQ(str2.compare(0, 11, "10 (0.71241"), 0);
 }

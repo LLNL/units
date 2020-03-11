@@ -780,9 +780,11 @@ std::string
         !isDigitCharacter(propUnitString.front())) {
         return propUnitString;
     }
-    /// there is a number in front
-    if (!propUnitString.empty() && isDigitCharacter(propUnitString.front())) {
-    }
+    // TODO(PT)  do some additional number clean up if there is a number in
+    // front
+    // if (!propUnitString.empty() && isDigitCharacter(propUnitString.front()))
+    // {
+    // }
 
     if (commodity != 0) {
         std::string cString = getCommodityName(
@@ -1493,11 +1495,11 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
 // this string contains the first two letters of supported numerical words
 static const std::string first_two =
     "on tw th fo fi si se ei ni te el hu mi bi tr ze";
-static const std::string first_letters = "otfsenhmbtzaOTFSENHMBTZA";
-static const std::string second_letters = "nwhoielurNWHOIELUR";
 
 static bool hasValidNumericalWordStart(const std::string& ustring)
 { // do a check if the first and second letters make sense
+    static const std::string first_letters = "otfsenhmbtzaOTFSENHMBTZA";
+    static const std::string second_letters = "nwhoielurNWHOIELUR";
     return (
         first_letters.find_first_of(ustring[0]) != std::string::npos &&
         second_letters.find_first_of(ustring[1]) != std::string::npos);
@@ -4188,7 +4190,7 @@ static precise_unit get_unit(const std::string& unit_string)
         if (unit_string.compare(0, 5, "CXUN[") == 0) {
             if (!hasAdditionalOps(unit_string)) {
                 char* ptr = nullptr;
-                auto num = static_cast<unsigned short>(
+                auto num = static_cast<std::uint16_t>(
                     strtol(unit_string.c_str() + 5, &ptr, 0));
                 if (*ptr == ']') {
                     return commoditizedUnit(
@@ -4199,7 +4201,7 @@ static precise_unit get_unit(const std::string& unit_string)
         if (unit_string.compare(0, 6, "CXCUN[") == 0) {
             if (!hasAdditionalOps(unit_string)) {
                 char* ptr = nullptr;
-                auto num = static_cast<unsigned short>(
+                auto num = static_cast<std::uint16_t>(
                     strtol(unit_string.c_str() + 6, &ptr, 0));
                 if (*ptr == ']') {
                     return commoditizedUnit(
@@ -4212,7 +4214,7 @@ static precise_unit get_unit(const std::string& unit_string)
         if (unit_string.compare(0, 6, "EQXUN[") == 0) {
             if (!hasAdditionalOps(unit_string)) {
                 char* ptr = nullptr;
-                auto num = static_cast<unsigned short>(
+                auto num = static_cast<std::uint16_t>(
                     strtol(unit_string.c_str() + 6, &ptr, 0));
                 if (*ptr == ']') {
                     return commoditizedUnit(
