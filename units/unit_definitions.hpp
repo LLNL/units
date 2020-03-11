@@ -17,11 +17,14 @@ namespace units {
 static_assert(
     std::numeric_limits<double>::has_signaling_NaN,
     "nan is used to signify invalid values");
-static_assert(std::numeric_limits<double>::has_infinity, "nan is used to signify invalid values");
+static_assert(
+    std::numeric_limits<double>::has_infinity,
+    "nan is used to signify invalid values");
 namespace constants {
     constexpr double pi = 3.14159265358979323846;
     constexpr double tau = 2.0 * pi;
-    constexpr double invalid_conversion = std::numeric_limits<double>::signaling_NaN();
+    constexpr double invalid_conversion =
+        std::numeric_limits<double>::signaling_NaN();
     constexpr double infinity = std::numeric_limits<double>::infinity();
 } // namespace constants
 
@@ -110,30 +113,45 @@ namespace commodities {
 
 namespace precise {
     // base units
-    constexpr precise_unit meter(detail::unit_data(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        meter(detail::unit_data(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit m = meter;
-    constexpr precise_unit kilogram(detail::unit_data(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        kilogram(detail::unit_data(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit kg = kilogram;
-    constexpr precise_unit second(detail::unit_data(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        second(detail::unit_data(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit s = second;
 
-    constexpr precise_unit Ampere(detail::unit_data(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        Ampere(detail::unit_data(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit A = Ampere;
 
-    constexpr precise_unit Kelvin(detail::unit_data(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        Kelvin(detail::unit_data(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit K = Kelvin;
-    constexpr precise_unit mol(detail::unit_data(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit cd(detail::unit_data(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        mol(detail::unit_data(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        cd(detail::unit_data(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0));
 
-    constexpr precise_unit currency(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit count(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0));
-    constexpr precise_unit pu(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0));
-    constexpr precise_unit iflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0));
-    constexpr precise_unit eflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
-    constexpr precise_unit rad(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0));
+    constexpr precise_unit
+        currency(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        count(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        pu(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0));
+    constexpr precise_unit
+        iflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0));
+    constexpr precise_unit
+        eflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
+    constexpr precise_unit
+        rad(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0));
     // define some specialized units
-    constexpr precise_unit defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0));
-    constexpr precise_unit invalid(detail::unit_data(nullptr), constants::invalid_conversion);
+    constexpr precise_unit
+        defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0));
+    constexpr precise_unit
+        invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
     /// Define some unitless numbers
     constexpr precise_unit one;
@@ -142,8 +160,9 @@ namespace precise {
     constexpr precise_unit percent(0.01, one);
     constexpr precise_unit ratio = one;
     constexpr precise_unit error(detail::unit_data(nullptr));
-    constexpr precise_unit
-        infinite(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), constants::infinity);
+    constexpr precise_unit infinite(
+        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        constants::infinity);
     constexpr precise_unit
         nan(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
             constants::invalid_conversion);
@@ -171,28 +190,47 @@ namespace precise {
     constexpr precise_unit yobi = zebi * kibi;
 
     // Derived SI units:
-    constexpr precise_unit Hz(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        Hz(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 
-    constexpr precise_unit volt(detail::unit_data(2, 1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        volt(detail::unit_data(2, 1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit V = volt;
 
-    constexpr precise_unit newton(detail::unit_data(1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit Pa(detail::unit_data(-1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit joule(detail::unit_data(2, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit watt(detail::unit_data(2, 1, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit coulomb(detail::unit_data(0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit farad(detail::unit_data(-2, -1, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit ohm(detail::unit_data(2, 1, -3, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit siemens(detail::unit_data(-2, -1, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit weber(detail::unit_data(2, 1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit tesla(detail::unit_data(0, 1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit henry(detail::unit_data(2, 1, -2, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit lumen(detail::unit_data(0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0));
-    constexpr precise_unit lux(detail::unit_data(-2, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0));
-    constexpr precise_unit becquerel(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0));
-    constexpr precise_unit gray(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit sievert(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit katal(detail::unit_data(0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        newton(detail::unit_data(1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        Pa(detail::unit_data(-1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        joule(detail::unit_data(2, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        watt(detail::unit_data(2, 1, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        coulomb(detail::unit_data(0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        farad(detail::unit_data(-2, -1, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        ohm(detail::unit_data(2, 1, -3, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        siemens(detail::unit_data(-2, -1, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        weber(detail::unit_data(2, 1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        tesla(detail::unit_data(0, 1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        henry(detail::unit_data(2, 1, -2, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        lumen(detail::unit_data(0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0));
+    constexpr precise_unit
+        lux(detail::unit_data(-2, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0));
+    constexpr precise_unit
+        becquerel(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        gray(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        sievert(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit
+        katal(detail::unit_data(0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
 
     constexpr precise_unit N = newton;
 #ifndef pascal
@@ -258,7 +296,9 @@ namespace precise {
         constexpr precise_unit langley{41840.0, J / m.pow(2)};
         constexpr precise_unit unitpole{1.256637061436e-7, Wb};
         constexpr precise_unit statC_charge{10.0 / c_const, C};
-        constexpr precise_unit statC_flux{10.0 / (4.0 * constants::pi * c_const), V* m};
+        constexpr precise_unit statC_flux{10.0 /
+                                              (4.0 * constants::pi * c_const),
+                                          V* m};
         constexpr precise_unit abOhm{1e-9, ohm};
         constexpr precise_unit abFarad{1e9, F};
         constexpr precise_unit abHenry{1e-9, H};
@@ -645,7 +685,8 @@ namespace precise {
         constexpr precise_unit grad(constants::pi / 200.0, rad);
         constexpr precise_unit arcmin(1.0 / 60.0, deg);
         constexpr precise_unit arcsec(1.0 / 60.0, arcmin);
-        constexpr precise_unit brad(constants::tau / 256.0, rad); // binary radian
+        constexpr precise_unit
+            brad(constants::tau / 256.0, rad); // binary radian
     } // namespace angle
     constexpr precise_unit deg = angle::deg;
 
@@ -678,12 +719,13 @@ namespace precise {
         constexpr precise_unit psi{6894.757293168, Pa};
         constexpr precise_unit inHg{3376.849669, Pa}; // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};
-        constexpr precise_unit torr{101325.0 / 760.0, Pa* eflag}; // this is really close to mmHg
+        constexpr precise_unit torr{101325.0 / 760.0,
+                                    Pa* eflag}; // this is really close to mmHg
         constexpr precise_unit inH2O{248.843004, Pa}; // at 60 degF
         constexpr precise_unit mmH2O{1.0 / 25.4, inH2O}; // at 60 degF
         constexpr precise_unit atm(101325.0, Pa);
-        constexpr precise_unit att =
-            gm::at; //!< technical atmosphere same as gravitational metric system
+        constexpr precise_unit att = gm::
+            at; //!< technical atmosphere same as gravitational metric system
     } // namespace pressure
 
     // Power system units
@@ -706,7 +748,8 @@ namespace precise {
     /// Power units
     namespace power {
         constexpr precise_unit hpE(746.0, W); // electric horsepower
-        constexpr precise_unit hpI(745.69987158227022, W); // mechanical horsepower
+        constexpr precise_unit
+            hpI(745.69987158227022, W); // mechanical horsepower
         constexpr precise_unit hpS(9812.5, W); // Boiler horsepower
         constexpr precise_unit hpM(735.49875, W); // Boiler horsepower
 
@@ -722,7 +765,8 @@ namespace precise {
     namespace energy {
         constexpr precise_unit kWh(3600000.0, J);
         constexpr precise_unit MWh(1000.0, kWh);
-        constexpr precise_unit eV(1.602176634e-19, J); // updated to 2019 exact definition
+        constexpr precise_unit
+            eV(1.602176634e-19, J); // updated to 2019 exact definition
 
         constexpr precise_unit kcal(4184.0, J);
         constexpr precise_unit cal_4(4.204, J);
@@ -778,23 +822,27 @@ namespace precise {
         */
         constexpr detail::unit_data custom_unit(unsigned short customX)
         {
-            return {7 - 4 * bShift(customX, 8), // 3 or 7
-                    -2 + 3 * bShift(customX, 7), //-2 or 1
-                    7 * bShift(customX, 9), // 7 or 0  sometimes custom unit/time is used
-                    -3 -
-                        bShift(
-                            customX,
-                            6), //-3 or -4  //this is probably the most important for isolating it
-                    3 * bShift(customX, 4), // 3 or 0
-                    -2, // this also is set so that 1/-2 == 2 for a 2 bit signed number
-                    -2 + 2 * bShift(customX, 5),
-                    -2 * bShift(customX, 3),
-                    0,
-                    0,
-                    bShiftu(customX, 2),
-                    bShiftu(customX, 1),
-                    bShiftu(customX, 0),
-                    0};
+            return {
+                7 - 4 * bShift(customX, 8), // 3 or 7
+                -2 + 3 * bShift(customX, 7), //-2 or 1
+                7 *
+                    bShift(
+                        customX,
+                        9), // 7 or 0  sometimes custom unit/time is used
+                -3 -
+                    bShift(
+                        customX,
+                        6), //-3 or -4  //this is probably the most important for isolating it
+                3 * bShift(customX, 4), // 3 or 0
+                -2, // this also is set so that 1/-2 == 2 for a 2 bit signed number
+                -2 + 2 * bShift(customX, 5),
+                -2 * bShift(customX, 3),
+                0,
+                0,
+                bShiftu(customX, 2),
+                bShiftu(customX, 1),
+                bShiftu(customX, 0),
+                0};
         }
         /// Check if the unit is a custom unit or inverse custom unit
         inline bool is_custom_unit(detail::unit_data UT)
@@ -802,7 +850,8 @@ namespace precise {
             if (UT.mole() != -2) { // mole is always -2 regardless of inversion
                 return false;
             }
-            if (std::abs(UT.ampere()) < 2) { // ampere is either -3 or -4  or 3 or 4
+            if (std::abs(UT.ampere()) <
+                2) { // ampere is either -3 or -4  or 3 or 4
                 return false;
             }
             return true;
@@ -811,8 +860,8 @@ namespace precise {
         /// get the index of the custom unit
         inline int custom_unit_number(detail::unit_data UT)
         {
-            int num =
-                (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) + (UT.is_per_unit() ? 4 : 0);
+            int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) +
+                (UT.is_per_unit() ? 4 : 0);
             num += (std::abs(UT.meter()) < 4) ? 256 : 0;
             num += (std::abs(UT.second()) >= 6) ? 512 : 0;
             num += (std::abs(UT.kg()) <= 1) ? 128 : 0;
@@ -893,8 +942,8 @@ namespace precise {
         /// Get the number code for the custom count unit
         inline unsigned short custom_count_unit_number(detail::unit_data UT)
         {
-            unsigned int num = (UT.has_e_flag() ? 1U : 0U) + (UT.has_i_flag() ? 2U : 0U) +
-                (UT.is_per_unit() ? 4U : 0U);
+            unsigned int num = (UT.has_e_flag() ? 1U : 0U) +
+                (UT.has_i_flag() ? 2U : 0U) + (UT.is_per_unit() ? 4U : 0U);
             num += (UT.candela() == 0) ? 0U : 8U;
             return static_cast<unsigned short>(num);
         }
@@ -907,7 +956,8 @@ namespace precise {
         /** Construct an equation unit
         @details an equation unit triggers the equation flag and an index 0-31
         */
-        constexpr detail::unit_data equation_unit(unsigned short equation_number)
+        constexpr detail::unit_data
+            equation_unit(unsigned short equation_number)
         {
             return {0,
                     0,
@@ -918,7 +968,9 @@ namespace precise {
                     0,
                     0,
                     bShift(equation_number, 3),
-                    bShift(equation_number, 4), // switched on purpose so radian is the high bit
+                    bShift(
+                        equation_number,
+                        4), // switched on purpose so radian is the high bit
                     bShiftu(equation_number, 2),
                     bShiftu(equation_number, 1),
                     bShiftu(equation_number, 0),
@@ -928,7 +980,8 @@ namespace precise {
         inline constexpr int eq_type(detail::unit_data UT)
         {
             return ((UT.radian() != 0) ? 16 : 0) + ((UT.count() != 0) ? 8 : 0) +
-                (UT.is_per_unit() ? 4 : 0) + (UT.has_i_flag() ? 2 : 0) + (UT.has_e_flag() ? 1 : 0);
+                (UT.is_per_unit() ? 4 : 0) + (UT.has_i_flag() ? 2 : 0) +
+                (UT.has_e_flag() ? 1 : 0);
         }
     } // namespace custom
 
@@ -953,7 +1006,8 @@ namespace precise {
         // neper of power unit
         constexpr precise_unit neperP = precise_unit(custom::equation_unit(15));
         // base 10 logarithm
-        constexpr precise_unit logbase10 = precise_unit(custom::equation_unit(0));
+        constexpr precise_unit logbase10 =
+            precise_unit(custom::equation_unit(0));
         // base 10 logarithm bel auto detect power
         constexpr precise_unit bel = precise_unit(custom::equation_unit(2));
         // base 10 logarithm of Power levels (assume power always)
@@ -965,17 +1019,22 @@ namespace precise {
         // base 10 logarithm of Power levels (assume power always)
         constexpr precise_unit dBA = precise_unit(custom::equation_unit(13));
         // base 2 logarithm
-        constexpr precise_unit logbase2 = precise_unit(custom::equation_unit(8));
+        constexpr precise_unit logbase2 =
+            precise_unit(custom::equation_unit(8));
         // 10*base10 logarithm
         constexpr precise_unit dB = precise_unit(custom::equation_unit(3));
         // -base10 logarithm
-        constexpr precise_unit neglog10 = precise_unit(custom::equation_unit(4));
+        constexpr precise_unit neglog10 =
+            precise_unit(custom::equation_unit(4));
         // -base100 logarithm
-        constexpr precise_unit neglog100 = precise_unit(custom::equation_unit(5));
+        constexpr precise_unit neglog100 =
+            precise_unit(custom::equation_unit(5));
         // -base1000 logarithm
-        constexpr precise_unit neglog1000 = precise_unit(custom::equation_unit(6));
+        constexpr precise_unit neglog1000 =
+            precise_unit(custom::equation_unit(6));
         // -base50000 logarithm
-        constexpr precise_unit neglog50000 = precise_unit(custom::equation_unit(7));
+        constexpr precise_unit neglog50000 =
+            precise_unit(custom::equation_unit(7));
 
         constexpr precise_unit B_SPL{2 * 1e-5, precise::Pa* bel};
         constexpr precise_unit B_V = bel * V;
@@ -998,7 +1057,9 @@ namespace precise {
         /// Detect if the unit is a unit of power
         inline bool is_power_unit(detail::unit_data UT)
         {
-            return ((precise::W.base_units().has_same_base(UT)) || (UT.count() == -2));
+            return (
+                (precise::W.base_units().has_same_base(UT)) ||
+                (UT.count() == -2));
         }
 
         /// convert an equation unit to a single value
@@ -1015,9 +1076,11 @@ namespace precise {
                 case 1:
                     return std::exp(val / ((is_power_unit(UT)) ? 0.5 : 1.0));
                 case 2:
-                    return std::pow(10.0, val / ((is_power_unit(UT)) ? 1.0 : 2.0));
+                    return std::pow(
+                        10.0, val / ((is_power_unit(UT)) ? 1.0 : 2.0));
                 case 3:
-                    return std::pow(10.0, val / ((is_power_unit(UT)) ? 10.0 : 20.0));
+                    return std::pow(
+                        10.0, val / ((is_power_unit(UT)) ? 10.0 : 20.0));
                 case 4:
                     return std::pow(10.0, -val);
                 case 5:
@@ -1090,7 +1153,8 @@ namespace precise {
                 case 2:
                     return ((is_power_unit(UT)) ? 1.0 : 2.0) * std::log10(val);
                 case 3:
-                    return ((is_power_unit(UT)) ? 10.0 : 20.0) * std::log10(val);
+                    return ((is_power_unit(UT)) ? 10.0 : 20.0) *
+                        std::log10(val);
                 case 4:
                     return -std::log10(val);
                 case 5:
@@ -1166,7 +1230,8 @@ namespace precise {
         constexpr precise_unit mesh = i::inch.inv();
         constexpr precise_unit charriere{1.0 / 3.0, mm};
         constexpr precise_unit drop{0.05, mL};
-        constexpr precise_unit met = precise_unit{3.5, mL / min / kg}; //!< metabolic equivalent
+        constexpr precise_unit met =
+            precise_unit{3.5, mL / min / kg}; //!< metabolic equivalent
         constexpr precise_unit hounsfield = generate_custom_unit(37);
 
     } // namespace clinical
@@ -1176,18 +1241,22 @@ namespace precise {
         constexpr precise_unit svedberg{1e-13, precise::s};
         constexpr precise_unit HPF = precise_unit(custom::custom_count_unit(5));
         constexpr precise_unit LPF{100.0, HPF};
-        constexpr precise_unit enzyme_unit = precise::micro * precise::mol / precise::min;
+        constexpr precise_unit enzyme_unit =
+            precise::micro * precise::mol / precise::min;
         // International Unit
         constexpr precise_unit IU = precise_unit(custom::custom_count_unit(2));
         // Arbitrary Unit
-        constexpr precise_unit arbU = precise_unit(custom::custom_count_unit(1));
+        constexpr precise_unit arbU =
+            precise_unit(custom::custom_count_unit(1));
         // index of reactivity
         constexpr precise_unit IR = precise_unit(custom::custom_count_unit(3));
         // limit of flocculation
         constexpr precise_unit Lf = precise_unit(custom::custom_count_unit(4));
 
-        constexpr precise_unit PFU = precise_unit(1.0, precise::count, commodities::tissue);
-        constexpr precise_unit pH = precise::mol / precise::L * precise::log::neglog10;
+        constexpr precise_unit PFU =
+            precise_unit(1.0, precise::count, commodities::tissue);
+        constexpr precise_unit pH =
+            precise::mol / precise::L * precise::log::neglog10;
         constexpr precise_unit molarity = precise::mol / precise::L;
         constexpr precise_unit molality = precise::mol / precise::kg;
     } // namespace laboratory
@@ -1221,7 +1290,8 @@ namespace precise {
         constexpr precise_unit deciban = precise::log::dB * precise::count;
         constexpr precise_unit nat = precise::log::neper * precise::count;
 
-        constexpr precise_unit trit = precise_unit(precise::custom::equation_unit(14));
+        constexpr precise_unit trit =
+            precise_unit(precise::custom::equation_unit(14));
         // compute the number of digits
         constexpr precise_unit digits = precise_unit(custom::equation_unit(10));
     } // namespace data
@@ -1234,10 +1304,13 @@ namespace precise {
 
     /// Units related to computer computations
     namespace computation {
-        constexpr precise_unit flop = precise_unit(1.0, precise::count, commodities::flop);
+        constexpr precise_unit flop =
+            precise_unit(1.0, precise::count, commodities::flop);
         constexpr precise_unit flops{flop / s};
-        constexpr precise_unit mips =
-            precise_unit(1.0, precise::count / precise::s, commodities::instruction);
+        constexpr precise_unit mips = precise_unit(
+            1.0,
+            precise::count / precise::s,
+            commodities::instruction);
     } // namespace computation
 
     // concentrations
@@ -1247,24 +1320,29 @@ namespace precise {
     /// other special units
     namespace special {
         // Amplitude spectral density
-        constexpr precise_unit ASD =
-            precise_unit(detail::unit_data(1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
+        constexpr precise_unit ASD = precise_unit(
+            detail::unit_data(1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
         // Moment magnitude scale for earthquakes
         constexpr precise_unit moment_magnitude =
-            precise_unit(custom::equation_unit(29)) * precise::cgs::dyn * precise::cm;
-        constexpr precise_unit moment_energy = precise_unit(custom::equation_unit(30)) * precise::J;
+            precise_unit(custom::equation_unit(29)) * precise::cgs::dyn *
+            precise::cm;
+        constexpr precise_unit moment_energy =
+            precise_unit(custom::equation_unit(30)) * precise::J;
         // Saffir Simpson hurricane wind scale
-        constexpr precise_unit sshws = precise_unit(custom::equation_unit(22)) * precise::mph;
+        constexpr precise_unit sshws =
+            precise_unit(custom::equation_unit(22)) * precise::mph;
         // Beaufort wind scale
-        constexpr precise_unit beaufort = precise_unit(custom::equation_unit(23)) * precise::mph;
+        constexpr precise_unit beaufort =
+            precise_unit(custom::equation_unit(23)) * precise::mph;
         // Fujita tornado scale using original specification and approximation
         // https://en.wikipedia.org/wiki/Fujita_scale
-        constexpr precise_unit fujita = precise_unit(custom::equation_unit(24)) * precise::mph;
+        constexpr precise_unit fujita =
+            precise_unit(custom::equation_unit(24)) * precise::mph;
         // mach number
         constexpr precise_unit mach = m / s * pu;
         // square root of Hertz
-        constexpr precise_unit rootHertz =
-            precise_unit(detail::unit_data(0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
+        constexpr precise_unit rootHertz = precise_unit(
+            detail::unit_data(0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
     } // namespace special
 
@@ -1295,17 +1373,22 @@ constexpr unit eflag = unit_cast(precise::eflag);
 constexpr unit rad = unit_cast(precise::rad);
 
 constexpr unit defunit = unit_cast(precise::defunit);
-constexpr unit invalid(detail::unit_data(nullptr), constants::invalid_conversion);
+constexpr unit
+    invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
 /// Check if a precise unit is a default unit
 constexpr inline bool is_default(precise_unit utest)
 {
-    return (utest.multiplier() == 1.0 && (utest.base_units() == defunit.base_units()));
+    return (
+        utest.multiplier() == 1.0 &&
+        (utest.base_units() == defunit.base_units()));
 }
 /// Check if a unit is a default unit
 constexpr inline bool is_default(unit utest)
 {
-    return (utest.multiplier() == 1.0 && (utest.base_units() == defunit.base_units()));
+    return (
+        utest.multiplier() == 1.0 &&
+        (utest.base_units() == defunit.base_units()));
 }
 
 /// Define a unitless number
@@ -1325,7 +1408,9 @@ constexpr inline bool is_error(precise_unit utest)
 /// Check if the unit has an error  (NaN multiplier or error base units)
 constexpr inline bool is_error(unit utest)
 {
-    return (utest.multiplier() != utest.multiplier() || utest.base_units() == error.base_units());
+    return (
+        utest.multiplier() != utest.multiplier() ||
+        utest.base_units() == error.base_units());
 }
 /// Check if the unit is a valid unit
 constexpr inline bool is_valid(precise_unit utest)
@@ -1338,7 +1423,8 @@ constexpr inline bool is_valid(precise_unit utest)
 constexpr inline bool is_valid(unit utest)
 {
     return !(
-        (utest.multiplier() != utest.multiplier()) && (utest.base_units() == invalid.base_units()));
+        (utest.multiplier() != utest.multiplier()) &&
+        (utest.base_units() == invalid.base_units()));
 }
 
 // SI prefixes as units
@@ -1497,7 +1583,10 @@ constexpr unit mph = unit_cast(precise::mph);
 /// conversion operations for per-unit fields
 namespace puconversion {
     /// compute a base value for a particular value based on power system base values
-    inline double generate_base(detail::unit_data unit, double basePower, double baseVoltage)
+    inline double generate_base(
+        detail::unit_data unit,
+        double basePower,
+        double baseVoltage)
     {
         if (unit.has_same_base(W.base_units())) {
             return basePower;
@@ -1535,7 +1624,10 @@ namespace puconversion {
     }
 
     /// Generate some known conversion between power system per unit values
-    inline double knownConversions(double val, detail::unit_data start, detail::unit_data result)
+    inline double knownConversions(
+        double val,
+        detail::unit_data start,
+        detail::unit_data result)
     {
         if (start.has_same_base(puOhm.base_units())) {
             if (result.has_same_base(puMW.base_units()) ||
@@ -1549,11 +1641,13 @@ namespace puconversion {
                 return val;
             }
             if (result.has_same_base(
-                    puOhm.base_units())) { // P=IV assuming voltage=1.0 pu or //R=V/I
+                    puOhm
+                        .base_units())) { // P=IV assuming voltage=1.0 pu or //R=V/I
                 return 1.0 / val;
             }
         } else if (start.has_same_base(puMW.base_units())) { // P=IV, or P=V^2/R
-            if (result.has_same_base(puA.base_units())) { // IV assuming voltage=1.0 pu or
+            if (result.has_same_base(
+                    puA.base_units())) { // IV assuming voltage=1.0 pu or
                 return val;
             }
             if (result.has_same_base(puOhm.base_units())) {
@@ -1599,16 +1693,17 @@ constexpr unit ppb = unit_cast(precise::ppb);
 @details not an error, not infinite, not one,not invalid, not defunit, the multiplier is a normal number and >0*/
 inline bool isnormal(precise_unit utest)
 {
-    return std::isnormal(utest.multiplier()) && (!is_error(utest)) && utest != precise::one &&
-        utest != precise::defunit && utest.multiplier() > 0;
+    return std::isnormal(utest.multiplier()) && (!is_error(utest)) &&
+        utest != precise::one && utest != precise::defunit &&
+        utest.multiplier() > 0;
 }
 
 /** check if a unit is some normal valid unit
 @details not an error, not infinite,not invalid, not one, not defunit, the multiplier is a normal number and >0*/
 inline bool isnormal(unit utest)
 {
-    return std::isnormal(utest.multiplier_f()) && (!is_error(utest)) && utest != one &&
-        utest != defunit && utest.multiplier() > 0;
+    return std::isnormal(utest.multiplier_f()) && (!is_error(utest)) &&
+        utest != one && utest != defunit && utest.multiplier() > 0;
 }
 
 namespace detail {
@@ -1634,8 +1729,10 @@ namespace detail {
         }
 
         if (mol_start == mol_result &&
-            ((rad_start == 0 && (count_start == rad_result || count_start == 0)) ||
-             (rad_result == 0 && (count_result == rad_start || count_result == 0)))) {
+            ((rad_start == 0 &&
+              (count_start == rad_result || count_start == 0)) ||
+             (rad_result == 0 &&
+              (count_result == rad_start || count_result == 0)))) {
             //define a conversion multiplier for radians<->count(rotations) of various powers
             static constexpr std::array<double, 5> muxrad{
                 {1.0 / (4.0 * constants::pi * constants::pi),
@@ -1643,7 +1740,8 @@ namespace detail {
                  0.0,
                  2.0 * constants::pi,
                  4.0 * constants::pi * constants::pi}};
-            int muxIndex = rad_result - rad_start + 2; //+2 is to shift the index
+            int muxIndex =
+                rad_result - rad_start + 2; //+2 is to shift the index
             if (muxIndex < 0 || muxIndex > 4) {
                 return constants::invalid_conversion;
             }
@@ -1653,12 +1751,16 @@ namespace detail {
             return val;
         }
         if (rad_start == rad_result &&
-            ((mol_start == 0 && (count_start == mol_result || count_start == 0)) ||
-             (mol_result == 0 && (count_result == mol_start || count_result == 0)))) {
+            ((mol_start == 0 &&
+              (count_start == mol_result || count_start == 0)) ||
+             (mol_result == 0 &&
+              (count_result == mol_start || count_result == 0)))) {
             //define multipliers for mol<->count conversions based on powers
-            static constexpr std::array<double, 3> muxmol{{6.02214076e23, 0, 1.0 / 6.02214076e23}};
+            static constexpr std::array<double, 3> muxmol{
+                {6.02214076e23, 0, 1.0 / 6.02214076e23}};
 
-            int muxIndex = mol_result - mol_start + 1; //+1 is to shift the index
+            int muxIndex =
+                mol_result - mol_start + 1; //+1 is to shift the index
             if (muxIndex < 0 || muxIndex > 2) {
                 return constants::invalid_conversion;
             }

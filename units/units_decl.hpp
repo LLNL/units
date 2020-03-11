@@ -36,16 +36,17 @@ namespace detail {
             unsigned int flag2,
             unsigned int equation) :
             meter_(meter),
-            second_(second), kilogram_(kilogram), ampere_(ampere), candela_(candela),
-            kelvin_(kelvin), mole_(mole), radians_(radians), currency_(currency), count_(count),
-            per_unit_(per_unit), i_flag_(flag), e_flag_(flag2), equation_(equation)
+            second_(second), kilogram_(kilogram), ampere_(ampere),
+            candela_(candela), kelvin_(kelvin), mole_(mole), radians_(radians),
+            currency_(currency), count_(count), per_unit_(per_unit),
+            i_flag_(flag), e_flag_(flag2), equation_(equation)
         {
         }
         /** Construct with the error flag triggered*/
         explicit constexpr unit_data(std::nullptr_t) :
-            meter_(-8), second_(-8), kilogram_(-4), ampere_(-4), candela_(-2), kelvin_(-4),
-            mole_(-2), radians_(-4), currency_(-2), count_(-2), per_unit_(1), i_flag_(1),
-            e_flag_(1), equation_(1)
+            meter_(-8), second_(-8), kilogram_(-4), ampere_(-4), candela_(-2),
+            kelvin_(-4), mole_(-2), radians_(-4), currency_(-2), count_(-2),
+            per_unit_(1), i_flag_(1), e_flag_(1), equation_(1)
         {
         }
 
@@ -152,7 +153,10 @@ namespace detail {
                 per_unit_ == other.per_unit_ && i_flag_ == other.i_flag_ &&
                 e_flag_ == other.e_flag_ && equation_ == other.equation_;
         }
-        constexpr bool operator!=(unit_data other) const { return !(*this == other); }
+        constexpr bool operator!=(unit_data other) const
+        {
+            return !(*this == other);
+        }
 
         // support for specific unitConversion calls
         constexpr bool is_per_unit() const { return per_unit_ != 0; }
@@ -176,17 +180,19 @@ namespace detail {
         // Check if the unit is empty
         constexpr bool empty() const
         {
-            return meter_ == 0 && second_ == 0 && kilogram_ == 0 && ampere_ == 0 && candela_ == 0 &&
-                kelvin_ == 0 && mole_ == 0 && radians_ == 0 && currency_ == 0 && count_ == 0 &&
+            return meter_ == 0 && second_ == 0 && kilogram_ == 0 &&
+                ampere_ == 0 && candela_ == 0 && kelvin_ == 0 && mole_ == 0 &&
+                radians_ == 0 && currency_ == 0 && count_ == 0 &&
                 equation_ == 0;
         }
         /// Get the number of different base units used
         constexpr int unit_type_count() const
         {
-            return ((meter_ != 0) ? 1 : 0) + ((second_ != 0) ? 1 : 0) + ((kilogram_ != 0) ? 1 : 0) +
-                ((ampere_ != 0) ? 1 : 0) + ((candela_ != 0) ? 1 : 0) + ((kelvin_ != 0) ? 1 : 0) +
-                ((mole_ != 0) ? 1 : 0) + ((radians_ != 0) ? 1 : 0) + ((currency_ != 0) ? 1 : 0) +
-                ((count_ != 0) ? 1 : 0);
+            return ((meter_ != 0) ? 1 : 0) + ((second_ != 0) ? 1 : 0) +
+                ((kilogram_ != 0) ? 1 : 0) + ((ampere_ != 0) ? 1 : 0) +
+                ((candela_ != 0) ? 1 : 0) + ((kelvin_ != 0) ? 1 : 0) +
+                ((mole_ != 0) ? 1 : 0) + ((radians_ != 0) ? 1 : 0) +
+                ((currency_ != 0) ? 1 : 0) + ((count_ != 0) ? 1 : 0);
         }
         /// Get the meter power
         constexpr int meter() const { return meter_; }
@@ -268,21 +274,24 @@ namespace detail {
 
       private:
         constexpr unit_data() :
-            meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0), kelvin_(0), mole_(0),
-            radians_(0), currency_(0), count_(0), per_unit_(0), i_flag_(0), e_flag_(0), equation_(0)
+            meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0),
+            kelvin_(0), mole_(0), radians_(0), currency_(0), count_(0),
+            per_unit_(0), i_flag_(0), e_flag_(0), equation_(0)
         {
         }
 
         constexpr bool hasValidRoot(int power) const
         {
-            return meter_ % power == 0 && second_ % power == 0 && kilogram_ % power == 0 &&
-                ampere_ % power == 0 && candela_ == 0 && kelvin_ % power == 0 && mole_ == 0 &&
-                radians_ % power == 0 && currency_ == 0 && count_ == 0 && equation_ == 0 &&
-                e_flag_ == 0;
+            return meter_ % power == 0 && second_ % power == 0 &&
+                kilogram_ % power == 0 && ampere_ % power == 0 &&
+                candela_ == 0 && kelvin_ % power == 0 && mole_ == 0 &&
+                radians_ % power == 0 && currency_ == 0 && count_ == 0 &&
+                equation_ == 0 && e_flag_ == 0;
         }
         constexpr int rootHertzModifier(int power) const
         {
-            return (second_ * power == 0 || ((e_flag_ & i_flag_) == 0) || power % 2 != 0) ?
+            return (second_ * power == 0 || ((e_flag_ & i_flag_) == 0) ||
+                    power % 2 != 0) ?
                 0 :
                 (power >> 1) * ((second_ < 0) || (power < 0) ? 9 : -9);
         }
@@ -327,8 +336,10 @@ namespace detail {
     template<typename X>
     constexpr X power_const(X val, int power)
     {
-        return (power > 0) ? val * power_const(val, power - 1) :
-                             (power < 0) ? X(1.0) / (val * power_const(val, -power - 1)) : X(1.0);
+        return (power > 0) ?
+            val * power_const(val, power - 1) :
+            (power < 0) ? X(1.0) / (val * power_const(val, -power - 1)) :
+                          X(1.0);
     }
 
     /// Round the multiplier to the expected level of precision
@@ -386,7 +397,8 @@ namespace detail {
         auto c2 = cround(val2);
         // yes these are magic numbers half the value of specified precision of 1e-6 for units
         return (c1 == c2) || (cround(val2 * (1.0F + 5e-7F)) == c1) ||
-            (cround(val2 * (1.0F - 5e-7F)) == c1) || (cround(val1 * (1.0F + 5e-7F)) == c2) ||
+            (cround(val2 * (1.0F - 5e-7F)) == c1) ||
+            (cround(val1 * (1.0F + 5e-7F)) == c2) ||
             (cround(val1 * (1.0F - 5e-7F)) == c2);
     }
 
@@ -416,7 +428,10 @@ class unit {
     /// Default constructor
     // NOLINTNEXTLINE(modernize-use-equals-default)
     constexpr unit() noexcept {}
-    explicit constexpr unit(detail::unit_data base_unit) : base_units_(base_unit) {}
+    explicit constexpr unit(detail::unit_data base_unit) :
+        base_units_(base_unit)
+    {
+    }
     /// Construct unit from base unit and a multiplier
     constexpr unit(detail::unit_data base_unit, double multiplier) :
         base_units_(base_unit), multiplier_(static_cast<float>(multiplier))
@@ -435,19 +450,25 @@ class unit {
     /// Unit multiplication
     constexpr unit operator*(unit other) const
     {
-        return {base_units_ * other.base_units_, multiplier() * other.multiplier()};
+        return {base_units_ * other.base_units_,
+                multiplier() * other.multiplier()};
     }
     /// Division operator
     constexpr unit operator/(unit other) const
     {
-        return {base_units_ / other.base_units_, multiplier() / other.multiplier()};
+        return {base_units_ / other.base_units_,
+                multiplier() / other.multiplier()};
     }
     /// Invert the unit (take 1/unit)
-    constexpr unit inv() const { return {base_units_.inv(), 1.0 / multiplier()}; }
+    constexpr unit inv() const
+    {
+        return {base_units_.inv(), 1.0 / multiplier()};
+    }
     /// take a unit to an integral power
     constexpr unit pow(int power) const
     {
-        return unit{base_units_.pow(power), detail::power_const(multiplier_, power)};
+        return unit{base_units_.pow(power),
+                    detail::power_const(multiplier_, power)};
     }
     /// Test for unit equivalence to within nominal numerical tolerance (6 decimal digits)
     bool operator==(unit other) const
@@ -464,7 +485,8 @@ class unit {
     // Test for exact numerical equivalence
     constexpr bool is_exactly_the_same(unit other) const
     {
-        return base_units_ == other.base_units_ && multiplier_ == other.multiplier_;
+        return base_units_ == other.base_units_ &&
+            multiplier_ == other.multiplier_;
     }
     /// Check if the units have the same base unit (ie they measure the same thing)
     constexpr bool has_same_base(unit other) const
@@ -495,7 +517,10 @@ class unit {
         return base_units_.equivalent_non_counting(base);
     }
     /// Get the number of different base units used
-    constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
+    constexpr int unit_type_count() const
+    {
+        return base_units_.unit_type_count();
+    }
     /// Check if the unit is a per_unit notation
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
     /// Check if the unit is a per_unit notation
@@ -505,7 +530,10 @@ class unit {
     /// Check if the unit has the e flag triggered
     constexpr bool has_e_flag() const { return base_units_.has_e_flag(); }
     /// Extract the base unit Multiplier
-    constexpr double multiplier() const { return static_cast<double>(multiplier_); }
+    constexpr double multiplier() const
+    {
+        return static_cast<double>(multiplier_);
+    }
     /// Extract the base unit Multiplier as a single precision float
     constexpr float multiplier_f() const { return multiplier_; }
     /// generate a rounded version of the multiplier
@@ -514,11 +542,20 @@ class unit {
     /// set all the flags to 0;
     void clear_flags() { base_units_.clear_flags(); }
     /// generate a new unit but with per_unit flag
-    constexpr unit add_per_unit() const { return unit{base_units_.add_per_unit(), multiplier_}; }
+    constexpr unit add_per_unit() const
+    {
+        return unit{base_units_.add_per_unit(), multiplier_};
+    }
     /// generate a new unit but with i flag
-    constexpr unit add_i_flag() const { return unit{base_units_.add_i_flag(), multiplier_}; }
+    constexpr unit add_i_flag() const
+    {
+        return unit{base_units_.add_i_flag(), multiplier_};
+    }
     /// generate a new unit but with e flag
-    constexpr unit add_e_flag() const { return unit{base_units_.add_e_flag(), multiplier_}; }
+    constexpr unit add_e_flag() const
+    {
+        return unit{base_units_.add_e_flag(), multiplier_};
+    }
 
   private:
     friend class precise_unit;
@@ -534,7 +571,8 @@ class precise_unit {
     /// Default constructor
     // NOLINTNEXTLINE(modernize-use-equals-default)
     constexpr precise_unit() noexcept {};
-    explicit constexpr precise_unit(detail::unit_data base_unit) noexcept : base_units_(base_unit)
+    explicit constexpr precise_unit(detail::unit_data base_unit) noexcept :
+        base_units_(base_unit)
     {
     }
     /// copy constructor from a less precise unit
@@ -543,8 +581,11 @@ class precise_unit {
     {
     }
     /// Construct from base_unit and multiplier
-    constexpr precise_unit(detail::unit_data base_unit, double multiplier) noexcept :
-        base_units_(base_unit), multiplier_(multiplier)
+    constexpr precise_unit(
+        detail::unit_data base_unit,
+        double multiplier) noexcept :
+        base_units_(base_unit),
+        multiplier_(multiplier)
     {
     }
     /// Construct from base_unit, commodity and multiplier
@@ -558,7 +599,10 @@ class precise_unit {
     }
     /// Copy constructor with a multiplier
     constexpr precise_unit(precise_unit other, double multiplier) noexcept :
-        precise_unit(other.base_units_, other.commodity_, multiplier * other.multiplier_)
+        precise_unit(
+            other.base_units_,
+            other.commodity_,
+            multiplier * other.multiplier_)
     {
     }
     /// Constructor for a double and other unit
@@ -567,7 +611,10 @@ class precise_unit {
     {
     }
     constexpr precise_unit(double multiplier, precise_unit other) noexcept :
-        precise_unit(other.base_units_, other.commodity_, multiplier * other.multiplier_)
+        precise_unit(
+            other.base_units_,
+            other.commodity_,
+            multiplier * other.multiplier_)
     {
     }
     /// Build a unit from another with a multiplier and commodity
@@ -575,7 +622,10 @@ class precise_unit {
         double multiplier,
         precise_unit other,
         std::uint32_t commodity) noexcept :
-        precise_unit(other.base_units_, commodity, multiplier * other.multiplier_)
+        precise_unit(
+            other.base_units_,
+            commodity,
+            multiplier * other.multiplier_)
     {
     }
     /// Constructor for a double and other unit
@@ -586,7 +636,9 @@ class precise_unit {
     /// take the reciprocal of a unit
     constexpr precise_unit inv() const
     {
-        return {base_units_.inv(), (commodity_ == 0) ? 0 : ~commodity_, 1.0 / multiplier()};
+        return {base_units_.inv(),
+                (commodity_ == 0) ? 0 : ~commodity_,
+                1.0 / multiplier()};
     }
     /// Multiply with another unit
     constexpr precise_unit operator*(precise_unit other) const
@@ -594,13 +646,16 @@ class precise_unit {
         return {base_units_ * other.base_units_,
                 (commodity_ == 0) ?
                     other.commodity_ :
-                    ((other.commodity_ == 0) ? commodity_ : commodity_ & other.commodity_),
+                    ((other.commodity_ == 0) ? commodity_ :
+                                               commodity_ & other.commodity_),
                 multiplier() * other.multiplier()};
     }
     /// Multiplication operator with a lower precision unit
     constexpr precise_unit operator*(unit other) const
     {
-        return {base_units_ * other.base_units_, commodity_, multiplier() * other.multiplier()};
+        return {base_units_ * other.base_units_,
+                commodity_,
+                multiplier() * other.multiplier()};
     }
     /// Division operator
     constexpr precise_unit operator/(precise_unit other) const
@@ -608,37 +663,45 @@ class precise_unit {
         return {base_units_ / other.base_units_,
                 (commodity_ == 0) ?
                     ((other.commodity_ == 0) ? 0 : ~other.commodity_) :
-                    ((other.commodity_ == 0) ? commodity_ : commodity_ & (~other.commodity_)),
+                    ((other.commodity_ == 0) ?
+                         commodity_ :
+                         commodity_ & (~other.commodity_)),
                 multiplier() / other.multiplier()};
     }
     /// Divide by a less precise unit
     constexpr precise_unit operator/(unit other) const
     {
-        return {base_units_ / other.base_units_, commodity_, multiplier() / other.multiplier()};
+        return {base_units_ / other.base_units_,
+                commodity_,
+                multiplier() / other.multiplier()};
     }
     /// take a unit to a power
     constexpr precise_unit pow(int power) const
     {
-        return {base_units_.pow(power), commodity_, detail::power_const(multiplier_, power)};
+        return {base_units_.pow(power),
+                commodity_,
+                detail::power_const(multiplier_, power)};
     }
     /// Overloaded equality operator
     bool operator==(precise_unit other) const
     {
-        if (base_units_ != other.base_units_ || commodity_ != other.commodity_) {
+        if (base_units_ != other.base_units_ ||
+            commodity_ != other.commodity_) {
             return false;
         }
         if (multiplier_ == other.multiplier_) {
             return true;
         }
-        return detail::compare_round_equals_precise(multiplier_, other.multiplier_);
+        return detail::compare_round_equals_precise(
+            multiplier_, other.multiplier_);
     }
     ///  opposite of equality
     bool operator!=(precise_unit other) const { return !operator==(other); }
     // Test for exact numerical equivalence
     constexpr bool is_exactly_the_same(precise_unit other) const
     {
-        return base_units_ == other.base_units_ && commodity_ == other.commodity_ &&
-            multiplier_ == other.multiplier_;
+        return base_units_ == other.base_units_ &&
+            commodity_ == other.commodity_ && multiplier_ == other.multiplier_;
     }
     /// Check if the units have the same base unit (i.e. they measure the same thing)
     constexpr bool has_same_base(precise_unit other) const
@@ -665,7 +728,8 @@ class precise_unit {
         if (multiplier_ == other.multiplier()) {
             return true;
         }
-        return detail::compare_round_equals(static_cast<float>(multiplier_), other.multiplier_);
+        return detail::compare_round_equals(
+            static_cast<float>(multiplier_), other.multiplier_);
     }
     bool operator!=(unit other) const { return !operator==(other); }
 
@@ -698,11 +762,20 @@ class precise_unit {
         return base_units_.equivalent_non_counting(base);
     }
     /// Check unit equality (base units equal and equivalent multipliers to specified precision
-    friend bool operator==(unit val1, precise_unit val2) { return (val2 == val1); }
+    friend bool operator==(unit val1, precise_unit val2)
+    {
+        return (val2 == val1);
+    }
     /// Get the number of different base units used
-    constexpr int unit_type_count() const { return base_units_.unit_type_count(); }
+    constexpr int unit_type_count() const
+    {
+        return base_units_.unit_type_count();
+    }
     /// Check if the unit is the default unit
-    constexpr bool is_default() const { return base_units_.empty() && base_units_.has_e_flag(); }
+    constexpr bool is_default() const
+    {
+        return base_units_.empty() && base_units_.has_e_flag();
+    }
     /// Check if the unit is a per unit value
     constexpr bool is_per_unit() const { return base_units_.is_per_unit(); }
     /// Check if the unit is a per_unit notation
@@ -716,7 +789,10 @@ class precise_unit {
     /// Extract the base unit Multiplier
     constexpr double multiplier() const { return multiplier_; }
     /// Extract the base unit Multiplier as a single precision float
-    constexpr float multiplier_f() const { return static_cast<float>(multiplier_); }
+    constexpr float multiplier_f() const
+    {
+        return static_cast<float>(multiplier_);
+    }
     /// Generate a rounded value of the multiplier rounded to the defined precision
     double cround() const { return detail::cround_precise(multiplier_); }
     /// Get the base units
@@ -754,7 +830,8 @@ class precise_unit {
 /// Check if a unit down cast is lossless
 inline constexpr bool is_unit_cast_lossless(precise_unit val)
 {
-    return val.multiplier() == static_cast<double>(static_cast<float>(val.multiplier()));
+    return val.multiplier() ==
+        static_cast<double>(static_cast<float>(val.multiplier()));
 }
 /// Downcast a precise unit to the less precise version
 constexpr unit unit_cast(precise_unit val)
@@ -856,7 +933,8 @@ template<>
 struct hash<units::unit> {
     size_t operator()(const units::unit& x) const
     {
-        return hash<units::detail::unit_data>()(x.base_units()) ^ hash<float>()(x.cround());
+        return hash<units::detail::unit_data>()(x.base_units()) ^
+            hash<float>()(x.cround());
     }
 };
 
@@ -864,7 +942,8 @@ template<>
 struct hash<units::precise_unit> {
     size_t operator()(const units::precise_unit& x) const
     {
-        return hash<units::detail::unit_data>()(x.base_units()) ^ hash<double>()(x.cround());
+        return hash<units::detail::unit_data>()(x.base_units()) ^
+            hash<double>()(x.cround());
     }
 };
 } // namespace std
