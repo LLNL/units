@@ -12,12 +12,15 @@ Add a converter command line application and fix a few slow conversion issues an
 ### Changed
 -   Added several tests run under Azure to remove deprecated image and add some new tests [#40][]
 -   clears up several warnings from clang-tidy [#41][]
+-   the fuzzer now uses fuzz_measurement [#42][]
+-   update clang format to limit line length to 80 and allow reflowing comments [#43][]
 
 ### Fixed
 -   A few timeouts on the fuzzer- the fix was to generalize the multiplier insertion after ^ to accept multiple digits after the ^ instead of just ignoring it after more than one. [#34][]  
 -   An asymmetry was observed in the unit equality from on the fuzzers, this resulted in some modifications of the `cround_equal` and `cround_precice_equals` functions.  Also noted that the functions weren't aborting on exact floating point equality so were doing quite a bit of extra calculations. [#34][]
 -   A timeout issue from fuzzing having to do with not injecting multiplies after `[]` in some circumstances.  The fix was to be a little more refined as to which point to not inject the `*` and to do it in multiple stages so as to not rely on the partitioner so much.  [#35][]
 -   `fixed_measurement` and `fixed_precise_measurement` had incorrect subtraction operation in a few overloads.  [#39][]
+-   fixed a few initial issues from fuzz_measurement [#42][]
 
 ### Added
 -   added a [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application that can convert units on the command line [#35][]
@@ -29,6 +32,8 @@ Add a converter command line application and fix a few slow conversion issues an
 -   Added `to_string` operation for uncertain_measurements [#38][]
 -   Added `isnormal` operation for measurement types [#39][]
 -   Added `UNITS_CLANG_TIDY` option to run tests with Clang tidy [#41][]
+-   Added fuzz_measurement fuzzer to test measurement_from_string [#42][]
+-   Added cpplint test to azure [#43][]
 
 ### Removed
 
@@ -86,6 +91,8 @@ Continued work on cleaning up the library and starting to add main documentation
 [#39]: https://github.com/LLNL/units/pull/39
 [#40]: https://github.com/LLNL/units/pull/40
 [#41]: https://github.com/LLNL/units/pull/41
+[#42]: https://github.com/LLNL/units/pull/42
+[#43]: https://github.com/LLNL/units/pull/43
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0

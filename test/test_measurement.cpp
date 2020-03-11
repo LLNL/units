@@ -38,7 +38,8 @@ TEST(Measurement, ops)
     EXPECT_TRUE(m / 2.0 == measurement(0.5, m));
     EXPECT_TRUE(m * 2.0 == measurement(2.0, m));
 
-    //equivalent to asking how much is left over if you divide a 2 m object into  6 inch chunks
+    // equivalent to asking how much is left over if you divide a 2 m object
+    // into  6 inch chunks
     auto fd11 = (2.0 * m) % (6 * in);
     EXPECT_LT(fd11, (6 * in));
 
@@ -182,7 +183,7 @@ TEST(Measurement, invalid)
     EXPECT_TRUE(is_valid(iv3));
     EXPECT_FALSE(isnormal(iv3));
 
-    measurement iv4(1e-311, m); //subnormal
+    measurement iv4(1e-311, m);  // subnormal
     EXPECT_TRUE(is_valid(iv4));
     EXPECT_FALSE(isnormal(iv4));
 
@@ -420,7 +421,7 @@ TEST(fixedMeasurement, invalid)
     EXPECT_TRUE(is_valid(iv3));
     EXPECT_FALSE(isnormal(iv3));
 
-    fixed_measurement iv4(1e-311, m); //subnormal
+    fixed_measurement iv4(1e-311, m);  // subnormal
     EXPECT_TRUE(is_valid(iv4));
     EXPECT_FALSE(isnormal(iv4));
 
@@ -535,15 +536,16 @@ TEST(PreciseMeasurement, conversions)
     EXPECT_EQ(d4.value(), 1.0);
 
     constexpr auto d5 = precise::ft * 3.0;
-    //convert to base
+    // convert to base
     EXPECT_EQ(d5.convert_to_base().units(), precise::m);
     static_assert(
-        (3.0 * precise::ft).convert_to_base().units().base_units() == precise::m.base_units(),
+        (3.0 * precise::ft).convert_to_base().units().base_units() ==
+            precise::m.base_units(),
         "constexpr convert_to_base not working");
 
     EXPECT_EQ(d5.as_unit(), precise::yd);
     EXPECT_DOUBLE_EQ(quick_convert(1.0, d5.as_unit(), precise::yd), 1.0);
-    //static_assert(==1.0, "constexpr convert_to_base not working");
+    // static_assert(==1.0, "constexpr convert_to_base not working");
 }
 
 TEST(PreciseMeasurement, comparison)
@@ -591,7 +593,7 @@ TEST(PreciseMeasurement, invalid)
     EXPECT_TRUE(is_valid(iv3));
     EXPECT_FALSE(isnormal(iv3));
 
-    precise_measurement iv4(1e-311, precise::m); //subnormal
+    precise_measurement iv4(1e-311, precise::m);  // subnormal
     EXPECT_TRUE(is_valid(iv4));
     EXPECT_FALSE(isnormal(iv4));
 
@@ -848,7 +850,7 @@ TEST(fixedPreciseMeasurement, invalid)
     EXPECT_TRUE(is_valid(iv3));
     EXPECT_FALSE(isnormal(iv3));
 
-    fixed_precise_measurement iv4(1e-311, precise::m); //subnormal
+    fixed_precise_measurement iv4(1e-311, precise::m);  // subnormal
     EXPECT_TRUE(is_valid(iv4));
     EXPECT_FALSE(isnormal(iv4));
 

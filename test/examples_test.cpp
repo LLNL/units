@@ -9,8 +9,8 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "units/units.hpp"
 
-/** @file Test just to load up some unit definitions and do some operations with them
-it tests linking and some usefulness in code coverage */
+/** @file Test just to load up some unit definitions and do some operations with
+them it tests linking and some usefulness in code coverage */
 
 int main(int argc, char* argv[])
 {
@@ -36,7 +36,8 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    units::precise_measurement pm1 = units::measurement_from_string("1250 cm^3");
+    units::precise_measurement pm1 =
+        units::measurement_from_string("1250 cm^3");
     if (pm1 != 1.25 * units::precise::L) {
         return -1;
     }

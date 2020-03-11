@@ -72,7 +72,8 @@ TEST(uncertainOps, construction)
     EXPECT_TRUE(is_valid(um10));
 }
 
-// from https://www2.southeastern.edu/Academics/Faculty/rallain/plab194/error.html
+// from
+// https://www2.southeastern.edu/Academics/Faculty/rallain/plab194/error.html
 TEST(uncertainOps, equality)
 {
     uncertain_measurement um1(0.86, 0.02, s);
@@ -95,7 +96,8 @@ TEST(uncertainOps, equality)
     EXPECT_FALSE(um4 != um3);
 }
 
-// Example Calculations from http://www.geol.lsu.edu/jlorenzo/geophysics/uncertainties/Uncertaintiespart2.html
+// Example Calculations from
+// http://www.geol.lsu.edu/jlorenzo/geophysics/uncertainties/Uncertaintiespart2.html
 
 TEST(uncertainOps, addsubtract)
 {
@@ -248,8 +250,9 @@ TEST(uncertainOps, conversion)
 }
 
 #ifndef UNITS_HEADER_ONLY
-// http://www.geol.lsu.edu/jlorenzo/geophysics/uncertainties/Uncertaintiespart2.html example c
-// as a note the example on this page is just wrong, the calculations don't match the numbers given
+// http://www.geol.lsu.edu/jlorenzo/geophysics/uncertainties/Uncertaintiespart2.html
+// example c as a note the example on this page is just wrong, the calculations
+// don't match the numbers given
 TEST(uncertainOps, pow1)
 {
     uncertain_measurement w(4.52, 0.02, cm);
@@ -298,7 +301,8 @@ TEST(uncertainOps, example2)
     EXPECT_NEAR(vs.value(), 12.75, 0.005);
 }
 
-// next two examples from https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supplemental_Modules_(Analytical_Chemistry)/Quantifying_Nature/Significant_Digits/Propagation_of_Error
+// next two examples from
+// https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Supplemental_Modules_(Analytical_Chemistry)/Quantifying_Nature/Significant_Digits/Propagation_of_Error
 TEST(uncertainOps, chemExample1)
 {
     uncertain_measurement conc(13.7, 0.3, mol / L);
@@ -314,7 +318,7 @@ TEST(uncertainOps, testuncertaintySetters)
 {
     uncertain_measurement um1(13.71, 0.05, ton);
 
-    //this tests chaining
+    // this tests chaining
     um1.uncertainty(0.08).uncertainty(0.07F);
     EXPECT_FLOAT_EQ(um1.uncertainty(), 0.07F);
     um1.uncertainty(25 * kg);
@@ -332,8 +336,8 @@ TEST(uncertainOps, testcomparison)
     EXPECT_FALSE(m1 != um1);
     EXPECT_FALSE(um1 != um1);
 
-    //the multiplier is purposeful to get in the range float can represent
-    //but below the tolerance of measurement
+    // the multiplier is purposeful to get in the range float can represent
+    // but below the tolerance of measurement
     m1 = m1 + 0.000001 * ton;
 
     EXPECT_TRUE(m1 == um1);
@@ -368,7 +372,8 @@ TEST(uncertainOps, testcomparison)
     EXPECT_FALSE(um2 <= um1);
 }
 
-// Next 2 Examples from http://ipl.physics.harvard.edu/wp-uploads/2013/03/PS3_Error_Propagation_sp13.pdf
+// Next 2 Examples from
+// http://ipl.physics.harvard.edu/wp-uploads/2013/03/PS3_Error_Propagation_sp13.pdf
 
 TEST(uncertainOps, testInv)
 {

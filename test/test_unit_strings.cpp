@@ -103,15 +103,19 @@ TEST(unitStrings, prefixes)
 TEST(unitStrings, infinite)
 {
     EXPECT_EQ(
-        to_string(precise_unit(std::numeric_limits<double>::infinity(), precise::m / precise::s)),
+        to_string(precise_unit(
+            std::numeric_limits<double>::infinity(), precise::m / precise::s)),
         "INF*m/s");
 
-    EXPECT_EQ(to_string(unit(-std::numeric_limits<double>::infinity(), m / s)), "-INF*m/s");
+    EXPECT_EQ(
+        to_string(unit(-std::numeric_limits<double>::infinity(), m / s)),
+        "-INF*m/s");
 }
 
 TEST(unitString, almostInfinite)
 {
-    precise_unit almost_inf(precise::s.pow(3) * precise::kg * precise::mol, 4.414e307);
+    precise_unit almost_inf(
+        precise::s.pow(3) * precise::kg * precise::mol, 4.414e307);
 
     auto res = to_string(almost_inf);
     auto ai2 = unit_from_string(res);
@@ -123,14 +127,17 @@ TEST(unitStrings, nan)
     EXPECT_EQ(to_string(precise::error), "ERROR");
 
     EXPECT_EQ(to_string(precise::invalid), "NaN*ERROR");
-    auto nanunit = precise_unit(std::numeric_limits<double>::quiet_NaN(), precise::one);
+    auto nanunit =
+        precise_unit(std::numeric_limits<double>::quiet_NaN(), precise::one);
     auto res = to_string(nanunit);
     EXPECT_EQ(res, "NaN");
     auto nanresult = unit_from_string(res);
     EXPECT_TRUE(isnan(nanresult));
     EXPECT_EQ(to_string(nanunit * precise::m / precise::s), "NaN*m/s");
 
-    EXPECT_EQ(to_string(unit(std::numeric_limits<double>::signaling_NaN(), m / s)), "NaN*m/s");
+    EXPECT_EQ(
+        to_string(unit(std::numeric_limits<double>::signaling_NaN(), m / s)),
+        "NaN*m/s");
     auto retunit = unit_from_string("NaN*m/s");
     EXPECT_EQ(retunit.base_units(), (precise::m / precise::s).base_units());
     EXPECT_TRUE(isnan(retunit));
@@ -163,20 +170,23 @@ TEST(unitStrings, invcube)
 
 TEST(unitStrings, invtestUnits)
 {
-    auto funit = precise_unit(0.000001, precise::one / precise::cd / precise::time::day);
+    auto funit =
+        precise_unit(0.000001, precise::one / precise::cd / precise::time::day);
     auto res = to_string(funit);
     EXPECT_EQ(res, "1/(Mcd*day)");
 }
 
 TEST(unitStrings, downconvert)
 {
-    EXPECT_EQ(to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g");
+    EXPECT_EQ(
+        to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g");
 }
 
 TEST(unitStrings, powerunits)
 {
     EXPECT_EQ(to_string((precise::giga * precise::m).pow(2)), "Gm^2");
-    EXPECT_EQ(to_string(precise_unit(1000000000, s.inv() * m.pow(-3))), "1/(uL*s)");
+    EXPECT_EQ(
+        to_string(precise_unit(1000000000, s.inv() * m.pow(-3))), "1/(uL*s)");
 }
 
 TEST(unitStrings, crazyunits)
@@ -220,7 +230,8 @@ TEST(stringToUnits, Power)
     EXPECT_EQ(precise::m.pow(2), unit_from_string("m^2"));
     EXPECT_EQ(precise::kg.pow(-3), unit_from_string("kg^-3"));
     EXPECT_EQ(precise::V.pow(-2), unit_from_string("1/V^2"));
-    EXPECT_EQ(precise_unit(27.0, precise::one).pow(3), unit_from_string("27^3"));
+    EXPECT_EQ(
+        precise_unit(27.0, precise::one).pow(3), unit_from_string("27^3"));
 }
 
 TEST(stringToUnits, mult)
@@ -250,12 +261,17 @@ TEST(stringToUnits, SIprefix)
 
 TEST(stringToUnits, Parenthesis)
 {
-    EXPECT_EQ(precise::W / (precise::hr * precise::lb), unit_from_string("W/(hr*lb)"));
+    EXPECT_EQ(
+        precise::W / (precise::hr * precise::lb),
+        unit_from_string("W/(hr*lb)"));
     EXPECT_EQ(
         precise::W * precise::mol / (precise::hr * precise::lb),
         unit_from_string("(W*mol)/(hr*lb)"));
-    EXPECT_EQ((precise::N * precise::time::yr).pow(2), unit_from_string("(N*yr)^2"));
-    EXPECT_EQ((precise::N * precise::time::yr).pow(-2), unit_from_string("(N*yr)^-2"));
+    EXPECT_EQ(
+        (precise::N * precise::time::yr).pow(2), unit_from_string("(N*yr)^2"));
+    EXPECT_EQ(
+        (precise::N * precise::time::yr).pow(-2),
+        unit_from_string("(N*yr)^-2"));
     EXPECT_EQ(
         (precise::N * precise::time::yr).pow(-2) / precise::currency,
         unit_from_string("(N*yr)^-2/$"));
@@ -265,7 +281,9 @@ TEST(stringToUnits, dotNotation)
 {
     EXPECT_EQ(precise::m, unit_from_string("m.m.m/m.m", single_slash));
     EXPECT_EQ(precise::m.pow(3), unit_from_string("m.m.m/m.m"));
-    EXPECT_EQ(precise::W / (precise::hr * precise::lb), unit_from_string("W/hr.lb", single_slash));
+    EXPECT_EQ(
+        precise::W / (precise::hr * precise::lb),
+        unit_from_string("W/hr.lb", single_slash));
     EXPECT_EQ(
         precise::W * precise::mol / (precise::hr * precise::lb),
         unit_from_string("W.mol/hr.lb", single_slash));
@@ -273,11 +291,14 @@ TEST(stringToUnits, dotNotation)
 
 TEST(stringToUnits, customUnits)
 {
-    EXPECT_EQ(precise::generate_custom_unit(762), unit_from_string("CXUN[762]"));
+    EXPECT_EQ(
+        precise::generate_custom_unit(762), unit_from_string("CXUN[762]"));
     EXPECT_EQ(precise::generate_custom_unit(0), unit_from_string("CXUN[]"));
     EXPECT_EQ(precise::generate_custom_unit(0), unit_from_string("CXUN[0]"));
-    EXPECT_EQ(precise::generate_custom_count_unit(11), unit_from_string("CXCUN[11]"));
-    EXPECT_EQ(precise::generate_custom_count_unit(0), unit_from_string("CXCUN[0]"));
+    EXPECT_EQ(
+        precise::generate_custom_count_unit(11), unit_from_string("CXCUN[11]"));
+    EXPECT_EQ(
+        precise::generate_custom_count_unit(0), unit_from_string("CXCUN[0]"));
 }
 
 TEST(stringToUnits, NumericalMultipliers)
@@ -287,7 +308,9 @@ TEST(stringToUnits, NumericalMultipliers)
     EXPECT_EQ(precise::km, unit_from_string("1e3*0.001*1e6/1e3*m"));
     EXPECT_EQ(precise_unit(0.7564, precise::kg), unit_from_string("0.7564*kg"));
     EXPECT_EQ(precise::km, unit_from_string("1000m"));
-    EXPECT_EQ(precise::kilo * precise::kg / precise::m, unit_from_string("1e3*0.001*1e6kg/1e3m"));
+    EXPECT_EQ(
+        precise::kilo * precise::kg / precise::m,
+        unit_from_string("1e3*0.001*1e6kg/1e3m"));
     EXPECT_EQ(precise_unit(0.7564, precise::kg), unit_from_string("0.7564kg"));
 }
 
@@ -312,9 +335,11 @@ TEST(stringToUnits, words)
     EXPECT_EQ(precise::mm.pow(2), unit_from_string("square millimeter"));
     EXPECT_EQ(precise::N * precise::m, unit_from_string("newton meter"));
     EXPECT_EQ(precise::ft * precise::lb, unit_from_string("ftlb"));
-    EXPECT_EQ(precise::ft * precise::lb * precise::s, unit_from_string("ftlbsecond"));
     EXPECT_EQ(
-        precise::gal * precise::second * precise::hp, unit_from_string("gallon second horsepower"));
+        precise::ft * precise::lb * precise::s, unit_from_string("ftlbsecond"));
+    EXPECT_EQ(
+        precise::gal * precise::second * precise::hp,
+        unit_from_string("gallon second horsepower"));
     EXPECT_EQ(
         precise::Hz * precise::milli * precise::micro * precise::m,
         unit_from_string("millihertz micrometer"));
@@ -322,8 +347,11 @@ TEST(stringToUnits, words)
     EXPECT_TRUE(is_error(unit_from_string("bob and harry")));
     EXPECT_EQ(precise::pico * precise::T, unit_from_string("picotesla"));
     EXPECT_EQ(precise::pico * precise::A, unit_from_string("picoampere"));
-    EXPECT_EQ(precise::pressure::psi, unit_from_string("pound per square inch"));
-    EXPECT_EQ(precise::lm * precise::m.pow(2), unit_from_string("lumen square meter"));
+    EXPECT_EQ(
+        precise::pressure::psi, unit_from_string("pound per square inch"));
+    EXPECT_EQ(
+        precise::lm * precise::m.pow(2),
+        unit_from_string("lumen square meter"));
 }
 
 TEST(stringToUnits, exponentForms)
@@ -342,7 +370,8 @@ TEST(stringToUnits, exponentForms)
     EXPECT_EQ(precise::mm.pow(2), unit_from_string("mm2"));
     EXPECT_EQ(precise::mm.pow(2), unit_from_string("mm<sup>2</sup>"));
     EXPECT_EQ(precise::mm.pow(2), unit_from_string("mm<sup>2<\\/sup>"));
-    EXPECT_EQ((precise::micro * precise::meter).pow(2), unit_from_string("um2"));
+    EXPECT_EQ(
+        (precise::micro * precise::meter).pow(2), unit_from_string("um2"));
     EXPECT_EQ(precise::cm.pow(5), unit_from_string("cm5"));
     EXPECT_EQ(unit_from_string("CM2", true), unit_from_string("cm2"));
 }
@@ -350,22 +379,28 @@ TEST(stringToUnits, exponentForms)
 TEST(stringToUnits, complex)
 {
     EXPECT_EQ(
-        precise::m / precise::s / precise::s, unit_from_string("meters per second per second"));
+        precise::m / precise::s / precise::s,
+        unit_from_string("meters per second per second"));
     EXPECT_EQ(
-        precise::mile / precise::hr / precise::s, unit_from_string("miles per hour per second"));
+        precise::mile / precise::hr / precise::s,
+        unit_from_string("miles per hour per second"));
     EXPECT_EQ(
         precise::micro * precise::mol / (precise_unit(0.1, precise::L)),
         unit_from_string("micromole per deciliter"));
     EXPECT_EQ(
-        unit_from_string("$ per 24 hrs"), precise::currency / precise_unit(24.0, precise::hr));
+        unit_from_string("$ per 24 hrs"),
+        precise::currency / precise_unit(24.0, precise::hr));
 
-    EXPECT_NE(unit_from_string("kilogram / minute(Gasoline at 15.5 C)"), precise::error);
+    EXPECT_NE(
+        unit_from_string("kilogram / minute(Gasoline at 15.5 C)"),
+        precise::error);
     EXPECT_NE(unit_from_string("g/(8.h){shift}"), precise::error);
 
+    EXPECT_TRUE((precise::ohm * precise::meter)
+                    .is_convertible(unit_from_string("statohm micrometer")));
     EXPECT_TRUE(
-        (precise::ohm * precise::meter).is_convertible(unit_from_string("statohm micrometer")));
-    EXPECT_TRUE(unit_from_string("coulomb/square meter")
-                    .is_convertible(unit_from_string("ampere hour/square meter")));
+        unit_from_string("coulomb/square meter")
+            .is_convertible(unit_from_string("ampere hour/square meter")));
 }
 
 TEST(stringToUnits, interestingUnits)
@@ -411,9 +446,14 @@ TEST(stringToUnits, equivalents2)
     EXPECT_EQ(unit_from_string("in us"), unit_from_string("in_us"));
     EXPECT_EQ(unit_from_string("us in"), unit_from_string("in_us"));
     EXPECT_EQ(unit_from_string("CXCUN[1]^-1"), unit_from_string("/[arb'U]"));
-    EXPECT_EQ(unit_from_string("[CCID_50]"), unit_from_string("CCID<sub>50</sub> "));
-    EXPECT_EQ(unit_from_string("[CCID_50]"), unit_from_string("CCID<sub>50<\\/sub> "));
-    EXPECT_EQ(unit_from_string("/100 neutrophils"), unit_from_string("/100{neutrophils}"));
+    EXPECT_EQ(
+        unit_from_string("[CCID_50]"), unit_from_string("CCID<sub>50</sub> "));
+    EXPECT_EQ(
+        unit_from_string("[CCID_50]"),
+        unit_from_string("CCID<sub>50<\\/sub> "));
+    EXPECT_EQ(
+        unit_from_string("/100 neutrophils"),
+        unit_from_string("/100{neutrophils}"));
     EXPECT_EQ(unit_from_string("carat/cubic inch"), unit_from_string("ct/in3"));
     EXPECT_EQ(
         unit_from_string("10.(UN.S)/(CM5.M2)", case_insensitive),
@@ -423,7 +463,8 @@ TEST(stringToUnits, equivalents2)
     EXPECT_EQ(unit_from_string(" per sec"), unit_from_string("/s"));
     EXPECT_EQ(unit_from_string("ampere-hour"), unit_from_string("A.h"));
     EXPECT_EQ(
-        unit_from_string("mL/cm[H2O]"), unit_from_string("milliliter per centimeter of water"));
+        unit_from_string("mL/cm[H2O]"),
+        unit_from_string("milliliter per centimeter of water"));
     EXPECT_EQ(unit_from_string("sq m"), unit_from_string("m2"));
     EXPECT_EQ(unit_from_string("U/ 12hrs"), unit_from_string("U/(12.h)"));
     EXPECT_EQ(unit_from_string("Ncm"), unit_from_string("N.cm"));
@@ -431,12 +472,15 @@ TEST(stringToUnits, equivalents2)
     EXPECT_EQ(unit_from_string("per mins"), unit_from_string("/min"));
     EXPECT_EQ(unit_from_string("/100 WBCs"), unit_from_string("/100{WBCs}"));
 
-    //   EXPECT_EQ(unit_from_string("lumen meters squared"), unit_from_string("lm.m2"));
+    //   EXPECT_EQ(unit_from_string("lumen meters squared"),
+    //   unit_from_string("lm.m2"));
 }
 
 TEST(stringToUnits, equivalents3)
 {
-    EXPECT_EQ(unit_from_string("grams per hour per metre sq"), unit_from_string("g/h/m2"));
+    EXPECT_EQ(
+        unit_from_string("grams per hour per metre sq"),
+        unit_from_string("g/h/m2"));
     EXPECT_EQ(unit_from_string("dyn sec per cm"), unit_from_string("dyn.s/cm"));
     EXPECT_EQ(unit_from_string("Ns"), precise::N * precise::s);
     EXPECT_EQ(unit_from_string("N.s"), precise::N * precise::s);
@@ -457,7 +501,8 @@ TEST_P(roundTripString, testRoundTrip)
 {
     auto u1 = unit_from_string(GetParam());
     auto str = to_string(u1);
-    EXPECT_EQ(unit_from_string(str), u1) << "Round trip string didn't match " << GetParam();
+    EXPECT_EQ(unit_from_string(str), u1)
+        << "Round trip string didn't match " << GetParam();
 }
 
 static const std::vector<std::string> testStrings{"million per milliliter",
@@ -476,7 +521,10 @@ static const std::vector<std::string> testStrings{"million per milliliter",
                                                   "{#}/{platelet}",
                                                   "[IU]/mL"};
 
-INSTANTIATE_TEST_SUITE_P(roundTrip, roundTripString, ::testing::ValuesIn(testStrings));
+INSTANTIATE_TEST_SUITE_P(
+    roundTrip,
+    roundTripString,
+    ::testing::ValuesIn(testStrings));
 
 TEST(roundTrip, DebugTest)
 {
@@ -672,7 +720,8 @@ TEST(userDefinedUnits, clearDefs)
 
 TEST(userDefinedUnits, fileOp1)
 {
-    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/other_units.txt");
+    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
+                                          "/test_unit_files/other_units.txt");
     EXPECT_TRUE(outputstr.empty());
     auto res = unit_from_string("meeter");
     EXPECT_EQ(res, precise::m);
@@ -687,7 +736,8 @@ TEST(userDefinedUnits, fileOp1)
 
 TEST(userDefinedUnits, fileOp2)
 {
-    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/other_units2.txt");
+    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
+                                          "/test_unit_files/other_units2.txt");
     EXPECT_TRUE(outputstr.empty());
     auto y1 = unit_from_string("yodles");
     EXPECT_EQ(y1, precise_unit(count, 73.0));
@@ -702,7 +752,8 @@ TEST(userDefinedUnits, fileOp2)
 
 TEST(userDefinedUnits, fileOp3)
 {
-    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/other_units3.txt");
+    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
+                                          "/test_unit_files/other_units3.txt");
     EXPECT_TRUE(outputstr.empty());
     auto y1 = unit_from_string("bl==p");
     EXPECT_EQ(y1, precise_unit(precise::us::cup, 18.7));
@@ -734,8 +785,8 @@ TEST(userDefinedUnits, invalidFile)
 
 TEST(userDefinedUnits, badDefinitions)
 {
-    auto outputstr =
-        definedUnitsFromFile(TEST_FILE_FOLDER "/test_unit_files/bad_unit_definitions.txt");
+    auto outputstr = definedUnitsFromFile(
+        TEST_FILE_FOLDER "/test_unit_files/bad_unit_definitions.txt");
     EXPECT_FALSE(outputstr.empty());
     auto cnt = std::count(outputstr.begin(), outputstr.end(), '\n');
     EXPECT_EQ(cnt, 5);
@@ -802,11 +853,14 @@ TEST(commoditizedUnits, numericalWords)
 
 TEST(funnyStrings, underscore)
 {
-    auto bigNumber = unit_from_string("_45_625_252_22524_252452_25242522562_E522_");
+    auto bigNumber =
+        unit_from_string("_45_625_252_22524_252452_25242522562_E522_");
     EXPECT_FALSE(isfinite(bigNumber));
     EXPECT_TRUE(isinf(bigNumber));
 
-    EXPECT_EQ(precise_unit(45625252.0, precise::m), unit_from_string("_45_625_252_m_"));
+    EXPECT_EQ(
+        precise_unit(45625252.0, precise::m),
+        unit_from_string("_45_625_252_m_"));
 
     auto ukittens = unit_from_string("_45_625_252_kittens_");
     EXPECT_EQ(ukittens.commodity(), getCommodity("kittens"));
@@ -817,19 +871,21 @@ TEST(funnyStrings, underscore)
 }
 
 TEST(funnyStrings, outofrange)
-{ // these are mainly testing that it doesn't throw
-    EXPECT_FALSE(isfinite(unit_from_string("1532^34e505"))); // out of range error
-    EXPECT_TRUE(isinf(unit_from_string("34e505"))); // out of range
-    EXPECT_TRUE(isinf(unit_from_string("-34e505"))); // out of range
+{  // these are mainly testing that it doesn't throw
+    EXPECT_FALSE(
+        isfinite(unit_from_string("1532^34e505")));  // out of range error
+    EXPECT_TRUE(isinf(unit_from_string("34e505")));  // out of range
+    EXPECT_TRUE(isinf(unit_from_string("-34e505")));  // out of range
 
-    EXPECT_TRUE(isinf(unit_from_string("34.785e12458"))); // out of range of quad precision
+    EXPECT_TRUE(isinf(
+        unit_from_string("34.785e12458")));  // out of range of quad precision
 }
 
 TEST(funnyStrings, powersof1)
-{ // check the power of 1 removals
+{  // check the power of 1 removals
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^5"));
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^"));
-    EXPECT_EQ(precise::m.pow(2), unit_from_string("m*(1)^2*m")); // invalid
+    EXPECT_EQ(precise::m.pow(2), unit_from_string("m*(1)^2*m"));  // invalid
 
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^-1"));
     EXPECT_EQ(precise::m, unit_from_string("m*(1)^-1*(1)^7"));

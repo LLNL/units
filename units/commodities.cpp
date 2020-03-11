@@ -171,17 +171,23 @@ namespace commodities {
 
         {pixel, "pixel"},
         {voxel, "voxel"},
-        {1073741824,
-         "cxcomm[1073741824]"}, // this is a _____ string commodity that might somehow get generated
+        {1073741824, "cxcomm[1073741824]"},  // this is a _____ string commodity
+                                             // that might somehow get generated
     };
 
     using commodityNameMap = std::unordered_map<std::string, std::uint32_t>;
     static const commodityNameMap commodity_codes{
-        {"_", 0}, // null commodity code, would cause some screwy things with the strings
-        {"__", 0}, // null commodity code, would cause some screwy things with the strings
-        {"___", 0}, // null commodity code, would cause some screwy things with the strings
-        {"____", 0}, // null commodity code, would cause some screwy things with the strings
-        {"_____", 0}, // null commodity code, would cause some screwy things with the strings
+        {"_", 0},  // null commodity code, would cause some screwy things with
+                   // the strings
+        {"__", 0},  // null commodity code, would cause some screwy things with
+                    // the strings
+        {"___", 0},  // null commodity code, would cause some screwy things with
+                     // the strings
+        {"____",
+         0},  // null commodity code, would cause some screwy things with
+              // the strings
+        {"_____", 0},  // null commodity code, would cause some screwy things
+                       // with the strings
         {"water", water},
         // metals
         {"gold", gold},
@@ -262,10 +268,10 @@ namespace commodities {
         {"pix", pixel},
         {"dot", pixel},
     };
-} // namespace commodities
+}  // namespace commodities
 static constexpr std::uint32_t Ac{54059}; /* a prime */
 static constexpr std::uint32_t Bc{76963}; /* another prime */
-//static constexpr std::uint32_t Cc{ 86969 }; /* yet another prime */
+// static constexpr std::uint32_t Cc{ 86969 }; /* yet another prime */
 static constexpr std::uint32_t firstH{37}; /* also prime */
 
 uint32_t stringHash(const std::string& str)
@@ -274,7 +280,7 @@ uint32_t stringHash(const std::string& str)
     for (auto c : str) {
         h = (h * Ac) ^ (static_cast<std::uint32_t>(c) * Bc);
     }
-    return h; // or return h % C;
+    return h;  // or return h % C;
 }
 
 static std::atomic<bool> allowCustomCommodities{true};
@@ -291,7 +297,8 @@ bool enableCustomCommodities()
 }
 static commodities::commodityNameMap customCommodityCodes;
 static std::unordered_map<std::uint32_t, std::string> customCommodityNames;
-/// remove some escaped characters from a string mainly the escape character and (){}[]
+/// remove some escaped characters from a string mainly the escape character and
+/// (){}[]
 static void removeEscapeSequences(std::string& str)
 {
     auto eloc = str.find_first_of('\\');
@@ -405,4 +412,4 @@ void clearCustomCommodities()
     customCommodityNames.clear();
     customCommodityCodes.clear();
 }
-} // namespace units
+}  // namespace units
