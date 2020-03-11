@@ -1493,8 +1493,8 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
 }
 
 // this string contains the first two letters of supported numerical words
-static const std::string first_two =
-    "on tw th fo fi si se ei ni te el hu mi bi tr ze";
+// static const std::string first_two =
+//    "on tw th fo fi si se ei ni te el hu mi bi tr ze";
 
 static bool hasValidNumericalWordStart(const std::string& ustring)
 { // do a check if the first and second letters make sense

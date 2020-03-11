@@ -8,9 +8,9 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "units_decl.hpp"
 
+#include <algorithm>
 #include <array>
 #include <limits>
-#include <algorithm>
 
 namespace units {
 /// Constants used in definitions of units
@@ -960,8 +960,7 @@ namespace precise {
         /** Construct an equation unit
         @details an equation unit triggers the equation flag and an index 0-31
         */
-        constexpr detail::unit_data
-            equation_unit(std::uint16_t equation_number)
+        constexpr detail::unit_data equation_unit(std::uint16_t equation_number)
         {
             return {0,
                     0,
