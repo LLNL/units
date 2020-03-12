@@ -5129,8 +5129,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     if (!skipcodereplacement) {
         // handle dot notation for multiplication
         auto dotloc = unit_string.find_last_of('.');
-        if (dotloc != std::string::npos) {
-            if (isdigit(unit_string[dotloc + 1]) == 0) {
+        if (dotloc < std::string::npos) {
+            // strings always have a null pointer at the end
+            if (isDigitCharacter(unit_string[dotloc + 1]) == 0) {
                 cleanDotNotation(unit_string, match_flags);
                 changed = true;
             }
@@ -5701,45 +5702,65 @@ static precise_unit unit_from_string_internal(
         if (unit_string[pchar] == ')') {
             int index = pchar - 1;
             segmentcheckReverse(unit_string, '(', index);
-
-            ustring = unit_string.substr(
-                static_cast<size_t>(index) + 2,
-                static_cast<size_t>(pchar) - index - 2);
-            retunit = unit_from_string_internal(
-                ustring, match_flags - recursion_modifier);
-            if (!is_valid(retunit)) {
-                if (index >= 0) {
-                    if (ustring.find_first_of("(*/^{[") == std::string::npos) {
-                        retunit = unit_from_string_internal(
-                            unit_string.substr(
-                                0, static_cast<size_t>(pchar) + 1),
-                            match_flags - recursion_modifier);
-                        if (!is_valid(retunit)) {
+			precise_unit a_unit = precise::defunit;
+			if ((index > 0)&& index < (pchar - 1 - index))
+			{
+				a_unit= unit_from_string_internal(
+					unit_string.substr(0, index), match_flags - recursion_modifier);
+				if (is_error(a_unit))
+				{
+					return precise::invalid;
+				}
+			}
+            if (power != 0) {
+                ustring = unit_string.substr(
+                    static_cast<size_t>(index) + 2,
+                    static_cast<size_t>(pchar) - index - 2);
+                retunit = unit_from_string_internal(
+                    ustring, match_flags - recursion_modifier);
+                if (!is_valid(retunit)) {
+                    if (index >= 0) {
+                        if (ustring.find_first_of("(*/^{[") ==
+                            std::string::npos) {
+                            retunit = unit_from_string_internal(
+                                unit_string.substr(
+                                    0, static_cast<size_t>(pchar) + 1),
+                                match_flags - recursion_modifier);
+                            if (!is_valid(retunit)) {
+                                return precise::invalid;
+                            }
+                            index = -1;
+                        } else {
                             return precise::invalid;
                         }
-                        index = -1;
                     } else {
                         return precise::invalid;
                     }
-                } else {
-                    return precise::invalid;
                 }
-            }
-
-            if (power == -1) {
-                retunit = retunit.inv();
-            } else if (power != 1) {
-                retunit = retunit.pow(power);
+                if (power == -1) {
+                    retunit = retunit.inv();
+                } else if (power != 1) {
+                    retunit = retunit.pow(power);
+                }
+            } else {
+                retunit = precise::one;
             }
 
             if (index < 0) {
                 return retunit;
             }
-            auto a_unit = unit_from_string_internal(
-                unit_string.substr(0, index), match_flags - recursion_modifier);
+			if (a_unit == precise::defunit)
+			{
+				a_unit = unit_from_string_internal(
+					unit_string.substr(0, index), match_flags - recursion_modifier);
+			}
             if (!is_error(a_unit)) {
                 return a_unit * retunit;
             }
+			//else
+			//{
+			//	return precise::invalid;
+			//}
         } else {
             // auto ustring = unit_string.substr(0, pchar + 1);
             ustring.assign(
