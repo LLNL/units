@@ -149,7 +149,8 @@ TEST(UDUNITS, derived_name_symbols)
 
         auto definitionUnit = units::unit_from_string(def);
         if (is_error(definitionUnit)) {
-            std::cout << "unable to convert " << def << " into a valid definition unit \n";
+            std::cout << "unable to convert " << def
+                      << " into a valid definition unit \n";
             ++failConvert;
         } else {
             auto name = cs->FirstChildElement("name");
@@ -221,7 +222,7 @@ TEST(UDUNITS, derived_alias)
             auto nameUnit = units::unit_from_string(sname);
             if (is_error(nameUnit)) {
                 std::cout << "unable to convert " << sname
-                          << " into a valid unit def="<<def<<'\n';
+                          << " into a valid unit def=" << def << '\n';
                 ++failConvert;
             } else {
                 if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) !=
@@ -240,7 +241,7 @@ TEST(UDUNITS, derived_alias)
             auto symUnit = units::unit_from_string(symString);
             if (is_error(symUnit)) {
                 std::cout << "unable to convert " << symString
-                          << " into a valid unit def="<<def<<'\n';
+                          << " into a valid unit def=" << def << '\n';
                 ++failConvert;
             } else {
                 if (convert(unit_cast(symUnit), unit_cast(definitionUnit)) !=
@@ -282,7 +283,7 @@ TEST(UDUNITS, common_alias)
             auto nameUnit = units::unit_from_string(sname);
             if (is_error(nameUnit)) {
                 std::cout << "unable to convert " << sname
-                          << " into a valid unit def="<<def<<'\n';
+                          << " into a valid unit def=" << def << '\n';
                 ++failConvert;
             } else {
                 if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) !=
