@@ -1884,7 +1884,7 @@ using ckpair = std::pair<const char*, const char*>;
 static precise_unit
     localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 39>
+    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 42>
         internationlReplacements{{
             ckpair{"internationaltable", "_IT"},
             ckpair{"internationalsteamtable", "_IT"},
@@ -1896,6 +1896,7 @@ static precise_unit
             ckpair{"USSurvey", "_us"},
             ckpair{"USA", "_us"},
             ckpair{"USstatute", "_us"},
+            ckpair{"statutory", "_us"},
             ckpair{"statute", "_us"},
             ckpair{"gregorian", "_g"},
             ckpair{"Gregorian", "_g"},
@@ -1918,6 +1919,8 @@ static precise_unit
             ckpair{"apothecaries", "_ap"},
             ckpair{"avoirdupois", "_av"},
             ckpair{"Chinese", "_ch"},
+            ckpair{"Canadian", "_can"},
+            ckpair{"canadian", "_can"},
             ckpair{"survey", "_us"},
             ckpair{"tropical", "_t"},
             ckpair{"British", "_br"},
@@ -1970,6 +1973,40 @@ static precise_unit
     }
 
     return precise::invalid;
+}
+
+//just ignore some modifiers that might be assumed in particular units
+static precise_unit
+ignoreModifiers(std::string unit, std::uint32_t match_flags)
+{
+	using igpair = std::pair<const char *, int>;
+
+    static UNITS_CPP14_CONSTEXPR std::array<igpair, 1> ignore_word{{
+        igpair{"liquid", 6},
+    }};
+	bool changed = false;
+	for (const auto& irep : ignore_word) {
+		auto fnd = unit.find(irep.first);
+		if (fnd != std::string::npos) {
+			if (irep.second == unit.size()) {  
+				// this is a modifier if we are checking the entire unit this is automatically false
+				return precise::invalid;
+			}
+			unit.erase(fnd, irep.second);
+			changed = true;
+			break;
+		}
+	}
+	if (changed) {
+		auto retunit = localityModifiers(unit, match_flags);
+		if (!is_error(retunit))
+		{
+			return retunit;
+		}
+		return unit_from_string_internal(
+			unit, match_flags | no_locality_modifiers | no_of_operator);
+	}
+	return precise::invalid;
 }
 
 /// detect some known SI prefixes
@@ -2134,6 +2171,10 @@ static const smap base_unit_vals{
     {"lbmol", precise_unit(424.0, precise::mol)},
     {"atom", constants::Na.as_unit().inv()},
     {"avogadroconstant", constants::Na.as_unit()},
+    {"molecule", constants::Na.as_unit().inv()},
+    {"molec", constants::Na.as_unit().inv()},
+    {"nucleon", constants::Na.as_unit().inv()},
+    {"nuc", constants::Na.as_unit().inv()},
     {"MOL", precise::mol},
     {"mOL", precise::mol},
     {"mole", precise::mol},
@@ -2865,6 +2906,7 @@ static const smap base_unit_vals{
     {"unit", precise::count},
     {"pair", precise_unit(2.0, precise::count)},
     {"dozen", precise_unit(12.0, precise::count)},
+    {"octet", precise_unit(8.0, precise::count)},
     {"gross", precise_unit(144.0, precise::count)},
     {"half", precise_unit(0.5, precise::one)},
     {"quarter", precise_unit(0.25, precise::one)},
@@ -3391,8 +3433,18 @@ static const smap base_unit_vals{
     {"barrel_us", precise::us::barrel},
     {"flbarrel_us", precise::us::flbarrel},
     {"fluidbarrel_us", precise::us::flbarrel},
+    {"liquidbarrel_us", precise::us::flbarrel},
     {"flbarrel", precise::us::flbarrel},
     {"fluidbarrel", precise::us::flbarrel},
+    {"liquidbarrel", precise::us::flbarrel},
+    {"gal_can", precise::canada::gallon},
+    {"gallon_can", precise::canada::gallon},
+    {"tbsp_can", precise::canada::tbsp},
+    {"tsp_can", precise::canada::tsp},
+    {"tablespoon_can", precise::canada::tbsp},
+    {"teaspoon_can", precise::canada::tsp},
+    {"cup_can", precise::canada::cup},
+    {"traditional_cup_can", precise::canada::cup_trad},
     {"drum", precise::volume::drum},
     {"gallon", precise::gal},
     {"hogshead", precise::us::hogshead},
@@ -3427,7 +3479,7 @@ static const smap base_unit_vals{
     {"ton(refrigeration)", precise::energy::tonc},  // ton cooling
     {"tonofrefrigeration", precise::energy::tonc},  // ton cooling
     {"tonsofrefrigeration", precise::energy::tonc},  // ton cooling
-    {"refridgerationton", precise::energy::tonc},  // ton cooling
+    {"refrigerationton", precise::energy::tonc},  // ton cooling
     {"ton(cooling)", precise::energy::tonc},  // ton cooling
     {"ton{refrigeration}", precise::energy::tonc},  // ton cooling
     {"ton{cooling}", precise::energy::tonc},  // ton cooling
@@ -3483,17 +3535,23 @@ static const smap base_unit_vals{
     {"foz", precise::us::floz},
     {"[FOZ_US]", precise::us::floz},
     {"fluidounce", precise::us::floz},
-    // {"fluidounces_us", precise::us::floz},
     {"fluidounce_us", precise::us::floz},
+    {"fluiddram", precise_unit(1.0 / 8.0, precise::us::floz)},
+    {"fluiddram_us", precise_unit(1.0 / 8.0, precise::us::floz)},
+    {"liquidounce", precise::us::floz},
+    {"liquidounce_us", precise::us::floz},
     {"fdr_us", precise::us::dram},
     {"[FDR_US]", precise::us::dram},
     {"fluiddram_us", precise::us::dram},
+    {"liquiddram_us", precise::us::dram},
     {"min_us", precise::us::minim},
     {"[MIN_US]", precise::us::minim},
     {"minim_us", precise::us::minim},
     {"ouncefl", precise::us::floz},
     {"fluidounce", precise::us::floz},
     {"fluidoz", precise::us::floz},
+    {"liquidounce", precise::us::floz},
+    {"liquidoz", precise::us::floz},
     {"oz", precise::oz},
     {u8"\u2125", precise::oz},
     {"gr", precise::i::grain},
@@ -3612,6 +3670,8 @@ static const smap base_unit_vals{
     {"gamma{geo}", precise::nano* precise::T},  // two different uses of gamma
     {"gf", precise::g* constants::g0.as_unit()},
     {"gravity", constants::g0.as_unit()},  // force of gravity
+    {"geopotential", constants::g0.as_unit()},  // force of gravity
+    {"gp", constants::g0.as_unit()},  // force of gravity
     {"force", constants::g0.as_unit()},  // force of gravity
     {"frc", constants::g0.as_unit()},  // force of gravity
     {"kp", precise::kilo* precise::gm::pond},
@@ -3686,6 +3746,8 @@ static const smap base_unit_vals{
     {"[FOZ_M]", precise::metric::floz},
     {"fluidounce-metric", precise::metric::floz},
     {"fluidounce_m", precise::metric::floz},
+    {"liquidounce-metric", precise::metric::floz},
+    {"liquidounce_m", precise::metric::floz},
     {"quart", precise::us::quart},
     {"qt", precise::us::quart},
     {"qt_us", precise::us::quart},
@@ -3742,9 +3804,11 @@ static const smap base_unit_vals{
     {"floz_br", precise::imp::floz},
     {"[FOZ_BR]", precise::imp::floz},
     {"fluidounce_br", precise::imp::floz},
+    {"liquidounce_br", precise::imp::floz},
     {"fdr_br", precise::imp::dram},
     {"[FDR_BR]", precise::imp::dram},
     {"fluiddram_br", precise::imp::dram},
+    {"liquiddram_br", precise::imp::dram},
     {"min_br", precise::imp::minim},
     {"[MIN_BR]", precise::imp::minim},
     {"minim_br", precise::imp::minim},
@@ -3825,6 +3889,19 @@ static const smap base_unit_vals{
     {"PRU", precise::clinical::pru},
     {"peripheralvascularresistanceunit", precise::clinical::pru},
     {"peripheralresistanceunit", precise::clinical::pru},
+    {"potentialvorticityunit",
+     precise_unit(
+         detail::unit_data(2, -1, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+         1e-6)},
+    {"PVU",
+     precise_unit(
+         detail::unit_data(2, -1, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+         1e-6)},
+    // unit of thermal resistance used in describing the insulating value of
+    // clothing; the amount of thermal resistance needed to maintain in comfort a
+    // resting subject in a normally ventilated room (air movement 10 cm/sec) at
+    // a temperature of 20 degrees C and a humidity less than 50%
+    {"clo", precise_unit(1.55e-1, precise::K* precise::m.pow(2) / precise::W)},
     {"[MET]", precise::clinical::met},
     {"MET", precise::clinical::met},
     {"metabolicEquivalentofTask", precise::clinical::met},
@@ -3900,6 +3977,7 @@ static const smap base_unit_vals{
     {"B[V]", precise::log::B_V},
     {"B(V)", precise::log::B_V},
     {"BV", precise::log::B_V},
+    {"Bv", precise_unit(0.775, precise::log::B_V)},
     {"Bvolt", precise::log::B_V},
     {"belvolt", precise::log::B_V},
     {"belV", precise::log::B_V},
@@ -3920,6 +3998,7 @@ static const smap base_unit_vals{
     {"decibelmicrovolt", precise::log::dB_uV},
     {"B[UV]", precise::log::B_uV},
     {"B(uV)", precise::log::B_uV},
+    {"BuV", precise::log::B_uV},
     {"belmicrovolt", precise::log::B_uV},
     {"DB[UV]", precise::log::dB_uV},
     {"B[10.nV]", precise::log::B_10nV},
@@ -5961,6 +6040,14 @@ static precise_unit unit_from_string_internal(
             return retunit;
         }
     }
+
+	if ((match_flags & no_locality_modifiers) == 0) {
+		retunit =
+			ignoreModifiers(unit_string, match_flags | skip_partition_check);
+		if (!is_error(retunit)) {
+			return retunit;
+		}
+	}
 
     if ((match_flags & skip_partition_check) == 0) {
         // maybe some things got merged together so lets try splitting them up
