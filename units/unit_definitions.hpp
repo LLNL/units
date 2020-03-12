@@ -1051,8 +1051,10 @@ namespace precise {
         constexpr precise_unit dB_10nV = dB * precise::ten * precise::nano * V;
         constexpr precise_unit dB_W = dB * W;
         constexpr precise_unit dB_kW = dB * kW;
-		constexpr precise_unit dBZ = dB * ((micro*m).pow(3)); //for radar reflectivity
-		constexpr precise_unit BZ = bel * ((micro*m).pow(3)); //for radar reflectivity
+        constexpr precise_unit dBZ =
+            dB * ((micro * m).pow(3));  // for radar reflectivity
+        constexpr precise_unit BZ =
+            bel * ((micro * m).pow(3));  // for radar reflectivity
     }  // namespace log
 
     /// additional equation based units
@@ -1347,9 +1349,9 @@ namespace precise {
         // square root of Hertz
         constexpr precise_unit rootHertz = precise_unit(
             detail::unit_data(0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
-		// square root of meter
-		constexpr precise_unit rootMeter = precise_unit(
-			detail::unit_data(-5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
+        // square root of meter
+        constexpr precise_unit rootMeter = precise_unit(
+            detail::unit_data(-5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
     }  // namespace special
 

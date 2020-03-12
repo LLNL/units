@@ -2508,8 +2508,8 @@ static const smap base_unit_vals{
     {"yard", precise::yd},
     {"cubit", precise::distance::cubit},
     {"cubit_br", precise::distance::cubit},
-    {"cubit(UK)", precise::distance::cubit},  
-		// because cubit has cu in it which indicates cubed
+    {"cubit(UK)", precise::distance::cubit},
+    // because cubit has cu in it which indicates cubed
     {"longcubit", precise::distance::longcubit},
     {"arpent", precise::distance::arpent_us},
     {"arpent_fr", precise::distance::arpent_fr},
@@ -2563,8 +2563,9 @@ static const smap base_unit_vals{
     {"syr", precise::time::syr},  // sidereal year
     {"year_sdr", precise::time::syr},  // sidereal year
     {"yr_sdr", precise::time::syr},  // sidereal year
-	{ "month_sdr", precise_unit(1.0/12.0,precise::time::syr) },  // sidereal month
-	{ "mo_sdr", precise_unit(1.0 / 12.0,precise::time::syr) },  // sidereal month
+    {"month_sdr",
+     precise_unit(1.0 / 12.0, precise::time::syr)},  // sidereal month
+    {"mo_sdr", precise_unit(1.0 / 12.0, precise::time::syr)},  // sidereal month
     {"sday", precise::time::sday},  // sidereal day
     {"day_sdr", precise::time::sday},  // sidereal day
     {"dy_sdr", precise::time::sday},  // sidereal day
@@ -2584,8 +2585,8 @@ static const smap base_unit_vals{
                                                                     // second
     {"a_t", precise::time::at},  // tropical year
     {"year_t", precise::time::at},  // tropical year
-	{ "month_t", precise_unit(1.0/12.0,precise::time::at) },  // tropical month
-	{ "mo_t", precise_unit(1.0 / 12.0,precise::time::at) },  // tropical month
+    {"month_t", precise_unit(1.0 / 12.0, precise::time::at)},  // tropical month
+    {"mo_t", precise_unit(1.0 / 12.0, precise::time::at)},  // tropical month
     {"solaryear", precise::time::at},  // year
     {"ANN_T", precise::time::at},  // year
     {"a_j", precise::time::aj},  // year
@@ -2637,16 +2638,16 @@ static const smap base_unit_vals{
     {"angulardeg", precise::deg},
     {"deg", precise::deg},
     {"DEG", precise::deg},
-	{ "degE", precise::deg*precise::direction::east },
-	{ "east", precise::direction::east },
-	{ "degW", precise::deg*precise::direction::west },
-	{ "west", precise::direction::west },
-	{ "degS", precise::deg*precise::direction::south },
-	{ "south", precise::direction::south },
-	{ "degN", precise::deg*precise::direction::north },
-	{ "north", precise::direction::north },
-	{ "degT", precise::deg*precise::direction::north },
-	{ "true", precise::direction::north },
+    {"degE", precise::deg* precise::direction::east},
+    {"east", precise::direction::east},
+    {"degW", precise::deg* precise::direction::west},
+    {"west", precise::direction::west},
+    {"degS", precise::deg* precise::direction::south},
+    {"south", precise::direction::south},
+    {"degN", precise::deg* precise::direction::north},
+    {"north", precise::direction::north},
+    {"degT", precise::deg* precise::direction::north},
+    {"true", precise::direction::north},
     {"o", precise::deg},
     {u8"\u00B0", precise::deg},  // unicode degree symbol
     {"\xB0", precise::deg},  // latin-1 degree
@@ -2704,12 +2705,12 @@ static const smap base_unit_vals{
      "C",
      precise::degC},
     {u8"\u00B0C", precise::degC},
-	{ u8"\u2103", precise::degC }, // direct unicode symbol
+    {u8"\u2103", precise::degC},  // direct unicode symbol
     {"\xB0"
      "K",
      precise::K},
     {u8"\u00B0K", precise::K},
-	
+
     {"degC", precise::degC},
     {"oC", precise::degC},
     {"Cel", precise::degC},
@@ -2719,7 +2720,7 @@ static const smap base_unit_vals{
     {"degF", precise::degF},
     {"degsF", precise::degF},
     {"[DEGF]", precise::degF},
-	{ u8"\u2109", precise::degF }, // direct unicode symbol
+    {u8"\u2109", precise::degF},  // direct unicode symbol
     {"degR", precise::temperature::degR},
     {"degsR", precise::temperature::degR},
     {"[DEGR]", precise::temperature::degR},
@@ -2801,8 +2802,8 @@ static const smap base_unit_vals{
     {"light", constants::c.as_unit()},
     {"[h]", constants::h.as_unit()},
     {"[H]", constants::h.as_unit()},
-	 { u8"\u210E", constants::h.as_unit() },
-	 { u8"\u210F", precise_unit(1.0/tau,constants::h.as_unit()) },
+    {u8"\u210E", constants::h.as_unit()},
+    {u8"\u210F", precise_unit(1.0 / constants::tau, constants::h.as_unit())},
     {"[k]", constants::k.as_unit()},
     {"[K]", constants::k.as_unit()},
     {"eps_0", constants::eps0.as_unit()},
@@ -2822,8 +2823,8 @@ static const smap base_unit_vals{
     {"[GC]", constants::G.as_unit()},
     {"[g]", constants::g0.as_unit()},
     {"standardgravity", constants::g0.as_unit()},
-	{ "standardfreefall", constants::g0.as_unit() },
-	{ "freefall", constants::g0.as_unit() },
+    {"standardfreefall", constants::g0.as_unit()},
+    {"freefall", constants::g0.as_unit()},
     {"standardaccelerationoffreefall", constants::g0.as_unit()},
     {"accelerationofgravity", constants::g0.as_unit()},
     {"m_e", constants::me.as_unit()},
@@ -2874,9 +2875,8 @@ static const smap base_unit_vals{
     {"eighth", precise_unit(0.125, precise::one)},
     {"tenth", precise_unit(0.1, precise::one)},
     {"cell", precise_unit(1.0, precise::count, commodities::cell)},
-    {"{cells}",
-     precise_unit(1.0, precise::count, commodities::cell)},  
-		// mainly to catch the commodity for using cell
+    {"{cells}", precise_unit(1.0, precise::count, commodities::cell)},
+    // mainly to catch the commodity for using cell
     {"{#}", precise::count},
     {"[#]", precise::count},
     {"#", precise::count},
@@ -2905,7 +2905,7 @@ static const smap base_unit_vals{
     {"Sv", precise::Sv},
     {"SV", precise::Sv},
     {"sievert", precise::Sv},
-	{"sverdrup",precise_unit(1e6,precise::m.pow(3)/precise::s)},
+    {"sverdrup", precise_unit(1e6, precise::m.pow(3) / precise::s)},
     {"rem", precise::cgs::REM},
     {"[REM]", precise::cgs::REM},
     {"REM", precise::cgs::REM},
@@ -2941,7 +2941,7 @@ static const smap base_unit_vals{
     // centipoise doesn't conflict with ps
     {"P", precise::cgs::poise},
     {"poise", precise::cgs::poise},
-	{ "rhe", precise_unit(10.0,(precise::Pa*precise::s).inv())},
+    {"rhe", precise_unit(10.0, (precise::Pa * precise::s).inv())},
     {"Ba", precise::cgs::barye},
     {"BA", precise::cgs::barye},
     {"barye", precise::cgs::barye},
@@ -3138,7 +3138,7 @@ static const smap base_unit_vals{
     {"fph", precise::ft / precise::hr},
     {"mps", precise::m / precise::s},
     {"eV", precise::energy::eV},
-	{ "bev", precise_unit(1e9,precise::energy::eV) },
+    {"bev", precise_unit(1e9, precise::energy::eV)},
     {"EV", precise::energy::eV},
     {"Ry", precise_unit(13.60583, precise::energy::eV)},  // Rydberg
     {"electronvolt", precise::energy::eV},
@@ -3495,7 +3495,7 @@ static const smap base_unit_vals{
     {"fluidounce", precise::us::floz},
     {"fluidoz", precise::us::floz},
     {"oz", precise::oz},
-	{ u8"\u2125", precise::oz },
+    {u8"\u2125", precise::oz},
     {"gr", precise::i::grain},
     {"[GR]", precise::i::grain},
     {"grain", precise::i::grain},
@@ -3569,7 +3569,7 @@ static const smap base_unit_vals{
     {"[SC_AP]", precise::apothecaries::scruple},
     {"scruple", precise::apothecaries::scruple},
     {"scruple_ap", precise::apothecaries::scruple},
-	{ u8"\u2108", precise::apothecaries::scruple },
+    {u8"\u2108", precise::apothecaries::scruple},
     {"dr_ap", precise::apothecaries::drachm},
     {u8"\u01B7", precise::apothecaries::drachm},
     {u8"\u0292", precise::apothecaries::drachm},
@@ -3611,11 +3611,11 @@ static const smap base_unit_vals{
     {"gamma(geo)", precise::nano* precise::T},  // two different uses of gamma
     {"gamma{geo}", precise::nano* precise::T},  // two different uses of gamma
     {"gf", precise::g* constants::g0.as_unit()},
-	{"gravity",constants::g0.as_unit() }, //force of gravity
-	{ "force",constants::g0.as_unit() }, //force of gravity
-	{ "frc",constants::g0.as_unit() }, //force of gravity
-    {"kp", precise::kilo* precise::gm::pond},  
-		// this is probably more common than kilopoise
+    {"gravity", constants::g0.as_unit()},  // force of gravity
+    {"force", constants::g0.as_unit()},  // force of gravity
+    {"frc", constants::g0.as_unit()},  // force of gravity
+    {"kp", precise::kilo* precise::gm::pond},
+    // this is probably more common than kilopoise
     {"kipf", precise::kilo* precise::lbf},
     {"kipforce", precise::kilo* precise::lbf},
     {"tonforce_m", precise::tonne* constants::g0.as_unit()},
@@ -3942,8 +3942,8 @@ static const smap base_unit_vals{
     {"belkilowatt", precise::log::B_kW},
     {"belkW", precise::log::B_kW},
     {"DB[KW]", precise::log::dB_kW},
-	{"dBZ",precise::log::dBZ},
-	{"BZ",precise::log::BZ},
+    {"dBZ", precise::log::dBZ},
+    {"BZ", precise::log::BZ},
     {"[S]", precise::laboratory::svedberg},
     {"svedbergunit", precise::laboratory::svedberg},
     {"HPF", precise::laboratory::HPF},
@@ -6102,7 +6102,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"magnetomotiveforce", precise::A},
     {"temperature", precise::K},
     {u8"\u2C90", precise::K},
-	{u8"\u2129", precise::K},
+    {u8"\u2129", precise::K},
     {u8"\u03F4", precise::K},
     {u8"\u0398", precise::K},
     {"celsiustemperature", precise::degC},
@@ -6232,8 +6232,8 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"specificenergy", precise::J / precise::kg / precise::K},
     {"dynamicviscosity", precise::Pa* precise::s},
     {"viscosity", precise::Pa* precise::s},
-    {"visc",  precise::Pa * precise::s},
-    {"fluidity", precise::one / precise::Pa/ precise::s},
+    {"visc", precise::Pa* precise::s},
+    {"fluidity", precise::one / precise::Pa / precise::s},
     {"kinematicviscosity", precise::m.pow(2) / precise::s},
     {"radiantintensity", precise::W / precise::rad.pow(2)},
     {"radiance", precise::W / precise::rad.pow(2) / precise::m.pow(2)},
