@@ -1886,8 +1886,9 @@ namespace constants {
     constexpr precise_measurement mu0{12.566370614e-7,
                                       precise::N / (precise::A * precise::A)};
 
-	/// Faraday constant (2019 redefinition)
-	constexpr precise_measurement F{ 96485.3321233100184, precise::C / precise::mol };
+    /// Faraday constant (2019 redefinition)
+    constexpr precise_measurement F{96485.3321233100184,
+                                    precise::C / precise::mol};
 
     /// Gas Constant
     constexpr precise_measurement R{8.314459848,
