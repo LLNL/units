@@ -34,6 +34,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   Added `UNITS_CLANG_TIDY` option to run tests with Clang tidy [#41][]
 -   Added fuzz_measurement fuzzer to test measurement_from_string [#42][]
 -   Added cpplint test to azure [#43][]
+-   Added a number of additional units from UDunits [#44][]
 
 ### Removed
 
@@ -93,6 +94,7 @@ Continued work on cleaning up the library and starting to add main documentation
 [#41]: https://github.com/LLNL/units/pull/41
 [#42]: https://github.com/LLNL/units/pull/42
 [#43]: https://github.com/LLNL/units/pull/43
+[#44]: https://github.com/LLNL/units/pull/44
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0

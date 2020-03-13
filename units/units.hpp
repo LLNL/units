@@ -328,7 +328,7 @@ class measurement {
     /// extract the current units from the measurement
     constexpr unit units() const { return units_; }
 
-    // convert the measurement to a single unit
+    /// convert the measurement to a single unit
     constexpr unit as_unit() const { return {value_, units_}; }
     /// Equality operator
     bool operator==(measurement other) const

@@ -496,6 +496,7 @@ namespace precise {
         constexpr precise_unit tsp{5.0, mL};
         constexpr precise_unit cup{250.0, mL};
         constexpr precise_unit cup_trad{227.3045, mL};
+        constexpr precise_unit gallon{4.54609e-3, m.pow(3)};
         namespace grain {
             constexpr precise_unit bushel_oats{34.0, av::pound};
         }  // namespace grain
@@ -752,8 +753,8 @@ namespace precise {
         constexpr precise_unit hpE(746.0, W);  // electric horsepower
         constexpr precise_unit
             hpI(745.69987158227022, W);  // mechanical horsepower
-        constexpr precise_unit hpS(9812.5, W);  // Boiler horsepower
-        constexpr precise_unit hpM(735.49875, W);  // Boiler horsepower
+        constexpr precise_unit hpS(9812.5, W);  // Boiler(steam) horsepower
+        constexpr precise_unit hpM(735.49875, W);  // Mechanical horsepower
 
     }  // namespace power
 
@@ -1051,6 +1052,10 @@ namespace precise {
         constexpr precise_unit dB_10nV = dB * precise::ten * precise::nano * V;
         constexpr precise_unit dB_W = dB * W;
         constexpr precise_unit dB_kW = dB * kW;
+        constexpr precise_unit dBZ =
+            dB * ((micro * m).pow(3));  // for radar reflectivity
+        constexpr precise_unit BZ =
+            bel * ((micro * m).pow(3));  // for radar reflectivity
     }  // namespace log
 
     /// additional equation based units
@@ -1345,11 +1350,15 @@ namespace precise {
         // square root of Hertz
         constexpr precise_unit rootHertz = precise_unit(
             detail::unit_data(0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
+        // square root of meter
+        constexpr precise_unit rootMeter = precise_unit(
+            detail::unit_data(-5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
     }  // namespace special
 
     constexpr precise_unit candle{0.981, cd};
-    constexpr precise_unit faraday{9.648533289e4, C};
+    // 2019 redefinition
+    constexpr precise_unit faraday{96485.3321233100184, C};
 }  // namespace precise
 
 constexpr unit meter = unit_cast(precise::meter);

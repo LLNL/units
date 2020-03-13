@@ -643,6 +643,9 @@ TEST(stringToUnits, invalid)
 
     u2 = unit_from_string("m^(-4)^4");
     EXPECT_TRUE(is_error(u2));
+
+    EXPECT_FALSE(units::is_valid(unit_from_string("liquid")));
+    EXPECT_FALSE(is_valid(unit_from_string("_liquid_()")));
 }
 
 TEST(userDefinedUnits, definitions)
