@@ -1975,38 +1975,37 @@ static precise_unit
     return precise::invalid;
 }
 
-//just ignore some modifiers that might be assumed in particular units
-static precise_unit
-ignoreModifiers(std::string unit, std::uint32_t match_flags)
+// just ignore some modifiers that might be assumed in particular units
+static precise_unit ignoreModifiers(std::string unit, std::uint32_t match_flags)
 {
-	using igpair = std::pair<const char *, int>;
+    using igpair = std::pair<const char*, int>;
 
     static UNITS_CPP14_CONSTEXPR std::array<igpair, 1> ignore_word{{
         igpair{"liquid", 6},
     }};
-	bool changed = false;
-	for (const auto& irep : ignore_word) {
-		auto fnd = unit.find(irep.first);
-		if (fnd != std::string::npos) {
-			if (irep.second == unit.size()) {  
-				// this is a modifier if we are checking the entire unit this is automatically false
-				return precise::invalid;
-			}
-			unit.erase(fnd, irep.second);
-			changed = true;
-			break;
-		}
-	}
-	if (changed) {
-		auto retunit = localityModifiers(unit, match_flags);
-		if (!is_error(retunit))
-		{
-			return retunit;
-		}
-		return unit_from_string_internal(
-			unit, match_flags | no_locality_modifiers | no_of_operator);
-	}
-	return precise::invalid;
+    bool changed = false;
+    for (const auto& irep : ignore_word) {
+        auto fnd = unit.find(irep.first);
+        if (fnd != std::string::npos) {
+            if (irep.second == unit.size()) {
+                // this is a modifier if we are checking the entire unit this is
+                // automatically false
+                return precise::invalid;
+            }
+            unit.erase(fnd, irep.second);
+            changed = true;
+            break;
+        }
+    }
+    if (changed) {
+        auto retunit = localityModifiers(unit, match_flags);
+        if (!is_error(retunit)) {
+            return retunit;
+        }
+        return unit_from_string_internal(
+            unit, match_flags | no_locality_modifiers | no_of_operator);
+    }
+    return precise::invalid;
 }
 
 /// detect some known SI prefixes
@@ -3898,9 +3897,9 @@ static const smap base_unit_vals{
          detail::unit_data(2, -1, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
          1e-6)},
     // unit of thermal resistance used in describing the insulating value of
-    // clothing; the amount of thermal resistance needed to maintain in comfort a
-    // resting subject in a normally ventilated room (air movement 10 cm/sec) at
-    // a temperature of 20 degrees C and a humidity less than 50%
+    // clothing; the amount of thermal resistance needed to maintain in comfort
+    // a resting subject in a normally ventilated room (air movement 10 cm/sec)
+    // at a temperature of 20 degrees C and a humidity less than 50%
     {"clo", precise_unit(1.55e-1, precise::K* precise::m.pow(2) / precise::W)},
     {"[MET]", precise::clinical::met},
     {"MET", precise::clinical::met},
@@ -6041,13 +6040,13 @@ static precise_unit unit_from_string_internal(
         }
     }
 
-	if ((match_flags & no_locality_modifiers) == 0) {
-		retunit =
-			ignoreModifiers(unit_string, match_flags | skip_partition_check);
-		if (!is_error(retunit)) {
-			return retunit;
-		}
-	}
+    if ((match_flags & no_locality_modifiers) == 0) {
+        retunit =
+            ignoreModifiers(unit_string, match_flags | skip_partition_check);
+        if (!is_error(retunit)) {
+            return retunit;
+        }
+    }
 
     if ((match_flags & skip_partition_check) == 0) {
         // maybe some things got merged together so lets try splitting them up

@@ -496,7 +496,7 @@ namespace precise {
         constexpr precise_unit tsp{5.0, mL};
         constexpr precise_unit cup{250.0, mL};
         constexpr precise_unit cup_trad{227.3045, mL};
-		constexpr precise_unit gallon{ 4.54609e-3,m.pow(3) };
+        constexpr precise_unit gallon{4.54609e-3, m.pow(3)};
         namespace grain {
             constexpr precise_unit bushel_oats{34.0, av::pound};
         }  // namespace grain
@@ -1357,7 +1357,7 @@ namespace precise {
     }  // namespace special
 
     constexpr precise_unit candle{0.981, cd};
-	// 2019 redefinition
+    // 2019 redefinition
     constexpr precise_unit faraday{96485.3321233100184, C};
 }  // namespace precise
 
