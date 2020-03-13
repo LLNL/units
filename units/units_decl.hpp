@@ -297,7 +297,7 @@ namespace detail {
                 0 :
                 (power >> 1) * ((second_ < 0) || (power < 0) ? 9 : -9);
         }
-		
+
         // needs to be defined for the full 32 bits
         signed int meter_ : 4;
         signed int second_ : 4;  // 8

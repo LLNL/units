@@ -2,9 +2,12 @@
 # Build your C/C++ project with GCC using make.
 # Add steps that publish test results, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
-#copied from https://github.com/CLIUtils/CLI11
+# copied from https://github.com/CLIUtils/CLI11
 
 trigger:
+- master
+
+pr:
 - master
 
 variables:
