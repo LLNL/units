@@ -834,6 +834,9 @@ std::string
                     // circumstances
                     cString.insert(0, 1, '1');
                 }
+                if (propUnitString.empty()) {
+                    propUnitString.push_back('1');
+                }
                 propUnitString.push_back('/');
                 propUnitString.append(cString);
             } else {
@@ -4516,13 +4519,20 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
     while (fnd != std::string::npos) {
         spacesRemoved = true;
         if ((fnd > 0) && (!skipMultiply)) {
+            auto nloc = unit_string.find_first_not_of(spaceChars, fnd);
             if (fnd == 1) {  // if the second character is a space it almost
                              // always means multiply
                 if (unit_string.size() < 8) {
-                    unit_string[fnd] = '*';
-                    fnd = unit_string.find_first_of(spaceChars, fnd);
-                    skipMultiply = true;
-                    continue;
+                    if (unit_string[nloc] == '*' || unit_string[nloc] == '/') {
+                        unit_string.erase(fnd, 1);
+                        fnd = unit_string.find_first_of(spaceChars, fnd);
+                        continue;
+                    } else {
+                        unit_string[fnd] = '*';
+                        fnd = unit_string.find_first_of(spaceChars, fnd);
+                        skipMultiply = true;
+                        continue;
+                    }
                 }
             }
             if (unit_string[fnd - 1] == '/' || unit_string[fnd - 1] == '*') {
@@ -4530,8 +4540,8 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 fnd = unit_string.find_first_of(spaceChars, fnd);
                 continue;
             }
-            if (unit_string.size() > fnd + 1 &&
-                (unit_string[fnd + 1] == '/' || unit_string[fnd + 1] == '*')) {
+            if (unit_string.size() > nloc &&
+                (unit_string[nloc] == '/' || unit_string[nloc] == '*')) {
                 unit_string.erase(fnd, 1);
                 fnd = unit_string.find_first_of(spaceChars, fnd);
                 continue;
@@ -5514,7 +5524,7 @@ static precise_unit unit_to_the_power_of(
     bool partialPowerSegment = (unit_string.back() == ')');
     int index = static_cast<int>(unit_string.size() - 2);
     if (partialPowerSegment) {
-		segmentcheckReverse(unit_string, '(', index);
+        segmentcheckReverse(unit_string, '(', index);
         if (index > 0 && unit_string[index] == '^') {
             partialPowerSegment = false;
         }

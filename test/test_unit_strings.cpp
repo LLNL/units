@@ -215,6 +215,21 @@ TEST(stringToUnits, Simple)
     EXPECT_EQ(precise::m, unit_from_string("meter"));
 }
 
+TEST(stringToUnits, with_space)
+{
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1 /m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1  /m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1   /m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1   / m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1   /  m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1   /   m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1/   m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1\t/          m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1\t/\tm"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1/\tm"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("  1/\tm  "));
+}
+
 TEST(stringToUnits, to_default_unit)
 {
     EXPECT_EQ(precise::defunit, unit_from_string("*"));
