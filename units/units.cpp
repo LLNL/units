@@ -5503,16 +5503,15 @@ static precise_unit unit_to_the_power_of(
     int power,
     std::uint32_t match_flags)
 {
-
-	std::uint32_t recursion_modifier = recursion_depth1;
-	if ((match_flags & no_recursion) != 0) {
-		recursion_modifier = 0;
-	}
+    std::uint32_t recursion_modifier = recursion_depth1;
+    if ((match_flags & no_recursion) != 0) {
+        recursion_modifier = 0;
+    }
 
     precise_unit retunit = precise::invalid;
-    
+
     if (unit_string.back() == ')') {
-		int index = static_cast<int>(unit_string.size() - 2);
+        int index = static_cast<int>(unit_string.size() - 2);
         segmentcheckReverse(unit_string, '(', index);
 
         std::string ustring = unit_string.substr(
@@ -5552,16 +5551,36 @@ static precise_unit unit_to_the_power_of(
             if (!is_error(a_unit)) {
                 return a_unit * retunit;
             }
-			return precise::defunit;
+            return precise::defunit;
         } else {
             if (retunit.has_same_base(precise::one)) {
                 if (std::floor(retunit.multiplier()) == retunit.multiplier()) {
-					return unit_to_the_power_of(
-						unit_string.substr(0, index - 1),
-						static_cast<int>(retunit.multiplier()),
-						match_flags);
+                    int subpower = static_cast<int>(retunit.multiplier());
+                    if (subpower > 7) {
+                        retunit = unit_to_the_power_of(
+                            unit_string.substr(0, index - 1), 1, match_flags);
+                        if (!retunit.has_same_base(precise::one)) {
+                            return precise::invalid;
+                        }
+                        return {std::pow(
+                                    retunit.multiplier(),
+                                    static_cast<double>(subpower)),
+                                precise::one};
+                    } else {
+                        auto retunit2 = unit_to_the_power_of(
+                            unit_string.substr(0, index - 1),
+                            subpower,
+                            match_flags);
+                        if (!retunit.has_same_base(precise::one)) {
+                            return precise::invalid;
+                        }
+                        return {std::pow(
+                                    retunit2.multiplier(),
+                                    retunit.multiplier()),
+                                precise::one};
+                    }
                 } else {
-					return precise::invalid;
+                    return precise::invalid;
                 }
             } else {
                 // can't raise anything to the power of a unit other than
@@ -5778,7 +5797,7 @@ static precise_unit unit_from_string_internal(
 
     sep = findOperatorSep(unit_string, "^");
     if (sep != std::string::npos) {
-        auto pchar = sep-1;
+        auto pchar = sep - 1;
         if (unit_string[sep + 1] == '(') {
             ++sep;
         }
@@ -5807,14 +5826,13 @@ static precise_unit unit_from_string_internal(
                 return precise::invalid;  // LCOV_EXCL_LINE
             }
         }
-		retunit = unit_to_the_power_of(
-			unit_string.substr(0, (pchar>0)?pchar+1:1),
-			power,
-			match_flags);
-		if (retunit != precise::defunit)
-		{
-			return retunit;
-		}
+        retunit = unit_to_the_power_of(
+            unit_string.substr(0, (pchar > 0) ? pchar + 1 : 1),
+            power,
+            match_flags);
+        if (retunit != precise::defunit) {
+            return retunit;
+        }
     }
     if ((match_flags & no_commodities) == 0 && unit_string.back() == '}' &&
         unit_string.find('{') != std::string::npos) {
