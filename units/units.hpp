@@ -1321,7 +1321,7 @@ class fixed_precise_measurement {
         value_ = val;
         return *this;
     }
-    // direct conversion operator
+    /// direct conversion operator
     // NOLINTNEXTLINE(google-explicit-constructor)
     operator precise_measurement() { return {value_, units_}; }
 
@@ -1624,7 +1624,7 @@ constexpr fixed_measurement measurement_cast(const fixed_measurement& measure)
 }
 
 /// define measurement cast on measurement so it works in templates
-constexpr measurement measurement_cast(measurement measure)
+constexpr measurement measurement_cast(const measurement& measure)
 {
     return measure;
 }
@@ -1683,27 +1683,30 @@ enum unit_conversion_flags : std::uint32_t {
     single_slash = 2u,  //!< specify that there is a single numerator and
                         //!< denominator only a single slash in the unit
                         //!< operations
-    recursion_depth1 = (1u << 15),  // skip checking for SI prefixes
-    // don't put anything at   16, 15 through 17 are connected to limit
+    numbers_only = (1u << 12),  //!< indicate that only numbers should be
+                                //!< matched in the first segments, mostly
+                                //!< applies only to power operations
+    recursion_depth1 = (1u << 15),  //!< skip checking for SI prefixes
+    // don't put anything at 16, 15 through 17 are connected to limit
     // recursion depth
-    no_recursion = (1u << 17),  // don't recurse through the string
-    not_first_pass = (1u << 18),  // indicate that is not the first pass
-    per_operator1 = (1u << 19),  // skip matching per
-    // don't put anything at 20, 19 and 21 are connected to limit per operations
-    no_per_operators = (1u << 21),  // skip matching per
-    no_locality_modifiers = (1u << 22),  // skip locality modifiers
-    no_of_operator = (1u << 23),  // skip dealing with "of"
+    no_recursion = (1u << 17),  //!< don't recurse through the string
+    not_first_pass = (1u << 18),  //!< indicate that is not the first pass
+    per_operator1 = (1u << 19),  //!< skip matching "per" counter
+    // nothing at 20, 19 through 21 are connected to limit per operations
+    no_per_operators = (1u << 21),  //!< skip matching "per"
+    no_locality_modifiers = (1u << 22),  //!< skip locality modifiers
+    no_of_operator = (1u << 23),  //!< skip dealing with "of"
     commodity_check1 =
         (1u << 24),  // counter for skipping commodity check vi of
-    // don't put anything at 25 24 and 26 are connected
-    no_commodities = (1u << 26),  // skip commodity checks
-    partition_check1 = (1u << 27),  // skip checking for SI prefixes
-    // don't put anything at 28, 27 and 28 are connected to limit partition
+    // nothing at 25, 24 through 26 are connected
+    no_commodities = (1u << 26),  //!< skip commodity checks
+    partition_check1 = (1u << 27),  //!< counter for skipping partitioning
+    // nothing at 28, 27 through 29 are connected to limit partition
     // depth
-    skip_partition_check = (1u << 29),  // skip checking for SI prefixes
-    skip_si_prefix_check = (1u << 30),  // skip checking for SI prefixes
+    skip_partition_check = (1u << 29),  // skip the partition check algorithm
+    skip_si_prefix_check = (1u << 30),  //!< skip checking for SI prefixes
     skip_code_replacements =
-        (1u << 31),  // don't do some code and sequence replacements
+        (1u << 31),  //!< don't do some code and sequence replacements
 };
 /// Generate a string representation of the unit
 std::string to_string(precise_unit units, std::uint32_t match_flags = 0);
