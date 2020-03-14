@@ -277,6 +277,13 @@ TEST(stringToUnits, Parenthesis)
         unit_from_string("(N*yr)^-2/$"));
 }
 
+TEST(stringToUnits, multipower)
+{
+	auto res = unit_from_string("(4.56^3)^3");
+	EXPECT_DOUBLE_EQ(res.multiplier(), std::pow(4.56, 9.0));
+	
+}
+
 TEST(stringToUnits, dotNotation)
 {
     EXPECT_EQ(precise::m, unit_from_string("m.m.m/m.m", single_slash));

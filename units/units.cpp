@@ -4249,7 +4249,9 @@ static precise_unit
     auto finish = unit_string.find_last_of('}');
     if (finish == std::string::npos) {
         // there are checks before this would get called that would catch that
-        // error but it is left in place just in case LCOV_EXCL_START
+        // error but it is left in place just in case
+
+        // LCOV_EXCL_START
         return precise::invalid;
         // LCOV_EXCL_STOP
     }
@@ -5509,13 +5511,17 @@ static precise_unit unit_to_the_power_of(
     }
 
     precise_unit retunit = precise::invalid;
-
-    if (unit_string.back() == ')') {
-        int index = static_cast<int>(unit_string.size() - 2);
+    bool partialPowerSegment = (unit_string.back() == ')');
+    int index = static_cast<int>(unit_string.size() - 2);
+    if (partialPowerSegment) {
         if (!segmentcheckReverse(unit_string, '(', index)) {
             return precise::invalid;
         }
-
+        if (index > 0 && unit_string[index] == '^') {
+            partialPowerSegment = false;
+        }
+    }
+    if (partialPowerSegment) {
         std::string ustring = unit_string.substr(
             static_cast<size_t>(index) + 2,
             unit_string.size() - static_cast<size_t>(index) - 3);
@@ -5547,42 +5553,12 @@ static precise_unit unit_to_the_power_of(
         if (index < 0) {
             return retunit;
         }
-        if (unit_string[index] != '^') {
-            auto a_unit = unit_from_string_internal(
-                unit_string.substr(0, index), match_flags - recursion_modifier);
-            if (!is_error(a_unit)) {
-                return a_unit * retunit;
-            }
-            return precise::defunit;
-        } else {
-            if (retunit.has_same_base(precise::one)) {
-                if (std::abs(retunit.multiplier()) > 100.0) {
-                    return precise::invalid;
-                }
-                if (std::abs(retunit.multiplier()) < 9.0 &&
-                    std::floor(retunit.multiplier()) == retunit.multiplier()) {
-                    int subpower = static_cast<int>(retunit.multiplier());
-                    return unit_to_the_power_of(
-                        unit_string.substr(0, index - 1),
-                        subpower,
-                        match_flags);
-                } else {
-                    auto retunit2 = unit_to_the_power_of(
-                        unit_string.substr(0, index - 1), 1, match_flags);
-                    if (!retunit2.has_same_base(precise::one)) {
-                        return precise::invalid;
-                    }
-                    return {
-                        std::pow(retunit2.multiplier(), retunit.multiplier()),
-                        precise::one};
-                }
-            } else {
-                // can't raise anything to the power of a unit other than
-                // numbers
-                return precise::invalid;
-            }
+        auto a_unit = unit_from_string_internal(
+            unit_string.substr(0, index), match_flags - recursion_modifier);
+        if (!is_error(a_unit)) {
+            return a_unit * retunit;
         }
-
+        return precise::defunit;
     } else {
         // auto ustring = unit_string.substr(0, pchar + 1);
 
@@ -6122,7 +6098,6 @@ precise_measurement measurement_from_string(
     // do a cleaning first to get rid of spaces and other issues
     match_flags &= (~skip_code_replacements);
     cleanUnitString(measurement_string, match_flags);
-    match_flags |= skip_code_replacements;
 
     size_t loc;
 
@@ -6137,9 +6112,12 @@ precise_measurement measurement_from_string(
         return {val, precise::one};
     }
     bool checkCurrency = (loc == 0);
-
-    auto un =
-        unit_from_string_internal(measurement_string.substr(loc), match_flags);
+    auto ustring = measurement_string.substr(loc);
+    auto validString = checkValidUnitString(ustring, match_flags);
+    auto un = (validString) ?
+        unit_from_string_internal(
+            std::move(ustring), match_flags | skip_code_replacements) :
+        precise::invalid;
     if (!is_error(un)) {
         if (checkCurrency) {
             if (un.base_units() == precise::currency.base_units()) {
