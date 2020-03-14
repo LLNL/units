@@ -5512,7 +5512,9 @@ static precise_unit unit_to_the_power_of(
 
     if (unit_string.back() == ')') {
         int index = static_cast<int>(unit_string.size() - 2);
-        segmentcheckReverse(unit_string, '(', index);
+        if (!segmentcheckReverse(unit_string, '(', index)) {
+            return precise::invalid;
+        }
 
         std::string ustring = unit_string.substr(
             static_cast<size_t>(index) + 2,
@@ -5554,33 +5556,25 @@ static precise_unit unit_to_the_power_of(
             return precise::defunit;
         } else {
             if (retunit.has_same_base(precise::one)) {
-                if (std::floor(retunit.multiplier()) == retunit.multiplier()) {
-                    int subpower = static_cast<int>(retunit.multiplier());
-                    if (subpower > 7) {
-                        retunit = unit_to_the_power_of(
-                            unit_string.substr(0, index - 1), 1, match_flags);
-                        if (!retunit.has_same_base(precise::one)) {
-                            return precise::invalid;
-                        }
-                        return {std::pow(
-                                    retunit.multiplier(),
-                                    static_cast<double>(subpower)),
-                                precise::one};
-                    } else {
-                        auto retunit2 = unit_to_the_power_of(
-                            unit_string.substr(0, index - 1),
-                            subpower,
-                            match_flags);
-                        if (!retunit.has_same_base(precise::one)) {
-                            return precise::invalid;
-                        }
-                        return {std::pow(
-                                    retunit2.multiplier(),
-                                    retunit.multiplier()),
-                                precise::one};
-                    }
-                } else {
+                if (std::abs(retunit.multiplier()) > 100.0) {
                     return precise::invalid;
+                }
+                if (std::abs(retunit.multiplier()) < 9.0 &&
+                    std::floor(retunit.multiplier()) == retunit.multiplier()) {
+                    int subpower = static_cast<int>(retunit.multiplier());
+                    return unit_to_the_power_of(
+                        unit_string.substr(0, index - 1),
+                        subpower,
+                        match_flags);
+                } else {
+                    auto retunit2 = unit_to_the_power_of(
+                        unit_string.substr(0, index - 1), 1, match_flags);
+                    if (!retunit2.has_same_base(precise::one)) {
+                        return precise::invalid;
+                    }
+                    return {
+                        std::pow(retunit2.multiplier(), retunit.multiplier()),
+                        precise::one};
                 }
             } else {
                 // can't raise anything to the power of a unit other than
