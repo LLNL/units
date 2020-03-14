@@ -279,9 +279,11 @@ TEST(stringToUnits, Parenthesis)
 
 TEST(stringToUnits, multipower)
 {
-	auto res = unit_from_string("(4.56^3)^3");
-	EXPECT_DOUBLE_EQ(res.multiplier(), std::pow(4.56, 9.0));
-	
+    auto res = unit_from_string("(4.56^3)^3");
+    EXPECT_DOUBLE_EQ(res.multiplier(), std::pow(4.56, 9.0));
+
+    res = unit_from_string("cubed (4.56^3)");
+    EXPECT_DOUBLE_EQ(res.multiplier(), std::pow(4.56, 9.0));
 }
 
 TEST(stringToUnits, dotNotation)

@@ -5514,9 +5514,7 @@ static precise_unit unit_to_the_power_of(
     bool partialPowerSegment = (unit_string.back() == ')');
     int index = static_cast<int>(unit_string.size() - 2);
     if (partialPowerSegment) {
-        if (!segmentcheckReverse(unit_string, '(', index)) {
-            return precise::invalid;
-        }
+		segmentcheckReverse(unit_string, '(', index);
         if (index > 0 && unit_string[index] == '^') {
             partialPowerSegment = false;
         }
