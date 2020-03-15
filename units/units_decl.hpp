@@ -295,7 +295,7 @@ namespace detail {
             return (second_ * power == 0 || ((e_flag_ & i_flag_) == 0U) ||
                     power % 2 != 0) ?
                 0 :
-                (power >> 1) * ((second_ < 0) || (power < 0) ? 9 : -9);
+                (power/2) * ((second_ < 0) || (power < 0) ? 9 : -9);
         }
 
         // needs to be defined for the full 32 bits

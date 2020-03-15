@@ -1096,7 +1096,7 @@ class uncertain_measurement {
     {
         float ntol = v2.uncertainty_ / v2.value_;
         float nval = static_cast<float>(v1) / v2.value_;
-        return uncertain_measurement(nval, nval * ntol, v2.units_.inv());
+		return { nval, nval * ntol, v2.units_.inv() };
     }
 
   private:

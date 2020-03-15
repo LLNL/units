@@ -607,7 +607,7 @@ static double
 static std::unordered_map<unit, std::string> user_defined_unit_names;
 static smap user_defined_units;
 
-void addUserDefinedUnit(std::string name, precise_unit un)
+void addUserDefinedUnit(const std::string& name, precise_unit un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_unit_names[unit_cast(un)] = name;
@@ -618,7 +618,7 @@ void addUserDefinedUnit(std::string name, precise_unit un)
     }
 }
 
-void addUserDefinedInputUnit(std::string name, precise_unit un)
+void addUserDefinedInputUnit(const std::string& name, precise_unit un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_units[name] = un;
@@ -1609,37 +1609,35 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
                     }
                 }
                 return val;
-            } else {
-                size_t index_sub{0};
-                val = std::get<1>(wp);
-                index = loc + std::get<2>(wp);
-                // read the next component
-                double val_add{0.0};
-                if (index < lcstring.size()) {
-                    val_add =
-                        readNumericalWords(lcstring.substr(index), index_sub);
-                    if (!std::isnan(val_add)) {
-                        if (val_add >= val) {
-                            val = val * val_add;
-                            val_add = 0.0;
-                        }
-                        index += index_sub;
-                    } else {
+            }
+            size_t index_sub{0};
+            val = std::get<1>(wp);
+            index = loc + std::get<2>(wp);
+            // read the next component
+            double val_add{0.0};
+            if (index < lcstring.size()) {
+                val_add = readNumericalWords(lcstring.substr(index), index_sub);
+                if (!std::isnan(val_add)) {
+                    if (val_add >= val) {
+                        val = val * val_add;
                         val_add = 0.0;
                     }
-                }
-                // read the previous part
-                double val_p2 =
-                    readNumericalWords(lcstring.substr(0, loc), index_sub);
-                if (std::isnan(val_p2) || index_sub < loc) {
-                    index = index_sub;
-                    return val_p2;
+                    index += index_sub;
                 } else {
-                    val *= val_p2;
+                    val_add = 0.0;
                 }
-                val += val_add;
-                return val;
             }
+            // read the previous part
+            double val_p2 =
+                readNumericalWords(lcstring.substr(0, loc), index_sub);
+            if (std::isnan(val_p2) || index_sub < loc) {
+                index = index_sub;
+                return val_p2;
+            } else {
+                val *= val_p2;
+            }
+            val += val_add;
+            return val;
         }
     }
     // clean up "and"
@@ -4531,12 +4529,11 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                         unit_string.erase(fnd, 1);
                         fnd = unit_string.find_first_of(spaceChars, fnd);
                         continue;
-                    } else {
-                        unit_string[fnd] = '*';
-                        fnd = unit_string.find_first_of(spaceChars, fnd);
-                        skipMultiply = true;
-                        continue;
                     }
+                    unit_string[fnd] = '*';
+                    fnd = unit_string.find_first_of(spaceChars, fnd);
+                    skipMultiply = true;
+                    continue;
                 }
             }
             if (unit_string[fnd - 1] == '/' || unit_string[fnd - 1] == '*') {
@@ -6140,7 +6137,8 @@ precise_measurement measurement_from_string(
             }
         }
         return {val, un};
-    } else if (checkCurrency) {
+    }
+    if (checkCurrency) {
         auto c = get_unit(measurement_string.substr(0, 1));
         if (c == precise::currency) {
             auto mstr = measurement_from_string(
@@ -6165,7 +6163,7 @@ precise_measurement measurement_from_string(
 }
 
 uncertain_measurement uncertain_measurement_from_string(
-    std::string measurement_string,
+    const std::string& measurement_string,
     std::uint32_t match_flags)
 {
     if (measurement_string.empty()) {
@@ -6193,11 +6191,11 @@ uncertain_measurement uncertain_measurement_from_string(
             if (m1.units() == one) {
                 return uncertain_measurement(
                     m1.value(), m2.value(), unit_cast(m2.units()));
-            } else if (m2.units() == one) {
-                return uncertain_measurement(m1, m2.value());
-            } else {
-                return uncertain_measurement(m1, m2);
             }
+            if (m2.units() == one) {
+                return uncertain_measurement(m1, m2.value());
+            }
+            return uncertain_measurement(m1, m2);
         }
     }
     return uncertain_measurement(
