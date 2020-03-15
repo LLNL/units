@@ -834,6 +834,9 @@ std::string
                     // circumstances
                     cString.insert(0, 1, '1');
                 }
+                if (propUnitString.empty()) {
+                    propUnitString.push_back('1');
+                }
                 propUnitString.push_back('/');
                 propUnitString.append(cString);
             } else {
@@ -1987,7 +1990,7 @@ static precise_unit ignoreModifiers(std::string unit, std::uint32_t match_flags)
     for (const auto& irep : ignore_word) {
         auto fnd = unit.find(irep.first);
         if (fnd != std::string::npos) {
-            if (irep.second == unit.size()) {
+            if (irep.second == static_cast<int>(unit.size())) {
                 // this is a modifier if we are checking the entire unit this is
                 // automatically false
                 return precise::invalid;
@@ -4249,7 +4252,9 @@ static precise_unit
     auto finish = unit_string.find_last_of('}');
     if (finish == std::string::npos) {
         // there are checks before this would get called that would catch that
-        // error but it is left in place just in case LCOV_EXCL_START
+        // error but it is left in place just in case
+
+        // LCOV_EXCL_START
         return precise::invalid;
         // LCOV_EXCL_STOP
     }
@@ -4514,13 +4519,24 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
     while (fnd != std::string::npos) {
         spacesRemoved = true;
         if ((fnd > 0) && (!skipMultiply)) {
+            auto nloc = unit_string.find_first_not_of(spaceChars, fnd);
+            if (nloc == std::string::npos) {
+                unit_string.erase(fnd, std::string::npos);
+                return true;
+            }
             if (fnd == 1) {  // if the second character is a space it almost
                              // always means multiply
                 if (unit_string.size() < 8) {
-                    unit_string[fnd] = '*';
-                    fnd = unit_string.find_first_of(spaceChars, fnd);
-                    skipMultiply = true;
-                    continue;
+                    if (unit_string[nloc] == '*' || unit_string[nloc] == '/') {
+                        unit_string.erase(fnd, 1);
+                        fnd = unit_string.find_first_of(spaceChars, fnd);
+                        continue;
+                    } else {
+                        unit_string[fnd] = '*';
+                        fnd = unit_string.find_first_of(spaceChars, fnd);
+                        skipMultiply = true;
+                        continue;
+                    }
                 }
             }
             if (unit_string[fnd - 1] == '/' || unit_string[fnd - 1] == '*') {
@@ -4528,8 +4544,8 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 fnd = unit_string.find_first_of(spaceChars, fnd);
                 continue;
             }
-            if (unit_string.size() > fnd + 1 &&
-                (unit_string[fnd + 1] == '/' || unit_string[fnd + 1] == '*')) {
+            if (unit_string.size() > nloc &&
+                (unit_string[nloc] == '/' || unit_string[nloc] == '*')) {
                 unit_string.erase(fnd, 1);
                 fnd = unit_string.find_first_of(spaceChars, fnd);
                 continue;
@@ -5129,8 +5145,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     if (!skipcodereplacement) {
         // handle dot notation for multiplication
         auto dotloc = unit_string.find_last_of('.');
-        if (dotloc != std::string::npos) {
-            if (isdigit(unit_string[dotloc + 1]) == 0) {
+        if (dotloc < std::string::npos) {
+            // strings always have a null pointer at the end
+            if (isDigitCharacter(unit_string[dotloc + 1]) == 0) {
                 cleanDotNotation(unit_string, match_flags);
                 changed = true;
             }
@@ -5495,7 +5512,100 @@ static precise_unit checkForCustomUnit(const std::string& unit_string)
 
     return precise::invalid;
 }
+/// take a string and raise it to a power after interpreting the units defined
+/// in the string
+static precise_unit unit_to_the_power_of(
+    std::string unit_string,
+    int power,
+    std::uint32_t match_flags)
+{
+    std::uint32_t recursion_modifier = recursion_depth1;
+    if ((match_flags & no_recursion) != 0) {
+        recursion_modifier = 0;
+    }
 
+    precise_unit retunit = precise::invalid;
+    bool partialPowerSegment = (unit_string.back() == ')');
+    int index = static_cast<int>(unit_string.size() - 2);
+    if (partialPowerSegment) {
+        segmentcheckReverse(unit_string, '(', index);
+        if (index > 0 && unit_string[index] == '^') {
+            partialPowerSegment = false;
+        }
+    }
+    if (partialPowerSegment) {
+        std::string ustring = unit_string.substr(
+            static_cast<size_t>(index) + 2,
+            unit_string.size() - static_cast<size_t>(index) - 3);
+        retunit = unit_from_string_internal(
+            ustring, match_flags - recursion_modifier);
+        if (!is_valid(retunit)) {
+            if (index >= 0) {
+                if (ustring.find_first_of("(*/^{[") == std::string::npos) {
+                    retunit = unit_from_string_internal(
+                        unit_string, match_flags - recursion_modifier);
+                    if (!is_valid(retunit)) {
+                        return precise::invalid;
+                    }
+                    index = -1;
+                } else {
+                    return precise::invalid;
+                }
+            } else {
+                return precise::invalid;
+            }
+        }
+
+        if (power == -1) {
+            retunit = retunit.inv();
+        } else if (power != 1) {
+            retunit = retunit.pow(power);
+        }
+
+        if (index < 0) {
+            return retunit;
+        }
+        auto a_unit = unit_from_string_internal(
+            unit_string.substr(0, index), match_flags - recursion_modifier);
+        if (!is_error(a_unit)) {
+            return a_unit * retunit;
+        }
+        return precise::defunit;
+    } else {
+        // auto ustring = unit_string.substr(0, pchar + 1);
+
+        if ((match_flags & case_insensitive) != 0) {
+            cleanUnitString(unit_string, match_flags);
+        }
+
+        retunit = get_unit(unit_string);
+        if (is_valid(retunit)) {
+            if (power == 1) {
+                return retunit;
+            }
+            if (power == -1) {
+                return retunit.inv();
+            }
+            return retunit.pow(power);
+        }
+        auto fnd = findWordOperatorSep(unit_string, "per");
+        if (fnd == std::string::npos) {
+            retunit = unit_from_string_internal(
+                unit_string, match_flags - recursion_modifier);
+            if (!is_valid(retunit)) {
+                return precise::invalid;
+            }
+            if (power == 1) {
+                return retunit;
+            }
+            if (power == -1) {
+                return retunit.inv();
+            }
+            return retunit.pow(power);
+        }
+        return precise::defunit;
+    }
+}
 precise_unit
     unit_from_string(std::string unit_string, std::uint32_t match_flags)
 {
@@ -5666,9 +5776,10 @@ static precise_unit unit_from_string_internal(
     // flag that is used to circumvent a few checks
     bool containsPer =
         (findWordOperatorSep(unit_string, "per") != std::string::npos);
+
     sep = findOperatorSep(unit_string, "^");
     if (sep != std::string::npos) {
-        auto pchar = static_cast<int>(sep) - 1;
+        auto pchar = sep - 1;
         if (unit_string[sep + 1] == '(') {
             ++sep;
         }
@@ -5685,7 +5796,7 @@ static precise_unit unit_from_string_internal(
                 power = -(c1 - ',') * (unit_string[sep + 1] - '0');
             } else {
                 // the check function should catch this but it would be
-                // problematic if not not caught
+                // problematic if not caught
                 return precise::invalid;  // LCOV_EXCL_LINE
             }
         } else {
@@ -5693,87 +5804,16 @@ static precise_unit unit_from_string_internal(
                 power = (c1 - '0');
             } else {
                 // the check functions should catch this but it would be
-                // problematic if not not caught
+                // problematic if not caught
                 return precise::invalid;  // LCOV_EXCL_LINE
             }
         }
-
-        if (unit_string[pchar] == ')') {
-            int index = pchar - 1;
-            segmentcheckReverse(unit_string, '(', index);
-
-            ustring = unit_string.substr(
-                static_cast<size_t>(index) + 2,
-                static_cast<size_t>(pchar) - index - 2);
-            retunit = unit_from_string_internal(
-                ustring, match_flags - recursion_modifier);
-            if (!is_valid(retunit)) {
-                if (index >= 0) {
-                    if (ustring.find_first_of("(*/^{[") == std::string::npos) {
-                        retunit = unit_from_string_internal(
-                            unit_string.substr(
-                                0, static_cast<size_t>(pchar) + 1),
-                            match_flags - recursion_modifier);
-                        if (!is_valid(retunit)) {
-                            return precise::invalid;
-                        }
-                        index = -1;
-                    } else {
-                        return precise::invalid;
-                    }
-                } else {
-                    return precise::invalid;
-                }
-            }
-
-            if (power == -1) {
-                retunit = retunit.inv();
-            } else if (power != 1) {
-                retunit = retunit.pow(power);
-            }
-
-            if (index < 0) {
-                return retunit;
-            }
-            auto a_unit = unit_from_string_internal(
-                unit_string.substr(0, index), match_flags - recursion_modifier);
-            if (!is_error(a_unit)) {
-                return a_unit * retunit;
-            }
-        } else {
-            // auto ustring = unit_string.substr(0, pchar + 1);
-            ustring.assign(
-                unit_string.begin(), unit_string.begin() + pchar + 1);
-            if ((match_flags & case_insensitive) != 0) {
-                cleanUnitString(ustring, match_flags);
-            }
-
-            retunit = get_unit(ustring);
-            if (is_valid(retunit)) {
-                if (power == 1) {
-                    return retunit;
-                }
-                if (power == -1) {
-                    return retunit.inv();
-                }
-                return retunit.pow(power);
-            }
-            // auto fnd = findWordOperatorSep(unit_string, "per");
-            if (!containsPer) {
-                retunit = unit_from_string_internal(
-                    unit_string.substr(0, static_cast<size_t>(pchar) + 1),
-                    match_flags - recursion_modifier);
-                if (!is_valid(retunit)) {
-                    return precise::invalid;
-                }
-                if (power == 1) {
-                    return retunit;
-                }
-                if (power == -1) {
-                    return retunit.inv();
-                }
-                return retunit.pow(power);
-            }
+        retunit = unit_to_the_power_of(
+            unit_string.substr(0, (pchar > 0) ? pchar + 1 : 1),
+            power,
+            match_flags);
+        if (retunit != precise::defunit) {
+            return retunit;
         }
     }
     if ((match_flags & no_commodities) == 0 && unit_string.back() == '}' &&
@@ -6070,7 +6110,6 @@ precise_measurement measurement_from_string(
     // do a cleaning first to get rid of spaces and other issues
     match_flags &= (~skip_code_replacements);
     cleanUnitString(measurement_string, match_flags);
-    match_flags |= skip_code_replacements;
 
     size_t loc;
 
@@ -6085,9 +6124,12 @@ precise_measurement measurement_from_string(
         return {val, precise::one};
     }
     bool checkCurrency = (loc == 0);
-
-    auto un =
-        unit_from_string_internal(measurement_string.substr(loc), match_flags);
+    auto ustring = measurement_string.substr(loc);
+    auto validString = checkValidUnitString(ustring, match_flags);
+    auto un = (validString) ?
+        unit_from_string_internal(
+            std::move(ustring), match_flags | skip_code_replacements) :
+        precise::invalid;
     if (!is_error(un)) {
         if (checkCurrency) {
             if (un.base_units() == precise::currency.base_units()) {

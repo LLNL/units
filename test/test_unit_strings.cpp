@@ -215,6 +215,21 @@ TEST(stringToUnits, Simple)
     EXPECT_EQ(precise::m, unit_from_string("meter"));
 }
 
+TEST(stringToUnits, with_space)
+{
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1 /m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1  /m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1   /m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1   / m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1   /  m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1   /   m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1/   m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1\t/          m"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1\t/\tm"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("1/\tm"));
+    EXPECT_EQ(precise::m.inv(), unit_from_string("  1/\tm  "));
+}
+
 TEST(stringToUnits, to_default_unit)
 {
     EXPECT_EQ(precise::defunit, unit_from_string("*"));
@@ -275,6 +290,12 @@ TEST(stringToUnits, Parenthesis)
     EXPECT_EQ(
         (precise::N * precise::time::yr).pow(-2) / precise::currency,
         unit_from_string("(N*yr)^-2/$"));
+}
+
+TEST(stringToUnits, multipower)
+{
+    auto res = unit_from_string("(4.56^3)^3");
+    EXPECT_DOUBLE_EQ(res.multiplier(), std::pow(4.56, 9.0));
 }
 
 TEST(stringToUnits, dotNotation)

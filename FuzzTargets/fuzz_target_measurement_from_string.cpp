@@ -38,6 +38,11 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
             if (!match && isnormal(root(meas2, 3))) {
                 match = (root(mc2, 3) == root(mc1, 3));
             }
+            if (!match && !(isnormal(mc1) && isnormal(mc2))) {
+                auto uc1 = unit_cast(meas1.as_unit());
+                auto uc2 = unit_cast(meas2.as_unit());
+                match = (uc1 == uc2);
+            }
         }
         if (!match) {
             if (meas1.units() == meas2.units()) {
