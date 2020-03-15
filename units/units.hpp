@@ -1105,7 +1105,7 @@ class uncertain_measurement {
 
 /// Design requirement this must fit in space of 2 doubles
 static_assert(
-    sizeof(uncertain_measurement) <= 16,
+    sizeof(uncertain_measurement) <= 2 * sizeof(double),
     "uncertain measurement is too large");
 
 /// Class using precise units and double precision
@@ -1276,7 +1276,7 @@ constexpr inline precise_measurement
 
 /// Design requirement this must fit in space of 3 doubles
 static_assert(
-    sizeof(precise_measurement) <= 24,
+    sizeof(precise_measurement) <= 3 * sizeof(double),
     "precise measurement is too large");
 
 /// Class using precise units and double precision
@@ -1678,41 +1678,41 @@ operations, some are used internally some are meant for external use, though all
 are possible to use externally
 */
 enum unit_conversion_flags : std::uint32_t {
-    case_insensitive = 1u,  //!< perform case insensitive matching for UCUM case
+    case_insensitive = 1U,  //!< perform case insensitive matching for UCUM case
                             //!< insensitive matching
-    single_slash = 2u,  //!< specify that there is a single numerator and
+    single_slash = 2U,  //!< specify that there is a single numerator and
                         //!< denominator only a single slash in the unit
                         //!< operations
-    numbers_only = (1u << 12),  //!< indicate that only numbers should be
+    numbers_only = (1U << 12),  //!< indicate that only numbers should be
                                 //!< matched in the first segments, mostly
                                 //!< applies only to power operations
-    recursion_depth1 = (1u << 15),  //!< skip checking for SI prefixes
+    recursion_depth1 = (1U << 15),  //!< skip checking for SI prefixes
     // don't put anything at 16, 15 through 17 are connected to limit
     // recursion depth
-    no_recursion = (1u << 17),  //!< don't recurse through the string
-    not_first_pass = (1u << 18),  //!< indicate that is not the first pass
-    per_operator1 = (1u << 19),  //!< skip matching "per" counter
+    no_recursion = (1U << 17),  //!< don't recurse through the string
+    not_first_pass = (1U << 18),  //!< indicate that is not the first pass
+    per_operator1 = (1U << 19),  //!< skip matching "per" counter
     // nothing at 20, 19 through 21 are connected to limit per operations
-    no_per_operators = (1u << 21),  //!< skip matching "per"
-    no_locality_modifiers = (1u << 22),  //!< skip locality modifiers
-    no_of_operator = (1u << 23),  //!< skip dealing with "of"
+    no_per_operators = (1U << 21),  //!< skip matching "per"
+    no_locality_modifiers = (1U << 22),  //!< skip locality modifiers
+    no_of_operator = (1U << 23),  //!< skip dealing with "of"
     commodity_check1 =
-        (1u << 24),  // counter for skipping commodity check vi of
+        (1U << 24),  // counter for skipping commodity check vi of
     // nothing at 25, 24 through 26 are connected
-    no_commodities = (1u << 26),  //!< skip commodity checks
-    partition_check1 = (1u << 27),  //!< counter for skipping partitioning
+    no_commodities = (1U << 26),  //!< skip commodity checks
+    partition_check1 = (1U << 27),  //!< counter for skipping partitioning
     // nothing at 28, 27 through 29 are connected to limit partition
     // depth
-    skip_partition_check = (1u << 29),  // skip the partition check algorithm
-    skip_si_prefix_check = (1u << 30),  //!< skip checking for SI prefixes
+    skip_partition_check = (1U << 29),  // skip the partition check algorithm
+    skip_si_prefix_check = (1U << 30),  //!< skip checking for SI prefixes
     skip_code_replacements =
-        (1u << 31),  //!< don't do some code and sequence replacements
+        (1U << 31),  //!< don't do some code and sequence replacements
 };
 /// Generate a string representation of the unit
-std::string to_string(precise_unit units, std::uint32_t match_flags = 0);
+std::string to_string(precise_unit units, std::uint32_t match_flags = 0U);
 
 /// Generate a string representation of the unit
-inline std::string to_string(unit units, std::uint32_t match_flags = 0)
+inline std::string to_string(unit units, std::uint32_t match_flags = 0U)
 {
     // For naming, precision doesn't matter
     return to_string(precise_unit(units), match_flags);
@@ -1726,7 +1726,7 @@ process somewhat
 unit will be an error unit
 */
 precise_unit
-    unit_from_string(std::string unit_string, std::uint32_t match_flags = 0);
+    unit_from_string(std::string unit_string, std::uint32_t match_flags = 0U);
 
 /** Generate a unit object from a string representation of it
 @details uses a unit_cast to convert the precise_unit to a unit
@@ -1738,7 +1738,7 @@ be an error unit
 */
 inline unit unit_cast_from_string(
     std::string unit_string,
-    std::uint32_t match_flags = 0)
+    std::uint32_t match_flags = 0U)
 {
     return unit_cast(unit_from_string(std::move(unit_string), match_flags));
 }
@@ -1759,7 +1759,7 @@ unit will be an error unit
     */
 precise_measurement measurement_from_string(
     std::string measurement_string,
-    std::uint32_t match_flags = 0);
+    std::uint32_t match_flags = 0U);
 
 /** Generate a measurement from a string
 @param measurement_string the string to convert
@@ -1770,7 +1770,7 @@ unit will be an error unit
     */
 inline measurement measurement_cast_from_string(
     std::string measurement_string,
-    std::uint32_t match_flags = 0)
+    std::uint32_t match_flags = 0U)
 {
     return measurement_cast(
         measurement_from_string(std::move(measurement_string), match_flags));
@@ -1788,19 +1788,19 @@ unit will be an error unit
 */
 uncertain_measurement uncertain_measurement_from_string(
     std::string measurement_string,
-    std::uint32_t match_flags = 0);
+    std::uint32_t match_flags = 0U);
 
 /// Convert a precise measurement to a string (with some extra decimal digits
 /// displayed)
 std::string
-    to_string(precise_measurement measure, std::uint32_t match_flags = 0);
+    to_string(precise_measurement measure, std::uint32_t match_flags = 0U);
 
 /// Convert a measurement to a string
-std::string to_string(measurement measure, std::uint32_t match_flags = 0);
+std::string to_string(measurement measure, std::uint32_t match_flags = 0U);
 
 /// Convert an uncertain measurement to a string
 std::string
-    to_string(uncertain_measurement measure, std::uint32_t match_flags = 0);
+    to_string(uncertain_measurement measure, std::uint32_t match_flags = 0U);
 
 /// Add a custom unit to be included in any string processing
 void addUserDefinedUnit(std::string name, precise_unit un);
@@ -1862,10 +1862,10 @@ namespace constants {
     constexpr precise_measurement
         g0(9.80665, precise::m / precise::s / precise::s);
     /// Gravitational Constant
-    constexpr precise_measurement
-        G(6.6740831e-11,
-          precise_unit(
-              detail::unit_data(3, -1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+    constexpr precise_measurement G(
+        6.6740831e-11,
+        precise_unit(
+            detail::unit_data(3, -1, -2, 0, 0, 0, 0, 0, 0, 0, 0U, 0U, 0U, 0U)));
     /// Speed of light
     constexpr precise_measurement c{299792458.0, precise::m / precise::s};
     /// Elementary Charge (2019 redefinition)
@@ -1895,7 +1895,7 @@ namespace constants {
     constexpr precise_measurement s{
         5.67036713e-8,
         precise_unit(
-            detail::unit_data(0, 1, -3, 0, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0))};
+            detail::unit_data(0, 1, -3, 0, -4, 0, 0, 0, 0, 0, 0U, 0U, 0U, 0U))};
     /// hubble constant AKA 69.3 km/s/Mpc
     constexpr precise_measurement H0{2.25e-18, precise::Hz};
     /// Mass of an electron
