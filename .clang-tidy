@@ -20,9 +20,11 @@ bugprone-*,
 misc-*,
 cppcoreguidelines-*,
 -cppcoreguidelines-narrowing-conversions,
+-cppcoreguidelines-avoid-magic-numbers,
 cert-*,
 portability-*,
 readability-*,
+-readability-magic-numbers,
 performance-*
 '
 
@@ -43,9 +45,11 @@ bugprone-*,
 misc-*,
 cppcoreguidelines-*,
 -cppcoreguidelines-narrowing-conversions,
+-cppcoreguidelines-avoid-magic-numbers,
 cert-*,
 portability-*,
 readability-*,
+-readability-magic-numbers,
 performance-*
 '
 

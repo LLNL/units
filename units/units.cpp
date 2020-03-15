@@ -4877,54 +4877,55 @@ static void htmlCodeReplacement(std::string& unit_string)
 /// in the basic ascii set)
 static bool unicodeReplacement(std::string& unit_string)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 45> ucodeReplacements{{
-        ckpair{u8"\u00d7", "*"},
-        ckpair{u8"\u00f7", "/"},  // division sign
-        ckpair{u8"\u00b7", "*"},
-        ckpair{u8"\u2215", "*"},  // asterisk operator
-        ckpair{u8"\u00B5", "u"},
-        ckpair{u8"\u03BC", "u"},
-        ckpair{u8"\u00E9", "e"},
-        ckpair{u8"\u00E8", "e"},
-        ckpair{u8"\u0301", ""},  // just get rid of the accent
-        ckpair{u8"\u0300", ""},  // just get rid of the accent
-        ckpair{u8"\u2212", "-"},
-        ckpair{u8"\u2009", ""},  // thin space
-        ckpair{u8"\u2007", ""},  // thin space
-        ckpair{u8"\u202f", ""},  // narrow no break space
-        ckpair{u8"\u207B\u00B9", "^(-1)"},
-        ckpair{u8"\u207B\u00B2", "^(-2)"},
-        ckpair{u8"\u207B\u00B3", "^(-3)"},
-        ckpair{u8"-\u00B9", "^(-1)"},
-        ckpair{u8"-\u00B2", "^(-2)"},
-        ckpair{u8"-\u00B3", "^(-3)"},
-        ckpair{u8"\u00b2", "^(2)"},
-        ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do anything
-        ckpair{u8"\u00b3", "^(3)"},
-        ckpair{u8"\u2215", "/"},  // Division slash
-        ckpair{u8"\u00BD", "(0.5)"},  // (1/2) fraction
-        ckpair{u8"\u00BC", "(0.25)"},  // (1/4) fraction
-        ckpair{u8"\u00BE", "(0.75)"},  // (3/4) fraction
-        ckpair{u8"\u2153", "(1/3)"},  // (1/3) fraction
-        ckpair{u8"\u2154", "(2/3)"},  // (2/3) fraction
-        ckpair{u8"\u215B", "0.125"},  // (1/8) fraction
-        ckpair{u8"\u215F", "1/"},  // 1/ numerator operator
-        ckpair{"-\xb3", "^(-3)"},
-        ckpair{"-\xb9", "^(-1)"},
-        ckpair{"-\xb2", "^(-2)"},
-        ckpair{"\xb3", "^(3)"},
-        ckpair{"\xb9", "*"},
-        // superscript 1 which doesn't do anything, replace with multiply
-        ckpair{"\xb2", "^(2)"},
-        ckpair{"\xf7", "/"},
-        ckpair{"\xB7", "*"},
-        ckpair{"\xD7", "*"},
-        ckpair{"\xE9", "e"},  // remove accent
-        ckpair{"\xE8", "e"},  // remove accent
-        ckpair{"\xBD", "(0.5)"},  // (1/2) fraction
-        ckpair{"\xBC", "(0.25)"},  // (1/4) fraction
-        ckpair{"\xBE", "(0.75)"},  // (3/4) fraction
-    }};
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 45>
+        ucodeReplacements{{
+            ckpair{u8"\u00d7", "*"},
+            ckpair{u8"\u00f7", "/"},  // division sign
+            ckpair{u8"\u00b7", "*"},
+            ckpair{u8"\u2215", "*"},  // asterisk operator
+            ckpair{u8"\u00B5", "u"},
+            ckpair{u8"\u03BC", "u"},
+            ckpair{u8"\u00E9", "e"},
+            ckpair{u8"\u00E8", "e"},
+            ckpair{u8"\u0301", ""},  // just get rid of the accent
+            ckpair{u8"\u0300", ""},  // just get rid of the accent
+            ckpair{u8"\u2212", "-"},
+            ckpair{u8"\u2009", ""},  // thin space
+            ckpair{u8"\u2007", ""},  // thin space
+            ckpair{u8"\u202f", ""},  // narrow no break space
+            ckpair{u8"\u207B\u00B9", "^(-1)"},
+            ckpair{u8"\u207B\u00B2", "^(-2)"},
+            ckpair{u8"\u207B\u00B3", "^(-3)"},
+            ckpair{u8"-\u00B9", "^(-1)"},
+            ckpair{u8"-\u00B2", "^(-2)"},
+            ckpair{u8"-\u00B3", "^(-3)"},
+            ckpair{u8"\u00b2", "^(2)"},
+            ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do anything
+            ckpair{u8"\u00b3", "^(3)"},
+            ckpair{u8"\u2215", "/"},  // Division slash
+            ckpair{u8"\u00BD", "(0.5)"},  // (1/2) fraction
+            ckpair{u8"\u00BC", "(0.25)"},  // (1/4) fraction
+            ckpair{u8"\u00BE", "(0.75)"},  // (3/4) fraction
+            ckpair{u8"\u2153", "(1/3)"},  // (1/3) fraction
+            ckpair{u8"\u2154", "(2/3)"},  // (2/3) fraction
+            ckpair{u8"\u215B", "0.125"},  // (1/8) fraction
+            ckpair{u8"\u215F", "1/"},  // 1/ numerator operator
+            ckpair{"-\xb3", "^(-3)"},
+            ckpair{"-\xb9", "^(-1)"},
+            ckpair{"-\xb2", "^(-2)"},
+            ckpair{"\xb3", "^(3)"},
+            ckpair{"\xb9", "*"},
+            // superscript 1 which doesn't do anything, replace with multiply
+            ckpair{"\xb2", "^(2)"},
+            ckpair{"\xf7", "/"},
+            ckpair{"\xB7", "*"},
+            ckpair{"\xD7", "*"},
+            ckpair{"\xE9", "e"},  // remove accent
+            ckpair{"\xE8", "e"},  // remove accent
+            ckpair{"\xBD", "(0.5)"},  // (1/2) fraction
+            ckpair{"\xBC", "(0.25)"},  // (1/4) fraction
+            ckpair{"\xBE", "(0.75)"},  // (3/4) fraction
+        }};
     bool changed{false};
     for (auto& ucode : ucodeReplacements) {
         auto fnd = unit_string.find(ucode.first);
@@ -4948,42 +4949,43 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
 
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 30> allCodeReplacements{{
-        ckpair{"sq.", "square"},
-        ckpair{"cu.", "cubic"},
-        ckpair{"(US)", "US"},
-        ckpair{"10^", "1e"},
-        ckpair{"10-", "1e-"},
-        ckpair{"^+", "^"},
-        ckpair{"ampere", "amp"},
-        ckpair{"Ampere", "amp"},
-        ckpair{"metre", "meter"},
-        ckpair{"litre", "liter"},
-        ckpair{"B.Th.U.", "BTU"},
-        ckpair{"B.T.U.", "BTU"},
-        ckpair{"Britishthermalunits", "BTU"},
-        ckpair{"Britishthermalunitat", "BTU"},
-        ckpair{"Britishthermalunit", "BTU"},
-        ckpair{"BThU", "BTU"},
-        ckpair{"-US", "US"},
-        ckpair{"--", "*"},
-        // -- is either a double negative or a separator, so make it a
-        // multiplier so it doesn't get erased and then converted to a power
-        ckpair{"\\\\", "\\\\*"},
-        // \\ is always considered a segment terminator so it won't be
-        // misinterpreted as a known escape sequence
-        ckpair{"perunit", "pu"},
-        ckpair{"per-unit", "pu"},
-        ckpair{"/square*", "/square"},
-        ckpair{"/cubic*", "/cubic"},
-        ckpair{"degrees", "deg"},
-        ckpair{"degree", "deg"},
-        ckpair{"Hz^0.5", "rootHertz"},
-        ckpair{"Hz^.5", "rootHertz"},
-        ckpair{"Hz^(1/2)", "rootHertz"},
-        ckpair{"Hz^1/2", "rootHertz"},
-        ckpair{u8"\u221AHz", "rootHertz"},
-    }};
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 30>
+        allCodeReplacements{{
+            ckpair{"sq.", "square"},
+            ckpair{"cu.", "cubic"},
+            ckpair{"(US)", "US"},
+            ckpair{"10^", "1e"},
+            ckpair{"10-", "1e-"},
+            ckpair{"^+", "^"},
+            ckpair{"ampere", "amp"},
+            ckpair{"Ampere", "amp"},
+            ckpair{"metre", "meter"},
+            ckpair{"litre", "liter"},
+            ckpair{"B.Th.U.", "BTU"},
+            ckpair{"B.T.U.", "BTU"},
+            ckpair{"Britishthermalunits", "BTU"},
+            ckpair{"Britishthermalunitat", "BTU"},
+            ckpair{"Britishthermalunit", "BTU"},
+            ckpair{"BThU", "BTU"},
+            ckpair{"-US", "US"},
+            ckpair{"--", "*"},
+            // -- is either a double negative or a separator, so make it a
+            // multiplier so it doesn't get erased and then converted to a power
+            ckpair{"\\\\", "\\\\*"},
+            // \\ is always considered a segment terminator so it won't be
+            // misinterpreted as a known escape sequence
+            ckpair{"perunit", "pu"},
+            ckpair{"per-unit", "pu"},
+            ckpair{"/square*", "/square"},
+            ckpair{"/cubic*", "/cubic"},
+            ckpair{"degrees", "deg"},
+            ckpair{"degree", "deg"},
+            ckpair{"Hz^0.5", "rootHertz"},
+            ckpair{"Hz^.5", "rootHertz"},
+            ckpair{"Hz^(1/2)", "rootHertz"},
+            ckpair{"Hz^1/2", "rootHertz"},
+            ckpair{u8"\u221AHz", "rootHertz"},
+        }};
 
     static const std::string spchar = std::string(" \t\n\r") + '\0';
     bool changed = false;
@@ -6483,16 +6485,19 @@ precise_unit default_unit(std::string unit_type)
         return precise::one;
     }
     if (ends_with(unit_type, "quantity")) {
-        return default_unit(unit_type.substr(0, unit_type.size() - strlen("quantity")));
+        return default_unit(
+            unit_type.substr(0, unit_type.size() - strlen("quantity")));
     }
     if (ends_with(unit_type, "quantities")) {
-        return default_unit(unit_type.substr(0, unit_type.size() - strlen("quantities")));
+        return default_unit(
+            unit_type.substr(0, unit_type.size() - strlen("quantities")));
     }
     if (ends_with(unit_type, "measure")) {
-        return default_unit(unit_type.substr(0, unit_type.size() - strlen("measure")));
+        return default_unit(
+            unit_type.substr(0, unit_type.size() - strlen("measure")));
     }
     if (unit_type.back() == 's' && unit_type.size() > 1) {
-		unit_type.pop_back();
+        unit_type.pop_back();
         return default_unit(unit_type);
     }
     return precise::invalid;

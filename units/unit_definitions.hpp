@@ -813,11 +813,11 @@ namespace precise {
     namespace custom {
         constexpr int bShift(std::uint16_t val, std::uint8_t bit)
         {
-            return (((val >> bit) & 0x1) > 0) ? 1 : 0;
+            return (((val >> bit) & 0x1U) > 0U) ? 1 : 0;
         }
         constexpr unsigned int bShiftu(std::uint16_t val, std::uint8_t bit)
         {
-            return (((val >> bit) & 0x1) > 0) ? 1U : 0U;
+            return (((val >> bit) & 0x1U) > 0U) ? 1U : 0U;
         }
 
         /** Construct a custom unit of a specific number
