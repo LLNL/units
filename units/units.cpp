@@ -4520,6 +4520,10 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
         spacesRemoved = true;
         if ((fnd > 0) && (!skipMultiply)) {
             auto nloc = unit_string.find_first_not_of(spaceChars, fnd);
+            if (nloc == std::string::npos) {
+                unit_string.erase(fnd, std::string::npos);
+                return true;
+            }
             if (fnd == 1) {  // if the second character is a space it almost
                              // always means multiply
                 if (unit_string.size() < 8) {
