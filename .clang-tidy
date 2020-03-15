@@ -13,6 +13,7 @@ llvm-namespace-comment,
 misc-throw-by-value-catch-by-reference,
 modernize*,
 readability-container-size-empty,
+hicpp-*
 '
 
 WarningsAsErrors: '
@@ -25,6 +26,7 @@ llvm-namespace-comment,
 misc-throw-by-value-catch-by-reference,
 modernize*,
 readability-container-size-empty,
+hicpp-*
 '
 
 HeaderFilterRegex: '.*hpp'
