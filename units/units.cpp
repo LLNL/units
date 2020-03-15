@@ -1132,13 +1132,17 @@ static std::string
         if (!fnd.empty()) {
             auto prefix = getMultiplierString(
                 1.0 / ext.multiplier(), isDigitCharacter(fnd.back()));
-            auto str =
-                std::string("1/(") + prefix + fnd + '*' + tu.second + ')';
+			std::string str{ "1/(" };
+			str += prefix;
+			str += fnd;
+			str.push_back('*');
+			str.append(tu.second);
+			str.push_back(')');
             if (!isNumericalCharacter(prefix.front())) {
                 return str;
             }
             if (beststr.empty() || str.size() < beststr.size()) {
-                beststr = str;
+                beststr = std::move(str);
             }
         }
     }
