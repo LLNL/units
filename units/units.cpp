@@ -4134,7 +4134,7 @@ static char getMatchCharacter(char mchar)
         case '\'':
         case '"':
         case '`':
-		default:
+        default:
             return mchar;
     }
 }

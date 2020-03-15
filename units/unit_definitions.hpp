@@ -895,8 +895,8 @@ namespace precise {
                 case 2:
                 case 3:
                     return true;
-				default:
-					break;
+                default:
+                    break;
             }
             key = UT.second();
             switch (key) {
@@ -908,8 +908,8 @@ namespace precise {
                 case 7:
                 case 6:
                     return false;
-				default:
-					break;
+                default:
+                    break;
             }
             return (UT.ampere() == 3);
         }

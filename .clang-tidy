@@ -16,6 +16,7 @@ readability-container-size-empty,
 hicpp-*
 -hicpp-use-equals-default
 -hicpp-explicit-conversions
+clang-analyzer-*
 '
 
 WarningsAsErrors: '
@@ -31,6 +32,7 @@ readability-container-size-empty,
 hicpp-*
 -hicpp-use-equals-default
 -hicpp-explicit-conversions
+clang-analyzer-*
 '
 
 HeaderFilterRegex: '.*hpp'
