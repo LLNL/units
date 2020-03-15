@@ -1132,12 +1132,12 @@ static std::string
         if (!fnd.empty()) {
             auto prefix = getMultiplierString(
                 1.0 / ext.multiplier(), isDigitCharacter(fnd.back()));
-			std::string str{ "1/(" };
-			str += prefix;
-			str += fnd;
-			str.push_back('*');
-			str.append(tu.second);
-			str.push_back(')');
+            std::string str{"1/("};
+            str += prefix;
+            str += fnd;
+            str.push_back('*');
+            str.append(tu.second);
+            str.push_back(')');
             if (!isNumericalCharacter(prefix.front())) {
                 return str;
             }
@@ -1646,7 +1646,6 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
     // clean up "and"
     if (lcstring.compare(0, 3, "and") == 0) {
         index += 3;
-        val = 0.0;
     }
     // what we are left with is values below a hundred
     for (auto& wp : decadeWords) {
@@ -5274,7 +5273,6 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     if (!unit_string.empty() && unit_string.front() == '/') {
         unit_string.insert(unit_string.begin(), '1');
         changed = true;
-        skipMultiply = true;
     }
     if (!skipcodereplacement) {  // make everything inside {} lower case
         auto bloc = unit_string.find_first_of('{');
@@ -5573,41 +5571,41 @@ static precise_unit unit_to_the_power_of(
             return a_unit * retunit;
         }
         return precise::defunit;
-    } else {
-        // auto ustring = unit_string.substr(0, pchar + 1);
-
-        if ((match_flags & case_insensitive) != 0) {
-            cleanUnitString(unit_string, match_flags);
-        }
-
-        retunit = get_unit(unit_string);
-        if (is_valid(retunit)) {
-            if (power == 1) {
-                return retunit;
-            }
-            if (power == -1) {
-                return retunit.inv();
-            }
-            return retunit.pow(power);
-        }
-        auto fnd = findWordOperatorSep(unit_string, "per");
-        if (fnd == std::string::npos) {
-            retunit = unit_from_string_internal(
-                unit_string, match_flags - recursion_modifier);
-            if (!is_valid(retunit)) {
-                return precise::invalid;
-            }
-            if (power == 1) {
-                return retunit;
-            }
-            if (power == -1) {
-                return retunit.inv();
-            }
-            return retunit.pow(power);
-        }
-        return precise::defunit;
     }
+    // auto ustring = unit_string.substr(0, pchar + 1);
+
+    if ((match_flags & case_insensitive) != 0) {
+        cleanUnitString(unit_string, match_flags);
+    }
+
+    retunit = get_unit(unit_string);
+    if (is_valid(retunit)) {
+        if (power == 1) {
+            return retunit;
+        }
+        if (power == -1) {
+            return retunit.inv();
+        }
+        return retunit.pow(power);
+    }
+    auto fnd = findWordOperatorSep(unit_string, "per");
+    if (fnd == std::string::npos) {
+        retunit = unit_from_string_internal(
+            unit_string, match_flags - recursion_modifier);
+        if (!is_valid(retunit)) {
+            return precise::invalid;
+        }
+        if (power == 1) {
+            return retunit;
+        }
+        if (power == -1) {
+            return retunit.inv();
+        }
+        return retunit.pow(power);
+    }
+    return precise::defunit;
 }
+
 precise_unit
     unit_from_string(std::string unit_string, std::uint32_t match_flags)
 {
@@ -5670,7 +5668,7 @@ static precise_unit unit_from_string_internal(
             partition_check1;  // only allow 3 deep for unit_partitioning
     }
     if (unit_string.front() == '{' && unit_string.back() == '}') {
-        if (unit_string.find_last_of("}", unit_string.size() - 2) ==
+        if (unit_string.find_last_of('}', unit_string.size() - 2) ==
             std::string::npos) {
             retunit = checkForCustomUnit(unit_string);
             if (!is_error(retunit)) {
