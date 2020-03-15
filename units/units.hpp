@@ -1789,7 +1789,7 @@ process somewhat
 unit will be an error unit
 */
 uncertain_measurement uncertain_measurement_from_string(
-    std::string measurement_string,
+    const std::string &measurement_string,
     std::uint32_t match_flags = 0U);
 
 /// Convert a precise measurement to a string (with some extra decimal digits
@@ -1805,11 +1805,11 @@ std::string
     to_string(uncertain_measurement measure, std::uint32_t match_flags = 0U);
 
 /// Add a custom unit to be included in any string processing
-void addUserDefinedUnit(std::string name, precise_unit un);
+void addUserDefinedUnit(const std::string &name, precise_unit un);
 
 /// Add a custom unit to be included in from string interpretation but not used
 /// in generating string representations of units
-void addUserDefinedInputUnit(std::string name, precise_unit un);
+void addUserDefinedInputUnit(const std::string &name, precise_unit un);
 
 /// Clear all user defined units from memory
 void clearUserDefinedUnits();

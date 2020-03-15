@@ -1633,9 +1633,8 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
             if (std::isnan(val_p2) || index_sub < loc) {
                 index = index_sub;
                 return val_p2;
-            } else {
-                val *= val_p2;
             }
+            val *= val_p2;
             val += val_add;
             return val;
         }
@@ -5146,14 +5145,14 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         auto dotloc = unit_string.find_last_of('.');
         if (dotloc < std::string::npos) {
             // strings always have a null pointer at the end
-            if (isDigitCharacter(unit_string[dotloc + 1]) == 0) {
+            if (!isDigitCharacter(unit_string[dotloc + 1])) {
                 cleanDotNotation(unit_string, match_flags);
                 changed = true;
             }
         }
         // Check for unicode or extended characters
         if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) {
-                return (static_cast<std::uint8_t>(x) & 0x80) != 0;
+                return (static_cast<std::uint8_t>(x) & 0x80U) != 0;
             })) {
             if (unicodeReplacement(unit_string)) {
                 changed = true;
