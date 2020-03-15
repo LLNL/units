@@ -17,6 +17,8 @@ hicpp-*
 -hicpp-use-equals-default
 -hicpp-explicit-conversions
 clang-analyzer-*
+bugprone-*
+misc-*
 '
 
 WarningsAsErrors: '
@@ -33,6 +35,8 @@ hicpp-*
 -hicpp-use-equals-default
 -hicpp-explicit-conversions
 clang-analyzer-*
+bugprone-*
+misc-*
 '
 
 HeaderFilterRegex: '.*hpp'
