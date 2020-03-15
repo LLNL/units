@@ -415,11 +415,22 @@ class fixed_measurement {
         value_(val.value()), units_(val.units())
     {
     }
-    // define copy constructor
+
+    /// define copy constructor
     constexpr fixed_measurement(const fixed_measurement& val) noexcept :
         value_(val.value()), units_(val.units())
     {
     }
+
+    /// define move constructor
+    constexpr fixed_measurement(fixed_measurement&& val) noexcept :
+        value_(val.value()), units_(val.units())
+    {
+    }
+
+    // destructor
+    ~fixed_measurement() = default;
+
     /// assignment operator
     fixed_measurement& operator=(const measurement& val)
     {
@@ -432,6 +443,14 @@ class fixed_measurement {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
+
+    /// assignment operator treat it the same as a measurement
+    fixed_measurement& operator=(fixed_measurement&& val)
+    {
+        value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+        return *this;
+    }
+
     /// Assignment from number,  allow direct numerical assignment since the
     /// units are fixes and known at construction time
     fixed_measurement& operator=(double val)
@@ -1301,6 +1320,14 @@ class fixed_precise_measurement {
     {
     }
 
+    constexpr fixed_precise_measurement(fixed_precise_measurement&& val) :
+        value_(val.value()), units_(val.units())
+    {
+    }
+
+    /// destructor
+    ~fixed_precise_measurement() = default;
+
     /// assign from a precise_measurement do the conversion and assign the value
     fixed_precise_measurement& operator=(const precise_measurement& val)
     {
@@ -1311,6 +1338,12 @@ class fixed_precise_measurement {
     /// assign from another fixed_precise_measurement treat like a
     /// precise_measurement
     fixed_precise_measurement& operator=(const fixed_precise_measurement& val)
+    {
+        value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
+        return *this;
+    }
+
+    fixed_precise_measurement& operator=(fixed_precise_measurement&& val)
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
