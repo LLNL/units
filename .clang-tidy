@@ -14,6 +14,8 @@ misc-throw-by-value-catch-by-reference,
 modernize*,
 readability-container-size-empty,
 hicpp-*
+-hicpp-use-equals-default
+-hicpp-explicit-conversions
 '
 
 WarningsAsErrors: '
@@ -27,6 +29,8 @@ misc-throw-by-value-catch-by-reference,
 modernize*,
 readability-container-size-empty,
 hicpp-*
+-hicpp-use-equals-default
+-hicpp-explicit-conversions
 '
 
 HeaderFilterRegex: '.*hpp'

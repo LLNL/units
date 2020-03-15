@@ -7,7 +7,7 @@ aliases:
     command: |
       mkdir -p build
       cd build
-      eval cmake .. ${CMAKE_FLAGS}
+      eval cmake .. ${CMAKE_FLAGS} -DUNITS_ENABLE_ERROR_ON_WARNINGS=ON
       make -j 4
       ctest --verbose
 

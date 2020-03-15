@@ -351,16 +351,16 @@ static UNITS_CPP14_CONSTEXPR std::array<ustr, 4> creduceUnits{
 // this map needs to be generated at run-time once multiplier prefixes commonly
 // used
 static const std::unordered_map<float, char> si_prefixes{
-    {0.001f, 'm'},        {1.0f / 1000.0f, 'm'},
-    {1000.0f, 'k'},       {1.0f / 0.001f, 'k'},
-    {1e-6f, 'u'},         {0.01f, 'c'},
-    {1.0f / 100.0f, 'c'}, {1.0f / 1e6f, 'u'},
-    {1000000.0f, 'M'},    {1.0f / 0.000001f, 'M'},
-    {1000000000.0f, 'G'}, {1.0f / 0.000000001f, 'G'},
-    {1e-9f, 'n'},         {1.0f / 1e9f, 'n'},
-    {1e-12f, 'p'},        {1.0f / 1e12f, 'p'},
-    {1e-15f, 'f'},        {1.0f / 1e15f, 'f'},
-    {1e12f, 'T'},         {1.0f / 1e-12f, 'T'}};
+    {0.001F, 'm'},        {1.0F / 1000.0F, 'm'},
+    {1000.0F, 'k'},       {1.0F / 0.001F, 'k'},
+    {1e-6F, 'u'},         {0.01F, 'c'},
+    {1.0F / 100.0F, 'c'}, {1.0F / 1e6F, 'u'},
+    {1000000.0F, 'M'},    {1.0F / 0.000001F, 'M'},
+    {1000000000.0F, 'G'}, {1.0F / 0.000000001F, 'G'},
+    {1e-9F, 'n'},         {1.0F / 1e9F, 'n'},
+    {1e-12F, 'p'},        {1.0F / 1e12F, 'p'},
+    {1e-15F, 'f'},        {1.0F / 1e15F, 'f'},
+    {1e12F, 'T'},         {1.0F / 1e-12F, 'T'}};
 
 // check if the character is something that could begin a number
 static inline bool isNumericalCharacter(char X)
@@ -1181,7 +1181,7 @@ std::string to_string(precise_measurement measure, std::uint32_t match_flags)
         str.insert(str.begin(), '(');
         str.push_back(')');
     }
-    ss << std::move(str);
+    ss << str;
     return ss.str();
 }
 
@@ -1196,7 +1196,7 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
         str.insert(str.begin(), '(');
         str.push_back(')');
     }
-    ss << std::move(str);
+    ss << str;
     return ss.str();
 }
 
@@ -4134,9 +4134,9 @@ static char getMatchCharacter(char mchar)
         case '\'':
         case '"':
         case '`':
+		default:
             return mchar;
     }
-    return mchar;
 }
 // LCOV_EXCL_STOP
 
@@ -5154,7 +5154,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         }
         // Check for unicode or extended characters
         if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) {
-                return (x & 0x80) != 0;
+                return (static_cast<std::uint8_t>(x) & 0x80) != 0;
             })) {
             if (unicodeReplacement(unit_string)) {
                 changed = true;
