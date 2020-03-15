@@ -11,15 +11,9 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <cstring>
 #include <tuple>
 
-#if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1300)
-#define UNITS_CPP14_CONSTEXPR constexpr
-#else
-#define UNITS_CPP14_CONSTEXPR const
-#endif
-
 namespace units {
 using unitD = std::tuple<const char*, const char*, precise_unit>;
-static UNITS_CPP14_CONSTEXPR std::array<unitD, 486> x12_units{{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> x12_units{{
     unitD{"03", "SECOND", precise::s},
     unitD{"05", "LIFT", precise::one},
     unitD{"07", "STRAND", precise::one},
@@ -520,7 +514,7 @@ static UNITS_CPP14_CONSTEXPR std::array<unitD, 486> x12_units{{
     unitD{"ZY", "APOTHECARY SCRUPLE", precise::one},
 }};
 
-static UNITS_CPP14_CONSTEXPR std::array<unitD, 486> dod_units = {{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> dod_units = {{
     unitD{"05", "LIFT", precise::one},
     unitD{"07", "STRAND", precise::one},
     unitD{"09", "TIRE", precise::one},

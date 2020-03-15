@@ -13,9 +13,11 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <utility>
 
 #if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1910)
-#define UNITS_CPP14_CONSTEXPR constexpr
+#define UNITS_CPP14_CONSTEXPR_OBJECT constexpr
+#define UNITS_CPP14_CONSTEXPR_METHOD constexpr
 #else
-#define UNITS_CPP14_CONSTEXPR const
+#define UNITS_CPP14_CONSTEXPR_OBJECT const
+#define UNITS_CPP14_CONSTEXPR_METHOD
 #endif
 
 namespace units {
@@ -378,7 +380,9 @@ class measurement {
 };
 
 /// The design requirement is for this to fit in the space of 2 doubles
-static_assert(sizeof(measurement) <= 16, "Measurement class is too large");
+static_assert(
+    sizeof(measurement) <= 2 * sizeof(double),
+    "Measurement class is too large");
 
 constexpr inline measurement operator*(double val, unit unit_base)
 {
@@ -769,7 +773,7 @@ class uncertain_measurement {
 
     /** Perform a multiplication with uncertain measurements using the simple
      * method for uncertainty propagation*/
-    UNITS_CPP14_CONSTEXPR uncertain_measurement
+    UNITS_CPP14_CONSTEXPR_METHOD uncertain_measurement
         simple_product(uncertain_measurement other) const
     {
         float ntol = uncertainty_ / value_ + other.uncertainty_ / other.value_;
@@ -812,7 +816,7 @@ class uncertain_measurement {
     /** division operator propagate uncertainty using simple method allowing
      * constexpr in C++14
      */
-    UNITS_CPP14_CONSTEXPR uncertain_measurement
+    UNITS_CPP14_CONSTEXPR_METHOD uncertain_measurement
         simple_divide(uncertain_measurement other) const
     {
         float ntol = uncertainty_ / value_ + other.uncertainty_ / other.value_;
@@ -891,7 +895,7 @@ class uncertain_measurement {
     }
 
     /// take the measurement to some power
-    friend UNITS_CPP14_CONSTEXPR uncertain_measurement
+    friend UNITS_CPP14_CONSTEXPR_METHOD uncertain_measurement
         pow(const uncertain_measurement& meas, int power)
     {
         auto new_value = detail::power_const(meas.value_, power);
@@ -936,11 +940,9 @@ class uncertain_measurement {
         if (uncertainty_ == 0.0F) {
             return (value_ == val) ? true :
                                      detail::compare_round_equals(value_, val);
-        } else {
-            return (
-                val >= (value_ - uncertainty_) &&
-                val <= (value_ + uncertainty_));
         }
+        return (
+            val >= (value_ - uncertainty_) && val <= (value_ + uncertainty_));
     }
     bool operator>(const measurement& other) const
     {
@@ -1053,7 +1055,7 @@ class uncertain_measurement {
         return v2.operator*(v1);
     }
 
-    friend UNITS_CPP14_CONSTEXPR inline uncertain_measurement
+    friend UNITS_CPP14_CONSTEXPR_METHOD inline uncertain_measurement
         operator/(const measurement& v1, const uncertain_measurement& v2)
     {
         double ntol = v2.uncertainty() / v2.value();
@@ -1073,7 +1075,7 @@ class uncertain_measurement {
         return v2.operator*(v1);
     }
 
-    friend UNITS_CPP14_CONSTEXPR inline uncertain_measurement
+    friend UNITS_CPP14_CONSTEXPR_METHOD inline uncertain_measurement
         operator/(double v1, const uncertain_measurement& v2)
     {
         double ntol = v2.uncertainty() / v2.value();
@@ -1081,7 +1083,7 @@ class uncertain_measurement {
         return uncertain_measurement(nval, nval * ntol, v2.units_.inv());
     }
 
-    friend UNITS_CPP14_CONSTEXPR inline uncertain_measurement
+    friend UNITS_CPP14_CONSTEXPR_METHOD inline uncertain_measurement
         operator/(float v1, const uncertain_measurement& v2)
     {
         float ntol = v2.uncertainty_ / v2.value_;
@@ -1089,7 +1091,7 @@ class uncertain_measurement {
         return uncertain_measurement(nval, nval * ntol, v2.units_.inv());
     }
 
-    friend UNITS_CPP14_CONSTEXPR inline uncertain_measurement
+    friend UNITS_CPP14_CONSTEXPR_METHOD inline uncertain_measurement
         operator/(int v1, const uncertain_measurement& v2)
     {
         float ntol = v2.uncertainty_ / v2.value_;
@@ -1683,30 +1685,30 @@ enum unit_conversion_flags : std::uint32_t {
     single_slash = 2U,  //!< specify that there is a single numerator and
                         //!< denominator only a single slash in the unit
                         //!< operations
-    numbers_only = (1U << 12),  //!< indicate that only numbers should be
-                                //!< matched in the first segments, mostly
-                                //!< applies only to power operations
-    recursion_depth1 = (1U << 15),  //!< skip checking for SI prefixes
+    numbers_only = (1U << 12U),  //!< indicate that only numbers should be
+                                 //!< matched in the first segments, mostly
+                                 //!< applies only to power operations
+    recursion_depth1 = (1U << 15U),  //!< skip checking for SI prefixes
     // don't put anything at 16, 15 through 17 are connected to limit
     // recursion depth
-    no_recursion = (1U << 17),  //!< don't recurse through the string
-    not_first_pass = (1U << 18),  //!< indicate that is not the first pass
-    per_operator1 = (1U << 19),  //!< skip matching "per" counter
+    no_recursion = (1U << 17U),  //!< don't recurse through the string
+    not_first_pass = (1U << 18U),  //!< indicate that is not the first pass
+    per_operator1 = (1U << 19U),  //!< skip matching "per" counter
     // nothing at 20, 19 through 21 are connected to limit per operations
-    no_per_operators = (1U << 21),  //!< skip matching "per"
-    no_locality_modifiers = (1U << 22),  //!< skip locality modifiers
-    no_of_operator = (1U << 23),  //!< skip dealing with "of"
+    no_per_operators = (1U << 21U),  //!< skip matching "per"
+    no_locality_modifiers = (1U << 22U),  //!< skip locality modifiers
+    no_of_operator = (1U << 23U),  //!< skip dealing with "of"
     commodity_check1 =
-        (1U << 24),  // counter for skipping commodity check vi of
+        (1U << 24U),  // counter for skipping commodity check vi of
     // nothing at 25, 24 through 26 are connected
-    no_commodities = (1U << 26),  //!< skip commodity checks
-    partition_check1 = (1U << 27),  //!< counter for skipping partitioning
+    no_commodities = (1U << 26U),  //!< skip commodity checks
+    partition_check1 = (1U << 27U),  //!< counter for skipping partitioning
     // nothing at 28, 27 through 29 are connected to limit partition
     // depth
-    skip_partition_check = (1U << 29),  // skip the partition check algorithm
-    skip_si_prefix_check = (1U << 30),  //!< skip checking for SI prefixes
+    skip_partition_check = (1U << 29U),  // skip the partition check algorithm
+    skip_si_prefix_check = (1U << 30U),  //!< skip checking for SI prefixes
     skip_code_replacements =
-        (1U << 31),  //!< don't do some code and sequence replacements
+        (1U << 31U),  //!< don't do some code and sequence replacements
 };
 /// Generate a string representation of the unit
 std::string to_string(precise_unit units, std::uint32_t match_flags = 0U);

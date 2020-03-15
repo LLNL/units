@@ -315,7 +315,7 @@ static const umap base_unit_names{
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
-static UNITS_CPP14_CONSTEXPR std::array<ustr, 22> testUnits{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 22> testUnits{
     {ustr{precise::m, "m"},
      ustr{precise::s, "s"},
      ustr{precise::ms, "ms"},
@@ -340,7 +340,7 @@ static UNITS_CPP14_CONSTEXPR std::array<ustr, 22> testUnits{
      ustr{precise::count, "item"}}};
 
 // complex units used to reduce unit complexity
-static UNITS_CPP14_CONSTEXPR std::array<ustr, 4> creduceUnits{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 4> creduceUnits{
     {ustr{precise::V.inv(), "V*"},
      ustr{precise::V, "V^-1*"},
      ustr{precise::W, "W^-1*"},
@@ -754,7 +754,7 @@ std::string
     clean_unit_string(std::string propUnitString, std::uint32_t commodity)
 {
     using spair = std::tuple<const char*, const char*, int, int>;
-    static UNITS_CPP14_CONSTEXPR std::array<spair, 8> powerseq{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 8> powerseq{{
         spair{"Mm^3", "(1e9km^3)", 4, 8},  // this needs to happen before ^3^2
                                            // conversions
         spair{"^2^2", "^4", 4, 2},
@@ -1278,7 +1278,7 @@ static constexpr uint16_t charindex(char ch1, char ch2)
 static double getPrefixMultiplier2Char(char c1, char c2)
 {
     using cpair = std::pair<uint16_t, double>;
-    static UNITS_CPP14_CONSTEXPR std::array<cpair, 23> char2prefix{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<cpair, 23> char2prefix{{
         cpair{charindex('D', 'A'), 10.0},
         cpair{charindex('E', 'X'), 1e18},
         cpair{charindex('E', 'i'),
@@ -1510,7 +1510,7 @@ static bool hasValidNumericalWordStart(const std::string& ustring)
 }
 using wordpair = std::tuple<const char*, double, int>;
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 9> lt10{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<wordpair, 9> lt10{
     {wordpair{"one", 1.0, 3},
      wordpair{"two", 2.0, 3},
      wordpair{"three", 3.0, 5},
@@ -1532,7 +1532,7 @@ static double read1To10(const std::string& str, size_t& index)
     return constants::invalid_conversion;
 }
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 11> teens{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<wordpair, 11> teens{
     {wordpair{"ten", 10.0, 3},
      wordpair{"eleven", 11.0, 6},
      wordpair{"twelve", 12.0, 6},
@@ -1557,14 +1557,14 @@ static double readTeens(const std::string& str, size_t& index)
 }
 
 // NOTE: the ordering is important here
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 5> groupNumericalWords{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<wordpair, 5> groupNumericalWords{
     {wordpair{"trillion", 1e12, 8},
      wordpair{"billion", 1e9, 7},
      wordpair{"million", 1e6, 7},
      wordpair{"thousand", 1e3, 8},
      wordpair{"hundred", 100.0, 7}}};
 
-static UNITS_CPP14_CONSTEXPR std::array<wordpair, 8> decadeWords{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<wordpair, 8> decadeWords{
     {wordpair{"twenty", 20.0, 6},
      wordpair{"thirty", 30.0, 6},
      wordpair{"forty", 40.0, 5},
@@ -1691,7 +1691,7 @@ https://physics.nist.gov/cuu/Units/prefixes.html
 https://physics.nist.gov/cuu/Units/binary.html
 */
 using utup = std::tuple<const char*, double, int>;
-static UNITS_CPP14_CONSTEXPR std::array<utup, 29> prefixWords{{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 29> prefixWords{{
     utup{"atto", 1e-18, 4},
     utup{"centi", 0.01, 5},
     utup{"deca", 10.0, 4},
@@ -1765,7 +1765,7 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UNITS_CPP14_CONSTEXPR std::array<modSeq, 26> modifiers{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 26> modifiers{{
         modSeq{"cubic", "^3", 5, modifier::start_tail},
         modSeq{"reciprocal", "^-1", 10, modifier::start_tail},
         modSeq{"reciprocal", "^-1", 10, modifier::tail_replace},
@@ -1887,7 +1887,7 @@ using ckpair = std::pair<const char*, const char*>;
 static precise_unit
     localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 42>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 42>
         internationlReplacements{{
             ckpair{"internationaltable", "_IT"},
             ckpair{"internationalsteamtable", "_IT"},
@@ -1983,7 +1983,7 @@ static precise_unit ignoreModifiers(std::string unit, std::uint32_t match_flags)
 {
     using igpair = std::pair<const char*, int>;
 
-    static UNITS_CPP14_CONSTEXPR std::array<igpair, 1> ignore_word{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<igpair, 1> ignore_word{{
         igpair{"liquid", 6},
     }};
     bool changed = false;
@@ -4877,7 +4877,7 @@ static void htmlCodeReplacement(std::string& unit_string)
 /// in the basic ascii set)
 static bool unicodeReplacement(std::string& unit_string)
 {
-    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 45> ucodeReplacements{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 45> ucodeReplacements{{
         ckpair{u8"\u00d7", "*"},
         ckpair{u8"\u00f7", "/"},  // division sign
         ckpair{u8"\u00b7", "*"},
@@ -4948,7 +4948,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
 
-    static UNITS_CPP14_CONSTEXPR std::array<ckpair, 30> allCodeReplacements{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 30> allCodeReplacements{{
         ckpair{"sq.", "square"},
         ckpair{"cu.", "cubic"},
         ckpair{"(US)", "US"},
@@ -6170,7 +6170,7 @@ uncertain_measurement uncertain_measurement_from_string(
         return {};
     }
     // first task is to find the +/-
-    static UNITS_CPP14_CONSTEXPR std::array<const char*, 9> pmsequences{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<const char*, 9> pmsequences{
         {"+/-",
          "\xB1",
          u8"\u00B1",
@@ -6483,16 +6483,17 @@ precise_unit default_unit(std::string unit_type)
         return precise::one;
     }
     if (ends_with(unit_type, "quantity")) {
-        return default_unit(unit_type.substr(0, unit_type.size() - 8));
+        return default_unit(unit_type.substr(0, unit_type.size() - strlen("quantity")));
     }
     if (ends_with(unit_type, "quantities")) {
-        return default_unit(unit_type.substr(0, unit_type.size() - 10));
+        return default_unit(unit_type.substr(0, unit_type.size() - strlen("quantities")));
     }
     if (ends_with(unit_type, "measure")) {
-        return default_unit(unit_type.substr(0, unit_type.size() - 7));
+        return default_unit(unit_type.substr(0, unit_type.size() - strlen("measure")));
     }
     if (unit_type.back() == 's' && unit_type.size() > 1) {
-        return default_unit(unit_type.substr(0, unit_type.size() - 1));
+		unit_type.pop_back();
+        return default_unit(unit_type);
     }
     return precise::invalid;
 }
