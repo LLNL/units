@@ -10,15 +10,18 @@ google-*,
 -google-runtime-references,
 llvm-include-order,
 llvm-namespace-comment,
-misc-throw-by-value-catch-by-reference,
 modernize*,
-readability-container-size-empty,
 hicpp-*
 -hicpp-use-equals-default
 -hicpp-explicit-conversions
 clang-analyzer-*
 bugprone-*
 misc-*
+cppcoreguidelines-*
+cert-*
+portability-*
+readability-*
+performance-*
 '
 
 WarningsAsErrors: '
@@ -28,15 +31,18 @@ google-*,
 -google-runtime-references,
 llvm-include-order,
 llvm-namespace-comment,
-misc-throw-by-value-catch-by-reference,
 modernize*,
-readability-container-size-empty,
 hicpp-*
 -hicpp-use-equals-default
 -hicpp-explicit-conversions
 clang-analyzer-*
 bugprone-*
 misc-*
+cppcoreguidelines-*
+cert-*
+portability-*
+readability-*
+performance-*
 '
 
 HeaderFilterRegex: '.*hpp'
