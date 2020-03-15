@@ -1158,7 +1158,7 @@ static std::string
         for (auto& reduce : creduceUnits) {
             auto od = 1 + order(unit_cast(un * reduce.first));
             if (od < minorder) {
-                od = minorder;
+                minorder = od;
                 mino_unit = un * reduce.first;
                 min_mult = reduce.second;
             }
@@ -5507,7 +5507,7 @@ static precise_unit checkForCustomUnit(const std::string& unit_string)
 
         std::transform(csub.begin(), csub.end(), csub.begin(), ::tolower);
         auto custcode = std::hash<std::string>{}(csub);
-        return precise::generate_custom_unit(custcode & 0x3F);
+        return precise::generate_custom_unit(custcode & 0x3FU);
     }
 
     return precise::invalid;
@@ -5744,7 +5744,8 @@ static precise_unit unit_from_string_internal(
 
     auto sep = findOperatorSep(unit_string, "*/");
     if (sep != std::string::npos) {
-        precise_unit a_unit, b_unit;
+        precise_unit a_unit;
+        precise_unit b_unit;
         if (sep + 1 > unit_string.size() / 2) {
             b_unit = unit_from_string_internal(
                 unit_string.substr(sep + 1), match_flags - recursion_modifier);

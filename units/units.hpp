@@ -778,7 +778,7 @@ class uncertain_measurement {
     {
         float ntol = uncertainty_ / value_ + other.uncertainty_ / other.value_;
         float nval = value_ * other.value_;
-        return uncertain_measurement(nval, nval * ntol, units_ * other.units());
+        return {nval, nval * ntol, units_ * other.units()};
     }
     /** Multiply with another measurement
     equivalent to uncertain_measurement multiplication with 0 uncertainty*/
@@ -1088,7 +1088,7 @@ class uncertain_measurement {
     {
         float ntol = v2.uncertainty_ / v2.value_;
         float nval = v1 / v2.value_;
-        return uncertain_measurement(nval, nval * ntol, v2.units_.inv());
+        return {nval, nval * ntol, v2.units_.inv()};
     }
 
     friend UNITS_CPP14_CONSTEXPR_METHOD inline uncertain_measurement
@@ -1096,7 +1096,7 @@ class uncertain_measurement {
     {
         float ntol = v2.uncertainty_ / v2.value_;
         float nval = static_cast<float>(v1) / v2.value_;
-		return { nval, nval * ntol, v2.units_.inv() };
+        return {nval, nval * ntol, v2.units_.inv()};
     }
 
   private:
@@ -1789,7 +1789,7 @@ process somewhat
 unit will be an error unit
 */
 uncertain_measurement uncertain_measurement_from_string(
-    const std::string &measurement_string,
+    const std::string& measurement_string,
     std::uint32_t match_flags = 0U);
 
 /// Convert a precise measurement to a string (with some extra decimal digits
@@ -1805,11 +1805,11 @@ std::string
     to_string(uncertain_measurement measure, std::uint32_t match_flags = 0U);
 
 /// Add a custom unit to be included in any string processing
-void addUserDefinedUnit(const std::string &name, precise_unit un);
+void addUserDefinedUnit(const std::string& name, precise_unit un);
 
 /// Add a custom unit to be included in from string interpretation but not used
 /// in generating string representations of units
-void addUserDefinedInputUnit(const std::string &name, precise_unit un);
+void addUserDefinedInputUnit(const std::string& name, precise_unit un);
 
 /// Clear all user defined units from memory
 void clearUserDefinedUnits();
