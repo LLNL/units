@@ -1990,7 +1990,7 @@ static precise_unit ignoreModifiers(std::string unit, std::uint32_t match_flags)
     for (const auto& irep : ignore_word) {
         auto fnd = unit.find(irep.first);
         if (fnd != std::string::npos) {
-            if (irep.second == unit.size()) {
+            if (irep.second == static_cast<int>(unit.size())) {
                 // this is a modifier if we are checking the entire unit this is
                 // automatically false
                 return precise::invalid;
