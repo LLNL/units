@@ -22,6 +22,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   `fixed_measurement` and `fixed_precise_measurement` had incorrect subtraction operation in a few overloads.  [#39][]
 -   fixed a few initial issues from fuzz_measurement [#42][]
 -   Some more fuzzing generated issues with cascading powers [#45][]
+-   A number of additional clang-tidy checks were added and the resulting warnings fixed [#46][]
 
 ### Added
 -   added a [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application that can convert units on the command line [#35][]
@@ -97,6 +98,7 @@ Continued work on cleaning up the library and starting to add main documentation
 [#43]: https://github.com/LLNL/units/pull/43
 [#44]: https://github.com/LLNL/units/pull/44
 [#45]: https://github.com/LLNL/units/pull/45
+[#46]: https://github.com/LLNL/units/pull/46
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
