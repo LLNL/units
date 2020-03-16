@@ -40,7 +40,6 @@ if(NOT DEFINED CMAKE_CXX_STANDARD_REQUIRED)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 
-
 list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")
 
 # Allow IDE's to group targets into folders

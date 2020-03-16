@@ -14,7 +14,7 @@ variables:
   units.header: OFF
   units.std: 14
   units.build_type: Debug
-  units.options: -DUNITS_ENABLE_TESTS=ON
+  units.options: -DUNITS_ENABLE_TESTS=ON -DUNITS_ENABLE_ERROR_ON_WARNINGS=ON
   CMAKE_BUILD_PARALLEL_LEVEL: 4
 
 jobs:
@@ -61,6 +61,9 @@ jobs:
       Windows11:
         vmImage: 'vs2017-win2016'
         units.std: 11
+      Windowslatest:
+        vmImage: 'windows-2019'
+        cli11.std: 17
   pool:
     vmImage: $(vmImage)
   steps:
@@ -74,9 +77,9 @@ jobs:
     vmImage: 'ubuntu-latest'
   strategy:
     matrix:
-      gcc9:
-        containerImage: gcc:9
-        units.std: 17
+      gcc8:
+        containerImage: gcc:8
+        cli11.std: 17
       gcc4.8:
         containerImage: gcc:4.8
         units.std: 11

@@ -161,10 +161,10 @@ namespace detail {
         }
 
         // support for specific unitConversion calls
-        constexpr bool is_per_unit() const { return per_unit_ != 0; }
-        constexpr bool has_i_flag() const { return (i_flag_ != 0); }
-        constexpr bool has_e_flag() const { return e_flag_ != 0; }
-        constexpr bool is_equation() const { return equation_ != 0; }
+        constexpr bool is_per_unit() const { return per_unit_ != 0U; }
+        constexpr bool has_i_flag() const { return (i_flag_ != 0U); }
+        constexpr bool has_e_flag() const { return e_flag_ != 0U; }
+        constexpr bool is_equation() const { return equation_ != 0U; }
         /// Check if the unit bases are the same
         constexpr bool has_same_base(unit_data other) const
         {
@@ -185,7 +185,7 @@ namespace detail {
             return meter_ == 0 && second_ == 0 && kilogram_ == 0 &&
                 ampere_ == 0 && candela_ == 0 && kelvin_ == 0 && mole_ == 0 &&
                 radians_ == 0 && currency_ == 0 && count_ == 0 &&
-                equation_ == 0;
+                equation_ == 0U;
         }
         /// Get the number of different base units used
         constexpr int unit_type_count() const
@@ -278,7 +278,7 @@ namespace detail {
         constexpr unit_data() :
             meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0),
             kelvin_(0), mole_(0), radians_(0), currency_(0), count_(0),
-            per_unit_(0), i_flag_(0), e_flag_(0), equation_(0)
+            per_unit_(0U), i_flag_(0U), e_flag_(0U), equation_(0U)
         {
         }
 
@@ -288,14 +288,14 @@ namespace detail {
                 kilogram_ % power == 0 && ampere_ % power == 0 &&
                 candela_ == 0 && kelvin_ % power == 0 && mole_ == 0 &&
                 radians_ % power == 0 && currency_ == 0 && count_ == 0 &&
-                equation_ == 0 && e_flag_ == 0;
+                equation_ == 0U && e_flag_ == 0U;
         }
         constexpr int rootHertzModifier(int power) const
         {
-            return (second_ * power == 0 || ((e_flag_ & i_flag_) == 0) ||
+            return (second_ * power == 0 || ((e_flag_ & i_flag_) == 0U) ||
                     power % 2 != 0) ?
                 0 :
-                (power >> 1) * ((second_ < 0) || (power < 0) ? 9 : -9);
+                (power / 2) * ((second_ < 0) || (power < 0) ? 9 : -9);
         }
 
         // needs to be defined for the full 32 bits
@@ -309,13 +309,15 @@ namespace detail {
         signed int radians_ : 3;  // 24
         signed int currency_ : 2;
         signed int count_ : 2;  // 28
-        unsigned int per_unit_ : 1;
-        unsigned int i_flag_ : 1;  // 30
-        unsigned int e_flag_ : 1;  //
-        unsigned int equation_ : 1;  // 32
+        unsigned int per_unit_ : 1U;
+        unsigned int i_flag_ : 1U;  // 30
+        unsigned int e_flag_ : 1U;  //
+        unsigned int equation_ : 1U;  // 32
     };
     // We want this to be exactly 4 bytes by design
-    static_assert(sizeof(unit_data) == 4, "Unit data is too large");
+    static_assert(
+        sizeof(unit_data) == sizeof(std::uint32_t),
+        "Unit data is too large");
 
 }  // namespace detail
 }  // namespace units
@@ -394,6 +396,7 @@ namespace detail {
     /// Do a rounding compare for equality on floats.
     inline bool compare_round_equals(float val1, float val2)
     {
+        static constexpr float half_precision{5e-7F};
         auto v1 = val1 - val2;
         if (v1 == 0.0F || std::fpclassify(v1) == FP_SUBNORMAL) {
             return true;
@@ -402,15 +405,16 @@ namespace detail {
         auto c2 = cround(val2);
         // yes these are magic numbers half the value of specified precision of
         // 1e-6 for units
-        return (c1 == c2) || (cround(val2 * (1.0F + 5e-7F)) == c1) ||
-            (cround(val2 * (1.0F - 5e-7F)) == c1) ||
-            (cround(val1 * (1.0F + 5e-7F)) == c2) ||
-            (cround(val1 * (1.0F - 5e-7F)) == c2);
+        return (c1 == c2) || (cround(val2 * (1.0F + half_precision)) == c1) ||
+            (cround(val2 * (1.0F - half_precision)) == c1) ||
+            (cround(val1 * (1.0F + half_precision)) == c2) ||
+            (cround(val1 * (1.0F - half_precision)) == c2);
     }
 
     /// Do a rounding compare for equality on double
     inline bool compare_round_equals_precise(double val1, double val2)
     {
+        static constexpr double half_precise_precision{5e-13};
         auto v1 = val1 - val2;
         if (v1 == 0.0 || std::fpclassify(v1) == FP_SUBNORMAL) {
             return true;
@@ -420,10 +424,11 @@ namespace detail {
         // yes these are magic numbers half the value of specified precision of
         // 1e-12 for precise units and yes I am purposely using the floating
         // point equality here
-        return (c1 == c2) || (cround_precise(val2 * (1.0 + 5e-13)) == c1) ||
-            (cround_precise(val2 * (1.0 - 5e-13)) == c1) ||
-            (cround_precise(val1 * (1.0 + 5e-13)) == c2) ||
-            (cround_precise(val1 * (1.0 - 5e-13)) == c2);
+        return (c1 == c2) ||
+            (cround_precise(val2 * (1.0 + half_precise_precision)) == c1) ||
+            (cround_precise(val2 * (1.0 - half_precise_precision)) == c1) ||
+            (cround_precise(val1 * (1.0 + half_precise_precision)) == c2) ||
+            (cround_precise(val1 * (1.0 - half_precise_precision)) == c2);
     }
 }  // namespace detail
 
@@ -940,8 +945,10 @@ inline precise_unit sqrt(precise_unit u)
 #endif
 
 // Verify that the units are the expected sizes
-static_assert(sizeof(unit) == 8, "Unit type is too large");
-static_assert(sizeof(precise_unit) == 16, "precise unit type is too large");
+static_assert(sizeof(unit) <= sizeof(double), "Unit type is too large");
+static_assert(
+    sizeof(precise_unit) <= 2 * sizeof(double),
+    "precise unit type is too large");
 
 }  // namespace units
 

@@ -811,13 +811,15 @@ namespace precise {
 
     /// Some support for custom units
     namespace custom {
-        constexpr int bShift(std::uint16_t val, int bit)
+        constexpr int bShift(std::uint16_t val, std::uint32_t bit)
         {
-            return (((val >> bit) & 0x1) > 0) ? 1 : 0;
+            return ((static_cast<std::uint32_t>(val >> bit) & 0x1U) > 0U) ? 1 :
+                                                                            0;
         }
-        constexpr unsigned int bShiftu(std::uint16_t val, int bit)
+        constexpr unsigned int bShiftu(std::uint16_t val, std::uint32_t bit)
         {
-            return (((val >> bit) & 0x1) > 0) ? 1u : 0u;
+            return ((static_cast<std::uint32_t>(val >> bit) & 0x1U) > 0U) ? 1U :
+                                                                            0U;
         }
 
         /** Construct a custom unit of a specific number
@@ -828,23 +830,23 @@ namespace precise {
         */
         constexpr detail::unit_data custom_unit(std::uint16_t customX)
         {
-            return {7 - 4 * bShift(customX, 8),  // 3 or 7
-                    -2 + 3 * bShift(customX, 7),  // -2 or 1
+            return {7 - 4 * bShift(customX, 8U),  // 3 or 7
+                    -2 + 3 * bShift(customX, 7U),  // -2 or 1
                     // 7 or 0  sometimes custom unit/time is used
-                    7 * bShift(customX, 9),
+                    7 * bShift(customX, 9U),
                     // -3 or -4  this is probably the most important for
                     // identifying custom units
-                    -3 - bShift(customX, 6),
-                    3 * bShift(customX, 4),  // 3 or 0
+                    -3 - bShift(customX, 6U),
+                    3 * bShift(customX, 4U),  // 3 or 0
                     -2,  // this also is set so that 1/-2 = -2 for a 2 bit
                          // signed number
-                    -2 + 2 * bShift(customX, 5),
-                    -2 * bShift(customX, 3),
+                    -2 + 2 * bShift(customX, 5U),
+                    -2 * bShift(customX, 3U),
                     0,
                     0,
-                    bShiftu(customX, 2),
-                    bShiftu(customX, 1),
-                    bShiftu(customX, 0),
+                    bShiftu(customX, 2U),
+                    bShiftu(customX, 1U),
+                    bShiftu(customX, 0U),
                     0};
         }
         /// Check if the unit is a custom unit or inverse custom unit
@@ -895,6 +897,8 @@ namespace precise {
                 case 2:
                 case 3:
                     return true;
+                default:
+                    break;
             }
             key = UT.second();
             switch (key) {
@@ -906,6 +910,8 @@ namespace precise {
                 case 7:
                 case 6:
                     return false;
+                default:
+                    break;
             }
             return (UT.ampere() == 3);
         }
@@ -922,13 +928,13 @@ namespace precise {
                     3,  // detection codes
                     -3,  // detection codes
                     0,
-                    -1 * bShift(customX, 3),
+                    -1 * bShift(customX, 3U),
                     0,
                     0,
                     0,
-                    bShiftu(customX, 2),
-                    bShiftu(customX, 1),
-                    bShiftu(customX, 0),
+                    bShiftu(customX, 2U),
+                    bShiftu(customX, 1U),
+                    bShiftu(customX, 0U),
                     0};
         }
 
@@ -970,12 +976,12 @@ namespace precise {
                     0,
                     0,
                     0,
-                    bShift(equation_number, 3),
+                    bShift(equation_number, 3U),
                     // 3 and 4 switched on purpose so radian is the high bit
-                    bShift(equation_number, 4),
-                    bShiftu(equation_number, 2),
-                    bShiftu(equation_number, 1),
-                    bShiftu(equation_number, 0),
+                    bShift(equation_number, 4U),
+                    bShiftu(equation_number, 2U),
+                    bShiftu(equation_number, 1U),
+                    bShiftu(equation_number, 0U),
                     1};
         }
         /// Generate the equation type used the unit

@@ -12,16 +12,9 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <tuple>
 #include <unordered_map>
 
-#if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1500) ||       \
-    defined UNITS_USE_CONSTEXPR_ARRAY
-#define UNITS_CPP14_CONSTEXPR constexpr
-#else
-#define UNITS_CPP14_CONSTEXPR const
-#endif
-
 namespace units {
 using unitD = std::tuple<const char*, const char*, precise_unit>;
-static UNITS_CPP14_CONSTEXPR std::array<unitD, 2088> r20_units = {{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 2088> r20_units = {{
     unitD{"05", "lift", precise::one / precise::count},
     unitD{"06", "small spray", precise::one / precise::count},
     unitD{"08", "heat lot", precise::one / precise::count},
@@ -2742,7 +2735,7 @@ static UNITS_CPP14_CONSTEXPR std::array<unitD, 2088> r20_units = {{
     unitD{"ZZ", "mutually defined", precise::one / precise::count},
 }};
 
-precise_unit r20_unit(std::string r20_string)
+precise_unit r20_unit(const std::string& r20_string)
 {
     auto ind = std::lower_bound(
         r20_units.begin(),
