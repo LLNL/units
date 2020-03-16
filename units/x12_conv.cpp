@@ -1006,7 +1006,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> dod_units = {{
               precise_unit(10.0, precise::energy::therm_ec)},
 }};
 
-precise_unit x12_unit(std::string x12_string)
+precise_unit x12_unit(const std::string& x12_string)
 {
     auto ind = std::lower_bound(
         x12_units.begin(),
@@ -1021,7 +1021,7 @@ precise_unit x12_unit(std::string x12_string)
     return precise::error;
 }
 
-precise_unit dod_unit(std::string dod_string)
+precise_unit dod_unit(const std::string& dod_string)
 {
     auto ind = std::lower_bound(
         dod_units.begin(),

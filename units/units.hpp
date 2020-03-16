@@ -1889,11 +1889,11 @@ bool enableCustomCommodities();
 // Some specific unit code standards
 #ifdef EXTRA_UNIT_STANDARDS
 /// generate a unit from a string as defined by the X12 standard
-precise_unit x12_unit(std::string x12_string);
+precise_unit x12_unit(const std::string& x12_string);
 /// generate a unit from a string as defined by the US DOD
-precise_unit dod_unit(std::string dod_string);
+precise_unit dod_unit(const std::string& dod_string);
 /// generate a unit from a string as defined by the r20 standard
-precise_unit r20_unit(std::string r20_string);
+precise_unit r20_unit(const std::string& r20_string);
 #endif
 
 #endif  // UNITS_HEADER_ONLY

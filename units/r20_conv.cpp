@@ -2735,7 +2735,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 2088> r20_units = {{
     unitD{"ZZ", "mutually defined", precise::one / precise::count},
 }};
 
-precise_unit r20_unit(std::string r20_string)
+precise_unit r20_unit(const std::string& r20_string)
 {
     auto ind = std::lower_bound(
         r20_units.begin(),
