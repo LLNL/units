@@ -438,14 +438,14 @@ class fixed_measurement {
         return *this;
     }
     /// assignment operator treat it the same as a measurement
-    fixed_measurement& operator=(const fixed_measurement& val)
+    fixed_measurement& operator=(const fixed_measurement& val) noexcept
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
 
     /// assignment operator treat it the same as a measurement
-    fixed_measurement& operator=(fixed_measurement&& val)
+    fixed_measurement& operator=(fixed_measurement&& val) noexcept
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -453,7 +453,7 @@ class fixed_measurement {
 
     /// Assignment from number,  allow direct numerical assignment since the
     /// units are fixes and known at construction time
-    fixed_measurement& operator=(double val)
+    fixed_measurement& operator=(double val) noexcept
     {
         value_ = val;
         return *this;
@@ -476,7 +476,7 @@ class fixed_measurement {
     }
     constexpr fixed_measurement operator*(double val) const
     {
-        return fixed_measurement(value_ * val, units_);
+        return {value_ * val, units_};
     }
     constexpr measurement operator/(measurement other) const
     {
@@ -488,39 +488,38 @@ class fixed_measurement {
     }
     constexpr fixed_measurement operator/(double val) const
     {
-        return fixed_measurement(value_ / val, units_);
+        return {value_ / val, units_};
     }
 
     fixed_measurement operator+(measurement other) const
     {
-        return fixed_measurement(value_ + other.value_as(units_), units_);
+        return {value_ + other.value_as(units_), units_};
     }
     fixed_measurement operator-(measurement other) const
     {
-        return fixed_measurement(value_ - other.value_as(units_), units_);
+        return {value_ - other.value_as(units_), units_};
     }
 
     constexpr fixed_measurement operator+(double val) const
     {
-        return fixed_measurement(value_ + val, units_);
+        return {value_ + val, units_};
     }
     constexpr fixed_measurement operator-(double val) const
     {
-        return fixed_measurement(value_ - val, units_);
+        return {value_ - val, units_};
     }
 
     /// take the measurement to some power
     constexpr friend fixed_measurement
         pow(const fixed_measurement& meas, int power)
     {
-        return fixed_measurement{detail::power_const(meas.value_, power),
-                                 meas.units_.pow(power)};
+        return {detail::power_const(meas.value_, power),
+                meas.units_.pow(power)};
     }
     /// Convert a unit to have a new base
     fixed_measurement convert_to(unit newUnits) const
     {
-        return fixed_measurement(
-            units::convert(value_, units_, newUnits), newUnits);
+        return {units::convert(value_, units_, newUnits), newUnits};
     }
     /// Get the underlying units value
     constexpr unit units() const { return units_; }
@@ -1315,13 +1314,17 @@ class fixed_precise_measurement {
     {
     }
 
-    constexpr fixed_precise_measurement(const fixed_precise_measurement& val) :
-        value_(val.value()), units_(val.units())
+    constexpr fixed_precise_measurement(
+        const fixed_precise_measurement& val) noexcept :
+        value_(val.value()),
+        units_(val.units())
     {
     }
 
-    constexpr fixed_precise_measurement(fixed_precise_measurement&& val) :
-        value_(val.value()), units_(val.units())
+    constexpr fixed_precise_measurement(
+        fixed_precise_measurement&& val) noexcept :
+        value_(val.value()),
+        units_(val.units())
     {
     }
 
@@ -1329,7 +1332,8 @@ class fixed_precise_measurement {
     ~fixed_precise_measurement() = default;
 
     /// assign from a precise_measurement do the conversion and assign the value
-    fixed_precise_measurement& operator=(const precise_measurement& val)
+    fixed_precise_measurement&
+        operator=(const precise_measurement& val) noexcept
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -1337,13 +1341,15 @@ class fixed_precise_measurement {
 
     /// assign from another fixed_precise_measurement treat like a
     /// precise_measurement
-    fixed_precise_measurement& operator=(const fixed_precise_measurement& val)
+    fixed_precise_measurement&
+        operator=(const fixed_precise_measurement& val) noexcept
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
     }
 
-    fixed_precise_measurement& operator=(fixed_precise_measurement&& val)
+    fixed_precise_measurement&
+        operator=(fixed_precise_measurement&& val) noexcept
     {
         value_ = (units_ == val.units()) ? val.value() : val.value_as(units_);
         return *this;
@@ -1351,7 +1357,7 @@ class fixed_precise_measurement {
 
     /// Assignment from double,  allow direct numerical assignment since the
     /// units are fixes and known at construction time
-    fixed_precise_measurement& operator=(double val)
+    fixed_precise_measurement& operator=(double val) noexcept
     {
         value_ = val;
         return *this;
@@ -1648,7 +1654,7 @@ constexpr measurement measurement_cast(const precise_measurement& measure)
 constexpr fixed_measurement
     measurement_cast(const fixed_precise_measurement& measure)
 {
-    return fixed_measurement(measure.value(), unit_cast(measure.units()));
+    return {measure.value(), unit_cast(measure.units())};
 }
 
 /// perform a down-conversion from a fixed precise measurement to a fixed
