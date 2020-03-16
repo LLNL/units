@@ -346,21 +346,21 @@ uint32_t getCommodity(std::string comm)
             return (x == ' ' || (x >= '_' && x <= '}'));
         })) {
         std::uint32_t hkey = 0x40000000;
-        int shift = 0;
+        unsigned int shift = 0;
         for (auto c : comm) {
             if (c == ' ') {
                 c = '_';
             }
             c -= '_';
-            hkey += c << shift;
+            hkey += static_cast<std::uint32_t>(c) << shift;
             shift += 5;
         }
         return hkey;
     }
     // generate a hash code for a custom string
     auto hcode = stringHash(comm);
-    hcode &= 0x1FFFFFFF;
-    hcode |= 0x60000000;
+    hcode &= 0x1FFFFFFFU;
+    hcode |= 0x60000000U;
     addCustomCommodity(comm, hcode);
 
     return hcode;
@@ -382,13 +382,13 @@ std::string getCommodityName(std::uint32_t commodity)
         return fnd->second;
     }
 
-    if ((commodity & 0x60000000) == 0x40000000) {
+    if ((commodity & 0x60000000U) == 0x40000000U) {
         std::string ret;
-        ret.push_back((commodity & 0X1F) + '_');
-        ret.push_back(((commodity >> 5) & 0X1F) + '_');
-        ret.push_back(((commodity >> 10) & 0X1F) + '_');
-        ret.push_back(((commodity >> 15) & 0X1F) + '_');
-        ret.push_back(((commodity >> 20) & 0X1F) + '_');
+        ret.push_back((commodity & 0X1FU) + '_');
+        ret.push_back(((commodity >> 5U) & 0X1FU) + '_');
+        ret.push_back(((commodity >> 10U) & 0X1FU) + '_');
+        ret.push_back(((commodity >> 15U) & 0X1FU) + '_');
+        ret.push_back(((commodity >> 20U) & 0X1FU) + '_');
         while (!ret.empty() && ret.back() == '_') {
             ret.pop_back();
         }
