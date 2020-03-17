@@ -559,7 +559,7 @@ TEST(CommodityStrings, simple)
 {
     auto u1 = unit_from_string("{absorbance}");
     EXPECT_FALSE(is_error(u1));
-    EXPECT_NE(u1.commodity(), 0u);
+    EXPECT_NE(u1.commodity(), 0U);
 }
 
 #include <fstream>
