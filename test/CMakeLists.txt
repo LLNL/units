@@ -79,6 +79,7 @@ endif()
 
 if (UNITS_CLANG_TIDY)
 	set_property(TARGET test_ucum PROPERTY CXX_CLANG_TIDY "")
+	set_property(TARGET test_udunits PROPERTY CXX_CLANG_TIDY "")
 endif()
 
 

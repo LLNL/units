@@ -21,7 +21,7 @@ TEST(UDUNITS, accepted_name_symbols)
     ASSERT_FALSE(err) << err << std::endl;
     auto cs = doc.FirstChildElement("unit-system")->FirstChildElement("unit");
     int failConvert = 0;
-    while (cs) {
+    while (cs != nullptr) {
         std::string def = cs->FirstChildElement("def")->FirstChild()->Value();
 
         auto definitionUnit = units::unit_from_string(def);
@@ -30,7 +30,7 @@ TEST(UDUNITS, accepted_name_symbols)
             ++failConvert;
         } else {
             auto name = cs->FirstChildElement("name");
-            if (name) {
+            if (name != nullptr) {
                 auto sname =
                     name->FirstChildElement("singular")->FirstChild()->Value();
                 auto nameUnit = units::unit_from_string(sname);
@@ -48,7 +48,7 @@ TEST(UDUNITS, accepted_name_symbols)
             }
             // check for symbols
             auto sym = cs->FirstChildElement("symbol");
-            while (sym) {
+            while (sym != nullptr) {
                 auto symString = sym->FirstChild()->Value();
                 auto symUnit = units::unit_from_string(symString);
                 if (is_error(symUnit)) {
@@ -77,7 +77,7 @@ TEST(UDUNITS, accepted_alias)
     ASSERT_FALSE(err) << err << std::endl;
     auto cs = doc.FirstChildElement("unit-system")->FirstChildElement("unit");
     int failConvert = 0;
-    while (cs) {
+    while (cs != nullptr) {
         std::string def = cs->FirstChildElement("def")->FirstChild()->Value();
 
         auto definitionUnit = units::unit_from_string(def);
@@ -88,7 +88,7 @@ TEST(UDUNITS, accepted_alias)
             continue;
         }
         auto name = alias->FirstChildElement("name");
-        while (name) {
+        while (name != nullptr) {
             auto sname =
                 name->FirstChildElement("singular")->FirstChild()->Value();
             auto nameUnit = units::unit_from_string(sname);
@@ -109,7 +109,7 @@ TEST(UDUNITS, accepted_alias)
         }
         // check for symbols
         auto sym = alias->FirstChildElement("symbol");
-        while (sym) {
+        while (sym != nullptr) {
             auto symString = sym->FirstChild()->Value();
             auto symUnit = units::unit_from_string(symString);
             if (is_error(symUnit)) {
@@ -140,7 +140,7 @@ TEST(UDUNITS, derived_name_symbols)
     ASSERT_FALSE(err) << err << std::endl;
     auto cs = doc.FirstChildElement("unit-system")->FirstChildElement("unit");
     int failConvert = 0;
-    while (cs) {
+    while (cs != nullptr) {
         auto defEl = cs->FirstChildElement("def");
         // the only one without a definition is the radian since it is
         // dimensionless according to the xml
@@ -154,7 +154,7 @@ TEST(UDUNITS, derived_name_symbols)
             ++failConvert;
         } else {
             auto name = cs->FirstChildElement("name");
-            if (name) {
+            if (name != nullptr) {
                 auto sname =
                     name->FirstChildElement("singular")->FirstChild()->Value();
                 auto nameUnit = units::unit_from_string(sname);
@@ -172,7 +172,7 @@ TEST(UDUNITS, derived_name_symbols)
             }
             // check for symbols
             auto sym = cs->FirstChildElement("symbol");
-            while (sym) {
+            while (sym != nullptr) {
                 auto symString = sym->FirstChild()->Value();
                 auto symUnit = units::unit_from_string(symString);
                 if (is_error(symUnit)) {
@@ -201,7 +201,7 @@ TEST(UDUNITS, derived_alias)
     ASSERT_FALSE(err) << err << std::endl;
     auto cs = doc.FirstChildElement("unit-system")->FirstChildElement("unit");
     int failConvert = 0;
-    while (cs) {
+    while (cs != nullptr) {
         auto defEl = cs->FirstChildElement("def");
         // the only one without a definition is the radian since it is
         // dimensionless according to the xml
@@ -211,12 +211,12 @@ TEST(UDUNITS, derived_alias)
         auto definitionUnit = units::unit_from_string(def);
 
         auto alias = cs->FirstChildElement("aliases");
-        if (!alias) {
+        if (alias == nullptr) {
             cs = cs->NextSiblingElement("unit");
             continue;
         }
         auto name = alias->FirstChildElement("name");
-        while (name) {
+        while (name != nullptr) {
             auto sname =
                 name->FirstChildElement("singular")->FirstChild()->Value();
             auto nameUnit = units::unit_from_string(sname);
@@ -236,7 +236,7 @@ TEST(UDUNITS, derived_alias)
         }
         // check for symbols
         auto sym = alias->FirstChildElement("symbol");
-        while (sym) {
+        while (sym != nullptr) {
             auto symString = sym->FirstChild()->Value();
             auto symUnit = units::unit_from_string(symString);
             if (is_error(symUnit)) {
@@ -266,18 +266,18 @@ TEST(UDUNITS, common_alias)
     ASSERT_FALSE(err) << err << std::endl;
     auto cs = doc.FirstChildElement("unit-system")->FirstChildElement("unit");
     int failConvert = 0;
-    while (cs) {
+    while (cs != nullptr) {
         std::string def = cs->FirstChildElement("def")->FirstChild()->Value();
 
         auto definitionUnit = units::unit_from_string(def);
 
         auto alias = cs->FirstChildElement("aliases");
-        if (!alias) {
+        if (alias == nullptr) {
             cs = cs->NextSiblingElement("unit");
             continue;
         }
         auto name = alias->FirstChildElement("name");
-        while (name) {
+        while (name != nullptr) {
             auto sname =
                 name->FirstChildElement("singular")->FirstChild()->Value();
             auto nameUnit = units::unit_from_string(sname);
@@ -315,7 +315,7 @@ TEST(UDUNITS, common_alias)
         }
         // check for symbols
         auto sym = alias->FirstChildElement("symbol");
-        while (sym) {
+        while (sym != nullptr) {
             auto symString = sym->FirstChild()->Value();
             auto symUnit = units::unit_from_string(symString);
             if (is_error(symUnit)) {
