@@ -254,7 +254,7 @@ For precise_units only
 
 #### Unit Operators
 
-   There are also several operator overloads that apply to units and precise_units.   
+   There are also several operator overloads that apply to units and precise_units.
 -   `<unit>=<unit>*<unit>`  generate a new unit with the units multiplied  ie  `m*m` does what you might expect and produces a new unit with `m^2`
 -   `<unit>=<unit>/<unit>`  generate a new unit with the units divided  ie  `m/s` does what you might expect and produces a new unit with meters per second.  NOTE:  `m/m` will produce `1` it will not automatically produce a `pu`  though we are looking at how to make a 'pu_m*m=m' so units like strain might work smoothly.
 
@@ -290,7 +290,7 @@ These functions are not class methods but operate on units
 -   `<measurement>(val, <unit>)`  construct a unit from a value and unit object.
 -   `X value() const`  get the measurement value,  depending on the type this could be a double or float, or another defined type if the template is used.
 -   `<measurement> convert_to(<unit>) const`   convert the value in the measurement to another unit base
--   `<measurement> convert_to_base() const`  convert to a base unit, i.e. a unit whose multiplier is 1.0 
+-   `<measurement> convert_to_base() const`  convert to a base unit, i.e. a unit whose multiplier is 1.0
 -   `<unit> units() const`  get the units used as a basis for the measurement
 -   `<unit> as_unit() const`  take the measurement as is and convert it into a single unit.  For Examples say a was 10 m.    calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
 -   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit\>
@@ -306,7 +306,7 @@ Uncertatin measurements have a few additional functions to support the uncertain
 #### Measurement operators
 There are several operator overloads which work on measurements or units to produce measurements.
 -   `'*', '/', '+','-'`  are all defined for mathematical operations on a measurement and produce another measurement.
--   `%` `*`, and `/` are defined for \<measurement>\<op>\<double>  
+-   `%` `*`, and `/` are defined for \<measurement>\<op>\<double>
 -   `*`, and `/` are defined for \<double>\<op>\<measurement>
 
 Notes:  for regular measurements, `+` and `-` are not defined for doubles due to uncertainty of what that means.  For fixed_measurement types this is defined as the units are known at construction and cannot change.  For fixed_measurement types if the operator would produce a new measurement with the same units it will be a fixed measurement, if not it reverts to a regular measurement.
@@ -335,25 +335,25 @@ These free functions work on any of different measurement types.
 -   `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a precise_unit value.
 -   `unit unit_cast_from_string( string, flags)`: convert a string representation of units into a unit value  NOTE:  same as previous function except has an included unit cast for convenience.
 -   `precise_unit default_unit( string)`: get a unit associated with a particular kind of measurement.  for example `default_unit("length")` would return `precise::m`
--   `precise_measurement measurement_from_string(string,flags)`: convert a string to a precise_measurement
+-   `precise_measurement measurement_from_string(string,flags)`: convert a string to a precise_measurement.
 -   `measurement measurement_cast_from_string(string,flags)`: convert a string to a measurement calls measurement_from_string and does a measurement_cast.
--   `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement.   Typically the string will have some segment with a ±, `+/-` or the html equivalent in it to signify the uncertainty.  
--   `std::string to_string([unit|measurement],flags=0)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported.  The eventual plan is to support a couple different standards for the strings through the flags, But for now they don't do much.  
+-   `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement.   Typically the string will have some segment with a ±, `+/-` or the html equivalent in it to signify the uncertainty.
+-   `std::string to_string([unit|measurement],flags=0)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported.  The eventual plan is to support a couple different standards for the strings through the flags, But for now they don't do much.
 
 #### Custom Units
 -   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.
 -   `clearUserDefinedUnits()`  remove all user defined units from the library.
 -   `disableUserDefinedUnits()`  there is a(likely small-an additional unordered map lookup) performance hit in the string conversions functions if custom units are used so they can be disabled completely if desired.
--   `enableUserDefinedUnits()`  enable the use of UserDefinedUnits.  they are enabled by default.  
+-   `enableUserDefinedUnits()`  enable the use of UserDefinedUnits.  they are enabled by default.
 
 #### Commodities
-The units library has some support for commodities,  more might be added in the future.  Commodities are supported in precise_units.  
--   `std::uint32_t getCommodity(std::string commodity)`   get a commodity code from a string.  
+The units library has some support for commodities,  more might be added in the future.  Commodities are supported in precise_units.
+-   `std::uint32_t getCommodity(std::string commodity)`   get a commodity code from a string.
 -   `std::string getCommodityName(std::uint32_t)`  get the name of a commodity from its code
--   `addUserDefinedCommodity(std::string name, std::uint32_t code)`  add a new commodity that can be used in the string operations.  
+-   `addUserDefinedCommodity(std::string name, std::uint32_t code)`  add a new commodity that can be used in the string operations.
 -   `clearUserDefinedCommodities()`  remove all user defined commodities from the library.
 -   `disableUserDefinedCommodities()`  there is a (likely small) performance hit in string conversions if custom commodities are used so they can be disabled completely if desired.
--   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  User defined commodities are enabled by default.  Defining user specified commodities is thread-safe
+-   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  User defined commodities are enabled by default.  Defining user specified commodities is thread-safe.
 
 #### Other unit definitions
 These are all only partially implemented, not recommended for use yet
@@ -362,7 +362,7 @@ These are all only partially implemented, not recommended for use yet
 -   `precise_unit r20_unit(string)`  get a unit from an r20 code string.
 
 ## Contributions
-Contributions are welcome.  See [Contributing](./CONTRIBUTING.md) for more details  and [Contributors](./CONTRIBUTORS.md) for a list of the current and past Contributors to this project.  
+Contributions are welcome.  See [Contributing](./CONTRIBUTING.md) for more details  and [Contributors](./CONTRIBUTORS.md) for a list of the current and past Contributors to this project.
 
 ## Release
 This units library is distributed under the terms of the BSD-3 clause license. All new

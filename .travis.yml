@@ -29,7 +29,6 @@ matrix:
     script:
     - cd "${TRAVIS_BUILD_DIR}"
     - bash scripts/check_style.sh
-    - bash .ci/check_tidy.sh
 
     # Docs and clang 3.5
   - compiler: clang
