@@ -96,7 +96,7 @@ TEST(UCUM, TestAllVerify)
         if (csCode.find("_50") != std::string::npos) {
             continue;
         }
-        double mag = junit["magnitude_"].get<double>();
+        auto mag = junit["magnitude_"].get<double>();
         int mets = junit["dim_"]["dimVec_"][0].get<int>();
         int secs = junit["dim_"]["dimVec_"][1].get<int>();
         int kgs = junit["dim_"]["dimVec_"][2].get<int>();
@@ -388,9 +388,9 @@ TEST(UCUM, TestMatchingSynonym)
                     if (csact / units::precise::count == nameact) {
                         continue;
                     }
-                    bool hasDiv = (csCode.find("/") != std::string::npos);
+                    bool hasDiv = (csCode.find('/') != std::string::npos);
                     bool hasPer = (synonym.find("per") != std::string::npos);
-                    bool hasNDiv = (synonym.find("/") != std::string::npos);
+                    bool hasNDiv = (synonym.find('/') != std::string::npos);
                     if (hasDiv && !(hasPer || hasNDiv)) {
                         continue;
                     }
@@ -569,7 +569,7 @@ TEST(UCUMConversions, Interpret1)
                   ->FirstChildElement("validation")
                   ->FirstChildElement("case");
     int failConvert = 0;
-    while (cs) {
+    while (cs != nullptr) {
         std::string unit = cs->FindAttribute("unit")->Value();
         bool valid = cs->FindAttribute("valid")->BoolValue();
         std::string id = cs->FindAttribute("id")->Value();
@@ -601,7 +601,7 @@ TEST(UCUMConversions, convert1)
                   ->FirstChildElement("conversion")
                   ->FirstChildElement("case");
     int failConvert = 0;
-    while (cs) {
+    while (cs != nullptr) {
         std::string unitFromString = cs->FindAttribute("srcUnit")->Value();
         std::string unitToString = cs->FindAttribute("dstUnit")->Value();
         double value = cs->FindAttribute("value")->DoubleValue();

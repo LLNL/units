@@ -43,7 +43,7 @@ readability-*,
 performance-*
 '
 
-HeaderFilterRegex: '.*hpp'
+HeaderFilterRegex: '*test.*cpp'
 
 CheckOptions:
 - key:             google-readability-braces-around-statements.ShortStatementLines
