@@ -44,9 +44,9 @@ foreach(T ${UNITS_TESTS})
 
     add_unit_test(${T}.cpp)
     target_link_libraries(${T} units::units compile_flags_target)
-	if (UNITS_CLANG_TIDY)
-		set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
-	endif()
+#	if (UNITS_CLANG_TIDY)
+#		set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
+#	endif()
 endforeach()
 
 target_compile_definitions(
