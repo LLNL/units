@@ -14,6 +14,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   clears up several warnings from clang-tidy [#41][]
 -   the fuzzer now uses fuzz_measurement [#42][]
 -   update clang format to limit line length to 80 and allow reflowing comments [#43][]
+-   add clang-tidy checks for the tests and fix a few issues.  [#47][]
 
 ### Fixed
 -   A few timeouts on the fuzzer- the fix was to generalize the multiplier insertion after ^ to accept multiple digits after the ^ instead of just ignoring it after more than one. [#34][]  
@@ -99,6 +100,7 @@ Continued work on cleaning up the library and starting to add main documentation
 [#44]: https://github.com/LLNL/units/pull/44
 [#45]: https://github.com/LLNL/units/pull/45
 [#46]: https://github.com/LLNL/units/pull/46
+[#47]: https://github.com/LLNL/units/pull/47
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0

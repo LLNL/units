@@ -51,26 +51,26 @@ TEST(commodities, asString)
 
 TEST(commodities, custom)
 {
-    addCustomCommodity("unit_tests", 26262352u);
+    addCustomCommodity("unit_tests", 26262352U);
     auto c = getCommodity("unit_tests");
-    EXPECT_EQ(c, 26262352u);
+    EXPECT_EQ(c, 26262352U);
     clearCustomCommodities();
 
     c = getCommodity("unit_tests");
-    EXPECT_NE(c, 26262352u);
+    EXPECT_NE(c, 26262352U);
     clearCustomCommodities();
 }
 
 TEST(commodities, custom_disabled)
 {
     disableCustomCommodities();
-    addCustomCommodity("unit_tests", 26262352u);
+    addCustomCommodity("unit_tests", 26262352U);
     auto c = getCommodity("unit_tests");
-    EXPECT_NE(c, 26262352u);
+    EXPECT_NE(c, 26262352U);
     enableCustomCommodities();
-    addCustomCommodity("unit_tests", 26262352u);
+    addCustomCommodity("unit_tests", 26262352U);
     c = getCommodity("unit_tests");
-    EXPECT_EQ(c, 26262352u);
+    EXPECT_EQ(c, 26262352U);
     clearCustomCommodities();
 }
 
@@ -180,6 +180,6 @@ TEST(commodities, unusual_to_string)
 TEST(commodities, unusual_from_string)
 {
     auto punit = unit_from_string("{happy'u}");
-    EXPECT_EQ(punit.commodity(), 0u);
+    EXPECT_EQ(punit.commodity(), 0U);
     EXPECT_TRUE(precise::custom::is_custom_unit(punit.base_units()));
 }

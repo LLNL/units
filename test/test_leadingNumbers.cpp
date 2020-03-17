@@ -123,7 +123,7 @@ TEST(leadingNumbers, parenthesis_dual)
 
     res = testLeadingNumber("(2)(m)", index);
     EXPECT_EQ(res, 2.0);
-    EXPECT_EQ(index, 3u);
+    EXPECT_EQ(index, 3U);
 }
 
 TEST(leadingNumbers, complex)
@@ -196,21 +196,21 @@ TEST(numericalwords, simple)
     size_t index = 0;
     auto res = testNumericalWords("hundredm", index);
     EXPECT_EQ(res, 100.0);
-    EXPECT_EQ(index, 7);
+    EXPECT_EQ(index, 7U);
 
     index = 0;
     res = testNumericalWords("millionmiles", index);
     EXPECT_EQ(res, 1e6);
-    EXPECT_EQ(index, 7);
+    EXPECT_EQ(index, 7U);
 
     index = 0;
     res = testNumericalWords("billionliters", index);
     EXPECT_EQ(res, 1e9);
-    EXPECT_EQ(index, 7);
+    EXPECT_EQ(index, 7U);
     index = 0;
     res = testNumericalWords("trillionpounds", index);
     EXPECT_EQ(res, 1e12);
-    EXPECT_EQ(index, 8);
+    EXPECT_EQ(index, 8U);
 }
 
 TEST(numericalwords, compound)
