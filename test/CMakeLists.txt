@@ -60,17 +60,17 @@ target_compile_definitions(
 )
 
 target_sources(
-    test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
-    ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h
+    test_ucum PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
+    ${PROJECT_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h
 )
-target_include_directories(test_ucum PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
+target_include_directories(test_ucum PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_ucum PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
 
 target_sources(
-    test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
-    ${CMAKE_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h
+    test_udunits PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
+    ${PROJECT_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h
 )
-target_include_directories(test_udunits PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
+target_include_directories(test_udunits PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
 target_compile_definitions(test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}")
 if(NOT MSVC)
     target_compile_options(test_ucum PRIVATE -Wno-double-promotion)
