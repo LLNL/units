@@ -133,7 +133,7 @@ TEST(Measurement, conversions)
 
     auto ud4 = d1.as_unit();
     auto d4 = d1.convert_to(ud4);
-    EXPECT_FLOAT_EQ(static_cast<float>(d4.value()), 1.0f);
+    EXPECT_FLOAT_EQ(static_cast<float>(d4.value()), 1.0F);
 }
 
 TEST(Measurement, powroot)
