@@ -14,14 +14,13 @@ repos:
   - id: check-case-conflict
   - id: check-symlinks
   - id: check-yaml
-  - exclude: ^ThirdParty/
+    exclude: ^ThirdParty/
 - repo: local
-  exclude: ^ThirdParty/
   hooks:
-  - exclude: ^ThirdParty/
   - id: docker-clang-format
     name: Docker Clang Format
     language: docker_image
+    exclude: ^ThirdParty/
     types:
     - c++
     entry: unibeautify/clang-format:latest
