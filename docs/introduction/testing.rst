@@ -42,17 +42,18 @@ Travis-CI
 
 Azure
 ---------
-1.  GCC 7.4 C++14
-2.  AppleClang 11.0 (Xcode 11.3) C++17
-3.  AppleClang 11.0 (Xcode 11.3) C++11
-4.  MSVC 2017
-5.  MSVC 2017 C++11
-6.  GCC 9.2 C++17
-7.  GCC 4.8 C++11
-8.  Clang 3.4 C++11
-9.  Clang 8 C++14
-10. Clang-tidy
-11. CPPLINT 
+1.  GCC 7.4 C++14 (Azure native Linux)
+1.  AppleClang 11.0 (Xcode 11.3) C++17
+1.  AppleClang 11.0 (Xcode 11.3) C++11
+1.  MSVC 2017
+1.  MSVC 2017 C++11
+1.  MSVC 2019 C++17
+1.  GCC 8.4 C++17
+1.  GCC 4.8 C++11
+1.  Clang 3.4 C++11
+1.  Clang 8 C++14
+1.  Clang-tidy (both main library and tests)
+1.  CPPLINT 
 
 
 Circle-CI
