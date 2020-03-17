@@ -10,17 +10,19 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <limits>
 #include <random>
+#include <chrono>
 
 using namespace units;
 
 TEST(randomRoundTrip, basic)
 {
-    std::default_random_engine generator;
+    std::default_random_engine engine;
+	engine.seed(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<unsigned int> distribution(
         0, std::numeric_limits<unsigned int>::max());
 
     for (auto ii = 0; ii < 6000; ++ii) {
-        auto start = distribution(generator);
+        auto start = distribution(engine);
         detail::unit_data unitdata(nullptr);
         memcpy(static_cast<void*>(&unitdata), &start, 4);
         auto startunit = unit(unitdata);
