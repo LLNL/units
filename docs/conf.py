@@ -226,7 +226,7 @@ texinfo_documents = [
         "Units",
         "runtime units library with string conversions",
         "Miscellaneous",
-    ),
+    )
 ]
 
 
