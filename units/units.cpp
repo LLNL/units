@@ -3952,6 +3952,8 @@ static const smap base_unit_vals{
     {"squarerootofhertz", precise::special::rootHertz},
     {"squareroothertz", precise::special::rootHertz},
     {"roothertz", precise::special::rootHertz},
+    // capitalized version is needed since this is also a generated unit
+    {"rootHertz", precise::special::rootHertz},
     {"B", precise::log::bel},
     {"bel", precise::log::bel},
     {"dB", precise::log::dB},
