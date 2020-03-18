@@ -48,8 +48,8 @@ def which(program):
         for ext in os.environ.get("PATHEXT", "").split(os.pathsep):
             yield fpath + ext
 
-    #fpath, fname = os.path.split(program)
-    fpath=os.path.dirname(program)
+    # fpath, fname = os.path.split(program)
+    fpath = os.path.dirname(program)
     if fpath:
         if is_exe(program):
             return program
@@ -64,7 +64,7 @@ def which(program):
 
 # import subprocess
 
-read_the_docs_build = os.environ.get("READTHEDOCS", None) == 'True'
+read_the_docs_build = os.environ.get("READTHEDOCS", None) == "True"
 
 # if read_the_docs_build:
 #    dir_name = os.path.realpath(os.path.dirname(__file__))
@@ -76,8 +76,8 @@ extensions = [
     #    'sphinx.ext.doctest',
     #    'sphinx.ext.intersphinx',
     #    'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.autosectionlabel'
+    "sphinx.ext.mathjax",
+    "sphinx.ext.autosectionlabel"
     #    'sphinx.ext.viewcode',
     #    'sphinx.ext.githubpages',
     #    'sphinx.ext.napoleon',
@@ -85,9 +85,9 @@ extensions = [
     #    'breathe',
 ]
 
-#breathe_projects = {
+# breathe_projects = {
 #    "units": os.path.abspath(os.path.join(current_directory, "./../build-doxygen/docs/xml")),
-#}
+# }
 
 breathe_default_project = "units"
 
@@ -154,8 +154,8 @@ html_theme_options = {"navigation_depth": 4, "collapse_navigation": False}
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-#html_logo = "./img/HELICS_Logo.png"
-#html_favicon = html_logo
+# html_logo = "./img/HELICS_Logo.png"
+# html_favicon = html_logo
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -183,15 +183,15 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
+    #
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
+    #
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
+    #
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -201,15 +201,14 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'units.tex', 'Units Library Documentation',
-     'Philip Top', 'manual'),
+    (master_doc, "units.tex", "Units Library Documentation", "Philip Top", "manual"),
 ]
 
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, 'units', 'Units Library Documentation', [author], 1)]
+man_pages = [(master_doc, "units", "Units Library Documentation", [author], 1)]
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -217,9 +216,16 @@ man_pages = [(master_doc, 'units', 'Units Library Documentation', [author], 1)]
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Units', 'Units Library Documentation', author, 'Units', 'runtime units library with string conversions', 'Miscellaneous'),
+    (master_doc,
+    "Units",
+    "Units Library Documentation",
+    author,
+    "Units",
+    "runtime units library with string conversions",
+    "Miscellaneous"
+    ),
 ]
 
 def setup(app):
-    app.add_stylesheet('css/custom.css')  # may also be an URL
+    app.add_stylesheet("css/custom.css")  # may also be an URL
 #    app.add_transform(AutoStructify)
