@@ -35,6 +35,7 @@ import sphinx_rtd_theme
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 
+
 def which(program):
     def is_exe(fpath):
         return (
@@ -61,6 +62,7 @@ def which(program):
                     return candidate
 
     return None
+
 
 # import subprocess
 
@@ -201,7 +203,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "units.tex", "Units Library Documentation", "Philip Top", "manual"),
+    (
+        master_doc,
+        "units.tex",
+        "Units Library Documentation",
+        "Philip Top",
+        "manual"
+    )
 ]
 
 # -- Options for manual page output ---------------------------------------
@@ -226,6 +234,7 @@ texinfo_documents = [
     ),
 ]
 
+
 def setup(app):
     app.add_stylesheet("css/custom.css")  # may also be an URL
-#    app.add_transform(AutoStructify)
+    # app.add_transform(AutoStructify)
