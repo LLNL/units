@@ -57,4 +57,4 @@ For example in Linux or anything with curl
    "value":"1968.5"
    }
 
-This works with POST or GET methods.  The `caction` field can be set to "to_string" this will "simplify" the units in the result or at least use the internal to_string operations to convert to an interpretable string in more accessible units.   
+This works with POST or GET methods.  The `caction` field can be set to "to_string" this will "simplify" the units in the result or at least use the internal to_string operations to convert to an interpretable string in more accessible units.

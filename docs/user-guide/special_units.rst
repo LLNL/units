@@ -20,7 +20,7 @@ Error Unit
 Invalid Unit
 -------------
 
-An invalid unit is any unit that is either the error unit or has a NaN in the multiplier.  This is the unit returned from a string conversion if the string does not describe a unit or measurement.  
+An invalid unit is any unit that is either the error unit or has a NaN in the multiplier.  This is the unit returned from a string conversion if the string does not describe a unit or measurement.
 
 one
 ------

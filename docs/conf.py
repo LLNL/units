@@ -37,7 +37,11 @@ current_directory = os.path.dirname(os.path.realpath(__file__))
 
 def which(program):
     def is_exe(fpath):
-        return os.path.exists(fpath) and os.access(fpath, os.X_OK) and os.path.isfile(fpath)
+        return (
+            os.path.exists(fpath)
+            and os.access(fpath, os.X_OK)
+            and os.path.isfile(fpath)
+        )
 
     def ext_candidates(fpath):
         yield fpath
@@ -58,11 +62,11 @@ def which(program):
 
     return None
 
-#import subprocess
+# import subprocess
 
 read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 
-#if read_the_docs_build:
+# if read_the_docs_build:
 #    dir_name = os.path.realpath(os.path.dirname(__file__))
 #    subprocess.call("cd {dir_name} && make rtddoxygen".format(dir_name=dir_name), shell=True)
 #    html_extra_path = [os.path.abspath(os.path.join(dir_name, "../rtd-doxygen"))]

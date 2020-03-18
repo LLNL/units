@@ -81,7 +81,7 @@ Frequently units need to raised to some power.  Units have a `pow(int)` method t
 
    auto area_unit=m.pow(2);
 
-The `^` will not work due to precedence rules in C++.  If an operator for '^' were defined an operation such as m/s^2  would produce meters squared per second squared which is probably not what is expected.  Therefore best not to define the operator and use a function instead.  
+The `^` will not work due to precedence rules in C++.  If an operator for '^' were defined an operation such as m/s^2  would produce meters squared per second squared which is probably not what is expected.  Therefore best not to define the operator and use a function instead.
 
 .. toctree::
    :maxdepth: 1

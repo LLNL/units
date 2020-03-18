@@ -10,11 +10,11 @@ repos:
   - id: check-added-large-files
   - id: mixed-line-ending
   - id: trailing-whitespace
+    exclude: ^(ThirdParty/|/test/files/)
   - id: check-merge-conflict
   - id: check-case-conflict
   - id: check-symlinks
   - id: check-yaml
-    exclude: ^ThirdParty/
 - repo: local
   hooks:
   - id: docker-clang-format
