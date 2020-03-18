@@ -203,13 +203,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (
-        master_doc,
-        "units.tex",
-        "Units Library Documentation",
-        "Philip Top",
-        "manual"
-    )
+    (master_doc, "units.tex", "Units Library Documentation", "Philip Top", "manual")
 ]
 
 # -- Options for manual page output ---------------------------------------
@@ -224,13 +218,14 @@ man_pages = [(master_doc, "units", "Units Library Documentation", [author], 1)]
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc,
-    "Units",
-    "Units Library Documentation",
-    author,
-    "Units",
-    "runtime units library with string conversions",
-    "Miscellaneous"
+    (
+        master_doc,
+        "Units",
+        "Units Library Documentation",
+        author,
+        "Units",
+        "runtime units library with string conversions",
+        "Miscellaneous",
     ),
 ]
 
