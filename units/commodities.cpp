@@ -183,9 +183,8 @@ namespace commodities {
                     // the strings
         {"___", 0},  // null commodity code, would cause some screwy things with
                      // the strings
-        {"____",
-         0},  // null commodity code, would cause some screwy things with
-              // the strings
+        {"____", 0},  // null commodity code, would cause some screwy things
+                      // with the strings
         {"_____", 0},  // null commodity code, would cause some screwy things
                        // with the strings
         {"water", water},

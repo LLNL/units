@@ -17,7 +17,7 @@ The second part is a few cpp files that can add some additional functionality. T
 
 Standalone Library
 -------------------
-The units library can be built as a standalone library with either the static or shared library and installed like a typical package.  
+The units library can be built as a standalone library with either the static or shared library and installed like a typical package.
 
 
 .. toctree::

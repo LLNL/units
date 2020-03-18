@@ -2,12 +2,12 @@
 
 All notable changes to this project after the 0.2.0 release will be documented in this file
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).  
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.4.0][] ~ Sometime in Late March 2020
 
-Add a converter command line application and fix a few slow conversion issues and some other fuzz issues that came up recently, add isnormal operation for measurements, better test coverage for fixed_precise_measurement
+Add a converter command line application and fix a few slow conversion issues and some other fuzz issues that came up recently, add isnormal operation for measurements, better test coverage for fixed_precise_measurement, some additional tests and static analysis checks.
 
 ### Changed
 -   Added several tests run under Azure to remove deprecated image and add some new tests [#40][]
@@ -17,7 +17,7 @@ Add a converter command line application and fix a few slow conversion issues an
 -   add clang-tidy checks for the tests and fix a few issues.  [#47][]
 
 ### Fixed
--   A few timeouts on the fuzzer- the fix was to generalize the multiplier insertion after ^ to accept multiple digits after the ^ instead of just ignoring it after more than one. [#34][]  
+-   A few timeouts on the fuzzer- the fix was to generalize the multiplier insertion after ^ to accept multiple digits after the ^ instead of just ignoring it after more than one. [#34][]
 -   An asymmetry was observed in the unit equality from on the fuzzers, this resulted in some modifications of the `cround_equal` and `cround_precice_equals` functions.  Also noted that the functions weren't aborting on exact floating point equality so were doing quite a bit of extra calculations. [#34][]
 -   A timeout issue from fuzzing having to do with not injecting multiplies after `[]` in some circumstances.  The fix was to be a little more refined as to which point to not inject the `*` and to do it in multiple stages so as to not rely on the partitioner so much.  [#35][]
 -   `fixed_measurement` and `fixed_precise_measurement` had incorrect subtraction operation in a few overloads.  [#39][]
@@ -43,7 +43,7 @@ Add a converter command line application and fix a few slow conversion issues an
 
 ## [0.3.0][] - 2020-01-28
 
-Continued work on cleaning up the library and starting to add main documentation, as well as adding more units and cleaning up string conversions and some additional tests.  Additional fuzzing fixes and add a webserver for exploring conversions.  
+Continued work on cleaning up the library and starting to add main documentation, as well as adding more units and cleaning up string conversions and some additional tests.  Additional fuzzing fixes and add a webserver for exploring conversions.
 ### Changed
 -   Change the unit_data operators from '+', '-' to '*' and '/' so they actually match the operation they are performing [#12][]
 -   Pow on measurements is a free function instead of operator [#12][]
@@ -58,7 +58,7 @@ Continued work on cleaning up the library and starting to add main documentation
 ### Added
 -   Added pow and root functions to measurements [#7][]
 -   Add sqrt function which is a wrapper function around the root function for measurements and units [#8][]
--   Added uncertain measurement class for dealing with uncertainties [#9][], later modified in the primary method of uncertainty propagation[#32][]  
+-   Added uncertain measurement class for dealing with uncertainties [#9][], later modified in the primary method of uncertainty propagation[#32][]
 -   Added a webserver for doing conversions through an HTML based interface [#11][]
 -   Added a docker file for doing fuzzing [#16][]
 -   Added initial set of [documentation](https://units.readthedocs.io/en/latest/) on readthedocs.io [#25][],[#27][]

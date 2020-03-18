@@ -7,16 +7,14 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-# Make sure users don't get warnings on a tested (3.0 to 3.16) version
-# of CMake. For most of the policies, the new version is better (hence the change).
-# We don't use the 3.0...3.16 syntax because of a bug in an older MSVC's
-# built-in and modified CMake 3.11
+# Make sure users don't get warnings on a tested (3.0 to 3.16) version of CMake. For
+# most of the policies, the new version is better (hence the change). We don't use the
+# 3.0...3.16 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
 if(${CMAKE_VERSION} VERSION_LESS 3.16)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
     cmake_policy(VERSION 3.16)
 endif()
-
 
 project(
     UNITS
@@ -68,10 +66,14 @@ cmake_dependent_option(
     "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
 
-cmake_dependent_option(UNITS_CLANG_TIDY
-    "Look for and use Clang-Tidy" OFF
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT CMAKE_VERSION VERSION_LESS 3.6" OFF)
-set(UNITS_CLANG_TIDY_OPTIONS "" CACHE STRING "Clang tidy options, such as -fix, semicolon separated")
+cmake_dependent_option(
+    UNITS_CLANG_TIDY "Look for and use Clang-Tidy" OFF
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT CMAKE_VERSION VERSION_LESS 3.6" OFF
+)
+set(UNITS_CLANG_TIDY_OPTIONS
+    ""
+    CACHE STRING "Clang tidy options, such as -fix, semicolon separated"
+)
 
 mark_as_advanced(UNITS_CLANG_TIDY_OPTIONS)
 mark_as_advanced(UNITS_CLANG_TIDY)
@@ -122,16 +124,13 @@ if(UNITS_CLANG_TIDY)
     find_program(
         CLANG_TIDY_EXE
         NAMES "clang-tidy"
-        DOC "Path to clang-tidy executable"
-        REQUIRED
-        )
+        DOC "Path to clang-tidy executable" REQUIRED
+    )
 
     set(DO_CLANG_TIDY "${CLANG_TIDY_EXE}" ${UNITS_CLANG_TIDY_OPTIONS})
 endif()
 
 add_subdirectory(units)
-
-
 
 if(UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(FuzzTargets)

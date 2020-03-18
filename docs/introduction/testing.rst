@@ -53,7 +53,7 @@ Azure
 1.  Clang 3.4 C++11
 1.  Clang 8 C++14
 1.  Clang-tidy (both main library and tests)
-1.  CPPLINT 
+1.  CPPLINT
 
 
 Circle-CI
@@ -61,7 +61,7 @@ Circle-CI
 1.  Clang 9,  Thread Sanitizer
 2.  Clang 9,  Address, undefined behavior sanitizer
 3.  Clang 9,  Memory Sanitizer
-4.  Clang 8,  Fuzzing library -- run a couple of defined fuzzing tests from scratch to check for any anomalous situations. There are currently two fuzzers, the first test the units_from_string, and the second tests the measurement_from string.  It first converts the fuzzing sequence, then if it is a valid sequence, converts it to a string, then converts that string back to a measurement or unit and makes sure the two measurements or units are identical.  Any string sequence which doesn't work is captured and tested.  
+4.  Clang 8,  Fuzzing library -- run a couple of defined fuzzing tests from scratch to check for any anomalous situations. There are currently two fuzzers, the first test the units_from_string, and the second tests the measurement_from string.  It first converts the fuzzing sequence, then if it is a valid sequence, converts it to a string, then converts that string back to a measurement or unit and makes sure the two measurements or units are identical.  Any string sequence which doesn't work is captured and tested.
 
 Codacy
 ---------
@@ -69,4 +69,4 @@ C++ static analysis and checks
 
 Codecov
 ----------
-Try to maintain the library at 100% coverage. Missing header only constexpr functions do not show up on the report, so periodic manual scans are done to make sure we have full coverage.  
+Try to maintain the library at 100% coverage. Missing header only constexpr functions do not show up on the report, so periodic manual scans are done to make sure we have full coverage.

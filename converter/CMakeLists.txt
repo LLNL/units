@@ -18,5 +18,6 @@
         target_link_libraries(
             unit_convert PUBLIC units::units compile_flags_target
         )
+        target_include_directories(unit_convert PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
     endif()
 

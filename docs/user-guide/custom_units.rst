@@ -35,4 +35,4 @@ The primary usage of these is for units that are procedurally defined and often 
 
 Implementation Details
 ------------------------
-Custom units use a combination of nearly all the different fields in the unit_base class, with the exception of count and radians.  Based on the definitions used the custom units can be taken as per length/area/volume/mass/second with no issues.  Some of the unit fields are used for defining an index and others are used purely for identification purposes.  
+Custom units use a combination of nearly all the different fields in the unit_base class, with the exception of count and radians.  Based on the definitions used the custom units can be taken as per length/area/volume/mass/second with no issues.  Some of the unit fields are used for defining an index and others are used purely for identification purposes.

@@ -55,4 +55,4 @@ The actual definitions of the equations are found in the `unit::precise::equatio
 
 also since some equation unit definitions depend on whether the actual units are power or magnitude values, there is a helper function to help determine this.
 `bool is_power_unit(detail::unit_data UT)`
-This applies in the neper, bel, and decibel units.  
+This applies in the neper, bel, and decibel units.
