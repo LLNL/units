@@ -18,4 +18,4 @@ They can also be constructed via the constructor
    measurement meas2(2.7, MW);
 
 There are two kinds of measurements the regular `measurement` which uses a double precision floating point for the value and a `precise_measurement` which uses a double and a `precise_unit`.
-In terms of size the `measurement` class is 16 Bytes and the `precise_measurement` is 24 bytes.  
+In terms of size the `measurement` class is 16 Bytes and the `precise_measurement` is 24 bytes.

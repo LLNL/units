@@ -140,15 +140,15 @@ static const umap base_unit_names{
     {m, "m"},
     {m * m, "m^2"},
     {m * m * m, "m^3"},
-    {(mega * m).pow(3),
-     "(1e9km^3)"},  // Mm^3 is a unit in gas industry for 1000
-                    // m^3 not mega meters cubed
+    {(mega * m).pow(3), "(1e9km^3)"},  // Mm^3 is a unit in gas industry for
+                                       // 1000 m^3 not mega meters cubed
     {kg, "kg"},
     {mol, "mol"},
     {A, "A"},
     {V, "V"},
     {s, "s"},
-    {giga * s, "Bs"},  // this is so Gs doesn't get used which can cause issues
+    // this is so Gs doesn't get used which can cause issues
+    {giga * s, "Bs"},
     {cd, "cd"},
     {K, "K"},
     {N, "N"},
@@ -163,8 +163,8 @@ static const umap base_unit_names{
     {Wb, "Wb"},
     {T, "T"},
     {H, "H"},
-    {pico * H,
-     "(A^-2*pJ)"},  // deal with pico henry which is interpreted as acidity (pH)
+    // deal with pico henry which is interpreted as acidity (pH)
+    {pico * H, "(A^-2*pJ)"},
     {lm, "lm"},
     {lx, "lux"},
     {Bq, "Bq"},
@@ -5404,10 +5404,9 @@ static precise_unit tryUnitPartitioning(
         auto res = unit_quick_match(ustring, match_flags);
         if (!is_valid(res) && ustring.size() >= 3) {
             if (ustring.front() >= 'A' &&
-                ustring.front() <=
-                    'Z') {  // check the lower case version since
-                            // we skipped partitioning when we did
-                            // this earlier
+                ustring.front() <= 'Z') {  // check the lower case version since
+                                           // we skipped partitioning when we
+                                           // did this earlier
                 ustring[0] += 32;
                 res = unit_quick_match(ustring, match_flags);
             }
