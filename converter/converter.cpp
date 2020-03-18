@@ -23,7 +23,9 @@ int main(int argc, char* argv[])
     app.add_flag(
         "--simplified,-s",
         simplified,
-        "simplify the units using the units library to_string functions and print the conversion string like full. This option will take precedence over --full");
+        "simplify the units using the units library to_string functions"
+        "and print the conversion string like full. "
+        "This option will take precedence over --full");
 
     std::string measurement;
     app.add_option(

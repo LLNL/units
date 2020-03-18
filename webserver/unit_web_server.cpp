@@ -53,11 +53,6 @@ static std::string loadFile(const std::string& fileName)
         (std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 }
 
-static const std::string index_page = loadFile("index.html");
-static const std::string response_page = loadFile("convert.html");
-static const std::string response_json =
-    "{\n\"request_measurement\":\"$M1$\",\n\"request_units\":\"$U1$\",\n\"measurement\":\"$M2$\",\n\"units\":\"$U2$\",\n\"value\":\"$VALUE$\"\n}";
-
 // decode a uri to clean up a string, convert character codes in a uri to the
 // original character
 static std::string uri_decode(beast::string_view str)
@@ -172,6 +167,16 @@ void handle_request(
     http::request<Body, http::basic_fields<Allocator>>&& req,
     Send&& send)
 {
+    static const auto index_page = loadFile("index.html");
+    static const auto response_page = loadFile("convert.html");
+    static const std::string response_json{R"({
+"request_measurement":"$M1$",
+"request_units":"$U1$",
+"measurement":"$M2$",
+"units":"$U2$",
+"value":"$VALUE$"
+})"};
+
     // Returns a bad request response
     auto const bad_request = [&req](beast::string_view why) {
         http::response<http::string_body> res{http::status::bad_request,
@@ -557,7 +562,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
     auto const address = net::ip::make_address(argv[1]);
-    auto const port = static_cast<unsigned short>(std::atoi(argv[2]));
+    auto const port = static_cast<std::uint16_t>(std::atoi(argv[2]));
 
     // The io_context is required for all I/O
     net::io_context ioc{1};
