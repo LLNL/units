@@ -41,7 +41,7 @@ jobs:
     vmImage: 'ubuntu-latest'
   container: sharaku/cpplint:latest
   steps:
-    - bash: cpplint --counting=detailed --recursive units test
+    - bash: cpplint --counting=detailed --recursive units test webserver converter
       displayName: Checking against google style guide
 
 - job: Native
@@ -63,7 +63,7 @@ jobs:
         units.std: 11
       Windowslatest:
         vmImage: 'windows-2019'
-        cli11.std: 17
+        units.std: 17
   pool:
     vmImage: $(vmImage)
   steps:
@@ -79,7 +79,7 @@ jobs:
     matrix:
       gcc8:
         containerImage: gcc:8
-        cli11.std: 17
+        units.std: 17
       gcc4.8:
         containerImage: gcc:4.8
         units.std: 11
