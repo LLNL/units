@@ -53,7 +53,7 @@ static std::string loadFile(const std::string& fileName)
         (std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 }
 
-// decode a uri to clean up a string, convert character codes in a uri to the
+// decode a URI to clean up a string, convert character codes in a uri to the
 // original character
 static std::string uri_decode(beast::string_view str)
 {
@@ -320,7 +320,7 @@ void handle_request(
         toUnits = fields["units"];
         if (toUnits.size() > 256) {
             return send(bad_request(
-                "conversion units string size exceeds limits of 256 characters"));
+                "conversion units string size greater than 256 characters"));
         }
     }
     bool tstring{false};
