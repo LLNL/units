@@ -226,10 +226,10 @@ TEST(unitOps, flags)
     EXPECT_TRUE(e1.has_e_flag());
     static_assert(
         error.has_i_flag(),
-        "Error flag should be constexpr and allowable in compile time constants");
+        "i flag should be constexpr and allowable in compile time constants");
     static_assert(
         error.has_e_flag(),
-        "Error flag should be constexpr and allowable in compile time constants");
+        "e flag should be constexpr and allowable in compile time constants");
 
     e1.clear_flags();
     EXPECT_FALSE(e1.has_i_flag());
@@ -489,10 +489,10 @@ TEST(preciseunitOps, flags)
     EXPECT_TRUE(e1.has_e_flag());
     static_assert(
         precise::error.has_i_flag(),
-        "Error flag should be constexpr and allowable in compile time constants");
+        "i flag should be constexpr and allowable in compile time constants");
     static_assert(
         precise::error.has_e_flag(),
-        "Error flag should be constexpr and allowable in compile time constants");
+        "e flag should be constexpr and allowable in compile time constants");
 
     e1.clear_flags();
     EXPECT_FALSE(e1.has_i_flag());
