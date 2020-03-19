@@ -433,7 +433,7 @@ TEST(UCUM, TestExampleCodes)
         if (is_error(csact)) {
             std::cout
                 << ustring
-                << " did not produce a valid defined unit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+                << " did not produce a valid defined unit!!!!!!!!!!!!!!!\n";
         }
         if (units::precise::custom::is_custom_unit(csact.base_units())) {
             continue;
