@@ -275,13 +275,8 @@ namespace detail {
         }
 
       private:
-        constexpr unit_data() :
-            meter_(0), second_(0), kilogram_(0), ampere_(0), candela_(0),
-            kelvin_(0), mole_(0), radians_(0), currency_(0), count_(0),
-            per_unit_(0U), i_flag_(0U), e_flag_(0U), equation_(0U)
-        {
-        }
-
+		  /* check if the base_unit has a valid root
+		  @details, checks that all the flags */
         constexpr bool hasValidRoot(int power) const
         {
             return meter_ % power == 0 && second_ % power == 0 &&
@@ -721,6 +716,12 @@ class precise_unit {
         return base_units_ == other.base_units_ &&
             commodity_ == other.commodity_ && multiplier_ == other.multiplier_;
     }
+	// Test for exact numerical equivalence
+	constexpr bool is_exactly_the_same(unit other) const
+	{
+		return base_units_ == other.base_units() &&
+			commodity_ == 0 && multiplier_ == other.multiplier();
+	}
     /// Check if the units have the same base unit (i.e. they measure the same
     /// thing)
     constexpr bool has_same_base(precise_unit other) const
