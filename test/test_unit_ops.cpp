@@ -235,6 +235,43 @@ TEST(unitOps, flags)
     EXPECT_FALSE(e1.has_i_flag());
     EXPECT_FALSE(e1.has_e_flag());
 }
+
+TEST(unitOps, equivalency)
+{
+    unit m0;
+    unit m1 = ft;
+    m0 = m1;
+    EXPECT_TRUE(m1.is_exactly_the_same(m0));
+    EXPECT_TRUE(m0.is_exactly_the_same(m1));
+    unit m2(1.0000001, ft);
+
+    EXPECT_TRUE(m2 == m1);
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    EXPECT_EQ(m1.unit_type_count(), 1);
+
+    auto m4 = m1.add_e_flag();
+    EXPECT_FALSE(m1.is_exactly_the_same(m4));
+    EXPECT_TRUE(m1.equivalent_non_counting(m4));
+    EXPECT_TRUE(m1.equivalent_non_counting(m4.base_units()));
+
+    auto m5 = m1.add_i_flag();
+    EXPECT_FALSE(m1.is_exactly_the_same(m5));
+
+    auto m6 = m1.add_per_unit();
+    EXPECT_FALSE(m1.is_exactly_the_same(m6));
+}
+
+TEST(unitOps, convertible)
+{
+    unit m1{m};
+    EXPECT_TRUE(m1.is_convertible(ft));
+    EXPECT_TRUE(m1.is_convertible(mile));
+    EXPECT_TRUE(m1.is_convertible(nm.base_units()));
+    EXPECT_FALSE(m1.is_convertible(farad));
+    EXPECT_FALSE(m1.is_convertible(lb));
+    EXPECT_FALSE(m1.is_convertible(V.base_units()));
+}
+
 /*
 TEST(unitOps, equalitytest)
 {

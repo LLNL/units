@@ -321,8 +321,9 @@ TEST(uncertainOps, testuncertaintySetters)
     // this tests chaining
     um1.uncertainty(0.08).uncertainty(0.07F);
     EXPECT_FLOAT_EQ(um1.uncertainty(), 0.07F);
+    EXPECT_FLOAT_EQ(um1.uncertainty_as(ton), 0.07F);
     um1.uncertainty(25 * kg);
-    EXPECT_FLOAT_EQ(um1.uncertainty_as(kg), 25.0);
+    EXPECT_FLOAT_EQ(um1.uncertainty_as(kg), 25.0F);
 }
 
 TEST(uncertainOps, testcomparison)
