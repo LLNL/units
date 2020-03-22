@@ -23,6 +23,7 @@ set(UNITS_TESTS
     test_commodities
     test_siunits
     test_defined_units
+    test_r20
     test_math
     test_google_units
 )
@@ -33,7 +34,7 @@ set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
 # it
 if(UNITS_HEADER_ONLY)
 
-    foreach(T ${UNIT_TEST_HEADER_ONLY})
+foreach(T ${UNIT_TEST_HEADER_ONLY})
 
         add_unit_test(${T}.cpp)
         target_link_libraries(${T} units::header_only compile_flags_target)
@@ -46,10 +47,10 @@ if(UNITS_HEADER_ONLY)
         target_compile_options(test_unit_ops PRIVATE /wd4127 /wd4459)
     endif()
 else()
-    foreach(T ${UNITS_TESTS})
+foreach(T ${UNITS_TESTS})
 
-        add_unit_test(${T}.cpp)
-        target_link_libraries(${T} units::units compile_flags_target)
+    add_unit_test(${T}.cpp)
+    target_link_libraries(${T} units::units compile_flags_target)
         if(UNITS_CLANG_TIDY)
             set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
         endif()
@@ -58,9 +59,9 @@ else()
         endif()
     endforeach()
 
-    target_compile_definitions(
-        test_unit_strings PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
-    )
+target_compile_definitions(
+    test_unit_strings PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
+)
 
     if(NOT UNITS_BUILD_SHARED_LIBRARY)
         target_compile_definitions(
@@ -98,11 +99,11 @@ else()
         test_ucum PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
 
-    target_sources(
-        test_udunits PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
-                             ${PROJECT_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h
-    )
-    target_include_directories(test_udunits PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
+target_sources(
+    test_udunits PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty/xml/tinyxml2.cpp
+    ${PROJECT_SOURCE_DIR}/ThirdParty/xml/tinyxml2.h
+)
+target_include_directories(test_udunits PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
     target_compile_definitions(
         test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
@@ -118,10 +119,10 @@ else()
         target_compile_options(test_random_round_trip PRIVATE /wd4127)
     endif()
 
-    if(UNITS_CLANG_TIDY)
+if (UNITS_CLANG_TIDY)
         set_property(TARGET test_ucum PROPERTY CXX_CLANG_TIDY "")
         set_property(TARGET test_udunits PROPERTY CXX_CLANG_TIDY "")
-    endif()
+endif()
 
     add_executable(examples_test examples_test.cpp)
     target_link_libraries(examples_test PRIVATE units::units)
@@ -129,28 +130,28 @@ else()
     set_target_properties(examples_test PROPERTIES FOLDER "Tests")
     add_test(examples_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/examples_test)
 
-    add_executable(test_all_unit_base test_all_unit_base.cpp)
+add_executable(test_all_unit_base test_all_unit_base.cpp)
     if(MSVC)
         target_compile_options(test_all_unit_base PRIVATE /wd4459)
     endif()
-    target_link_libraries(
-        test_all_unit_base gtest gmock gtest_main units::units compile_flags_target
-    )
-    set_target_properties(test_all_unit_base PROPERTIES FOLDER "Tests")
-    # test_all_unit_base should not be added to the tests it will take a long time run
+target_link_libraries(
+    test_all_unit_base gtest gmock gtest_main units::units compile_flags_target
+)
+set_target_properties(test_all_unit_base PROPERTIES FOLDER "Tests")
+# test_all_unit_base should not be added to the tests it will take a long time run
 
-    if(CMAKE_BUILD_TYPE STREQUAL Coverage)
-        include(CodeCoverage)
-        setup_target_for_coverage(
-            NAME
-            UNITS_coverage
-            EXECUTABLE
-            ctest
-            DEPENDENCIES
-            ${UNITS_TESTS}
-            examples_test
-        )
-    endif()
+if(CMAKE_BUILD_TYPE STREQUAL Coverage)
+    include(CodeCoverage)
+    setup_target_for_coverage(
+        NAME
+        UNITS_coverage
+        EXECUTABLE
+        ctest
+        DEPENDENCIES
+        ${UNITS_TESTS}
+        examples_test
+    )
+endif()
 
     if(UNITS_INSTALL_PACKAGE_TESTS)
         set(UNITS_PACKAGE_SEARCH_LOC)

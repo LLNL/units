@@ -49,13 +49,15 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 2088> r20_units = {{
         "21",
         "forty foot container",
         precise_unit(40.0 * 8.0 * 8.5, precise::ft.pow(3))},
-    unitD{"22", "decilitre per gram", precise::one / precise::count},
-    unitD{"23", "gram per cubic centimetre", precise::one / precise::count},
+    unitD{"22",
+          "decilitre per gram",
+          precise_unit(0.1, precise::L) / precise::g},
+    unitD{"23", "gram per cubic centimetre", precise::g / precise::cm.pow(3)},
     unitD{"24", "theoretical pound", precise::one / precise::count},
-    unitD{"25", "gram per square centimetre", precise::one / precise::count},
+    unitD{"25", "gram per square centimetre", precise::g / precise::cm.pow(2)},
     unitD{"26", "actual ton", precise::one / precise::count},
     unitD{"27", "theoretical ton", precise::one / precise::count},
-    unitD{"28", "kilogram per square metre", precise::one / precise::count},
+    unitD{"28", "kilogram per square metre", precise::kg / precise::cm.pow(2)},
     unitD{
         "29",
         "pound per thousand square foot",
@@ -69,18 +71,18 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 2088> r20_units = {{
         "2I",
         "British thermal unit (international table) per hour",
         precise::one / precise::count},
-    unitD{"2J", "cubic centimetre per second", precise::one / precise::count},
-    unitD{"2K", "cubic foot per hour", precise::one / precise::count},
-    unitD{"2L", "cubic foot per minute", precise::one / precise::count},
-    unitD{"2M", "centimetre per second", precise::one / precise::count},
-    unitD{"2N", "decibel", precise::one / precise::count},
-    unitD{"2P", "kilobyte", precise::one / precise::count},
+    unitD{"2J", "cubic centimetre per second", precise::cm.pow(3) / precise::s},
+    unitD{"2K", "cubic foot per hour", precise::ft.pow(3) / precise::hr},
+    unitD{"2L", "cubic foot per minute", precise::ft.pow(3) / precise::min},
+    unitD{"2M", "centimetre per second", precise::cm / precise::s},
+    unitD{"2N", "decibel", precise::log::dB},
+    unitD{"2P", "kilobyte", precise::data::kB},
     unitD{"2Q", "kilobecquerel", precise::one / precise::count},
     unitD{"2R", "kilocurie", precise::one / precise::count},
     unitD{"2U", "megagram", precise::one / precise::count},
     unitD{"2V", "megagram per hour", precise::one / precise::count},
     unitD{"2W", "bin", precise::one / precise::count},
-    unitD{"2X", "metre per minute", precise::one / precise::count},
+    unitD{"2X", "metre per minute", precise::m / precise::min},
     unitD{"2Y", "milliroentgen", precise::one / precise::count},
     unitD{"2Z", "millivolt", precise::one / precise::count},
     unitD{
@@ -88,15 +90,15 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 2088> r20_units = {{
         "horse power day per air dry metric ton",
         precise::one / precise::count},
     unitD{"31", "catch weight", precise::one / precise::count},
-    unitD{
-        "32",
-        "kilogram per air dry metric ton",
-        precise::one / precise::count},
-    unitD{
-        "33",
-        "kilopascal square metre per gram",
-        precise::one / precise::count},
-    unitD{"34", "kilopascal per millimetre", precise::one / precise::count},
+    unitD{"32",
+          "kilogram per air dry metric ton",
+          precise::one / precise::count},
+    unitD{"33",
+          "kilopascal square metre per gram",
+          precise::kilo* precise::Pa* precise::m.pow(2) / precise::g},
+    unitD{"34",
+          "kilopascal per millimetre",
+          precise::kilo* precise::Pa / precise::mm},
     unitD{
         "35",
         "millilitre per square centimetre second",
@@ -3026,5 +3028,13 @@ precise_unit r20_unit(const std::string& r20_string)
     }
     return precise::error;
 }
-
+namespace detail {
+    namespace testing {
+        const void* r20rawData(size_t& array_size)
+        {
+            array_size = r20_units.size();
+            return r20_units.data();
+        }
+    }  // namespace testing
+}  // namespace detail
 }  // namespace UNITS_NAMESPACE
