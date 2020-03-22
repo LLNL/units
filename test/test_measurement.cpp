@@ -46,6 +46,16 @@ TEST(Measurement, ops)
     EXPECT_TRUE(is_valid(d1));
 }
 
+TEST(Measurement, assignment)
+{
+    measurement m1;
+    EXPECT_TRUE(is_valid(m1));
+    measurement m2 = 10.5 * m;
+
+    m1 = m2;
+    EXPECT_EQ(m1, m2);
+}
+
 TEST(Measurement, doubleOps)
 {
     auto freq = 9.0 / s;
@@ -562,6 +572,21 @@ TEST(PreciseMeasurement, comparison)
     EXPECT_FALSE((1 * precise::in) >= (2.541 * precise::cm));
     EXPECT_TRUE((1 * precise::in) <= (2.54001 * precise::cm));
     EXPECT_FALSE((1 * precise::in) <= (2.0 * precise::cm));
+}
+
+TEST(PreciseMeasurement, double_operators)
+{
+    EXPECT_EQ(precise::m * 7.0, 7.0 * precise::m);
+    EXPECT_EQ(precise::m / 4.0, 0.25 * precise::m);
+    EXPECT_EQ(4.0 / precise::m, 4.0 * precise::m.inv());
+}
+
+TEST(PreciseMeasurement, convert_to_base)
+{
+    precise_measurement m3 = 45.0 * precise::ft;
+
+    auto m5 = m3.convert_to_base();
+    EXPECT_EQ(m5.units(), precise::m);
 }
 
 TEST(PreciseMeasurement, powroot)

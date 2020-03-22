@@ -173,6 +173,16 @@ TEST(unitOps, error)
     EXPECT_TRUE(is_error(unit(constants::invalid_conversion, V)));
 }
 
+TEST(unitOps, finite)
+{
+    EXPECT_FALSE(isfinite(invalid));
+    EXPECT_TRUE(isfinite(defunit));
+    EXPECT_FALSE(isfinite(infinite));
+    EXPECT_TRUE(isfinite(error));
+    EXPECT_TRUE(isfinite(V));
+    EXPECT_FALSE(isfinite(unit(constants::infinity, V)));
+}
+
 TEST(unitOps, cast)
 {
     EXPECT_EQ(ft, unit_cast(precise::ft));
@@ -235,6 +245,43 @@ TEST(unitOps, flags)
     EXPECT_FALSE(e1.has_i_flag());
     EXPECT_FALSE(e1.has_e_flag());
 }
+
+TEST(unitOps, equivalency)
+{
+    unit m0;
+    unit m1 = ft;
+    m0 = m1;
+    EXPECT_TRUE(m1.is_exactly_the_same(m0));
+    EXPECT_TRUE(m0.is_exactly_the_same(m1));
+    unit m2(1.0000001, ft);
+
+    EXPECT_TRUE(m2 == m1);
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    EXPECT_EQ(m1.unit_type_count(), 1);
+
+    auto m4 = m1.add_e_flag();
+    EXPECT_FALSE(m1.is_exactly_the_same(m4));
+    EXPECT_TRUE(m1.equivalent_non_counting(m4));
+    EXPECT_TRUE(m1.equivalent_non_counting(m4.base_units()));
+
+    auto m5 = m1.add_i_flag();
+    EXPECT_FALSE(m1.is_exactly_the_same(m5));
+
+    auto m6 = m1.add_per_unit();
+    EXPECT_FALSE(m1.is_exactly_the_same(m6));
+}
+
+TEST(unitOps, convertible)
+{
+    unit m1{m};
+    EXPECT_TRUE(m1.is_convertible(ft));
+    EXPECT_TRUE(m1.is_convertible(mile));
+    EXPECT_TRUE(m1.is_convertible(nm.base_units()));
+    EXPECT_FALSE(m1.is_convertible(farad));
+    EXPECT_FALSE(m1.is_convertible(lb));
+    EXPECT_FALSE(m1.is_convertible(V.base_units()));
+}
+
 /*
 TEST(unitOps, equalitytest)
 {
@@ -315,6 +362,8 @@ TEST(preciseUnitOps, MultipleOps)
     auto u2 = u1 / precise::kW;
     auto u3 = u2.inv();
     EXPECT_EQ(u3, precise::gal);
+
+    EXPECT_EQ(precise::m * precise::W, precise::m * W);
 }
 
 TEST(preciseUnitOps, Power)
@@ -455,6 +504,34 @@ TEST(preciseUnitOps, assignment)
     EXPECT_NE(*U2, precise::mile);
     *U2 = precise::mile;
     EXPECT_EQ(*U2, precise::mile);
+}
+
+TEST(preciseunitOps, equivalency)
+{
+    precise_unit m0;
+    precise_unit m1 = precise::ft;
+    m0 = m1;
+    EXPECT_TRUE(m1.is_exactly_the_same(m0));
+    EXPECT_TRUE(m0.is_exactly_the_same(m1));
+    precise_unit m2(1.0 + 1e-14, precise::ft);
+
+    EXPECT_TRUE(m2 == m1);
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    EXPECT_EQ(m1.unit_type_count(), 1);
+
+    auto m4 = m1.add_e_flag();
+    EXPECT_FALSE(m1.is_exactly_the_same(m4));
+    EXPECT_TRUE(m1.equivalent_non_counting(m4));
+    EXPECT_TRUE(m1.equivalent_non_counting(m4.base_units()));
+
+    auto m5 = m1.add_i_flag();
+    EXPECT_FALSE(m1.is_exactly_the_same(m5));
+
+    auto m6 = m1.add_per_unit();
+    EXPECT_FALSE(m1.is_exactly_the_same(m6));
+
+    EXPECT_TRUE(precise::m.is_exactly_the_same(m));
+    EXPECT_FALSE(precise::ft.is_exactly_the_same(ft));
 }
 
 TEST(preciseunitOps, equality1)
