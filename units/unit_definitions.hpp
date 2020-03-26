@@ -1569,6 +1569,8 @@ constexpr inline bool is_valid(const unit& utest)
 }
 
 // SI prefixes as units
+constexpr unit deci(0.1, one);
+constexpr unit centi(1e-2, one);
 constexpr unit milli(1e-3, one);
 constexpr unit micro(1e-6, one);
 constexpr unit nano(1e-9, one);
@@ -1688,8 +1690,8 @@ namespace detail {
                     val = val * start.multiplier() +
                         biasTable[static_cast<int>(start.multiplier())];
                 } else {
-                    val = val * start.multiplier();
-                }
+                val = val * start.multiplier();
+            }
             }
             val += 273.15;
             // convert to K
@@ -1707,8 +1709,8 @@ namespace detail {
                            biasTable[static_cast<int>(start.multiplier())]) /
                         result.multiplier();
                 } else {
-                    val = val / result.multiplier();
-                }
+                val = val / result.multiplier();
+            }
             }
             return val;
         }
