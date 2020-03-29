@@ -1018,7 +1018,7 @@ static std::string
         urem.clear_flags();
         urem.commodity(0);
         if ((urem.multiplier() != 1.0) || (!urem.base_units().empty())) {
-            return to_string(urem) + '*' + cxstr;
+            return to_string_internal(urem,match_flags) + '*' + cxstr;
         }
         return cxstr;
     }
@@ -1037,7 +1037,7 @@ static std::string
         urem.clear_flags();
         urem.commodity(0);
         if ((urem.multiplier() != 1.0) || (!urem.base_units().empty())) {
-            return to_string(urem) + '*' + cxstr;
+            return to_string_internal(urem,match_flags) + '*' + cxstr;
         }
         return cxstr;
     }
@@ -1056,7 +1056,7 @@ static std::string
         urem.clear_flags();
         urem.commodity(0);
         if ((urem.multiplier() != 1.0) || (!urem.base_units().empty())) {
-            return to_string(urem) + '*' + cxstr;
+            return to_string_internal(urem,match_flags) + '*' + cxstr;
         }
         return cxstr;
     }
