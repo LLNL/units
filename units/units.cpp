@@ -923,7 +923,7 @@ static std::string
     }
 
     auto llunit = unit_cast(un);
-	if (fpclassify(llunit.multiplier_f()) != FP_NORMAL)
+	if (std::fpclassify(llunit.multiplier_f()) != FP_NORMAL)
 	{
 		auto mstring = getMultiplierString(un.multiplier(), true);
 		un = precise_unit(un.base_units(), 1.0);
