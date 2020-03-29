@@ -852,6 +852,26 @@ std::string
     return propUnitString;
 }
 
+static const std::pair<const unit, std::string> nullret{ invalid,std::string{} };
+
+static std::pair<unit,std::string> find_unit_pair(unit un)
+{
+	if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+		if (!user_defined_unit_names.empty()) {
+			auto fndud = user_defined_unit_names.find(un);
+			if (fndud != user_defined_unit_names.end()) {
+				return { fndud->first,fndud->second };
+			}
+		}
+	}
+	auto fnd = base_unit_names.find(un);
+	if (fnd != base_unit_names.end()) {
+		return { fnd->first,fnd->second };
+	}
+	return nullret;
+}
+
+
 static std::string find_unit(unit un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
@@ -903,6 +923,12 @@ static std::string
     }
 
     auto llunit = unit_cast(un);
+	if (fpclassify(llunit.multiplier_f()) != FP_NORMAL)
+	{
+		auto mstring = getMultiplierString(un.multiplier(), true);
+		un = precise_unit(un.base_units(), 1.0);
+		return mstring + '*' + to_string_internal(un,match_flags);
+	}
     auto fnd = find_unit(llunit);
     if (!fnd.empty()) {
         return fnd;
@@ -933,13 +959,27 @@ static std::string
     if (!un.base_units().root(2).has_e_flag() &&
         !un.base_units().has_i_flag() && un.multiplier() > 0.0) {
         auto squ = root(llunit, 2);
-        fnd = find_unit(squ);
-        if (!fnd.empty()) {
-            return fnd + "^2";
+        auto fndp = find_unit_pair(squ);
+        if (!fndp.second.empty()) {
+			if (fndp.first.pow(2) == llunit)
+			{
+				return fndp.second + "^2";
+			}
+			else
+			{
+				return getMultiplierString((llunit / fndp.first.pow(2)).multiplier(), true) + '*' + fndp.second + "^2";
+			}
         }
-        fnd = find_unit(squ.inv());
-        if (!fnd.empty()) {
-            return std::string("1/") + fnd + "^2";
+        auto fndpi = find_unit_pair(squ.inv());
+        if (!fndpi.second.empty()) {
+			if (fndpi.first.inv().pow(2)==llunit)
+			{
+				return std::string("1/") + fndpi.second + "^2";
+			}
+			else
+			{
+				return getMultiplierString((llunit / fndpi.first.pow(2)).multiplier(), true) + '/' + fndpi.second + "^2";
+			}
         }
     }
     /// Check for cubed units
