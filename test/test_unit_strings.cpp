@@ -678,7 +678,7 @@ TEST(userDefinedUnits, definitions)
 
     EXPECT_EQ(to_string(clucks), "clucks");
 
-	EXPECT_EQ(to_string(clucks.pow(2)), "clucks^2");
+    EXPECT_EQ(to_string(clucks.pow(2)), "clucks^2");
 }
 
 TEST(userDefinedUnits, definitionStrings)
