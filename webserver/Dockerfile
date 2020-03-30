@@ -9,7 +9,7 @@ RUN cmake ../units -DUNITS_BUILD_WEBSERVER=ON -DBUILD_TESTING=OFF -DCMAKE_CXX_ST
 
 WORKDIR /root/develop/webserver
 
-RUN cp ../build/webserver/unit_web_server . && cp ../units/webserver/*.html .
+RUN cp ../build/webserver/unit_web_server . && cp ../units/webserver/*.html && cp ../units/webserver/*.sh .
 
 FROM opensuse/tumbleweed:latest
 
@@ -17,8 +17,10 @@ COPY --from=builder /root/develop/webserver /root/develop/webserver
 
 LABEL maintainer="top1@llnl.gov"
 
+VOLUME /weblog
+
 WORKDIR /root/develop/webserver
 
 EXPOSE 80/tcp
 
-CMD ["./unit_web_server", "0.0.0.0", "80"]
+CMD ["./web_script.sh"]

@@ -14,7 +14,9 @@
 //------------------------------------------------------------------------------
 
 #include <algorithm>
+#include <atomic>
 #include <boost/asio/strand.hpp>
+#include <boost/asio/deadline_timer.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
@@ -52,6 +54,11 @@ static std::string loadFile(const std::string& fileName)
     return std::string(
         (std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 }
+// global counters
+static std::atomic<int> success_count{0};
+static std::atomic<int> fail_count{0};
+static std::atomic<int> request_count{0};
+static std::atomic<int> bad_request_count{0};
 
 // decode a URI to clean up a string, convert character codes in a uri to the
 // original character
@@ -179,25 +186,27 @@ void handle_request(
 
     // Returns a bad request response
     auto const bad_request = [&req](beast::string_view why) {
-        http::response<http::string_body> res{http::status::bad_request,
-                                              req.version()};
+        http::response<http::string_body> res{
+            http::status::bad_request, req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
         res.body() = std::string(why);
         res.prepare_payload();
+        ++bad_request_count;
         return res;
     };
 
     // Returns a not found response
     auto const not_found = [&req](beast::string_view target) {
-        http::response<http::string_body> res{http::status::not_found,
-                                              req.version()};
+        http::response<http::string_body> res{
+            http::status::not_found, req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
         res.body() = std::string(target) + "' was not found.";
         res.prepare_payload();
+        ++bad_request_count;
         return res;
     };
 
@@ -287,6 +296,7 @@ void handle_request(
 
         return res;
     };
+    ++request_count;
 
     switch (req.method()) {
         case http::verb::head:
@@ -339,7 +349,11 @@ void handle_request(
     } else {
         u2 = units::unit_from_string(toUnits);
     }
-
+    if (isnormal(meas) && isnormal(u2)) {
+        ++success_count;
+    } else {
+        ++fail_count;
+    }
     auto Vstr = as_string(meas.value_as(u2));
     std::vector<std::pair<std::string, std::string>> substitutions{
         {"$M1$", measurement},
@@ -363,6 +377,22 @@ void handle_request(
 void fail(beast::error_code ec, char const* what)
 {
     std::cerr << what << ": " << ec.message() << "\n";
+}
+
+void display_counts()
+{
+    auto now = std::chrono::system_clock::now();
+    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+
+    std::cout << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X")
+              << '\n';
+    std::cout << "total requests :" << request_count.load() << '\n';
+    std::cout << "bad requests :" << bad_request_count.load() << '\n';
+    std::cout << "success_count :" << success_count.load() << '\n';
+    std::cout << "failed_count :" << fail_count.load() << '\n';
+    std::cout
+        << "=============================================================================="
+        << std::endl;
 }
 
 // Handles an HTTP server connection
@@ -549,9 +579,20 @@ class listener : public std::enable_shared_from_this<listener> {
         do_accept();
     }
 };
-
+static constexpr int print_interval = 3595;
 //------------------------------------------------------------------------------
+static std::shared_ptr< boost::asio::deadline_timer> tmr;
 
+void printer(const boost::system::error_code& e)
+{
+    display_counts();
+    if (!e)
+    {
+        tmr->expires_at(tmr->expires_at() + boost::posix_time::seconds(print_interval));
+        // Posts the timer event
+        tmr->async_wait(printer);
+    }
+}
 int main(int argc, char* argv[])
 {
     // Check command line arguments.
@@ -569,7 +610,10 @@ int main(int argc, char* argv[])
 
     // Create and launch a listening port
     std::make_shared<listener>(ioc, tcp::endpoint{address, port})->run();
-
+    // Create and launch a display timer
+    tmr=std::make_shared< boost::asio::deadline_timer>(ioc, boost::posix_time::seconds(print_interval));
+    // Posts the timer event
+    tmr->async_wait(printer);
     // Run the I/O service
     ioc.run();
 
