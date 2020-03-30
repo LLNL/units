@@ -5,7 +5,7 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0][] ~ Sometime in Late March 2020
+## [0.4.0][] - 2020-03-30
 
 Add a converter command line application and fix a few slow conversion issues and some other fuzz issues that came up recently, add isnormal operation for measurements, better test coverage for fixed_precise_measurement, some additional tests and static analysis checks.
 
@@ -39,6 +39,8 @@ Add a converter command line application and fix a few slow conversion issues an
 -   Added fuzz_measurement fuzzer to test measurement_from_string [#42][]
 -   Added cpplint test to azure [#43][]
 -   Added a number of additional units from UDunits [#44][]
+-   Added several CI checks including CPPlint, and a series of CMAKE checks, and formatting checks [#48][],[#49][]
+-   Added a series of additional tests for coverage [#50][]
 
 ### Removed
 
@@ -102,6 +104,9 @@ Continued work on cleaning up the library and starting to add main documentation
 [#45]: https://github.com/LLNL/units/pull/45
 [#46]: https://github.com/LLNL/units/pull/46
 [#47]: https://github.com/LLNL/units/pull/47
+[#48]: https://github.com/LLNL/units/pull/48
+[#49]: https://github.com/LLNL/units/pull/49
+[#50]: https://github.com/LLNL/units/pull/50
 [#51]: https://github.com/LLNL/units/pull/51
 
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0

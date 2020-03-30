@@ -446,7 +446,7 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
         return "1.00000000000000*(infinity)";  // LCOV_EXCL_LINE
     }
     if (rv == "-inf") {
-        return "1.00000000000000*(-1.00000000000000*infinity)";
+        return "1.00000000000000*(-1.00000000000000*infinity)";  // LCOV_EXCL_LINE
     }
     return rv;
 }
@@ -1154,14 +1154,11 @@ static std::string
             if (isNumericalStartCharacter(prefix.front())) {
                 size_t cut;
                 double mx = getDoubleFromString(prefix, &cut);
-                if (mx != 0.0) {
-                    auto str = getMultiplierString(1.0 / mx, true) + tu.second +
-                        "/" + prefix.substr(cut);
-                    if (beststr.empty() || str.size() < beststr.size()) {
-                        beststr = str;
-                    }
-                } else {
-                    return std::string(tu.second) + "/" + prefix;
+
+                auto str = getMultiplierString(1.0 / mx, true) + tu.second +
+                    "/" + prefix.substr(cut);
+                if (beststr.empty() || str.size() < beststr.size()) {
+                    beststr = str;
                 }
 
             } else {
@@ -4432,7 +4429,8 @@ static bool looksLikeInteger(const std::string& string)
         ++index;
     }
     if (!isDigitCharacter(string[index])) {
-        return false;
+        // at some point need to figure out how to get to this line
+        return false;  // LCOV_EXCL_LINE
     }
     ++index;
     while (index < string.length()) {
