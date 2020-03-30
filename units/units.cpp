@@ -932,10 +932,17 @@ static std::string
     }
 
     auto llunit = unit_cast(un);
+	// deal with situations where the cast unit is not normal but the precise one is
     if (std::fpclassify(llunit.multiplier_f()) != FP_NORMAL) {
         auto mstring = getMultiplierString(un.multiplier(), true);
         un = precise_unit(un.base_units(), 1.0);
-        return mstring + '*' + to_string_internal(un, match_flags);
+        mstring.push_back('*');
+
+        mstring.append(to_string_internal(un, match_flags));
+        if (mstring.back() == '*') {
+            mstring.pop_back();
+        }
+        return mstring;
     }
     auto fnd = find_unit(llunit);
     if (!fnd.empty()) {
