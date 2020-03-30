@@ -15,8 +15,8 @@
 
 #include <algorithm>
 #include <atomic>
-#include <boost/asio/strand.hpp>
 #include <boost/asio/deadline_timer.hpp>
+#include <boost/asio/strand.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
@@ -581,14 +581,14 @@ class listener : public std::enable_shared_from_this<listener> {
 };
 static constexpr int print_interval = 3595;
 //------------------------------------------------------------------------------
-static std::shared_ptr< boost::asio::deadline_timer> tmr;
+static std::shared_ptr<boost::asio::deadline_timer> tmr;
 
 void printer(const boost::system::error_code& e)
 {
     display_counts();
-    if (!e)
-    {
-        tmr->expires_at(tmr->expires_at() + boost::posix_time::seconds(print_interval));
+    if (!e) {
+        tmr->expires_at(
+            tmr->expires_at() + boost::posix_time::seconds(print_interval));
         // Posts the timer event
         tmr->async_wait(printer);
     }
@@ -611,7 +611,8 @@ int main(int argc, char* argv[])
     // Create and launch a listening port
     std::make_shared<listener>(ioc, tcp::endpoint{address, port})->run();
     // Create and launch a display timer
-    tmr=std::make_shared< boost::asio::deadline_timer>(ioc, boost::posix_time::seconds(print_interval));
+    tmr = std::make_shared<boost::asio::deadline_timer>(
+        ioc, boost::posix_time::seconds(print_interval));
     // Posts the timer event
     tmr->async_wait(printer);
     // Run the I/O service
