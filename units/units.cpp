@@ -969,23 +969,16 @@ static std::string
         auto squ = root(llunit, 2);
         auto fndp = find_unit_pair(squ);
         if (!fndp.second.empty()) {
-            if (fndp.first.pow(2) == llunit) {
-                return fndp.second + "^2";
-            } else {
+            if (fndp.first.pow(2) != llunit) {
                 return getMultiplierString(
                            (llunit / fndp.first.pow(2)).multiplier(), true) +
                     '*' + fndp.second + "^2";
             }
+            return fndp.second + "^2";
         }
         auto fndpi = find_unit_pair(squ.inv());
         if (!fndpi.second.empty()) {
-            if (fndpi.first.inv().pow(2) == llunit) {
-                return std::string("1/") + fndpi.second + "^2";
-            } else {
-                return getMultiplierString(
-                           (llunit / fndpi.first.pow(2)).multiplier(), true) +
-                    '/' + fndpi.second + "^2";
-            }
+            return std::string("1/") + fndpi.second + "^2";
         }
     }
     /// Check for cubed units
