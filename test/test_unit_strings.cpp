@@ -677,6 +677,8 @@ TEST(userDefinedUnits, definitions)
     EXPECT_EQ(unit_from_string("clucks/A"), precise_unit(19.3, precise::m));
 
     EXPECT_EQ(to_string(clucks), "clucks");
+
+    EXPECT_EQ(to_string(clucks.pow(2)), "clucks^2");
 }
 
 TEST(userDefinedUnits, definitionStrings)
