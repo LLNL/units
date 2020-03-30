@@ -186,8 +186,8 @@ void handle_request(
 
     // Returns a bad request response
     auto const bad_request = [&req](beast::string_view why) {
-        http::response<http::string_body> res{
-            http::status::bad_request, req.version()};
+        http::response<http::string_body> res{http::status::bad_request,
+                                              req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
@@ -199,8 +199,8 @@ void handle_request(
 
     // Returns a not found response
     auto const not_found = [&req](beast::string_view target) {
-        http::response<http::string_body> res{
-            http::status::not_found, req.version()};
+        http::response<http::string_body> res{http::status::not_found,
+                                              req.version()};
         res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
@@ -390,9 +390,8 @@ void display_counts()
     std::cout << "bad requests :" << bad_request_count.load() << '\n';
     std::cout << "success_count :" << success_count.load() << '\n';
     std::cout << "failed_count :" << fail_count.load() << '\n';
-    std::cout
-        << "=============================================================================="
-        << std::endl;
+    std::cout << "==================================================="
+              << std::endl;
 }
 
 // Handles an HTTP server connection
