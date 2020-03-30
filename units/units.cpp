@@ -361,10 +361,19 @@ static const std::unordered_map<float, char> si_prefixes{
     {1e12F, 'T'},         {1.0F / 1e-12F, 'T'}};
 
 // check if the character is something that could begin a number
-static inline bool isNumericalCharacter(char X)
+static inline bool isNumericalStartCharacter(char X)
 {
     return ((X >= '0' && X <= '9') || X == '-' || X == '+' || X == '.');
 }
+
+// check if the character is something that could be in a number
+static inline bool isNumericalCharacter(char X)
+{
+    return (
+        (X >= '0' && X <= '9') || X == '-' || X == '+' || X == '.' ||
+        X == 'E' || X == 'e');
+}
+
 // forward declaration of the internal from_string function
 static precise_unit unit_from_string_internal(
     std::string unit_string,
@@ -491,31 +500,31 @@ static std::string generateUnitSequence(double mux, std::string seq)
     switch (pw) {
         case -1:
             muxstr = getMultiplierString(1.0 / mux, noPrefix);
-            if (isNumericalCharacter(muxstr.front())) {
+            if (isNumericalStartCharacter(muxstr.front())) {
                 muxstr = getMultiplierString(mux, true);
             }
             break;
         case -2:
             muxstr = getMultiplierString(std::sqrt(1.0 / mux), noPrefix);
-            if (isNumericalCharacter(muxstr.front())) {
+            if (isNumericalStartCharacter(muxstr.front())) {
                 muxstr = getMultiplierString(mux, true);
             }
             break;
         case -3:
             muxstr = getMultiplierString(std::cbrt(1.0 / mux), noPrefix);
-            if (isNumericalCharacter(muxstr.front())) {
+            if (isNumericalStartCharacter(muxstr.front())) {
                 muxstr = getMultiplierString(mux, true);
             }
             break;
         case 2:
             muxstr = getMultiplierString(std::sqrt(mux), noPrefix);
-            if (isNumericalCharacter(muxstr.front())) {
+            if (isNumericalStartCharacter(muxstr.front())) {
                 muxstr = getMultiplierString(mux, true);
             }
             break;
         case 3:
             muxstr = getMultiplierString(std::cbrt(mux), noPrefix);
-            if (isNumericalCharacter(muxstr.front())) {
+            if (isNumericalStartCharacter(muxstr.front())) {
                 muxstr = getMultiplierString(mux, true);
             }
             break;
@@ -752,7 +761,7 @@ std::string
     clean_unit_string(std::string propUnitString, std::uint32_t commodity)
 {
     using spair = std::tuple<const char*, const char*, int, int>;
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 8> powerseq{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 9> powerseq{{
         spair{"Mm^3", "(1e9km^3)", 4, 8},  // this needs to happen before ^3^2
                                            // conversions
         spair{"^2^2", "^4", 4, 2},
@@ -763,6 +772,7 @@ std::string
                                       // screwing things up
         spair{"eflag*K", "degC", 7, 4},
         spair{"*1*", "*", 3, 1},
+        spair{"*1/", "/", 3, 1},
 
     }};
     // run a few checks for unusual conditions
@@ -852,25 +862,24 @@ std::string
     return propUnitString;
 }
 
-static const std::pair<const unit, std::string> nullret{ invalid,std::string{} };
+static const std::pair<const unit, std::string> nullret{invalid, std::string{}};
 
-static std::pair<unit,std::string> find_unit_pair(unit un)
+static std::pair<unit, std::string> find_unit_pair(unit un)
 {
-	if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
-		if (!user_defined_unit_names.empty()) {
-			auto fndud = user_defined_unit_names.find(un);
-			if (fndud != user_defined_unit_names.end()) {
-				return { fndud->first,fndud->second };
-			}
-		}
-	}
-	auto fnd = base_unit_names.find(un);
-	if (fnd != base_unit_names.end()) {
-		return { fnd->first,fnd->second };
-	}
-	return nullret;
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        if (!user_defined_unit_names.empty()) {
+            auto fndud = user_defined_unit_names.find(un);
+            if (fndud != user_defined_unit_names.end()) {
+                return {fndud->first, fndud->second};
+            }
+        }
+    }
+    auto fnd = base_unit_names.find(un);
+    if (fnd != base_unit_names.end()) {
+        return {fnd->first, fnd->second};
+    }
+    return nullret;
 }
-
 
 static std::string find_unit(unit un)
 {
@@ -923,12 +932,11 @@ static std::string
     }
 
     auto llunit = unit_cast(un);
-	if (std::fpclassify(llunit.multiplier_f()) != FP_NORMAL)
-	{
-		auto mstring = getMultiplierString(un.multiplier(), true);
-		un = precise_unit(un.base_units(), 1.0);
-		return mstring + '*' + to_string_internal(un,match_flags);
-	}
+    if (std::fpclassify(llunit.multiplier_f()) != FP_NORMAL) {
+        auto mstring = getMultiplierString(un.multiplier(), true);
+        un = precise_unit(un.base_units(), 1.0);
+        return mstring + '*' + to_string_internal(un, match_flags);
+    }
     auto fnd = find_unit(llunit);
     if (!fnd.empty()) {
         return fnd;
@@ -961,25 +969,23 @@ static std::string
         auto squ = root(llunit, 2);
         auto fndp = find_unit_pair(squ);
         if (!fndp.second.empty()) {
-			if (fndp.first.pow(2) == llunit)
-			{
-				return fndp.second + "^2";
-			}
-			else
-			{
-				return getMultiplierString((llunit / fndp.first.pow(2)).multiplier(), true) + '*' + fndp.second + "^2";
-			}
+            if (fndp.first.pow(2) == llunit) {
+                return fndp.second + "^2";
+            } else {
+                return getMultiplierString(
+                           (llunit / fndp.first.pow(2)).multiplier(), true) +
+                    '*' + fndp.second + "^2";
+            }
         }
         auto fndpi = find_unit_pair(squ.inv());
         if (!fndpi.second.empty()) {
-			if (fndpi.first.inv().pow(2)==llunit)
-			{
-				return std::string("1/") + fndpi.second + "^2";
-			}
-			else
-			{
-				return getMultiplierString((llunit / fndpi.first.pow(2)).multiplier(), true) + '/' + fndpi.second + "^2";
-			}
+            if (fndpi.first.inv().pow(2) == llunit) {
+                return std::string("1/") + fndpi.second + "^2";
+            } else {
+                return getMultiplierString(
+                           (llunit / fndpi.first.pow(2)).multiplier(), true) +
+                    '/' + fndpi.second + "^2";
+            }
         }
     }
     /// Check for cubed units
@@ -1008,7 +1014,7 @@ static std::string
     fnd = find_unit(bunit.inv());
     if (!fnd.empty()) {
         auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
-        if (isNumericalCharacter(prefix.front())) {
+        if (isNumericalStartCharacter(prefix.front())) {
             size_t cut;
             double mx = getDoubleFromString(prefix, &cut);
             return getMultiplierString(1.0 / mx, true) + "/" +
@@ -1058,7 +1064,7 @@ static std::string
         urem.clear_flags();
         urem.commodity(0);
         if ((urem.multiplier() != 1.0) || (!urem.base_units().empty())) {
-            return to_string_internal(urem,match_flags) + '*' + cxstr;
+            return to_string_internal(urem, match_flags) + '*' + cxstr;
         }
         return cxstr;
     }
@@ -1077,7 +1083,7 @@ static std::string
         urem.clear_flags();
         urem.commodity(0);
         if ((urem.multiplier() != 1.0) || (!urem.base_units().empty())) {
-            return to_string_internal(urem,match_flags) + '*' + cxstr;
+            return to_string_internal(urem, match_flags) + '*' + cxstr;
         }
         return cxstr;
     }
@@ -1096,7 +1102,7 @@ static std::string
         urem.clear_flags();
         urem.commodity(0);
         if ((urem.multiplier() != 1.0) || (!urem.base_units().empty())) {
-            return to_string_internal(urem,match_flags) + '*' + cxstr;
+            return to_string_internal(urem, match_flags) + '*' + cxstr;
         }
         return cxstr;
     }
@@ -1111,7 +1117,7 @@ static std::string
             auto prefix = generateUnitSequence(ext.multiplier(), fnd);
 
             auto str = prefix + '/' + tu.second;
-            if (!isNumericalCharacter(str.front())) {
+            if (!isNumericalStartCharacter(str.front())) {
                 return str;
             }
             if (beststr.empty() || str.size() < beststr.size()) {
@@ -1128,7 +1134,7 @@ static std::string
         if (!fnd.empty()) {
             auto prefix = generateUnitSequence(ext.multiplier(), fnd);
             auto str = prefix + '*' + tu.second;
-            if (!isNumericalCharacter(str.front())) {
+            if (!isNumericalStartCharacter(str.front())) {
                 return str;
             }
             if (beststr.empty() || str.size() < beststr.size()) {
@@ -1144,7 +1150,7 @@ static std::string
         fnd = find_unit(base.inv());
         if (!fnd.empty()) {
             auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
-            if (isNumericalCharacter(prefix.front())) {
+            if (isNumericalStartCharacter(prefix.front())) {
                 size_t cut;
                 double mx = getDoubleFromString(prefix, &cut);
                 if (mx != 0.0) {
@@ -1176,7 +1182,7 @@ static std::string
             str.push_back('*');
             str.append(tu.second);
             str.push_back(')');
-            if (!isNumericalCharacter(prefix.front())) {
+            if (!isNumericalStartCharacter(prefix.front())) {
                 return str;
             }
             if (beststr.empty() || str.size() < beststr.size()) {
@@ -1219,7 +1225,7 @@ std::string to_string(precise_measurement measure, std::uint32_t match_flags)
     ss << measure.value();
     ss << ' ';
     auto str = to_string(measure.units(), match_flags);
-    if (isNumericalCharacter(str.front())) {
+    if (isNumericalStartCharacter(str.front())) {
         str.insert(str.begin(), '(');
         str.push_back(')');
     }
@@ -1234,7 +1240,7 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
     ss << measure.value();
     ss << ' ';
     auto str = to_string(measure.units(), match_flags);
-    if (isNumericalCharacter(str.front())) {
+    if (isNumericalStartCharacter(str.front())) {
         str.insert(str.begin(), '(');
         str.push_back(')');
     }
@@ -4591,7 +4597,7 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
             }
             if (std::all_of(
                     unit_string.begin(), unit_string.begin() + fnd, [](char X) {
-                        return isNumericalCharacter(X) || (X == '/') ||
+                        return isNumericalStartCharacter(X) || (X == '/') ||
                             (X == '*');
                     })) {
                 unit_string[fnd] = '*';
@@ -4981,6 +4987,37 @@ static bool unicodeReplacement(std::string& unit_string)
     return changed;
 }
 
+// 10*num usually means a power of 10 so in most cases replace it with 1e
+// except it is not actually 10 or the thing after isn't a number
+// but take into account the few cases where . notation is used
+static void checkPowerOf10(std::string& unit_string)
+{
+    auto fndP = unit_string.find("10*");
+    while (fndP != std::string::npos) {
+        if (unit_string.size() > fndP + 3 &&
+            isNumericalStartCharacter(unit_string[fndP + 3])) {
+            if (fndP == 0 || !isNumericalCharacter(unit_string[fndP - 1]) ||
+                (fndP >= 2 && unit_string[fndP - 1] == '.' &&
+                 (unit_string[fndP - 2] < '0' ||
+                  unit_string[fndP - 2] > '9'))) {
+                auto powerstr = unit_string.substr(fndP + 3);
+                if (looksLikeInteger(powerstr)) {
+                    try {
+                        int power = std::stoi(powerstr);
+                        if (std::abs(power) <= 38) {
+                            unit_string.replace(fndP, 3, "1e");
+                        }
+                    }
+                    catch (const std::out_of_range&) {
+                        // if it is a really big number we obviously skip it
+                    }
+                }
+            }
+        }
+        fndP = unit_string.find("10*", fndP + 3);
+    }
+}
+
 // do some cleaning on the unit string to standardize formatting and deal with
 // some extended ascii and unicode characters
 static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
@@ -5092,27 +5129,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             // LCOV_EXCL_STOP
         }
 
-        // 10*num usually means a power of 10
-        fndP = unit_string.find("10*");
-        while (fndP != std::string::npos) {
-            if (unit_string.size() > fndP + 3 &&
-                isNumericalCharacter(unit_string[fndP + 3])) {
-                auto powerstr = unit_string.substr(fndP + 3);
-                if (looksLikeInteger(powerstr)) {
-                    try {
-                        int power = std::stoi(powerstr);
-                        if (std::abs(power) <= 38) {
-                            unit_string.replace(fndP, 3, "1e");
-                        }
-                    }
-                    catch (const std::out_of_range&) {  // if it is a really big
-                                                        // number we obviously
-                                                        // skip it
-                    }
-                }
-            }
-            fndP = unit_string.find("10*", fndP + 3);
-        }
+        checkPowerOf10(unit_string);
     } else {
         auto fndP = unit_string.find("of(");
         if (fndP != std::string::npos) {
