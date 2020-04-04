@@ -188,7 +188,7 @@ void handle_request(
     auto const bad_request = [&req](beast::string_view why) {
         http::response<http::string_body> res{http::status::bad_request,
                                               req.version()};
-        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
         res.body() = std::string(why);
@@ -201,7 +201,7 @@ void handle_request(
     auto const not_found = [&req](beast::string_view target) {
         http::response<http::string_body> res{http::status::not_found,
                                               req.version()};
-        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
         res.body() = std::string(target) + "' was not found.";
@@ -226,7 +226,7 @@ void handle_request(
     // generate the main page
     auto const main_page = [&req]() {
         http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
         if (req.method() != http::verb::head) {
@@ -245,7 +245,7 @@ void handle_request(
                                        std::pair<std::string, std::string>>&
                                        substitutions) {
         http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
         res.set(http::field::content_type, "text/html");
         res.keep_alive(req.keep_alive());
         auto resp = html_page;
@@ -262,7 +262,7 @@ void handle_request(
     // generate a conversion response
     auto const trivial_response = [&req](const std::string& value) {
         http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
         res.set(http::field::content_type, "text/plain");
         res.keep_alive(req.keep_alive());
         if (req.method() != http::verb::head) {
@@ -281,7 +281,7 @@ void handle_request(
                                        std::pair<std::string, std::string>>&
                                        substitutions) {
         http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+        res.set(http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
         res.set(http::field::content_type, "application/json");
         res.keep_alive(req.keep_alive());
         auto resp = json_string;

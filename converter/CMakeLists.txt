@@ -19,6 +19,7 @@
             unit_convert PUBLIC units::units compile_flags_target
         )
         target_include_directories(unit_convert PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
+        target_compile_definitions(unit_convert PUBLIC UNITS_VERSION_STRING="${UNITS_VERSION}")
         if (CMAKE_CXX_STANDARD GREATER 16)
             if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 8)
                 target_link_libraries(unit_convert PRIVATE -lstdc++fs)
