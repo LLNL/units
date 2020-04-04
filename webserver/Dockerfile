@@ -17,8 +17,6 @@ COPY --from=builder /root/develop/webserver /root/develop/webserver
 
 LABEL maintainer="top1@llnl.gov"
 
-VOLUME /weblog
-
 WORKDIR /root/develop/webserver
 
 EXPOSE 80/tcp

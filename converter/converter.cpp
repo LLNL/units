@@ -42,6 +42,10 @@ int main(int argc, char* argv[])
            newUnits,
            "the units to convert the measurement to, '*' to convert to base units")
         ->required();
+    app.add_flag_callback("--version,-v", []() {
+        std::cout << "Units conversion " UNITS_VERSION_STRING << '\n';
+        throw CLI::Success();
+    });
     app.positionals_at_end();
 
     CLI11_PARSE(app, argc, argv);
