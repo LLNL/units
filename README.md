@@ -160,37 +160,7 @@ the high precision units are in the namespace `units::precise`.
 Also defined are a number of physical constants in `units::constants`
 
 ### Physics constants
-```cpp
-/// Standard gravity
-constexpr precise_measurement g0(9.80665, precise::m / precise::s / precise::s);
-/// Gravitational Constant
-constexpr precise_measurement
-  G(6.6740831e-11, precise_unit(detail::unit_data(3, -1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
-/// Speed of light
-constexpr precise_measurement c{299792458.0, precise::m / precise::s};
-/// Elementary Charge (2019 redefinition)
-constexpr precise_measurement e(1.602176634e-19, precise::C);
-///  hyperfine structure transition frequency of the caesium-133 atom
-constexpr precise_measurement fCs(9192631770.0, precise::Hz);
-/// Planck constant (2019 redefinition)
-constexpr precise_measurement h{6.62607015e-34, precise::J * precise::second};
-/// Boltzman constant (2019 redefinition)
-constexpr precise_measurement k{1.380649e-23, precise::J / precise::K};
-/// Avogadros constant (2019 redefinition)
-constexpr precise_measurement Na{6.02214076e23, precise::one / precise::mol};
-/// Luminous efficiency
-constexpr precise_measurement Kcd{683.0, precise::lm / precise::W};
-/// Permittivity of free space
-constexpr precise_measurement eps0{8.854187817e-12, precise::F / precise::m};
-/// Permeability of free space
-constexpr precise_measurement u0{12.566370614e-7, precise::N / (precise::A * precise::A)};
-/// Gas Constant
-constexpr precise_measurement R{8.314459848, precise::J / (precise::mol * precise::K)};
-/// Stephan Boltzmann constant
-constexpr precise_measurement sigma{5.67036713e-8,
-                                      precise_unit(detail::unit_data(0, 1, -3, 0, -4, 0, 0, 0, 0, 0, 0, 0))};
-
-```
+A set of physical and numerical constants are defined in the `units::constants` namespace.  More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html)
 
 ## Building the library
 There are two parts of the library  a header only portion that can simply be copied and used. There are 3 headers `units_decl.hpp` declares the underlying classes.  `unit_defintions.hpp` declares constants for many of the units, and `units.hpp` which is the primary public interface to units.  If `units.hpp` is included in another file and the variable `UNITS_HEADER_ONLY` is defined then none of the functions that require the cpp files are defined. These header files can simply be included in your project and used with no additional building required.

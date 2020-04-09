@@ -1899,12 +1899,15 @@ precise_unit r20_unit(const std::string& r20_string);
 #endif  // UNITS_HEADER_ONLY
 /// Physical constants in use with associated units
 namespace constants {
+    // SI redefinition taken from
+    // https://www.nist.gov/si-redefinition/meet-constants
+
     /// Standard gravity
     constexpr precise_measurement
         g0(9.80665, precise::m / precise::s / precise::s);
     /// Gravitational Constant
     constexpr precise_measurement G(
-        6.6740831e-11,
+        6.67430e-11,
         precise_unit(
             detail::unit_data(3, -1, -2, 0, 0, 0, 0, 0, 0, 0, 0U, 0U, 0U, 0U)));
     /// Speed of light
@@ -1913,9 +1916,14 @@ namespace constants {
     constexpr precise_measurement e(1.602176634e-19, precise::C);
     ///  hyperfine structure transition frequency of the cesium-133 atom
     constexpr precise_measurement fCs(9192631770.0, precise::Hz);
+    /// fine structure constant
+    constexpr precise_measurement alpha(7.2973525693e-3, precise::one);
     /// Planck constant (2019 redefinition)
     constexpr precise_measurement h{6.62607015e-34,
                                     precise::J* precise::second};
+    /// reduced Planck constant (2019 redefinition)
+    constexpr precise_measurement hbar{6.62607015e-34 / tau,
+                                       precise::J* precise::second};
     /// Boltzman constant (2019 redefinition)
     constexpr precise_measurement k{1.380649e-23, precise::J / precise::K};
     /// Avogadros constant (2019 redefinition)
@@ -1924,41 +1932,44 @@ namespace constants {
     /// Luminous efficiency
     constexpr precise_measurement Kcd{683.0, precise::lm / precise::W};
     /// Permittivity of free space
-    constexpr precise_measurement eps0{8.854187817e-12,
+    constexpr precise_measurement eps0{8.8541878128e-12,
                                        precise::F / precise::m};
     /// Permeability of free space
-    constexpr precise_measurement mu0{12.566370614e-7,
+    constexpr precise_measurement mu0{12.566370612e-7,
                                       precise::N / (precise::A * precise::A)};
     /// Gas Constant
-    constexpr precise_measurement R{8.314459848,
+    constexpr precise_measurement R{8.314462618,
                                     precise::J / (precise::mol * precise::K)};
     /// Stephan Boltzmann constant
     constexpr precise_measurement s{
-        5.67036713e-8,
+        5.670374419e-8,
         precise_unit(
             detail::unit_data(0, 1, -3, 0, -4, 0, 0, 0, 0, 0, 0U, 0U, 0U, 0U))};
-    /// hubble constant AKA 69.3 km/s/Mpc
-    constexpr precise_measurement H0{2.25e-18, precise::Hz};
+    /// Hubble constant AKA 69.8 km/s/Mpc
+    /// https://www.nasa.gov/feature/goddard/2019/new-hubble-constant-measurement-adds-to-mystery-of-universe-s-expansion-rate
+    constexpr precise_measurement H0{
+        69.8,
+        precise::km / precise::s / (precise::mega * precise::distance::parsec)};
     /// Mass of an electron
-    constexpr precise_measurement me{9.1093835611e-31, precise::kg};
+    constexpr precise_measurement me{9.1093837015e-31, precise::kg};
     /// Mass of a proton
-    constexpr precise_measurement mp{1.67262189821e-27, precise::kg};
+    constexpr precise_measurement mp{1.67262192369e-27, precise::kg};
     /// Planck units
     namespace planck {
-        constexpr precise_measurement length{1.61622938e-35, precise::m};
-        constexpr precise_measurement mass{2.17647051e-8, precise::kg};
-        constexpr precise_measurement time{5.3911613e-44, precise::s};
+        constexpr precise_measurement length{1.616255e-35, precise::m};
+        constexpr precise_measurement mass{2.176434e-8, precise::kg};
+        constexpr precise_measurement time{5.391247e-44, precise::s};
         constexpr precise_measurement charge{1.87554595641e-18, precise::C};
-        constexpr precise_measurement temperature{1.41680833e32, precise::K};
+        constexpr precise_measurement temperature{1.416784e32, precise::K};
     }  // namespace planck
     /// measurements related to an electron or atomic measurements
     namespace atomic {  // https://www.bipm.org/en/publications/si-brochure/table7.html
-        constexpr precise_measurement length{0.5291772109217e-10, precise::m};
+        constexpr precise_measurement length{5.29177210903e-11, precise::m};
         constexpr precise_measurement mass = me;
-        constexpr precise_measurement time{2.41888432650212e-17, precise::s};
+        constexpr precise_measurement time{2.4188843265857e-17, precise::s};
         constexpr precise_measurement charge = e;
         constexpr precise_measurement energy{4.3597443419e-18, precise::J};
-        constexpr precise_measurement action{1.05457172647e-34,
+        constexpr precise_measurement action{1.054571817e-34,
                                              precise::J* precise::s};
     }  // namespace atomic
 }  // namespace constants

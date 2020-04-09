@@ -5,6 +5,18 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0][] ~ May 2020
+
+### Changed
+-   update the physical constants to latest values and updated related documentation on Physical constants [#56][]
+
+### Fixed
+
+### Added
+-   Added version output to converter app and the correct version info on the webserver [#54][]
+
+### Removed
+
 ## [0.4.0][] - 2020-03-30
 
 Add a converter command line application and fix a few slow conversion issues and some other fuzz issues that came up recently, add isnormal operation for measurements, better test coverage for fixed_precise_measurement, some additional tests and static analysis checks.
@@ -108,7 +120,10 @@ Continued work on cleaning up the library and starting to add main documentation
 [#49]: https://github.com/LLNL/units/pull/49
 [#50]: https://github.com/LLNL/units/pull/50
 [#51]: https://github.com/LLNL/units/pull/51
+[#54]: https://github.com/LLNL/units/pull/54
+[#56]: https://github.com/LLNL/units/pull/56
 
+[0.5.0]: https://github.com/LLNL/units/releases/tag/v0.5.0
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
 [0.2.0]: https://github.com/LLNL/units/releases/tag/v0.2.0
