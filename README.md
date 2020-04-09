@@ -160,7 +160,7 @@ the high precision units are in the namespace `units::precise`.
 Also defined are a number of physical constants in `units::constants`
 
 ### Physics constants
-A set of Physical and numerical constants are defined in the `units::constants` namesspace.  More details and a list of aviailable constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html)
+A set of physical and numerical constants are defined in the `units::constants` namespace.  More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html)
 
 ## Building the library
 There are two parts of the library  a header only portion that can simply be copied and used. There are 3 headers `units_decl.hpp` declares the underlying classes.  `unit_defintions.hpp` declares constants for many of the units, and `units.hpp` which is the primary public interface to units.  If `units.hpp` is included in another file and the variable `UNITS_HEADER_ONLY` is defined then none of the functions that require the cpp files are defined. These header files can simply be included in your project and used with no additional building required.
