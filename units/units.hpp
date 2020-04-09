@@ -1945,7 +1945,7 @@ namespace constants {
         5.670374419e-8,
         precise_unit(
             detail::unit_data(0, 1, -3, 0, -4, 0, 0, 0, 0, 0, 0U, 0U, 0U, 0U))};
-    /// hubble constant AKA 69.8 km/s/Mpc
+    /// Hubble constant AKA 69.8 km/s/Mpc
     /// https://www.nasa.gov/feature/goddard/2019/new-hubble-constant-measurement-adds-to-mystery-of-universe-s-expansion-rate
     constexpr precise_measurement H0{
         69.8,
