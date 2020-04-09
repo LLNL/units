@@ -312,8 +312,8 @@ class measurement {
 
     friend constexpr measurement pow(const measurement& meas, int power)
     {
-        return {
-            detail::power_const(meas.value_, power), meas.units_.pow(power)};
+        return {detail::power_const(meas.value_, power),
+                meas.units_.pow(power)};
     }
     /// Convert a unit to have a new base
     measurement convert_to(unit newUnits) const
@@ -513,8 +513,8 @@ class fixed_measurement {
     constexpr friend fixed_measurement
         pow(const fixed_measurement& meas, int power)
     {
-        return {
-            detail::power_const(meas.value_, power), meas.units_.pow(power)};
+        return {detail::power_const(meas.value_, power),
+                meas.units_.pow(power)};
     }
     /// Convert a unit to have a new base
     fixed_measurement convert_to(unit newUnits) const
@@ -802,10 +802,9 @@ class uncertain_measurement {
     equivalent to uncertain_measurement multiplication with 0 uncertainty*/
     constexpr uncertain_measurement operator*(measurement other) const
     {
-        return {
-            static_cast<float>(value() * other.value()),
-            static_cast<float>(other.value() * uncertainty()),
-            units_ * other.units()};
+        return {static_cast<float>(value() * other.value()),
+                static_cast<float>(other.value() * uncertainty()),
+                units_ * other.units()};
     }
     constexpr uncertain_measurement operator*(unit other) const
     {
@@ -845,10 +844,9 @@ class uncertain_measurement {
 
     constexpr uncertain_measurement operator/(measurement other) const
     {
-        return {
-            static_cast<float>(value() / other.value()),
-            static_cast<float>(uncertainty() / other.value()),
-            units_ / other.units()};
+        return {static_cast<float>(value() / other.value()),
+                static_cast<float>(uncertainty() / other.value()),
+                units_ / other.units()};
     }
     constexpr uncertain_measurement operator/(unit other) const
     {
@@ -921,8 +919,9 @@ class uncertain_measurement {
         auto new_value = detail::power_const(meas.value_, power);
         auto new_tol = ((power >= 0) ? power : -power) * new_value *
             meas.uncertainty_ / meas.value_;
-        return uncertain_measurement{
-            new_value, new_tol, meas.units_.pow(power)};
+        return uncertain_measurement{new_value,
+                                     new_tol,
+                                     meas.units_.pow(power)};
     }
 
     /// Convert a unit to have a new base
@@ -1194,8 +1193,8 @@ class precise_measurement {
     constexpr friend precise_measurement
         pow(const precise_measurement& meas, int power)
     {
-        return precise_measurement{
-            detail::power_const(meas.value_, power), meas.units_.pow(power)};
+        return precise_measurement{detail::power_const(meas.value_, power),
+                                   meas.units_.pow(power)};
     }
 
     /// Convert a unit to have a new base
@@ -1207,8 +1206,8 @@ class precise_measurement {
     /// Convert a unit into its base units
     constexpr precise_measurement convert_to_base() const
     {
-        return {
-            value_ * units_.multiplier(), precise_unit(units_.base_units())};
+        return {value_ * units_.multiplier(),
+                precise_unit(units_.base_units())};
     }
 
     /// Equality operator
@@ -1464,8 +1463,8 @@ class fixed_precise_measurement {
     /// Convert a unit into its base units
     constexpr precise_measurement convert_to_base() const
     {
-        return {
-            value_ * units_.multiplier(), precise_unit(units_.base_units())};
+        return {value_ * units_.multiplier(),
+                precise_unit(units_.base_units())};
     }
 
     /// comparison operators
@@ -1920,33 +1919,27 @@ namespace constants {
     /// fine structure constant
     constexpr precise_measurement alpha(7.2973525693e-3, precise::one);
     /// Planck constant (2019 redefinition)
-    constexpr precise_measurement h{
-        6.62607015e-34,
-        precise::J* precise::second};
+    constexpr precise_measurement h{6.62607015e-34,
+                                    precise::J* precise::second};
     /// reduced Planck constant (2019 redefinition)
-    constexpr precise_measurement hbar{
-        6.62607015e-34 / 2.0 / pi,
-        precise::J* precise::second};
+    constexpr precise_measurement hbar{6.62607015e-34 / 2.0 / pi,
+                                       precise::J* precise::second};
     /// Boltzman constant (2019 redefinition)
     constexpr precise_measurement k{1.380649e-23, precise::J / precise::K};
     /// Avogadros constant (2019 redefinition)
-    constexpr precise_measurement Na{
-        6.02214076e23,
-        precise::one / precise::mol};
+    constexpr precise_measurement Na{6.02214076e23,
+                                     precise::one / precise::mol};
     /// Luminous efficiency
     constexpr precise_measurement Kcd{683.0, precise::lm / precise::W};
     /// Permittivity of free space
-    constexpr precise_measurement eps0{
-        8.8541878128e-12,
-        precise::F / precise::m};
+    constexpr precise_measurement eps0{8.8541878128e-12,
+                                       precise::F / precise::m};
     /// Permeability of free space
-    constexpr precise_measurement mu0{
-        12.566370612e-7,
-        precise::N / (precise::A * precise::A)};
+    constexpr precise_measurement mu0{12.566370612e-7,
+                                      precise::N / (precise::A * precise::A)};
     /// Gas Constant
-    constexpr precise_measurement R{
-        8.314462618,
-        precise::J / (precise::mol * precise::K)};
+    constexpr precise_measurement R{8.314462618,
+                                    precise::J / (precise::mol * precise::K)};
     /// Stephan Boltzmann constant
     constexpr precise_measurement s{
         5.670374419e-8,
@@ -1976,9 +1969,8 @@ namespace constants {
         constexpr precise_measurement time{2.4188843265857e-17, precise::s};
         constexpr precise_measurement charge = e;
         constexpr precise_measurement energy{4.3597443419e-18, precise::J};
-        constexpr precise_measurement action{
-            1.054571817e-34,
-            precise::J* precise::s};
+        constexpr precise_measurement action{1.054571817e-34,
+                                             precise::J* precise::s};
     }  // namespace atomic
 }  // namespace constants
 
