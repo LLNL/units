@@ -1922,7 +1922,7 @@ namespace constants {
     constexpr precise_measurement h{6.62607015e-34,
                                     precise::J* precise::second};
     /// reduced Planck constant (2019 redefinition)
-    constexpr precise_measurement hbar{6.62607015e-34 / 2.0 / pi,
+    constexpr precise_measurement hbar{6.62607015e-34 / tau,
                                        precise::J* precise::second};
     /// Boltzman constant (2019 redefinition)
     constexpr precise_measurement k{1.380649e-23, precise::J / precise::K};

@@ -17,4 +17,4 @@ The guide covers the basic types and what operations are available on them, as w
    to_string
    commodities
    user_defined_units
-   physical_constants
+   Physical_constants
