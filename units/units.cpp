@@ -1083,12 +1083,12 @@ static std::string
             // Equation units can amplify slight numerical differences
             // so numbers must be exact
             auto mult = getMultiplierString(urem.multiplier(), false);
-            if (isNumericalStartCharacter(mult[0])) {
+            if (mult.size() > 1 && isNumericalStartCharacter(mult[0])) {
                 cxstr = mult + '*' + cxstr;
                 urem = precise_unit(urem.base_units(), 1.0);
             }
         }
-        if (!urem.base_units().empty()|| urem.multiplier() != 1.0) {
+        if (!urem.base_units().empty() || urem.multiplier() != 1.0) {
             return to_string_internal(urem, match_flags) + '*' + cxstr;
         }
         return cxstr;

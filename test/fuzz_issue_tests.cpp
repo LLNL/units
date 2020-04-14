@@ -172,10 +172,8 @@ TEST_P(errorString, conversionErrors)
     EXPECT_TRUE(is_error(u1));
 }
 // these are all strings that at one point produced issues
-static const std::vector<std::string> errorStrings{"Au0m",
-                                                   "br0",
-                                                   "\\\\{U}",
-                                                   "--0-5"};
+static const std::vector<std::string>
+    errorStrings{"Au0m", "br0", "\\\\{U}", "--0-5"};
 
 INSTANTIATE_TEST_SUITE_P(
     fuzzFailure,
@@ -369,4 +367,4 @@ TEST_P(measProblems, measFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(24, 25));
+INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(1, 26));
