@@ -986,6 +986,13 @@ static std::string
         }
         auto fndpi = find_unit_pair(squ.inv());
         if (!fndpi.second.empty()) {
+            // LCOV_EXCL_START
+            if (fndpi.first.pow(2) != llunit.inv()) {
+                return getMultiplierString(
+                           (fndpi.first.pow(2) / llunit).multiplier(), true) +
+                    '/' + fndp.second + "^2";
+            }
+            // LCOV_EXCL_STOP
             return std::string("1/") + fndpi.second + "^2";
         }
     }
@@ -1064,7 +1071,24 @@ static std::string
         auto urem = un / precise_unit(precise::custom::equation_unit(num));
         urem.clear_flags();
         urem.commodity(0);
-        if ((urem.multiplier() != 1.0) || (!urem.base_units().empty())) {
+        if (urem.multiplier() != 1.0) {
+            auto ucc = unit_cast(urem);
+            auto fndp = find_unit_pair(ucc);
+            if (!fndp.second.empty()) {
+                if (ucc.is_exactly_the_same(fndp.first)) {
+                    return fndp.second + '*' + cxstr;
+                }
+            }
+
+            // Equation units can amplify slight numerical differences
+            // so numbers must be exact
+            auto mult = getMultiplierString(urem.multiplier(), false);
+            if (mult.size() > 5 && isNumericalStartCharacter(mult[0])) {
+                cxstr = mult + '*' + cxstr;
+                urem = precise_unit(urem.base_units(), 1.0);
+            }
+        }
+        if (!urem.base_units().empty() || urem.multiplier() != 1.0) {
             return to_string_internal(urem, match_flags) + '*' + cxstr;
         }
         return cxstr;

@@ -267,7 +267,7 @@ INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 29));
 
 TEST(fuzzFailures, rtripSingleProblems)
 {
-    auto cdata = loadFailureFile("rtrip_fail", 28);
+    auto cdata = loadFailureFile("rtrip_fail", 29);
     auto u1 = unit_from_string(cdata);
     if (!is_error(u1)) {
         auto str = to_string(u1);
@@ -369,4 +369,4 @@ TEST_P(measProblems, measFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(1, 22));
+INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(1, 26));
