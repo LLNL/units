@@ -1088,7 +1088,7 @@ static std::string
                 urem = precise_unit(urem.base_units(), 1.0);
             }
         }
-        if (!urem.base_units().empty()) {
+        if (!urem.base_units().empty()|| urem.multiplier() != 1.0) {
             return to_string_internal(urem, match_flags) + '*' + cxstr;
         }
         return cxstr;
