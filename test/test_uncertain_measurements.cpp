@@ -451,7 +451,6 @@ TEST(uncertainStrings, from_string_concise)
     EXPECT_FLOAT_EQ(um6.value(), 4.56323e-12F);
     EXPECT_EQ(um6.uncertainty(), 0.00045e-12F);
     EXPECT_EQ(um6.units(), kg);
-
 }
 TEST(uncertainStrings, to_string)
 {

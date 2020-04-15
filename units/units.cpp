@@ -1537,7 +1537,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
                         getNumberBlock(ustring.substr(index + 1), oindex);
                     if (!std::isnan(res)) {
                         if (ustring[index] == '/') {
-                            val /= res; 
+                            val /= res;
                         } else {
                             val *= res;
                         }
@@ -6280,7 +6280,7 @@ uncertain_measurement uncertain_measurement_from_string(
             return uncertain_measurement(m1, m2);
         }
     }
-    //check for consise form of uncertainty
+    // check for consise form of uncertainty
     auto loc = measurement_string.find_first_of('(');
     if (loc < std::string::npos && loc > 1) {
         auto eloc = measurement_string.find_first_of(')', loc + 1);
@@ -6304,9 +6304,9 @@ uncertain_measurement uncertain_measurement_from_string(
                     --cloc;
                 }
                 auto p = measurement_string;
-                p.erase(loc, diff+1);
+                p.erase(loc, diff + 1);
                 auto m1 = measurement_cast_from_string(p, match_flags);
-                ustring.erase(loc, diff+1);
+                ustring.erase(loc, diff + 1);
                 auto u1 = measurement_cast_from_string(ustring, match_flags);
                 return uncertain_measurement(m1, u1);
             }
