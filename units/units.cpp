@@ -1529,16 +1529,17 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
                 return constants::invalid_conversion;
             case '/':
             case '*':
+            case 'x':
                 if (looksLikeNumber(ustring, index + 1) ||
                     ustring[index + 1] == '(') {
                     size_t oindex{0};
                     double res =
                         getNumberBlock(ustring.substr(index + 1), oindex);
                     if (!std::isnan(res)) {
-                        if (ustring[index] == '*') {
-                            val *= res;
+                        if (ustring[index] == '/') {
+                            val /= res; 
                         } else {
-                            val /= res;
+                            val *= res;
                         }
 
                         index = oindex + index + 1;
@@ -6277,6 +6278,38 @@ uncertain_measurement uncertain_measurement_from_string(
                 return uncertain_measurement(m1, m2.value());
             }
             return uncertain_measurement(m1, m2);
+        }
+    }
+    //check for consise form of uncertainty
+    auto loc = measurement_string.find_first_of('(');
+    if (loc < std::string::npos && loc > 1) {
+        auto eloc = measurement_string.find_first_of(')', loc + 1);
+        auto diff = eloc - loc;
+        if (diff >= 2 || diff <= 4) {
+            int cloc = static_cast<int>(loc) - 1;
+            auto lc = eloc - 1;
+            char c = measurement_string[cloc];
+            if (c >= '0' && c <= '9') {
+                auto ustring = measurement_string;
+                while (cloc >= 0) {
+                    c = measurement_string[cloc];
+                    if (c >= '0' && c <= '9') {
+                        if (lc > loc) {
+                            ustring[cloc] = measurement_string[lc];
+                            --lc;
+                        } else {
+                            ustring[cloc] = '0';
+                        }
+                    }
+                    --cloc;
+                }
+                auto p = measurement_string;
+                p.erase(loc, diff+1);
+                auto m1 = measurement_cast_from_string(p, match_flags);
+                ustring.erase(loc, diff+1);
+                auto u1 = measurement_cast_from_string(ustring, match_flags);
+                return uncertain_measurement(m1, u1);
+            }
         }
     }
     return uncertain_measurement(
