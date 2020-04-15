@@ -7,8 +7,8 @@ The units library supports a class of measurements including an uncertainty meas
 For Example `3.0±0.2m`  would indicate a measurement of 3.0 meters with an uncertainty of 0.2 m.
 
 All operations are supported
-The propagation of uncertainty follow the root sum of squares methods outlined `Here<http://lectureonline.cl.msu.edu/~mmp/labs/error/e2.htm>`_.
-There are methods available such as `simple_divide`, `simple_product`, `simple_sum` and `simple_subtract` that just sum the uncertainties.  The method in use in the regular operators assume that the measurements used in the mathematical operation are independent, and should use the sum of squares methods.  A more thorough explanation can be found `Here<http://web.mit.edu/fluids-modules/www/exper_techniques/2.Propagation_of_Uncertaint.pdf>`_.
+The propagation of uncertainty follow the root sum of squares methods outlined `Here <http://lectureonline.cl.msu.edu/~mmp/labs/error/e2.htm>`_.
+There are methods available such as `simple_divide`, `simple_product`, `simple_sum` and `simple_subtract` that just sum the uncertainties.  The method in use in the regular operators assume that the measurements used in the mathematical operation are independent, and should use the sum of squares methods.  A more thorough explanation can be found `Here <http://web.mit.edu/fluids-modules/www/exper_techniques/2.Propagation_of_Uncertaint.pdf>`_.
 
 
 The structure of an uncertain measurement consists of a float for the measurement value and a float for the uncertainty, and `unit` for the unit of the measurement.
@@ -57,5 +57,7 @@ For Example all the following string will produce the same `uncertain_measuremen
 -   "3.1 m/s ±0.3"
 -   "3.1 meters per second ±0.3 m/s"
 -   "3.1 m/s +- 0.3*60 meters per minute"
+-   "3.1(3) m/s"
 
+The last form is known as `concise notation <https://physics.nist.gov/cgi-bin/cuu/Info/Constants/definitions.html>`_
 The match flags are the same as would be used for converting :ref:`Measurements`
