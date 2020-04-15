@@ -6285,7 +6285,7 @@ uncertain_measurement uncertain_measurement_from_string(
     if (loc < std::string::npos && loc > 1) {
         auto eloc = measurement_string.find_first_of(')', loc + 1);
         auto diff = eloc - loc;
-        if (diff >= 2 || diff <= 4) {
+        if (diff >= 2 && diff <= 4) {
             int cloc = static_cast<int>(loc) - 1;
             auto lc = eloc - 1;
             char c = measurement_string[cloc];
