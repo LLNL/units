@@ -82,6 +82,7 @@ There are many units that used in combination with the SI system that are derive
 Extra SI related units
 ===========================
 A few units that are not officially part of the SI but are `accepted <https://physics.nist.gov/cuu/Units/outside.html>`_ for use with the SI system, along with a few other SI units with prefixes that are commonly used.
+
 - mg
 - g
 - mL
@@ -134,6 +135,7 @@ The `CGS <https://en.wikipedia.org/wiki/Centimetre%E2%80%93gram%E2%80%93second_s
 Meter Gram Force System
 ============================
 defined in namespace `units::precise::gm`
+
 - pond
 - hyl
 - at
@@ -143,6 +145,7 @@ defined in namespace `units::precise::gm`
 Meter Tonne Second system
 =================================
 Defined in namespace `units::precise::MTS`
+
 - sthene
 - pieze
 - thermie
@@ -150,6 +153,7 @@ Defined in namespace `units::precise::MTS`
 Additional Time units
 =============================
 Defined in namespace `units::precise::time`,  units marked with * are also defined in the `units::precise`.
+
 - min*
 - ms*
 - ns*
@@ -172,6 +176,7 @@ International customary Units
 =======================================
 These are traditional units that have some level of international definition
 Defined in namespace `units::precise::i`
+
 - grain
 - point
 - pica
@@ -211,6 +216,7 @@ A few common units have symbols defined in `units::precise` lb, ton, oz, lbf and
 Troy Units
 ===============
 Most commonly for precious metals a few units are defined in `units::precise::troy`, with a basis in the international grain.
+
 - pennyweight
 - oz
 - pound
@@ -219,6 +225,7 @@ United state Customary Units
 ======================================
 These are traditional units defined in the United States, for survey or common usage.
 Defined in `unit::precise::us`.
+
 - foot
 - inch
 - mil
@@ -254,6 +261,7 @@ Defined in `unit::precise::us`.
 
 A few US customary units are defined in specific namespaces to distinguish them from other forms
 US customary dry measurements are defined in `units::precise::us::dry`
+
 - pint
 - quart
 - gallon
@@ -265,12 +273,14 @@ US customary dry measurements are defined in `units::precise::us::dry`
 
 Some grain measures used in markets and commodities are defined in `units::precise::us::grain`.
 When commodities are a little more developed this will be defined with appropriate commodity included.
+
 - bushel_corn
 - bushel_wheat
 - bushel_barley
 - bushel_oats
 
 Some survey units are defined in `units::precise::us::engineers` to distinguish them from others
+
 - chain
 - link
 
@@ -280,6 +290,7 @@ FDA and metric measures
 ========================
 The food and drug administration has defined some customary units in metric terms for use in medicine.  These are defined in `units::precise::metric`
 Also included are some other customary units that have a metric definition.
+
 - tbsp
 - tsp
 - floz
@@ -290,6 +301,7 @@ Also included are some other customary units that have a metric definition.
 Canadian Units
 ======================
 Some Canadian definitions of customary units defined in `units::precise::canada`
+
 - tbsp
 - tsp
 - cup
@@ -299,7 +311,8 @@ Some Canadian definitions of customary units defined in `units::precise::canada`
 
 Austrailia Units
 =======================
-Traditional Austrailian units defined in `units::precise::austrailia`
+Traditional Austrailian units defined in `units::precise::australia`
+
 - tbsp
 - tsp
 - cup
@@ -307,6 +320,7 @@ Traditional Austrailian units defined in `units::precise::austrailia`
 Imperial or British Units
 =============================
 Traditional british or imperial units, defined in `units::precise::imp`.
+
 - inch
 - foot
 - thou
@@ -346,6 +360,7 @@ Traditional british or imperial units, defined in `units::precise::imp`.
 Apothecaries System
 ===========================
 Used in pharmaceutical contexts the apothecaries system of units is defined in `units::precise::apothecaries`.
+
 - floz ( same as imperial version )
 - minim
 - scruple
@@ -358,7 +373,8 @@ Used in pharmaceutical contexts the apothecaries system of units is defined in `
 
 Nautical Units
 ======================
-Some units defined in context of marine travel defined in units::precise::nautical
+Some units defined in context of marine travel defined in `units::precise::nautical`
+
 - fathom
 - cable
 - mile
@@ -368,6 +384,7 @@ Some units defined in context of marine travel defined in units::precise::nautic
 Japanese traditional Units
 =================================
 Some traditional Japanese units are included for historical interest in `units::precise::japan`
+
 - shaku
 - sun
 - ken
@@ -380,6 +397,7 @@ Some traditional Japanese units are included for historical interest in `units::
 Chinese Traditional Units
 ===================================
 Some traditional Chinese units are included for historical interest in `units::precise::chinese`
+
 - jin
 - liang
 - qian
@@ -395,6 +413,7 @@ Subsets of the units depending on the location are in subnamespaces
 
 `units::precise::typographic::american`
 +++++++++++++++++++++++++++++++++++++++++++
+
 - line
 - point
 - pica
@@ -402,11 +421,13 @@ Subsets of the units depending on the location are in subnamespaces
 
 `units::precise::typographic::printers`
 +++++++++++++++++++++++++++++++++++++++++++
+
 - point
 - pica
 
 `units::precise::typographic::french`
 +++++++++++++++++++++++++++++++++++++++++++
+
 - point
 - ligne
 - pouce
@@ -417,6 +438,7 @@ Subsets of the units depending on the location are in subnamespaces
 
 `units::precise::typographic::metric`
 +++++++++++++++++++++++++++++++++++++++++++
+
 - point
 - quart
 
@@ -424,6 +446,7 @@ Subsets of the units depending on the location are in subnamespaces
 Distance Units
 ===============================
 Some additional distance units are defined in `units::precise::distance`
+
 - ly
 - au
 - au_old
@@ -439,6 +462,7 @@ Some additional distance units are defined in `units::precise::distance`
 Area Units
 ==========================
 Some additional units defining an area `units::precise::area`
+
 - are
 - hectare
 - barn
@@ -447,6 +471,7 @@ Some additional units defining an area `units::precise::area`
 Mass Units
 ==========================
 Some additional units defining a mass `units::precise::mass`
+
 - quintal
 - ton_assay
 - longton_assay
@@ -454,6 +479,7 @@ Some additional units defining a mass `units::precise::mass`
 Volume Units
 ==========================
 Some additional units defining a volume `units::precise::volume`
+
 - stere
 - acre_foot
 - drum
@@ -462,6 +488,7 @@ Some additional units defining a volume `units::precise::volume`
 Angle Units
 =========================
 A few units defining angles are defined in `units::precise::angle`.
+
 - deg*
 - gon
 - grad
@@ -472,6 +499,7 @@ A few units defining angles are defined in `units::precise::angle`.
 Directional Units
 =========================
 A few directional units are defined in `units::precise::direction`, these make use of the `i_flag` and a numerical value
+
 - east
 - north
 - south
@@ -480,6 +508,7 @@ A few directional units are defined in `units::precise::direction`, these make u
 Temperature Units
 ===========================
 A few units related to temperature systems, defined in `units::precise::temperature`
+
 - celsius, degC*
 - fahrenheit, degF*
 - rankine, degR
@@ -488,6 +517,7 @@ A few units related to temperature systems, defined in `units::precise::temperat
 Pressure Units
 =====================
 Some units related to pressure are defined in `units::precise::pressure`
+
 - psi
 - inHg
 - mmHg
@@ -500,6 +530,7 @@ Some units related to pressure are defined in `units::precise::pressure`
 Power Units
 =====================
 Some units related to power are defined in `units::precise::power`
+
 - hpE - electric Horsepower
 - hpI - international horsepower
 - hpS - steam horesepower
@@ -510,6 +541,7 @@ the unit hp is aliased in the `units::precise` namespace to `power::hpI`
 Energy Units
 =====================
 Some units related to energy are defined in `units::precise::energy`
+
 - kWh
 - MWh
 - eV
@@ -541,7 +573,149 @@ Some units related to energy are defined in `units::precise::energy`
 - tonhour
 
 in the `units::precise` namespace
+
 - btu = energy::but_it
 - cal =energy::cal_th
 - kWh = energy::kWh
 - MWh = energy::MWh
+
+Power system Units
+=========================
+Some additional units related to power systems and origins of the units library
+
+- MW
+- VAR  - W*i_flag
+- MVAR
+- kW
+- kVAR
+- mW
+- puMW
+- puV
+- puHz
+- MJ
+- puOhm
+- puA
+- kV
+- mV
+- mA
+
+Equation type Units
+==========================
+Equation units are explained more thoroughly in :ref :`Equation Units`  Some of the specific common equation units are defined in the namespace `units::precise::log`.
+
+- neper
+- logE - natural logarithm
+- neperA - neper of amplitude unit
+- neperP - neper of a power unit
+- logbase10
+- bel
+- belP - bel of a power based unit
+- dBP
+- belA - bel of an amplitude based unit
+- dBA - dB of an amplitude based unit
+- logbase2
+- dB
+- neglog10
+- neglog100
+- neglog1000
+- neglog50000
+- B_SPL
+- B_V
+- B_mV
+- B_uV
+- B_10nV
+- B_W
+- B_kW
+- dB_SPL
+- dB_V
+- dB_mV
+- dB_uV
+- dB_10nV
+- dB_W
+- dB_kW
+- dB_Z - radar reflectivity
+- Bz - radar reflectivity
+
+ Textile related units
+ ========================
+ Units related to the textile industry in namespace `units::precise::textile`.
+
+ - tex
+ - denier
+ - span
+ - finger
+ - nail
+
+ Clinical Units
+ ==================
+ Units related to clinical medicine in namespace `units::precise::clinical`.
+
+ - pru
+ - woodu
+ - diopter
+ - prism_diopter
+ - mesh
+ - charriere
+ - drop
+ - met
+ - hounsfield
+
+ Laboratory Units
+ =======================
+ Units used in laboratory settings in namespace `units::precise::laboratory`.
+
+ - svedberg
+ - HPF
+ - LPF
+ - enzyme_unit
+ - IU
+ - arbU - arbitrary unit
+ - IR - index of reactivity
+ - Lf - Limit of flocculation
+ - PFU
+ - pH
+ - molarity
+ - molality
+
+ Data units
+ ============
+ Units related to computer data and storage in `units::precise::data`
+
+ - bit
+ - nibble
+ - byte
+ - kB
+ - MB
+ - GB
+ - kiB
+ - MiB
+ - GiB
+ - bit_s - shannon bit for information theory
+ - shannon
+ - hartley
+ - ban
+ - dit
+ - deciban 
+ - nat
+ - trit
+ - digits
+
+ Computation units
+ ===================
+ Units related to computation `units::precise::computation`.
+ - flop
+ - flops
+ - mips
+
+ Special units
+ ======================
+ some special units that were not otherwise characterized in namespace `units::precise::special`
+
+ - ASD - amplitude spectral density
+ - moment_magnitude - moment magnitude for earthquake scales (related to richter scale)
+ - moment_energy
+ - sshws - saffir simpson hurricane wind scale
+ - beaurfort - Beaufort wind scale
+ - fujita - Fujita scale for tornados
+ - mach - mach number
+ - rootHertz - square root of Hertz, this is a special handling unit that triggers some specific behavior to handle it.

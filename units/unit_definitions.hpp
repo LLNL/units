@@ -769,10 +769,7 @@ namespace precise {
     }  // namespace power
 
     constexpr precise_unit hp = power::hpI;
-
-    // Speed units
-    constexpr precise_unit mph(mile / hr);
-    constexpr precise_unit mps(m / s);
+    constexpr precise_unit mph = mile / hour;
 
     /// Energy units
     namespace energy {
