@@ -29,7 +29,7 @@ TEST(unitStrings, Derived)
     EXPECT_EQ(to_string(Pa), "Pa");
     EXPECT_EQ(to_string(in), "in");
     EXPECT_EQ(to_string(oz), "oz");
-    EXPECT_EQ(to_string(ppb), "ppb");
+    EXPECT_EQ(to_string(precise::other::ppb), "ppb");
     EXPECT_EQ(to_string(kat), "kat");
     EXPECT_EQ(to_string(precise::data::MiB), "MiB");
 }

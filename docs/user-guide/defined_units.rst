@@ -34,6 +34,7 @@ Most base units have two definitions that are equivalent
 Specialized units
 ==================
 Some specialized units are defined for use in conversion applications or for making handling string conversions a little easier
+
 - defunit - special unit that signifies conversion to any other units is possible
 - invalid - special unit that conversion has failed
 - error - an error unit
@@ -236,7 +237,7 @@ Defined in `unit::precise::us`.
 - furlong
 - mile
 - league
-- acre
+- acre*
 - homestead
 - section
 - township
@@ -575,15 +576,16 @@ Some units related to energy are defined in `units::precise::energy`
 in the `units::precise` namespace
 
 - btu = energy::but_it
-- cal =energy::cal_th
+- cal = energy::cal_th
 - kWh = energy::kWh
 - MWh = energy::MWh
 
 Power system Units
 =========================
-Some additional units related to power systems and origins of the units library
+Some additional units related to power systems and electrical engineering
+in `units::precise::electrical` namespace
 
-- MW
+- MW*
 - VAR  - W*i_flag
 - MVAR
 - kW
@@ -695,7 +697,7 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
  - hartley
  - ban
  - dit
- - deciban 
+ - deciban
  - nat
  - trit
  - digits
@@ -715,7 +717,24 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
  - moment_magnitude - moment magnitude for earthquake scales (related to richter scale)
  - moment_energy
  - sshws - saffir simpson hurricane wind scale
- - beaurfort - Beaufort wind scale
+ - beaufort - Beaufort wind scale
  - fujita - Fujita scale for tornados
  - mach - mach number
  - rootHertz - square root of Hertz, this is a special handling unit that triggers some specific behavior to handle it.
+
+ Other Units
+ ====================
+ General purpose other units not otherwise categorical in namespace `units::precise::other`
+
+ - ppm - part per million
+ - ppb - part per billion
+ - candle
+ - faraday
+ - rpm* - revolution per minute
+ - MegaBuck - $1,000,000
+ - GigaBuck - $1,000,000,000
+
+ Units in the `units` namespace
+ -------------------------------------
+ Regular units are defined in the `units` namespace.  The general rule is that any units with a mapping in `units::precise` has an analog in `units` namespace.
+ One addition is that any unit defined in `precise::electrical` also is defined in `units` this has to do with the origins of the library in power systems. 
