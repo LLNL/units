@@ -6280,7 +6280,7 @@ uncertain_measurement uncertain_measurement_from_string(
             return uncertain_measurement(m1, m2);
         }
     }
-    // check for consise form of uncertainty
+    // check for consise form of uncertainty X.XXXXXX(UU) N
     auto loc = measurement_string.find_first_of('(');
     if (loc < std::string::npos && loc > 1) {
         auto eloc = measurement_string.find_first_of(')', loc + 1);

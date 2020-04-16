@@ -134,8 +134,8 @@ namespace precise {
     constexpr precise_unit
         mol(detail::unit_data(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit
-        cd(detail::unit_data(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0));
-
+        candela(detail::unit_data(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit cd = candela;
     constexpr precise_unit
         currency(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit
@@ -147,12 +147,14 @@ namespace precise {
     constexpr precise_unit
         eflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
     constexpr precise_unit
-        rad(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0));
+        radian(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0));
+    constexpr precise_unit rad = radian;
     // define some specialized units
     constexpr precise_unit
         defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0));
     constexpr precise_unit
         invalid(detail::unit_data(nullptr), constants::invalid_conversion);
+    constexpr precise_unit error(detail::unit_data(nullptr));
 
     /// Define some unitless numbers
     constexpr precise_unit one;
@@ -160,7 +162,7 @@ namespace precise {
     constexpr precise_unit ten = precise_unit(10.0, one);
     constexpr precise_unit percent(0.01, one);
     constexpr precise_unit ratio = one;
-    constexpr precise_unit error(detail::unit_data(nullptr));
+
     constexpr precise_unit infinite(
         detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         constants::infinity);
@@ -174,12 +176,18 @@ namespace precise {
     constexpr precise_unit pico(1e-12, one);
     constexpr precise_unit femto(1e-15, one);
     constexpr precise_unit atto(1e-18, one);
+    constexpr precise_unit zepto(1e-21, one);
+    constexpr precise_unit yocto(1e-24, one);
+
+    constexpr precise_unit hecto(1e2, one);
     constexpr precise_unit kilo(1e3, one);
     constexpr precise_unit mega(1e6, one);
     constexpr precise_unit giga(1e9, one);
     constexpr precise_unit tera(1e12, one);
     constexpr precise_unit peta(1e15, one);
     constexpr precise_unit exa(1e18, one);
+    constexpr precise_unit zetta(1e21, one);
+    constexpr precise_unit yotta(1e24, one);
 
     constexpr precise_unit kibi(1024, one);
     constexpr precise_unit mebi = kibi * kibi;
@@ -192,11 +200,10 @@ namespace precise {
 
     // Derived SI units:
     constexpr precise_unit
-        Hz(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+        hertz(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 
     constexpr precise_unit
         volt(detail::unit_data(2, 1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit V = volt;
 
     constexpr precise_unit
         newton(detail::unit_data(1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -233,6 +240,8 @@ namespace precise {
     constexpr precise_unit
         katal(detail::unit_data(0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
 
+    constexpr precise_unit Hz = hertz;
+    constexpr precise_unit V = volt;
     constexpr precise_unit N = newton;
 #ifndef pascal
     // in some windows networking applications  pascal is a #define that will
@@ -359,6 +368,7 @@ namespace precise {
     constexpr precise_unit ns = time::ns;
     constexpr precise_unit hr = time::hr;
     constexpr precise_unit yr = time::yr;
+    constexpr precise_unit day = time::day;
 
     // International units
     namespace i {
