@@ -744,8 +744,7 @@ namespace precise {
 
     // Power system units
 
-    namespace electrical
-    {
+    namespace electrical {
         constexpr precise_unit MW(1000000.0, W);
         constexpr precise_unit VAR = W * iflag;
         constexpr precise_unit MVAR(1000000.0, VAR);
@@ -761,7 +760,7 @@ namespace precise {
         constexpr precise_unit kV(1000.0, V);
         constexpr precise_unit mV(0.001, V);
         constexpr precise_unit mA(0.001, A);
-    } // namespace electrical
+    }  // namespace electrical
 
     constexpr precise_unit MW = electrical::MW;
 
@@ -1370,23 +1369,22 @@ namespace precise {
 
     }  // namespace special
 
-    namespace other
-    {
+    namespace other {
         // concentrations
         constexpr precise_unit ppm(1e-6, count);
         constexpr precise_unit ppb(1e-9, count);
 
-        constexpr precise_unit candle{ 0.981, cd };
+        constexpr precise_unit candle{0.981, cd};
         // 2019 redefinition
-        constexpr precise_unit faraday{ 96485.3321233100184, C };
+        constexpr precise_unit faraday{96485.3321233100184, C};
         // others
-        constexpr precise_unit rpm{ constants::pi / 30.0, rad * Hz };
+        constexpr precise_unit rpm{constants::pi / 30.0, rad* Hz};
         constexpr precise_unit CFM(ft* ft* ft / min);
 
         constexpr precise_unit MegaBuck(1000000.0, currency);
         constexpr precise_unit GigaBuck(1000.0, MegaBuck);
-    } // namespace other 
-    
+    }  // namespace other
+
     constexpr precise_unit rpm = other::rpm;
 }  // namespace precise
 
