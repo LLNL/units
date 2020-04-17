@@ -726,8 +726,6 @@ namespace precise {
     constexpr precise_unit degC = temperature::celsius;
     constexpr precise_unit degF = temperature::fahrenheit;
 
-   
-
     /// Units related to pressure
     namespace pressure {
         constexpr precise_unit psi{6894.757293168, Pa};
