@@ -155,7 +155,7 @@ These ranges were chosen to represent nearly all physical quantities that could 
 
 ## Defined units
 There are 2 sets of defined units, many common units are defined in the `units` namespace,  many others are defined in `units::precise` and subnamespaces. 
-See [Defined Units](https://units.readthedocs.io/en/latest/user-guide/defined_units.html) for details on the available units. 
+See [Defined Units](https://units.readthedocs.io/en/latest/user-guide/defined_units.html) for details on the available units.
 
 ### Physics constants
 A set of physical and numerical constants are defined in the `units::constants` namespace.  More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html)

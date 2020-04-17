@@ -737,4 +737,4 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
  Units in the `units` namespace
  -------------------------------------
  Regular units are defined in the `units` namespace.  The general rule is that any units with a mapping in `units::precise` has an analog in `units` namespace.
- One addition is that any unit defined in `precise::electrical` also is defined in `units` this has to do with the origins of the library in power systems. 
+ One addition is that any unit defined in `precise::electrical` also is defined in `units` this has to do with the origins of the library in power systems.
