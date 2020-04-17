@@ -281,8 +281,8 @@ static const umap base_unit_names{
     {unit_cast(precise::laboratory::IU), "[IU]"},
     {kWh, "kWh"},
     {MWh, "MWh"},
-    { unit_cast(precise::other::MegaBuck), "M$"},
-    { unit_cast(precise::other::GigaBuck), "B$"},
+    {unit_cast(precise::other::MegaBuck), "M$"},
+    {unit_cast(precise::other::GigaBuck), "B$"},
     {L, "L"},
     {unit_cast(precise::mL), "mL"},
     {unit_cast(precise::micro * precise::L), "uL"},
@@ -308,8 +308,8 @@ static const umap base_unit_names{
     {unit_cast(precise::us::tbsp), "tbsp"},
     {unit_cast(precise::us::quart), "qt"},
     {unit_cast(precise::data::GiB), "GiB"},
-    { unit_cast(precise::other::ppm), "ppm"},
-    { unit_cast(precise::other::ppb), "ppb"}};
+    {unit_cast(precise::other::ppm), "ppm"},
+    {unit_cast(precise::other::ppb), "ppb"}};
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
