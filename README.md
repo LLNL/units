@@ -154,10 +154,8 @@ These ranges were chosen to represent nearly all physical quantities that could 
 -   Measurement/unit equality is an interesting question.  The library takes a pragmatic approach vs. a precise mathematical approach.  The precision of a float is taken to be roughly 7 decimal digit of precision.  A double used in the 'precise' values to be 13 digits of precision.  This is sufficient to run a few operations without going out of tolerance from floating point operations.  This also comes into equality which is nominally taken to be values and units within this tolerance level.  So numbers are rounded to a certain number of digits then compared to within a tolerance level.  Some effort was made to make this uniform, but tolerance around the last digit is not exact.  Comparison operators for the units and measurements are provided. Equality and inequality use the rounded comparison;  greater and less than are exact, while `>=` and `<=` check first for > or < conditions then check for equality if needed.  There are a few situations that are not totally consistent like `1.0000001*m==1.0*m` and    `1.0000001*m>1.0*m`, but such is nature of floating point operations.  So from a mathematical purity sense this isn't consistent but does mostly what was needed.  If the difference between the two values is a subnormal number the comparison also evaluates to true.
 
 ## Defined units
-There are 2 sets of defined units
-they are in the namespace `units`  these are the lower precision types
-the high precision units are in the namespace `units::precise`.
-Also defined are a number of physical constants in `units::constants`
+There are 2 sets of defined units, many common units are defined in the `units` namespace,  many others are defined in `units::precise` and subnamespaces.
+See [Defined Units](https://units.readthedocs.io/en/latest/user-guide/defined_units.html) for details on the available units.
 
 ### Physics constants
 A set of physical and numerical constants are defined in the `units::constants` namespace.  More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html)

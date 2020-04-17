@@ -612,7 +612,7 @@ TEST(UnitDefinitions, SIextendedPrecise)
     EXPECT_TRUE((J / kg).has_same_base(Gy));
     EXPECT_TRUE((J / kg).has_same_base(Sv));
     EXPECT_TRUE((mol / s).has_same_base(kat));
-    EXPECT_TRUE((V / m).has_same_base(mV / yd));
+    EXPECT_TRUE((V / m).has_same_base(electrical::mV / yd));
     EXPECT_TRUE((mol / L).has_same_base(laboratory::pH));
 }
 
