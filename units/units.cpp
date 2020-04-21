@@ -78,8 +78,8 @@ unit root(unit un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return error;
     }
-    return unit{
-        un.base_units().root(power), numericalRoot(un.multiplier(), power)};
+    return unit{un.base_units().root(power),
+                numericalRoot(un.multiplier(), power)};
 }
 
 precise_unit root(precise_unit un, int power)
@@ -90,8 +90,8 @@ precise_unit root(precise_unit un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return precise::invalid;
     }
-    return precise_unit{
-        un.base_units().root(power), numericalRoot(un.multiplier(), power)};
+    return precise_unit{un.base_units().root(power),
+                        numericalRoot(un.multiplier(), power)};
 }
 
 measurement root(const measurement& meas, int power)
@@ -1442,9 +1442,8 @@ static double getPrefixMultiplier2Char(char c1, char c2)
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<cpair, 23> char2prefix{{
         cpair{charindex('D', 'A'), 10.0},
         cpair{charindex('E', 'X'), 1e18},
-        cpair{
-            charindex('E', 'i'),
-            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
+        cpair{charindex('E', 'i'),
+              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('G', 'A'), 1e9},
         cpair{charindex('G', 'i'), 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('K', 'i'), 1024.0},
@@ -1457,15 +1456,13 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('T', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('Y', 'A'), 1e24},
         cpair{charindex('Y', 'O'), 1e-24},
-        cpair{
-            charindex('Y', 'i'),
-            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 *
-                1024.0},
+        cpair{charindex('Y', 'i'),
+              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 *
+                  1024.0},
         cpair{charindex('Z', 'A'), 1e21},
         cpair{charindex('Z', 'O'), 1e-21},
-        cpair{
-            charindex('Z', 'i'),
-            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
+        cpair{charindex('Z', 'i'),
+              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('d', 'a'), 10.0},
         cpair{charindex('m', 'A'), 1e6},
         cpair{charindex('m', 'c'), 1e-6},
@@ -1881,10 +1878,9 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 29> prefixWords{{
     utup{"zepto", 1e-21, 5},
     utup{"zetta", 1e21, 5},
     utup{"zebi", 1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0, 4},
-    utup{
-        "yobi",
-        1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0,
-        4},
+    utup{"yobi",
+         1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0,
+         4},
 }};
 
 bool clearEmptySegments(std::string& unit)
@@ -6309,9 +6305,8 @@ precise_measurement measurement_from_string(
     if (!is_error(un)) {
         if (checkCurrency) {
             if (un.base_units() == precise::currency.base_units()) {
-                return {
-                    un.multiplier(),
-                    precise_unit(1.0, precise::currency, un.commodity())};
+                return {un.multiplier(),
+                        precise_unit(1.0, precise::currency, un.commodity())};
             }
         }
         return {val, un};
