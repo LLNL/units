@@ -171,7 +171,10 @@ namespace precise {
     /// Define some unitless numbers
     constexpr precise_unit one;
     constexpr precise_unit hundred = precise_unit(100.0, one);
+    constexpr precise_unit thousand = precise_unit(100.0, one);
     constexpr precise_unit ten = precise_unit(10.0, one);
+    constexpr precise_unit half = precise_unit(0.5, one);
+    constexpr precise_unit quarter = precise_unit(0.25, one);
     constexpr precise_unit percent(0.01, one);
     constexpr precise_unit ratio = one;
 
@@ -185,8 +188,8 @@ namespace precise {
         nan(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
             constants::invalid_conversion);
     // SI prefixes as units
-    constexpr precise_unit deci(1e-1, one);
-    constexpr precise_unit centi(1e-2, one);
+	constexpr precise_unit deci(1e-1, one);
+	constexpr precise_unit centi(1e-2, one);
     constexpr precise_unit milli(1e-3, one);
     constexpr precise_unit micro(1e-6, one);
     constexpr precise_unit nano(1e-9, one);
