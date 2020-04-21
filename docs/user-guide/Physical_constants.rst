@@ -2,7 +2,7 @@
 Physical constants
 ==================
 
-The units library comes with a number of physical with appropriate units defined.
+The units library comes with a number of physical constants with appropriate units defined.
 All the physical constants are specified as :ref:`precise measurements` and in the namespace `units::constants`
 In general the most recent definition was chosen which includes the 2019 redefinition of some SI units this matches with the rest of the library and the defined units.
 Inspiration for the different constants was taken from `wikipedia <https://en.wikipedia.org/wiki/List_of_physical_constants>`_ and `NIST <https://physics.nist.gov/cuu/Constants/index.html>`_.

@@ -134,8 +134,8 @@ namespace precise {
     constexpr precise_unit
         mol(detail::unit_data(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit
-        cd(detail::unit_data(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0));
-
+        candela(detail::unit_data(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit cd = candela;
     constexpr precise_unit
         currency(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit
@@ -147,12 +147,14 @@ namespace precise {
     constexpr precise_unit
         eflag(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
     constexpr precise_unit
-        rad(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0));
+        radian(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0));
+    constexpr precise_unit rad = radian;
     // define some specialized units
     constexpr precise_unit
         defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0));
     constexpr precise_unit
         invalid(detail::unit_data(nullptr), constants::invalid_conversion);
+    constexpr precise_unit error(detail::unit_data(nullptr));
 
     /// Define some unitless numbers
     constexpr precise_unit one;
@@ -160,7 +162,7 @@ namespace precise {
     constexpr precise_unit ten = precise_unit(10.0, one);
     constexpr precise_unit percent(0.01, one);
     constexpr precise_unit ratio = one;
-    constexpr precise_unit error(detail::unit_data(nullptr));
+
     constexpr precise_unit infinite(
         detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         constants::infinity);
@@ -174,12 +176,18 @@ namespace precise {
     constexpr precise_unit pico(1e-12, one);
     constexpr precise_unit femto(1e-15, one);
     constexpr precise_unit atto(1e-18, one);
+    constexpr precise_unit zepto(1e-21, one);
+    constexpr precise_unit yocto(1e-24, one);
+
+    constexpr precise_unit hecto(1e2, one);
     constexpr precise_unit kilo(1e3, one);
     constexpr precise_unit mega(1e6, one);
     constexpr precise_unit giga(1e9, one);
     constexpr precise_unit tera(1e12, one);
     constexpr precise_unit peta(1e15, one);
     constexpr precise_unit exa(1e18, one);
+    constexpr precise_unit zetta(1e21, one);
+    constexpr precise_unit yotta(1e24, one);
 
     constexpr precise_unit kibi(1024, one);
     constexpr precise_unit mebi = kibi * kibi;
@@ -192,11 +200,10 @@ namespace precise {
 
     // Derived SI units:
     constexpr precise_unit
-        Hz(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+        hertz(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 
     constexpr precise_unit
         volt(detail::unit_data(2, 1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    constexpr precise_unit V = volt;
 
     constexpr precise_unit
         newton(detail::unit_data(1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -233,6 +240,8 @@ namespace precise {
     constexpr precise_unit
         katal(detail::unit_data(0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
 
+    constexpr precise_unit Hz = hertz;
+    constexpr precise_unit V = volt;
     constexpr precise_unit N = newton;
 #ifndef pascal
     // in some windows networking applications  pascal is a #define that will
@@ -359,6 +368,7 @@ namespace precise {
     constexpr precise_unit ns = time::ns;
     constexpr precise_unit hr = time::hr;
     constexpr precise_unit yr = time::yr;
+    constexpr precise_unit day = time::day;
 
     // International units
     namespace i {
@@ -660,6 +670,7 @@ namespace precise {
 
     //  Area units
     constexpr precise_unit acre = us::acre;
+
     /// Additional Area units
     namespace area {
         constexpr precise_unit are{100.0, m* m};
@@ -673,7 +684,12 @@ namespace precise {
         constexpr precise_unit quintal{100.0, kg};
         constexpr precise_unit ton_assay{29.0 + 1. / 6.0, g};
         constexpr precise_unit longton_assay{32.0 + 2.0 / 3.0, g};
+        constexpr precise_unit Da(1.6605388628e-27, kg);
+        constexpr precise_unit u = Da;
+        constexpr precise_unit tonne(1000.0, kg);
     }  // namespace mass
+
+    constexpr precise_unit t = mass::tonne;
     /// some extra volume units
     namespace volume {
         constexpr precise_unit stere = m.pow(3);
@@ -710,13 +726,6 @@ namespace precise {
     constexpr precise_unit degC = temperature::celsius;
     constexpr precise_unit degF = temperature::fahrenheit;
 
-    // others
-    constexpr precise_unit rpm{constants::pi / 30.0, rad* Hz};
-    constexpr precise_unit CFM(ft* ft* ft / min);
-
-    constexpr precise_unit MegaBuck(1000000.0, currency);
-    constexpr precise_unit GigaBuck(1000.0, MegaBuck);
-
     /// Units related to pressure
     namespace pressure {
         constexpr precise_unit psi{6894.757293168, Pa};
@@ -732,21 +741,26 @@ namespace precise {
     }  // namespace pressure
 
     // Power system units
-    constexpr precise_unit MW(1000000.0, W);
-    constexpr precise_unit VAR = W * iflag;
-    constexpr precise_unit MVAR(1000000.0, VAR);
-    constexpr precise_unit kW(1000.0, W);
-    constexpr precise_unit kVAR(1000.0, VAR);
-    constexpr precise_unit mW(0.001, W);
-    constexpr precise_unit puMW = MW * pu;
-    constexpr precise_unit puV = pu * V;
-    constexpr precise_unit puHz = pu * Hz;
-    constexpr precise_unit MJ(1000000.0, J);
-    constexpr precise_unit puOhm = ohm * pu;
-    constexpr precise_unit puA = A * pu;
-    constexpr precise_unit kV(1000.0, V);
-    constexpr precise_unit mV(0.001, V);
-    constexpr precise_unit mA(0.001, A);
+
+    namespace electrical {
+        constexpr precise_unit MW(1000000.0, W);
+        constexpr precise_unit VAR = W * iflag;
+        constexpr precise_unit MVAR(1000000.0, VAR);
+        constexpr precise_unit kW(1000.0, W);
+        constexpr precise_unit kVAR(1000.0, VAR);
+        constexpr precise_unit mW(0.001, W);
+        constexpr precise_unit puMW = MW * pu;
+        constexpr precise_unit puV = pu * V;
+        constexpr precise_unit puHz = pu * Hz;
+        constexpr precise_unit MJ(1000000.0, J);
+        constexpr precise_unit puOhm = ohm * pu;
+        constexpr precise_unit puA = A * pu;
+        constexpr precise_unit kV(1000.0, V);
+        constexpr precise_unit mV(0.001, V);
+        constexpr precise_unit mA(0.001, A);
+    }  // namespace electrical
+
+    constexpr precise_unit MW = electrical::MW;
 
     /// Power units
     namespace power {
@@ -1046,18 +1060,18 @@ namespace precise {
 
         constexpr precise_unit B_SPL{2 * 1e-5, precise::Pa* bel};
         constexpr precise_unit B_V = bel * V;
-        constexpr precise_unit B_mV = bel * mV;
+        constexpr precise_unit B_mV = bel * electrical::mV;
         constexpr precise_unit B_uV = bel * precise::micro * V;
         constexpr precise_unit B_10nV = bel * precise::ten * precise::nano * V;
         constexpr precise_unit B_W = bel * W;
-        constexpr precise_unit B_kW = bel * kW;
+        constexpr precise_unit B_kW = bel * electrical::kW;
         constexpr precise_unit dB_SPL{2 * 1e-5, precise::Pa* dB};
         constexpr precise_unit dB_V = dB * V;
-        constexpr precise_unit dB_mV = dB * mV;
+        constexpr precise_unit dB_mV = dB * electrical::mV;
         constexpr precise_unit dB_uV = dB * precise::micro * V;
         constexpr precise_unit dB_10nV = dB * precise::ten * precise::nano * V;
         constexpr precise_unit dB_W = dB * W;
-        constexpr precise_unit dB_kW = dB * kW;
+        constexpr precise_unit dB_kW = dB * electrical::kW;
         constexpr precise_unit dBZ =
             dB * ((micro * m).pow(3));  // for radar reflectivity
         constexpr precise_unit BZ =
@@ -1275,11 +1289,6 @@ namespace precise {
     }  // namespace laboratory
     // Weight units
 
-    constexpr precise_unit tonne(1000.0, kg);
-    constexpr precise_unit t = tonne;
-    constexpr precise_unit Da(1.6605388628e-27, kg);
-    constexpr precise_unit u = Da;
-
     /// Units related to quantities of data
     namespace data {
         constexpr precise_unit bit = count;
@@ -1326,10 +1335,6 @@ namespace precise {
             commodities::instruction);
     }  // namespace computation
 
-    // concentrations
-    constexpr precise_unit ppm(1e-6, count);
-    constexpr precise_unit ppb(1e-9, count);
-
     /// other special units
     namespace special {
         // Amplitude spectral density
@@ -1362,9 +1367,23 @@ namespace precise {
 
     }  // namespace special
 
-    constexpr precise_unit candle{0.981, cd};
-    // 2019 redefinition
-    constexpr precise_unit faraday{96485.3321233100184, C};
+    namespace other {
+        // concentrations
+        constexpr precise_unit ppm(1e-6, count);
+        constexpr precise_unit ppb(1e-9, count);
+
+        constexpr precise_unit candle{0.981, cd};
+        // 2019 redefinition
+        constexpr precise_unit faraday{96485.3321233100184, C};
+        // others
+        constexpr precise_unit rpm{constants::pi / 30.0, rad* Hz};
+        constexpr precise_unit CFM(ft* ft* ft / min);
+
+        constexpr precise_unit MegaBuck(1000000.0, currency);
+        constexpr precise_unit GigaBuck(1000.0, MegaBuck);
+    }  // namespace other
+
+    constexpr precise_unit rpm = other::rpm;
 }  // namespace precise
 
 constexpr unit meter = unit_cast(precise::meter);
@@ -1575,24 +1594,21 @@ namespace detail {
 }  // namespace detail
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
-constexpr unit CFM = unit_cast(precise::CFM);
-constexpr unit MegaBuck = unit_cast(precise::MegaBuck);
-constexpr unit GigaBuck = unit_cast(precise::GigaBuck);
 
 // Power system units
-constexpr unit VAR = unit_cast(precise::VAR);
+constexpr unit VAR = unit_cast(precise::electrical::VAR);
 constexpr unit MW = unit_cast(precise::MW);
-constexpr unit MVAR = unit_cast(precise::MVAR);
-constexpr unit kW = unit_cast(precise::kW);
-constexpr unit mW = unit_cast(precise::mW);
-constexpr unit puMW = unit_cast(precise::puMW);
-constexpr unit puV = unit_cast(precise::puV);
-constexpr unit puHz = unit_cast(precise::puHz);
-constexpr unit puOhm = unit_cast(precise::puOhm);
-constexpr unit puA = unit_cast(precise::puA);
-constexpr unit kV = unit_cast(precise::kV);
-constexpr unit mV = unit_cast(precise::mV);
-constexpr unit mA = unit_cast(precise::mA);
+constexpr unit MVAR = unit_cast(precise::electrical::MVAR);
+constexpr unit kW = unit_cast(precise::electrical::kW);
+constexpr unit mW = unit_cast(precise::electrical::mW);
+constexpr unit puMW = unit_cast(precise::electrical::puMW);
+constexpr unit puV = unit_cast(precise::electrical::puV);
+constexpr unit puHz = unit_cast(precise::electrical::puHz);
+constexpr unit puOhm = unit_cast(precise::electrical::puOhm);
+constexpr unit puA = unit_cast(precise::electrical::puA);
+constexpr unit kV = unit_cast(precise::electrical::kV);
+constexpr unit mV = unit_cast(precise::electrical::mV);
+constexpr unit mA = unit_cast(precise::electrical::mA);
 // Power units
 constexpr unit hp = unit_cast(precise::hp);
 constexpr unit mph = unit_cast(precise::mph);
@@ -1697,9 +1713,7 @@ constexpr unit mg = unit_cast(precise::mg);
 constexpr unit lb = unit_cast(precise::lb);
 constexpr unit ton = unit_cast(precise::ton);
 constexpr unit oz = unit_cast(precise::oz);
-constexpr unit tonne = unit_cast(precise::tonne);
-constexpr unit Da = unit_cast(precise::Da);
-constexpr unit u = unit_cast(precise::u);
+constexpr unit tonne = unit_cast(precise::mass::tonne);
 
 // data sizes
 constexpr unit bit = unit_cast(precise::bit);
@@ -1707,10 +1721,6 @@ constexpr unit B = unit_cast(precise::B);
 constexpr unit kB = unit_cast(precise::kB);
 constexpr unit MB = unit_cast(precise::MB);
 constexpr unit GB = unit_cast(precise::GB);
-
-// concentrations
-constexpr unit ppm = unit_cast(precise::ppm);
-constexpr unit ppb = unit_cast(precise::ppb);
 
 /** check if a unit is some normal valid unit
 @details not an error, not infinite, not one,not invalid, not defunit, the
@@ -1787,7 +1797,7 @@ namespace detail {
             static constexpr std::array<double, 3> muxmol{
                 {6.02214076e23, 0, 1.0 / 6.02214076e23}};
 
-            int muxIndex =
+            const int muxIndex =
                 mol_result - mol_start + 1;  // +1 is to shift the index
             if (muxIndex < 0 || muxIndex > 2) {
                 return constants::invalid_conversion;

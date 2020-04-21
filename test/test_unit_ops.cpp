@@ -336,7 +336,7 @@ TEST(preciseUnitOps, Simple)
     EXPECT_EQ(precise::m, precise::m);
     EXPECT_EQ(precise::m * precise::m, precise::m * precise::m);
     EXPECT_NE(precise::m * precise::m, precise::s * precise::s);
-    EXPECT_EQ(precise::V / precise::km, precise::mV / precise::m);
+    EXPECT_EQ(precise::V / precise::km, precise::electrical::mV / precise::m);
 }
 
 TEST(preciseUnitOps, Hash)
@@ -358,8 +358,8 @@ TEST(preciseUnitOps, Inv)
 
 TEST(preciseUnitOps, MultipleOps)
 {
-    auto u1 = precise::kW / precise::gal;
-    auto u2 = u1 / precise::kW;
+    auto u1 = precise::electrical::kW / precise::gal;
+    auto u2 = u1 / precise::electrical::kW;
     auto u3 = u2.inv();
     EXPECT_EQ(u3, precise::gal);
 
