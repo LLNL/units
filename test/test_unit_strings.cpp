@@ -83,7 +83,7 @@ TEST(unitStrings, numerical)
     auto odd = unit(0.125, m);
     EXPECT_EQ(to_string(odd), "0.125m");
 
-    EXPECT_EQ(to_string(odd.inv()), "8m^-1");
+    EXPECT_EQ(to_string(odd.inv()), "8/m");
 }
 
 TEST(unitStrings, prefixes)
@@ -91,6 +91,7 @@ TEST(unitStrings, prefixes)
     EXPECT_EQ(to_string(precise::mm), "mm");
     EXPECT_EQ(to_string(precise::micro * precise::m), "um");
     EXPECT_EQ(to_string((precise::micro * precise::m).pow(2)), "um^2");
+    EXPECT_EQ(to_string((precise::micro * precise::m).pow(-2)), "1/um^2");
     EXPECT_EQ(to_string(precise::mm.pow(2)), "mm^2");
     EXPECT_EQ(to_string(precise::nm.pow(2)), "nm^2");
     EXPECT_EQ(to_string(precise::mm.pow(3)), "uL");
