@@ -18,3 +18,4 @@ The guide covers the basic types and what operations are available on them, as w
    commodities
    user_defined_units
    Physical_constants
+   defined_units
