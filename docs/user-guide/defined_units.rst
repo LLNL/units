@@ -742,5 +742,5 @@ General purpose other units not otherwise categorical in namespace `units::preci
 
 Units in the `units` namespace
 -------------------------------------
-Regular units are defined in the `units` namespace.  The general rule is that any units with a mapping in `units::precise` has an analog in `units` namespace.
+Regular units are defined in the `units` namespace.  The general rule is that any units with a definition directly in `units::precise` has an analog `nonprecise` unit in the `units` namespace.
 One addition is that any unit defined in `precise::electrical` also is defined in `units` this has to do with the origins of the library in power systems.
