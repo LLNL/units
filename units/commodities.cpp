@@ -284,15 +284,13 @@ uint32_t stringHash(const std::string& str)
 
 static std::atomic<bool> allowCustomCommodities{true};
 
-bool disableCustomCommodities()
+void disableCustomCommodities()
 {
     allowCustomCommodities.store(false);
-    return false;
 }
-bool enableCustomCommodities()
+void enableCustomCommodities()
 {
     allowCustomCommodities.store(true);
-    return true;
 }
 static commodities::commodityNameMap customCommodityCodes;
 static std::unordered_map<std::uint32_t, std::string> customCommodityNames;
@@ -344,8 +342,8 @@ uint32_t getCommodity(std::string comm)
     if ((comm.size() < 6) && std::all_of(comm.begin(), comm.end(), [](char x) {
             return (x == ' ' || (x >= '_' && x <= '}'));
         })) {
-        std::uint32_t hkey = 0x40000000;
-        unsigned int shift = 0;
+        std::uint32_t hkey{0x40000000};
+        unsigned int shift{0};
         for (auto c : comm) {
             if (c == ' ') {
                 c = '_';

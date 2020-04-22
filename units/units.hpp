@@ -1881,9 +1881,9 @@ void addCustomCommodity(std::string comm, std::uint32_t code);
 /// clear all custom commodities
 void clearCustomCommodities();
 /// Turn off the ability to add custom commodities for later access
-bool disableCustomCommodities();
+void disableCustomCommodities();
 /// Enable the ability to add custom commodities for later access
-bool enableCustomCommodities();
+void enableCustomCommodities();
 
 #define EXTRA_UNIT_STANDARDS
 // Some specific unit code standards
