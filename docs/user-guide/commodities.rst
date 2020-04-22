@@ -25,17 +25,18 @@ Custom Commodities
 
 Commodities to names
 =====================
-The `getCommodityName` methods has 4 stages
-1.  Check custom commodities if Allowed
+The `getCommodityName` methods has 4 stages and will return from any successful stage.
+
+1.  Check custom commodities if allowed
 2.  Check standardized commodity names
 3.  Check for special codes for name storage (short names <=5 ascii lower case characters are stored directly in the code)
 4.  generate string "CXCOMM[<code>]"
 
 String To Commodities
 ======================
-The `getCommodity` method works nearly the opposite of `getCommodityName`
+The `getCommodity` method works nearly the opposite of `getCommodityName`.
 
-1.  Check custom commodities if Allowed
+1.  Check custom commodities if allowed
 2.  Check standardized commodity codes
 3.  Check for string "CXCOMM[<code>]"
 4.  Check for special codes for name storage (short names <=5 ascii lower case characters are stored directly in the code)
