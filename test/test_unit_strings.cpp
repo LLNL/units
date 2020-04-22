@@ -101,6 +101,11 @@ TEST(unitStrings, prefixes)
     EXPECT_EQ(to_string(precise::micro * precise::L), "uL");
 }
 
+TEST(unitStrings, readability) 
+{
+    EXPECT_EQ(to_string(precise::m/precise::s.pow(2)), "m/s^2");
+}
+
 TEST(unitStrings, infinite)
 {
     EXPECT_EQ(

@@ -76,7 +76,7 @@ TEST(MeasurementToString, test)
     auto str2 = to_string(meas2);
 
     // from google tests
-    EXPECT_EQ(str1, "10 g/L");
+    EXPECT_EQ(str1, "10 kg/m^3");
     EXPECT_EQ(str2, "2.7 puMW");
 }
 

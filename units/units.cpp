@@ -78,8 +78,8 @@ unit root(unit un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return error;
     }
-    return unit{un.base_units().root(power),
-                numericalRoot(un.multiplier(), power)};
+    return unit{
+        un.base_units().root(power), numericalRoot(un.multiplier(), power)};
 }
 
 precise_unit root(precise_unit un, int power)
@@ -90,8 +90,8 @@ precise_unit root(precise_unit un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return precise::invalid;
     }
-    return precise_unit{un.base_units().root(power),
-                        numericalRoot(un.multiplier(), power)};
+    return precise_unit{
+        un.base_units().root(power), numericalRoot(un.multiplier(), power)};
 }
 
 measurement root(const measurement& meas, int power)
@@ -1099,61 +1099,7 @@ static std::string
             return std::string("1/") + fnd + "^3";
         }
     }
-    if (!un.is_equation() && un.unit_type_count() == 1) {
-        return generateUnitSequence(un.multiplier(), generateRawUnitString(un));
-    }
-    // lets try converting to pure base unit
-    auto bunit = unit(un.base_units());
-    fnd = find_unit(bunit);
-    if (!fnd.empty()) {
-        return generateUnitSequence(un.multiplier(), fnd);
-    }
-    // let's try inverting the pure base unit
-    fnd = find_unit(bunit.inv());
-    if (!fnd.empty()) {
-        auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
-        if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut;
-            double mx = getDoubleFromString(prefix, &cut);
-            return getMultiplierString(1.0 / mx, true) + "/" +
-                prefix.substr(cut);
-        }
-        return std::string("1/") + prefix;
-    }
-
-    // let's try common divisor units
-    for (auto& tu : testUnits) {
-        auto ext = un * tu.first;
-        fnd = find_unit(unit_cast(ext));
-        if (!fnd.empty()) {
-            return fnd + '/' + tu.second;
-        }
-    }
-
-    // let's try common multiplier units
-    for (auto& tu : testUnits) {
-        auto ext = un / tu.first;
-        fnd = find_unit(unit_cast(ext));
-        if (!fnd.empty()) {
-            return fnd + '*' + tu.second;
-        }
-    }
-    // let's try common divisor with inv units
-    for (auto& tu : testUnits) {
-        auto ext = un / tu.first;
-        fnd = find_unit(unit_cast(ext.inv()));
-        if (!fnd.empty()) {
-            return std::string(tu.second) + '/' + fnd;
-        }
-    }
-    // let's try inverse of common multiplier units
-    for (auto& tu : testUnits) {
-        auto ext = un * tu.first;
-        fnd = find_unit(unit_cast(ext.inv()));
-        if (!fnd.empty()) {
-            return std::string("1/(") + fnd + '*' + tu.second + ')';
-        }
-    }
+    
     if (un.is_equation()) {
         auto ubase = un.base_units();
         int num = precise::custom::eq_type(ubase);
@@ -1222,6 +1168,66 @@ static std::string
         }
         return cxstr;
     }
+
+    if (un.unit_type_count() == 1) {
+        return generateUnitSequence(un.multiplier(), generateRawUnitString(un));
+    }
+    if (un.unit_type_count() == 2 && un.multiplier() == 1) {
+        return generateUnitSequence(1.0, generateRawUnitString(un));
+    }
+    // lets try converting to pure base unit
+    auto bunit = unit(un.base_units());
+    fnd = find_unit(bunit);
+    if (!fnd.empty()) {
+        return generateUnitSequence(un.multiplier(), fnd);
+    }
+    // let's try inverting the pure base unit
+    fnd = find_unit(bunit.inv());
+    if (!fnd.empty()) {
+        auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
+        if (isNumericalStartCharacter(prefix.front())) {
+            size_t cut;
+            double mx = getDoubleFromString(prefix, &cut);
+            return getMultiplierString(1.0 / mx, true) + "/" +
+                prefix.substr(cut);
+        }
+        return std::string("1/") + prefix;
+    }
+
+    // let's try common divisor units
+    for (auto& tu : testUnits) {
+        auto ext = un * tu.first;
+        fnd = find_unit(unit_cast(ext));
+        if (!fnd.empty()) {
+            return fnd + '/' + tu.second;
+        }
+    }
+
+    // let's try common multiplier units
+    for (auto& tu : testUnits) {
+        auto ext = un / tu.first;
+        fnd = find_unit(unit_cast(ext));
+        if (!fnd.empty()) {
+            return fnd + '*' + tu.second;
+        }
+    }
+    // let's try common divisor with inv units
+    for (auto& tu : testUnits) {
+        auto ext = un / tu.first;
+        fnd = find_unit(unit_cast(ext.inv()));
+        if (!fnd.empty()) {
+            return std::string(tu.second) + '/' + fnd;
+        }
+    }
+    // let's try inverse of common multiplier units
+    for (auto& tu : testUnits) {
+        auto ext = un * tu.first;
+        fnd = find_unit(unit_cast(ext.inv()));
+        if (!fnd.empty()) {
+            return std::string("1/(") + fnd + '*' + tu.second + ')';
+        }
+    }
+    
 
     std::string beststr;
     // let's try common divisor units on base units
@@ -1442,8 +1448,9 @@ static double getPrefixMultiplier2Char(char c1, char c2)
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<cpair, 23> char2prefix{{
         cpair{charindex('D', 'A'), 10.0},
         cpair{charindex('E', 'X'), 1e18},
-        cpair{charindex('E', 'i'),
-              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
+        cpair{
+            charindex('E', 'i'),
+            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('G', 'A'), 1e9},
         cpair{charindex('G', 'i'), 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('K', 'i'), 1024.0},
@@ -1456,13 +1463,15 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('T', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('Y', 'A'), 1e24},
         cpair{charindex('Y', 'O'), 1e-24},
-        cpair{charindex('Y', 'i'),
-              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 *
-                  1024.0},
+        cpair{
+            charindex('Y', 'i'),
+            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 *
+                1024.0},
         cpair{charindex('Z', 'A'), 1e21},
         cpair{charindex('Z', 'O'), 1e-21},
-        cpair{charindex('Z', 'i'),
-              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
+        cpair{
+            charindex('Z', 'i'),
+            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('d', 'a'), 10.0},
         cpair{charindex('m', 'A'), 1e6},
         cpair{charindex('m', 'c'), 1e-6},
@@ -1878,9 +1887,10 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 29> prefixWords{{
     utup{"zepto", 1e-21, 5},
     utup{"zetta", 1e21, 5},
     utup{"zebi", 1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0, 4},
-    utup{"yobi",
-         1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0,
-         4},
+    utup{
+        "yobi",
+        1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0,
+        4},
 }};
 
 bool clearEmptySegments(std::string& unit)
@@ -6305,8 +6315,9 @@ precise_measurement measurement_from_string(
     if (!is_error(un)) {
         if (checkCurrency) {
             if (un.base_units() == precise::currency.base_units()) {
-                return {un.multiplier(),
-                        precise_unit(1.0, precise::currency, un.commodity())};
+                return {
+                    un.multiplier(),
+                    precise_unit(1.0, precise::currency, un.commodity())};
             }
         }
         return {val, un};
