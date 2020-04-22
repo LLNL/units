@@ -1099,7 +1099,7 @@ static std::string
             return std::string("1/") + fnd + "^3";
         }
     }
-    
+
     if (un.is_equation()) {
         auto ubase = un.base_units();
         int num = precise::custom::eq_type(ubase);
@@ -1227,7 +1227,6 @@ static std::string
             return std::string("1/(") + fnd + '*' + tu.second + ')';
         }
     }
-    
 
     std::string beststr;
     // let's try common divisor units on base units
