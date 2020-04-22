@@ -639,108 +639,108 @@ Equation units are explained more thoroughly in :ref:`Equation Units`  Some of t
 - Bz - radar reflectivity
 
 
- Textile related Units
- ========================
- Units related to the textile industry in namespace `units::precise::textile`.
+Textile related Units
+========================
+Units related to the textile industry in namespace `units::precise::textile`.
 
- - tex
- - denier
- - span
- - finger
- - nail
-
-
- Clinical Units
- ==================
- Units related to clinical medicine in namespace `units::precise::clinical`.
-
- - pru
- - woodu
- - diopter
- - prism_diopter
- - mesh
- - charriere
- - drop
- - met
- - hounsfield
+- tex
+- denier
+- span
+- finger
+- nail
 
 
- Laboratory Units
- =======================
- Units used in laboratory settings in namespace `units::precise::laboratory`.
+Clinical Units
+==================
+Units related to clinical medicine in namespace `units::precise::clinical`.
 
- - svedberg
- - HPF
- - LPF
- - enzyme_unit
- - IU
- - arbU - arbitrary unit
- - IR - index of reactivity
- - Lf - Limit of flocculation
- - PFU
- - pH
- - molarity
- - molality
+- pru
+- woodu
+- diopter
+- prism_diopter
+- mesh
+- charriere
+- drop
+- met
+- hounsfield
 
 
- Data Units
- ============
- Units related to computer data and storage in `units::precise::data`
+Laboratory Units
+=======================
+Units used in laboratory settings in namespace `units::precise::laboratory`.
 
- - bit
- - nibble
- - byte
- - kB
- - MB
- - GB
- - kiB
- - MiB
- - GiB
- - bit_s - shannon bit for information theory
- - shannon
- - hartley
- - ban
- - dit
- - deciban
- - nat
- - trit
- - digits
-
- Computation units
- ===================
- Units related to computation `units::precise::computation`.
-
- - flop
- - flops
- - mips
-
- Special units
- ======================
- some special units that were not otherwise characterized in namespace `units::precise::special`
-
- - ASD - amplitude spectral density
- - moment_magnitude - moment magnitude for earthquake scales (related to richter scale)
- - moment_energy
- - sshws - saffir simpson hurricane wind scale
- - beaufort - Beaufort wind scale
- - fujita - Fujita scale for tornados
- - mach - mach number
- - rootHertz - square root of Hertz, this is a special handling unit that triggers some specific behavior to handle it.
+- svedberg
+- HPF
+- LPF
+- enzyme_unit
+- IU
+- arbU - arbitrary unit
+- IR - index of reactivity
+- Lf - Limit of flocculation
+- PFU
+- pH
+- molarity
+- molality
 
 
- Other Units
- ====================
- General purpose other units not otherwise categorical in namespace `units::precise::other`
+Data Units
+============
+Units related to computer data and storage in `units::precise::data`
 
- - ppm - part per million
- - ppb - part per billion
- - candle
- - faraday
- - rpm* - revolution per minute
- - MegaBuck - $1,000,000
- - GigaBuck - $1,000,000,000
+- bit
+- nibble
+- byte
+- kB
+- MB
+- GB
+- kiB
+- MiB
+- GiB
+- bit_s - Shannon bit for information theory
+- shannon
+- hartley
+- ban
+- dit
+- deciban
+- nat
+- trit
+- digits
 
- Units in the `units` namespace
- -------------------------------------
- Regular units are defined in the `units` namespace.  The general rule is that any units with a mapping in `units::precise` has an analog in `units` namespace.
- One addition is that any unit defined in `precise::electrical` also is defined in `units` this has to do with the origins of the library in power systems.
+Computation units
+===================
+Units related to computation `units::precise::computation`.
+
+- flop
+- flops
+- mips
+
+Special units
+======================
+Some special units that were not otherwise characterized in namespace `units::precise::special`.
+
+- ASD - amplitude spectral density
+- moment_magnitude - moment magnitude for earthquake scales (related to richter scale)
+- moment_energy
+- sshws - saffir simpson hurricane wind scale
+- beaufort - Beaufort wind scale
+- fujita - Fujita scale for tornados
+- mach - mach number
+- rootHertz - square root of Hertz, this is a special handling unit that triggers some specific behavior to handle it.
+
+
+Other Units
+====================
+General purpose other units not otherwise categorical in namespace `units::precise::other`
+
+- ppm - part per million
+- ppb - part per billion
+- candle
+- faraday
+- rpm* - revolution per minute
+- MegaBuck - $1,000,000
+- GigaBuck - $1,000,000,000
+
+Units in the `units` namespace
+-------------------------------------
+Regular units are defined in the `units` namespace.  The general rule is that any units with a mapping in `units::precise` has an analog in `units` namespace.
+One addition is that any unit defined in `precise::electrical` also is defined in `units` this has to do with the origins of the library in power systems.
