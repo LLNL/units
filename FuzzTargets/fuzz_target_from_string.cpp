@@ -9,7 +9,10 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <exception>
 #include <string>
 
-static bool cflag = units::disableCustomCommodities();
+static const bool cflag = []() {
+    units::disableCustomCommodities();
+    return true;
+}();
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size)
 {

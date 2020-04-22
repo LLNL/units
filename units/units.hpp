@@ -1881,9 +1881,9 @@ void addCustomCommodity(std::string comm, std::uint32_t code);
 /// clear all custom commodities
 void clearCustomCommodities();
 /// Turn off the ability to add custom commodities for later access
-bool disableCustomCommodities();
+void disableCustomCommodities();
 /// Enable the ability to add custom commodities for later access
-bool enableCustomCommodities();
+void enableCustomCommodities();
 
 #define EXTRA_UNIT_STANDARDS
 // Some specific unit code standards
@@ -1954,6 +1954,10 @@ namespace constants {
     constexpr precise_measurement me{9.1093837015e-31, precise::kg};
     /// Mass of a proton
     constexpr precise_measurement mp{1.67262192369e-27, precise::kg};
+    /// Bohr radius
+    constexpr precise_measurement a0{5.29177210903e-11, precise::m};
+    /// Faraday's constant
+    constexpr precise_measurement F = Na * e;
     /// Planck units
     namespace planck {
         constexpr precise_measurement length{1.616255e-35, precise::m};

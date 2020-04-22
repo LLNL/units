@@ -20,11 +20,11 @@ There are a number of different constructors for an uncertain measurement aimed 
 
 -   `constexpr uncertain_measurement()`   default constructor with 0 values for the value and uncertainty and a one for the unit.
 
--   `constexpr uncertain_measurement(<float|double> val, <float|double> uncertainty, unit base)` : specify the parameters with values
+-   `constexpr uncertain_measurement(<float|double> val, <float|double> uncertainty, unit base)` : specify the parameters with values.
 
 -   `constexpr uncertain_measurement(<float|double> val, unit base)`:  Just specify the value and unit, assume 0.0 uncertainty.
 
--   `constexpr uncertain_measurement(measurement val, float uncertainty) noexcept` : construct from a measurement and uncertainty value
+-   `constexpr uncertain_measurement(measurement val, float uncertainty) noexcept` : construct from a measurement and uncertainty value.
 
 -   `uncertain_measurement(measurement val, measurement uncertainty) noexcept`:  construct from a measurement value and uncertainty measurement.  The uncertainty is converted to the same units as the value measurement.
 
@@ -34,11 +34,11 @@ Additional operators
 
 Beyond the operations used in :ref:`Measurements`, there are some specific functions related to getting and setting the uncertainty.
 
--   `uncertain_measurement& uncertainty(<double|float> newUncertainty)` :  Will set the uncertainty value as a numerical value
+-   `uncertain_measurement& uncertainty(<double|float> newUncertainty)` :  Will set the uncertainty value as a numerical value.
 -   `uncertain_measurement& uncertainty(const measurement &newUncerrtainty)`: will set the uncertainty as a measurement in specific units.
 -   `double uncertainty()`:  Will get the current numerical value of the uncertainty
 -   `double uncertainty_as(units)`:  will get the value of the uncertainty in specific units.
--   `float uncertainty_f()`: will get the value of the uncertainty as a single precision floating point value
+-   `float uncertainty_f()`: will get the value of the uncertainty as a single precision floating point value.
 -   `constexpr measurement uncertainty_measurement()`:  will return a measurement containing the uncertainty.
 -   `double fractional_uncertainty()`: will get the fractional uncertainty value. which is uncertainty/\|value\|.
 
@@ -50,6 +50,7 @@ The units library has some functions to extract an `uncertain_measurement` from 
 The from string operation searches for an uncertainty marker then splits the string into two parts.  It then uses the measurement from string operation on both halves of the string and forms an uncertain measurement from them depending on whether both halves have units and or values.  Allowed uncertainty marker strings include \["+/-", "±", "&plusmn;", "+-", "<u>+</u>", "&#xB1;", "&pm;", " \\pm "\].  These possibilities include unicode and ascii values and some sequences used in latex and html.
 
 For Example all the following string will produce the same `uncertain_measurement`
+
 -   "3.1±0.3 m/s"
 -   "3.1 +/- 0.3 m/s"
 -   "3.1 &pm; 0.3 m/s"
@@ -59,5 +60,5 @@ For Example all the following string will produce the same `uncertain_measuremen
 -   "3.1 m/s +- 0.3*60 meters per minute"
 -   "3.1(3) m/s"
 
-The last form is known as `concise notation <https://physics.nist.gov/cgi-bin/cuu/Info/Constants/definitions.html>`_
+The last form is known as `concise notation <https://physics.nist.gov/cgi-bin/cuu/Info/Constants/definitions.html>`_.
 The match flags are the same as would be used for converting :ref:`Measurements`
