@@ -1954,10 +1954,10 @@ namespace constants {
     constexpr precise_measurement me{9.1093837015e-31, precise::kg};
     /// Mass of a proton
     constexpr precise_measurement mp{1.67262192369e-27, precise::kg};
-    /// Bohr radius 
+    /// Bohr radius
     constexpr precise_measurement a0{5.29177210903e-11, precise::m};
     /// Faraday's constant
-    constexpr precise_measurement F=Na*e;
+    constexpr precise_measurement F = Na * e;
     /// Planck units
     namespace planck {
         constexpr precise_measurement length{1.616255e-35, precise::m};
