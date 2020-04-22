@@ -222,7 +222,7 @@ Most commonly for precious metals a few units are defined in `units::precise::tr
 - oz
 - pound
 
-United state Customary Units
+United States Customary Units
 ======================================
 These are traditional units defined in the United States, for survey or common usage.
 Defined in `unit::precise::us`.
@@ -603,7 +603,7 @@ in `units::precise::electrical` namespace
 
 Equation type Units
 ==========================
-Equation units are explained more thoroughly in :ref :`Equation Units`  Some of the specific common equation units are defined in the namespace `units::precise::log`.
+Equation units are explained more thoroughly in :ref:`Equation Units`  Some of the specific common equation units are defined in the namespace `units::precise::log`.
 
 - neper
 - logE - natural logarithm
@@ -638,7 +638,8 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
 - dB_Z - radar reflectivity
 - Bz - radar reflectivity
 
- Textile related units
+
+ Textile related Units
  ========================
  Units related to the textile industry in namespace `units::precise::textile`.
 
@@ -647,6 +648,7 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
  - span
  - finger
  - nail
+
 
  Clinical Units
  ==================
@@ -661,6 +663,7 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
  - drop
  - met
  - hounsfield
+
 
  Laboratory Units
  =======================
@@ -679,7 +682,8 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
  - molarity
  - molality
 
- Data units
+
+ Data Units
  ============
  Units related to computer data and storage in `units::precise::data`
 
@@ -705,6 +709,7 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
  Computation units
  ===================
  Units related to computation `units::precise::computation`.
+
  - flop
  - flops
  - mips
@@ -721,6 +726,7 @@ Equation units are explained more thoroughly in :ref :`Equation Units`  Some of 
  - fujita - Fujita scale for tornados
  - mach - mach number
  - rootHertz - square root of Hertz, this is a special handling unit that triggers some specific behavior to handle it.
+
 
  Other Units
  ====================

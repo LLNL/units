@@ -29,6 +29,8 @@ Values are taken from `NIST 2018 CODATA <https://physics.nist.gov/cuu/Constants/
 -   Hubble constant 69.8 km/s/Mpc - `H0`
 -   Mass of an electron - `me`
 -   Mass of a proton - `mp`
+-   Bohr Radius - `a0`
+-   Faraday's constant - `F`
 
 Planck Units
 ------------------
