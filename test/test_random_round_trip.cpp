@@ -46,6 +46,6 @@ TEST_P(rtrip, testConversions)
     EXPECT_EQ(startunit, resunit) << "round trip failed " << start;
 }
 
-const std::vector<unsigned int> customList{0, 545404204, 297480282, 1504872254};
+const std::vector<unsigned int> customList{0, 545404204, 484372462, 1504872254};
 
 INSTANTIATE_TEST_SUITE_P(spotChecks, rtrip, ::testing::ValuesIn(customList));

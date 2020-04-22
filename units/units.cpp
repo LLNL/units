@@ -485,13 +485,56 @@ static std::string generateUnitSequence(double mux, std::string seq)
         }
     }
     if (mux == 1.0) {
+        if (seq.front() == '/') {
+            seq.insert(seq.begin(), '1');
+        }
         return seq;
+    }
+    if (seq.front() == '/') {
+        int pw = 1;
+        auto pwerloc = seq.find_first_of('^');
+        if (pwerloc != std::string::npos) {
+            pw = seq[pwerloc + 1] - '0';
+        }
+        std::string muxstr;
+        switch (pw) {
+            case 1:
+                muxstr = getMultiplierString(1.0 / mux, noPrefix);
+                if (isNumericalStartCharacter(muxstr.front())) {
+                    muxstr = getMultiplierString(mux, true);
+                } else {
+                    seq.insert(1, muxstr);
+                    muxstr = "1";
+                }
+                break;
+            case 2:
+                muxstr = getMultiplierString(std::sqrt(1.0 / mux), noPrefix);
+                if (isNumericalStartCharacter(muxstr.front())) {
+                    muxstr = getMultiplierString(mux, true);
+                } else {
+                    seq.insert(1, muxstr);
+                    muxstr = "1";
+                }
+                break;
+            case 3:
+                muxstr = getMultiplierString(std::cbrt(1.0 / mux), noPrefix);
+                if (isNumericalStartCharacter(muxstr.front())) {
+                    muxstr = getMultiplierString(mux, true);
+                } else {
+                    seq.insert(1, muxstr);
+                    muxstr = "1";
+                }
+                break;
+            default:
+                muxstr = getMultiplierString(mux, true);
+        }
+        return muxstr + seq;
     }
     auto pwerloc = seq.find_first_of('^');
     if (pwerloc == std::string::npos) {
         return getMultiplierString(mux, noPrefix) + seq;
     }
-    auto mloc = seq.find_first_of('*');
+    auto mloc = seq.find_first_of("*/");
     if (mloc < pwerloc) {
         return getMultiplierString(mux, noPrefix) + seq;
     }
@@ -537,7 +580,7 @@ static std::string generateUnitSequence(double mux, std::string seq)
 static void addUnitPower(std::string& str, const char* unit, int power)
 {
     if (power != 0) {
-        if (!str.empty()) {
+        if (!str.empty() && str.back() != '/') {
             str.push_back('*');
         }
         str.append(unit);
@@ -571,26 +614,74 @@ static void addUnitFlagStrings(precise_unit un, std::string& unitString)
         }
     }
     if (un.base_units().is_per_unit()) {
-        // the string cannot be empty at this point since then it would
-        // have been triggered on the pu unit by itself
-        unitString.insert(0, "pu*");
+        if (unitString.empty()) {
+            unitString = "pu";
+        } else {
+            unitString.insert(0, "pu*");
+        }
+    }
+}
+
+/** add the unit power if it is positive, return true if negative and skip if 0
+ */
+static inline int addPosUnits(std::string& str, const char* unitName, int power)
+{
+    if (power > 0) {
+        addUnitPower(str, unitName, power);
+    }
+    return (power < 0) ? 1 : 0;
+}
+
+/** add the unit power if it is negative, and skip if >= 0
+ */
+static inline void
+    addNegUnits(std::string& str, const char* unitName, int power)
+{
+    if (power < 0) {
+        addUnitPower(str, unitName, power);
     }
 }
 
 static std::string generateRawUnitString(precise_unit un)
 {
     std::string val;
-    addUnitPower(val, "m", un.base_units().meter());
-    addUnitPower(val, "kg", un.base_units().kg());
-    addUnitPower(val, "s", un.base_units().second());
-    addUnitPower(val, "A", un.base_units().ampere());
-    addUnitPower(val, "K", un.base_units().kelvin());
-    addUnitPower(val, "mol", un.base_units().mole());
-    addUnitPower(val, "cd", un.base_units().candela());
-    addUnitPower(val, "item", un.base_units().count());
-    addUnitPower(val, "$", un.base_units().currency());
-    addUnitPower(val, "rad", un.base_units().radian());
+    auto bu = un.base_units();
+    int cnt{0};
+    cnt += addPosUnits(val, "m", bu.meter());
+    cnt += addPosUnits(val, "kg", bu.kg());
+    cnt += addPosUnits(val, "s", bu.second());
+    cnt += addPosUnits(val, "A", bu.ampere());
+    cnt += addPosUnits(val, "K", bu.kelvin());
+    cnt += addPosUnits(val, "mol", bu.mole());
+    cnt += addPosUnits(val, "cd", bu.candela());
+    cnt += addPosUnits(val, "item", bu.count());
+    cnt += addPosUnits(val, "$", bu.currency());
+    cnt += addPosUnits(val, "rad", bu.radian());
     addUnitFlagStrings(un, val);
+    if (cnt == 1) {
+        val.push_back('/');
+        addPosUnits(val, "m", -bu.meter());
+        addPosUnits(val, "kg", -bu.kg());
+        addPosUnits(val, "s", -bu.second());
+        addPosUnits(val, "A", -bu.ampere());
+        addPosUnits(val, "K", -bu.kelvin());
+        addPosUnits(val, "mol", -bu.mole());
+        addPosUnits(val, "cd", -bu.candela());
+        addPosUnits(val, "item", -bu.count());
+        addPosUnits(val, "$", -bu.currency());
+        addPosUnits(val, "rad", -bu.radian());
+    } else if (cnt > 1) {
+        addNegUnits(val, "m", bu.meter());
+        addNegUnits(val, "kg", bu.kg());
+        addNegUnits(val, "s", bu.second());
+        addNegUnits(val, "A", bu.ampere());
+        addNegUnits(val, "K", bu.kelvin());
+        addNegUnits(val, "mol", bu.mole());
+        addNegUnits(val, "cd", bu.candela());
+        addNegUnits(val, "item", bu.count());
+        addNegUnits(val, "$", bu.currency());
+        addNegUnits(val, "rad", bu.radian());
+    }
     return val;
 }
 
@@ -761,20 +852,19 @@ std::string
     clean_unit_string(std::string propUnitString, std::uint32_t commodity)
 {
     using spair = std::tuple<const char*, const char*, int, int>;
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 9> powerseq{{
-        spair{"Mm^3", "(1e9km^3)", 4, 8},  // this needs to happen before ^3^2
-                                           // conversions
-        spair{"^2^2", "^4", 4, 2},
-        spair{"^3^2", "^6", 4, 2},
-        spair{"^2^3", "^6", 4, 2},
-        spair{"Gs", "Bs", 2, 2},
-        spair{"*K^", "*1*K^", 3, 5},  // this one is to prevent the next from
-                                      // screwing things up
-        spair{"eflag*K", "degC", 7, 4},
-        spair{"*1*", "*", 3, 1},
-        spair{"*1/", "/", 3, 1},
-
-    }};
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 10> powerseq{
+        {spair{"Mm^3", "(1e9km^3)", 4, 8},  // this needs to happen before ^3^2
+                                            // conversions
+         spair{"^2^2", "^4", 4, 2},
+         spair{"^3^2", "^6", 4, 2},
+         spair{"^2^3", "^6", 4, 2},
+         spair{"Gs", "Bs", 2, 2},
+         spair{"*K^", "*1*K^", 3, 5},  // this one is to prevent the next from
+                                       // screwing things up
+         spair{"eflag*K", "degC", 7, 4},
+         spair{"*1*", "*", 3, 1},
+         spair{"*1/", "/", 3, 1},
+         spair{"*/", "/", 2, 1}}};
     // run a few checks for unusual conditions
     for (auto& pseq : powerseq) {
         auto fnd = propUnitString.find(std::get<0>(pseq));
@@ -1030,6 +1120,7 @@ static std::string
         }
         return std::string("1/") + prefix;
     }
+
     // let's try common divisor units
     for (auto& tu : testUnits) {
         auto ext = un * tu.first;
