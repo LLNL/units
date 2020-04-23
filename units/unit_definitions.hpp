@@ -171,7 +171,7 @@ namespace precise {
     /// Define some unitless numbers
     constexpr precise_unit one;
     constexpr precise_unit hundred = precise_unit(100.0, one);
-    constexpr precise_unit thousand = precise_unit(100.0, one);
+    constexpr precise_unit thousand = precise_unit(1000.0, one);
     constexpr precise_unit ten = precise_unit(10.0, one);
     constexpr precise_unit half = precise_unit(0.5, one);
     constexpr precise_unit quarter = precise_unit(0.25, one);
