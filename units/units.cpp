@@ -1099,61 +1099,7 @@ static std::string
             return std::string("1/") + fnd + "^3";
         }
     }
-    if (!un.is_equation() && un.unit_type_count() == 1) {
-        return generateUnitSequence(un.multiplier(), generateRawUnitString(un));
-    }
-    // lets try converting to pure base unit
-    auto bunit = unit(un.base_units());
-    fnd = find_unit(bunit);
-    if (!fnd.empty()) {
-        return generateUnitSequence(un.multiplier(), fnd);
-    }
-    // let's try inverting the pure base unit
-    fnd = find_unit(bunit.inv());
-    if (!fnd.empty()) {
-        auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
-        if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut;
-            double mx = getDoubleFromString(prefix, &cut);
-            return getMultiplierString(1.0 / mx, true) + "/" +
-                prefix.substr(cut);
-        }
-        return std::string("1/") + prefix;
-    }
 
-    // let's try common divisor units
-    for (auto& tu : testUnits) {
-        auto ext = un * tu.first;
-        fnd = find_unit(unit_cast(ext));
-        if (!fnd.empty()) {
-            return fnd + '/' + tu.second;
-        }
-    }
-
-    // let's try common multiplier units
-    for (auto& tu : testUnits) {
-        auto ext = un / tu.first;
-        fnd = find_unit(unit_cast(ext));
-        if (!fnd.empty()) {
-            return fnd + '*' + tu.second;
-        }
-    }
-    // let's try common divisor with inv units
-    for (auto& tu : testUnits) {
-        auto ext = un / tu.first;
-        fnd = find_unit(unit_cast(ext.inv()));
-        if (!fnd.empty()) {
-            return std::string(tu.second) + '/' + fnd;
-        }
-    }
-    // let's try inverse of common multiplier units
-    for (auto& tu : testUnits) {
-        auto ext = un * tu.first;
-        fnd = find_unit(unit_cast(ext.inv()));
-        if (!fnd.empty()) {
-            return std::string("1/(") + fnd + '*' + tu.second + ')';
-        }
-    }
     if (un.is_equation()) {
         auto ubase = un.base_units();
         int num = precise::custom::eq_type(ubase);
@@ -1221,6 +1167,65 @@ static std::string
             return to_string_internal(urem, match_flags) + '*' + cxstr;
         }
         return cxstr;
+    }
+
+    if (un.unit_type_count() == 1) {
+        return generateUnitSequence(un.multiplier(), generateRawUnitString(un));
+    }
+    if (un.unit_type_count() == 2 && un.multiplier() == 1) {
+        return generateUnitSequence(1.0, generateRawUnitString(un));
+    }
+    // lets try converting to pure base unit
+    auto bunit = unit(un.base_units());
+    fnd = find_unit(bunit);
+    if (!fnd.empty()) {
+        return generateUnitSequence(un.multiplier(), fnd);
+    }
+    // let's try inverting the pure base unit
+    fnd = find_unit(bunit.inv());
+    if (!fnd.empty()) {
+        auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
+        if (isNumericalStartCharacter(prefix.front())) {
+            size_t cut;
+            double mx = getDoubleFromString(prefix, &cut);
+            return getMultiplierString(1.0 / mx, true) + "/" +
+                prefix.substr(cut);
+        }
+        return std::string("1/") + prefix;
+    }
+
+    // let's try common divisor units
+    for (auto& tu : testUnits) {
+        auto ext = un * tu.first;
+        fnd = find_unit(unit_cast(ext));
+        if (!fnd.empty()) {
+            return fnd + '/' + tu.second;
+        }
+    }
+
+    // let's try common multiplier units
+    for (auto& tu : testUnits) {
+        auto ext = un / tu.first;
+        fnd = find_unit(unit_cast(ext));
+        if (!fnd.empty()) {
+            return fnd + '*' + tu.second;
+        }
+    }
+    // let's try common divisor with inv units
+    for (auto& tu : testUnits) {
+        auto ext = un / tu.first;
+        fnd = find_unit(unit_cast(ext.inv()));
+        if (!fnd.empty()) {
+            return std::string(tu.second) + '/' + fnd;
+        }
+    }
+    // let's try inverse of common multiplier units
+    for (auto& tu : testUnits) {
+        auto ext = un * tu.first;
+        fnd = find_unit(unit_cast(ext.inv()));
+        if (!fnd.empty()) {
+            return std::string("1/(") + fnd + '*' + tu.second + ')';
+        }
     }
 
     std::string beststr;
