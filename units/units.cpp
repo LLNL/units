@@ -2627,21 +2627,30 @@ static const smap base_unit_vals{
     {"sft", precise::ft* precise::ft},
     {"sft_i", precise::ft* precise::ft},
     {"[SFT_I]", precise::ft* precise::ft},
-    {"SCF", precise::ft.pow(3)},  // standard cubic foot
-    {"CCF", precise_unit(100.0, precise::ft.pow(3))},  // centum cubic foot
-    {"MCF", precise_unit(1000.0, precise::ft.pow(3))},  // millum cubic foot
-    {"MMCF",
-     precise_unit(1000000.0, precise::ft.pow(3))},  // million cubic foot
-    {"BCF", precise::giga* precise::ft.pow(3)},  // billion cubic foot
-    {"TCF", precise::tera* precise::ft.pow(3)},  // trillion cubic foot
-    {"Mm^3", precise_unit(1000.0, precise::m.pow(3))},  // millum cubic meters
-    {"MMm^3",
-     precise_unit(1000000.0, precise::m.pow(3))},  // million cubic meters
-    {"bm^3", precise::giga* precise::m.pow(3)},  // billion cubic meters
-    {"tm^3", precise::tera* precise::m.pow(3)},  // trillion cubic meters
-    {"cf", precise::ft.pow(3)},
-    {"mcf", precise_unit(1000.0, precise::ft.pow(3))},
-    {"ccf", precise_unit(100.0, precise::ft.pow(3))},
+    {"SCF", precise::energy::scf},  // standard cubic foot
+    {"CCF", precise::hundred*precise::energy::scf},  // centum cubic foot
+    {"MCF", precise::kilo* precise::energy::scf},  // millum cubic foot
+    {"MMCF", precise::mega* precise::energy::scf},  // million cubic foot
+    {"BCF", precise::giga* precise::energy::scf},  // billion cubic foot
+    {"TCF", precise::tera* precise::energy::scf},  // trillion cubic foot
+    {"QCF", precise::exa* precise::energy::scf},  // quadrillion cubic foot
+    {"Mcf", precise::kilo* precise::energy::scf},  // millum cubic foot
+    {"MMcf", precise::mega* precise::energy::scf},  // million cubic foot
+    {"Bcf", precise::giga* precise::energy::scf},  // billion cubic foot
+    {"Tcf", precise::tera* precise::energy::scf},  // trillion cubic foot
+    {"Qcf", precise::exa* precise::energy::scf},  // quadrillion cubic foot
+    {"Mm^3", precise::kilo* precise::energy::scm},  // millum cubic meters
+    {"Nm^3", precise::energy::ncm},  // normal cubic meter
+    {"Sm^3", precise::energy::scm},  // standard cubic meter
+    {"MMm^3", precise::mega*precise::energy::scm},  // million cubic meters
+    {"bm^3", precise::giga* precise::energy::scm},  // billion cubic meters
+    {"tm^3", precise::tera* precise::energy::scm},  // trillion cubic meters
+    {"cf", precise::energy::scf},
+    {"scf", precise::energy::scf},
+    {"std", precise::energy::scf},
+    {"ncf", precise::energy::ncf},
+    {"mcf", precise::kilo* precise::energy::scf},
+    {"ccf", precise::hundred* precise::energy::scf},
     {"cft", precise::ft.pow(3)},
     {"[cft_i]", precise::ft.pow(3)},
     {"[CFT_I]", precise::ft.pow(3)},

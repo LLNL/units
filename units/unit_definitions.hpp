@@ -816,7 +816,14 @@ namespace precise {
         constexpr precise_unit foeb{6.05e6, btu_59};
         constexpr precise_unit hartree{4.35974465054e-18, J};
         constexpr precise_unit tonhour{3.5168528421, kWh};
-
+        
+        constexpr precise_unit scf_mol{1.1953, mol};
+        constexpr precise_unit scf{1100.0, btu_it, commodities::nat_gas};
+        constexpr precise_unit ncf{1163.0, btu_it, commodities::nat_gas};
+        constexpr precise_unit scm{35.315, scf};
+        constexpr precise_unit scm_mol{35.315, scf_mol};
+        constexpr precise_unit ncm{1.055, scm};
+        
     }  // namespace energy
     constexpr precise_unit btu = energy::btu_it;
     constexpr precise_unit cal = energy::cal_th;
