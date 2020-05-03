@@ -1,6 +1,6 @@
 
 repos:
-- repo: github.com/markdownlint/markdownlint
+- repo: https://github.com/markdownlint/markdownlint
   rev: v0.9.0
   hooks:
   - id: markdownlint
