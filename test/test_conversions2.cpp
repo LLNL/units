@@ -70,9 +70,15 @@ TEST_P(converterApp, fileConversions)
             auto unit_short = units::unit_from_string(convcode.short_name);
             EXPECT_FALSE(is_error(unit_short))
                 << "error converting " << convcode.short_name;
-            EXPECT_EQ(unit, unit_short)
-                << convcode.name << " and " << convcode.short_name
-                << " do not produce the same unit";
+            if (unit != unit_short)
+            {
+                EXPECT_FLOAT_EQ(convert(1.0, unit, unit_short), 1.0F);
+            } else {
+                EXPECT_EQ(unit, unit_short)
+                    << convcode.name << " and " << convcode.short_name
+                    << " do not produce the same unit";
+            }
+            
         }
         double res = units::convert(baseValue, baseUnit, unit);
         EXPECT_NEAR(res / convcode.value, 1.0, 0.003)

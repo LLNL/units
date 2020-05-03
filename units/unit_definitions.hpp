@@ -818,10 +818,10 @@ namespace precise {
         constexpr precise_unit tonhour{3.5168528421, kWh};
         
         constexpr precise_unit scf_mol{1.1953, mol};
-        constexpr precise_unit scf{1100.0, btu_it, commodities::nat_gas};
-        constexpr precise_unit ncf{1163.0, btu_it, commodities::nat_gas};
-        constexpr precise_unit scm{35.315, scf};
-        constexpr precise_unit scm_mol{35.315, scf_mol};
+        constexpr precise_unit scf{1100.0, btu_it*eflag, commodities::nat_gas};
+        constexpr precise_unit ncf{1163.0, btu_it*eflag, commodities::nat_gas};
+        constexpr precise_unit scm{35.3146667, scf};
+        constexpr precise_unit scm_mol{35.3146667, scf_mol};
         constexpr precise_unit ncm{1.055, scm};
         
     }  // namespace energy
@@ -1819,5 +1819,25 @@ namespace detail {
     }
     // radians converted to mole is kind of dumb, theoretically possible but
     // probably shouldn't be supported
+
+    template<typename UX, typename UX2>
+    inline double extraValidConversions(double val, UX start, UX2 result)
+    {
+        auto base_start = start.base_units();
+        auto base_result = result.base_units();
+        if (start.has_same_base(m.pow(3)) && result.has_same_base(J)) {
+            // volume to scf or scm
+            return val*start.multiplier() * precise::energy::scm.multiplier() /
+                result.multiplier();
+        }
+        if (start.has_same_base(J) && result.has_same_base(m.pow(3))) {
+            // volume to scf or scm
+            return val*start.multiplier() / precise::energy::scm.multiplier() /
+                result.multiplier();
+
+        }
+        return constants::invalid_conversion;
+
+    }
 }  // namespace detail
 }  // namespace units
