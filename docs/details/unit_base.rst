@@ -64,7 +64,7 @@ For the flags.  The e_flag and i_flag are added, effectively an Xor while the pu
 For division the units are subtracted, while the operations on the flags are the same.
 
 Power and Root and Inv functions
-+++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++
 
 For power operations all the individual powers of the base units are multiplied by the power number.
 The pu and equation flags are passed through.  For even powers the i_flag and e_flag are set to 0, and odd powers they left as is.

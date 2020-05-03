@@ -4,10 +4,9 @@ repos:
   rev: 19.3b0
   hooks:
   - id: black
-- repo: https://github.com/Lucas-C/pre-commit-hooks-markup
-  rev: v1.0.0
+- repo: github.com/markdownlint/markdownlint
   hooks:
-  - id: rst-linter
+  - id: markdownlint
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0
   hooks:
