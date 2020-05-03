@@ -129,6 +129,12 @@ double convert(double val, UX start, UX2 result)
         // so those are just markers
         return result.multiplier() / (val * start.multiplier());
     }
+    if (start.has_e_flag() || result.has_e_flag()) {
+        double converted_val = detail::extraValidConversions(val, start, result);
+        if (!std::isnan(converted_val)) {
+            return converted_val;
+        }
+    }
     return constants::invalid_conversion;
 }
 
