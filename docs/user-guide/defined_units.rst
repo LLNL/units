@@ -310,9 +310,9 @@ Some Canadian definitions of customary units defined in `units::precise::canada`
 - gallon
 - grain::bushel_oats
 
-Austrailia Units
+Australia Units
 =======================
-Traditional Austrailian units defined in `units::precise::australia`
+Traditional Australian units defined in `units::precise::australia`
 
 - tbsp
 - tsp
@@ -453,7 +453,7 @@ Some additional distance units are defined in `units::precise::distance`
 - au_old
 - angstrom
 - parsec
-- smoot
+- `smoot`
 - cubit
 - longcubit
 - arpent_us

@@ -88,7 +88,7 @@ static const std::vector<std::string> testFiles{
     "distance",
     "area",
     "volume",
-    "accelleration",
+    "acceleration",
     "charge",
     "concentration",
     "concentration_ratio",
