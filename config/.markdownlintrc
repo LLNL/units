@@ -9,7 +9,7 @@ rule "MD009" # trailing spaces not allowed
 rule "MD010" # hard tabs not allowed
 rule "MD011" # alert on reversed link syntax
 rule "MD012" # alert on multiple consecutive blank lines
-rule "MD013" # line length should be no more than 80 characters
+#rule "MD013" # line length should be no more than 80 characters
 rule "MD014" # dollars signs not before commands w/o showing output
 rule "MD018" # must have space after header style
 rule "MD019" # no multiple spaces after header style
@@ -20,7 +20,10 @@ rule "MD025" # only 1 level 1 header
 rule "MD026" # no trailing punctuation in headers
 rule "MD027" # no multiple spaces after blockquote symbol
 rule "MD028" # no blank lines within blockquote
-rule "MD029", :style => :ordered # ordered list item prefix, shoulded be ordered
+#rule "MD029", :style => :ordered # ordered list item prefix, shoulded be ordered
 rule "MD030" # spaces after list markers
 rule "MD031" # fenced code blocks need line surrounding
 rule "MD032" # lists should be surrounded by line
+rule "MD034" # no raw url
+rule "MD040" # Fenced code blocks should have a language specified
+rule "MD046", :style => :fenced # code block style - fenced
