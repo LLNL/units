@@ -78,13 +78,12 @@ if (!meas.units().is_convertible(out)
 
 If you are looking for compile time and prevention of unit errors in equations for dimensional analysis one of these libraries might work for you.
 
--   [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
+-   [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) -Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
 -   [Units](https://github.com/nholthaus/units) -A compile-time, header-only, dimensional analysis library built on `C++14` with no dependencies.
 -   [Units](https://github.com/VincentDucharme/Units) -Another compile time library
 -   [PhysUnits-CT](https://github.com/martinmoene/PhysUnits-CT-Cpp11) A C++ library for compile-time dimensional analysis and unit/quantity manipulation and conversion.
--   [PhysUnits-RT](https://github.com/martinmoene/PhysUnits-RT)-A C++ library for run-time dimensional analysis and unit/quantity manipulation and conversion.
--   [Libunits](https://sourceforge.net/projects/libunits/) -The ultimate shared library to do calculations(!) and conversions with any units!
-Includes all SI and pseudo SI units and thousands of US, Imperial and other units.
+-   [PhysUnits-RT](https://github.com/martinmoene/PhysUnits-RT) -A C++ library for run-time dimensional analysis and unit/quantity manipulation and conversion.
+-   [Libunits](https://sourceforge.net/projects/libunits/) -The ultimate shared library to do calculations(!) and conversions with any units!  Includes all SI and pseudo SI units and thousands of US, Imperial and other units.
 -   [unitscpp](http://code.google.com/p/unitscpp/) -A lightweight C++ library for physical calculation with units.
 -   [mpusz/units](https://github.com/mpusz/units) -A compile-time enabled Modern C++ library that provides compile-time dimensional analysis and unit/quantity manipulation.
 -   [bernedom/SI](https://github.com/bernedom/SI) -A header only C++ library that provides type safety and user defined literals for handling physical values defined in the International System of Units
