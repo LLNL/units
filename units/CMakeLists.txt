@@ -10,17 +10,15 @@ set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp)
 
 if(UNITS_HEADER_ONLY)
     add_library(units-header-only INTERFACE)
-	target_include_directories(
-            units-header-only INTERFACE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-        )
-	target_compile_definitions(units-header-only INTERFACE UNITS_HEADER_ONLY)
+    target_include_directories(
+        units-header-only INTERFACE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                                    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    )
+    target_compile_definitions(units-header-only INTERFACE UNITS_HEADER_ONLY)
     if(UNITS_INSTALL)
-            install(
-                TARGETS units-header-only ${UNITS_LIBRARY_EXPORT_COMMAND}
-            )
-	endif()
-	add_library(units::units-header-only ALIAS units-header-only)
+        install(TARGETS units-header-only ${UNITS_LIBRARY_EXPORT_COMMAND})
+    endif()
+    add_library(units::units-header-only ALIAS units-header-only)
 else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
         add_library(units-static STATIC ${units_source_files} ${units_header_files})
@@ -32,17 +30,17 @@ else(UNITS_HEADER_ONLY)
         add_library(units::units ALIAS units-static)
         add_library(units::static ALIAS units-static)
         if(UNITS_INSTALL)
-            install(TARGETS units-static ${UNITS_LIBRARY_EXPORT_COMMAND} DESTINATION
-                            ${CMAKE_INSTALL_LIBDIR}
-                            # INCLUDES DESTINATION include/units
+            install(TARGETS units-static ${UNITS_LIBRARY_EXPORT_COMMAND}
+                    DESTINATION ${CMAKE_INSTALL_LIBDIR} # INCLUDES DESTINATION
+                                                        # include/units
             )
         endif(UNITS_INSTALL)
         if(CMAKE_BUILD_TYPE STREQUAL Coverage)
             set_source_files_properties(foo.cpp PROPERTIES COMPILE_FLAGS -Wno-effc++)
         endif()
-		if (UNITS_CLANG_TIDY)
-			set_property(TARGET units-static PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
-		endif()
+        if(UNITS_CLANG_TIDY)
+            set_property(TARGET units-static PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
+        endif()
     endif(UNITS_BUILD_STATIC_LIBRARY)
 
     if(UNITS_BUILD_SHARED_LIBRARY)

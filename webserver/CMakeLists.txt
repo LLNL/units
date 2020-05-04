@@ -23,7 +23,9 @@ if(CMAKE_VERSION VERSION_GREATER 3.12)
         )
 
         target_compile_definitions(unit_web_server PUBLIC BOOST_DATE_TIME_NO_LIB)
-        target_compile_definitions(unit_web_server PUBLIC UNITS_VERSION_STRING="${UNITS_VERSION}")
+        target_compile_definitions(
+            unit_web_server PUBLIC UNITS_VERSION_STRING="${UNITS_VERSION}"
+        )
         if(MSYS OR CYGWIN)
             target_link_libraries(unit_web_server PUBLIC wsock32 ws2_32 iphlpapi)
         elseif(NOT WIN32)
