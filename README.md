@@ -83,11 +83,11 @@ If you are looking for compile time and prevention of unit errors in equations f
 -   [Units](https://github.com/VincentDucharme/Units) -Another compile time library
 -   [PhysUnits-CT](https://github.com/martinmoene/PhysUnits-CT-Cpp11) A C++ library for compile-time dimensional analysis and unit/quantity manipulation and conversion.
 -   [PhysUnits-RT](https://github.com/martinmoene/PhysUnits-RT)-A C++ library for run-time dimensional analysis and unit/quantity manipulation and conversion.
--   [Libunits](https://sourceforge.net/projects/libunits/) - The ultimate shared library to do calculations(!) and conversions with any units!
+-   [Libunits](https://sourceforge.net/projects/libunits/) -The ultimate shared library to do calculations(!) and conversions with any units!
 Includes all SI and pseudo SI units and thousands of US, Imperial and other units.
--   [unitscpp](http://code.google.com/p/unitscpp/) - A lightweight C++ library for physical calculation with units.
+-   [unitscpp](http://code.google.com/p/unitscpp/) -A lightweight C++ library for physical calculation with units.
 -   [mpusz/units](https://github.com/mpusz/units) -A compile-time enabled Modern C++ library that provides compile-time dimensional analysis and unit/quantity manipulation.
--   [bernedom/SI](https://github.com/bernedom/SI) - A header only C++ library that provides type safety and user defined literals for handling physical values defined in the International System of Units
+-   [bernedom/SI](https://github.com/bernedom/SI) -A header only C++ library that provides type safety and user defined literals for handling physical values defined in the International System of Units
 
 These libraries will work well if the number of units being dealt with is known at compile time.  Many also produce zero overhead operations and checking.  Therefore in situations where this is possible other libraries are a preferred alternative.
 
@@ -114,6 +114,7 @@ These libraries will work well if the number of units being dealt with is known 
 ## Types
 
 There are only a few types in the library
+
 -   `detail::unit_base` is the base representation of physical units and powers.  It uses a bitfield to store the base unit representation in a 4-byte representation.  It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
 -   `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type.  The float has an accuracy of around 6 decimal digits.  Units within that tolerance will compare equal.
 -   `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type.  The double has an accuracy of around 13 decimal digits.  Units within that tolerance will compare equal. The remaining 4 bytes are used to contain a commodity object code.
