@@ -4,8 +4,7 @@ repos:
   rev: v0.9.0
   hooks:
   - id: markdownlint
-    args:
-    - -r=~MD013
+    args: [-s, ./config/.markdownlintrc]
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0
   hooks:
