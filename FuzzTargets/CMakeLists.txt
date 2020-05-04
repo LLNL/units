@@ -16,11 +16,13 @@ target_include_directories(fuzz_measurement PRIVATE ${CMAKE_SOURCE_DIR}/ThirdPar
 add_custom_target(
     QUICK_RAW_FUZZ
     COMMAND ${CMAKE_COMMAND} -E make_directory corp2
-    COMMAND fuzz_measurement corp2 -max_total_time=300 -max_len=512
-            -dict=${CMAKE_CURRENT_SOURCE_DIR}/fuzz_dictionary.txt
-            -exact_artifact_path=units_fail_measurement_artifact.txt
-	COMMAND ${CMAKE_COMMAND} -E make_directory corp1
-    COMMAND fuzz_from_string corp1 -max_total_time=300 -max_len=512
-            -dict=${CMAKE_CURRENT_SOURCE_DIR}/fuzz_dictionary.txt
-            -exact_artifact_path=units_fail_string_artifact.txt
+    COMMAND
+        fuzz_measurement corp2 -max_total_time=300 -max_len=512
+        -dict=${CMAKE_CURRENT_SOURCE_DIR}/fuzz_dictionary.txt
+        -exact_artifact_path=units_fail_measurement_artifact.txt
+    COMMAND ${CMAKE_COMMAND} -E make_directory corp1
+    COMMAND
+        fuzz_from_string corp1 -max_total_time=300 -max_len=512
+        -dict=${CMAKE_CURRENT_SOURCE_DIR}/fuzz_dictionary.txt
+        -exact_artifact_path=units_fail_string_artifact.txt
 )
