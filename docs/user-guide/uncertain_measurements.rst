@@ -8,7 +8,7 @@ For Example `3.0±0.2m`  would indicate a measurement of 3.0 meters with an unce
 
 All operations are supported
 The propagation of uncertainty follow the root sum of squares methods outlined `Here <http://lectureonline.cl.msu.edu/~mmp/labs/error/e2.htm>`_.
-There are methods available such as `simple_divide`, `simple_product`, `simple_sum` and `simple_subtract` that just sum the uncertainties.  The method in use in the regular operators assume that the measurements used in the mathematical operation are independent, and should use the sum of squares methods.  A more thorough explanation can be found `Here <http://web.mit.edu/fluids-modules/www/exper_techniques/2.Propagation_of_Uncertaint.pdf>`_.
+There are methods available such as `simple_divide`, `simple_product`, `simple_sum` and `simple_subtract` that just sum the uncertainties.  The method in use in the regular operators assume that the measurements used in the mathematical operation are independent, and should use the sum of squares methods.  A more thorough explanation can be found `at this location <http://web.mit.edu/fluids-modules/www/exper_techniques/2.Propagation_of_Uncertaint.pdf>`_.
 
 
 The structure of an uncertain measurement consists of a float for the measurement value and a float for the uncertainty, and `unit` for the unit of the measurement.
