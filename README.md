@@ -33,6 +33,7 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
 
 
 ## Purpose
+
 A unit library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations.  The main driver is converting units, often represented by strings, to a standardized unit set when dealing with user input and output.  And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.  Sometimes the unit type needs to be used inside virtual function calls which must strictly define a type.  The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
 
 It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units.  The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that.  This library does **NOT** provide compile time checking of units.  The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time, and may be of a wide variety of units.
@@ -40,6 +41,7 @@ It was desired that the unit representation be a compact type(<=8 bytes) that is
 This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates.  It supports conversion of units to and from strings.  It supports mathematical operations on units and measurements which is `constexpr` where possible.  It supports units used in power systems and electrical engineering, and conversions between them as well as some typical assumptions for supporting conversions.  In some cases it also has some notion of commodities, and support for existing unit standards for strings and naming.
 
 ### Basic use case
+
 The primary use case for the library is string operations and conversion.  For example if you have a library that does some computations with physical units.  In the library code itself the units are standardized and well defined.  Say a velocity,  internally everything is in meters per second.  But there is a configuration file that takes in the initial data and you would like to broadly support different units on the input
 
 ``` cpp
@@ -55,6 +57,7 @@ double GetInputValueAs(const std::string &input, precise_units out)
 
 the return value can be checked for validity as an invalid conversion would result in `constants::invalid_conversion`  or `Nan` so can be checked by `std::isnan`
 or
+
 ```cpp
 if (!meas.units().is_convertible(out)
 {
@@ -63,6 +66,7 @@ if (!meas.units().is_convertible(out)
 ```
 
 ## Limitations
+
 -   The powers represented by units are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported.
 -   The library uses floating point and double precision for the multipliers which is generally good enough for most engineering contexts, but does come with the limits and associated loss of precision for long series of calculations on floating point numbers.
 -   Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So if you are doing a lot of financial calculations or accounting use something more specific for currency manipulations.
@@ -72,6 +76,7 @@ if (!meas.units().is_convertible(out)
 -   The unit `rad` in the nature of  radiation absorbed dose is not recognized as it would conflicts with `rad` in terms of radians. So `rad` means radians since that is the more common use in electrical engineering.  There is support for custom unit strings so "rad" can be overridden if required using custom units for string conversion operations.
 
 ## Alternatives
+
 If you are looking for compile time and prevention of unit errors in equations for dimensional analysis one of these libraries might work for you.
 -   [boost units](https://www.boost.org/doc/libs/1_69_0/doc/html/boost_units.html) Zero-overhead dimensional analysis and unit/quantity manipulation and conversion in C++
 
@@ -95,6 +100,7 @@ Includes all SI and pseudo SI units and thousands of US, Imperial and other unit
 These libraries will work well if the number of units being dealt with is known at compile time.  Many also produce zero overhead operations and checking.  Therefore in situations where this is possible other libraries are a preferred alternative.
 
 ### Reasons to choose this units library vs. another option
+
 1.  Conversions to and from regular strings are required
 2.  The number of units in use is large
 3.  A specific single unit or measurement type is required to handle many different kinds of units or measurements
@@ -106,6 +112,7 @@ These libraries will work well if the number of units being dealt with is known 
 9.  Support is needed for some funky custom unit with bizarre base units.
 
 ### Reasons to choose something else
+
 1.  Type safety and dimensional analysis is a design requirement
 2.  Performance is absolutely critical (many other libraries are zero runtime overhead)
 3.  You are only working with a small number of known units
@@ -113,6 +120,7 @@ These libraries will work well if the number of units being dealt with is known 
 5.  You need to operate on arbitrary powers of base units
 
 ## Types
+
 There are only a few types in the library
 -   `detail::unit_base` is the base representation of physical units and powers.  It uses a bitfield to store the base unit representation in a 4-byte representation.  It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
 -   `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type.  The float has an accuracy of around 6 decimal digits.  Units within that tolerance will compare equal.
@@ -124,6 +132,7 @@ There are only a few types in the library
 -   `uncertain_measurement` is similar to `measurement` except it uses a 32-bit float for the value and contains an uncertainty field which is also 32-bits.  Mathematical operations on `uncertain_measurements` will propagate the uncertainty and convert it as necessary.  The class also includes functions for simple-uncertainty propagation like `simple_subtract` which just sums the uncertainties.  The sum-of-squares methods is used in the overloaded math operators.  Mathematical operations are supported on the type and it interoperates with measurements.
 
 ## Unit representation
+
 The `unit` class consists of a multiplier and a representation of base units.
 The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-units) + radians + currency units + count units.  In addition a `unit` has 4 flags,  per-unit for per unit or ratio units. One flag\[i_flag\] that is a representation of imaginary units, one flags for a variety of purposes and to differentiate otherwise similar units\[e_flag\]. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4 byte type the represented powers of the units are limited.  The table below shows the bit representation range and observed range of use in equations and observed usage
 
@@ -143,6 +152,7 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.
 
 ### Discussion points
+
 -   Currency may seem like a unusual choice in units but numbers involving prices are encountered often enough in various disciplines that it is useful to include as part of a unit.
 -   Technically count and radians are not units, they are representations of real things. A radian is a representation of rotation around a circle and is therefore distinct from a true unitless quantity even though there are no physical measurements associated with either.
 -   And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605*10^-15 mol of data.  So they are used in different context and don't mix very often, the convert functions does convert between them if necessary.
@@ -154,13 +164,16 @@ These ranges were chosen to represent nearly all physical quantities that could 
 -   Measurement/unit equality is an interesting question.  The library takes a pragmatic approach vs. a precise mathematical approach.  The precision of a float is taken to be roughly 7 decimal digit of precision.  A double used in the 'precise' values to be 13 digits of precision.  This is sufficient to run a few operations without going out of tolerance from floating point operations.  This also comes into equality which is nominally taken to be values and units within this tolerance level.  So numbers are rounded to a certain number of digits then compared to within a tolerance level.  Some effort was made to make this uniform, but tolerance around the last digit is not exact.  Comparison operators for the units and measurements are provided. Equality and inequality use the rounded comparison;  greater and less than are exact, while `>=` and `<=` check first for > or < conditions then check for equality if needed.  There are a few situations that are not totally consistent like `1.0000001*m==1.0*m` and    `1.0000001*m>1.0*m`, but such is nature of floating point operations.  So from a mathematical purity sense this isn't consistent but does mostly what was needed.  If the difference between the two values is a subnormal number the comparison also evaluates to true.
 
 ## Defined units
+
 There are 2 sets of defined units, many common units are defined in the `units` namespace,  many others are defined in `units::precise` and subnamespaces.
 See [Defined Units](https://units.readthedocs.io/en/latest/user-guide/defined_units.html) for details on the available units.
 
 ### Physics constants
+
 A set of physical and numerical constants are defined in the `units::constants` namespace.  More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html)
 
 ## Building the library
+
 There are two parts of the library  a header only portion that can simply be copied and used. There are 3 headers `units_decl.hpp` declares the underlying classes.  `unit_defintions.hpp` declares constants for many of the units, and `units.hpp` which is the primary public interface to units.  If `units.hpp` is included in another file and the variable `UNITS_HEADER_ONLY` is defined then none of the functions that require the cpp files are defined. These header files can simply be included in your project and used with no additional building required.
 
 The second part is a few cpp files that can add some additional functionality.  The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them.  The code should build with an C++11 compiler.    Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time.  Unit numerical conversions are not at compile time, so will have a run-time cost.   A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit.  The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.
@@ -174,10 +187,12 @@ If you want to try out the string conversion components.  There is server runnin
 For more details see the [documentation](https://units.readthedocs.io/en/latest/web/index.html)
 
 ### Converter Application
+
 A [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application can be built as part the units library by setting
 `UNITS_BUILD_CONVERTER_APP=ON` in the CMake build.  This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form.
 
 ## Usage
+
 Many units are defined as `constexpr` objects and can be used directly
 
 ```cpp
@@ -193,6 +208,7 @@ std::cout<<"the area is "<<area<< " or "<<area.convert_to(ft.pow(2))<<".\n";
 ```
 
 ### Unit methods
+
 These operations apply to units and precise_units
 
 -   `<unit>(<unit_data>)`  construct from a base unit_data
@@ -255,6 +271,7 @@ These functions are not class methods but operate on units
 -   `<unit> sqrt(<unit>)` convenience function for taking the sqrt of a unit.
 
 ### Measurement Operations
+
 -   `<measurement>(val, <unit>)`  construct a unit from a value and unit object.
 -   `X value() const`  get the measurement value,  depending on the type this could be a double or float, or another defined type if the template is used.
 -   `<measurement> convert_to(<unit>) const`   convert the value in the measurement to another unit base
@@ -264,6 +281,7 @@ These functions are not class methods but operate on units
 -   `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit\>
 
 #### Uncertain measurement methods
+
 Uncertatin measurements have a few additional functions to support the uncertainty calculations
 
 -   `rss_add`, `rss_subtract`, `rss_product`, `rss_divide` are equivalent to the associated operator but use the root-sum of squares method for propagating the uncertainty.
@@ -272,6 +290,7 @@ Uncertatin measurements have a few additional functions to support the uncertain
 -   `fractional_uncertainty()`  get the uncertainty as a fraction of the value.
 
 #### Measurement operators
+
 There are several operator overloads which work on measurements or units to produce measurements.
 -   `'*', '/', '+','-'`  are all defined for mathematical operations on a measurement and produce another measurement.
 -   `%` `*`, and `/` are defined for \<measurement>\<op>\<double>
@@ -286,6 +305,7 @@ Notes:  for regular measurements, `+` and `-` are not defined for doubles due to
 -   `<measurement>=<double>/<unit>`  basically calling a number multiplied or divided by a `<unit>` produces a measurement,  specifically `unit` produces a measurement and `precise_unit` produces a precise_measurement.
 
 #### Measurement functions
+
 These free functions work on any of different measurement types.
 
 -   `measurement measurement_cast(<measurement>)`  convert a precise_measurement into measurement
@@ -309,12 +329,14 @@ These free functions work on any of different measurement types.
 -   `std::string to_string([unit|measurement],flags=0)` : convert a unit or measurement to a string,  all defined units or measurements listed above are supported.  The eventual plan is to support a couple different standards for the strings through the flags, But for now they don't do much.
 
 #### Custom Units
+
 -   `addUserDefinedUnit(std::string name, precise_unit un)`  add a new unit that can be used in the string operations.
 -   `clearUserDefinedUnits()`  remove all user defined units from the library.
 -   `disableUserDefinedUnits()`  there is a(likely small-an additional unordered map lookup) performance hit in the string conversions functions if custom units are used so they can be disabled completely if desired.
 -   `enableUserDefinedUnits()`  enable the use of UserDefinedUnits.  they are enabled by default.
 
 #### Commodities
+
 The units library has some support for commodities,  more might be added in the future.  Commodities are supported in precise_units.
 -   `std::uint32_t getCommodity(std::string commodity)`   get a commodity code from a string.
 -   `std::string getCommodityName(std::uint32_t)`  get the name of a commodity from its code
@@ -324,15 +346,18 @@ The units library has some support for commodities,  more might be added in the 
 -   `enableUserDefinedCommodities()`  enable the use of UserDefinedCommodities.  User defined commodities are enabled by default.  Defining user specified commodities is thread-safe.
 
 #### Other unit definitions
+
 These are all only partially implemented, not recommended for use yet
 -   `precise_unit x12_unit(string)`  get a unit from an X12 string.
 -   `precise_unit dod_unit(string)`  get a unit from a DOD code string.
 -   `precise_unit r20_unit(string)`  get a unit from an r20 code string.
 
 ## Contributions
+
 Contributions are welcome.  See [Contributing](./CONTRIBUTING.md) for more details  and [Contributors](./CONTRIBUTORS.md) for a list of the current and past Contributors to this project.
 
 ## Release
+
 This units library is distributed under the terms of the BSD-3 clause license. All new
 contributions must be made under this license. [LICENSE](./LICENSE)
 
