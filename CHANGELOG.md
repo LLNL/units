@@ -16,7 +16,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 
 -   Added version output to converter app and the correct version info on the webserver [#54][]
--   Added markdown linter to pre-config
+-   Added markdown linter to pre-commit [#64][]
+-   CMake format check to pre-commit [#65][]
 
 ### Removed
 
@@ -131,6 +132,8 @@ Continued work on cleaning up the library and starting to add main documentation
 [#51]: https://github.com/LLNL/units/pull/51
 [#54]: https://github.com/LLNL/units/pull/54
 [#56]: https://github.com/LLNL/units/pull/56
+[#64]: https://github.com/LLNL/units/pull/64
+[#65]: https://github.com/LLNL/units/pull/65
 
 [0.5.0]: https://github.com/LLNL/units/releases/tag/v0.5.0
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
