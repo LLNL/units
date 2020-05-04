@@ -2,7 +2,7 @@
 Equation Units
 ==================
 
-The use of an equation flag in the unit_base defines a set of equation units.  These are specific units where the relationship with other units is defined through an equation rather than a specific multiplier.  There are 31 available equation units.  Equation units use up the flags, and the cound and radian fields.  All other units are left alone for defining the underlying units of the equation unit.  So the equation specifier defines and equation rather than a specific unit.
+The use of an equation flag in the unit_base defines a set of equation units.  These are specific units where the relationship with other units is defined through an equation rather than a specific multiplier.  There are 31 available equation units.  Equation units use up the flags, count, and radian fields.  All other units are left alone for defining the underlying units of the equation unit.  So the equation specifier defines and equation rather than a specific unit.
 equation types 0-15 deal with logarithms in some way, 16-31 are undefined or represent some common scale type units
 
 
@@ -33,7 +33,7 @@ Current equation definitions
 -   19: UNDEFINED
 -   20: UNDEFINED
 -   21: UNDEFINED
--   22: saffir simpson hurricane wind scale
+-   22: saffir-simpson hurricane wind scale
 -   23: Beaufort wind scale
 -   24: Fujita scale
 -   25: UNDEFINED
