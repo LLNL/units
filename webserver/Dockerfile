@@ -13,20 +13,17 @@ WORKDIR /root/develop/webserver
 
 RUN cp ../build/webserver/unit_web_server . && cp ../units/webserver/*.html . && cp ../units/webserver/*.sh .
 
-WORKDIR /root/develop/units
-RUN git rev-parse --short HEAD > ../webserver/commit_hash
-
 FROM opensuse/tumbleweed:latest
 
 COPY --from=builder /root/develop/webserver /root/develop/webserver
 
-RUN export VCS_REF=$(cat /root/develop/webserver/commit_hash)
+ARG GIT_COMMIT=unspecified
 
 LABEL maintainer="top1@llnl.gov"
 
 LABEL name="units.webserver"
 LABEL description="Units library webserver"
-LABEL vcs-ref=$VCS_REF
+LABEL vcs-ref=$GIT_COMMIT
 LABEL vcs-url="https://github.com/LLNL/units"
 LABEL version="0.4.1"
 
