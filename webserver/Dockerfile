@@ -17,7 +17,7 @@ FROM opensuse/tumbleweed:latest
 
 COPY --from=builder /root/develop/webserver /root/develop/webserver
 
-CMD export VCS_REF=$(cat /root/develop/commit_hash)
+RUN export VCS_REF=$(cat /root/develop/webserver/commit_hash)
 
 LABEL maintainer="top1@llnl.gov"
 

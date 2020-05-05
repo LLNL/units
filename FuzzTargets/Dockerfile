@@ -8,6 +8,8 @@ WORKDIR /root/develop/build
 RUN cmake ../units -DUNITS_BUILD_FUZZ_TARGETS=ON -DCMAKE_CXX_STANDARD=17 -DUNITS_INSTALL=OFF -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_COMPILER_FORCED=ON -DCMAKE_CXX_FLAGS="-g -O1 -fsanitize=fuzzer" && make -j2
 
 WORKDIR /root/develop/fuzz_targets
+RUN cd ../units && git rev-parse --short HEAD > ../fuzz_targets/commit_hash
+
 
 RUN cp ../build/FuzzTargets/fuzz_measurement . && cp ../units/FuzzTargets/*.txt . && cp ../units/FuzzTargets/*.sh .
 
@@ -15,8 +17,15 @@ FROM ubuntu:18.04
 
 COPY --from=builder /root/develop/fuzz_targets /root/develop/fuzz_targets
 
+RUN export VCS_REF=$(cat /root/develop/Fuzz_targets/commit_hash)
+
 LABEL maintainer="top1@llnl.gov"
 
+LABEL name="units.fuzzer"
+LABEL description="Units library fuzzer"
+LABEL vcs-ref=$VCS_REF
+LABEL vcs-url="https://github.com/LLNL/units"
+LABEL version="0.4.1"
 VOLUME /fuzz
 
 #ENV ASAN_OPTIONS='quarantine_size_mb=16:max_redzone=512:detect_leaks=0:max_malloc_fill_size=1024'
