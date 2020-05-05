@@ -24,6 +24,7 @@ LABEL name="units.webserver"
 LABEL description="Units library webserver"
 LABEL vcs-ref=$VCS_REF
 LABEL vcs-url="https://github.com/LLNL/units"
+LABEL version="0.4.1"
 
 VOLUME /weblog
 
