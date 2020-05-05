@@ -5,13 +5,16 @@ FROM helics/buildenv:tumbleweed-builder as builder
 
 RUN git clone https://github.com/LLNL/units.git units
 
+
 WORKDIR /root/develop/build
 RUN cmake ../units -DUNITS_BUILD_WEBSERVER=ON -DBUILD_TESTING=OFF -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON && make -j2
 
 WORKDIR /root/develop/webserver
-RUN cd ../units && git rev-parse --short HEAD > ../webserver/commit_hash
 
 RUN cp ../build/webserver/unit_web_server . && cp ../units/webserver/*.html . && cp ../units/webserver/*.sh .
+
+WORKDIR /root/develop/units
+RUN git rev-parse --short HEAD > ../webserver/commit_hash
 
 FROM opensuse/tumbleweed:latest
 

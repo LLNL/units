@@ -8,10 +8,10 @@ WORKDIR /root/develop/build
 RUN cmake ../units -DUNITS_BUILD_FUZZ_TARGETS=ON -DCMAKE_CXX_STANDARD=17 -DUNITS_INSTALL=OFF -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_COMPILER_FORCED=ON -DCMAKE_CXX_FLAGS="-g -O1 -fsanitize=fuzzer" && make -j2
 
 WORKDIR /root/develop/fuzz_targets
-RUN cd ../units && git rev-parse --short HEAD > ../fuzz_targets/commit_hash
-
-
 RUN cp ../build/FuzzTargets/fuzz_measurement . && cp ../units/FuzzTargets/*.txt . && cp ../units/FuzzTargets/*.sh .
+
+WORKDIR /root/develop/units
+RUN cd ../units && git rev-parse --short HEAD > ../fuzz_targets/commit_hash
 
 FROM ubuntu:18.04
 
