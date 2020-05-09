@@ -1,5 +1,4 @@
-
-exclude: ^(ThirdParty/|test/files/)
+exclude: ^(ThirdParty/|test/files/|.github/workflows/)
 repos:
 - repo: https://github.com/markdownlint/markdownlint
   rev: v0.9.0
