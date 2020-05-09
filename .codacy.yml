@@ -11,8 +11,8 @@ engines:
 languages:
 
 exclude_paths:
-  - ThirdParty/**/*
-  - ThirdParty/*
-  - scripts/**/*
-  - scripts/*
-  - **.md
+  - 'ThirdParty/**/*'
+  - 'ThirdParty/*'
+  - 'scripts/**/*'
+  - 'scripts/*'
+  - '**.md'
