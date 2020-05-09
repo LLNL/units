@@ -1,33 +1,43 @@
 ﻿<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Units Library String Conversions</title>
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <title>Units Library String Conversions</title>
+  </head>
 
-    <body>
-        <h1>Units Library String Conversions</h1>
-        <h2><a href="https://github.com/LLNL/units">Source</a>
-            <a href="https://units.readthedocs.io/en/latest/index.html">Documentation</a></h2>
-        <form action="/convert" method="post">
-            <ul>
-                Measurement string:
-                <br />
-                <input type="text" id="m_string" name="measurement" />
-                <br />
-                E.g.  "25 m", "ten tons", "3.252Tesla", "237uL"
-                <br />
+  <body>
+    <h1>Units Library String Conversions</h1>
+    <h2>
+      <a href="https://github.com/LLNL/units">Source</a>
+      <a href="https://units.readthedocs.io/en/latest/index.html"
+        >Documentation</a
+      >
+    </h2>
+    <form action="/convert" method="post">
+      <ul>
+        Measurement string:
+        <br />
+        <input type="text" id="m_string" name="measurement" />
+        <br />
+        E.g. "25 m", "ten tons", "3.252Tesla", "237uL"
+        <br />
 
-                <br />convert to:
-                <br />
-                <input type="text" id="convert_units" name="units" />
-                <br />
-                E.g. "inches", "lb", "Gauss", "tsp"
-                <br /> "use '*' to convert to base units
-                <br />
-                <input type="submit" name="caction" value="convert" formmethod="post" />
-                <input type="submit" name="caction" value="to_string" formmethod="post" />
-                <input type="reset">
-            </ul>
-        </form>
-    </body>
+        <br />convert to:
+        <br />
+        <input type="text" id="convert_units" name="units" />
+        <br />
+        E.g. "inches", "lb", "Gauss", "tsp"
+        <br />
+        "use '*' to convert to base units
+        <br />
+        <input type="submit" name="caction" value="convert" formmethod="post" />
+        <input
+          type="submit"
+          name="caction"
+          value="to_string"
+          formmethod="post"
+        />
+        <input type="reset" />
+      </ul>
+    </form>
+  </body>
 </html>
