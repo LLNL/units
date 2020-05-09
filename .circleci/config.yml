@@ -1,6 +1,5 @@
 version: 2
 aliases:
-
   - &run_units
     name: run_units
     environment:
@@ -22,7 +21,6 @@ aliases:
       make QUICK_RAW_FUZZ
 
 jobs:
-
   unitsTSan:
     docker:
       - image: helics/buildenv:sanitizers
@@ -79,5 +77,3 @@ workflows:
       - unitsASan
       - unitsTSan
       - unitsFuzz
-
-

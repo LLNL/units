@@ -6,7 +6,7 @@ inputs:
   options:
     description: 'The CMake configuration options'
     required: false
-    default: ""
+    default: ''
 name: 'Configure with CMake'
 runs:
   using: 'docker'
