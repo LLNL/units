@@ -14,6 +14,10 @@ repos:
   rev: v1.1.1
   hooks:
   - id: dockerfile_lint
+- repo: https://github.com/prettier/prettier
+  rev: 2.0.5
+  hooks:
+  - id: prettier
 - repo: https://github.com/Lucas-C/pre-commit-hooks
   rev: v1.1.7
   hooks:
@@ -22,7 +26,7 @@ repos:
   rev: v1.16.0
   hooks:
   - id: codespell
-    exclude: ^(ThirdParty/|test/|units/|docs/reference/)
+    exclude: ^(test/|units/|docs/reference/)
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0
   hooks:
