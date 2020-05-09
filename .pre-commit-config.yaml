@@ -13,6 +13,7 @@ repos:
     rev: v1.1.1
     hooks:
       - id: dockerfile_lint
+        args: [--rulefile, ./config/Docker/docker_rules.yml, --dockerfile]
   - repo: https://github.com/prettier/prettier
     rev: 2.0.5
     hooks:
