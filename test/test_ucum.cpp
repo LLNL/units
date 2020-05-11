@@ -130,7 +130,7 @@ TEST(UCUM, TestAllVerify)
         EXPECT_NEAR(mag / csact.multiplier(), 1.0, 0.01)
             << csCode << ":error in magnitude " << mag << " to "
             << csact.multiplier();
-        if (std::abs(mag / csact.multiplier() - 1.0) >= 0.01) {
+        if (std::fabs(mag / csact.multiplier() - 1.0) >= 0.01) {
             ++magError;
         }
     }
@@ -614,7 +614,7 @@ TEST(UCUMConversions, convert1)
         EXPECT_FALSE(std::isnan(act));
         if (!std::isnan(act)) {
             EXPECT_NEAR(outcome, act, 0.001 * outcome);
-            if (std::abs(outcome - act) / outcome > 0.001) {
+            if (std::fabs(outcome - act) / outcome > 0.001) {
                 std::cout << unitFromString << " and " << unitToString
                           << " do not convert " << act
                           << " and expected=" << outcome << '\n';

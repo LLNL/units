@@ -11,6 +11,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <algorithm>
 #include <array>
 #include <limits>
+#include <cstdlib>
 
 namespace units {
 /// Constants used in definitions of units
@@ -870,7 +871,7 @@ namespace precise {
                 // mole is always -2 regardless of inversion
                 return false;
             }
-            if (std::abs(UT.ampere()) < 2) {
+            if (std::labs(UT.ampere()) < 2) {
                 // ampere is either -3 or -4  or 3 or 4
                 return false;
             }
@@ -882,13 +883,13 @@ namespace precise {
         {
             int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) +
                 (UT.is_per_unit() ? 4 : 0);
-            num += (std::abs(UT.meter()) < 4) ? 256 : 0;
-            num += (std::abs(UT.second()) >= 6) ? 512 : 0;
-            num += (std::abs(UT.kg()) <= 1) ? 128 : 0;
-            num += (std::abs(UT.kelvin()) == 3) ? 16 : 0;
+            num += (std::labs(UT.meter()) < 4) ? 256 : 0;
+            num += (std::labs(UT.second()) >= 6) ? 512 : 0;
+            num += (std::labs(UT.kg()) <= 1) ? 128 : 0;
+            num += (std::labs(UT.kelvin()) == 3) ? 16 : 0;
             num += (UT.ampere() == -4) ? 64 : 0;
-            num += (std::abs(UT.candela()) >= 2) ? 0 : 32;
-            num += (std::abs(UT.currency()) >= 2) ? 8 : 0;
+            num += (std::labs(UT.candela()) >= 2) ? 0 : 32;
+            num += (std::labs(UT.currency()) >= 2) ? 8 : 0;
             return num;
         }
         /// check if 1/custom unit
