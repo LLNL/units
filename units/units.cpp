@@ -126,10 +126,10 @@ fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power)
 static int order(unit val)
 {
     auto bd = val.base_units();
-    int order = std::abs(bd.meter()) + std::abs(bd.kelvin()) +
-        std::abs(bd.kg()) + std::abs(bd.count()) + std::abs(bd.ampere()) +
-        std::abs(bd.second()) + std::abs(bd.currency()) +
-        std::abs(bd.radian()) + std::abs(bd.candela()) + std::abs(bd.mole());
+    int order = std::labs(bd.meter()) + std::labs(bd.kelvin()) +
+        std::labs(bd.kg()) + std::labs(bd.count()) + std::labs(bd.ampere()) +
+        std::labs(bd.second()) + std::labs(bd.currency()) +
+        std::labs(bd.radian()) + std::labs(bd.candela()) + std::labs(bd.mole());
     return order;
 }
 
@@ -1535,7 +1535,7 @@ static double
         return -constants::infinity;
     }
     // floating point min gives you the smallest representable positive value
-    if (std::abs(vld) <
+    if (std::fabs(vld) <
         static_cast<long double>(std::numeric_limits<double>::min())) {
         return 0.0;
     }
@@ -5124,7 +5124,7 @@ static void checkPowerOf10(std::string& unit_string)
                 if (looksLikeInteger(powerstr)) {
                     try {
                         int power = std::stoi(powerstr);
-                        if (std::abs(power) <= 38) {
+                        if (std::labs(power) <= 38) {
                             unit_string.replace(fndP, 3, "1e");
                         }
                     }
