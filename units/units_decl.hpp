@@ -22,24 +22,24 @@ namespace detail {
       public:
         // construct from powers
         constexpr unit_data(
-            int meter,
-            int kilogram,
-            int second,
-            int ampere,
-            int kelvin,
-            int mole,
-            int candela,
-            int currency,
-            int count,
+            int meters,
+            int kilograms,
+            int seconds,
+            int amperes,
+            int kelvins,
+            int moles,
+            int candelas,
+            int currencys,
+            int counts,
             int radians,
             unsigned int per_unit,
             unsigned int flag,
             unsigned int flag2,
             unsigned int equation) :
-            meter_(meter),
-            second_(second), kilogram_(kilogram), ampere_(ampere),
-            candela_(candela), kelvin_(kelvin), mole_(mole), radians_(radians),
-            currency_(currency), count_(count), per_unit_(per_unit),
+            meter_(meters),
+            second_(seconds), kilogram_(kilograms), ampere_(amperes),
+            candela_(candelas), kelvin_(kelvins), mole_(moles), radians_(radians),
+            currency_(currencys), count_(counts), per_unit_(per_unit),
             i_flag_(flag), e_flag_(flag2), equation_(equation)
         {
         }
@@ -441,18 +441,18 @@ class unit {
     {
     }
     /// Construct unit from base unit and a multiplier
-    constexpr unit(detail::unit_data base_unit, double multiplier) :
-        base_units_(base_unit), multiplier_(static_cast<float>(multiplier))
+    constexpr unit(detail::unit_data base_unit, double mult) :
+        base_units_(base_unit), multiplier_(static_cast<float>(mult))
     {
     }
     /// Construct unit from base unit and a multiplier
-    constexpr explicit unit(detail::unit_data base_unit, float multiplier) :
-        base_units_(base_unit), multiplier_(multiplier)
+    constexpr explicit unit(detail::unit_data base_unit, float mult) :
+        base_units_(base_unit), multiplier_(mult)
     {
     }
     /// Take the double and unit in either order for simplicity
-    constexpr unit(double multiplier, unit other) :
-        unit(other.base_units_, multiplier * other.multiplier())
+    constexpr unit(double mult, unit other) :
+        unit(other.base_units_, mult * other.multiplier())
     {
     }
     /// Unit multiplication
@@ -596,54 +596,54 @@ class precise_unit {
     /// Construct from base_unit and multiplier
     constexpr precise_unit(
         detail::unit_data base_unit,
-        double multiplier) noexcept :
+        double mult) noexcept :
         base_units_(base_unit),
-        multiplier_(multiplier)
+        multiplier_(mult)
     {
     }
     /// Construct from base_unit, commodity and multiplier
     constexpr precise_unit(
         detail::unit_data base_unit,
-        std::uint32_t commodity,
-        double multiplier) noexcept :
+        std::uint32_t commodity_code,
+        double mult) noexcept :
         base_units_(base_unit),
-        commodity_(commodity), multiplier_(multiplier)
+        commodity_(commodity_code), multiplier_(mult)
     {
     }
     /// Copy constructor with a multiplier
-    constexpr precise_unit(precise_unit other, double multiplier) noexcept :
+    constexpr precise_unit(precise_unit other, double mult) noexcept :
         precise_unit(
             other.base_units_,
             other.commodity_,
-            multiplier * other.multiplier_)
+            mult * other.multiplier_)
     {
     }
     /// Constructor for a double and other unit
-    constexpr precise_unit(unit other, double multiplier) noexcept :
-        precise_unit(other.base_units(), multiplier * other.multiplier())
+    constexpr precise_unit(unit other, double mult) noexcept :
+        precise_unit(other.base_units(), mult * other.multiplier())
     {
     }
-    constexpr precise_unit(double multiplier, precise_unit other) noexcept :
+    constexpr precise_unit(double mult, precise_unit other) noexcept :
         precise_unit(
             other.base_units_,
             other.commodity_,
-            multiplier * other.multiplier_)
+            mult * other.multiplier_)
     {
     }
     /// Build a unit from another with a multiplier and commodity
     constexpr precise_unit(
-        double multiplier,
+        double mult,
         precise_unit other,
-        std::uint32_t commodity) noexcept :
+        std::uint32_t commodity_code) noexcept :
         precise_unit(
             other.base_units_,
-            commodity,
-            multiplier * other.multiplier_)
+            commodity_code,
+            mult * other.multiplier_)
     {
     }
     /// Constructor for a double and other unit
-    constexpr precise_unit(double multiplier, unit other) noexcept :
-        precise_unit(other.base_units(), multiplier * other.multiplier())
+    constexpr precise_unit(double mult, unit other) noexcept :
+        precise_unit(other.base_units(), mult * other.multiplier())
     {
     }
     /// take the reciprocal of a unit
