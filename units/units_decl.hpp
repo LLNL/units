@@ -38,9 +38,10 @@ namespace detail {
             unsigned int equation) :
             meter_(meters),
             second_(seconds), kilogram_(kilograms), ampere_(amperes),
-            candela_(candelas), kelvin_(kelvins), mole_(moles), radians_(radians),
-            currency_(currencys), count_(counts), per_unit_(per_unit),
-            i_flag_(flag), e_flag_(flag2), equation_(equation)
+            candela_(candelas), kelvin_(kelvins), mole_(moles),
+            radians_(radians), currency_(currencys), count_(counts),
+            per_unit_(per_unit), i_flag_(flag), e_flag_(flag2),
+            equation_(equation)
         {
         }
         /** Construct with the error flag triggered*/
@@ -594,11 +595,8 @@ class precise_unit {
     {
     }
     /// Construct from base_unit and multiplier
-    constexpr precise_unit(
-        detail::unit_data base_unit,
-        double mult) noexcept :
-        base_units_(base_unit),
-        multiplier_(mult)
+    constexpr precise_unit(detail::unit_data base_unit, double mult) noexcept :
+        base_units_(base_unit), multiplier_(mult)
     {
     }
     /// Construct from base_unit, commodity and multiplier
