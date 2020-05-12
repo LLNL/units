@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Fixed
 
+- Fixed `-Wshadow` warnings for GCC 4.9 and earlier [#66][]
+
 ### Added
 
 - Added version output to converter app and the correct version info on the webserver [#54][]
@@ -134,6 +136,7 @@ Continued work on cleaning up the library and starting to add main documentation
 [#56]: https://github.com/LLNL/units/pull/56
 [#64]: https://github.com/LLNL/units/pull/64
 [#65]: https://github.com/LLNL/units/pull/65
+[#66]: https://github.com/LLNL/units/pull/66
 [0.5.0]: https://github.com/LLNL/units/releases/tag/v0.5.0
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
