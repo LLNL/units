@@ -707,9 +707,9 @@ class uncertain_measurement {
     /// construct from a regular measurement and an uncertainty measurement
     explicit uncertain_measurement(
         measurement val,
-        measurement uncertainty_measurement) noexcept :
+        measurement uncertainty_meas) noexcept :
         value_(static_cast<float>(val.value())),
-        uncertainty_(static_cast<float>(uncertainty_measurement.value_as(val.units()))),
+        uncertainty_(static_cast<float>(uncertainty_meas.value_as(val.units()))),
         units_(val.units())
     {
     }
@@ -1242,10 +1242,10 @@ class precise_measurement {
         return (value_ < val) ? true : valueEqualityCheck(val);
     }
     /// Get the numerical value as a particular unit type
-    double value_as(precise_unit units) const
+    double value_as(precise_unit desired_units) const
     {
-        return (units_ == units) ? value_ :
-                                   units::convert(value_, units_, units);
+        return (units_ == desired_units) ? value_ :
+                                   units::convert(value_, units_, desired_units);
     }
     // double multiplier
     friend constexpr inline precise_measurement
@@ -1373,10 +1373,10 @@ class fixed_precise_measurement {
     constexpr precise_unit as_unit() const { return {value_, units_}; }
 
     /// Get the numerical value as a particular unit type
-    double value_as(precise_unit units) const
+    double value_as(precise_unit desired_units) const
     {
-        return (units_ == units) ? value_ :
-                                   units::convert(value_, units_, units);
+        return (units_ == desired_units) ? value_ :
+                                   units::convert(value_, units_, desired_units);
     }
 
     constexpr precise_measurement
