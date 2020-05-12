@@ -370,7 +370,8 @@ class measurement {
     /// Get the numerical value as a particular unit type
     double value_as(unit desired_unit) const
     {
-        return (units_ == desired_unit) ? value_ :
+        return (units_ == desired_unit) ?
+            value_ :
             units::convert(value_, units_, desired_unit);
     }
 
@@ -709,7 +710,8 @@ class uncertain_measurement {
         measurement val,
         measurement uncertainty_meas) noexcept :
         value_(static_cast<float>(val.value())),
-        uncertainty_(static_cast<float>(uncertainty_meas.value_as(val.units()))),
+        uncertainty_(
+            static_cast<float>(uncertainty_meas.value_as(val.units()))),
         units_(val.units())
     {
     }
@@ -945,7 +947,8 @@ class uncertain_measurement {
     {
         return (units_ == desired_units) ?
             static_cast<double>(uncertainty_) :
-            units::convert(static_cast<double>(uncertainty_), units_, desired_units);
+            units::convert(
+                static_cast<double>(uncertainty_), units_, desired_units);
     }
 
     /// comparison operators
@@ -1244,8 +1247,9 @@ class precise_measurement {
     /// Get the numerical value as a particular unit type
     double value_as(precise_unit desired_units) const
     {
-        return (units_ == desired_units) ? value_ :
-                                   units::convert(value_, units_, desired_units);
+        return (units_ == desired_units) ?
+            value_ :
+            units::convert(value_, units_, desired_units);
     }
     // double multiplier
     friend constexpr inline precise_measurement
@@ -1375,8 +1379,9 @@ class fixed_precise_measurement {
     /// Get the numerical value as a particular unit type
     double value_as(precise_unit desired_units) const
     {
-        return (units_ == desired_units) ? value_ :
-                                   units::convert(value_, units_, desired_units);
+        return (units_ == desired_units) ?
+            value_ :
+            units::convert(value_, units_, desired_units);
     }
 
     constexpr precise_measurement

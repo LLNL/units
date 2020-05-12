@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - update the physical constants to latest values and updated related documentation on Physical constants [#56][]
 
 ### Fixed
+
 - Fixed `-Wshadow` warnings for GCC 4.9 and earlier [#66][]
 
 ### Added
