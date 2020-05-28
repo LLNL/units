@@ -68,9 +68,12 @@ double convert(double val, UX start, UX2 result)
     if (start == result || is_default(start) || is_default(result)) {
         return val;
     }
-    if ((is_temperature(start) || is_temperature(result)) &&
+    if ((start.has_e_flag() || result.has_e_flag()) &&
         start.has_same_base(result.base_units())) {
-        return detail::convertTemperature(val, start, result);
+        double converted_val = detail::convertFlaggedUnits(val, start, result);
+        if (!std::isnan(converted_val)) {
+            return converted_val;
+        }
     }
     if (start.is_equation() || result.is_equation()) {
         if (!start.base_units().equivalent_non_counting(result.base_units())) {
@@ -156,12 +159,20 @@ double convert(double val, UX start, UX2 result, double baseValue)
     if (start.base_units() == result.base_units()) {
         return val * start.multiplier() / result.multiplier();
     }
-    /// if it the per unit is equivalent no baseValue is needed so give to first
-    /// function
+    
+    // if the per unit is equivalent, no baseValue is needed so give to first function
     if (start.is_per_unit() == result.is_per_unit()) {
+        if ((start.has_e_flag() || result.has_e_flag()) &&
+            start.has_same_base(result.base_units())) {
+            double converted_val =
+                detail::convertFlaggedUnits(val, start, result, baseValue);
+            if (!std::isnan(converted_val)) {
+                return converted_val;
+            }
+        }
         return convert(val, start, result);
     }
-
+   
     if (start.has_same_base(result.base_units()) || pu == unit_cast(start) ||
         pu == unit_cast(result)) {
         if (start.is_per_unit()) {
