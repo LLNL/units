@@ -663,3 +663,19 @@ TEST(quickConvert, const_constexpr)
         quick_convert(2.0, precise::in, precise::cm) == 2.0 * 2.54,
         "results of quick_convert 2 not correct");
 }
+
+
+TEST(nat_gas_units, psig) {
+    using namespace units;
+    double val = convert(15.2, precise::pressure::psi, precise::pressure::psig);
+    EXPECT_NEAR(val, 0.5, 0.01);
+
+    val = convert(2.0, precise::pressure::atm, precise::pressure::psig,14.8);
+    EXPECT_NEAR(val, 14.6, 0.01);
+
+    val = convert(0.5, precise::pressure::psig, precise::pressure::psi);
+    EXPECT_NEAR(val, 15.2, 0.01);
+
+    val = convert(14.6, precise::pressure::psig, precise::pressure::atm, 14.8);
+    EXPECT_NEAR(val, 2.0, 0.01);
+}

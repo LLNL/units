@@ -308,9 +308,9 @@ namespace precise {
         constexpr precise_unit langley{41840.0, J / m.pow(2)};
         constexpr precise_unit unitpole{1.256637061436e-7, Wb};
         constexpr precise_unit statC_charge{10.0 / c_const, C};
-        constexpr precise_unit statC_flux{10.0 /
-                                              (4.0 * constants::pi * c_const),
-                                          V* m};
+        constexpr precise_unit statC_flux{
+            10.0 / (4.0 * constants::pi * c_const),
+            V* m};
         constexpr precise_unit abOhm{1e-9, ohm};
         constexpr precise_unit abFarad{1e9, F};
         constexpr precise_unit abHenry{1e-9, H};
@@ -730,10 +730,12 @@ namespace precise {
     /// Units related to pressure
     namespace pressure {
         constexpr precise_unit psi{6894.757293168, Pa};
+        constexpr precise_unit psig = psi * eflag;
         constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};
-        constexpr precise_unit torr{101325.0 / 760.0,
-                                    Pa* eflag};  // this is really close to mmHg
+        constexpr precise_unit torr{
+            101325.0 / 760.0,
+            Pa* iflag};  // this is really close to mmHg
         constexpr precise_unit inH2O{248.843004, Pa};  // at 60 degF
         constexpr precise_unit mmH2O{1.0 / 25.4, inH2O};  // at 60 degF
         constexpr precise_unit atm(101325.0, Pa);
@@ -800,8 +802,8 @@ namespace precise {
         constexpr precise_unit btu_59{1054.80, J};
         constexpr precise_unit btu_60{1054.68, J};
         constexpr precise_unit btu_mean{1055.87, J};
-        constexpr precise_unit btu_it{1055.05585,
-                                      J};  // international table btu
+        constexpr precise_unit btu_it{1055.05585, J};  // international table
+                                                       // btu
         constexpr precise_unit btu_iso{1055.06, J};  // rounded btu_it
         constexpr precise_unit quad(1055.05585262, J);
         constexpr precise_unit tonc(12000.0, btu_th / hr);
@@ -817,6 +819,13 @@ namespace precise {
         constexpr precise_unit foeb{6.05e6, btu_59};
         constexpr precise_unit hartree{4.35974465054e-18, J};
         constexpr precise_unit tonhour{3.5168528421, kWh};
+        
+        constexpr precise_unit scf_mol{1.1953, mol};
+        constexpr precise_unit scf{1100.0, btu_it*eflag, commodities::nat_gas};
+        constexpr precise_unit ncf{1163.0, btu_it*eflag, commodities::nat_gas};
+        constexpr precise_unit scm{35.3146667, scf};
+        constexpr precise_unit scm_mol{35.3146667, scf_mol};
+        constexpr precise_unit ncm{1.055, scm};
 
     }  // namespace energy
     constexpr precise_unit btu = energy::btu_it;
@@ -845,24 +854,25 @@ namespace precise {
         */
         constexpr detail::unit_data custom_unit(std::uint16_t customX)
         {
-            return {7 - 4 * bShift(customX, 8U),  // 3 or 7
-                    -2 + 3 * bShift(customX, 7U),  // -2 or 1
-                    // 7 or 0  sometimes custom unit/time is used
-                    7 * bShift(customX, 9U),
-                    // -3 or -4  this is probably the most important for
-                    // identifying custom units
-                    -3 - bShift(customX, 6U),
-                    3 * bShift(customX, 4U),  // 3 or 0
-                    -2,  // this also is set so that 1/-2 = -2 for a 2 bit
-                         // signed number
-                    -2 + 2 * bShift(customX, 5U),
-                    -2 * bShift(customX, 3U),
-                    0,
-                    0,
-                    bShiftu(customX, 2U),
-                    bShiftu(customX, 1U),
-                    bShiftu(customX, 0U),
-                    0};
+            return {
+                7 - 4 * bShift(customX, 8U),  // 3 or 7
+                -2 + 3 * bShift(customX, 7U),  // -2 or 1
+                // 7 or 0  sometimes custom unit/time is used
+                7 * bShift(customX, 9U),
+                // -3 or -4  this is probably the most important for
+                // identifying custom units
+                -3 - bShift(customX, 6U),
+                3 * bShift(customX, 4U),  // 3 or 0
+                -2,  // this also is set so that 1/-2 = -2 for a 2 bit
+                     // signed number
+                -2 + 2 * bShift(customX, 5U),
+                -2 * bShift(customX, 3U),
+                0,
+                0,
+                bShiftu(customX, 2U),
+                bShiftu(customX, 1U),
+                bShiftu(customX, 0U),
+                0};
         }
         /// Check if the unit is a custom unit or inverse custom unit
         inline bool is_custom_unit(detail::unit_data UT)
@@ -937,20 +947,21 @@ namespace precise {
         */
         constexpr detail::unit_data custom_count_unit(std::uint16_t customX)
         {
-            return {0,
-                    0,
-                    0,
-                    3,  // detection codes
-                    -3,  // detection codes
-                    0,
-                    -1 * bShift(customX, 3U),
-                    0,
-                    0,
-                    0,
-                    bShiftu(customX, 2U),
-                    bShiftu(customX, 1U),
-                    bShiftu(customX, 0U),
-                    0};
+            return {
+                0,
+                0,
+                0,
+                3,  // detection codes
+                -3,  // detection codes
+                0,
+                -1 * bShift(customX, 3U),
+                0,
+                0,
+                0,
+                bShiftu(customX, 2U),
+                bShiftu(customX, 1U),
+                bShiftu(customX, 0U),
+                0};
         }
 
         /// Check if the unit is a custom count unit
@@ -983,21 +994,22 @@ namespace precise {
         */
         constexpr detail::unit_data equation_unit(std::uint16_t equation_number)
         {
-            return {0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    bShift(equation_number, 3U),
-                    // 3 and 4 switched on purpose so radian is the high bit
-                    bShift(equation_number, 4U),
-                    bShiftu(equation_number, 2U),
-                    bShiftu(equation_number, 1U),
-                    bShiftu(equation_number, 0U),
-                    1};
+            return {
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                bShift(equation_number, 3U),
+                // 3 and 4 switched on purpose so radian is the high bit
+                bShift(equation_number, 4U),
+                bShiftu(equation_number, 2U),
+                bShiftu(equation_number, 1U),
+                bShiftu(equation_number, 0U),
+                1};
         }
         /// Generate the equation type used the unit
         inline constexpr int eq_type(detail::unit_data UT)
@@ -1565,7 +1577,8 @@ constexpr bool is_temperature(unit utest)
 }
 
 namespace detail {
-    /// Convert a value from one unit base to another
+
+    /// Convert a temperature value from one unit base to another
     template<typename UX, typename UX2>
     double convertTemperature(double val, UX start, UX2 result)
     {
@@ -1592,6 +1605,46 @@ namespace detail {
         }
         return val / result.multiplier();
     }
+
+    /// Convert some flagged units from one type to another
+    template<typename UX, typename UX2>
+    double convertFlaggedUnits(
+        double val,
+        UX start,
+        UX2 result,
+        double basis = constants::invalid_conversion)
+    {
+        if (is_temperature(start) || is_temperature(result)) {
+            return convertTemperature(val, start, result);
+        }
+        if (start.has_same_base(precise::pressure::psi.base_units())) {
+            if (start.has_e_flag() == result.has_e_flag()) {
+                return val * start.multiplier() / result.multiplier();
+            } else {
+                if (start.has_e_flag()) {
+                    if (std::isnan(basis)) {
+                        return (val * start.multiplier() +
+                                precise::pressure::atm.multiplier()) /
+                            result.multiplier();
+                    } else {
+                        return (val + basis) * start.multiplier() /
+                            result.multiplier();
+                    }
+                } else {
+                    if (std::isnan(basis)) {
+                        return (val * start.multiplier() -
+                                precise::pressure::atm.multiplier()) /
+                            result.multiplier();
+                    } else {
+                        return (val * start.multiplier() /
+                            result.multiplier())-basis;
+                    }
+                }
+            }
+        }
+        return constants::invalid_conversion;
+    }
+    
 }  // namespace detail
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
@@ -1813,5 +1866,25 @@ namespace detail {
     }
     // radians converted to mole is kind of dumb, theoretically possible but
     // probably shouldn't be supported
+
+    template<typename UX, typename UX2>
+    inline double extraValidConversions(double val, UX start, UX2 result)
+    {
+        auto base_start = start.base_units();
+        auto base_result = result.base_units();
+        if (start.has_same_base(m.pow(3)) && result.has_same_base(J)) {
+            // volume to scf or scm
+            return val*start.multiplier() * precise::energy::scm.multiplier() /
+                result.multiplier();
+        }
+        if (start.has_same_base(J) && result.has_same_base(m.pow(3))) {
+            // volume to scf or scm
+            return val*start.multiplier() / precise::energy::scm.multiplier() /
+                result.multiplier();
+
+        }
+        return constants::invalid_conversion;
+
+    }
 }  // namespace detail
 }  // namespace units
