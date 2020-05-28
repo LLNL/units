@@ -1577,6 +1577,36 @@ constexpr bool is_temperature(unit utest)
 }
 
 namespace detail {
+
+    /// Convert a temperature value from one unit base to another
+    template<typename UX, typename UX2>
+    double convertTemperature(double val, UX start, UX2 result)
+    {
+        if (is_temperature(start)) {
+            if (units::degF == unit_cast(start)) {
+                val = (val - 32.0) * 5.0 / 9.0;
+            } else if (start.multiplier() != 1.0) {
+                val = val * start.multiplier();
+            }
+            val += 273.15;
+            // convert to K
+        } else {
+            val = val * start.multiplier();
+        }
+        if (is_temperature(result)) {
+            val -= 273.15;
+            if (units::degF == unit_cast(result)) {
+                val *= 9.0 / 5.0;
+                val += 32.0;
+            } else if (result.multiplier() != 1.0) {
+                val = val / result.multiplier();
+            }
+            return val;
+        }
+        return val / result.multiplier();
+    }
+
+    /// Convert some flagged units from one type to another
     template<typename UX, typename UX2>
     double convertFlaggedUnits(
         double val,
@@ -1614,33 +1644,7 @@ namespace detail {
         }
         return constants::invalid_conversion;
     }
-    /// Convert a value from one unit base to another
-    template<typename UX, typename UX2>
-    double convertTemperature(double val, UX start, UX2 result)
-    {
-        if (is_temperature(start)) {
-            if (units::degF == unit_cast(start)) {
-                val = (val - 32.0) * 5.0 / 9.0;
-            } else if (start.multiplier() != 1.0) {
-                val = val * start.multiplier();
-            }
-            val += 273.15;
-            // convert to K
-        } else {
-            val = val * start.multiplier();
-        }
-        if (is_temperature(result)) {
-            val -= 273.15;
-            if (units::degF == unit_cast(result)) {
-                val *= 9.0 / 5.0;
-                val += 32.0;
-            } else if (result.multiplier() != 1.0) {
-                val = val / result.multiplier();
-            }
-            return val;
-        }
-        return val / result.multiplier();
-    }
+    
 }  // namespace detail
 // others
 constexpr unit rpm = unit_cast(precise::rpm);
