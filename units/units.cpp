@@ -2629,7 +2629,7 @@ static const smap base_unit_vals{
     {"sft_i", precise::ft* precise::ft},
     {"[SFT_I]", precise::ft* precise::ft},
     {"SCF", precise::energy::scf},  // standard cubic foot
-    {"CCF", precise::hundred*precise::energy::scf},  // centum cubic foot
+    {"CCF", precise::hundred* precise::energy::scf},  // centum cubic foot
     {"MCF", precise::kilo* precise::energy::scf},  // millum cubic foot
     {"MMCF", precise::mega* precise::energy::scf},  // million cubic foot
     {"BCF", precise::giga* precise::energy::scf},  // billion cubic foot
@@ -2643,7 +2643,7 @@ static const smap base_unit_vals{
     {"Mm^3", precise::kilo* precise::energy::scm},  // millum cubic meters
     {"Nm^3", precise::energy::ncm},  // normal cubic meter
     {"Sm^3", precise::energy::scm},  // standard cubic meter
-    {"MMm^3", precise::mega*precise::energy::scm},  // million cubic meters
+    {"MMm^3", precise::mega* precise::energy::scm},  // million cubic meters
     {"bm^3", precise::giga* precise::energy::scm},  // billion cubic meters
     {"tm^3", precise::tera* precise::energy::scm},  // trillion cubic meters
     {"cf", precise::energy::scf},

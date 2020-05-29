@@ -664,13 +664,13 @@ TEST(quickConvert, const_constexpr)
         "results of quick_convert 2 not correct");
 }
 
-
-TEST(nat_gas_units, psig) {
+TEST(nat_gas_units, psig)
+{
     using namespace units;
     double val = convert(15.2, precise::pressure::psi, precise::pressure::psig);
     EXPECT_NEAR(val, 0.5, 0.01);
 
-    val = convert(2.0, precise::pressure::atm, precise::pressure::psig,14.8);
+    val = convert(2.0, precise::pressure::atm, precise::pressure::psig, 14.8);
     EXPECT_NEAR(val, 14.6, 0.01);
 
     val = convert(0.5, precise::pressure::psig, precise::pressure::psi);
