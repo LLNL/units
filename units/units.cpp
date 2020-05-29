@@ -136,7 +136,7 @@ static int order(unit val)
 // NOTE no unit strings with '/' in it this can cause issues when converting to
 // string with out of order operations
 using umap = std::unordered_map<unit, const char*>;
-static const umap base_unit_names{
+static const umap base_unit_names
     {{m, "m"},
      {m * m, "m^2"},
      {m * m * m, "m^3"},
@@ -310,7 +310,7 @@ static const umap base_unit_names{
      {unit_cast(precise::us::quart), "qt"},
      {unit_cast(precise::data::GiB), "GiB"},
      {unit_cast(precise::other::ppm), "ppm"},
-     {unit_cast(precise::other::ppb), "ppb"}}};
+     {unit_cast(precise::other::ppb), "ppb"}};
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units

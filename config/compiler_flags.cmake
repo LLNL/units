@@ -116,7 +116,11 @@ endif()
 # Extra definitions for visual studio
 # -------------------------------------------------------------
 if(MSVC)
-
+    if (CMAKE_CXX_STANDARD GREATER 19 OR UNITS_CXX_STANDARD GREATER 19)
+        target_compile_options(
+        compile_flags_target INTERFACE /Zc:char8_t-
+        )
+    endif()
     target_compile_options(
         compile_flags_target INTERFACE -D_CRT_SECURE_NO_WARNINGS
                                        -D_SCL_SECURE_NO_WARNINGS
