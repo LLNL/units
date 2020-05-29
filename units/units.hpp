@@ -133,7 +133,8 @@ double convert(double val, UX start, UX2 result)
         return result.multiplier() / (val * start.multiplier());
     }
     if (start.has_e_flag() || result.has_e_flag()) {
-        double converted_val = detail::extraValidConversions(val, start, result);
+        double converted_val =
+            detail::extraValidConversions(val, start, result);
         if (!std::isnan(converted_val)) {
             return converted_val;
         }
@@ -159,8 +160,9 @@ double convert(double val, UX start, UX2 result, double baseValue)
     if (start.base_units() == result.base_units()) {
         return val * start.multiplier() / result.multiplier();
     }
-    
-    // if the per unit is equivalent, no baseValue is needed so give to first function
+
+    // if the per unit is equivalent, no baseValue is needed so give to first
+    // function
     if (start.is_per_unit() == result.is_per_unit()) {
         if ((start.has_e_flag() || result.has_e_flag()) &&
             start.has_same_base(result.base_units())) {
@@ -172,7 +174,7 @@ double convert(double val, UX start, UX2 result, double baseValue)
         }
         return convert(val, start, result);
     }
-   
+
     if (start.has_same_base(result.base_units()) || pu == unit_cast(start) ||
         pu == unit_cast(result)) {
         if (start.is_per_unit()) {
