@@ -595,6 +595,17 @@ class fixed_measurement {
         return value_ < val ? true : operator==(val);
     }
 
+    bool operator==(const fixed_measurement &val) const
+    {
+        return operator==(
+            (units_ == val.units()) ? val.value() : val.value_as(units_));
+    }
+    bool operator!=(const fixed_measurement &val) const
+    {
+        return operator!=(
+            (units_ == val.units()) ? val.value() : val.value_as(units_));
+    }
+
     bool operator==(measurement val) const
     {
         return operator==(
