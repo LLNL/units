@@ -1511,6 +1511,19 @@ class fixed_precise_measurement {
     }
 
     /// Equality operator
+    bool operator==(const fixed_precise_measurement& val) const
+    {
+        return operator==(
+            (units_ == val.units()) ? val.value() : val.value_as(units_));
+    }
+    /// Not equal operator
+    bool operator!=(const fixed_precise_measurement& val) const
+    {
+        return operator!=(
+            (units_ == val.units()) ? val.value() : val.value_as(units_));
+    }
+
+    /// Equality operator
     bool operator==(const precise_measurement& val) const
     {
         return operator==(
