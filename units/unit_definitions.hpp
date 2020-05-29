@@ -308,9 +308,9 @@ namespace precise {
         constexpr precise_unit langley{41840.0, J / m.pow(2)};
         constexpr precise_unit unitpole{1.256637061436e-7, Wb};
         constexpr precise_unit statC_charge{10.0 / c_const, C};
-        constexpr precise_unit statC_flux{
-            10.0 / (4.0 * constants::pi * c_const),
-            V* m};
+        constexpr precise_unit statC_flux{10.0 /
+                                              (4.0 * constants::pi * c_const),
+                                          V* m};
         constexpr precise_unit abOhm{1e-9, ohm};
         constexpr precise_unit abFarad{1e9, F};
         constexpr precise_unit abHenry{1e-9, H};
@@ -733,9 +733,8 @@ namespace precise {
         constexpr precise_unit psig = psi * eflag;
         constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};
-        constexpr precise_unit torr{
-            101325.0 / 760.0,
-            Pa* iflag};  // this is really close to mmHg
+        constexpr precise_unit torr{101325.0 / 760.0,
+                                    Pa* iflag};  // this is really close to mmHg
         constexpr precise_unit inH2O{248.843004, Pa};  // at 60 degF
         constexpr precise_unit mmH2O{1.0 / 25.4, inH2O};  // at 60 degF
         constexpr precise_unit atm(101325.0, Pa);
@@ -854,25 +853,24 @@ namespace precise {
         */
         constexpr detail::unit_data custom_unit(std::uint16_t customX)
         {
-            return {
-                7 - 4 * bShift(customX, 8U),  // 3 or 7
-                -2 + 3 * bShift(customX, 7U),  // -2 or 1
-                // 7 or 0  sometimes custom unit/time is used
-                7 * bShift(customX, 9U),
-                // -3 or -4  this is probably the most important for
-                // identifying custom units
-                -3 - bShift(customX, 6U),
-                3 * bShift(customX, 4U),  // 3 or 0
-                -2,  // this also is set so that 1/-2 = -2 for a 2 bit
-                     // signed number
-                -2 + 2 * bShift(customX, 5U),
-                -2 * bShift(customX, 3U),
-                0,
-                0,
-                bShiftu(customX, 2U),
-                bShiftu(customX, 1U),
-                bShiftu(customX, 0U),
-                0};
+            return {7 - 4 * bShift(customX, 8U),  // 3 or 7
+                    -2 + 3 * bShift(customX, 7U),  // -2 or 1
+                    // 7 or 0  sometimes custom unit/time is used
+                    7 * bShift(customX, 9U),
+                    // -3 or -4  this is probably the most important for
+                    // identifying custom units
+                    -3 - bShift(customX, 6U),
+                    3 * bShift(customX, 4U),  // 3 or 0
+                    -2,  // this also is set so that 1/-2 = -2 for a 2 bit
+                         // signed number
+                    -2 + 2 * bShift(customX, 5U),
+                    -2 * bShift(customX, 3U),
+                    0,
+                    0,
+                    bShiftu(customX, 2U),
+                    bShiftu(customX, 1U),
+                    bShiftu(customX, 0U),
+                    0};
         }
         /// Check if the unit is a custom unit or inverse custom unit
         inline bool is_custom_unit(detail::unit_data UT)
@@ -947,21 +945,20 @@ namespace precise {
         */
         constexpr detail::unit_data custom_count_unit(std::uint16_t customX)
         {
-            return {
-                0,
-                0,
-                0,
-                3,  // detection codes
-                -3,  // detection codes
-                0,
-                -1 * bShift(customX, 3U),
-                0,
-                0,
-                0,
-                bShiftu(customX, 2U),
-                bShiftu(customX, 1U),
-                bShiftu(customX, 0U),
-                0};
+            return {0,
+                    0,
+                    0,
+                    3,  // detection codes
+                    -3,  // detection codes
+                    0,
+                    -1 * bShift(customX, 3U),
+                    0,
+                    0,
+                    0,
+                    bShiftu(customX, 2U),
+                    bShiftu(customX, 1U),
+                    bShiftu(customX, 0U),
+                    0};
         }
 
         /// Check if the unit is a custom count unit
@@ -994,22 +991,21 @@ namespace precise {
         */
         constexpr detail::unit_data equation_unit(std::uint16_t equation_number)
         {
-            return {
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                bShift(equation_number, 3U),
-                // 3 and 4 switched on purpose so radian is the high bit
-                bShift(equation_number, 4U),
-                bShiftu(equation_number, 2U),
-                bShiftu(equation_number, 1U),
-                bShiftu(equation_number, 0U),
-                1};
+            return {0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    bShift(equation_number, 3U),
+                    // 3 and 4 switched on purpose so radian is the high bit
+                    bShift(equation_number, 4U),
+                    bShiftu(equation_number, 2U),
+                    bShiftu(equation_number, 1U),
+                    bShiftu(equation_number, 0U),
+                    1};
         }
         /// Generate the equation type used the unit
         inline constexpr int eq_type(detail::unit_data UT)
