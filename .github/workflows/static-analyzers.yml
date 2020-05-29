@@ -24,4 +24,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run cppcheck
-      run: cppcheck --enable=performance,portability,unusedFunction -i ThirdParty .
+      run: cppcheck --enable=performance,portability,unusedFunction --error-exitcode=-4 -i ThirdParty -i FuzzTargets -i docs -i config .

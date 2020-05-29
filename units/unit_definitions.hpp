@@ -1860,8 +1860,6 @@ namespace detail {
     template<typename UX, typename UX2>
     inline double extraValidConversions(double val, UX start, UX2 result)
     {
-        auto base_start = start.base_units();
-        auto base_result = result.base_units();
         if (start.has_same_base(m.pow(3)) && result.has_same_base(J)) {
             // volume to scf or scm
             return val * start.multiplier() *
