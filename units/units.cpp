@@ -1331,13 +1331,13 @@ static std::string
         mino_unit.multiplier(), min_mult + generateRawUnitString(mino_unit));
 }
 
-std::string to_string(precise_unit un, std::uint32_t match_flags)
+std::string to_string(const precise_unit& un, std::uint32_t match_flags)
 {
     return clean_unit_string(
         to_string_internal(un, match_flags), un.commodity());
 }
 
-std::string to_string(precise_measurement measure, std::uint32_t match_flags)
+std::string to_string(const precise_measurement& measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(12);
@@ -1352,7 +1352,7 @@ std::string to_string(precise_measurement measure, std::uint32_t match_flags)
     return ss.str();
 }
 
-std::string to_string(measurement measure, std::uint32_t match_flags)
+std::string to_string(const measurement &measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(6);
@@ -1367,7 +1367,7 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
     return ss.str();
 }
 
-std::string to_string(uncertain_measurement measure, std::uint32_t match_flags)
+std::string to_string(const uncertain_measurement &measure, std::uint32_t match_flags)
 {
     // TODO(PT) this should really follow more appropriate rules for digits of
     // precision

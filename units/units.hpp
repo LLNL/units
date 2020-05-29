@@ -606,32 +606,32 @@ class fixed_measurement {
             (units_ == val.units()) ? val.value() : val.value_as(units_));
     }
 
-    bool operator==(measurement val) const
+    bool operator==(const measurement &val) const
     {
         return operator==(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator!=(measurement val) const
+    bool operator!=(const measurement &val) const
     {
         return operator!=(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator>(measurement val) const
+    bool operator>(const measurement& val) const
     {
         return operator>(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator<(measurement val) const
+    bool operator<(const measurement& val) const
     {
         return operator<(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator>=(measurement val) const
+    bool operator>=(const measurement& val) const
     {
         return operator>=(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
     }
-    bool operator<=(measurement val) const
+    bool operator<=(const measurement& val) const
     {
         return operator<=(
             (units_ == val.units()) ? val.value() : val.value_as(units_));
@@ -1798,7 +1798,7 @@ enum unit_conversion_flags : std::uint32_t {
         (1U << 31U),  //!< don't do some code and sequence replacements
 };
 /// Generate a string representation of the unit
-std::string to_string(precise_unit units, std::uint32_t match_flags = 0U);
+std::string to_string(const precise_unit& units, std::uint32_t match_flags = 0U);
 
 /// Generate a string representation of the unit
 inline std::string to_string(unit units, std::uint32_t match_flags = 0U)
@@ -1882,14 +1882,14 @@ uncertain_measurement uncertain_measurement_from_string(
 /// Convert a precise measurement to a string (with some extra decimal digits
 /// displayed)
 std::string
-    to_string(precise_measurement measure, std::uint32_t match_flags = 0U);
+    to_string(const precise_measurement& measure, std::uint32_t match_flags = 0U);
 
 /// Convert a measurement to a string
-std::string to_string(measurement measure, std::uint32_t match_flags = 0U);
+std::string to_string(const measurement& measure, std::uint32_t match_flags = 0U);
 
 /// Convert an uncertain measurement to a string
 std::string
-    to_string(uncertain_measurement measure, std::uint32_t match_flags = 0U);
+    to_string(const uncertain_measurement& measure, std::uint32_t match_flags = 0U);
 
 /// Add a custom unit to be included in any string processing
 void addUserDefinedUnit(const std::string& name, precise_unit un);
