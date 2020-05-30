@@ -33,16 +33,6 @@ jobs:
       - script: git diff --exit-code --color
         displayName: Check tidy
 
-  - job: CppLint
-    variables:
-      units.options:
-    pool:
-      vmImage: 'ubuntu-latest'
-    container: sharaku/cpplint:latest
-    steps:
-      - bash: cpplint --counting=detailed --recursive units test webserver converter
-        displayName: Checking against google style guide
-
   - job: Native
     strategy:
       matrix:
@@ -62,7 +52,8 @@ jobs:
           units.std: 11
         Windowslatest:
           vmImage: 'windows-2019'
-          units.std: 17
+          units.std: 20
+          units.options: -DCMAKE_CXX_FLAG="/std:c++latest"
     pool:
       vmImage: $(vmImage)
     steps:
@@ -87,8 +78,12 @@ jobs:
           containerImage: silkeh/clang:3.4
           units.std: 11
         clang8:
-          containerImage: silkeh/clang:8
+          containerImage: helics/buildenv:clang8-builder
           units.std: 14
+        clang10_20:
+          containerImage: helics/buildenv:clang10-builder
+          units.std: 20
+          units.options: -DUNITS_FORCE_LIBCXX=ON -DCMAKE_CXX_FLAGS=-std=c++20
     container: $[ variables['containerImage'] ]
     steps:
       - template: .ci/azure-cmake.yml
