@@ -599,7 +599,8 @@ class precise_unit {
     constexpr precise_unit(
         const detail::unit_data& base_unit,
         double mult) noexcept :
-        base_units_(base_unit), multiplier_(mult)
+        base_units_(base_unit),
+        multiplier_(mult)
     {
     }
     /// Construct from base_unit, commodity and multiplier
@@ -774,7 +775,7 @@ class precise_unit {
     }
 
     /// Check if the units are in some way convertible to one another
-    constexpr bool is_convertible(const precise_unit &other) const
+    constexpr bool is_convertible(const precise_unit& other) const
     {
         return commodity_ == other.commodity_ &&
             base_units_.equivalent_non_counting(other.base_units_);
@@ -856,13 +857,13 @@ class precise_unit {
 };
 
 /// Check if a unit down cast is lossless
-inline constexpr bool is_unit_cast_lossless(const precise_unit &val)
+inline constexpr bool is_unit_cast_lossless(const precise_unit& val)
 {
     return val.multiplier() ==
         static_cast<double>(static_cast<float>(val.multiplier()));
 }
 /// Downcast a precise unit to the less precise version
-constexpr unit unit_cast(const precise_unit &val)
+constexpr unit unit_cast(const precise_unit& val)
 {
     return {val.base_units(), val.multiplier()};
 }
@@ -872,7 +873,7 @@ constexpr unit unit_cast(const unit& val)
 }
 
 /// Check if the multiplier is nan
-inline bool isnan(const precise_unit &u)
+inline bool isnan(const precise_unit& u)
 {
     return std::isnan(u.multiplier());
 }
@@ -885,7 +886,7 @@ inline bool isnan(const unit& u)
 
 /** check if unit multiplier is finite
 @details checks that the multiplier is finite*/
-inline bool isfinite(const precise_unit &utest)
+inline bool isfinite(const precise_unit& utest)
 {
     return std::isfinite(utest.multiplier());
 }
@@ -899,7 +900,7 @@ inline bool isfinite(const unit& utest)
 
 /** check if unit multiplier is finite
 @details checks that the multiplier is infinite*/
-inline bool isinf(const precise_unit &utest)
+inline bool isinf(const precise_unit& utest)
 {
     return std::isinf(utest.multiplier());
 }
@@ -926,7 +927,7 @@ inline constexpr unit pow(const unit& u, int power)
 @param power the integral power, can be positive or negative
 @return a new precise unit with the appropriate value
 */
-inline constexpr precise_unit pow(const precise_unit &u, int power)
+inline constexpr precise_unit pow(const precise_unit& u, int power)
 {
     return u.pow(power);
 }
@@ -936,14 +937,14 @@ inline constexpr precise_unit pow(const precise_unit &u, int power)
 /// take the root of a unit to some power
 unit root(const unit& u, int power);
 
-precise_unit root(const precise_unit &u, int power);
+precise_unit root(const precise_unit& u, int power);
 
 inline unit sqrt(const unit& u)
 {
     return root(u, 2);
 }
 
-inline precise_unit sqrt(const precise_unit &u)
+inline precise_unit sqrt(const precise_unit& u)
 {
     return root(u, 2);
 }

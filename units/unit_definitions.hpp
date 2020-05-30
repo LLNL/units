@@ -1794,7 +1794,8 @@ namespace detail {
     convertible they need to be handled differently
     */
     template<typename UX, typename UX2>
-    inline double convertCountingUnits(double val, const UX& start, const UX2& result)
+    inline double
+        convertCountingUnits(double val, const UX& start, const UX2& result)
     {
         auto base_start = start.base_units();
         auto base_result = result.base_units();
@@ -1861,7 +1862,8 @@ namespace detail {
     // probably shouldn't be supported
 
     template<typename UX, typename UX2>
-    inline double extraValidConversions(double val, const UX& start, const UX2& result)
+    inline double
+        extraValidConversions(double val, const UX& start, const UX2& result)
     {
         if (start.has_same_base(m.pow(3)) && result.has_same_base(J)) {
             // volume to scf or scm
