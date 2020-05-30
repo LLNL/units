@@ -491,7 +491,7 @@ class unit {
         }
         return detail::compare_round_equals(multiplier_, other.multiplier_);
     }
-    bool operator!=(unit other) const { return !operator==(other); }
+    bool operator!=(const unit& other) const { return !operator==(other); }
     // Test for exact numerical equivalence
     constexpr bool is_exactly_the_same(const unit& other) const
     {
