@@ -136,181 +136,181 @@ static int order(const unit& val)
 // NOTE no unit strings with '/' in it this can cause issues when converting to
 // string with out of order operations
 using umap = std::unordered_map<unit, const char*>;
-static const umap base_unit_names
-    {{m, "m"},
-     {m * m, "m^2"},
-     {m * m * m, "m^3"},
-     {(mega * m).pow(3), "(1e9km^3)"},  // Mm^3 is a unit in gas industry for
-                                        // 1000 m^3 not mega meters cubed
-     {kg, "kg"},
-     {mol, "mol"},
-     {A, "A"},
-     {V, "V"},
-     {s, "s"},
-     // this is so Gs doesn't get used which can cause issues
-     {giga * s, "Bs"},
-     {cd, "cd"},
-     {K, "K"},
-     {N, "N"},
-     {Pa, "Pa"},
-     {J, "J"},
-     {C, "C"},
-     {F, "F"},
-     // because GF is gram force not giga Farad which is a ridiculous unit
-     // otherwise generates confusion
-     {giga * F, "(1000MF)"},
-     {S, "S"},
-     {Wb, "Wb"},
-     {T, "T"},
-     {H, "H"},
-     // deal with pico henry which is interpreted as acidity (pH)
-     {pico * H, "(A^-2*pJ)"},
-     {lm, "lm"},
-     {lx, "lux"},
-     {Bq, "Bq"},
-     {unit(2.58e-4, C / kg), "R"},
-     {in, "in"},
-     {unit_cast(precise::in.pow(2)), "in^2"},
-     {unit_cast(precise::in.pow(3)), "in^3"},
-     {ft, "ft"},
-     {unit_cast(precise::imp::foot), "ft_br"},
-     {unit_cast(precise::imp::inch), "in_br"},
-     {unit_cast(precise::imp::yard), "yd_br"},
-     {unit_cast(precise::imp::rod), "rd_br"},
-     {unit_cast(precise::imp::mile), "mi_br"},
-     {unit_cast(precise::imp::chain), "ch_br"},
-     {unit_cast(precise::imp::pace), "pc_br"},
-     {unit_cast(precise::imp::link), "lk_br"},
-     {unit_cast(precise::imp::chain), "ch_br"},
-     {unit_cast(precise::imp::nautical_mile), "nmi_br"},
-     {unit_cast(precise::imp::knot), "kn_br"},
-     {unit_cast(precise::cgs::curie), "Ci"},
-     {(mega * m).pow(3),
-      "ZL"},  // another one of those units that can be confused
-     {bar, "bar"},
-     {unit_cast(precise::nautical::knot), "knot"},
-     {ft * ft, "ft^2"},
-     {ft * ft * ft, "ft^3"},
-     {unit_cast(precise::ft.pow(2)), "ft^2"},
-     {unit_cast(precise::ft.pow(3)), "ft^3"},
-     {yd, "yd"},
-     {unit_cast(precise::us::rod), "rd"},
-     {yd * yd, "yd^2"},
-     {yd.pow(3), "yd^3"},
-     {unit_cast(precise::yd.pow(2)), "yd^2"},
-     {unit_cast(precise::yd.pow(3)), "yd^3"},
-     {min, "min"},
-     {ms, "ms"},
-     {ns, "ns"},
-     {hr, "hr"},
-     {unit_cast(precise::time::day), "day"},
-     {unit_cast(precise::time::week), "week"},
-     {unit_cast(precise::time::yr), "yr"},
-     {unit_cast(precise::time::syr), "syr"},
-     {unit_cast(precise::time::ag), "a_g"},
-     {unit_cast(precise::time::at), "a_t"},
-     {unit_cast(precise::time::aj), "a_j"},
-     {deg, "deg"},
-     {rad, "rad"},
-     {unit_cast(precise::angle::grad), "grad"},
-     {degC, u8"\u00B0C"},
-     {degF, u8"\u00B0F"},
-     {mile, "mi"},
-     {mile * mile, "mi^2"},
-     {unit_cast(precise::mile.pow(2)), "mi^2"},
-     {cm, "cm"},
-     {km, "km"},
-     {km * km, "km^2"},
-     {mm, "mm"},
-     {nm, "nm"},
-     {unit_cast(precise::distance::ly), "ly"},
-     {unit_cast(precise::distance::au), "au"},
-     {percent, "%"},
-     {unit_cast(precise::special::ASD), "ASD"},
-     {unit_cast(precise::special::rootHertz), "rootHertz"},
-     {currency, "$"},
-     {count, "item"},
-     {ratio, ""},
-     {error, "ERROR"},
-     {defunit, "defunit"},
-     {iflag, "flag"},
-     {eflag, "eflag"},
-     {pu, "pu"},
-     {Gy, "Gy"},
-     {Sv, "Sv"},
-     {Hz, "Hz"},
-     {rpm, "rpm"},
-     {kat, "kat"},
-     {sr, "sr"},
-     {W, "W"},
-     {VAR, "VAR"},
-     {MVAR, "MVAR"},
-     {acre, "acre"},
-     {MW, "MW"},
-     {kW, "kW"},
-     {mW, "mW"},
-     {puMW, "puMW"},
-     {puMW / mega, "puW"},
-     {puV, "puV"},
-     {puA, "puA"},
-     {mA, "mA"},
-     {kV, "kV"},
-     {unit_cast(precise::energy::therm_ec), "therm"},
-     {unit_cast(precise::energy::tonc), "tonc"},
-     {acre, "acre"},
-     {unit_cast(precise::area::are), "are"},
-     {unit_cast(precise::area::hectare), "hectare"},
-     {unit_cast(precise::area::barn), "barn"},
-     {pu * ohm, "puOhm"},
-     {puHz, "puHz"},
-     {hp, "hp"},
-     {mph, "mph"},
-     {unit_cast(precise::energy::eV), "eV"},
-     {kcal, "kcal"},
-     {btu, "btu"},
-     {unit_cast(precise::other::CFM), "CFM"},
-     {unit_cast(precise::pressure::atm), "atm"},
-     {unit_cast(precise::pressure::psi), "psi"},
-     {unit_cast(precise::pressure::psig), "psig"},
-     {unit_cast(precise::pressure::inHg), "inHg"},
-     {unit_cast(precise::pressure::inH2O), "inH2O"},
-     {unit_cast(precise::pressure::mmHg), "mmHg"},
-     {unit_cast(precise::pressure::mmH2O), "mmH2O"},
-     {unit_cast(precise::pressure::torr), "torr"},
-     {unit_cast(precise::energy::EER), "EER"},
-     {unit_cast(precise::energy::quad), "quad"},
-     {unit_cast(precise::laboratory::IU), "[IU]"},
-     {kWh, "kWh"},
-     {MWh, "MWh"},
-     {unit_cast(precise::other::MegaBuck), "M$"},
-     {unit_cast(precise::other::GigaBuck), "B$"},
-     {L, "L"},
-     {unit_cast(precise::mL), "mL"},
-     {unit_cast(precise::micro * precise::L), "uL"},
-     {gal, "gal"},
-     {unit_cast(precise::us::barrel), "bbl"},
-     {lb, "lb"},
-     {ton, "ton"},
-     {tonne, "t"},  // metric ton
-     {unit_cast(precise::mass::u), "u"},
-     {kB, "kB"},
-     {MB, "MB"},
-     {GB, "GB"},
-     {unit_cast(precise::data::KiB), "KiB"},
-     {unit_cast(precise::data::MiB), "MiB"},
-     {unit_cast(precise::us::dry::bushel), "bu"},
-     {unit_cast(precise::us::floz), "floz"},
-     {oz, "oz"},
-     {unit_cast(precise::distance::angstrom), u8"\u00C5"},
-     {g, "g"},
-     {mg, "mg"},
-     {unit_cast(precise::us::cup), "cup"},
-     {unit_cast(precise::us::tsp), "tsp"},
-     {unit_cast(precise::us::tbsp), "tbsp"},
-     {unit_cast(precise::us::quart), "qt"},
-     {unit_cast(precise::data::GiB), "GiB"},
-     {unit_cast(precise::other::ppm), "ppm"},
-     {unit_cast(precise::other::ppb), "ppb"}};
+static const umap base_unit_names{
+    {m, "m"},
+    {m * m, "m^2"},
+    {m * m * m, "m^3"},
+    {(mega * m).pow(3), "(1e9km^3)"},  // Mm^3 is a unit in gas industry for
+                                       // 1000 m^3 not mega meters cubed
+    {kg, "kg"},
+    {mol, "mol"},
+    {A, "A"},
+    {V, "V"},
+    {s, "s"},
+    // this is so Gs doesn't get used which can cause issues
+    {giga * s, "Bs"},
+    {cd, "cd"},
+    {K, "K"},
+    {N, "N"},
+    {Pa, "Pa"},
+    {J, "J"},
+    {C, "C"},
+    {F, "F"},
+    // because GF is gram force not giga Farad which is a ridiculous unit
+    // otherwise generates confusion
+    {giga * F, "(1000MF)"},
+    {S, "S"},
+    {Wb, "Wb"},
+    {T, "T"},
+    {H, "H"},
+    // deal with pico henry which is interpreted as acidity (pH)
+    {pico * H, "(A^-2*pJ)"},
+    {lm, "lm"},
+    {lx, "lux"},
+    {Bq, "Bq"},
+    {unit(2.58e-4, C / kg), "R"},
+    {in, "in"},
+    {unit_cast(precise::in.pow(2)), "in^2"},
+    {unit_cast(precise::in.pow(3)), "in^3"},
+    {ft, "ft"},
+    {unit_cast(precise::imp::foot), "ft_br"},
+    {unit_cast(precise::imp::inch), "in_br"},
+    {unit_cast(precise::imp::yard), "yd_br"},
+    {unit_cast(precise::imp::rod), "rd_br"},
+    {unit_cast(precise::imp::mile), "mi_br"},
+    {unit_cast(precise::imp::chain), "ch_br"},
+    {unit_cast(precise::imp::pace), "pc_br"},
+    {unit_cast(precise::imp::link), "lk_br"},
+    {unit_cast(precise::imp::chain), "ch_br"},
+    {unit_cast(precise::imp::nautical_mile), "nmi_br"},
+    {unit_cast(precise::imp::knot), "kn_br"},
+    {unit_cast(precise::cgs::curie), "Ci"},
+    {(mega * m).pow(3),
+     "ZL"},  // another one of those units that can be confused
+    {bar, "bar"},
+    {unit_cast(precise::nautical::knot), "knot"},
+    {ft * ft, "ft^2"},
+    {ft * ft * ft, "ft^3"},
+    {unit_cast(precise::ft.pow(2)), "ft^2"},
+    {unit_cast(precise::ft.pow(3)), "ft^3"},
+    {yd, "yd"},
+    {unit_cast(precise::us::rod), "rd"},
+    {yd * yd, "yd^2"},
+    {yd.pow(3), "yd^3"},
+    {unit_cast(precise::yd.pow(2)), "yd^2"},
+    {unit_cast(precise::yd.pow(3)), "yd^3"},
+    {min, "min"},
+    {ms, "ms"},
+    {ns, "ns"},
+    {hr, "hr"},
+    {unit_cast(precise::time::day), "day"},
+    {unit_cast(precise::time::week), "week"},
+    {unit_cast(precise::time::yr), "yr"},
+    {unit_cast(precise::time::syr), "syr"},
+    {unit_cast(precise::time::ag), "a_g"},
+    {unit_cast(precise::time::at), "a_t"},
+    {unit_cast(precise::time::aj), "a_j"},
+    {deg, "deg"},
+    {rad, "rad"},
+    {unit_cast(precise::angle::grad), "grad"},
+    {degC, u8"\u00B0C"},
+    {degF, u8"\u00B0F"},
+    {mile, "mi"},
+    {mile * mile, "mi^2"},
+    {unit_cast(precise::mile.pow(2)), "mi^2"},
+    {cm, "cm"},
+    {km, "km"},
+    {km * km, "km^2"},
+    {mm, "mm"},
+    {nm, "nm"},
+    {unit_cast(precise::distance::ly), "ly"},
+    {unit_cast(precise::distance::au), "au"},
+    {percent, "%"},
+    {unit_cast(precise::special::ASD), "ASD"},
+    {unit_cast(precise::special::rootHertz), "rootHertz"},
+    {currency, "$"},
+    {count, "item"},
+    {ratio, ""},
+    {error, "ERROR"},
+    {defunit, "defunit"},
+    {iflag, "flag"},
+    {eflag, "eflag"},
+    {pu, "pu"},
+    {Gy, "Gy"},
+    {Sv, "Sv"},
+    {Hz, "Hz"},
+    {rpm, "rpm"},
+    {kat, "kat"},
+    {sr, "sr"},
+    {W, "W"},
+    {VAR, "VAR"},
+    {MVAR, "MVAR"},
+    {acre, "acre"},
+    {MW, "MW"},
+    {kW, "kW"},
+    {mW, "mW"},
+    {puMW, "puMW"},
+    {puMW / mega, "puW"},
+    {puV, "puV"},
+    {puA, "puA"},
+    {mA, "mA"},
+    {kV, "kV"},
+    {unit_cast(precise::energy::therm_ec), "therm"},
+    {unit_cast(precise::energy::tonc), "tonc"},
+    {acre, "acre"},
+    {unit_cast(precise::area::are), "are"},
+    {unit_cast(precise::area::hectare), "hectare"},
+    {unit_cast(precise::area::barn), "barn"},
+    {pu * ohm, "puOhm"},
+    {puHz, "puHz"},
+    {hp, "hp"},
+    {mph, "mph"},
+    {unit_cast(precise::energy::eV), "eV"},
+    {kcal, "kcal"},
+    {btu, "btu"},
+    {unit_cast(precise::other::CFM), "CFM"},
+    {unit_cast(precise::pressure::atm), "atm"},
+    {unit_cast(precise::pressure::psi), "psi"},
+    {unit_cast(precise::pressure::psig), "psig"},
+    {unit_cast(precise::pressure::inHg), "inHg"},
+    {unit_cast(precise::pressure::inH2O), "inH2O"},
+    {unit_cast(precise::pressure::mmHg), "mmHg"},
+    {unit_cast(precise::pressure::mmH2O), "mmH2O"},
+    {unit_cast(precise::pressure::torr), "torr"},
+    {unit_cast(precise::energy::EER), "EER"},
+    {unit_cast(precise::energy::quad), "quad"},
+    {unit_cast(precise::laboratory::IU), "[IU]"},
+    {kWh, "kWh"},
+    {MWh, "MWh"},
+    {unit_cast(precise::other::MegaBuck), "M$"},
+    {unit_cast(precise::other::GigaBuck), "B$"},
+    {L, "L"},
+    {unit_cast(precise::mL), "mL"},
+    {unit_cast(precise::micro * precise::L), "uL"},
+    {gal, "gal"},
+    {unit_cast(precise::us::barrel), "bbl"},
+    {lb, "lb"},
+    {ton, "ton"},
+    {tonne, "t"},  // metric ton
+    {unit_cast(precise::mass::u), "u"},
+    {kB, "kB"},
+    {MB, "MB"},
+    {GB, "GB"},
+    {unit_cast(precise::data::KiB), "KiB"},
+    {unit_cast(precise::data::MiB), "MiB"},
+    {unit_cast(precise::us::dry::bushel), "bu"},
+    {unit_cast(precise::us::floz), "floz"},
+    {oz, "oz"},
+    {unit_cast(precise::distance::angstrom), u8"\u00C5"},
+    {g, "g"},
+    {mg, "mg"},
+    {unit_cast(precise::us::cup), "cup"},
+    {unit_cast(precise::us::tsp), "tsp"},
+    {unit_cast(precise::us::tbsp), "tbsp"},
+    {unit_cast(precise::us::quart), "qt"},
+    {unit_cast(precise::data::GiB), "GiB"},
+    {unit_cast(precise::other::ppm), "ppm"},
+    {unit_cast(precise::other::ppb), "ppb"}};
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
@@ -598,7 +598,7 @@ static void addUnitPower(std::string& str, const char* unit, int power)
 }
 
 // add the flag string to another unit string
-static void addUnitFlagStrings(const precise_unit &un, std::string& unitString)
+static void addUnitFlagStrings(const precise_unit& un, std::string& unitString)
 {
     if (un.base_units().has_i_flag()) {
         if (unitString.empty()) {
@@ -643,7 +643,7 @@ static inline void
     }
 }
 
-static std::string generateRawUnitString(const precise_unit &un)
+static std::string generateRawUnitString(const precise_unit& un)
 {
     std::string val;
     auto bu = un.base_units();
@@ -706,7 +706,7 @@ static double
 static std::unordered_map<unit, std::string> user_defined_unit_names;
 static smap user_defined_units;
 
-void addUserDefinedUnit(const std::string& name, const precise_unit &un)
+void addUserDefinedUnit(const std::string& name, const precise_unit& un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_unit_names[unit_cast(un)] = name;
@@ -717,7 +717,7 @@ void addUserDefinedUnit(const std::string& name, const precise_unit &un)
     }
 }
 
-void addUserDefinedInputUnit(const std::string& name, const precise_unit &un)
+void addUserDefinedInputUnit(const std::string& name, const precise_unit& un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_units[name] = un;
@@ -1337,7 +1337,8 @@ std::string to_string(const precise_unit& un, std::uint32_t match_flags)
         to_string_internal(un, match_flags), un.commodity());
 }
 
-std::string to_string(const precise_measurement& measure, std::uint32_t match_flags)
+std::string
+    to_string(const precise_measurement& measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(12);
@@ -1352,7 +1353,7 @@ std::string to_string(const precise_measurement& measure, std::uint32_t match_fl
     return ss.str();
 }
 
-std::string to_string(const measurement &measure, std::uint32_t match_flags)
+std::string to_string(const measurement& measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(6);
@@ -1367,7 +1368,8 @@ std::string to_string(const measurement &measure, std::uint32_t match_flags)
     return ss.str();
 }
 
-std::string to_string(const uncertain_measurement &measure, std::uint32_t match_flags)
+std::string
+    to_string(const uncertain_measurement& measure, std::uint32_t match_flags)
 {
     // TODO(PT) this should really follow more appropriate rules for digits of
     // precision
