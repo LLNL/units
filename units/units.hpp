@@ -32,7 +32,7 @@ constexpr double quick_convert(UX start, UX2 result)
 /// Generate a conversion factor between two units in a constexpr function, the
 /// units will only convert if they have the same base unit
 template<typename UX, typename UX2>
-constexpr double quick_convert(double val, UX start, UX2 result)
+constexpr double quick_convert(double val, const UX &start, const UX2 &result)
 {
     static_assert(
         std::is_same<UX, unit>::value || std::is_same<UX, precise_unit>::value,
@@ -49,14 +49,14 @@ constexpr double quick_convert(double val, UX start, UX2 result)
 
 /// Generate a conversion factor between two units
 template<typename UX, typename UX2>
-double convert(UX start, UX2 result)
+double convert(const UX &start, const UX2 &result)
 {
     return convert(1.0, start, result);
 }
 
 /// Convert a value from one unit base to another
 template<typename UX, typename UX2>
-double convert(double val, UX start, UX2 result)
+double convert(double val, const UX &start, const UX2 &result)
 {
     static_assert(
         std::is_same<UX, unit>::value || std::is_same<UX, precise_unit>::value,
@@ -145,7 +145,7 @@ double convert(double val, UX start, UX2 result)
 /// Convert a value from one unit base to another potentially involving pu base
 /// values
 template<typename UX, typename UX2>
-double convert(double val, UX start, UX2 result, double baseValue)
+double convert(double val, const UX &start, const UX2& result, double baseValue)
 {
     static_assert(
         std::is_same<UX, unit>::value || std::is_same<UX, precise_unit>::value,
@@ -196,8 +196,8 @@ double convert(double val, UX start, UX2 result, double baseValue)
 template<typename UX, typename UX2>
 double convert(
     double val,
-    UX start,
-    UX2 result,
+    const UX& start,
+    const UX2& result,
     double basePower,
     double baseVoltage)
 {
@@ -272,15 +272,15 @@ class measurement {
     // NOLINTNEXTLINE(modernize-use-equals-default)
     constexpr measurement() noexcept {}
     /// construct from a value and unit
-    constexpr measurement(double val, unit base) : value_(val), units_(base) {}
+    constexpr measurement(double val, const unit& base) : value_(val), units_(base) {}
     /// Get the base value with no units
     constexpr double value() const { return value_; }
 
-    constexpr measurement operator*(measurement other) const
+    constexpr measurement operator*(const measurement& other) const
     {
         return {value_ * other.value_, units_ * other.units_};
     }
-    constexpr measurement operator*(unit other) const
+    constexpr measurement operator*(const unit& other) const
     {
         return {value_, units_ * other};
     }
@@ -288,11 +288,11 @@ class measurement {
     {
         return {value_ * val, units_};
     }
-    constexpr measurement operator/(measurement other) const
+    constexpr measurement operator/(const measurement& other) const
     {
         return {value_ / other.value_, units_ / other.units_};
     }
-    constexpr measurement operator/(unit other) const
+    constexpr measurement operator/(const unit& other) const
     {
         return {value_, units_ / other};
     }
@@ -301,7 +301,7 @@ class measurement {
     {
         return {value_ / val, units_};
     }
-    measurement operator%(measurement other) const
+    measurement operator%(const measurement& other) const
     {
         return {fmod(value_, other.value_as(units_)), units_};
     }
@@ -309,22 +309,23 @@ class measurement {
     {
         return {fmod(value_, val), units_};
     }
-    measurement operator+(measurement other) const
+    measurement operator+(const measurement& other) const
     {
         return {value_ + other.value_as(units_), units_};
     }
-    measurement operator-(measurement other) const
+    measurement operator-(const measurement& other) const
     {
         return {value_ - other.value_as(units_), units_};
     }
 
     // double multiplier
-    friend constexpr inline measurement operator*(double val, measurement meas)
+    friend constexpr inline measurement operator*(double val, const measurement& meas)
     {
         return meas * val;
     }
     // divide measurement into a double
-    friend constexpr inline measurement operator/(double val, measurement meas)
+    friend constexpr inline measurement
+        operator/(double val, const measurement& meas)
     {
         return {val / meas.value_, meas.units_.inv()};
     }
@@ -335,7 +336,7 @@ class measurement {
                 meas.units_.pow(power)};
     }
     /// Convert a unit to have a new base
-    measurement convert_to(unit newUnits) const
+    measurement convert_to(const unit& newUnits) const
     {
         return {units::convert(value_, units_, newUnits), newUnits};
     }
@@ -387,7 +388,7 @@ class measurement {
     /// Not equal operator
     bool operator!=(const measurement &other) const { return !operator==(other); }
     /// Get the numerical value as a particular unit type
-    double value_as(unit desired_unit) const
+    double value_as(const unit& desired_unit) const
     {
         return (units_ == desired_unit) ?
             value_ :
@@ -404,20 +405,20 @@ static_assert(
     sizeof(measurement) <= 2 * sizeof(double),
     "Measurement class is too large");
 
-constexpr inline measurement operator*(double val, unit unit_base)
+constexpr inline measurement operator*(double val, const unit& unit_base)
 {
     return {val, unit_base};
 }
-constexpr inline measurement operator*(unit unit_base, double val)
+constexpr inline measurement operator*(const unit& unit_base, double val)
 {
     return {val, unit_base};
 }
 
-constexpr inline measurement operator/(double val, unit unit_base)
+constexpr inline measurement operator/(double val, const unit& unit_base)
 {
     return {val, unit_base.inv()};
 }
-constexpr inline measurement operator/(unit unit_base, double val)
+constexpr inline measurement operator/(const unit& unit_base, double val)
 {
     return {1.0 / val, unit_base};
 }
@@ -426,12 +427,12 @@ constexpr inline measurement operator/(unit unit_base, double val)
 class fixed_measurement {
   public:
     /// construct from a value and unit
-    constexpr fixed_measurement(double val, unit base) :
+    constexpr fixed_measurement(double val, const unit& base) :
         value_(val), units_(base)
     {
     }
     /// construct from a regular measurement
-    explicit constexpr fixed_measurement(measurement val) noexcept :
+    explicit constexpr fixed_measurement(const measurement& val) noexcept :
         value_(val.value()), units_(val.units())
     {
     }
@@ -486,11 +487,11 @@ class fixed_measurement {
     /// Get the base value with no units
     constexpr double value() const { return value_; }
 
-    constexpr measurement operator*(measurement other) const
+    constexpr measurement operator*(const measurement& other) const
     {
         return {value_ * other.value(), units_ * other.units()};
     }
-    constexpr measurement operator*(unit other) const
+    constexpr measurement operator*(const unit& other) const
     {
         return {value_, units_ * other};
     }
@@ -498,11 +499,11 @@ class fixed_measurement {
     {
         return {value_ * val, units_};
     }
-    constexpr measurement operator/(measurement other) const
+    constexpr measurement operator/(const measurement& other) const
     {
         return {value_ / other.value(), units_ / other.units()};
     }
-    constexpr measurement operator/(unit other) const
+    constexpr measurement operator/(const unit& other) const
     {
         return {value_, units_ / other};
     }
@@ -511,11 +512,11 @@ class fixed_measurement {
         return {value_ / val, units_};
     }
 
-    fixed_measurement operator+(measurement other) const
+    fixed_measurement operator+(const measurement& other) const
     {
         return {value_ + other.value_as(units_), units_};
     }
-    fixed_measurement operator-(measurement other) const
+    fixed_measurement operator-(const measurement& other) const
     {
         return {value_ - other.value_as(units_), units_};
     }
@@ -537,7 +538,7 @@ class fixed_measurement {
                 meas.units_.pow(power)};
     }
     /// Convert a unit to have a new base
-    fixed_measurement convert_to(unit newUnits) const
+    fixed_measurement convert_to(const unit& newUnits) const
     {
         return {units::convert(value_, units_, newUnits), newUnits};
     }
@@ -548,7 +549,7 @@ class fixed_measurement {
     constexpr unit as_unit() const { return {value_, units_}; }
 
     /// Get the numerical value as a particular unit type
-    double value_as(unit desired_units) const
+    double value_as(const unit& desired_units) const
     {
         return (units_ == desired_units) ?
             value_ :
@@ -709,21 +710,25 @@ class uncertain_measurement {
     constexpr uncertain_measurement(
         float val,
         float uncertainty_val,
-        unit base) noexcept :
+        const unit& base) noexcept :
         value_(val),
         uncertainty_(uncertainty_val), units_(base)
     {
     }
     /// construct from a single precision value, and unit assume uncertainty is
     /// 0
-    explicit constexpr uncertain_measurement(float val, unit base) noexcept :
+    explicit constexpr uncertain_measurement(
+        float val,
+        const unit& base) noexcept :
         value_(val), units_(base)
     {
     }
 
     /// construct from a double precision value, and unit assume uncertainty is
     /// 0
-    explicit constexpr uncertain_measurement(double val, unit base) noexcept :
+    explicit constexpr uncertain_measurement(
+        double val,
+        const unit& base) noexcept :
         value_(static_cast<float>(val)), units_(base)
     {
     }
@@ -749,7 +754,7 @@ class uncertain_measurement {
     explicit constexpr uncertain_measurement(
         double val,
         double uncertainty_val,
-        unit base) noexcept :
+        const unit& base) noexcept :
         value_(static_cast<float>(val)),
         uncertainty_(static_cast<float>(uncertainty_val)), units_(base)
     {
@@ -838,7 +843,7 @@ class uncertain_measurement {
                 static_cast<float>(other.value() * uncertainty()),
                 units_ * other.units()};
     }
-    constexpr uncertain_measurement operator*(unit other) const
+    constexpr uncertain_measurement operator*(const unit& other) const
     {
         return {value_, uncertainty_, units_ * other};
     }
@@ -880,7 +885,7 @@ class uncertain_measurement {
                 static_cast<float>(uncertainty() / other.value()),
                 units_ / other.units()};
     }
-    constexpr uncertain_measurement operator/(unit other) const
+    constexpr uncertain_measurement operator/(const unit& other) const
     {
         return {value_, uncertainty_, units_ / other};
     }
@@ -957,7 +962,7 @@ class uncertain_measurement {
     }
 
     /// Convert a unit to have a new base
-    uncertain_measurement convert_to(unit newUnits) const
+    uncertain_measurement convert_to(const unit& newUnits) const
     {
         auto cval = static_cast<float>(convert(units_, newUnits));
         return {cval * value_, uncertainty_ * cval, newUnits};
@@ -1167,7 +1172,7 @@ class precise_measurement {
     /// Default constructor
     // NOLINTNEXTLINE(modernize-use-equals-default)
     constexpr precise_measurement() noexcept {};
-    constexpr precise_measurement(double val, precise_unit base) :
+    constexpr precise_measurement(double val, const precise_unit& base) :
         value_(val), units_(base)
     {
     }
@@ -1191,7 +1196,7 @@ class precise_measurement {
     {
         return {value_ * other.value_, units_ * other.units_};
     }
-    constexpr precise_measurement operator*(precise_unit other) const
+    constexpr precise_measurement operator*(const precise_unit& other) const
     {
         return {value_, units_ * other};
     }
@@ -1204,7 +1209,7 @@ class precise_measurement {
     {
         return {value_ / other.value_, units_ / other.units_};
     }
-    constexpr precise_measurement operator/(precise_unit other) const
+    constexpr precise_measurement operator/(const precise_unit& other) const
     {
         return {value_, units_ / other};
     }
@@ -1275,7 +1280,7 @@ class precise_measurement {
         return (value_ < val) ? true : valueEqualityCheck(val);
     }
     /// Get the numerical value as a particular unit type
-    double value_as(precise_unit desired_units) const
+    double value_as(const precise_unit& desired_units) const
     {
         return (units_ == desired_units) ?
             value_ :
@@ -1801,7 +1806,7 @@ enum unit_conversion_flags : std::uint32_t {
 std::string to_string(const precise_unit& units, std::uint32_t match_flags = 0U);
 
 /// Generate a string representation of the unit
-inline std::string to_string(unit units, std::uint32_t match_flags = 0U)
+inline std::string to_string(const unit& units, std::uint32_t match_flags = 0U)
 {
     // For naming, precision doesn't matter
     return to_string(precise_unit(units), match_flags);
@@ -1892,11 +1897,11 @@ std::string
     to_string(const uncertain_measurement& measure, std::uint32_t match_flags = 0U);
 
 /// Add a custom unit to be included in any string processing
-void addUserDefinedUnit(const std::string& name, precise_unit un);
+void addUserDefinedUnit(const std::string& name, const precise_unit &un);
 
 /// Add a custom unit to be included in from string interpretation but not used
 /// in generating string representations of units
-void addUserDefinedInputUnit(const std::string& name, precise_unit un);
+void addUserDefinedInputUnit(const std::string& name, const precise_unit &un);
 
 /// Clear all user defined units from memory
 void clearUserDefinedUnits();
