@@ -598,7 +598,7 @@ static void addUnitPower(std::string& str, const char* unit, int power)
 }
 
 // add the flag string to another unit string
-static void addUnitFlagStrings(precise_unit un, std::string& unitString)
+static void addUnitFlagStrings(const precise_unit &un, std::string& unitString)
 {
     if (un.base_units().has_i_flag()) {
         if (unitString.empty()) {
@@ -643,7 +643,7 @@ static inline void
     }
 }
 
-static std::string generateRawUnitString(precise_unit un)
+static std::string generateRawUnitString(const precise_unit &un)
 {
     std::string val;
     auto bu = un.base_units();
@@ -706,7 +706,7 @@ static double
 static std::unordered_map<unit, std::string> user_defined_unit_names;
 static smap user_defined_units;
 
-void addUserDefinedUnit(const std::string& name, precise_unit un)
+void addUserDefinedUnit(const std::string& name, const precise_unit &un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_unit_names[unit_cast(un)] = name;
@@ -717,7 +717,7 @@ void addUserDefinedUnit(const std::string& name, precise_unit un)
     }
 }
 
-void addUserDefinedInputUnit(const std::string& name, precise_unit un)
+void addUserDefinedInputUnit(const std::string& name, const precise_unit &un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_units[name] = un;
