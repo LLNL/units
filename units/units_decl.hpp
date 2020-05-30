@@ -609,7 +609,7 @@ class precise_unit {
     {
     }
     /// Copy constructor with a multiplier
-    constexpr precise_unit(precise_unit other, double mult) noexcept :
+    constexpr precise_unit(const precise_unit& other, double mult) noexcept :
         precise_unit(
             other.base_units_,
             other.commodity_,
@@ -621,7 +621,7 @@ class precise_unit {
         precise_unit(other.base_units(), mult * other.multiplier())
     {
     }
-    constexpr precise_unit(double mult, precise_unit other) noexcept :
+    constexpr precise_unit(double mult, const precise_unit& other) noexcept :
         precise_unit(
             other.base_units_,
             other.commodity_,
@@ -652,7 +652,7 @@ class precise_unit {
                 1.0 / multiplier()};
     }
     /// Multiply with another unit
-    constexpr precise_unit operator*(precise_unit other) const
+    constexpr precise_unit operator*(const precise_unit& other) const
     {
         return {base_units_ * other.base_units_,
                 (commodity_ == 0) ?
@@ -669,7 +669,7 @@ class precise_unit {
                 multiplier() * other.multiplier()};
     }
     /// Division operator
-    constexpr precise_unit operator/(precise_unit other) const
+    constexpr precise_unit operator/(const precise_unit& other) const
     {
         return {base_units_ / other.base_units_,
                 (commodity_ == 0) ?
@@ -694,7 +694,7 @@ class precise_unit {
                 detail::power_const(multiplier_, power)};
     }
     /// Overloaded equality operator
-    bool operator==(precise_unit other) const
+    bool operator==(const precise_unit& other) const
     {
         if (base_units_ != other.base_units_ ||
             commodity_ != other.commodity_) {
@@ -707,9 +707,12 @@ class precise_unit {
             multiplier_, other.multiplier_);
     }
     ///  opposite of equality
-    bool operator!=(precise_unit other) const { return !operator==(other); }
+    bool operator!=(const precise_unit& other) const
+    {
+        return !operator==(other);
+    }
     // Test for exact numerical equivalence
-    constexpr bool is_exactly_the_same(precise_unit other) const
+    constexpr bool is_exactly_the_same(const precise_unit& other) const
     {
         return base_units_ == other.base_units_ &&
             commodity_ == other.commodity_ && multiplier_ == other.multiplier_;
@@ -722,7 +725,7 @@ class precise_unit {
     }
     /// Check if the units have the same base unit (i.e. they measure the same
     /// thing)
-    constexpr bool has_same_base(precise_unit other) const
+    constexpr bool has_same_base(const precise_unit& other) const
     {
         return base_units_.has_same_base(other.base_units_);
     }
@@ -754,7 +757,7 @@ class precise_unit {
 
     /// Check if the units have the same base unit (i.e. they measure the same
     /// thing)
-    constexpr bool equivalent_non_counting(precise_unit other) const
+    constexpr bool equivalent_non_counting(const precise_unit& other) const
     {
         return base_units_.equivalent_non_counting(other.base_units_);
     }
@@ -768,7 +771,7 @@ class precise_unit {
     }
 
     /// Check if the units are in some way convertible to one another
-    constexpr bool is_convertible(precise_unit other) const
+    constexpr bool is_convertible(const precise_unit &other) const
     {
         return commodity_ == other.commodity_ &&
             base_units_.equivalent_non_counting(other.base_units_);
@@ -783,7 +786,7 @@ class precise_unit {
     }
     /// Check unit equality (base units equal and equivalent multipliers to
     /// specified precision
-    friend bool operator==(unit val1, precise_unit val2)
+    friend bool operator==(unit val1, const precise_unit &val2)
     {
         return (val2 == val1);
     }
@@ -850,13 +853,13 @@ class precise_unit {
 };
 
 /// Check if a unit down cast is lossless
-inline constexpr bool is_unit_cast_lossless(precise_unit val)
+inline constexpr bool is_unit_cast_lossless(const precise_unit &val)
 {
     return val.multiplier() ==
         static_cast<double>(static_cast<float>(val.multiplier()));
 }
 /// Downcast a precise unit to the less precise version
-constexpr unit unit_cast(precise_unit val)
+constexpr unit unit_cast(const precise_unit &val)
 {
     return {val.base_units(), val.multiplier()};
 }
@@ -866,7 +869,7 @@ constexpr unit unit_cast(unit val)
 }
 
 /// Check if the multiplier is nan
-inline bool isnan(precise_unit u)
+inline bool isnan(const precise_unit &u)
 {
     return std::isnan(u.multiplier());
 }
@@ -879,7 +882,7 @@ inline bool isnan(unit u)
 
 /** check if unit multiplier is finite
 @details checks that the multiplier is finite*/
-inline bool isfinite(precise_unit utest)
+inline bool isfinite(const precise_unit &utest)
 {
     return std::isfinite(utest.multiplier());
 }
@@ -893,7 +896,7 @@ inline bool isfinite(unit utest)
 
 /** check if unit multiplier is finite
 @details checks that the multiplier is infinite*/
-inline bool isinf(precise_unit utest)
+inline bool isinf(const precise_unit &utest)
 {
     return std::isinf(utest.multiplier());
 }
@@ -920,7 +923,7 @@ inline constexpr unit pow(unit u, int power)
 @param power the integral power, can be positive or negative
 @return a new precise unit with the appropriate value
 */
-inline constexpr precise_unit pow(precise_unit u, int power)
+inline constexpr precise_unit pow(const precise_unit &u, int power)
 {
     return u.pow(power);
 }
@@ -930,14 +933,14 @@ inline constexpr precise_unit pow(precise_unit u, int power)
 /// take the root of a unit to some power
 unit root(unit u, int power);
 
-precise_unit root(precise_unit u, int power);
+precise_unit root(const precise_unit &u, int power);
 
 inline unit sqrt(unit u)
 {
     return root(u, 2);
 }
 
-inline precise_unit sqrt(precise_unit u)
+inline precise_unit sqrt(const precise_unit &u)
 {
     return root(u, 2);
 }

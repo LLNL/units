@@ -82,7 +82,7 @@ unit root(unit un, int power)
                 numericalRoot(un.multiplier(), power)};
 }
 
-precise_unit root(precise_unit un, int power)
+precise_unit root(const precise_unit& un, int power)
 {
     if (power == 0) {
         return precise::one;
