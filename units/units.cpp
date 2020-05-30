@@ -123,7 +123,7 @@ fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power)
 }
 
 // sum the powers of a unit
-static int order(unit val)
+static int order(const unit& val)
 {
     auto bd = val.base_units();
     int order = std::labs(bd.meter()) + std::labs(bd.kelvin()) +

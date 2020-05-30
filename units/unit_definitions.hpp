@@ -1708,8 +1708,8 @@ namespace puconversion {
     /// Generate some known conversion between power system per unit values
     inline double knownConversions(
         double val,
-        detail::unit_data start,
-        detail::unit_data result)
+        const detail::unit_data& start,
+        const detail::unit_data& result)
     {
         if (start.has_same_base(puOhm.base_units())) {
             if (result.has_same_base(puMW.base_units()) ||
