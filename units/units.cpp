@@ -70,7 +70,7 @@ X numericalRoot(X value, int power)
     }
 }
 
-unit root(unit un, int power)
+unit root(const unit& un, int power)
 {
     if (power == 0) {
         return one;
