@@ -873,7 +873,7 @@ namespace precise {
                     0};
         }
         /// Check if the unit is a custom unit or inverse custom unit
-        inline bool is_custom_unit(detail::unit_data UT)
+        inline bool is_custom_unit(const detail::unit_data& UT)
         {
             if (UT.mole() != -2) {
                 // mole is always -2 regardless of inversion
@@ -887,7 +887,7 @@ namespace precise {
         }
 
         /// get the index of the custom unit
-        inline int custom_unit_number(detail::unit_data UT)
+        inline int custom_unit_number(const detail::unit_data& UT)
         {
             int num = (UT.has_e_flag() ? 1 : 0) + (UT.has_i_flag() ? 2 : 0) +
                 (UT.is_per_unit() ? 4 : 0);
@@ -901,7 +901,7 @@ namespace precise {
             return num;
         }
         /// check if 1/custom unit
-        inline bool is_custom_unit_inverted(detail::unit_data UT)
+        inline bool is_custom_unit_inverted(const detail::unit_data& UT)
         {
             int key = UT.meter();
             if (key < 0) {
@@ -962,7 +962,7 @@ namespace precise {
         }
 
         /// Check if the unit is a custom count unit
-        inline bool is_custom_count_unit(detail::unit_data UT)
+        inline bool is_custom_count_unit(const detail::unit_data& UT)
         {
             if ((UT.kelvin() == -3) && (UT.ampere() == 3)) {
                 return (UT.mole() != -2);
@@ -973,7 +973,8 @@ namespace precise {
             return false;
         }
         /// Get the number code for the custom count unit
-        inline std::uint16_t custom_count_unit_number(detail::unit_data UT)
+        inline std::uint16_t
+            custom_count_unit_number(const detail::unit_data& UT)
         {
             unsigned int num = (UT.has_e_flag() ? 1U : 0U) +
                 (UT.has_i_flag() ? 2U : 0U) + (UT.is_per_unit() ? 4U : 0U);
@@ -981,7 +982,7 @@ namespace precise {
             return static_cast<std::uint16_t>(num);
         }
         /// check if 1/custom unit
-        inline bool is_custom_count_unit_inverted(detail::unit_data UT)
+        inline bool is_custom_count_unit_inverted(const detail::unit_data& UT)
         {
             return ((UT.kelvin() == 3) && (UT.ampere() == -3));
         }
@@ -1008,7 +1009,7 @@ namespace precise {
                     1};
         }
         /// Generate the equation type used the unit
-        inline constexpr int eq_type(detail::unit_data UT)
+        inline constexpr int eq_type(const detail::unit_data& UT)
         {
             return ((UT.radian() != 0) ? 16 : 0) + ((UT.count() != 0) ? 8 : 0) +
                 (UT.is_per_unit() ? 4 : 0) + (UT.has_i_flag() ? 2 : 0) +
@@ -1090,7 +1091,7 @@ namespace precise {
     /// additional equation based units
     namespace equations {
         /// Detect if the unit is a unit of power
-        inline bool is_power_unit(detail::unit_data UT)
+        inline bool is_power_unit(const detail::unit_data& UT)
         {
             return (
                 (precise::W.base_units().has_same_base(UT)) ||
@@ -1098,7 +1099,8 @@ namespace precise {
         }
 
         /// convert an equation unit to a single value
-        inline double convert_equnit_to_value(double val, detail::unit_data UT)
+        inline double
+            convert_equnit_to_value(double val, const detail::unit_data& UT)
         {
             if (!UT.is_equation()) {
                 return val;
@@ -1169,7 +1171,8 @@ namespace precise {
         }
 
         /// convert a value to an equation value
-        inline double convert_value_to_equnit(double val, detail::unit_data UT)
+        inline double
+            convert_value_to_equnit(double val, const detail::unit_data& UT)
         {
             if (!UT.is_equation()) {
                 return val;
@@ -1422,14 +1425,14 @@ constexpr unit
     invalid(detail::unit_data(nullptr), constants::invalid_conversion);
 
 /// Check if a precise unit is a default unit
-constexpr inline bool is_default(precise_unit utest)
+constexpr inline bool is_default(const precise_unit& utest)
 {
     return (
         utest.multiplier() == 1.0 &&
         (utest.base_units() == defunit.base_units()));
 }
 /// Check if a unit is a default unit
-constexpr inline bool is_default(unit utest)
+constexpr inline bool is_default(const unit& utest)
 {
     return (
         utest.multiplier() == 1.0 &&
@@ -1444,28 +1447,28 @@ constexpr unit ratio = one;
 constexpr unit percent = unit_cast(precise::percent);
 
 /// Check if the unit has an error (NaN multiplier or error base units)
-constexpr inline bool is_error(precise_unit utest)
+constexpr inline bool is_error(const precise_unit& utest)
 {
     return (
         utest.multiplier() != utest.multiplier() ||
         utest.base_units() == precise::error.base_units());
 }
 /// Check if the unit has an error  (NaN multiplier or error base units)
-constexpr inline bool is_error(unit utest)
+constexpr inline bool is_error(const unit& utest)
 {
     return (
         utest.multiplier() != utest.multiplier() ||
         utest.base_units() == error.base_units());
 }
 /// Check if the unit is a valid unit
-constexpr inline bool is_valid(precise_unit utest)
+constexpr inline bool is_valid(const precise_unit& utest)
 {
     return !(
         (utest.multiplier() != utest.multiplier()) &&
         (utest.base_units() == precise::invalid.base_units()));
 }
 /// Check if the unit is a valid unit
-constexpr inline bool is_valid(unit utest)
+constexpr inline bool is_valid(const unit& utest)
 {
     return !(
         (utest.multiplier() != utest.multiplier()) &&
@@ -1562,12 +1565,12 @@ constexpr unit degC = unit_cast(precise::degC);
 constexpr unit degF = unit_cast(precise::degF);
 
 /// Check if a unit is a temperature
-constexpr bool is_temperature(precise_unit utest)
+constexpr bool is_temperature(const precise_unit& utest)
 {
     return (utest.has_same_base(K) && utest.base_units().has_e_flag());
 }
 /// Check if a unit is a temperature
-constexpr bool is_temperature(unit utest)
+constexpr bool is_temperature(const unit& utest)
 {
     return (utest.has_same_base(K) && utest.base_units().has_e_flag());
 }
@@ -1576,7 +1579,7 @@ namespace detail {
 
     /// Convert a temperature value from one unit base to another
     template<typename UX, typename UX2>
-    double convertTemperature(double val, UX start, UX2 result)
+    double convertTemperature(double val, const UX& start, const UX2& result)
     {
         if (is_temperature(start)) {
             if (units::degF == unit_cast(start)) {
@@ -1606,8 +1609,8 @@ namespace detail {
     template<typename UX, typename UX2>
     double convertFlaggedUnits(
         double val,
-        UX start,
-        UX2 result,
+        const UX& start,
+        const UX2& result,
         double basis = constants::invalid_conversion)
     {
         if (is_temperature(start) || is_temperature(result)) {
@@ -1662,7 +1665,7 @@ namespace puconversion {
     /// compute a base value for a particular value based on power system base
     /// values
     inline double generate_base(
-        detail::unit_data unit,
+        const detail::unit_data& unit,
         double basePower,
         double baseVoltage)
     {
@@ -1685,7 +1688,7 @@ namespace puconversion {
     }
     /// some pu values have conventions for base values this function return
     /// those
-    inline double assumedBase(unit start, unit result)
+    inline double assumedBase(const unit& start, const unit& result)
     {
         if (puHz == result || puHz == start) {  // assume 60 Hz
             return 60.0;
@@ -1705,8 +1708,8 @@ namespace puconversion {
     /// Generate some known conversion between power system per unit values
     inline double knownConversions(
         double val,
-        detail::unit_data start,
-        detail::unit_data result)
+        const detail::unit_data& start,
+        const detail::unit_data& result)
     {
         if (start.has_same_base(puOhm.base_units())) {
             if (result.has_same_base(puMW.base_units()) ||
@@ -1769,7 +1772,7 @@ constexpr unit GB = unit_cast(precise::GB);
 /** check if a unit is some normal valid unit
 @details not an error, not infinite, not one,not invalid, not defunit, the
 multiplier is a normal number and >0*/
-inline bool isnormal(precise_unit utest)
+inline bool isnormal(const precise_unit& utest)
 {
     return std::isnormal(utest.multiplier()) && (!is_error(utest)) &&
         utest != precise::one && utest != precise::defunit &&
@@ -1779,7 +1782,7 @@ inline bool isnormal(precise_unit utest)
 /** check if a unit is some normal valid unit
 @details not an error, not infinite,not invalid, not one, not defunit, the
 multiplier is a normal number and >0*/
-inline bool isnormal(unit utest)
+inline bool isnormal(const unit& utest)
 {
     return std::isnormal(utest.multiplier_f()) && (!is_error(utest)) &&
         utest != one && utest != defunit && utest.multiplier() > 0;
@@ -1791,7 +1794,8 @@ namespace detail {
     convertible they need to be handled differently
     */
     template<typename UX, typename UX2>
-    inline double convertCountingUnits(double val, UX start, UX2 result)
+    inline double
+        convertCountingUnits(double val, const UX& start, const UX2& result)
     {
         auto base_start = start.base_units();
         auto base_result = result.base_units();
@@ -1858,10 +1862,9 @@ namespace detail {
     // probably shouldn't be supported
 
     template<typename UX, typename UX2>
-    inline double extraValidConversions(double val, UX start, UX2 result)
+    inline double
+        extraValidConversions(double val, const UX& start, const UX2& result)
     {
-        auto base_start = start.base_units();
-        auto base_result = result.base_units();
         if (start.has_same_base(m.pow(3)) && result.has_same_base(J)) {
             // volume to scf or scm
             return val * start.multiplier() *

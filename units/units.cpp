@@ -70,7 +70,7 @@ X numericalRoot(X value, int power)
     }
 }
 
-unit root(unit un, int power)
+unit root(const unit& un, int power)
 {
     if (power == 0) {
         return one;
@@ -82,7 +82,7 @@ unit root(unit un, int power)
                 numericalRoot(un.multiplier(), power)};
 }
 
-precise_unit root(precise_unit un, int power)
+precise_unit root(const precise_unit& un, int power)
 {
     if (power == 0) {
         return precise::one;
@@ -123,7 +123,7 @@ fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power)
 }
 
 // sum the powers of a unit
-static int order(unit val)
+static int order(const unit& val)
 {
     auto bd = val.base_units();
     int order = std::labs(bd.meter()) + std::labs(bd.kelvin()) +
@@ -598,7 +598,7 @@ static void addUnitPower(std::string& str, const char* unit, int power)
 }
 
 // add the flag string to another unit string
-static void addUnitFlagStrings(precise_unit un, std::string& unitString)
+static void addUnitFlagStrings(const precise_unit& un, std::string& unitString)
 {
     if (un.base_units().has_i_flag()) {
         if (unitString.empty()) {
@@ -643,7 +643,7 @@ static inline void
     }
 }
 
-static std::string generateRawUnitString(precise_unit un)
+static std::string generateRawUnitString(const precise_unit& un)
 {
     std::string val;
     auto bu = un.base_units();
@@ -706,7 +706,7 @@ static double
 static std::unordered_map<unit, std::string> user_defined_unit_names;
 static smap user_defined_units;
 
-void addUserDefinedUnit(const std::string& name, precise_unit un)
+void addUserDefinedUnit(const std::string& name, const precise_unit& un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_unit_names[unit_cast(un)] = name;
@@ -717,7 +717,7 @@ void addUserDefinedUnit(const std::string& name, precise_unit un)
     }
 }
 
-void addUserDefinedInputUnit(const std::string& name, precise_unit un)
+void addUserDefinedInputUnit(const std::string& name, const precise_unit& un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         user_defined_units[name] = un;
@@ -1331,13 +1331,14 @@ static std::string
         mino_unit.multiplier(), min_mult + generateRawUnitString(mino_unit));
 }
 
-std::string to_string(precise_unit un, std::uint32_t match_flags)
+std::string to_string(const precise_unit& un, std::uint32_t match_flags)
 {
     return clean_unit_string(
         to_string_internal(un, match_flags), un.commodity());
 }
 
-std::string to_string(precise_measurement measure, std::uint32_t match_flags)
+std::string
+    to_string(const precise_measurement& measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(12);
@@ -1352,7 +1353,7 @@ std::string to_string(precise_measurement measure, std::uint32_t match_flags)
     return ss.str();
 }
 
-std::string to_string(measurement measure, std::uint32_t match_flags)
+std::string to_string(const measurement& measure, std::uint32_t match_flags)
 {
     std::stringstream ss;
     ss.precision(6);
@@ -1367,7 +1368,8 @@ std::string to_string(measurement measure, std::uint32_t match_flags)
     return ss.str();
 }
 
-std::string to_string(uncertain_measurement measure, std::uint32_t match_flags)
+std::string
+    to_string(const uncertain_measurement& measure, std::uint32_t match_flags)
 {
     // TODO(PT) this should really follow more appropriate rules for digits of
     // precision

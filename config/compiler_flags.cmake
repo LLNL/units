@@ -116,7 +116,9 @@ endif()
 # Extra definitions for visual studio
 # -------------------------------------------------------------
 if(MSVC)
-
+    if(CMAKE_CXX_STANDARD GREATER 19 OR UNITS_CXX_STANDARD GREATER 19)
+        target_compile_options(compile_flags_target INTERFACE /Zc:char8_t-)
+    endif()
     target_compile_options(
         compile_flags_target INTERFACE -D_CRT_SECURE_NO_WARNINGS
                                        -D_SCL_SECURE_NO_WARNINGS
@@ -128,6 +130,9 @@ if(MSVC)
     endif(${PROJECT_NAME}_ENABLE_EXTRA_COMPILER_WARNINGS)
     target_compile_options(compile_flags_target INTERFACE -D_WIN32_WINNT=0x0601)
 else(MSVC)
+    if(CMAKE_CXX_STANDARD GREATER 19 OR UNITS_CXX_STANDARD GREATER 19)
+        target_compile_options(compile_flags_target INTERFACE -fno-char8_t)
+    endif()
     option(USE_LIBCXX "Use Libc++ vs as opposed to the default" OFF)
     mark_as_advanced(USE_LIBCXX)
     # this is a global option on all parts
