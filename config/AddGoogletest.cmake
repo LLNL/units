@@ -8,7 +8,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~
-# Copyright (c) 2019,
+# Copyright (c) 2020,
 # Lawrence Livermore National Security, LLC;
 # See the top-level NOTICE for additional details. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
@@ -19,7 +19,7 @@
 # which gives output on failed tests without having to set an environment variable.
 #
 include(extraMacros)
-set(gtest_version release-1.10.0)
+set(gtest_version 859bfe8)
 # depending on what the version is set to the git_clone command may need to change to
 # GIT_TAG||GIT_BRANCH|GIT_COMMIT
 
@@ -57,7 +57,7 @@ else() # cmake <3.11
         googletest
         GIT_URL
         https://github.com/google/googletest.git
-        GIT_TAG
+        GIT_COMMIT
         ${gtest_version}
         DIRECTORY
         ${PROJECT_BINARY_DIR}/_deps
