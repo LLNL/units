@@ -53,7 +53,7 @@ jobs:
         Windowslatest:
           vmImage: 'windows-2019'
           units.std: 20
-          units.options: -DCMAKE_CXX_FLAG="/std:c++latest"
+          units.options: -DCMAKE_CXX_FLAGS="/std:c++latest"
     pool:
       vmImage: $(vmImage)
     steps:
