@@ -4,7 +4,7 @@ mkdir -p /fuzz/corpus
 mkdir -p /fuzz/logs
 
 # run the first fuzzing sequence
-./fuzz_measurement /fuzz/corpus -max_len=512 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=512 -max_total_time=1402 -timeout=20 -artifact_prefix=/fuzz/ &> fuzzlog.txt
+./fuzz_measurement /fuzz/corpus -max_len=512 -dict=/root/develop/fuzz_targets/fuzz_dictionary.txt -rss_limit_mb=512 -max_total_time=1390 -timeout=20 -artifact_prefix=/fuzz/ &> fuzzlog.txt
 
 #if we haven't failed merge the corpus so it is smaller
 if [ $? -eq 0 ]
