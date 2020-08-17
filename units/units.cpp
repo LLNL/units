@@ -167,7 +167,8 @@ static const umap base_unit_names{
     {pico * H, "(A^-2*pJ)"},
     {lm, "lm"},
     {lx, "lux"},
-    {Bq, "Bq"},
+    // remove Bq since it is often confusing in other contexts 1/s
+    // {Bq, "Bq"},
     {unit(2.58e-4, C / kg), "R"},
     {in, "in"},
     {unit_cast(precise::in.pow(2)), "in^2"},

@@ -19,3 +19,5 @@ The guide covers the basic types and what operations are available on them, as w
    user_defined_units
    Physical_constants
    defined_units
+   custom_units
+   custom_count_units
