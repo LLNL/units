@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@v1
+    - uses: actions/setup-python@v2
     - name: set PY
       run: echo "::set-env name=PY::$(python --version --version | sha256sum | cut -d' ' -f1)"
     - uses: actions/cache@v1
       with:
         path: ~/.cache/pre-commit
         key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
-    - uses: pre-commit/action@v1.1.0
+    - uses: pre-commit/action@v2.0.0
     - name: Create/update a file update PR with changed files
       if: failure() && github.event.pull_request.draft != true && github.event.pull_request.head.repo.full_name == github.repository
       uses: gmlc-tdc/create-pr-action@v0.1
@@ -103,8 +103,19 @@ jobs:
       with:
         version: 3.15.6
       if: success() || failure()
-    - name: CMake 3.16 (full)
+    - name: CMake 3.16
       uses: ./.github/actions/cmake_config
       with:
-        version: 3.16.2
+        version: 3.16.8
+      if: success() || failure()
+    - name: CMake 3.17
+      uses: ./.github/actions/cmake_config
+      with:
+        version: 3.17.3
+      if: success() || failure()
+    - name: CMake 3.18 (full)
+      uses: ./.github/actions/cmake_config
+      with:
+        version: 3.18.0
+        options: -DCLI11_SANITIZERS=ON -DCLI11_BUILD_EXAMPLES_JSON=ON
       if: success() || failure()
