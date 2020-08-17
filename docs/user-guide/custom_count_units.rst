@@ -2,7 +2,7 @@
 Custom Counting Units
 ======================
 
-The units library defines 16 special counting units.  These are custom counting units intended to specify a specific type of event.  The key idea behind the custom counting units is that they can be multiplied, divided by any powers of distance, mass, currency, or time units and can be inverted
+The units library defines 16 special counting units.  These are custom counting units intended to specify a specific type of event.  The key idea behind the custom counting units is that they can be multiplied, divided by any powers of distance, mass, currency, or time units and can be inverted. The primary usage of these is for units that are procedurally defined and often used in the context of per mass or per volume or per time or per $.
 
 In strings these can be represented by "CXCUN[X]"  Where X is some number between 0 and 15.
 
@@ -32,10 +32,9 @@ So there is no translation to other units and cannot be converted except to mult
 -   custom_count_unit(3):  is `Index of reactivity <http://finto.fi/ucum/en/page/r394>`_ which has a clinical definition
 -   custom_count_unit(4):  is `limit of flocculation <http://finto.fi/ucum/en/page/r404>`_ which has a clinical definition
 -   custom_count_unit(5):  is `HPF <https://medical-dictionary.thefreedictionary.com/high-power+field>`_ or High Power field which is related to microscopy
+-   6-15 are not currently in use.
 
 The other custom units are available for use or the one with known definition can be use if there is no domain conflicts.
-
-The primary usage of these is for units that are procedurally defined and often used in the context of per mass or per volume or per time.
 
 Implementation details
 ----------------------------
