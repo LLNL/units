@@ -13,4 +13,10 @@ RUN apt-get update \
 
 COPY entrypoint.sh /entrypoint.sh
 
+LABEL name="units.cmake"
+LABEL description="Units cmake tests"
+LABEL vcs-ref=$GIT_COMMIT
+LABEL vcs-url="https://github.com/LLNL/units"
+LABEL version="0.4.1"
+
 ENTRYPOINT ["/entrypoint.sh"]
