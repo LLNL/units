@@ -1080,7 +1080,9 @@ static std::string
         if (!fndpi.second.empty()) {
             if (fndpi.first.pow(2) != llunit.inv()) {
                 return getMultiplierString(
-                           1.0/(llunit.inv() / fndpi.first.pow(2)).multiplier(), true) +
+                           1.0 /
+                               (llunit.inv() / fndpi.first.pow(2)).multiplier(),
+                           true) +
                     '/' + fndpi.second + "^2";
             }
             return std::string("1/") + fndpi.second + "^2";
