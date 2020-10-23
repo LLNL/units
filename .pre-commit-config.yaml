@@ -36,6 +36,7 @@ repos:
       - id: check-merge-conflict
       - id: check-case-conflict
       - id: check-yaml
+        args: ["--allow-multiple-documents"]
   - repo: local
     hooks:
       - id: docker-clang-format
