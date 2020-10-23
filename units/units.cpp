@@ -134,7 +134,7 @@ static int order(const unit& val)
 }
 
 // NOTE no unit strings with '/' in it this can cause issues when converting to
-// string with out of order operations
+// string with out-of-order operations
 using umap = std::unordered_map<unit, const char*>;
 static const umap base_unit_names{
     {m, "m"},
@@ -1078,13 +1078,11 @@ static std::string
         }
         auto fndpi = find_unit_pair(squ.inv());
         if (!fndpi.second.empty()) {
-            // LCOV_EXCL_START
             if (fndpi.first.pow(2) != llunit.inv()) {
                 return getMultiplierString(
-                           (fndpi.first.pow(2) / llunit).multiplier(), true) +
-                    '/' + fndp.second + "^2";
+                           1.0/(llunit.inv() / fndpi.first.pow(2)).multiplier(), true) +
+                    '/' + fndpi.second + "^2";
             }
-            // LCOV_EXCL_STOP
             return std::string("1/") + fndpi.second + "^2";
         }
     }
@@ -3239,6 +3237,7 @@ static const smap base_unit_vals{
     {"acr_br", precise::imp::acre},
     {"acre_br", precise::imp::acre},
     {"acres_br", precise::imp::acre},
+    {"buildersacre", precise_unit(40000.0, precise::ft.pow(2))},
     {"Gasolineat15.5C", precise_unit(739.33, precise::kg / precise::m.pow(3))},
     {"rood", precise_unit(0.25, precise::imp::acre)},
     {"are", precise::area::are},
