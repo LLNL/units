@@ -13,6 +13,10 @@
       "options": { "parser": "yaml" }
     },
     {
+      "files": "test/.clang-tidy",
+      "options": { "parser": "yaml" }
+    },
+    {
       "files": "*.yml",
       "options": { "parser": "yaml", "singleQuote": true }
     }
