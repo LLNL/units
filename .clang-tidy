@@ -34,32 +34,32 @@ Checks: '
   '
 
 WarningsAsErrors: '
--*,
-google-*,
--google-runtime-int,
--google-runtime-references,
-llvm-include-order,
-llvm-namespace-comment,
-modernize*,
-hicpp-*,
--hicpp-use-equals-default,
--hicpp-explicit-conversions,
-clang-analyzer-*,
-bugprone-*,
--bugprone-narrowing-conversions,
-misc-*,
-cppcoreguidelines-*,
--cppcoreguidelines-narrowing-conversions,
--cppcoreguidelines-avoid-magic-numbers,
--cppcoreguidelines-special-member-functions,
--cppcoreguidelines-macro-usage,
--cppcoreguidelines-pro-bounds-pointer-arithmetic,
--cppcoreguidelines-pro-bounds-constant-array-index,
-portability-*,
-readability-*,
--readability-magic-numbers,
-performance-*
-'
+   -*,
+   google-*,
+   -google-runtime-int,
+   -google-runtime-references,
+   llvm-include-order,
+   llvm-namespace-comment,
+   modernize*,
+   hicpp-*,
+   -hicpp-use-equals-default,
+   -hicpp-explicit-conversions,
+   clang-analyzer-*,
+   bugprone-*,
+   -bugprone-narrowing-conversions,
+   misc-*,
+   cppcoreguidelines-*,
+   -cppcoreguidelines-narrowing-conversions,
+   -cppcoreguidelines-avoid-magic-numbers,
+   -cppcoreguidelines-special-member-functions,
+   -cppcoreguidelines-macro-usage,
+   -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+   -cppcoreguidelines-pro-bounds-constant-array-index,
+   portability-*,
+   readability-*,
+   -readability-magic-numbers,
+   performance-*
+  '
 
 HeaderFilterRegex: '.*hpp'
 
