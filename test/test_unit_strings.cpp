@@ -937,3 +937,10 @@ TEST(defaultUnits, singleCharacter)
     EXPECT_EQ(precise::cd, default_unit("J"));
     EXPECT_EQ(precise::K, default_unit("\xC8"));
 }
+
+
+TEST(stringGeneration, test1) {
+    auto res = detail::testing::testCleanUpString(
+        detail::testing::testUnitSequenceGeneration(2100.0, "m^-3"), 0);
+    EXPECT_EQ(res, "2.1L^-1");
+}
