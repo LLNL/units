@@ -890,20 +890,20 @@ static std::string
     if (!propUnitString.empty() && isDigitCharacter(propUnitString.front())) {
         // search for a bunch of zeros in a row
         std::size_t indexingloc{0};
-        
+
         auto zloc = propUnitString.find("00000");
         while (zloc != std::string::npos) {
             indexingloc = zloc + 5;
             auto nloc = propUnitString.find_first_not_of('0', zloc + 5);
             if (nloc != std::string::npos) {
                 if (propUnitString[nloc] != '.') {
-                    if (!isDigitCharacter(propUnitString[nloc])||(propUnitString.size() > nloc + 1 &&
-                        !isDigitCharacter(propUnitString[nloc + 1]))) {
-                       
+                    if (!isDigitCharacter(propUnitString[nloc]) ||
+                        (propUnitString.size() > nloc + 1 &&
+                         !isDigitCharacter(propUnitString[nloc + 1]))) {
                         if (isDigitCharacter(propUnitString[nloc])) {
                             ++nloc;
                         }
-                        
+
                         auto dloc = propUnitString.find_last_of('.', zloc);
 
                         if (dloc != std::string::npos && dloc - nloc > 15) {
@@ -980,7 +980,7 @@ static std::string
                     }
                 }
             }
-            zloc = propUnitString.find("00000",indexingloc);
+            zloc = propUnitString.find("00000", indexingloc);
         }
     }
 
