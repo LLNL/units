@@ -2044,7 +2044,7 @@ namespace constants {
                                              precise::J* precise::s};
     }  // namespace atomic
 }  // namespace constants
-#define ENABLE_UNIT_TESTING
+
 #ifdef ENABLE_UNIT_TESTING
 namespace detail {
     /// A namespace specifically for unit testing some components
