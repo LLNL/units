@@ -970,4 +970,14 @@ TEST(stringCleanup, test1)
 
     res = detail::testing::testCleanUpString("1.0000000000000", 0);
     EXPECT_EQ(res, "1");
+
+    /** make sure it doesn't skip a multiplier*/
+    res = detail::testing::testCleanUpString("1.0005*10000008*lb", 0);
+    EXPECT_EQ(res, "1.0005*10000008*lb");
+
+    res = detail::testing::testCleanUpString("1.0005*10000008", 0);
+    EXPECT_EQ(res, "1.0005*10000008");
+
+    res = detail::testing::testCleanUpString("1.0005*10000000", 0);
+    EXPECT_EQ(res, "1.0005*10000000");
 }
