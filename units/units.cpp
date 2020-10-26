@@ -439,9 +439,14 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
             return std::string(1, si->second);
         }
     }
+    int X;  // the exponent
+    int P = 18;  // the desired precision
+
+    std::frexp(multiplier, &X);
+
     std::stringstream ss;
-    ss << std::setprecision(18);
-    ss << multiplier;
+
+    ss << std::setprecision(P) << multiplier;
     auto rv = ss.str();
     // modify some improper strings that cause issues later on
     if (rv == "inf") {
@@ -463,7 +468,7 @@ static std::string generateUnitSequence(double mux, std::string seq)
             mux *= 1000.0;
         }
     } else if (seq.compare(0, 4, "m^-3") == 0) {
-        if (mux > 10.0) {
+        if (mux > 100.0) {
             seq.replace(0, 4, "L^-1");
             mux /= 1000.0;
         }
@@ -850,7 +855,7 @@ static void escapeString(std::string& str)
     }
 }
 // clean up the unit string and add a commodity if necessary
-std::string
+static std::string
     clean_unit_string(std::string propUnitString, std::uint32_t commodity)
 {
     using spair = std::tuple<const char*, const char*, int, int>;
@@ -881,11 +886,103 @@ std::string
         !isDigitCharacter(propUnitString.front())) {
         return propUnitString;
     }
-    // TODO(PT)  do some additional number clean up if there is a number in
-    // front
-    // if (!propUnitString.empty() && isDigitCharacter(propUnitString.front()))
-    // {
-    // }
+
+    if (!propUnitString.empty() && isDigitCharacter(propUnitString.front())) {
+        // search for a bunch of zeros in a row
+        std::size_t indexingloc{0};
+        
+        auto zloc = propUnitString.find("00000");
+        while (zloc != std::string::npos) {
+            indexingloc = zloc + 5;
+            auto nloc = propUnitString.find_first_not_of('0', zloc + 5);
+            if (nloc != std::string::npos) {
+                if (propUnitString[nloc] != '.') {
+                    if (!isDigitCharacter(propUnitString[nloc])||(propUnitString.size() > nloc + 1 &&
+                        !isDigitCharacter(propUnitString[nloc + 1]))) {
+                       
+                        if (isDigitCharacter(propUnitString[nloc])) {
+                            ++nloc;
+                        }
+                        
+                        auto dloc = propUnitString.find_last_of('.', zloc);
+
+                        if (dloc != std::string::npos && dloc - nloc > 15) {
+                            bool valid = true;
+                            if (dloc == zloc - 1) {
+                                --zloc;
+                                auto ploc = dloc;
+                                valid = false;
+                                while (true) {
+                                    if (ploc > 0) {
+                                        --ploc;
+                                        if (!isDigitCharacter(
+                                                propUnitString[ploc])) {
+                                            break;
+                                        }
+                                        if (propUnitString[ploc] != '0') {
+                                            valid = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            } else {
+                                auto ploc = dloc + 1;
+                                while (ploc < zloc) {
+                                    if (!isDigitCharacter(
+                                            propUnitString[ploc])) {
+                                        valid = false;
+                                        break;
+                                    }
+                                    ++ploc;
+                                }
+                            }
+                            if (valid) {
+                                propUnitString.erase(zloc, nloc - zloc);
+                                indexingloc = zloc + 1;
+                            }
+                        }
+                    }
+                }
+            } else {
+                auto dloc = propUnitString.find_last_of('.', zloc);
+
+                if (dloc != std::string::npos) {
+                    bool valid = true;
+                    if (dloc == zloc - 1) {
+                        --zloc;
+                        auto ploc = dloc;
+                        valid = false;
+                        while (true) {
+                            if (ploc > 0) {
+                                --ploc;
+                                if (!isDigitCharacter(propUnitString[ploc])) {
+                                    break;
+                                }
+                                if (propUnitString[ploc] != '0') {
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        auto ploc = dloc + 1;
+                        while (ploc < zloc) {
+                            if (!isDigitCharacter(propUnitString[ploc])) {
+                                valid = false;
+                                break;
+                            }
+                            ++ploc;
+                        }
+                    }
+                    if (valid) {
+                        propUnitString.erase(zloc, std::string::npos);
+                        indexingloc = zloc + 1;
+                    }
+                }
+            }
+            zloc = propUnitString.find("00000",indexingloc);
+        }
+    }
 
     if (commodity != 0) {
         std::string cString = getCommodityName(
@@ -1839,6 +1936,7 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
     return val;
 }
 
+#ifdef ENABLE_UNIT_TESTING
 namespace detail {
     namespace testing {
         // generate a number from a number sequence
@@ -1850,8 +1948,21 @@ namespace detail {
         {
             return readNumericalWords(test, index);
         }
+
+        std::string
+            testUnitSequenceGeneration(double mul, const std::string& test)
+        {
+            return generateUnitSequence(mul, test);
+        }
+        std::string
+            testCleanUpString(std::string testString, std::uint32_t commodity)
+        {
+            return clean_unit_string(std::move(testString), commodity);
+        }
     }  // namespace testing
 }  // namespace detail
+
+#endif
 
 /** Words of SI prefixes
 https://physics.nist.gov/cuu/Units/prefixes.html
