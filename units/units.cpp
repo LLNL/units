@@ -2662,6 +2662,7 @@ static const smap base_unit_vals{
     {"foot_i", precise::i::foot},
     {"feet", precise::ft},
     {"feet_i", precise::i::foot},
+    {"YD", precise::yd},
     {"yd", precise::yd},
     {"yd_i", precise::yd},
     {"yard_i", precise::yd},
@@ -2769,6 +2770,7 @@ static const smap base_unit_vals{
     {"wk", precise::time::week},
     {"WK", precise::time::week},
     {"y", precise::time::year},
+    {"YR", precise::time::yr},  // this one gets 365 days exactly
     {"yr", precise::time::yr},  // this one gets 365 days exactly
     {"a", precise::time::year},  // year vs are
     {"year", precise::time::year},  // year
@@ -3634,6 +3636,7 @@ static const smap base_unit_vals{
     {"registerton", precise_unit(100.0, precise::ft.pow(3))},
     {"waterton", precise_unit(224.0, precise::imp::gallon)},
     {"lb", precise::lb},
+    {"LB", precise::lb},
     {"kip", precise::kilo* precise::lb},
     {"lb_tr", precise::troy::pound},
     {"[LB_TR]", precise::troy::pound},
@@ -3733,6 +3736,7 @@ static const smap base_unit_vals{
     {"liquidounce", precise::us::floz},
     {"liquidoz", precise::us::floz},
     {"oz", precise::oz},
+    {"OZ", precise::oz},
     {u8"\u2125", precise::oz},
     {"gr", precise::i::grain},
     {"[GR]", precise::i::grain},
@@ -3930,9 +3934,12 @@ static const smap base_unit_vals{
     {"liquidounce_m", precise::metric::floz},
     {"quart", precise::us::quart},
     {"qt", precise::us::quart},
+    {"QT", precise::us::quart},
     {"qt_us", precise::us::quart},
     {"[QT_US]", precise::us::quart},
     {"quart_us", precise::us::quart},
+    {"pt", precise::us::pint},
+    {"PT", precise::us::pint},
     {"pint", precise::us::pint},
     {"pint_us", precise::us::pint},
     {"pt_us", precise::us::pint},

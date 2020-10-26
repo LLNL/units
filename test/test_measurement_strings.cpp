@@ -90,3 +90,66 @@ TEST(MeasurementToString, unit_withNumbers)
     EXPECT_EQ(str1.compare(0, 11, "10 (0.71241"), 0);
     EXPECT_EQ(str2.compare(0, 11, "10 (0.71241"), 0);
 }
+
+TEST(MeasurementToString, case_sensitive)
+{
+    static const std::vector<std::pair<unit, std::string>> twoc_units{
+        {lb, "lb"},
+        {oz, "oz"},
+        {yd, "yd"},
+        {unit_cast(precise::us::quart), "qt"}};
+
+    for (auto& up : twoc_units) {
+        std::string singular = std::string("17 ") + up.second;
+        std::string plural = singular;
+        plural.push_back('s');
+
+        std::string singular_caps = singular;
+        std::transform(
+            singular.begin(), singular.end(), singular_caps.begin(), ::toupper);
+
+        std::string plural_caps = plural;
+        std::transform(
+            plural.begin(), plural.end(), plural_caps.begin(), ::toupper);
+
+        precise_measurement case_sensitive_plural =
+            measurement_from_string(plural);
+        // true
+        EXPECT_TRUE(case_sensitive_plural.units().has_same_base(up.first));
+        precise_measurement case_sensitive_singular =
+            measurement_from_string(singular);
+        EXPECT_TRUE(case_sensitive_singular.units().has_same_base(up.first));
+
+        // Case insensitive string conversion
+        precise_measurement case_insensitive_plural =
+            measurement_from_string(plural, case_insensitive);
+        // true
+        EXPECT_TRUE(case_insensitive_plural.units().has_same_base(up.first))
+            << up.second;
+
+        units::precise_measurement case_insensitive_singular =
+            measurement_from_string(singular, case_insensitive);
+        // false
+        EXPECT_TRUE(case_insensitive_singular.units().has_same_base(up.first));
+
+        // Case insensitive string conversion caps
+        precise_measurement case_insensitive_plural_caps =
+            measurement_from_string(plural_caps, case_insensitive);
+        // true
+        EXPECT_TRUE(
+            case_insensitive_plural_caps.units().has_same_base(up.first));
+
+        units::precise_measurement case_insensitive_singular_caps =
+            measurement_from_string(singular_caps, case_insensitive);
+        // false
+        EXPECT_TRUE(
+            case_insensitive_singular_caps.units().has_same_base(up.first));
+
+        // Round trip
+        const std::string case_insensitive_plural_str =
+            units::to_string(case_insensitive_plural);
+        units::precise_measurement round_trip = units::measurement_from_string(
+            case_insensitive_plural_str, units::case_insensitive);
+        EXPECT_TRUE(round_trip.units().has_same_base(up.first));
+    }
+}
