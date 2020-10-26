@@ -678,4 +678,13 @@ TEST(nat_gas_units, psig)
 
     val = convert(14.6, precise::pressure::psig, precise::pressure::atm, 14.8);
     EXPECT_NEAR(val, 2.0, 0.01);
+
+    val = convert(10, precise_unit(2.0,precise::pressure::psig), precise::pressure::psig);
+    EXPECT_NEAR(val, 20.0, 0.01);
+}
+
+TEST(invalid_conversions, invalid) {
+    using namespace units;
+    double val = detail::extraValidConversions(2.3, precise::m, precise::lb);
+    EXPECT_TRUE(std::isnan(val));
 }
