@@ -2045,6 +2045,7 @@ namespace constants {
     }  // namespace atomic
 }  // namespace constants
 
+#ifdef ENABLE_UNIT_TESTING
 namespace detail {
     /// A namespace specifically for unit testing some components
     namespace testing {
@@ -2052,7 +2053,15 @@ namespace detail {
         double testLeadingNumber(const std::string& test, size_t& index);
         // generate a number from words
         double testNumericalWords(const std::string& test, size_t& index);
+        // test the unit string generation
+        std::string
+            testUnitSequenceGeneration(double mul, const std::string& test);
+
+        // test the string cleanup
+        std::string
+            testCleanUpString(std::string testString, std::uint32_t commodity);
     }  // namespace testing
 }  // namespace detail
+#endif
 
 }  // namespace units
