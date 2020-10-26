@@ -945,14 +945,13 @@ TEST(stringGeneration, test1)
     EXPECT_EQ(res, "2.1L^-1");
 }
 
-TEST(stringCleanup, test1) {
-    auto res = detail::testing::testCleanUpString(
-        "0.000000045lb", 0);
+TEST(stringCleanup, test1)
+{
+    auto res = detail::testing::testCleanUpString("0.000000045lb", 0);
     EXPECT_EQ(res, "0.000000045lb");
 
-     res = detail::testing::testCleanUpString("0.0000000000000045lb", 0);
+    res = detail::testing::testCleanUpString("0.0000000000000045lb", 0);
     EXPECT_EQ(res, "0.0000000000000045lb");
-
 
     res = detail::testing::testCleanUpString("1.00000000000009lb", 0);
     EXPECT_EQ(res, "1lb");
@@ -969,6 +968,6 @@ TEST(stringCleanup, test1) {
     res = detail::testing::testCleanUpString("1.0000000000000lb", 0);
     EXPECT_EQ(res, "1lb");
 
-     res = detail::testing::testCleanUpString("1.0000000000000", 0);
+    res = detail::testing::testCleanUpString("1.0000000000000", 0);
     EXPECT_EQ(res, "1");
 }
