@@ -474,7 +474,7 @@ static std::string generateUnitSequence(double mux, std::string seq)
         }
     } else if (seq.compare(0, 5, "kg^-1") == 0) {
         if (mux > 100.0) {
-            seq.replace(0, 4, "g^-1");
+            seq.replace(0, 5, "g^-1");
             mux /= 1000.0;
         } else {
             noPrefix = true;
