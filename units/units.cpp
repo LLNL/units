@@ -889,14 +889,21 @@ static std::string
 
     if (!propUnitString.empty() && isDigitCharacter(propUnitString.front())) {
         // search for a bunch of zeros in a row
+        std::size_t indexingloc{0};
+        
         auto zloc = propUnitString.find("00000");
-        if (zloc != std::string::npos) {
+        while (zloc != std::string::npos) {
+            indexingloc = zloc + 5;
             auto nloc = propUnitString.find_first_not_of('0', zloc + 5);
             if (nloc != std::string::npos) {
                 if (propUnitString[nloc] != '.') {
-                    if (propUnitString.size() > nloc + 1 &&
-                        !isDigitCharacter(propUnitString[nloc + 1])) {
-                        ++nloc;
+                    if (!isDigitCharacter(propUnitString[nloc])||(propUnitString.size() > nloc + 1 &&
+                        !isDigitCharacter(propUnitString[nloc + 1]))) {
+                       
+                        if (isDigitCharacter(propUnitString[nloc])) {
+                            ++nloc;
+                        }
+                        
                         auto dloc = propUnitString.find_last_of('.', zloc);
 
                         if (dloc != std::string::npos && dloc - nloc > 15) {
@@ -931,12 +938,49 @@ static std::string
                             }
                             if (valid) {
                                 propUnitString.erase(zloc, nloc - zloc);
+                                indexingloc = zloc + 1;
                             }
                         }
                     }
                 }
             } else {
+                auto dloc = propUnitString.find_last_of('.', zloc);
+
+                if (dloc != std::string::npos) {
+                    bool valid = true;
+                    if (dloc == zloc - 1) {
+                        --zloc;
+                        auto ploc = dloc;
+                        valid = false;
+                        while (true) {
+                            if (ploc > 0) {
+                                --ploc;
+                                if (!isDigitCharacter(propUnitString[ploc])) {
+                                    break;
+                                }
+                                if (propUnitString[ploc] != '0') {
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        auto ploc = dloc + 1;
+                        while (ploc < zloc) {
+                            if (!isDigitCharacter(propUnitString[ploc])) {
+                                valid = false;
+                                break;
+                            }
+                            ++ploc;
+                        }
+                    }
+                    if (valid) {
+                        propUnitString.erase(zloc, std::string::npos);
+                        indexingloc = zloc + 1;
+                    }
+                }
             }
+            zloc = propUnitString.find("00000",indexingloc);
         }
     }
 
