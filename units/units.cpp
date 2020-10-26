@@ -887,44 +887,42 @@ static std::string
         return propUnitString;
     }
 
-    if (!propUnitString.empty() && isDigitCharacter(propUnitString.front()))
-    {
+    if (!propUnitString.empty() && isDigitCharacter(propUnitString.front())) {
         // search for a bunch of zeros in a row
         auto zloc = propUnitString.find("00000");
-        if (zloc!=std::string::npos) {
+        if (zloc != std::string::npos) {
             auto nloc = propUnitString.find_first_not_of('0', zloc + 5);
-            if (nloc!=std::string::npos) {
-                if (propUnitString[nloc]!='.') {
-                    if (propUnitString.size()>nloc+1&&!isDigitCharacter(propUnitString[nloc+1])) {
+            if (nloc != std::string::npos) {
+                if (propUnitString[nloc] != '.') {
+                    if (propUnitString.size() > nloc + 1 &&
+                        !isDigitCharacter(propUnitString[nloc + 1])) {
                         ++nloc;
                         auto dloc = propUnitString.find_last_of('.', zloc);
-                        
-                        if (dloc != std::string::npos && dloc-nloc>15)
-                        {
+
+                        if (dloc != std::string::npos && dloc - nloc > 15) {
                             bool valid = true;
-                            if (dloc==zloc-1) {
+                            if (dloc == zloc - 1) {
                                 --zloc;
                                 auto ploc = dloc;
                                 valid = false;
                                 while (true) {
-                                    if (ploc>0) {
+                                    if (ploc > 0) {
                                         --ploc;
-                                        if (!isDigitCharacter(propUnitString[ploc]))
-                                        {
+                                        if (!isDigitCharacter(
+                                                propUnitString[ploc])) {
                                             break;
                                         }
-                                        if (propUnitString[ploc]!='0') {
-                                            valid=true;
+                                        if (propUnitString[ploc] != '0') {
+                                            valid = true;
                                             break;
                                         }
                                     }
                                 }
-                            }
-                            else {
-                                
+                            } else {
                                 auto ploc = dloc + 1;
-                                while (ploc<zloc) {
-                                    if (!isDigitCharacter(propUnitString[ploc])) {
+                                while (ploc < zloc) {
+                                    if (!isDigitCharacter(
+                                            propUnitString[ploc])) {
                                         valid = false;
                                         break;
                                     }
@@ -934,13 +932,10 @@ static std::string
                             if (valid) {
                                 propUnitString.erase(zloc, nloc - zloc);
                             }
-                          
                         }
                     }
                 }
-            }
-            else {
-                
+            } else {
             }
         }
     }
@@ -1915,11 +1910,11 @@ namespace detail {
         {
             return generateUnitSequence(mul, test);
         }
-            std::string testCleanUpString(
-                std::string testString, std::uint32_t commodity)
-            {
-                return clean_unit_string(std::move(testString), commodity);
-            }
+        std::string
+            testCleanUpString(std::string testString, std::uint32_t commodity)
+        {
+            return clean_unit_string(std::move(testString), commodity);
+        }
     }  // namespace testing
 }  // namespace detail
 

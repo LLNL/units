@@ -2057,7 +2057,7 @@ namespace detail {
         std::string
             testUnitSequenceGeneration(double mul, const std::string& test);
 
-         // test the string cleanup
+        // test the string cleanup
         std::string
             testCleanUpString(std::string testString, std::uint32_t commodity);
     }  // namespace testing
