@@ -964,13 +964,13 @@ TEST(stringGeneration, test1)
     res = detail::testing::testCleanUpString(
         detail::testing::testUnitSequenceGeneration(217.5632, "m^-2"),
         0);
-    EXPECT_EQ(res, "217.5632*m^-2");
+    EXPECT_EQ(res, "217.5632m^-2");
 
     res = detail::testing::testCleanUpString(
         detail::testing::testUnitSequenceGeneration(
-            157.1, "m^-3"),
+            157.1, "s^-3"),
         0);
-    EXPECT_EQ(res, "157.1*m^-3");
+    EXPECT_EQ(res, "157.1s^-3");
 }
 
 TEST(stringCleanup, test1)

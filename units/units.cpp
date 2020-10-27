@@ -78,8 +78,8 @@ unit root(const unit& un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return error;
     }
-    return unit{un.base_units().root(power),
-                numericalRoot(un.multiplier(), power)};
+    return unit{
+        un.base_units().root(power), numericalRoot(un.multiplier(), power)};
 }
 
 precise_unit root(const precise_unit& un, int power)
@@ -90,8 +90,8 @@ precise_unit root(const precise_unit& un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return precise::invalid;
     }
-    return precise_unit{un.base_units().root(power),
-                        numericalRoot(un.multiplier(), power)};
+    return precise_unit{
+        un.base_units().root(power), numericalRoot(un.multiplier(), power)};
 }
 
 measurement root(const measurement& meas, int power)
@@ -854,6 +854,130 @@ static void escapeString(std::string& str)
         fnd = str.find_first_of("{}[]()", fnd + 1);
     }
 }
+static void shorten_number(std::string& unit_string, size_t loc, size_t length)
+{
+    auto c = unit_string[loc];
+    if (c == '.') {
+        c = unit_string[loc + 1];
+    }
+    unit_string.erase(loc, length);
+    if (c == '9') {
+        if (unit_string[loc - 1] != '9') {
+            ++unit_string[loc - 1];
+        } else {
+            int kk = 1;
+            while (unit_string[loc - kk] == '9') {
+                unit_string[loc - kk] = '0';
+                if (loc - kk == 0) {
+                    break;
+                }
+                ++kk;
+            }
+            if (loc - kk == 0 && unit_string[0] == '0') {
+                unit_string.insert(unit_string.begin(), '1');
+            } else {
+                ++unit_string[loc - kk];
+            }
+        }
+    }
+}
+
+static void reduce_number_length(std::string& unit_string, char detect)
+{
+    const std::string detseq(detect == '0' ? "00000" : "99999");
+    // search for a bunch of zeros in a row
+    std::size_t indexingloc{0};
+
+    auto zloc = unit_string.find(detseq);
+    while (zloc != std::string::npos) {
+        indexingloc = zloc + 5;
+        auto nloc = unit_string.find_first_not_of(detect, zloc + 5);
+        if (nloc != std::string::npos) {
+            if (unit_string[nloc] != '.') {
+                if (!isDigitCharacter(unit_string[nloc]) ||
+                    (unit_string.size() > nloc + 1 &&
+                     !isDigitCharacter(unit_string[nloc + 1]))) {
+                    if (isDigitCharacter(unit_string[nloc])) {
+                        ++nloc;
+                    }
+
+                    auto dloc = unit_string.find_last_of('.', zloc);
+
+                    if (dloc != std::string::npos && dloc - nloc > 15) {
+                        bool valid = true;
+                        if (dloc == zloc - 1) {
+                            --zloc;
+                            auto ploc = dloc;
+                            valid = false;
+                            while (true) {
+                                if (ploc > 0) {
+                                    --ploc;
+                                    if (!isDigitCharacter(unit_string[ploc])) {
+                                        break;
+                                    }
+                                    if (unit_string[ploc] != '0') {
+                                        valid = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            auto ploc = dloc + 1;
+                            while (ploc < zloc) {
+                                if (!isDigitCharacter(unit_string[ploc])) {
+                                    valid = false;
+                                    break;
+                                }
+                                ++ploc;
+                            }
+                        }
+                        if (valid) {
+                            shorten_number(unit_string, zloc, nloc - zloc);
+                            indexingloc = zloc + 1;
+                        }
+                    }
+                }
+            }
+        } else {
+            auto dloc = unit_string.find_last_of('.', zloc);
+
+            if (dloc != std::string::npos) {
+                bool valid = true;
+                if (dloc == zloc - 1) {
+                    --zloc;
+                    auto ploc = dloc;
+                    valid = false;
+                    while (true) {
+                        if (ploc > 0) {
+                            --ploc;
+                            if (!isDigitCharacter(unit_string[ploc])) {
+                                break;
+                            }
+                            if (unit_string[ploc] != '0') {
+                                valid = true;
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    auto ploc = dloc + 1;
+                    while (ploc < zloc) {
+                        if (!isDigitCharacter(unit_string[ploc])) {
+                            valid = false;
+                            break;
+                        }
+                        ++ploc;
+                    }
+                }
+                if (valid) {
+                    shorten_number(unit_string, zloc, nloc - zloc);
+                    indexingloc = zloc + 1;
+                }
+            }
+        }
+        zloc = unit_string.find(detseq, indexingloc);
+    }
+}
 // clean up the unit string and add a commodity if necessary
 static std::string
     clean_unit_string(std::string propUnitString, std::uint32_t commodity)
@@ -887,100 +1011,12 @@ static std::string
         return propUnitString;
     }
 
-    if (!propUnitString.empty() && isDigitCharacter(propUnitString.front())) {
-        // search for a bunch of zeros in a row
-        std::size_t indexingloc{0};
-
-        auto zloc = propUnitString.find("00000");
-        while (zloc != std::string::npos) {
-            indexingloc = zloc + 5;
-            auto nloc = propUnitString.find_first_not_of('0', zloc + 5);
-            if (nloc != std::string::npos) {
-                if (propUnitString[nloc] != '.') {
-                    if (!isDigitCharacter(propUnitString[nloc]) ||
-                        (propUnitString.size() > nloc + 1 &&
-                         !isDigitCharacter(propUnitString[nloc + 1]))) {
-                        if (isDigitCharacter(propUnitString[nloc])) {
-                            ++nloc;
-                        }
-
-                        auto dloc = propUnitString.find_last_of('.', zloc);
-
-                        if (dloc != std::string::npos && dloc - nloc > 15) {
-                            bool valid = true;
-                            if (dloc == zloc - 1) {
-                                --zloc;
-                                auto ploc = dloc;
-                                valid = false;
-                                while (true) {
-                                    if (ploc > 0) {
-                                        --ploc;
-                                        if (!isDigitCharacter(
-                                                propUnitString[ploc])) {
-                                            break;
-                                        }
-                                        if (propUnitString[ploc] != '0') {
-                                            valid = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            } else {
-                                auto ploc = dloc + 1;
-                                while (ploc < zloc) {
-                                    if (!isDigitCharacter(
-                                            propUnitString[ploc])) {
-                                        valid = false;
-                                        break;
-                                    }
-                                    ++ploc;
-                                }
-                            }
-                            if (valid) {
-                                propUnitString.erase(zloc, nloc - zloc);
-                                indexingloc = zloc + 1;
-                            }
-                        }
-                    }
-                }
-            } else {
-                auto dloc = propUnitString.find_last_of('.', zloc);
-
-                if (dloc != std::string::npos) {
-                    bool valid = true;
-                    if (dloc == zloc - 1) {
-                        --zloc;
-                        auto ploc = dloc;
-                        valid = false;
-                        while (true) {
-                            if (ploc > 0) {
-                                --ploc;
-                                if (!isDigitCharacter(propUnitString[ploc])) {
-                                    break;
-                                }
-                                if (propUnitString[ploc] != '0') {
-                                    valid = true;
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        auto ploc = dloc + 1;
-                        while (ploc < zloc) {
-                            if (!isDigitCharacter(propUnitString[ploc])) {
-                                valid = false;
-                                break;
-                            }
-                            ++ploc;
-                        }
-                    }
-                    if (valid) {
-                        propUnitString.erase(zloc, std::string::npos);
-                        indexingloc = zloc + 1;
-                    }
-                }
-            }
-            zloc = propUnitString.find("00000", indexingloc);
+    if (!propUnitString.empty()) {
+        if (propUnitString.find("00000") != std::string::npos) {
+            reduce_number_length(propUnitString, '0');
+        }
+        if (propUnitString.find("99999") != std::string::npos) {
+            reduce_number_length(propUnitString, '9');
         }
     }
 
@@ -1548,8 +1584,9 @@ static double getPrefixMultiplier2Char(char c1, char c2)
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<cpair, 23> char2prefix{{
         cpair{charindex('D', 'A'), 10.0},
         cpair{charindex('E', 'X'), 1e18},
-        cpair{charindex('E', 'i'),
-              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
+        cpair{
+            charindex('E', 'i'),
+            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('G', 'A'), 1e9},
         cpair{charindex('G', 'i'), 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('K', 'i'), 1024.0},
@@ -1562,13 +1599,15 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('T', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('Y', 'A'), 1e24},
         cpair{charindex('Y', 'O'), 1e-24},
-        cpair{charindex('Y', 'i'),
-              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 *
-                  1024.0},
+        cpair{
+            charindex('Y', 'i'),
+            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 *
+                1024.0},
         cpair{charindex('Z', 'A'), 1e21},
         cpair{charindex('Z', 'O'), 1e-21},
-        cpair{charindex('Z', 'i'),
-              1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
+        cpair{
+            charindex('Z', 'i'),
+            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
         cpair{charindex('d', 'a'), 10.0},
         cpair{charindex('m', 'A'), 1e6},
         cpair{charindex('m', 'c'), 1e-6},
@@ -1998,9 +2037,10 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 29> prefixWords{{
     utup{"zepto", 1e-21, 5},
     utup{"zetta", 1e21, 5},
     utup{"zebi", 1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0, 4},
-    utup{"yobi",
-         1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0,
-         4},
+    utup{
+        "yobi",
+        1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0,
+        4},
 }};
 
 bool clearEmptySegments(std::string& unit)
@@ -6443,8 +6483,9 @@ precise_measurement measurement_from_string(
     if (!is_error(un)) {
         if (checkCurrency) {
             if (un.base_units() == precise::currency.base_units()) {
-                return {un.multiplier(),
-                        precise_unit(1.0, precise::currency, un.commodity())};
+                return {
+                    un.multiplier(),
+                    precise_unit(1.0, precise::currency, un.commodity())};
             }
         }
         return {val, un};
