@@ -953,23 +953,22 @@ TEST(stringGeneration, test1)
     EXPECT_EQ(res, "1/kg");
 
     res = detail::testing::testCleanUpString(
-        detail::testing::testUnitSequenceGeneration(1000.0*1000.0, "m^-2"), 0);
+        detail::testing::testUnitSequenceGeneration(1000.0 * 1000.0, "m^-2"),
+        0);
     EXPECT_EQ(res, "mm^-2");
 
     res = detail::testing::testCleanUpString(
-        detail::testing::testUnitSequenceGeneration(1000.0 * 1000.0*1000.0, "s^-3"),
+        detail::testing::testUnitSequenceGeneration(
+            1000.0 * 1000.0 * 1000.0, "s^-3"),
         0);
     EXPECT_EQ(res, "ms^-3");
 
     res = detail::testing::testCleanUpString(
-        detail::testing::testUnitSequenceGeneration(217.5632, "m^-2"),
-        0);
+        detail::testing::testUnitSequenceGeneration(217.5632, "m^-2"), 0);
     EXPECT_EQ(res, "217.5632m^-2");
 
     res = detail::testing::testCleanUpString(
-        detail::testing::testUnitSequenceGeneration(
-            157.1, "s^-3"),
-        0);
+        detail::testing::testUnitSequenceGeneration(157.1, "s^-3"), 0);
     EXPECT_EQ(res, "157.1s^-3");
 }
 
