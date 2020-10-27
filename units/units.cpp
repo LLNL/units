@@ -1258,8 +1258,11 @@ static std::string
             // so numbers must be exact
             auto mult = getMultiplierString(urem.multiplier(), false);
             if (mult.size() > 5 && isNumericalStartCharacter(mult[0])) {
-                cxstr = mult + '*' + cxstr;
                 urem = precise_unit(urem.base_units(), 1.0);
+                if (!urem.base_units().empty()) {
+                    return mult+'*'+to_string_internal(urem, match_flags) + '*' + cxstr;
+                }
+                return mult + '*' + cxstr;
             }
         }
         if (!urem.base_units().empty() || urem.multiplier() != 1.0) {
@@ -1645,7 +1648,7 @@ static double readNumericalWords(const std::string& ustring, size_t& index);
 static bool looksLikeNumber(const std::string& string, size_t index = 0);
 
 /** a function very similar to stod that uses the lower level strtod and does
- * things a little smarter
+ * things a little smarter for our case
  */
 static double
     getDoubleFromString(const std::string& ustring, size_t* index) noexcept
