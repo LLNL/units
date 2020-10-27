@@ -601,3 +601,15 @@ TEST(otherUnits, unknownEQ)
 
     EXPECT_EQ(convert(1.927, eq18 * precise::W, eq19 * precise::W), 1.927);
 }
+
+
+TEST(otherUnits, strings)
+{
+    auto eq18 = precise_unit(precise::custom::equation_unit(18), 1.36);
+   
+    auto str = to_string(eq18);
+    EXPECT_EQ(str, "1.36*EQXUN[18]");
+
+    auto nunit = unit_from_string(str);
+    EXPECT_EQ(nunit, eq18);
+}
