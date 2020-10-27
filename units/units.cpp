@@ -884,7 +884,9 @@ static void shorten_number(std::string& unit_string, size_t loc, size_t length)
 
 static void reduce_number_length(std::string& unit_string, char detect)
 {
-    const std::string detseq(detect == '0' ? "00000" : "99999");
+    static const std::string zstring("00000");
+    static const std::string nstring("99999");
+    const std::string &detseq(detect == '0' ? zstring : nstring);
     // search for a bunch of zeros in a row
     std::size_t indexingloc{0};
 
