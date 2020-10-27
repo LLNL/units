@@ -892,9 +892,10 @@ static void reduce_number_length(std::string& unit_string, char detect)
 
     auto zloc = unit_string.find(detseq);
     while (zloc != std::string::npos) {
-        indexingloc = zloc + 5;
         auto nloc = unit_string.find_first_not_of(detect, zloc + 5);
+        indexingloc = zloc+5;
         if (nloc != std::string::npos) {
+            indexingloc = nloc + 1;
             if (unit_string[nloc] != '.') {
                 if (!isDigitCharacter(unit_string[nloc]) ||
                     (unit_string.size() > nloc + 1 &&
@@ -905,22 +906,23 @@ static void reduce_number_length(std::string& unit_string, char detect)
 
                     auto dloc = unit_string.find_last_of('.', zloc);
 
-                    if (dloc != std::string::npos && dloc - nloc > 15) {
+                    if (dloc != std::string::npos && nloc - dloc > 12) {
                         bool valid = true;
                         if (dloc == zloc - 1) {
                             --zloc;
                             auto ploc = dloc;
                             valid = false;
                             while (true) {
-                                if (ploc > 0) {
-                                    --ploc;
-                                    if (!isDigitCharacter(unit_string[ploc])) {
-                                        break;
-                                    }
-                                    if (unit_string[ploc] != '0') {
-                                        valid = true;
-                                        break;
-                                    }
+                                if (ploc <= 0) {
+                                    break;
+                                }
+                                --ploc;
+                                if (!isDigitCharacter(unit_string[ploc])) {
+                                    break;
+                                }
+                                if (unit_string[ploc] != '0') {
+                                    valid = true;
+                                    break;
                                 }
                             }
                         } else {
@@ -940,7 +942,7 @@ static void reduce_number_length(std::string& unit_string, char detect)
                     }
                 }
             }
-        } else {
+        } else if (detect!='9'){
             auto dloc = unit_string.find_last_of('.', zloc);
 
             if (dloc != std::string::npos) {
@@ -1007,11 +1009,7 @@ static std::string
                 propUnitString.find(std::get<0>(pseq), fnd + std::get<3>(pseq));
         }
     }
-    // no cleaning necessary
-    if (commodity == 0 && !propUnitString.empty() &&
-        !isDigitCharacter(propUnitString.front())) {
-        return propUnitString;
-    }
+    
 
     if (!propUnitString.empty()) {
         if (propUnitString.find("00000") != std::string::npos) {
@@ -1020,6 +1018,12 @@ static std::string
         if (propUnitString.find("99999") != std::string::npos) {
             reduce_number_length(propUnitString, '9');
         }
+    }
+
+    // no more cleaning necessary
+    if (commodity == 0 && !propUnitString.empty() &&
+        !isDigitCharacter(propUnitString.front())) {
+        return propUnitString;
     }
 
     if (commodity != 0) {

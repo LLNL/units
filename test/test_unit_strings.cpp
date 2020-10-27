@@ -972,13 +972,16 @@ TEST(stringGeneration, test1)
     EXPECT_EQ(res, "157.1s^-3");
 }
 
-TEST(stringCleanup, test1)
+TEST(stringCleanup, test_zstrings)
 {
     auto res = detail::testing::testCleanUpString("0.000000045lb", 0);
     EXPECT_EQ(res, "0.000000045lb");
 
     res = detail::testing::testCleanUpString("0.0000000000000045lb", 0);
     EXPECT_EQ(res, "0.0000000000000045lb");
+
+    res = detail::testing::testCleanUpString("s*00.0000000000000045lb", 0);
+    EXPECT_EQ(res, "s*00.0000000000000045lb");
 
     res = detail::testing::testCleanUpString("1.00000000000009lb", 0);
     EXPECT_EQ(res, "1lb");
@@ -1007,4 +1010,25 @@ TEST(stringCleanup, test1)
 
     res = detail::testing::testCleanUpString("1.0005*10000000", 0);
     EXPECT_EQ(res, "1.0005*10000000");
+
+    res = detail::testing::testCleanUpString(".0000000000000000000000004lb", 0);
+    EXPECT_EQ(res, ".0000000000000000000000004lb");
+}
+
+
+
+TEST(stringCleanup, test_9strings)
+{
+    auto res = detail::testing::testCleanUpString("4.5999999999999999994lb", 0);
+    EXPECT_EQ(res, "4.6lb");
+
+    res = detail::testing::testCleanUpString("99.999999999999999998lb", 0);
+    EXPECT_EQ(res, "100lb");
+
+     res = detail::testing::testCleanUpString("49.999999999999999998lb", 0);
+    EXPECT_EQ(res, "50lb");
+
+    res = detail::testing::testCleanUpString("10.7*999999999999999999999999lb", 0);
+    EXPECT_EQ(res, "10.7*999999999999999999999999lb");
+
 }
