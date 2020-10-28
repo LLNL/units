@@ -439,21 +439,23 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
             return std::string(1, si->second);
         }
     }
-    int X;  // the exponent
     int P = 18;  // the desired precision
-
-    std::frexp(multiplier, &X);
-
     std::stringstream ss;
 
     ss << std::setprecision(P) << multiplier;
     auto rv = ss.str();
-    // modify some improper strings that cause issues later on
-    if (rv == "inf") {
-        return "1.00000000000000*(infinity)";  // LCOV_EXCL_LINE
-    }
-    if (rv == "-inf") {
-        return "1.00000000000000*(-1.00000000000000*infinity)";  // LCOV_EXCL_LINE
+    if (rv.size()<=4) {
+        // modify some improper strings that cause issues later on
+        // some platforms don't produce these
+        if (rv == "inf") {
+            return "1.00000000000000*(infinity)";  // LCOV_EXCL_LINE
+        }
+        if (rv == "-inf") {
+            return "1.00000000000000*(-1.00000000000000*infinity)";  // LCOV_EXCL_LINE
+        }
+        if (rv == "nan") {
+            return "1.00000000000000*(nan)";  // LCOV_EXCL_LINE
+        }
     }
     return rv;
 }
@@ -876,7 +878,13 @@ static void shorten_number(std::string& unit_string, size_t loc, size_t length)
             if (loc - kk == 0 && unit_string[0] == '0') {
                 unit_string.insert(unit_string.begin(), '1');
             } else {
-                ++unit_string[loc - kk];
+                if (isDigitCharacter(unit_string[loc - kk])) {
+                    ++unit_string[loc - kk];
+                }
+                else
+                {
+                    unit_string.insert(loc - kk+1, 1, '1');
+                }
             }
         }
     }

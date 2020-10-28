@@ -263,11 +263,11 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 31));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 32));
 
 TEST(fuzzFailures, rtripSingleProblems)
 {
-    auto cdata = loadFailureFile("rtrip_fail", 31);
+    auto cdata = loadFailureFile("rtrip_fail", 32);
     auto u1 = unit_from_string(cdata);
     if (!is_error(u1)) {
         auto str = to_string(u1);
