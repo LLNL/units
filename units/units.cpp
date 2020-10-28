@@ -943,6 +943,7 @@ static void reduce_number_length(std::string& unit_string, char detect)
                 }
             }
         } else if (detect!='9'){
+            indexingloc = unit_string.size();
             auto dloc = unit_string.find_last_of('.', zloc);
 
             if (dloc != std::string::npos) {
