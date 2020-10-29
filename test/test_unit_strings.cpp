@@ -1016,10 +1016,7 @@ TEST(stringCleanup, test_zstrings)
 
     res = detail::testing::testCleanUpString(".0000000000000000000000004lb", 0);
     EXPECT_EQ(res, ".0000000000000000000000004lb");
-
 }
-
-
 
 TEST(stringCleanup, test_9strings)
 {
@@ -1029,10 +1026,10 @@ TEST(stringCleanup, test_9strings)
     res = detail::testing::testCleanUpString("99.999999999999999998lb", 0);
     EXPECT_EQ(res, "100lb");
 
-     res = detail::testing::testCleanUpString("49.999999999999999998lb", 0);
+    res = detail::testing::testCleanUpString("49.999999999999999998lb", 0);
     EXPECT_EQ(res, "50lb");
 
-    res = detail::testing::testCleanUpString("10.7*999999999999999999999999lb", 0);
+    res = detail::testing::testCleanUpString(
+        "10.7*999999999999999999999999lb", 0);
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
-
 }
