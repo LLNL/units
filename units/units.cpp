@@ -1063,8 +1063,8 @@ static std::string
                     if (!is_error(rs)) {
                         // this condition would take a very particular and odd
                         // string to trigger I haven't figured out a test case
-                        // for it yet 
-                        
+                        // for it yet
+
                         // LCOV_EXCL_START
                         cString.insert(0, 1, '1');
                         // LCOV_EXCL_STOP
@@ -1223,8 +1223,8 @@ static std::string
             if (fndp.first.pow(2) != llunit) {
                 // this is symmetric to the other sections where we have test
                 // cases for no known test cases of this but could be triggered
-                // by particular numeric strings 
-                
+                // by particular numeric strings
+
                 // LCOV_EXCL_START
                 return getMultiplierString(
                            (llunit / fndp.first.pow(2)).multiplier(), true) +
