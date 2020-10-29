@@ -444,7 +444,7 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
 
     ss << std::setprecision(P) << multiplier;
     auto rv = ss.str();
-    if (rv.size()<=4) {
+    if (rv.size() <= 4) {
         // modify some improper strings that cause issues later on
         // some platforms don't produce these
         if (rv == "inf") {
@@ -880,10 +880,8 @@ static void shorten_number(std::string& unit_string, size_t loc, size_t length)
             } else {
                 if (isDigitCharacter(unit_string[loc - kk])) {
                     ++unit_string[loc - kk];
-                }
-                else
-                {
-                    unit_string.insert(loc - kk+1, 1, '1');
+                } else {
+                    unit_string.insert(loc - kk + 1, 1, '1');
                 }
             }
         }
@@ -894,14 +892,14 @@ static void reduce_number_length(std::string& unit_string, char detect)
 {
     static const std::string zstring("00000");
     static const std::string nstring("99999");
-    const std::string &detseq(detect == '0' ? zstring : nstring);
+    const std::string& detseq(detect == '0' ? zstring : nstring);
     // search for a bunch of zeros in a row
     std::size_t indexingloc{0};
 
     auto zloc = unit_string.find(detseq);
     while (zloc != std::string::npos) {
         auto nloc = unit_string.find_first_not_of(detect, zloc + 5);
-        indexingloc = zloc+5;
+        indexingloc = zloc + 5;
         if (nloc != std::string::npos) {
             indexingloc = nloc + 1;
             if (unit_string[nloc] != '.') {
@@ -950,7 +948,7 @@ static void reduce_number_length(std::string& unit_string, char detect)
                     }
                 }
             }
-        } else if (detect!='9'){
+        } else if (detect != '9') {
             indexingloc = unit_string.size();
             auto dloc = unit_string.find_last_of('.', zloc);
 
@@ -1018,7 +1016,6 @@ static std::string
                 propUnitString.find(std::get<0>(pseq), fnd + std::get<3>(pseq));
         }
     }
-    
 
     if (!propUnitString.empty()) {
         if (propUnitString.find("00000") != std::string::npos) {
@@ -1064,9 +1061,9 @@ static std::string
                 } else {
                     auto rs = checkForCustomUnit(cString);
                     if (!is_error(rs)) {
-                        // this condition would take a very particular and odd string to trigger
-                        // I haven't figured out a test case for it yet
-                        // LCOV_EXCL_START
+                        // this condition would take a very particular and odd
+                        // string to trigger I haven't figured out a test case
+                        // for it yet LCOV_EXCL_START
                         cString.insert(0, 1, '1');
                         // LCOV_EXCL_STOP
                     }
@@ -1222,9 +1219,9 @@ static std::string
         auto fndp = find_unit_pair(squ);
         if (!fndp.second.empty()) {
             if (fndp.first.pow(2) != llunit) {
-                // this is symmetric to the other sections where we have test cases for
-                // no known test cases of this but could be triggered by particular numeric strings
-                // LCOV_EXCL_START
+                // this is symmetric to the other sections where we have test
+                // cases for no known test cases of this but could be triggered
+                // by particular numeric strings LCOV_EXCL_START
                 return getMultiplierString(
                            (llunit / fndp.first.pow(2)).multiplier(), true) +
                     '*' + fndp.second + "^2";
@@ -1281,7 +1278,8 @@ static std::string
             if (mult.size() > 5 && isNumericalStartCharacter(mult[0])) {
                 urem = precise_unit(urem.base_units(), 1.0);
                 if (!urem.base_units().empty()) {
-                    return mult+'*'+to_string_internal(urem, match_flags) + '*' + cxstr;
+                    return mult + '*' + to_string_internal(urem, match_flags) +
+                        '*' + cxstr;
                 }
                 return mult + '*' + cxstr;
             }
