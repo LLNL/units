@@ -1467,6 +1467,8 @@ namespace precise {
         constexpr precise_unit rootMeter = precise_unit(
             detail::unit_data(-5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
+        // custom defined unit of loudness 
+        constexpr precise_unit sone = generate_custom_unit(40);
     }  // namespace special
 
     namespace other {
