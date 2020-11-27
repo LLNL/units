@@ -19,7 +19,7 @@
 # which gives output on failed tests without having to set an environment variable.
 #
 include(extraMacros)
-set(gtest_version 859bfe8)
+set(gtest_version fb98f74)
 # depending on what the version is set to the git_clone command may need to change to
 # GIT_TAG||GIT_BRANCH|GIT_COMMIT
 

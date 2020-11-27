@@ -32,7 +32,7 @@ The `to_string` function also takes a second argument which is a `std::uint32_t 
 Stream Operators
 ----------------
 
-Output stream operators are NOT included in the library.  It was debateable to include them or not but there would be a lot of additional overloads that would add quite a bit of code to the header files, that in most cases is not necessary so the decision was made to exclude them.  The `to_string` operations provide most of the capbilities with some additional flexibility, and if needed for a particular use case can be added to the user code in a simple fashion
+Output stream operators are NOT included in the library.  It was debatable to include them or not but there would be a lot of additional overloads that would add quite a bit of code to the header files, that in most cases is not necessary so the decision was made to exclude them.  The `to_string` operations provide most of the capbilities with some additional flexibility, and if needed for a particular use case can be added to the user code in a simple fashion
 
 .. code-block:: c++
 
