@@ -532,21 +532,22 @@ TEST_P(roundTripString, testRoundTrip)
         << "Round trip string didn't match " << GetParam();
 }
 
-static const std::vector<std::string> testStrings{"million per milliliter",
-                                                  "ng/(8.h)",
-                                                  "mL/kg/d",
-                                                  "ng/mL/h",
-                                                  "10.L/min",
-                                                  "[car_Au]",
-                                                  "/[arb'U]",
-                                                  "U/10*10{cells}",
-                                                  "ag/{cell}",
-                                                  "ug/mmol{creat}",
-                                                  "[ppm]{v/v}",
-                                                  "[IU]/g{Hb}",
-                                                  "U/mL{RBCs}",
-                                                  "{#}/{platelet}",
-                                                  "[IU]/mL"};
+static const std::vector<std::string> testStrings{
+    "million per milliliter",
+    "ng/(8.h)",
+    "mL/kg/d",
+    "ng/mL/h",
+    "10.L/min",
+    "[car_Au]",
+    "/[arb'U]",
+    "U/10*10{cells}",
+    "ag/{cell}",
+    "ug/mmol{creat}",
+    "[ppm]{v/v}",
+    "[IU]/g{Hb}",
+    "U/mL{RBCs}",
+    "{#}/{platelet}",
+    "[IU]/mL"};
 
 INSTANTIATE_TEST_SUITE_P(
     roundTrip,
@@ -1032,4 +1033,24 @@ TEST(stringCleanup, test_9strings)
     res = detail::testing::testCleanUpString(
         "10.7*999999999999999999999999lb", 0);
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
+}
+
+namespace units {
+
+static std::ostream& operator<<(std::ostream& os, const units::precise_unit& u)
+{
+    os << to_string(u);
+    return os;
+}
+
+}  // namespace units
+
+TEST(stream, test_outstream)
+{
+    std::stringstream sss;
+
+    sss << units::precise::m;
+
+    auto res = sss.str();
+    EXPECT_EQ(res, "m");
 }
