@@ -979,5 +979,3 @@ struct hash<units::precise_unit> {
     }
 };
 }  // namespace std
-
-// std::ostream &operator<<(std::ostream &stream, units::unit u);
