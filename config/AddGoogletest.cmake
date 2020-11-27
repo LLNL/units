@@ -66,8 +66,8 @@ else() # cmake <3.11
         googletest
         GIT_URL
         https://github.com/google/googletest.git
-        GIT_COMMIT
-        ${gtest_version}
+        GIT_BRANCH
+        v1.10.x
         DIRECTORY
         ${PROJECT_BINARY_DIR}/_deps
     )
