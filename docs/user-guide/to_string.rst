@@ -43,4 +43,4 @@ Output stream operators are NOT included in the library.  It was debatable to in
       }
    } // namespace units
 
-Any of the types in the units library with a `to_string` operation can be handled in the same way.  Depending on the compiler, placing the operator in the namespace may or may not be necessary.  
+Any of the types in the units library with a `to_string` operation can be handled in the same way.  Depending on the compiler, placing the operator in the namespace may or may not be necessary.
