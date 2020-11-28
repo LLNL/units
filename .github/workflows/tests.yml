@@ -17,8 +17,10 @@ jobs:
       with:
         fetch-depth: 0
     - uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
     - name: set PY
-      run: echo "::set-env name=PY::$(python --version --version | sha256sum | cut -d' ' -f1)"
+      run: echo "PY=$(python --version --version | sha256sum | cut -d' ' -f1)" >> $GITHUB_ENV
     - uses: actions/cache@v1
       with:
         path: ~/.cache/pre-commit

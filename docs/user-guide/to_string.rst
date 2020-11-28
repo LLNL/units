@@ -28,3 +28,19 @@ For example
 Advanced Usage
 ----------------
 The `to_string` function also takes a second argument which is a `std::uint32_t match_flags` in all cases this default to 0,  it is currently unused though will be used in the future to allow some fine tuning of the output in specific cases.  In the near future a flag to allow utf 8 output strings will convert certain units to more common utf8 symbols such as unit Powers and degree symbols, and a few others.  The output string would default to ascii only characters.
+
+Stream Operators
+----------------
+
+Output stream operators are NOT included in the library.  It was debatable to include them or not but there would be a lot of additional overloads that would add quite a bit of code to the header files, that in most cases is not necessary so the decision was made to exclude them.  The `to_string` operations provide most of the capbilities with some additional flexibility, and if needed for a particular use case can be added to the user code in a simple fashion
+
+.. code-block:: c++
+   namespace units{
+      std::ostream& operator<<(std::ostream& os, const precise_unit& u)
+      {
+          os << to_string(u);
+          return os;
+      }
+   } // namespace units
+
+Any of the types in the units library with a `to_string` operation can be handled in the same way.  Depending on the compiler, placing the operator in the namespace may or may not be necessary.  

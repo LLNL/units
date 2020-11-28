@@ -1033,3 +1033,23 @@ TEST(stringCleanup, test_9strings)
         "10.7*999999999999999999999999lb", 0);
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
 }
+
+namespace units {
+
+static std::ostream& operator<<(std::ostream& os, const units::precise_unit& u)
+{
+    os << to_string(u);
+    return os;
+}
+
+}  // namespace units
+
+TEST(stream, test_outstream)
+{
+    std::stringstream sss;
+
+    sss << units::precise::m;
+
+    auto res = sss.str();
+    EXPECT_EQ(res, "m");
+}

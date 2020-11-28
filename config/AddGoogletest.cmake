@@ -19,7 +19,16 @@
 # which gives output on failed tests without having to set an environment variable.
 #
 include(extraMacros)
-set(gtest_version 859bfe8)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.8)
+        set(gtest_version fb98f74)
+
+    else()
+        set(gtest_version 703bd9c)
+    endif()
+else()
+    set(gtest_version fb98f74)
+endif()
 # depending on what the version is set to the git_clone command may need to change to
 # GIT_TAG||GIT_BRANCH|GIT_COMMIT
 
@@ -57,8 +66,8 @@ else() # cmake <3.11
         googletest
         GIT_URL
         https://github.com/google/googletest.git
-        GIT_COMMIT
-        ${gtest_version}
+        GIT_BRANCH
+        v1.10.x
         DIRECTORY
         ${PROJECT_BINARY_DIR}/_deps
     )
