@@ -21,7 +21,7 @@ static_assert(
     "nan is used to signify invalid values");
 static_assert(
     std::numeric_limits<double>::has_infinity,
-    "nan is used to signify invalid values");
+    "infinity value is required for some constructs");
 namespace constants {
     constexpr double pi = 3.14159265358979323846;
     constexpr double tau = 2.0 * pi;
@@ -80,6 +80,7 @@ namespace commodities {
         feeder_cattle = 602,
         lean_hogs = 603,
         milk = 604,
+        paper = 606,
 
         // soft
         cotton = 945,
@@ -1476,7 +1477,7 @@ namespace precise {
         constexpr precise_unit ppm(1e-6, count);
         constexpr precise_unit ppb(1e-9, count);
 
-        constexpr precise_unit candle{0.981, cd};
+        constexpr precise_unit candle{0.98135426889107, cd};
         // 2019 redefinition
         constexpr precise_unit faraday{96485.3321233100184, C};
         // others
