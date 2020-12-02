@@ -111,7 +111,7 @@ namespace commodities {
         {aluminum, "aluminum"},
         {alluminum_alloy, "alluminum_alloy"},
         {nickel, "nickel"},
-        {cobolt, "cobolt"},
+        {cobalt, "cobalt"},
         {molybdenum, "molybdenum"},
 
         // energy
@@ -147,7 +147,6 @@ namespace commodities {
         {orange_juice, "orange_juice"},
         {sugar, "sugar"},
         {sugar_11, "sugar_11"},
-        {sugar_14, "sugar_14"},
         {coffee, "coffee"},
         {cocoa, "cocoa"},
         {palm_oil, "palm_oil"},
@@ -201,7 +200,7 @@ namespace commodities {
         {"aluminum", aluminum},
         {"alluminum_alloy", alluminum_alloy},
         {"nickel", nickel},
-        {"cobolt", cobolt},
+        {"cobalt", cobalt},
         {"molybdenum", molybdenum},
         {"carbon", carbon},
 
@@ -238,7 +237,6 @@ namespace commodities {
         {"orange_juice", orange_juice},
         {"sugar", sugar},
         {"sugar_11", sugar_11},
-        {"sugar_14", sugar_14},
         {"coffee", coffee},
         {"cocoa", cocoa},
         {"palm_oil", palm_oil},

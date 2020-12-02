@@ -34,23 +34,44 @@ namespace constants {
 
 /// basic commodity definitions
 namespace commodities {
+    /// generate a harmonized code for use with the units library based on the international harmonized code for international trade
+
+    constexpr std::uint32_t generateHarmonizedCode(std::int32_t chapter, std::int32_t section, std::int32_t subsection)
+    {
+        return ((chapter % 100) << 14) + ((section % 100) << 7) +
+            ((subsection % 100));
+    }
+
+    constexpr std::uint32_t generateHarmonizedCode(
+        std::int32_t chapter,
+        std::int32_t section,
+        std::int32_t subsection,
+        std::int32_t code1,
+        bool digit = false)
+    {
+        return ((chapter % 100) << 14) + ((section % 100) << 7) +
+            ((subsection % 100)) + ((code1 % 100) << 21) +
+            ((digit) ? 0x1000000U : 0U);
+    }
+
     // https://en.wikipedia.org/wiki/List_of_traded_commodities
     enum commodity : std::uint32_t {
-        water = 1,
+        water = generateHarmonizedCode(22, 1, 90),
         // metals
-        gold = 2,
-        copper = 4,
-        silver = 6,
-        platinum = 7,
-        palladium = 8,
-        zinc = 9,
-        tin = 10,
-        lead = 11,
-        aluminum = 12,
-        alluminum_alloy = 13,
-        nickel = 14,
-        cobolt = 15,
-        molybdenum = 16,
+        gold = generateHarmonizedCode(71, 8, 0),
+        copper = generateHarmonizedCode(74, 0, 0),
+        silver = generateHarmonizedCode(71, 6, 0),
+        platinum = generateHarmonizedCode(71, 10, 11),
+        palladium = generateHarmonizedCode(71, 10, 21),
+        zinc = generateHarmonizedCode(79, 0, 0),
+        tin = generateHarmonizedCode(80, 0, 0),
+        lead = generateHarmonizedCode(78, 0, 0),
+        iron = generateHarmonizedCode(72, 0, 0),
+        aluminum = generateHarmonizedCode(76, 0, 0),
+        alluminum_alloy = generateHarmonizedCode(76, 01, 20),
+        nickel = generateHarmonizedCode(75, 0, 0),
+        cobalt = generateHarmonizedCode(81, 05, 0),
+        molybdenum = generateHarmonizedCode(81, 02, 0),
         carbon = 17,
 
         // energy
@@ -76,30 +97,31 @@ namespace commodities {
         adzuci = 418,
         barley = 420,
         // meats
-        live_cattle = 601,
-        feeder_cattle = 602,
-        lean_hogs = 603,
-        milk = 604,
+        live_cattle = generateHarmonizedCode(01,02,29),
+        feeder_cattle = generateHarmonizedCode(01, 02, 29, 40, true),
+        lean_hogs = generateHarmonizedCode(01, 03, 92),
+        milk = generateHarmonizedCode(04, 01, 0),
         paper = 606,
 
         // soft
-        cotton = 945,
-        orange_juice = 947,
-        sugar = 948,
-        sugar_11 = 949,
-        sugar_14 = 950,
-        coffee = 952,
-        cocoa = 961,
+        cotton = generateHarmonizedCode(52, 1, 0),
+        orange_juice = generateHarmonizedCode(20, 9, 11),
+        sugar = generateHarmonizedCode(17, 01, 0),
+        sugar_11 = generateHarmonizedCode(17, 01, 13),
+        coffee = generateHarmonizedCode(9, 1, 0),
+        cocoa = generateHarmonizedCode(18, 1, 0),
         palm_oil = 971,
-        rubber = 999,
-        wool = 946,
+        rubber = generateHarmonizedCode(40, 0, 0),
+        wool = generateHarmonizedCode(51, 01, 0),
         lumber = 5007,
 
         // other common unit blocks
         people = 115125,
         passenger = 115126,
         particles = 117463,
-        vehicle = 43567,
+        vehicle = generateHarmonizedCode(87, 3, 0),
+        flop = 215262,
+        instruction = 452255,
         freight = 56226,
 
         // clinical
