@@ -6912,4 +6912,18 @@ precise_unit default_unit(std::string unit_type)
     return precise::invalid;
 }
 
+
+#ifdef ENABLE_UNIT_MAP_ACCESS
+namespace detail {
+    const std::unordered_map<std::string, precise_unit>& getUnitStringMap() 
+    {
+        return base_unit_vals;
+    }
+    const std::unordered_map<unit, const char*>& getUnitNameMap()
+    {
+        return base_unit_names;
+    }
+}  // namespace detail
+#endif
+
 }  // namespace units

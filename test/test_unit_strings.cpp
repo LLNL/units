@@ -1036,6 +1036,29 @@ TEST(stringCleanup, test_9strings)
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
 }
 
+TEST(mapTests, testRoundTrip)
+{
+    const auto& map = detail::getUnitStringMap();
+    for (const auto& val : map) {
+        auto runit = val.second;
+        if (!val.first.empty() && val.first.front() != '*') {
+            std::string str = "1*" + val.first;
+
+            auto strUnit = unit_from_string(str);
+            if (isnan(strUnit)) {
+                EXPECT_TRUE(isnan(runit));
+            } else {
+                EXPECT_EQ(strUnit, runit)
+                    << str << " failed to convert properly";
+            }
+        }
+    }
+}
+
+TEST(mapTests, testRoundTripFromUnit)
+{
+    const auto& map = detail::getUnitNameMap();
+}
 namespace units {
 
 static std::ostream& operator<<(std::ostream& os, const units::precise_unit& u)
