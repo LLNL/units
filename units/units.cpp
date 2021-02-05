@@ -2417,11 +2417,17 @@ static const smap base_unit_vals{
          std::numeric_limits<double>::quiet_NaN())},
     {"sNaN", precise::nan},
     {"1.#SNAN", precise::nan},
+    {"#SNAN", precise::nan},
     {"1.#QNAN",
      precise_unit(
          detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
          std::numeric_limits<double>::quiet_NaN())},
+    {"#QNAN",
+     precise_unit(
+         detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+         std::numeric_limits<double>::quiet_NaN())},
     {"1.#IND", precise::nan},
+    {"#IND", precise::nan},
     {"0.1", precise_unit(0.1, precise::one)},
     {".1", precise_unit(0.1, precise::one)},
     {"deci", precise_unit(0.1, precise::one)},
@@ -3248,6 +3254,9 @@ static const smap base_unit_vals{
     {"ua", precise::distance::au_old},
     {"$", precise::currency},
     {"dollar", precise::currency},
+    {"euro", precise::currency},
+    {"yen", precise::currency},
+    {"ruble", precise::currency},
     {"currency", precise::currency},
     {u8"\u00A2", precise_unit(0.01, precise::currency)},  // cent symbol
     {"\xA2", precise_unit(0.01, precise::currency)},  // cent symbol latin-1
@@ -3258,9 +3267,7 @@ static const smap base_unit_vals{
     {u8"\u00A5", precise::currency},  // Yen sign
     {"\xA5", precise::currency},  // Yen sign latin-1
     {u8"\u0080", precise::currency},  // Euro sign
-    {u8"\u20AC", precise::currency},  // Euro sign
     {"\x80", precise::currency},  // Euro sign extended ascii
-    {u8"\u20BD", precise::currency},  // Ruble sign
     {"count", precise::count},
     {"unit", precise::count},
     {"pair", precise_unit(2.0, precise::count)},
@@ -3992,7 +3999,6 @@ static const smap base_unit_vals{
     {"scruple_ap", precise::apothecaries::scruple},
     {u8"\u2108", precise::apothecaries::scruple},
     {"dr_ap", precise::apothecaries::drachm},
-    {u8"\u01B7", precise::apothecaries::drachm},
     {u8"\u0292", precise::apothecaries::drachm},
     {"dram_ap", precise::apothecaries::drachm},
     {"[DR_AP]", precise::apothecaries::drachm},
@@ -4373,8 +4379,10 @@ static const smap base_unit_vals{
     {"B(10nV)", precise::log::B_10nV},
     {"bel10nanovolt", precise::log::B_10nV},
     {"dB[10.nV]", precise::log::dB_10nV},
+    {"dB[10*nV]", precise::log::dB_10nV},
     {"decibel10nanovolt", precise::log::B_10nV},
     {"B[10*NV]", precise::log::B_10nV},
+    {"B[10*nV]", precise::log::B_10nV},
     {"DB[10*NV]", precise::log::dB_10nV},
     {"B[W]", precise::log::B_W},
     {"B(W)", precise::log::B_W},
@@ -4607,7 +4615,20 @@ static precise_unit commoditizedUnit(
     ++ccindex;
     auto start = ccindex;
     segmentcheck(unit_string, '}', ccindex);
-    auto hcode = getCommodity(unit_string.substr(start, ccindex - start - 1));
+    if (ccindex - start == 2) {
+        // there are a couple units that might look like commodities
+        if (unit_string[start] == '#') {
+            index = ccindex;
+            return actUnit * count;
+        }
+    }
+    std::string commodStr = unit_string.substr(start, ccindex - start - 1);
+    if (commodStr == "cells")
+    {
+        index = ccindex;
+        return actUnit* precise_unit(1.0, precise::count, commodities::cell);
+    }
+    auto hcode = getCommodity(std::move(commodStr));
     index = ccindex;
     return {1.0, actUnit, hcode};
 }
@@ -5243,7 +5264,7 @@ static void htmlCodeReplacement(std::string& unit_string)
 /// in the basic ascii set)
 static bool unicodeReplacement(std::string& unit_string)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 45>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 48>
         ucodeReplacements{{
             ckpair{u8"\u00d7", "*"},
             ckpair{u8"\u00f7", "/"},  // division sign
@@ -5276,6 +5297,10 @@ static bool unicodeReplacement(std::string& unit_string)
             ckpair{u8"\u2154", "(2/3)"},  // (2/3) fraction
             ckpair{u8"\u215B", "0.125"},  // (1/8) fraction
             ckpair{u8"\u215F", "1/"},  // 1/ numerator operator
+            ckpair{u8"\u20AC", "\x80"}, //euro sign to extended ascii
+            ckpair{u8"\u20BD", "ruble"},  // Ruble sign
+            ckpair{u8"\u01B7",
+                   "dr_ap"},  // drachm symbol
             ckpair{"-\xb3", "^(-3)"},
             ckpair{"-\xb9", "^(-1)"},
             ckpair{"-\xb2", "^(-2)"},
@@ -6009,14 +6034,14 @@ static precise_unit unit_from_string_internal(
     if (unit_string.empty()) {
         return precise::one;
     }
-    if (unit_string.size() > 1024) {  // there is no reason whatsoever that a
-                                      // unit string would be longer than 1024
-                                      // characters
+    if (unit_string.size() > 1024) {
+        // there is no reason whatsoever that a unit string would be longer than
+        // 1024 characters
         return precise::invalid;
     }
     precise_unit retunit;
-    if ((match_flags & case_insensitive) ==
-        0) {  // if not a ci matching process just do a quick scan first
+    if ((match_flags & case_insensitive) == 0) {
+        // if not a ci matching process just do a quick scan first
         retunit = get_unit(unit_string);
         if (is_valid(retunit)) {
             return retunit;
@@ -6110,6 +6135,10 @@ static precise_unit unit_from_string_internal(
                         retunit = precise::one;
                     }
                 } else {
+                    if (is_valid(retunit))
+                    {
+                        return front_unit * retunit;
+                    }
                     auto commodity = getCommodity(unit_string.substr(index));
                     front_unit.commodity(commodity);
                     return front_unit;
@@ -6911,5 +6940,19 @@ precise_unit default_unit(std::string unit_type)
     }
     return precise::invalid;
 }
+
+
+#ifdef ENABLE_UNIT_MAP_ACCESS
+namespace detail {
+    const std::unordered_map<std::string, precise_unit>& getUnitStringMap() 
+    {
+        return base_unit_vals;
+    }
+    const std::unordered_map<unit, const char*>& getUnitNameMap()
+    {
+        return base_unit_names;
+    }
+}  // namespace detail
+#endif
 
 }  // namespace units

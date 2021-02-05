@@ -1036,6 +1036,87 @@ TEST(stringCleanup, test_9strings)
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
 }
 
+TEST(mapTests, testRoundTrip)
+{
+    const auto& map = detail::getUnitStringMap();
+    int invalidCount = 0;
+    for (const auto& val : map) {
+        auto runit = val.second;
+        if (!val.first.empty() && val.first.front() != '*') {
+            if (is_default(val.second)) {
+                // any multiplier by default units is just the multiplier
+                // which doesn't make sense for this test
+                continue;
+            }
+            if (!is_valid(val.second)) {
+                // this would cause issues as well so not a useful test
+                continue;
+            }
+            if (val.first.find_last_of(' ')!=std::string::npos) {
+                //these are special cases and not useful for testing here
+                continue;
+            }
+            // some specicialized units
+            if (val.second==precise::special::rootHertz) {
+                continue;
+            }
+            if (val.second == precise::special::ASD) {
+                continue;
+            }
+            if (val.first.compare(0,2,"50")==0) {
+                //some specialized tissue culture units
+                continue;
+            }
+            if (val.first.find(")_")!=std::string::npos) {
+                continue;
+            }
+            std::string str = "1*" + val.first;
+
+            auto strUnit = unit_from_string(str);
+            if (isnan(runit)) {
+                EXPECT_TRUE(isnan(strUnit));
+                if (!isnan(strUnit)) {
+                    strUnit = unit_from_string(str);
+                    ++invalidCount;
+                }
+            } else {
+                if (strUnit != runit) {
+                    if (val.second.has_same_base(precise::rad)) {
+                        continue;
+                    }
+                    strUnit = unit_from_string(str);
+                    EXPECT_EQ(strUnit, runit)
+                        << str << " failed to convert properly";
+                    ++invalidCount;
+                }
+            }
+        }
+    }
+    EXPECT_EQ(invalidCount, 0);
+}
+
+TEST(mapTests, testRoundTripFromUnit)
+{
+    const auto& map = detail::getUnitNameMap();
+    for (const auto& val : map) {
+        auto runit = val.first;
+        std::string uname(val.second);
+        if (!uname.empty() && uname.front() != '*') {
+            std::string str = "1*" + uname;
+
+            auto strUnit = unit_from_string(str);
+            if (isnan(strUnit)) {
+                EXPECT_TRUE(isnan(runit));
+            } else {
+                EXPECT_EQ(strUnit, runit)
+                    << str << " failed to convert properly";
+                if (strUnit!=runit) {
+                    strUnit = unit_from_string(str);
+                }
+            }
+        }
+    }
+}
 namespace units {
 
 static std::ostream& operator<<(std::ostream& os, const units::precise_unit& u)

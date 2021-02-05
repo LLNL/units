@@ -110,6 +110,7 @@ namespace commodities {
         // computer
         pixel = 516115414,
         voxel = 516115415,
+        errors = 516115418,
     };
 }  // namespace commodities
 
