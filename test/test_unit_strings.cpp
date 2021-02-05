@@ -207,6 +207,18 @@ TEST(unitStrings, crazyunits)
     EXPECT_EQ(to_string(precise_unit(10, precise::pu)), "10*pu");
 }
 
+TEST(unitStrings, electronVolt)
+{
+    EXPECT_EQ(to_string(precise::energy::eV), "eV");
+    EXPECT_EQ(to_string(precise::nano * precise::energy::eV), "neV");
+    EXPECT_EQ(to_string(precise::micro * precise::energy::eV), "ueV");
+    EXPECT_EQ(to_string(precise::milli * precise::energy::eV), "meV");
+    EXPECT_EQ(to_string(precise::kilo * precise::energy::eV), "keV");
+    EXPECT_EQ(to_string(precise::mega * precise::energy::eV), "MeV");
+    EXPECT_EQ(to_string(precise::giga * precise::energy::eV), "GeV");
+    EXPECT_EQ(to_string(precise::tera * precise::energy::eV), "TeV");
+}
+
 TEST(unitStrings, customUnits)
 {
     EXPECT_EQ(to_string(precise::generate_custom_unit(762)), "CXUN[762]");
