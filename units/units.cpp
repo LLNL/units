@@ -2599,6 +2599,10 @@ static const smap base_unit_vals{
                                      // separation functions
     {"Nm", precise::N* precise::m},  // this would not pass through to the
                                      // separation functions
+    {"As", precise::A* precise::s},  // this would not pass through to the
+                                     // separation functions
+    {"Ah", precise::A* precise::hr},  // this would not pass through to the
+                                      // separation functions
     {"newton", precise::N},
     {"Pa", precise::Pa},
     {"pa", precise::Pa},
