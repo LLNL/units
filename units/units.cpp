@@ -4623,10 +4623,9 @@ static precise_unit commoditizedUnit(
         }
     }
     std::string commodStr = unit_string.substr(start, ccindex - start - 1);
-    if (commodStr == "cells")
-    {
+    if (commodStr == "cells") {
         index = ccindex;
-        return actUnit* precise_unit(1.0, precise::count, commodities::cell);
+        return actUnit * precise_unit(1.0, precise::count, commodities::cell);
     }
     auto hcode = getCommodity(std::move(commodStr));
     index = ccindex;
@@ -5297,10 +5296,9 @@ static bool unicodeReplacement(std::string& unit_string)
             ckpair{u8"\u2154", "(2/3)"},  // (2/3) fraction
             ckpair{u8"\u215B", "0.125"},  // (1/8) fraction
             ckpair{u8"\u215F", "1/"},  // 1/ numerator operator
-            ckpair{u8"\u20AC", "\x80"}, //euro sign to extended ascii
+            ckpair{u8"\u20AC", "\x80"},  // euro sign to extended ascii
             ckpair{u8"\u20BD", "ruble"},  // Ruble sign
-            ckpair{u8"\u01B7",
-                   "dr_ap"},  // drachm symbol
+            ckpair{u8"\u01B7", "dr_ap"},  // drachm symbol
             ckpair{"-\xb3", "^(-3)"},
             ckpair{"-\xb9", "^(-1)"},
             ckpair{"-\xb2", "^(-2)"},
@@ -6135,8 +6133,7 @@ static precise_unit unit_from_string_internal(
                         retunit = precise::one;
                     }
                 } else {
-                    if (is_valid(retunit))
-                    {
+                    if (is_valid(retunit)) {
                         return front_unit * retunit;
                     }
                     auto commodity = getCommodity(unit_string.substr(index));
@@ -6941,10 +6938,9 @@ precise_unit default_unit(std::string unit_type)
     return precise::invalid;
 }
 
-
 #ifdef ENABLE_UNIT_MAP_ACCESS
 namespace detail {
-    const std::unordered_map<std::string, precise_unit>& getUnitStringMap() 
+    const std::unordered_map<std::string, precise_unit>& getUnitStringMap()
     {
         return base_unit_vals;
     }

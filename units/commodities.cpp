@@ -266,7 +266,7 @@ namespace commodities {
         {"vox", voxel},
         {"pix", pixel},
         {"dot", pixel},
-        {"error",errors},
+        {"error", errors},
         {"errors", errors},
     };
 }  // namespace commodities
