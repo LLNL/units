@@ -207,6 +207,23 @@ TEST(unitStrings, crazyunits)
     EXPECT_EQ(to_string(precise_unit(10, precise::pu)), "10*pu");
 }
 
+TEST(unitStrings, charge)
+{
+    // A * s = C
+    EXPECT_EQ(to_string(precise::A * precise::s), "C");
+    // A * h = 3600 C, better use A * h
+    EXPECT_EQ(to_string(precise::A * precise::hr), "Ahr");
+    EXPECT_EQ(to_string(precise::femto * precise::A * precise::hr), "fAhr");
+    EXPECT_EQ(to_string(precise::pico * precise::A * precise::hr), "pAhr");
+    EXPECT_EQ(to_string(precise::nano * precise::A * precise::hr), "nAhr");
+    EXPECT_EQ(to_string(precise::micro * precise::A * precise::hr), "uAhr");
+    EXPECT_EQ(to_string(precise::milli * precise::A * precise::hr), "mAhr");
+    EXPECT_EQ(to_string(precise::kilo * precise::A * precise::hr), "kAhr");
+    EXPECT_EQ(to_string(precise::mega * precise::A * precise::hr), "MAhr");
+    EXPECT_EQ(to_string(precise::giga * precise::A * precise::hr), "GAhr");
+    EXPECT_EQ(to_string(precise::tera * precise::A * precise::hr), "TAhr");
+}
+
 TEST(unitStrings, electronVolt)
 {
     EXPECT_EQ(to_string(precise::energy::eV), "eV");
