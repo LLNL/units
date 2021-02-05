@@ -24,4 +24,4 @@ The seven SI units + radians + currency units + count units.  In addition a unit
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.
 
 
-- ` SI units Publication guidelines <https://physics.nist.gov/cuu/pdf/sp811.pdf>` _
+- `SI units Publication guidelines <https://physics.nist.gov/cuu/pdf/sp811.pdf>`_
