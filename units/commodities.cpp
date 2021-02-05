@@ -266,6 +266,8 @@ namespace commodities {
         {"vox", voxel},
         {"pix", pixel},
         {"dot", pixel},
+        {"error", errors},
+        {"errors", errors},
     };
 }  // namespace commodities
 static constexpr std::uint32_t Ac{54059}; /* a prime */

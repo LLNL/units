@@ -12,6 +12,10 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <type_traits>
 #include <utility>
 
+#ifdef ENABLE_UNIT_MAP_ACCESS
+#include <unordered_map>
+#endif
+
 #if __cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1910)
 #define UNITS_CPP14_CONSTEXPR_OBJECT constexpr
 #define UNITS_CPP14_CONSTEXPR_METHOD constexpr
@@ -2061,6 +2065,13 @@ namespace detail {
         std::string
             testCleanUpString(std::string testString, std::uint32_t commodity);
     }  // namespace testing
+}  // namespace detail
+#endif
+
+#ifdef ENABLE_UNIT_MAP_ACCESS
+namespace detail {
+    const std::unordered_map<std::string, precise_unit>& getUnitStringMap();
+    const std::unordered_map<unit, const char*>& getUnitNameMap();
 }  // namespace detail
 #endif
 
