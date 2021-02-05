@@ -512,6 +512,8 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(unit_from_string("Ns"), precise::N * precise::s);
     EXPECT_EQ(unit_from_string("N.s"), precise::N * precise::s);
     EXPECT_EQ(unit_from_string("Newton second"), precise::N * precise::s);
+    EXPECT_EQ(unit_from_string("As"), precise::A * precise::s);
+    EXPECT_EQ(unit_from_string("Ah"), precise::A * precise::hr);
     auto u2 = unit_from_string("molcubicfoot");
     EXPECT_FALSE(is_error(u2));
     EXPECT_EQ(u2, precise::mol * precise::ft.pow(3));
