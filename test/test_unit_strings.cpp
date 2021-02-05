@@ -521,6 +521,18 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(u3.multiplier(), std::pow(2.0, 345.0));
 }
 
+TEST(stringToUnits, electronVolt)
+{
+    EXPECT_EQ(unit_from_string("eV"), precise::energy::eV);
+    EXPECT_EQ(unit_from_string("neV"), precise::nano * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("ueV"), precise::micro * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("meV"), precise::milli * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("keV"), precise::kilo * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("MeV"), precise::mega * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("GeV"), precise::giga * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("TeV"), precise::tera * precise::energy::eV);
+}
+
 class roundTripString : public ::testing::TestWithParam<std::string> {
 };
 
