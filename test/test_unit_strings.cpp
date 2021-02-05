@@ -207,6 +207,35 @@ TEST(unitStrings, crazyunits)
     EXPECT_EQ(to_string(precise_unit(10, precise::pu)), "10*pu");
 }
 
+TEST(unitStrings, charge)
+{
+    // A * s = C
+    EXPECT_EQ(to_string(precise::A * precise::s), "C");
+    // A * h = 3600 C, better use A * h
+    EXPECT_EQ(to_string(precise::A * precise::hr), "Ahr");
+    EXPECT_EQ(to_string(precise::femto * precise::A * precise::hr), "fAhr");
+    EXPECT_EQ(to_string(precise::pico * precise::A * precise::hr), "pAhr");
+    EXPECT_EQ(to_string(precise::nano * precise::A * precise::hr), "nAhr");
+    EXPECT_EQ(to_string(precise::micro * precise::A * precise::hr), "uAhr");
+    EXPECT_EQ(to_string(precise::milli * precise::A * precise::hr), "mAhr");
+    EXPECT_EQ(to_string(precise::kilo * precise::A * precise::hr), "kAhr");
+    EXPECT_EQ(to_string(precise::mega * precise::A * precise::hr), "MAhr");
+    EXPECT_EQ(to_string(precise::giga * precise::A * precise::hr), "GAhr");
+    EXPECT_EQ(to_string(precise::tera * precise::A * precise::hr), "TAhr");
+}
+
+TEST(unitStrings, electronVolt)
+{
+    EXPECT_EQ(to_string(precise::energy::eV), "eV");
+    EXPECT_EQ(to_string(precise::nano * precise::energy::eV), "neV");
+    EXPECT_EQ(to_string(precise::micro * precise::energy::eV), "ueV");
+    EXPECT_EQ(to_string(precise::milli * precise::energy::eV), "meV");
+    EXPECT_EQ(to_string(precise::kilo * precise::energy::eV), "keV");
+    EXPECT_EQ(to_string(precise::mega * precise::energy::eV), "MeV");
+    EXPECT_EQ(to_string(precise::giga * precise::energy::eV), "GeV");
+    EXPECT_EQ(to_string(precise::tera * precise::energy::eV), "TeV");
+}
+
 TEST(unitStrings, customUnits)
 {
     EXPECT_EQ(to_string(precise::generate_custom_unit(762)), "CXUN[762]");
@@ -521,6 +550,18 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(unit_from_string("\t\t\t\t \r\n\n"), precise::defunit);
     auto u3 = unit_from_string("2^345");
     EXPECT_EQ(u3.multiplier(), std::pow(2.0, 345.0));
+}
+
+TEST(stringToUnits, electronVolt)
+{
+    EXPECT_EQ(unit_from_string("eV"), precise::energy::eV);
+    EXPECT_EQ(unit_from_string("neV"), precise::nano * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("ueV"), precise::micro * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("meV"), precise::milli * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("keV"), precise::kilo * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("MeV"), precise::mega * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("GeV"), precise::giga * precise::energy::eV);
+    EXPECT_EQ(unit_from_string("TeV"), precise::tera * precise::energy::eV);
 }
 
 class roundTripString : public ::testing::TestWithParam<std::string> {
