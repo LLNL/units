@@ -48,7 +48,9 @@ else()
         test_unit_strings PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
 
-    target_compile_definitions(test_unit_strings PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1)
+    target_compile_definitions(
+        test_unit_strings PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
+    )
     target_compile_definitions(test_leadingNumbers PUBLIC -DENABLE_UNIT_TESTING=1)
 
     target_compile_definitions(

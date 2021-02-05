@@ -12,7 +12,6 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <type_traits>
 #include <utility>
 
-
 #ifdef ENABLE_UNIT_MAP_ACCESS
 #include <unordered_map>
 #endif
@@ -2073,7 +2072,7 @@ namespace detail {
 namespace detail {
     const std::unordered_map<std::string, precise_unit>& getUnitStringMap();
     const std::unordered_map<unit, const char*>& getUnitNameMap();
-}
+}  // namespace detail
 #endif
 
 }  // namespace units

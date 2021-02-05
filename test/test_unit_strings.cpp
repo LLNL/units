@@ -1052,22 +1052,22 @@ TEST(mapTests, testRoundTrip)
                 // this would cause issues as well so not a useful test
                 continue;
             }
-            if (val.first.find_last_of(' ')!=std::string::npos) {
-                //these are special cases and not useful for testing here
+            if (val.first.find_last_of(' ') != std::string::npos) {
+                // these are special cases and not useful for testing here
                 continue;
             }
             // some specicialized units
-            if (val.second==precise::special::rootHertz) {
+            if (val.second == precise::special::rootHertz) {
                 continue;
             }
             if (val.second == precise::special::ASD) {
                 continue;
             }
-            if (val.first.compare(0,2,"50")==0) {
-                //some specialized tissue culture units
+            if (val.first.compare(0, 2, "50") == 0) {
+                // some specialized tissue culture units
                 continue;
             }
-            if (val.first.find(")_")!=std::string::npos) {
+            if (val.first.find(")_") != std::string::npos) {
                 continue;
             }
             std::string str = "1*" + val.first;
@@ -1110,7 +1110,7 @@ TEST(mapTests, testRoundTripFromUnit)
             } else {
                 EXPECT_EQ(strUnit, runit)
                     << str << " failed to convert properly";
-                if (strUnit!=runit) {
+                if (strUnit != runit) {
                     strUnit = unit_from_string(str);
                 }
             }

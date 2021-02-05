@@ -29,7 +29,9 @@ else(UNITS_HEADER_ONLY)
         target_link_libraries(units-static PRIVATE compile_flags_target)
 
         if(UNITS_ENABLE_TESTS)
-            target_compile_definitions(units-static PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1)
+            target_compile_definitions(
+                units-static PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
+            )
         endif()
 
         add_library(units::units ALIAS units-static)
