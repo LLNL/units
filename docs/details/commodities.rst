@@ -17,21 +17,49 @@ Control code
 bits 29 and 30 are control codes
 `00` is a normal commodity
 `01` is a normal commodity with form factor code
-`10` is a predefined direct string.
+`10` is a direct definitions
 `11` is a custom commodity defined in a map storage
 
-Direct String Commodities
+Direct definitions
 ============================
-To avoid always having to do a map lookup, many commodities or commodity codes can be represented by short string of 5 or fewer characters.  These cannot be case sensitive so '_' is a space or null character and if at the end will be removed for display purposes.  The very limited character set includes '_', `a-z', '`' and, '{|}~'.  This is meant to simplify a chunk of the use cases.  custom commodity string which are not captured in this mode fall into the custom commodity bin
+The direct defintions define a set of codes that are defined in a couple different methods
+
+The next 3 bits define which method 
+
+`000` short strings
+`001` 3 byte alpha numeric code
+`111` pure common commodity codes
+
+others will be defined later.  
+
+Short Strings
+++++++++++++++++
+
+To avoid always having to do a map lookup, many commodities or commodity codes can be represented by short string of 5 or fewer characters.  These cannot be case sensitive so '_' is a space or null character and if at the end will be removed for display purposes.  The very limited character set includes '_', `a-z', '`' and, '{|}~'.  This is meant to simplify a chunk of the use cases.  Custom Commodity Strings which are not captured in this mode fall into the custom commodity bin.  The bits for this kind of commodity definition are 0100000[AAAAA][BBBBB][CCCCC][DDDDD][EEEEE], with A, B, C, D, and E representing the bits of the code letters.
+
+3 byte code
+++++++++++++++++
+
+For short alpha/numeric codes of 3 bytes or fewer the byte code can be captured in the lower 24 bits of the commodity code.  
+The bits for this kind of commodity definition are 01000100[AAAAAAAA][BBBBBBBB][CCCCCCCC], with A,B, C representing the bits of the code letters.
+
+Known Definitions
++++++++++++++++++++
+
+A set of known commodities are defined in the header libraries.  These are contained using code 111 and are defined in header files.
+The first 6 bits are defined 010111 leaving 26 bits available for user defined commodity codes.  
+
+
 
 Custom Commodity
 =======================
 String which can't be represented by the very simplistic short string mode are placed into a hash table for lookup and assigned a hash code generated from the string.  The string is converted to a 29-bit hash placed in the lower 29 bits of the commodity code.  
 
-Commodity with Container 
+Commodity with Form Factor 
 =============================
 Frequently commodities come in a specific form factor.  With a form factor code in place this can represent a form factor independent of the actual commodity material.  For example a drum of oil vs a drum of gasoline.  
-  the container is wrapped in a 8-bit code bits 21-28.  The commodity itself is contained in bits 0-19.  
+  the container is wrapped in a 8-bit code bits 21-28.  The commodity itself is contained in bits 0-20. 
+  The bit codes for packaging code is 001[FFFFFFFF][CCCCCCC][CCCCCCC][CCCCCCC].  To the extent possible the codes in use are those used in recommendation 21 of interational trade for use in conjuction with harmonized code.  Thise covers the trade of goods but in general is insufficient to cover all the required packaging modes necessary for general description so it is not used exactly. The code 0-99 if used correspond to codes used in recommendation 21.  The way this is a encoded is the lowest 7 bits correspond to the recommendation if the value < 99.  number 100-127 and 228-255 are local user definitions defined as required for other purposes.    In Rec 21 codes 70-79 are reserved for furture use  but may be used in the units library as needed.
 
 Normal Commodity 
 ============================

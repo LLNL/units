@@ -129,12 +129,11 @@ namespace commodities {
         {soybean_oil, "soybean_oil"},
         {oats, "oats"},
         {rice, "rice"},
-        {red_wheat, "red_wheat"},
-        {spring_wheat, "spring_wheat"},
+        {durum_wheat, "durum_wheat"},
         {canola, "canola"},
         {rough_rice, "rough_rice"},
         {rapeseed, "rapeseed"},
-        {adzuci, "adzuci"},
+        {adzuki, "adzuki"},
         {barley, "barley"},
         // meats
         {live_cattle, "live_cattle"},
@@ -156,7 +155,6 @@ namespace commodities {
 
         // other common unit blocks
         {people, "people"},
-        {particles, "particles"},
         {vehicle, "vehicle"},
 
         // clinical
@@ -219,12 +217,12 @@ namespace commodities {
         {"soybean_oil", soybean_oil},
         {"oats", oats},
         {"rice", rice},
-        {"red_wheat", red_wheat},
-        {"spring_wheat", spring_wheat},
+        {"durum_wheat", durum_wheat},
         {"canola", canola},
         {"rough_rice", rough_rice},
         {"rapeseed", rapeseed},
-        {"adzuci", adzuci},
+        {"adzuci", adzuki},
+        {"adzuki", adzuki},
         {"barley", barley},
         // meats
         {"live_cattle", live_cattle},
@@ -246,7 +244,7 @@ namespace commodities {
 
         // other common unit blocks
         {"people", people},
-        {"particles", particles},
+        {"particles", particle},
         {"cars", vehicle},
         {"vehicle", vehicle},
         // clinical
@@ -385,7 +383,7 @@ std::string getCommodityName(std::uint32_t commodity)
         return fnd->second;
     }
 
-    if ((commodity & 0x60000000U) == 0x40000000U) {
+    if ((commodity & 0x7C000000U) == 0x40000000U) {
         std::string ret;
         ret.push_back((commodity & 0X1FU) + '_');
         ret.push_back(((commodity >> 5U) & 0X1FU) + '_');

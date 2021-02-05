@@ -53,6 +53,122 @@ namespace commodities {
             ((subsection % 100)) + ((code1 % 100) << 21) +
             ((digit) ? 0x1000000U : 0U);
     }
+        constexpr std::uint32_t
+            generateStringCode(char c1, char c2, char c3, char c4, char c5)
+        {
+            return 0x60000000U + (((c1 - '_') & 0X1FU) << 20U) +
+                (((c2 - '_') & 0X1FU) << 15U) + (((c3 - '_') & 0X1FU) << 10U) +
+                (((c4 - '_') & 0X1FU) << 5U) + ((c5 - '_') & 0X1FU);
+        }
+
+        constexpr std::uint32_t generateKnownCode(std::uint32_t code)
+        {
+            return 0x9C000000U + (code & 0x03FFFFFF);
+        }
+
+        constexpr std::uint32_t generatePackagingCode(std::uint32_t code)
+        {
+            return 0x9C000000U + ((code & 0xFFU)<<21U);
+        }
+
+        /** Enumeration of potential packaging/form factor modifiers
+        aligned with recommendation 21 of international trade to the extent possible
+        */
+        enum packaging : std::uint32_t {
+            sheet = generatePackagingCode(1),
+            group = generatePackagingCode(2),
+            lift = generatePackagingCode(3),
+            ration = generatePackagingCode(4),
+            stick = generatePackagingCode(5),
+            drum = generatePackagingCode(6),
+            car = generatePackagingCode(7),
+            locomotive = generatePackagingCode(8),
+            caboose = generatePackagingCode(9),
+            train = generatePackagingCode(10),
+            container = generatePackagingCode(11),
+            bin = generatePackagingCode(12),
+            bulk_bag = generatePackagingCode(13),
+            bag = generatePackagingCode(14),
+            barrel = generatePackagingCode(15),
+            ball = generatePackagingCode(16),
+            bulk_pack = generatePackagingCode(17),
+            capsule = generatePackagingCode(18),
+            assortment = generatePackagingCode(19),
+            vial = generatePackagingCode(20),
+            bunk = generatePackagingCode(21),
+            billet = generatePackagingCode(22),
+            bundle = generatePackagingCode(23),
+            board = generatePackagingCode(24),
+            segment = generatePackagingCode(25),
+            spool = generatePackagingCode(26),
+            strip = generatePackagingCode(27),
+            skid = generatePackagingCode(28),
+            skien = generatePackagingCode(29),
+            shipment = generatePackagingCode(30),
+            syringe = generatePackagingCode(31),
+            truck = generatePackagingCode(32),
+            small_tin= generatePackagingCode(33),
+            large_tin = generatePackagingCode(88),
+            tube = generatePackagingCode(34),
+            treatment = generatePackagingCode(35),
+            tablet = generatePackagingCode(36),
+            bulk_solid = generatePackagingCode(37),
+            bulk_liquid = generatePackagingCode(137),
+            wheel = generatePackagingCode(38),
+            wrap = generatePackagingCode(39),
+            hanging_container = generatePackagingCode(40),
+            chest = generatePackagingCode(41),
+            cast = generatePackagingCode(42),
+            lift_val = generatePackagingCode(43),
+            carset = generatePackagingCode(44),
+            carload = generatePackagingCode(45),
+            card = generatePackagingCode(46),
+            can = generatePackagingCode(47),
+            cone = generatePackagingCode(48),
+            carboy = generatePackagingCode(49),
+            cylinder = generatePackagingCode(50),
+            combo = generatePackagingCode(51),
+            lot = generatePackagingCode(52),
+            book = generatePackagingCode(53),
+            block = generatePackagingCode(54),
+            round = generatePackagingCode(55),
+            cassette = generatePackagingCode(56),
+            beam = generatePackagingCode(57),
+            band = generatePackagingCode(58),
+            sleeve = generatePackagingCode(59),
+            disk = generatePackagingCode(60),
+            deal = generatePackagingCode(61),
+            dispenser = generatePackagingCode(62),
+            pack = generatePackagingCode(63),
+            pail = generatePackagingCode(64),
+            reel = generatePackagingCode(65),
+            room = generatePackagingCode(66),
+            session = generatePackagingCode(67),
+            belt = generatePackagingCode(68),
+            dose = generatePackagingCode(69),
+            strand = generatePackagingCode(70),
+            zone = generatePackagingCode(71),
+            envelope = generatePackagingCode(72),
+            blank = generatePackagingCode(73),
+            head = generatePackagingCode(74),
+            jar = generatePackagingCode(75),
+            joint = generatePackagingCode(76),
+            keg = generatePackagingCode(77),
+            barge = generatePackagingCode(78),
+            vehicle = generatePackagingCode(79),
+            pallet = generatePackagingCode(80),
+            plate = generatePackagingCode(81),
+            panel = generatePackagingCode(82),
+            meal = generatePackagingCode(83),
+            ring = generatePackagingCode(84),
+            sack = generatePackagingCode(85),
+            set = generatePackagingCode(86),
+            thread = generatePackagingCode(87),
+            particle = generatePackagingCode(88),
+            ingot = generatePackagingCode(89),
+            sling = generatePackagingCode(90),
+            line = generatePackagingCode(90),
+        };
 
     // https://en.wikipedia.org/wiki/List_of_traded_commodities
     enum commodity : std::uint32_t {
@@ -75,34 +191,35 @@ namespace commodities {
         carbon = 17,
 
         // energy
-        oil = 101,
-        heat_oil = 102,
-        nat_gas = 103,
-        brent_crude = 104,
-        ethanol = 105,
-        propane = 107,
+        oil = generateHarmonizedCode(27, 9, 0),
+        coal = generateHarmonizedCode(27, 11, 0),
+        heat_oil = generateHarmonizedCode(27, 10, 19),
+        nat_gas = generateHarmonizedCode(27, 11, 12),
+        brent_crude = generateHarmonizedCode(27, 9, 0,10,true),
+        ethanol = generateHarmonizedCode(22, 07, 10),
+        propane = generateHarmonizedCode(27, 11, 12),
+        gasoline = generateHarmonizedCode(27, 10, 12,15,true),
         // grains
-        wheat = 404,
-        corn = 405,
-        soybeans = 406,
-        soybean_meal = 407,
-        soybean_oil = 408,
-        oats = 409,
-        rice = 410,
-        red_wheat = 411,
-        spring_wheat = 412,
-        canola = 413,
-        rough_rice = 414,
-        rapeseed = 415,
-        adzuci = 418,
-        barley = 420,
+        wheat = generateHarmonizedCode(10, 01, 99),
+        corn = generateHarmonizedCode(10, 05, 90),
+        soybeans = generateHarmonizedCode(12, 10, 90),
+        soybean_meal = generateHarmonizedCode(12, 8, 10),
+        soybean_oil = generateHarmonizedCode(15, 07, 00), 
+        oats =generateHarmonizedCode(10, 04, 90), 
+        rice = generateHarmonizedCode(10, 06, 00),
+        durum_wheat = generateHarmonizedCode(10, 01, 10),
+        canola = generateHarmonizedCode(15, 14, 00),
+        rough_rice = generateHarmonizedCode(10, 06, 10),
+        rapeseed = generateHarmonizedCode(12, 05, 0),
+        adzuki = generateHarmonizedCode(07, 13, 32),
+        barley = generateHarmonizedCode(10, 03, 90),
         // meats
         live_cattle = generateHarmonizedCode(01,02,29),
         feeder_cattle = generateHarmonizedCode(01, 02, 29, 40, true),
         lean_hogs = generateHarmonizedCode(01, 03, 92),
         milk = generateHarmonizedCode(04, 01, 0),
-        paper = 606,
-
+        paper = generateHarmonizedCode(48, 02, 0),
+        plastic = generateHarmonizedCode(39, 0, 0),
         // soft
         cotton = generateHarmonizedCode(52, 1, 0),
         orange_juice = generateHarmonizedCode(20, 9, 11),
@@ -110,32 +227,32 @@ namespace commodities {
         sugar_11 = generateHarmonizedCode(17, 01, 13),
         coffee = generateHarmonizedCode(9, 1, 0),
         cocoa = generateHarmonizedCode(18, 1, 0),
-        palm_oil = 971,
+        palm_oil = generateHarmonizedCode(15, 11, 0),
         rubber = generateHarmonizedCode(40, 0, 0),
         wool = generateHarmonizedCode(51, 01, 0),
-        lumber = 5007,
+        lumber = generateHarmonizedCode(44, 00, 0),
 
         // other common unit blocks
-        people = 115125,
+        people = generateKnownCode(15),
         passenger = 115126,
         particles = 117463,
         vehicle = generateHarmonizedCode(87, 3, 0),
-        flop = 215262,
-        instruction = 452255,
+        flop = generateStringCode('f', 'l', 'o', 'p', '_'),
+        instruction = generateKnownCode(8086),
         freight = 56226,
 
         // clinical
-        tissue = 4622626,
-        cell = 45236884,
-        embryo = 52632253,
-        Hahnemann = 2352622,
-        Korsakov = 262626562,
-        protein = 325255,
-        creatinine = 2566225,
+        tissue = generateKnownCode(52632250),
+        cell = generateStringCode('c', 'e', 'l', 'l', '_'),
+        embryo = generateKnownCode(52632253),
+        Hahnemann = generateKnownCode(2352622),
+        Korsakov = generateKnownCode(26262656),
+        protein = generateKnownCode(325255),
+        creatinine = generateKnownCode(2566225),
 
         // computer
-        pixel = 516115414,
-        voxel = 516115415,
+        pixel = generateStringCode('p','i','x','e','l'),
+        voxel = generateStringCode('v', 'o', 'x', 'e', 'l'),
         errors = 516115418,
         flop = 215262,
         instruction = 452255,
@@ -145,6 +262,8 @@ namespace commodities {
         // food
         capsaicin = 623452,
     };
+
+    
 }  // namespace commodities
 
 namespace precise {
