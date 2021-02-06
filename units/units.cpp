@@ -1347,18 +1347,14 @@ static std::string
         return generateUnitSequence(1.0, generateRawUnitString(un));
     }
     /** check for a few units with odd numbers that allow SI prefixes*/
-    for (auto& siU : siTestUnits)
-    {
+    for (auto& siU : siTestUnits) {
         auto nu = un / siU.first;
-        if (nu.unit_type_count() == 0)
-        {
+        if (nu.unit_type_count() == 0) {
             auto mult = getMultiplierString(nu.multiplier());
-            if (mult.empty())
-            {
+            if (mult.empty()) {
                 return siU.second;
             }
-            if (!isNumericalStartCharacter(mult.front()))
-            {
+            if (!isNumericalStartCharacter(mult.front())) {
                 return mult + siU.second;
             }
         }
@@ -2635,7 +2631,7 @@ static const smap base_unit_vals{
     {"Ah", precise::A* precise::hr},  // this would not pass through to the
                                       // separation functions
     {"Ahr", precise::A* precise::hr},  // this would not pass through to the
-                                      // separation functions
+                                       // separation functions
     {"newton", precise::N},
     {"Pa", precise::Pa},
     {"pa", precise::Pa},
@@ -6038,24 +6034,23 @@ static precise_unit
 {
     bool threeAgain{false};
     if (unit_string.size() >= 3) {
-        if (unit_string[1]=='A') {
+        if (unit_string[1] == 'A') {
             threeAgain = true;
-        }
-        else {
-        auto mux = getPrefixMultiplier2Char(unit_string[0], unit_string[1]);
-        if (mux != 0.0) {
-            auto ustring = unit_string.substr(2);
-            if (ustring == "B") {
-                return {mux, precise::data::byte};
+        } else {
+            auto mux = getPrefixMultiplier2Char(unit_string[0], unit_string[1]);
+            if (mux != 0.0) {
+                auto ustring = unit_string.substr(2);
+                if (ustring == "B") {
+                    return {mux, precise::data::byte};
+                }
+                if (ustring == "b") {
+                    return {mux, precise::data::bit};
+                }
+                auto retunit = unit_quick_match(ustring, match_flags);
+                if (is_valid(retunit)) {
+                    return {mux, retunit};
+                }
             }
-            if (ustring == "b") {
-                return {mux, precise::data::bit};
-            }
-            auto retunit = unit_quick_match(ustring, match_flags);
-            if (is_valid(retunit)) {
-                return {mux, retunit};
-            }
-        }
         }
     }
     if (unit_string.size() >= 2) {
@@ -6078,8 +6073,7 @@ static precise_unit
             }
         }
     }
-    if (threeAgain)
-    {
+    if (threeAgain) {
         auto mux = getPrefixMultiplier2Char(unit_string[0], unit_string[1]);
         if (mux != 0.0) {
             auto ustring = unit_string.substr(2);
@@ -6236,7 +6230,7 @@ static precise_unit unit_from_string_internal(
             return front_unit * retunit;
         }
     }
-    retunit=checkSIprefix(unit_string,match_flags);
+    retunit = checkSIprefix(unit_string, match_flags);
     if (is_valid(retunit)) {
         return retunit;
     }
@@ -6319,7 +6313,7 @@ static precise_unit unit_from_string_internal(
         unit_string.find('{') != std::string::npos) {
         return commoditizedUnit(unit_string, match_flags);
     }
-    
+
     // don't do any further steps if recursion is not available
     if ((match_flags & no_recursion) != 0) {
         return unit_quick_match(unit_string, match_flags);
