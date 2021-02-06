@@ -212,16 +212,16 @@ TEST(unitStrings, charge)
     // A * s = C
     EXPECT_EQ(to_string(precise::A * precise::s), "C");
     // A * h = 3600 C, better use A * h
-    EXPECT_EQ(to_string(precise::A * precise::hr), "Ahr");
-    EXPECT_EQ(to_string(precise::femto * precise::A * precise::hr), "fAhr");
-    EXPECT_EQ(to_string(precise::pico * precise::A * precise::hr), "pAhr");
-    EXPECT_EQ(to_string(precise::nano * precise::A * precise::hr), "nAhr");
-    EXPECT_EQ(to_string(precise::micro * precise::A * precise::hr), "uAhr");
-    EXPECT_EQ(to_string(precise::milli * precise::A * precise::hr), "mAhr");
-    EXPECT_EQ(to_string(precise::kilo * precise::A * precise::hr), "kAhr");
-    EXPECT_EQ(to_string(precise::mega * precise::A * precise::hr), "MAhr");
-    EXPECT_EQ(to_string(precise::giga * precise::A * precise::hr), "GAhr");
-    EXPECT_EQ(to_string(precise::tera * precise::A * precise::hr), "TAhr");
+    EXPECT_EQ(to_string(precise::A * precise::hr), "Ah");
+    EXPECT_EQ(to_string(precise::femto * precise::A * precise::hr), "fAh");
+    EXPECT_EQ(to_string(precise::pico * precise::A * precise::hr), "pAh");
+    EXPECT_EQ(to_string(precise::nano * precise::A * precise::hr), "nAh");
+    EXPECT_EQ(to_string(precise::micro * precise::A * precise::hr), "uAh");
+    EXPECT_EQ(to_string(precise::milli * precise::A * precise::hr), "mAh");
+    EXPECT_EQ(to_string(precise::kilo * precise::A * precise::hr), "kAh");
+    EXPECT_EQ(to_string(precise::mega * precise::A * precise::hr), "MAh");
+    EXPECT_EQ(to_string(precise::giga * precise::A * precise::hr), "GAh");
+    EXPECT_EQ(to_string(precise::tera * precise::A * precise::hr), "TAh");
 }
 
 TEST(unitStrings, electronVolt)
@@ -234,6 +234,15 @@ TEST(unitStrings, electronVolt)
     EXPECT_EQ(to_string(precise::mega * precise::energy::eV), "MeV");
     EXPECT_EQ(to_string(precise::giga * precise::energy::eV), "GeV");
     EXPECT_EQ(to_string(precise::tera * precise::energy::eV), "TeV");
+}
+
+TEST(unitStrings, watthours)
+{
+    EXPECT_EQ(to_string(precise::A * precise::s), "C");
+    EXPECT_EQ(to_string(precise::W * precise::hr), "Wh");
+    EXPECT_EQ(to_string(precise::kilo * precise::W * precise::h), "kWh");
+    EXPECT_EQ(to_string(precise::mega * precise::W * precise::h), "MWh");
+    EXPECT_EQ(to_string(precise::giga * precise::W * precise::h), "GWh");
 }
 
 TEST(unitStrings, customUnits)
@@ -542,7 +551,8 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(unit_from_string("N.s"), precise::N * precise::s);
     EXPECT_EQ(unit_from_string("Newton second"), precise::N * precise::s);
     EXPECT_EQ(unit_from_string("As"), precise::A * precise::s);
-    EXPECT_EQ(unit_from_string("Ah"), precise::A * precise::hr);
+    EXPECT_EQ(unit_from_string("Ah"), precise::A * precise::h);
+    EXPECT_EQ(unit_from_string("Ahr"), precise::A * precise::h);
     auto u2 = unit_from_string("molcubicfoot");
     EXPECT_FALSE(is_error(u2));
     EXPECT_EQ(u2, precise::mol * precise::ft.pow(3));
