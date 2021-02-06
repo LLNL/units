@@ -349,6 +349,7 @@ namespace precise {
         constexpr precise_unit ms(0.001, s);
         constexpr precise_unit ns(1e-9, s);
         constexpr precise_unit hr(60.0, min);
+        constexpr precise_unit h(60.0, min);
         constexpr precise_unit day(24.0, hr);
         constexpr precise_unit week(7.0, day);
         constexpr precise_unit yr(8760.0, hr);  // median calendar year;
@@ -369,6 +370,7 @@ namespace precise {
     constexpr precise_unit ms = time::ms;
     constexpr precise_unit ns = time::ns;
     constexpr precise_unit hr = time::hr;
+    constexpr precise_unit h = time::h;
     constexpr precise_unit yr = time::yr;
     constexpr precise_unit day = time::day;
 
@@ -537,7 +539,7 @@ namespace precise {
         constexpr precise_unit league(4828.032, m);
         constexpr precise_unit mile{5280.0, foot};
         constexpr precise_unit nautical_mile{6080, foot};
-        constexpr precise_unit knot = nautical_mile / hr;
+        constexpr precise_unit knot = nautical_mile / h;
         constexpr precise_unit acre{4840.0, yard.pow(2)};
 
         // area
@@ -583,7 +585,7 @@ namespace precise {
         constexpr precise_unit fathom(2.0, i::yard);
         constexpr precise_unit cable(120, fathom);
         constexpr precise_unit mile(1.852, km);
-        constexpr precise_unit knot = mile / hr;
+        constexpr precise_unit knot = mile / h;
         constexpr precise_unit league(3.0, mile);
     }  // namespace nautical
 
@@ -778,7 +780,7 @@ namespace precise {
     constexpr precise_unit hp = power::hpI;
 
     // Speed units
-    constexpr precise_unit mph(mile / hr);
+    constexpr precise_unit mph(mile / h);
     constexpr precise_unit mps(m / s);
 
     /// Energy units
@@ -806,12 +808,12 @@ namespace precise {
                                                        // btu
         constexpr precise_unit btu_iso{1055.06, J};  // rounded btu_it
         constexpr precise_unit quad(1055.05585262, J);
-        constexpr precise_unit tonc(12000.0, btu_th / hr);
+        constexpr precise_unit tonc(12000.0, btu_th / h);
 
         constexpr precise_unit therm_us(100000.0, btu_59);
         constexpr precise_unit therm_br(105505585.257, J);
         constexpr precise_unit therm_ec(100000, btu_iso);
-        constexpr precise_unit EER(btu_th / W / hr);  // Energy efficiency ratio
+        constexpr precise_unit EER(btu_th / W / h);  // Energy efficiency ratio
         constexpr precise_unit SG(lb / ft.pow(3) * pu);  // Specific gravity
 
         constexpr precise_unit ton_tnt{4.184, precise::giga* precise::J};
@@ -1558,6 +1560,7 @@ constexpr unit min = unit_cast(precise::min);
 constexpr unit ms = unit_cast(precise::ms);
 constexpr unit ns = unit_cast(precise::ns);
 constexpr unit hr = unit_cast(precise::hr);
+constexpr unit h = unit_cast(precise::h);
 constexpr unit yr = unit_cast(precise::yr);
 // angle measure
 constexpr unit deg = unit_cast(precise::deg);

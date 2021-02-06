@@ -1,0 +1,36 @@
+area,square meter,m^2
+volume,cubic meter,m^3
+"speed, velocity",meter per second,m/s
+acceleration,meter per second squared,m/s^2
+wave number,reciprocal meter,m^-1
+mass density (density),kilogram per cubic meter,kg/m^3
+specific volume,cubic meter per kilogram,m^3/kg
+current density,ampere per square meter,A/m^2
+magnetic field strength,ampere per meter,A/m
+concentration,mole per cubic meter,mol/m^3
+luminance,candela per square meter,cd/m^2
+angular velocity,radian per second,rad/s
+angular acceleration,radian per second squared,rad/s^2
+dynamic viscosity,pascal second,Pa.s
+moment of force,newton meter,N.m
+surface tension,newton per meter,N/m
+heat flux density,watt per square meter,W/m^2
+radiant intensity,watt per steradian,W/sr
+radiance,watt per square meter steradian,W/(m^2.sr)
+"heat capacity, entropy",joule per kelvin,J/K
+specific heat or entropy,joule per kilogram kelvin,J/(kg.K)
+specific energy,joule per kilogram,J/kg
+thermal conductivity,watt per meter kelvin,W/(m.K)
+energy density,joule per cubic meter,J/m^3
+electric field strength,volt per meter,V/m
+electric charge density,coulomb per cubic meter,C/m^3
+electric flux density,coulomb per square meter,C/m^2
+permittivity,farad per meter,F/m
+permeability,henry per meter,H/m
+molar energy,joule per mole,J/mol
+molar entropy or heat,joule per mole kelvin,J/(mol.K)
+exposure (x and g rays),coulomb per kilogram,C/kg
+rotational speed,revolution per minute,r/min
+catalytic concentration,katal per cubic meter,kat/m^3
+data rate,mebibit per second,Mib/s
+noise voltage density,nanovolt per root hertz,nV/Hz^(1/2)
