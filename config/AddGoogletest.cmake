@@ -22,13 +22,19 @@ include(extraMacros)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.8)
         set(gtest_version f3ef7e1)
-
+    else()
+        set(gtest_version 703bd9c)
+    endif()
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9)
+        set(gtest_version f3ef7e1)
     else()
         set(gtest_version 703bd9c)
     endif()
 else()
-    set(gtest_version f3ef7e1)
+     set(gtest_version f3ef7e1)
 endif()
+
 # depending on what the version is set to the git_clone command may need to change to
 # GIT_TAG||GIT_BRANCH|GIT_COMMIT
 
