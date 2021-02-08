@@ -1353,11 +1353,11 @@ static std::string
             auto mult = getMultiplierString(nu.multiplier());
             if (mult.empty()) {
                 std::string rstring{siU.second};
-                addUnitFlagStrings(nu,rstring);
+                addUnitFlagStrings(nu, rstring);
                 return rstring;
             }
             if (!isNumericalStartCharacter(mult.front())) {
-                std::string rstring=mult + siU.second;
+                std::string rstring = mult + siU.second;
                 addUnitFlagStrings(nu, rstring);
                 return rstring;
             }
@@ -2111,7 +2111,8 @@ bool clearEmptySegments(std::string& unit)
     return changed;
 }
 // forward declaration of this function
-static precise_unit get_unit(const std::string& unit_string, std::uint32_t match_flags);
+static precise_unit
+    get_unit(const std::string& unit_string, std::uint32_t match_flags);
 
 inline bool ends_with(std::string const& value, std::string const& ending)
 {
@@ -2334,7 +2335,7 @@ static precise_unit
             }
             nunit.push_back('_');
             nunit.append(seq);
-            return get_unit(nunit,match_flags);
+            return get_unit(nunit, match_flags);
         }
         if (ends_with(unit, seq)) {
             unit.insert(unit.end() - 2, '_');
@@ -2530,8 +2531,9 @@ static const smap base_unit_vals{
     {"m", precise::m},
     {"Sm", precise::m},  // standard meter used in oil and gas usually Sm^3
     {"meter", precise::m},
-    {"squaremeter", precise::m.pow(2)}, // to simplify some things later in the chain
-    {"cubicmeter", precise::m.pow(3)}, 
+    {"squaremeter",
+     precise::m.pow(2)},  // to simplify some things later in the chain
+    {"cubicmeter", precise::m.pow(3)},
     {"micron", precise::micro* precise::m},
     {"fermi", precise::femto* precise::m},
     {"xunit", precise::distance::xu},
@@ -3273,6 +3275,9 @@ static const smap base_unit_vals{
     {"m_p", constants::mp.as_unit()},
     {"[M_P]", constants::mp.as_unit()},
     {"protonmass", constants::mp.as_unit()},
+    {"m_n", constants::mn.as_unit()},
+    {"[M_N]", constants::mn.as_unit()},
+    {"neutronmass", constants::mn.as_unit()},
     {"planckmass", constants::planck::mass.as_unit()},
     {"plancklength", constants::planck::length.as_unit()},
     {"plancktime", constants::planck::time.as_unit()},
@@ -4705,8 +4710,8 @@ static bool hasAdditionalOps(const std::string& unit_string)
          std::string::npos);
 }
 
-static precise_unit get_unit(const std::string& unit_string,
-                             std::uint32_t match_flags)
+static precise_unit
+    get_unit(const std::string& unit_string, std::uint32_t match_flags)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         if (!user_defined_units.empty()) {
@@ -4717,15 +4722,13 @@ static precise_unit get_unit(const std::string& unit_string,
         }
     }
     /** some specific standards*/
-    switch (match_flags & 0x007C)
-    {
+    switch (match_flags & 0x007C) {
         case strict_ucum: {
             auto fnd = base_ucum_vals.find(unit_string);
             if (fnd != base_ucum_vals.end()) {
                 return fnd->second;
             }
-        }
-            break;
+        } break;
         case strict_si:
         default:
             break;
@@ -5031,55 +5034,47 @@ static void
     size_t st = 0;
     auto dloc = unit_string.find_first_of('.');
     int skipped{0};
-    while (dloc != std::string::npos)
-    {
-        if (dloc>0) {
+    while (dloc != std::string::npos) {
+        if (dloc > 0) {
             if (!isDigitCharacter(unit_string[dloc - 1]) ||
-                !isDigitCharacter(unit_string[dloc+1])) {
+                !isDigitCharacter(unit_string[dloc + 1])) {
                 unit_string[dloc] = '*';
-            }
-            else
-            {
+            } else {
                 ++skipped;
             }
-        } else if (unit_string.size()>1) {
-            if (!isDigitCharacter(unit_string[dloc + 1]))
-            {
+        } else if (unit_string.size() > 1) {
+            if (!isDigitCharacter(unit_string[dloc + 1])) {
                 unit_string[dloc] = '*';
             } else {
                 ++skipped;
             }
         }
         st = dloc + 1;
-        dloc = unit_string.find_first_of('.',st);
+        dloc = unit_string.find_first_of('.', st);
     }
-    if (skipped>1)
-    {
+    if (skipped > 1) {
         skipped = 0;
         dloc = unit_string.find_first_of('.');
-        while (dloc!=std::string::npos) {
+        while (dloc != std::string::npos) {
             auto nloc = dloc + 1;
-            while (unit_string[nloc] != '.')
-            {
+            while (unit_string[nloc] != '.') {
                 if (!isDigitCharacter(unit_string[nloc])) {
-                    dloc = unit_string.find_first_of('.',nloc+1);
+                    dloc = unit_string.find_first_of('.', nloc + 1);
                     break;
                 }
                 ++nloc;
             }
-            if (unit_string[nloc] =='.') {
+            if (unit_string[nloc] == '.') {
                 unit_string[nloc] = '*';
                 dloc = unit_string.find_first_of('.', nloc + 1);
-            }
-            else {
+            } else {
                 ++skipped;
-                
             }
         }
     }
-    if (skipped > 0)
-    { // check for exponents which can't have dots so must be multiply
-        dloc = unit_string.find_first_of('.',2);
+    if (skipped >
+        0) {  // check for exponents which can't have dots so must be multiply
+        dloc = unit_string.find_first_of('.', 2);
         while (dloc != std::string::npos) {
             auto nloc = dloc - 1;
             while (nloc > 0) {
@@ -6817,7 +6812,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"celsiustemperature", precise::degC},
     {"temp", precise::K},
     {"thermodynamictemperature", precise::K},
-    {"thermalconductivity",precise::W/precise::m/precise::K},
+    {"thermalconductivity", precise::W / precise::m / precise::K},
     {"amount", precise::mol},
     {"amountofsubstance", precise::mol},
     {"substance", precise::mol},
@@ -6869,11 +6864,11 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"power", precise::W},
     {"powerlevel", precise::W* precise::log::neper},
     {"radiantflux", precise::W},
-    {"heatfluxdensity", precise::W/precise::m.pow(2)},
+    {"heatfluxdensity", precise::W / precise::m.pow(2)},
     {"electriccharge", precise::C},
-    {"electricfluxdensity", precise::C/precise::m.pow(2)},
+    {"electricfluxdensity", precise::C / precise::m.pow(2)},
     {"charge", precise::C},
-    {"electricchargedensity", precise::C/precise::m.pow(3)},
+    {"electricchargedensity", precise::C / precise::m.pow(3)},
     {"quantityofelectricity", precise::C},
     {"voltage", precise::V},
     {"electricalpotential", precise::V},
@@ -6904,7 +6899,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"magneticfluxdensity", precise::T},
     {"magneticinduction", precise::T},
     {"fluxdensity", precise::T},
-    {"noisevoltagedensity", precise::V/precise::special::rootHertz},
+    {"noisevoltagedensity", precise::V / precise::special::rootHertz},
     {"inductance", precise::H},
     {"induction", precise::H},
     {"luminousflux", precise::lm},
@@ -6932,7 +6927,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"committeddose", precise::Sv},
     {"catalyticactivity", precise::kat},
     {"specificenergy", precise::J / precise::kg},
-    {"specificheat", precise::J / precise::kg/precise::K},
+    {"specificheat", precise::J / precise::kg / precise::K},
     {"engcnc", precise::J / precise::m.pow(3)},
     {"momentofforce", precise::N* precise::m},
     {"moment", precise::N* precise::m},
@@ -6950,7 +6945,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"magneticpermeability", precise::H / precise::m},
     {"exposure", precise::C / precise::kg},
     {"heatcapacity", precise::J / precise::K},
-    {"entropy", precise::J /precise::K},
+    {"entropy", precise::J / precise::K},
     {"specificentropy", precise::J / precise::kg / precise::K},
     {"specificenergy", precise::J / precise::kg},
     {"dynamicviscosity", precise::Pa* precise::s},
@@ -7022,13 +7017,13 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"datarate", precise::bit / precise::s},
     {"elasticity", precise::N / precise::m.pow(2)},
     {"compliance", precise::m / precise::N},
-    {"informationcapacity",precise::data::bit},
+    {"informationcapacity", precise::data::bit},
     {"compli", precise::m / precise::N},
     {"vascularresistance", precise::Pa* precise::s / precise::m.pow(3)},
     {"enzymaticactivity", precise::kat},
-    {"catalyticconcentration", precise::kat/precise::m.pow(3)},
+    {"catalyticconcentration", precise::kat / precise::m.pow(3)},
     {"molarenergy", precise::J / precise::mol},
-    {"molarentropy", precise::J / precise::mol/precise::K},
+    {"molarentropy", precise::J / precise::mol / precise::K},
 };
 
 precise_unit default_unit(std::string unit_type)

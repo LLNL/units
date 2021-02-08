@@ -71,8 +71,8 @@ TEST_P(converterApp, fileConversions)
             EXPECT_FALSE(is_error(unit_short))
                 << "error converting " << convcode.short_name;
             if (unit != unit_short) {
-                if (unit==units::precise::log::bel) {
-                    continue;  //this is a known choice to match SI
+                if (unit == units::precise::log::bel) {
+                    continue;  // this is a known choice to match SI
                 }
                 EXPECT_FLOAT_EQ(convert(1.0, unit, unit_short), 1.0F)
                     << convcode.short_name << " and " << convcode.name

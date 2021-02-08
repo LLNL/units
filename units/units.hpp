@@ -1791,8 +1791,8 @@ enum unit_conversion_flags : std::uint32_t {
     single_slash = 2U,  //!< specify that there is a single numerator and
                         //!< denominator only a single slash in the unit
                         //!< operations
-    strict_si = 0x0004U, //!< input units are strict SI
-    strict_ucum=0x0008U, //!< input units are matching ucum standard
+    strict_si = 0x0004U,  //!< input units are strict SI
+    strict_ucum = 0x0008U,  //!< input units are matching ucum standard
 
     numbers_only = (1U << 12U),  //!< indicate that only numbers should be
                                  //!< matched in the first segments, mostly
@@ -2028,6 +2028,8 @@ namespace constants {
     constexpr precise_measurement me{9.1093837015e-31, precise::kg};
     /// Mass of a proton
     constexpr precise_measurement mp{1.67262192369e-27, precise::kg};
+    /// Mass of a neutron
+    constexpr precise_measurement mn{1.67492749804e-27, precise::kg};
     /// Bohr radius
     constexpr precise_measurement a0{5.29177210903e-11, precise::m};
     /// Faraday's constant

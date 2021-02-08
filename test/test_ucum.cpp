@@ -80,7 +80,7 @@ TEST(UCUM, TestAllVerify)
     for (const auto& junit : defs["units"]) {
         auto csCode = junit["csCode_"].get<std::string>();
 
-        auto csact = units::unit_from_string(csCode,units::strict_ucum);
+        auto csact = units::unit_from_string(csCode, units::strict_ucum);
         if (units::precise::custom::is_custom_unit(csact.base_units())) {
             continue;
         }
