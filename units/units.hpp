@@ -2025,6 +2025,8 @@ namespace constants {
     constexpr precise_measurement me{9.1093837015e-31, precise::kg};
     /// Mass of a proton
     constexpr precise_measurement mp{1.67262192369e-27, precise::kg};
+    /// Mass of a neutron
+    constexpr precise_measurement mn{1.67492749804e-27, precise::kg};
     /// Bohr radius
     constexpr precise_measurement a0{5.29177210903e-11, precise::m};
     /// Faraday's constant
