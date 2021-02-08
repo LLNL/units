@@ -80,7 +80,7 @@ TEST(UCUM, TestAllVerify)
     for (const auto& junit : defs["units"]) {
         auto csCode = junit["csCode_"].get<std::string>();
 
-        auto csact = units::unit_from_string(csCode);
+        auto csact = units::unit_from_string(csCode,units::strict_ucum);
         if (units::precise::custom::is_custom_unit(csact.base_units())) {
             continue;
         }
@@ -149,7 +149,7 @@ TEST(UCUM, TestMatchingName)
     for (const auto& junit : defs["units"]) {
         auto csCode = junit["csCode_"].get<std::string>();
 
-        auto csact = units::unit_from_string(csCode);
+        auto csact = units::unit_from_string(csCode, units::strict_ucum);
         csact.commodity(0);
         if (units::precise::custom::is_custom_unit(csact.base_units())) {
             continue;
@@ -177,7 +177,7 @@ TEST(UCUM, TestMatchingName)
             if (name.find("(typography)") != std::string::npos) {
                 name.erase(name.find("(typography)"), std::string::npos);
             }
-            auto nameact = units::unit_from_string(name);
+            auto nameact = units::unit_from_string(name, units::strict_ucum);
             nameact.commodity(0);
             if (nameact.base_units().count() != csact.base_units().count()) {
                 if (nameact.base_units().count() == -1) {
@@ -213,7 +213,7 @@ TEST(UCUM, TestClass)
     for (const auto& junit : defs["units"]) {
         auto csCode = junit["csCode_"].get<std::string>();
 
-        auto csact = units::unit_from_string(csCode);
+        auto csact = units::unit_from_string(csCode, units::strict_ucum);
         if (units::precise::custom::is_custom_unit(csact.base_units())) {
             continue;
         }
@@ -273,7 +273,7 @@ TEST(UCUM, TestMatchingPrint)
     for (const auto& junit : defs["units"]) {
         auto csCode = junit["csCode_"].get<std::string>();
 
-        auto csact = units::unit_from_string(csCode);
+        auto csact = units::unit_from_string(csCode, units::strict_ucum);
         csact.commodity(0);
         if (units::precise::custom::is_custom_unit(csact.base_units())) {
             continue;
@@ -316,7 +316,7 @@ TEST(UCUM, TestMatchingPrint)
                 continue;
             }
 
-            auto nameact = units::unit_from_string(name);
+            auto nameact = units::unit_from_string(name, units::strict_ucum);
             nameact.commodity(0);
 
             if (nameact != csact) {
@@ -350,7 +350,7 @@ TEST(UCUM, TestMatchingSynonym)
     for (const auto& junit : defs["units"]) {
         auto csCode = junit["csCode_"].get<std::string>();
 
-        auto csact = units::unit_from_string(csCode);
+        auto csact = units::unit_from_string(csCode, units::strict_ucum);
         csact.commodity(0);
         if (units::precise::custom::is_custom_unit(csact.base_units())) {
             continue;
@@ -375,7 +375,8 @@ TEST(UCUM, TestMatchingSynonym)
                 if (name.find("constant") != std::string::npos) {
                     continue;
                 }
-                auto nameact = units::unit_from_string(synonym);
+                auto nameact =
+                    units::unit_from_string(synonym, units::strict_ucum);
                 nameact.commodity(0);
 
                 if (nameact != csact) {
@@ -429,7 +430,7 @@ TEST(UCUM, TestExampleCodes)
         auto fc2 = line.find_first_of(',', fc + 1);
         auto ustring = line.substr(fc + 1, fc2 - fc - 1);
         auto name = line.substr(fc2 + 1);
-        auto csact = units::unit_from_string(ustring);
+        auto csact = units::unit_from_string(ustring, units::strict_ucum);
         if (is_error(csact)) {
             std::cout
                 << ustring
@@ -444,13 +445,13 @@ TEST(UCUM, TestExampleCodes)
         if (csact.commodity() != 0) {
             continue;
         }
-        auto nameact = units::unit_from_string(name);
+        auto nameact = units::unit_from_string(name, units::strict_ucum);
         bool hasCommodity = (csact.commodity() != 0);
         if (is_error(nameact)) {
             if (!hasCommodity) {
                 std::cout << name << " did not produce a valid unit for "
                           << ustring << "\n";
-                nameact = units::unit_from_string(name);
+                nameact = units::unit_from_string(name, units::strict_ucum);
             }
             continue;
         }
@@ -469,7 +470,7 @@ TEST(UCUM, TestExampleCodes)
                 std::cout << name << " is not a matching unit for " << ustring
                           << '\n';
                 ++nameMismatch;
-                nameact = units::unit_from_string(name);
+                nameact = units::unit_from_string(name, units::strict_ucum);
             }
 
             // nameact = units::unit_from_string(synonym);
@@ -492,10 +493,10 @@ TEST(UCUM, TestRoundTrip)
     int ceqFail = 0;
     for (const auto& junit : defs["units"]) {
         auto csCode = junit["csCode_"].get<std::string>();
-        auto csact = units::unit_from_string(csCode);
+        auto csact = units::unit_from_string(csCode, units::strict_ucum);
 
         std::string ustring = to_string(csact);
-        auto uact = units::unit_from_string(ustring);
+        auto uact = units::unit_from_string(ustring, units::strict_ucum);
 
         if (is_error(uact)) {
             std::cout << csCode << "->" << ustring
@@ -532,9 +533,9 @@ TEST(UCUM, TestRoundTrip2)
         auto fc2 = line.find_first_of(',', fc + 1);
         auto ustring = line.substr(fc + 1, fc2 - fc - 1);
         auto name = line.substr(fc2 + 1);
-        auto csact = units::unit_from_string(ustring);
+        auto csact = units::unit_from_string(ustring, units::strict_ucum);
         std::string genstring = to_string(csact);
-        auto uact = units::unit_from_string(genstring);
+        auto uact = units::unit_from_string(genstring, units::strict_ucum);
 
         if (is_error(uact)) {
             std::cout << ustring << "->" << genstring
@@ -573,7 +574,7 @@ TEST(UCUMConversions, Interpret1)
         std::string unit = cs->FindAttribute("unit")->Value();
         bool valid = cs->FindAttribute("valid")->BoolValue();
         std::string id = cs->FindAttribute("id")->Value();
-        auto prodUnit = units::unit_from_string(unit);
+        auto prodUnit = units::unit_from_string(unit, units::strict_ucum);
         if (is_error(prodUnit)) {
             if (valid) {
                 std::cout << "unable to convert " << unit
@@ -607,8 +608,9 @@ TEST(UCUMConversions, convert1)
         double value = cs->FindAttribute("value")->DoubleValue();
         double outcome = cs->FindAttribute("outcome")->DoubleValue();
         // std::string id = cs->FindAttribute("id")->Value();
-        auto fromUnit = units::unit_from_string(unitFromString);
-        auto toUnit = units::unit_from_string(unitToString);
+        auto fromUnit =
+            units::unit_from_string(unitFromString, units::strict_ucum);
+        auto toUnit = units::unit_from_string(unitToString, units::strict_ucum);
 
         double act = units::convert(value, fromUnit, toUnit);
         EXPECT_FALSE(std::isnan(act));
