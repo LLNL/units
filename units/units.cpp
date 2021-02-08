@@ -4722,7 +4722,7 @@ static precise_unit
         }
     }
     /** some specific standards*/
-    switch (match_flags & 0x007C) {
+    switch (match_flags & 0x007CU) {
         case strict_ucum: {
             auto fnd = base_ucum_vals.find(unit_string);
             if (fnd != base_ucum_vals.end()) {
