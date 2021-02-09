@@ -6375,7 +6375,7 @@ static precise_unit unit_from_string_internal(
             return front_unit * retunit;
         }
     }
-    
+
     auto sep = findOperatorSep(unit_string, "*/");
     if (sep != std::string::npos) {
         precise_unit a_unit;
