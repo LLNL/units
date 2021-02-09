@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2020,
+Copyright (c) 2019-2021,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -6375,10 +6375,7 @@ static precise_unit unit_from_string_internal(
             return front_unit * retunit;
         }
     }
-    retunit = checkSIprefix(unit_string, match_flags);
-    if (is_valid(retunit)) {
-        return retunit;
-    }
+
     auto sep = findOperatorSep(unit_string, "*/");
     if (sep != std::string::npos) {
         precise_unit a_unit;
@@ -6458,7 +6455,10 @@ static precise_unit unit_from_string_internal(
         unit_string.find('{') != std::string::npos) {
         return commoditizedUnit(unit_string, match_flags);
     }
-
+    retunit = checkSIprefix(unit_string, match_flags);
+    if (is_valid(retunit)) {
+        return retunit;
+    }
     // don't do any further steps if recursion is not available
     if ((match_flags & no_recursion) != 0) {
         return unit_quick_match(unit_string, match_flags);
