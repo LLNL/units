@@ -263,7 +263,7 @@ TEST_P(rtripProblems, rtripFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 32));
+INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 34));
 
 TEST(fuzzFailures, rtripSingleProblems)
 {
@@ -370,4 +370,4 @@ TEST_P(measProblems, measFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(0, 27));
+INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(0, 28));
