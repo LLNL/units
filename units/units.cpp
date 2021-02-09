@@ -3805,6 +3805,7 @@ static const smap base_unit_vals{
     {"$/kWh", precise::currency / precise::kWh},
     {"kWh", precise::kWh},
     {"kwh", precise::kWh},
+    {"Wh", precise::W*precise::h},
     {"kilowatthour", precise::kWh},
     {"MWh", precise::MWh},
     {"megawatthour", precise::MWh},
