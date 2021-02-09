@@ -22,6 +22,7 @@ set(UNITS_TESTS
     test_measurement_strings
     test_commodities
     test_leadingNumbers
+    test_siunits
 )
 
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
@@ -58,6 +59,10 @@ else()
     )
     target_compile_definitions(
         fuzz_issue_tests PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
+    )
+
+    target_compile_definitions(
+        test_siunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
 
     target_sources(

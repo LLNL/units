@@ -277,11 +277,11 @@ static constexpr std::uint32_t firstH{37}; /* also prime */
 
 uint32_t stringHash(const std::string& str)
 {
-    std::uint32_t h{firstH};
+    std::uint32_t hash{firstH};
     for (auto c : str) {
-        h = (h * Ac) ^ (static_cast<std::uint32_t>(c) * Bc);
+        hash = (hash * Ac) ^ (static_cast<std::uint32_t>(c) * Bc);
     }
-    return h;  // or return h % C;
+    return hash;  // or return h % C;
 }
 
 static std::atomic<bool> allowCustomCommodities{true};
