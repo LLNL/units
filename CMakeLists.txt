@@ -96,6 +96,15 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(compiler_flags)
 endif()
 
+# deal with breaking changes in C++20 with u8 strings
+if(CMAKE_CXX_STANDARD GREATER 19 OR UNITS_CXX_STANDARD GREATER 19)
+    if(MSVC)
+        target_compile_options(compile_flags_target INTERFACE /Zc:char8_t-)
+    else(MSVC)
+        target_compile_options(compile_flags_target INTERFACE -fno-char8_t)
+    endif()
+endif()
+
 if(NOT UNITS_HEADER_ONLY)
     if(BUILD_SHARED_LIBS)
         option(UNITS_BUILD_STATIC_LIBRARY
