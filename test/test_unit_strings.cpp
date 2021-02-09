@@ -234,6 +234,10 @@ TEST(unitStrings, electronVolt)
     EXPECT_EQ(to_string(precise::mega * precise::energy::eV), "MeV");
     EXPECT_EQ(to_string(precise::giga * precise::energy::eV), "GeV");
     EXPECT_EQ(to_string(precise::tera * precise::energy::eV), "TeV");
+
+    auto str =
+        to_string(precise::count / (precise::milli * precise::energy::eV));
+    EXPECT_EQ(str, "count/meV");
 }
 
 TEST(unitStrings, watthours)
@@ -243,6 +247,14 @@ TEST(unitStrings, watthours)
     EXPECT_EQ(to_string(precise::kilo * precise::W * precise::h), "kWh");
     EXPECT_EQ(to_string(precise::mega * precise::W * precise::h), "MWh");
     EXPECT_EQ(to_string(precise::giga * precise::W * precise::h), "GWh");
+
+    auto str = to_string(
+        precise::currency / (precise::giga * precise::W * precise::h));
+    EXPECT_EQ(str, "$/GWh");
+
+    str = to_string(
+        precise::m * (precise::giga * precise::W * precise::h));
+    EXPECT_EQ(str, "GWh*m");
 }
 
 TEST(unitStrings, customUnits)

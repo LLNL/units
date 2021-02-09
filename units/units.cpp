@@ -231,7 +231,7 @@ static const umap base_unit_names{
     {unit_cast(precise::special::ASD), "ASD"},
     {unit_cast(precise::special::rootHertz), "rootHertz"},
     {currency, "$"},
-    {count, "item"},
+    {count, "count"},
     {ratio, ""},
     {error, "ERROR"},
     {defunit, "defunit"},
@@ -1362,6 +1362,66 @@ static std::string
                 return rstring;
             }
         }
+        if (nu.unit_type_count() == 1) {
+            auto mult = getMultiplierString(nu.multiplier());
+            if (mult.empty()) {
+                std::string rstring{siU.second};
+                rstring.push_back('*');
+                rstring.append(to_string_internal(nu, match_flags));
+                return rstring;
+            };
+
+            if (!isNumericalStartCharacter(mult.front())) {
+                nu = precise_unit{nu.base_units(), 1.0};
+                std::string rstring = mult + siU.second;
+                rstring.push_back('*');
+                rstring.append(to_string_internal(nu, match_flags));
+                return rstring;
+            }
+        }
+            nu = un * siU.first;
+            if (nu.unit_type_count() == 0) {
+                auto mult = getMultiplierString(1.0/nu.multiplier());
+                if (mult.empty()) {
+                    std::string rstring;
+                    addUnitFlagStrings(nu, rstring);
+                    if (rstring.empty())
+                    {
+                        rstring.push_back('1');
+                    }
+                    rstring.push_back('/');
+                    rstring.append(siU.second);
+                    return rstring;
+                }
+                if (!isNumericalStartCharacter(mult.front())) {
+                    std::string rstring;
+                    addUnitFlagStrings(nu, rstring);
+                    if (rstring.empty()) {
+                        rstring.push_back('1');
+                    }
+                    rstring.push_back('/');
+                    rstring.append(mult + siU.second);
+                    return rstring;
+                }
+            }
+            if (nu.unit_type_count() == 1) {
+                auto mult = getMultiplierString(1.0/nu.multiplier());
+                if (mult.empty()) {
+                    std::string rstring{to_string_internal(nu, match_flags)};
+                    rstring.push_back('/');
+                    rstring.append(siU.second);
+                    return rstring;
+                };
+
+                if (!isNumericalStartCharacter(mult.front())) {
+                    nu = precise_unit{nu.base_units(), 1.0};
+                    std::string rstring{to_string_internal(nu, match_flags)};
+                    rstring.push_back('/');
+                    rstring.append(mult);
+                    rstring.append(siU.second);
+                    return rstring;
+                }
+            }
     }
     // lets try converting to pure base unit
     auto bunit = unit(un.base_units());
