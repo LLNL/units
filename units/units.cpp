@@ -1369,7 +1369,7 @@ static std::string
                 rstring.push_back('*');
                 rstring.append(to_string_internal(nu, match_flags));
                 return rstring;
-            };
+            }
 
             if (!isNumericalStartCharacter(mult.front())) {
                 nu = precise_unit{nu.base_units(), 1.0};
@@ -1410,7 +1410,7 @@ static std::string
                 rstring.push_back('/');
                 rstring.append(siU.second);
                 return rstring;
-            };
+            }
 
             if (!isNumericalStartCharacter(mult.front())) {
                 nu = precise_unit{nu.base_units(), 1.0};
