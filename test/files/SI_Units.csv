@@ -2,42 +2,48 @@ time,second,s,
 time,minute,min,60.s
 time,hour,h, 60.min
 time,day,d,24.h
-frequency,hertz,Hz,ÿÿs^-1
-signaling rate,baud,Bd,ÿÿs^-1
+frequency,hertz,Hz,s^-1
+signaling rate,baud,Bd,bit*s^-1
 length,meter,m,
-volume,liter,L,ÿÿdm^3
+volume,liter,L,dm^3
 plane angle,radian,rad,
-solid angle,steradian,sr,ÿÿrad^2
+solid angle,steradian,sr,rad^2
 plane angle,revolution,r,6.283185307179586.rad
 plane angle,degree,o,2.777777777777778e-3.r
 information capacity,bit,bit,
-information capacity,"byte, octet",B,8.bit
+information capacity,byte,B,8.bit
+information capacity,octet,B,8.bit
 mass,gram,g,
-mass,ton,t,ÿÿMg
+mass,tonne,t,Mg
 mass,unified atomic mass unit,u,1.660538782e-27.kg
 amount of substance,mole,mol,
-catalytic activity,katal,kat,ÿÿmol/s
+catalytic activity,katal,kat,mol/s
 thermodynamic temperature,kelvin,K,
 temperature,degree Celsius,oC,
 luminous intensity,candela,cd,
-luminous flux,lumen,lm,ÿÿcd.sr
-illuminance,lux,lx,ÿÿlm/m^2
-force,newton,N,ÿÿm.kg.s^-2
-"pressure, stress",pascal,Pa,ÿÿN/m^2
-"energy, work, heat",joule,J,ÿÿN.m
-energy,electronvolt,eV,=ÿ1.602176487e-19.J
-"power, radiant flux",watt,W,ÿÿJ/s
+luminous flux,lumen,lm,cd.sr
+illuminance,lux,lx,lm/m^2
+force,newton,N,m.kg.s^-2
+pressure,pascal,Pa,N/m^2
+stress,pascal,Pa,N/m^2
+energy,joule,J,N.m
+work,joule,J,N.m
+heat,joule,J,N.m
+energy,electronvolt,eV,1.602176487e-19.J
+power,watt,W,J/s
+radiant flux,watt,W,J/s
 logarithm of power ratio,neper,Np,
-logarithm of power ratio,decibel,dB,=*0.1151293.Np
+logarithm of power ratio,decibel,dB,0.1151293.Np
 electric current,ampere,A,
-electric charge,coulomb,C,ÿÿs.A
-"electric potential, EMF",volt,V,ÿÿW/A
-capacitance,farad,F,ÿÿC/V
-electric resistance,ohm,Ohm,ÿÿV/A
-electric conductance,siemens,S,ÿÿA/V
-magnetic flux,weber,Wb,ÿÿV.s
-magnetic flux density,tesla,T,ÿÿWb/m^2
-inductance,henry,H,ÿÿWb/A
-radionuclide activity,becquerel,Bq,ÿÿs^-1
-absorbed dose energy,gray,Gy,ÿÿm^2.s^-2
-dose equivalent,sievert,Sv,ÿÿm^2.s^-2
+electric charge,coulomb,C,s.A
+electric potential,volt,V,W/A
+EMF,volt,V,W/A
+capacitance,farad,F,C/V
+electric resistance,ohm,Ohm,V/A
+electric conductance,siemens,S,A/V
+magnetic flux,weber,Wb,V.s
+magnetic flux density,tesla,T,Wb/m^2
+inductance,henry,H,Wb/A
+radionuclide activity,becquerel,Bq,count*s^-1
+absorbed dose energy,gray,Gy,m^2.s^-2
+dose equivalent,sievert,Sv,m^2.s^-2

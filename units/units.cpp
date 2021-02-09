@@ -1352,10 +1352,14 @@ static std::string
         if (nu.unit_type_count() == 0) {
             auto mult = getMultiplierString(nu.multiplier());
             if (mult.empty()) {
-                return siU.second;
+                std::string rstring{siU.second};
+                addUnitFlagStrings(nu, rstring);
+                return rstring;
             }
             if (!isNumericalStartCharacter(mult.front())) {
-                return mult + siU.second;
+                std::string rstring = mult + siU.second;
+                addUnitFlagStrings(nu, rstring);
+                return rstring;
             }
         }
     }
@@ -2107,7 +2111,8 @@ bool clearEmptySegments(std::string& unit)
     return changed;
 }
 // forward declaration of this function
-static precise_unit get_unit(const std::string& unit_string);
+static precise_unit
+    get_unit(const std::string& unit_string, std::uint32_t match_flags);
 
 inline bool ends_with(std::string const& value, std::string const& ending)
 {
@@ -2128,7 +2133,9 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 26> modifiers{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 28> modifiers{{
+        modSeq{"squaremeter", "m^2", 11, modifier::anywhere_tail},
+        modSeq{"cubicmeter", "m^3", 10, modifier::anywhere_tail},
         modSeq{"cubic", "^3", 5, modifier::start_tail},
         modSeq{"reciprocal", "^-1", 10, modifier::start_tail},
         modSeq{"reciprocal", "^-1", 10, modifier::tail_replace},
@@ -2212,10 +2219,8 @@ static bool wordModifiers(std::string& unit)
                         if (fnd != 0) {
                             unit.replace(fnd, std::get<2>(mod), "*");
                         } else {
-                            // this path cannot currently be executed due to the
-                            // limited use of the type but others may be added
-                            // in the future that might trigger it
-                            unit.erase(0, std::get<2>(mod));  // LCOV_EXCL_LINE
+                            unit.erase(0, std::get<2>(mod));
+                            unit.push_back('*');
                         }
                         unit.append(std::get<1>(mod));
                         return true;
@@ -2330,11 +2335,11 @@ static precise_unit
             }
             nunit.push_back('_');
             nunit.append(seq);
-            return get_unit(nunit);
+            return get_unit(nunit, match_flags);
         }
         if (ends_with(unit, seq)) {
             unit.insert(unit.end() - 2, '_');
-            return get_unit(unit);
+            return get_unit(unit, match_flags);
         }
     }
 
@@ -2392,6 +2397,11 @@ static std::pair<double, size_t>
     }
     return {0.0, 0};
 }
+
+/** some specific strings for ucum compliance*/
+static const smap base_ucum_vals{
+    {"B", precise::log::bel},
+};
 
 /** units from several locations
 http://vizier.u-strasbg.fr/vizier/doc/catstd-3.2.htx
@@ -2521,6 +2531,9 @@ static const smap base_unit_vals{
     {"m", precise::m},
     {"Sm", precise::m},  // standard meter used in oil and gas usually Sm^3
     {"meter", precise::m},
+    {"squaremeter",
+     precise::m.pow(2)},  // to simplify some things later in the chain
+    {"cubicmeter", precise::m.pow(3)},
     {"micron", precise::micro* precise::m},
     {"fermi", precise::femto* precise::m},
     {"xunit", precise::distance::xu},
@@ -3792,6 +3805,7 @@ static const smap base_unit_vals{
     {"$/kWh", precise::currency / precise::kWh},
     {"kWh", precise::kWh},
     {"kwh", precise::kWh},
+    {"Wh", precise::W*precise::h},
     {"kilowatthour", precise::kWh},
     {"MWh", precise::MWh},
     {"megawatthour", precise::MWh},
@@ -4352,7 +4366,7 @@ static const smap base_unit_vals{
     {"roothertz", precise::special::rootHertz},
     // capitalized version is needed since this is also a generated unit
     {"rootHertz", precise::special::rootHertz},
-    {"B", precise::log::bel},
+    {"B", precise::data::byte},
     {"bel", precise::log::bel},
     {"dB", precise::log::dB},
     {"decibel", precise::log::dB},
@@ -4697,7 +4711,8 @@ static bool hasAdditionalOps(const std::string& unit_string)
          std::string::npos);
 }
 
-static precise_unit get_unit(const std::string& unit_string)
+static precise_unit
+    get_unit(const std::string& unit_string, std::uint32_t match_flags)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         if (!user_defined_units.empty()) {
@@ -4707,7 +4722,18 @@ static precise_unit get_unit(const std::string& unit_string)
             }
         }
     }
-
+    /** some specific standards*/
+    switch (match_flags & 0x007CU) {
+        case strict_ucum: {
+            auto fnd = base_ucum_vals.find(unit_string);
+            if (fnd != base_ucum_vals.end()) {
+                return fnd->second;
+            }
+        } break;
+        case strict_si:
+        default:
+            break;
+    }
     auto fnd = base_unit_vals.find(unit_string);
     if (fnd != base_unit_vals.end()) {
         return fnd->second;
@@ -5006,7 +5032,64 @@ static void
     cleanDotNotation(std::string& unit_string, std::uint32_t match_flags)
 {
     // replace all dots with '*'
-    std::replace(unit_string.begin(), unit_string.end(), '.', '*');
+    size_t st = 0;
+    auto dloc = unit_string.find_first_of('.');
+    int skipped{0};
+    while (dloc != std::string::npos) {
+        if (dloc > 0) {
+            if (!isDigitCharacter(unit_string[dloc - 1]) ||
+                !isDigitCharacter(unit_string[dloc + 1])) {
+                unit_string[dloc] = '*';
+            } else {
+                ++skipped;
+            }
+        } else if (unit_string.size() > 1) {
+            if (!isDigitCharacter(unit_string[dloc + 1])) {
+                unit_string[dloc] = '*';
+            } else {
+                ++skipped;
+            }
+        }
+        st = dloc + 1;
+        dloc = unit_string.find_first_of('.', st);
+    }
+    if (skipped > 1) {
+        skipped = 0;
+        dloc = unit_string.find_first_of('.');
+        while (dloc != std::string::npos) {
+            auto nloc = dloc + 1;
+            while (unit_string[nloc] != '.') {
+                if (!isDigitCharacter(unit_string[nloc])) {
+                    dloc = unit_string.find_first_of('.', nloc + 1);
+                    break;
+                }
+                ++nloc;
+            }
+            if (unit_string[nloc] == '.') {
+                unit_string[nloc] = '*';
+                dloc = unit_string.find_first_of('.', nloc + 1);
+            } else {
+                ++skipped;
+            }
+        }
+    }
+    if (skipped >
+        0) {  // check for exponents which can't have dots so must be multiply
+        dloc = unit_string.find_first_of('.', 2);
+        while (dloc != std::string::npos) {
+            auto nloc = dloc - 1;
+            while (nloc > 0) {
+                if (!isDigitCharacter(unit_string[nloc])) {
+                    if (unit_string[nloc] == 'e' || unit_string[nloc] == 'E') {
+                        unit_string[dloc] = '*';
+                    }
+                    break;
+                }
+                --nloc;
+            }
+            dloc = unit_string.find_first_of('.', dloc + 1);
+        }
+    }
     if ((match_flags & single_slash) != 0) {
         auto slashloc = unit_string.find_last_of('/');
         if (slashloc != std::string::npos) {
@@ -5756,7 +5839,7 @@ static precise_unit
                                                   // quick scan first
         cleanUnitString(unit_string, match_flags);
     }
-    auto retunit = get_unit(unit_string);
+    auto retunit = get_unit(unit_string, match_flags);
     if (is_valid(retunit)) {
         return retunit;
     }
@@ -5765,7 +5848,7 @@ static precise_unit
                                       // too risky to try since there would be
                                       // many incorrect matches
         unit_string.pop_back();
-        retunit = get_unit(unit_string);
+        retunit = get_unit(unit_string, match_flags);
         if (is_valid(retunit)) {
             return retunit;
         }
@@ -5773,7 +5856,7 @@ static precise_unit
         unit_string.pop_back();
         if (unit_string.back() != 'U' && unit_string.back() != 'u') {
             unit_string.erase(unit_string.begin());
-            retunit = get_unit(unit_string);
+            retunit = get_unit(unit_string, match_flags);
             if (is_valid(retunit)) {
                 return retunit;
             }
@@ -6004,7 +6087,7 @@ static precise_unit unit_to_the_power_of(
         cleanUnitString(unit_string, match_flags);
     }
 
-    retunit = get_unit(unit_string);
+    retunit = get_unit(unit_string, match_flags);
     if (is_valid(retunit)) {
         if (power == 1) {
             return retunit;
@@ -6129,13 +6212,13 @@ static precise_unit unit_from_string_internal(
     precise_unit retunit;
     if ((match_flags & case_insensitive) == 0) {
         // if not a ci matching process just do a quick scan first
-        retunit = get_unit(unit_string);
+        retunit = get_unit(unit_string, match_flags);
         if (is_valid(retunit)) {
             return retunit;
         }
     }
     if (cleanUnitString(unit_string, match_flags)) {
-        retunit = get_unit(unit_string);
+        retunit = get_unit(unit_string, match_flags);
         if (is_valid(retunit)) {
             return retunit;
         }
@@ -6373,7 +6456,7 @@ static precise_unit unit_from_string_internal(
         ustring.pop_back();
         if (ustring.back() != 'U')  // this means custom unit code
         {
-            retunit = get_unit(ustring);
+            retunit = get_unit(ustring, match_flags);
             if (!is_error(retunit)) {
                 return retunit;
             }
@@ -6383,7 +6466,7 @@ static precise_unit unit_from_string_internal(
     if (s_ != std::string::npos) {
         ustring = unit_string;
         ustring.replace(s_, 2, "_");
-        retunit = get_unit(ustring);
+        retunit = get_unit(ustring, match_flags);
         if (!is_error(retunit)) {
             return retunit;
         }
@@ -6429,7 +6512,7 @@ static precise_unit unit_from_string_internal(
     ustring = unit_string;
     if (cleanUnitStringPhase2(unit_string)) {
         if (!unit_string.empty()) {
-            retunit = get_unit(unit_string);
+            retunit = get_unit(unit_string, match_flags);
             if (!is_error(retunit)) {
                 return retunit;
             }
@@ -6458,7 +6541,7 @@ static precise_unit unit_from_string_internal(
         ustring.pop_back();
         if (ustring.back() != 'U')  // this means custom unit code
         {
-            retunit = get_unit(ustring);
+            retunit = get_unit(ustring, match_flags);
             if (!is_error(retunit)) {
                 return retunit;
             }
@@ -6486,7 +6569,7 @@ static precise_unit unit_from_string_internal(
     if (unit_string.back() == 's') {
         ustring = unit_string;
         ustring.pop_back();
-        retunit = get_unit(ustring);
+        retunit = get_unit(ustring, match_flags);
         if (!is_error(retunit)) {
             return retunit;
         }
@@ -6601,7 +6684,7 @@ precise_measurement measurement_from_string(
         return {val, un};
     }
     if (checkCurrency) {
-        auto c = get_unit(measurement_string.substr(0, 1));
+        auto c = get_unit(measurement_string.substr(0, 1), match_flags);
         if (c == precise::currency) {
             auto mstr = measurement_from_string(
                 measurement_string.substr(1), match_flags);
@@ -6730,6 +6813,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"celsiustemperature", precise::degC},
     {"temp", precise::K},
     {"thermodynamictemperature", precise::K},
+    {"thermalconductivity", precise::W / precise::m / precise::K},
     {"amount", precise::mol},
     {"amountofsubstance", precise::mol},
     {"substance", precise::mol},
@@ -6743,6 +6827,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"acceleration", precise::m / precise::s.pow(2)},
     {"accel", precise::m / precise::s.pow(2)},
     {"density", precise::kg / precise::m.pow(3)},
+    {"massdensity", precise::kg / precise::m.pow(3)},
     {"massconcentration", precise::kg / precise::m.pow(3)},
     {"surfacedensity", precise::kg / precise::m.pow(2)},
     {"lineardensity", precise::kg / precise::m},
@@ -6780,8 +6865,11 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"power", precise::W},
     {"powerlevel", precise::W* precise::log::neper},
     {"radiantflux", precise::W},
+    {"heatfluxdensity", precise::W / precise::m.pow(2)},
     {"electriccharge", precise::C},
+    {"electricfluxdensity", precise::C / precise::m.pow(2)},
     {"charge", precise::C},
+    {"electricchargedensity", precise::C / precise::m.pow(3)},
     {"quantityofelectricity", precise::C},
     {"voltage", precise::V},
     {"electricalpotential", precise::V},
@@ -6812,6 +6900,7 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"magneticfluxdensity", precise::T},
     {"magneticinduction", precise::T},
     {"fluxdensity", precise::T},
+    {"noisevoltagedensity", precise::V / precise::special::rootHertz},
     {"inductance", precise::H},
     {"induction", precise::H},
     {"luminousflux", precise::lm},
@@ -6820,13 +6909,16 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"luminousemittance", precise::lx},
     {"intensityoflight", precise::lx},
     {"radioactivity", precise::Bq},
+    {"radionuclideactivity", precise::Bq},
     {"radiation", precise::Bq},
     {"activity", precise::Bq},
     {"activities", precise::Bq},
+    {"logarithmofpowerratio", precise::log::dB},
     {"absorbeddose", precise::Gy},
     {"ionizingradiation", precise::Gy},
     {"kerma", precise::Gy},
     {"energydose", precise::Gy},
+    {"absorbeddoseenergy", precise::Gy},
     {"engcnt", precise::Gy},
     {"equivalentdose", precise::Sv},
     {"radiationdose", precise::Sv},
@@ -6836,14 +6928,18 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"committeddose", precise::Sv},
     {"catalyticactivity", precise::kat},
     {"specificenergy", precise::J / precise::kg},
+    {"specificheat", precise::J / precise::kg / precise::K},
     {"engcnc", precise::J / precise::m.pow(3)},
     {"momentofforce", precise::N* precise::m},
     {"moment", precise::N* precise::m},
     {"torque", precise::N* precise::m},
     {"angularvelocity", precise::rad / precise::s},
+    {"rotationalspeed", precise::rad / precise::s},
+    {"rotationalvelocity", precise::rad / precise::s},
     {"angularacceleration", precise::rad / precise::s.pow(2)},
     {"surfacetension", precise::N / precise::m},
     {"electricfield", precise::V / precise::m},
+    {"electricfieldstrength", precise::V / precise::m},
     {"permittivity", precise::F / precise::m},
     {"permeability", precise::H / precise::m},
     {"electricpermittivity", precise::F / precise::m},
@@ -6851,7 +6947,8 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"exposure", precise::C / precise::kg},
     {"heatcapacity", precise::J / precise::K},
     {"entropy", precise::J / precise::K},
-    {"specificenergy", precise::J / precise::kg / precise::K},
+    {"specificentropy", precise::J / precise::kg / precise::K},
+    {"specificenergy", precise::J / precise::kg},
     {"dynamicviscosity", precise::Pa* precise::s},
     {"viscosity", precise::Pa* precise::s},
     {"visc", precise::Pa* precise::s},
@@ -6912,15 +7009,22 @@ static const std::unordered_map<std::string, precise_unit> measurement_types{
     {"signaltransmissionrate", precise::bit / precise::s},
     {"engmass", precise::J / precise::m.pow(3)},
     {"massicenergy", precise::J / precise::m.pow(3)},
+    {"energydensity", precise::J / precise::m.pow(3)},
     {"entsub", precise::mol},
     {"mnum", precise::kg},
     {"cmass", precise::kg / precise::kat},
     {"stiffness", precise::N / precise::m},
+    {"signalingrate", precise::bit / precise::s},
+    {"datarate", precise::bit / precise::s},
     {"elasticity", precise::N / precise::m.pow(2)},
     {"compliance", precise::m / precise::N},
+    {"informationcapacity", precise::data::bit},
     {"compli", precise::m / precise::N},
     {"vascularresistance", precise::Pa* precise::s / precise::m.pow(3)},
     {"enzymaticactivity", precise::kat},
+    {"catalyticconcentration", precise::kat / precise::m.pow(3)},
+    {"molarenergy", precise::J / precise::mol},
+    {"molarentropy", precise::J / precise::mol / precise::K},
 };
 
 precise_unit default_unit(std::string unit_type)
