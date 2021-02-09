@@ -252,8 +252,7 @@ TEST(unitStrings, watthours)
         precise::currency / (precise::giga * precise::W * precise::h));
     EXPECT_EQ(str, "$/GWh");
 
-    str = to_string(
-        precise::m * (precise::giga * precise::W * precise::h));
+    str = to_string(precise::m * (precise::giga * precise::W * precise::h));
     EXPECT_EQ(str, "GWh*m");
 }
 
