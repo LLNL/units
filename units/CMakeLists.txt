@@ -6,7 +6,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 set(units_source_files units.cpp x12_conv.cpp r20_conv.cpp commodities.cpp)
 
-set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp)
+set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp units_util.hpp)
 
 if(UNITS_HEADER_ONLY)
     add_library(units-header-only INTERFACE)

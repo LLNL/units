@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/unit_definitions.hpp"
 #include "units/units_decl.hpp"
+#include "units/units_util.hpp"
 
 #include <memory>
 
@@ -993,4 +994,90 @@ TEST(customCountUnits, uniqueness)
                 << jj;
         }
     }
+}
+
+TEST(UnitUtilTest, times_overflows)
+{
+    const auto m1 = m;
+    const auto m3 = m * m * m;
+    const auto m4 = m * m * m * m;
+    const auto m5 = m * m * m * m * m;
+    const auto m7 = m * m * m * m * m * m * m;
+    const auto im8 = (one / m7) / m;
+    const auto im5 = one / m5;
+    const auto im4 = one / m4;
+    const auto im1 = one / m1;
+    // At lower or upper bound:
+    // unchanged exponent
+    EXPECT_FALSE(times_overflows(m7, one));
+    EXPECT_FALSE(times_overflows(one, m7));
+    EXPECT_FALSE(times_overflows(im8, one));
+    EXPECT_FALSE(times_overflows(one, im8));
+    // change by 1 *away* from bound
+    EXPECT_FALSE(times_overflows(m7, im1));
+    EXPECT_FALSE(times_overflows(im1, m7));
+    EXPECT_FALSE(times_overflows(im8, m1));
+    EXPECT_FALSE(times_overflows(m1, im8));
+    // change by 1 *towards* from bound => overflow or underflow
+    EXPECT_TRUE(times_overflows(m7, m1));
+    EXPECT_TRUE(times_overflows(m1, m7));
+    EXPECT_TRUE(times_overflows(im8, im1));
+    EXPECT_TRUE(times_overflows(im1, im8));
+
+    // Start far from bounds:
+    EXPECT_FALSE(times_overflows(m3, m4));
+    EXPECT_FALSE(times_overflows(m4, m3));
+    EXPECT_TRUE(times_overflows(m4, m4));  // overflow
+    EXPECT_FALSE(times_overflows(im4, im4));
+    EXPECT_TRUE(times_overflows(im4, im5));  // underflow
+    EXPECT_TRUE(times_overflows(im5, im4));  // underflow
+}
+
+TEST(UnitUtilTest, divides_overflows)
+{
+    const auto m1 = m;
+    const auto m3 = m * m * m;
+    const auto m4 = m * m * m * m;
+    const auto m5 = m * m * m * m * m;
+    const auto m7 = m * m * m * m * m * m * m;
+    const auto im8 = (one / m7) / m;
+    const auto im7 = one / m7;
+    const auto im4 = one / m4;
+    const auto im1 = one / m1;
+    // At lower or upper bound:
+    // unchanged exponent
+    EXPECT_FALSE(divides_overflows(m7, one));
+    EXPECT_FALSE(divides_overflows(im8, one));
+    // change by 1 *away* from bound
+    EXPECT_FALSE(divides_overflows(m7, m1));
+    EXPECT_FALSE(divides_overflows(im8, im1));
+    // change by 1 *towards* from bound => overflow or underflow
+    EXPECT_TRUE(divides_overflows(m7, im1));
+    EXPECT_TRUE(divides_overflows(m1, im7));
+    EXPECT_TRUE(divides_overflows(im8, m1));
+    EXPECT_TRUE(divides_overflows(m1, im8));
+
+    // Start far from bounds:
+    EXPECT_FALSE(divides_overflows(m3, im4));
+    EXPECT_FALSE(divides_overflows(im4, m3));
+    EXPECT_TRUE(divides_overflows(m4, im4));  // overflow
+    EXPECT_FALSE(divides_overflows(im4, m4));
+    EXPECT_TRUE(divides_overflows(im4, m5));  // underflow
+    EXPECT_TRUE(divides_overflows(m5, im4));  // underflow
+}
+
+TEST(UnitUtilTest, inv_overflows)
+{
+    EXPECT_FALSE(inv_overflows(m));
+    const auto inv_mol = one / mol;
+    EXPECT_TRUE(inv_overflows(inv_mol * inv_mol));
+}
+
+TEST(UnitUtilTest, pow_overflows)
+{
+    EXPECT_FALSE(pow_overflows(m, 2));
+    EXPECT_FALSE(pow_overflows(m, 4));
+    EXPECT_FALSE(pow_overflows(m, 7));
+    EXPECT_TRUE(pow_overflows(m, 8));
+    EXPECT_TRUE(pow_overflows(m * m * m * m, 2));
 }
