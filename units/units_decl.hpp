@@ -11,7 +11,11 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <cstring>  // for std::memcpy
 #include <functional>  // for std::hash
 
-namespace units {
+#ifndef UNITS_NAMESPACE
+#define UNITS_NAMESPACE units
+#endif
+
+namespace UNITS_NAMESPACE {
 namespace detail {
     /** Class representing base unit data
     @details the seven SI base units
@@ -337,7 +341,7 @@ namespace detail {
         "Unit data is too large");
 
 }  // namespace detail
-}  // namespace units
+}  // namespace UNITS_NAMESPACE
 
 namespace std {
 /// Hash function for unit_data
@@ -352,7 +356,7 @@ struct hash<units::detail::unit_data> {
 };
 }  // namespace std
 
-namespace units {
+namespace UNITS_NAMESPACE {
 namespace detail {
     /// constexpr operator to generate an integer power of a number
     template<typename X>
@@ -977,7 +981,7 @@ static_assert(
     sizeof(precise_unit) <= 2 * sizeof(double),
     "precise unit type is too large");
 
-}  // namespace units
+}  // namespace UNITS_NAMESPACE
 
 /// Defining the hash functions for a unit and precise_unit so they can be used
 /// in unordered_map

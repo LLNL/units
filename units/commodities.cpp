@@ -94,7 +94,7 @@ enum commodity : std::uint32_t
 
 */
 
-namespace units {
+namespace UNITS_NAMESPACE {
 namespace commodities {
     using commodityMap = std::unordered_map<std::uint32_t, const char*>;
     static const commodityMap commodity_names{
@@ -411,4 +411,4 @@ void clearCustomCommodities()
     customCommodityNames.clear();
     customCommodityCodes.clear();
 }
-}  // namespace units
+}  // namespace UNITS_NAMESPACE
