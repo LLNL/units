@@ -38,8 +38,8 @@ namespace detail {
             Equation
         };
         // Cannot use std::array since no constexpr support in macOS clang
-        static constexpr int32_t bits[14] =
-            {4, 4, 3, 3, 2, 3, 2, 3, 2, 2, 1, 1, 1, 1};  // NOLINT
+        static constexpr int32_t bits[14] =  // NOLINT
+            {4, 4, 3, 3, 2, 3, 2, 3, 2, 2, 1, 1, 1, 1};
 
         // construct from powers
         constexpr unit_data(
