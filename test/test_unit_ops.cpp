@@ -1031,6 +1031,8 @@ TEST(UnitUtilTest, times_overflows)
     EXPECT_FALSE(times_overflows(im4, im4));
     EXPECT_TRUE(times_overflows(im4, im5));  // underflow
     EXPECT_TRUE(times_overflows(im5, im4));  // underflow
+
+    EXPECT_TRUE(times_overflows(count, count));
 }
 
 TEST(UnitUtilTest, divides_overflows)

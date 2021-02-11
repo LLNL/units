@@ -21,22 +21,24 @@ namespace detail {
     class unit_data {
       public:
         /** Number of bits used for encoding base unit exponents */
-        struct bits {
-            static constexpr int32_t meter = 4;
-            static constexpr int32_t second = 4;  // 8
-            static constexpr int32_t kilogram = 3;
-            static constexpr int32_t ampere = 3;
-            static constexpr int32_t candela = 2;  // 16
-            static constexpr int32_t kelvin = 3;
-            static constexpr int32_t mole = 2;
-            static constexpr int32_t radians = 3;  // 24
-            static constexpr int32_t currency = 2;
-            static constexpr int32_t count = 2;  // 28
-            static constexpr int32_t per_unit = 1;
-            static constexpr int32_t i_flag = 1;  // 30
-            static constexpr int32_t e_flag = 1;
-            static constexpr int32_t equation = 1;  // 32
+        enum base {
+            Meter,
+            Second,
+            Kilogram,
+            Ampere,
+            Candela,
+            Kelvin,
+            Mole,
+            Radians,
+            Currency,
+            Count,
+            PerUnit,
+            IFlag,
+            EFlag,
+            Equation
         };
+        static constexpr std::array<int32_t, 14>
+            bits{4, 4, 3, 3, 2, 3, 2, 3, 2, 2, 1, 1, 1, 1};
 
         // construct from powers
         constexpr unit_data(
@@ -313,20 +315,20 @@ namespace detail {
         }
 
         // needs to be defined for the full 32 bits
-        signed int meter_ : bits::meter;
-        signed int second_ : bits::second;
-        signed int kilogram_ : bits::kilogram;
-        signed int ampere_ : bits::ampere;
-        signed int candela_ : bits::candela;
-        signed int kelvin_ : bits::kelvin;
-        signed int mole_ : bits::mole;
-        signed int radians_ : bits::radians;
-        signed int currency_ : bits::currency;
-        signed int count_ : bits::count;
-        unsigned int per_unit_ : bits::per_unit;
-        unsigned int i_flag_ : bits::i_flag;
-        unsigned int e_flag_ : bits::e_flag;
-        unsigned int equation_ : bits::equation;
+        signed int meter_ : bits[Meter];
+        signed int second_ : bits[Second];  // 8
+        signed int kilogram_ : bits[Kilogram];
+        signed int ampere_ : bits[Ampere];
+        signed int candela_ : bits[Candela];  // 16
+        signed int kelvin_ : bits[Kelvin];
+        signed int mole_ : bits[Mole];
+        signed int radians_ : bits[Radians];  // 24
+        signed int currency_ : bits[Currency];
+        signed int count_ : bits[Count];  // 28
+        unsigned int per_unit_ : bits[PerUnit];
+        unsigned int i_flag_ : bits[IFlag];  // 30
+        unsigned int e_flag_ : bits[EFlag];
+        unsigned int equation_ : bits[Equation];  // 32
     };
     // We want this to be exactly 4 bytes by design
     static_assert(
