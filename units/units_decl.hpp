@@ -37,8 +37,8 @@ namespace detail {
             EFlag,
             Equation
         };
-        static constexpr std::array<int32_t, 14>
-            bits{4, 4, 3, 3, 2, 3, 2, 3, 2, 2, 1, 1, 1, 1};
+        static constexpr std::array<int32_t, 14> bits{
+            {4, 4, 3, 3, 2, 3, 2, 3, 2, 2, 1, 1, 1, 1}};
 
         // construct from powers
         constexpr unit_data(
