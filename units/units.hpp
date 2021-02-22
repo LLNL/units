@@ -6,6 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #pragma once
 #include "unit_definitions.hpp"
+#include "units_export.h"
 
 #include <cmath>
 #include <string>
@@ -1820,7 +1821,7 @@ enum unit_conversion_flags : std::uint32_t {
         (1U << 31U),  //!< don't do some code and sequence replacements
 };
 /// Generate a string representation of the unit
-std::string
+UNITS_EXPORT std::string
     to_string(const precise_unit& units, std::uint32_t match_flags = 0U);
 
 /// Generate a string representation of the unit
@@ -1837,7 +1838,7 @@ process somewhat
 @return a precise unit corresponding to the string if no match was found the
 unit will be an error unit
 */
-precise_unit
+UNITS_EXPORT precise_unit
     unit_from_string(std::string unit_string, std::uint32_t match_flags = 0U);
 
 /** Generate a unit object from a string representation of it
@@ -1869,7 +1870,7 @@ process somewhat
 @return a precise unit corresponding to the string if no match was found the
 unit will be an error unit
     */
-precise_measurement measurement_from_string(
+UNITS_EXPORT precise_measurement measurement_from_string(
     std::string measurement_string,
     std::uint32_t match_flags = 0U);
 
@@ -1898,22 +1899,22 @@ process somewhat
 @return a precise unit corresponding to the string if no match was found the
 unit will be an error unit
 */
-uncertain_measurement uncertain_measurement_from_string(
+UNITS_EXPORT uncertain_measurement uncertain_measurement_from_string(
     const std::string& measurement_string,
     std::uint32_t match_flags = 0U);
 
 /// Convert a precise measurement to a string (with some extra decimal digits
 /// displayed)
-std::string to_string(
+UNITS_EXPORT std::string to_string(
     const precise_measurement& measure,
     std::uint32_t match_flags = 0U);
 
 /// Convert a measurement to a string
-std::string
+UNITS_EXPORT std::string
     to_string(const measurement& measure, std::uint32_t match_flags = 0U);
 
 /// Convert an uncertain measurement to a string
-std::string to_string(
+UNITS_EXPORT std::string to_string(
     const uncertain_measurement& measure,
     std::uint32_t match_flags = 0U);
 

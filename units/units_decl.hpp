@@ -5,6 +5,7 @@ See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
 #pragma once
+#include "units_export.h"
 
 #include <cmath>
 #include <cstdint>  // for std::uint32_t
@@ -997,9 +998,9 @@ inline constexpr precise_unit pow(const precise_unit& u, int power)
 #ifndef UNITS_HEADER_ONLY
 
 /// take the root of a unit to some power
-unit root(const unit& u, int power);
+UNITS_EXPORT unit root(const unit& u, int power);
 
-precise_unit root(const precise_unit& u, int power);
+UNITS_EXPORT precise_unit root(const precise_unit& u, int power);
 
 inline unit sqrt(const unit& u)
 {
