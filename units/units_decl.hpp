@@ -17,6 +17,19 @@ SPDX-License-Identifier: BSD-3-Clause
 
 namespace UNITS_NAMESPACE {
 namespace detail {
+    namespace bitwidth {
+        constexpr int32_t meter{4};
+        constexpr int32_t second{4};
+        constexpr int32_t kilogram{3};
+        constexpr int32_t ampere{3};
+        constexpr int32_t candela{2};
+        constexpr int32_t kelvin{3};
+        constexpr int32_t mole{2};
+        constexpr int32_t radian{3};
+        constexpr int32_t currency{2};
+        constexpr int32_t count{2};
+
+    } // namespace bitwidth
     /** Class representing base unit data
     @details the seven SI base units
     https://en.m.wikipedia.org/wiki/SI_base_unit
@@ -26,25 +39,27 @@ namespace detail {
       public:
         /** Number of bits used for encoding base unit exponents */
         enum base {
-            Meter,
-            Second,
-            Kilogram,
-            Ampere,
-            Candela,
-            Kelvin,
-            Mole,
-            Radians,
-            Currency,
-            Count,
-            PerUnit,
-            IFlag,
-            EFlag,
-            Equation
+            Meter=0,
+            Second=1,
+            Kilogram=2,
+            Ampere=3,
+            Candela=4,
+            Kelvin=5,
+            Mole=6,
+            Radians=7,
+            Currency=8,
+            Count=9,
+            PerUnit=10,
+            IFlag=11,
+            EFlag=12,
+            Equation=13
         };
         // Cannot use std::array since no constexpr support in macOS clang
         static constexpr int32_t bits[14] =  // NOLINT
-            {4, 4, 3, 3, 2, 3, 2, 3, 2, 2, 1, 1, 1, 1};
-
+            {bitwidth::meter, bitwidth::second, bitwidth::kilogram, 
+            bitwidth::ampere, bitwidth::candela, bitwidth::kelvin, 
+            bitwidth::mole, bitwidth::radian, bitwidth::currency, 
+            bitwidth::count, 1, 1, 1, 1};
         // construct from powers
         constexpr unit_data(
             int meters,
@@ -320,20 +335,20 @@ namespace detail {
         }
 
         // needs to be defined for the full 32 bits
-        signed int meter_ : bits[Meter];
-        signed int second_ : bits[Second];  // 8
-        signed int kilogram_ : bits[Kilogram];
-        signed int ampere_ : bits[Ampere];
-        signed int candela_ : bits[Candela];  // 16
-        signed int kelvin_ : bits[Kelvin];
-        signed int mole_ : bits[Mole];
-        signed int radians_ : bits[Radians];  // 24
-        signed int currency_ : bits[Currency];
-        signed int count_ : bits[Count];  // 28
-        unsigned int per_unit_ : bits[PerUnit];
-        unsigned int i_flag_ : bits[IFlag];  // 30
-        unsigned int e_flag_ : bits[EFlag];
-        unsigned int equation_ : bits[Equation];  // 32
+        signed int meter_ : bitwidth::meter;
+        signed int second_ : bitwidth::second;  // 8
+        signed int kilogram_ : bitwidth::kilogram;
+        signed int ampere_ : bitwidth::ampere;
+        signed int candela_ : bitwidth::candela;  // 16
+        signed int kelvin_ : bitwidth::kelvin;
+        signed int mole_ : bitwidth::mole;
+        signed int radians_ : bitwidth::radian;  // 24
+        signed int currency_ : bitwidth::currency;
+        signed int count_ : bitwidth::count;  // 28
+        unsigned int per_unit_ : 1;
+        unsigned int i_flag_ : 1;  // 30
+        unsigned int e_flag_ : 1;
+        unsigned int equation_ : 1;  // 32
     };
     // We want this to be exactly 4 bytes by design
     static_assert(
