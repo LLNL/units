@@ -49,7 +49,7 @@ cmake_dependent_option(
     "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
 
-#allow projects that include cmake to set their own namespace for the main library
+# allow projects that include cmake to set their own namespace for the main library
 set(UNITS_NAMESPACE
     ""
     CACHE STRING "Top-level namespace name. Default is `units`."
