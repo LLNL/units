@@ -20,6 +20,27 @@ namespace detail {
     */
     class unit_data {
       public:
+        /** Number of bits used for encoding base unit exponents */
+        enum base {
+            Meter,
+            Second,
+            Kilogram,
+            Ampere,
+            Candela,
+            Kelvin,
+            Mole,
+            Radians,
+            Currency,
+            Count,
+            PerUnit,
+            IFlag,
+            EFlag,
+            Equation
+        };
+        // Cannot use std::array since no constexpr support in macOS clang
+        static constexpr int32_t bits[14] =  // NOLINT
+            {4, 4, 3, 3, 2, 3, 2, 3, 2, 2, 1, 1, 1, 1};
+
         // construct from powers
         constexpr unit_data(
             int meters,
@@ -295,20 +316,20 @@ namespace detail {
         }
 
         // needs to be defined for the full 32 bits
-        signed int meter_ : 4;
-        signed int second_ : 4;  // 8
-        signed int kilogram_ : 3;
-        signed int ampere_ : 3;
-        signed int candela_ : 2;  // 16
-        signed int kelvin_ : 3;
-        signed int mole_ : 2;
-        signed int radians_ : 3;  // 24
-        signed int currency_ : 2;
-        signed int count_ : 2;  // 28
-        unsigned int per_unit_ : 1U;
-        unsigned int i_flag_ : 1U;  // 30
-        unsigned int e_flag_ : 1U;  //
-        unsigned int equation_ : 1U;  // 32
+        signed int meter_ : bits[Meter];
+        signed int second_ : bits[Second];  // 8
+        signed int kilogram_ : bits[Kilogram];
+        signed int ampere_ : bits[Ampere];
+        signed int candela_ : bits[Candela];  // 16
+        signed int kelvin_ : bits[Kelvin];
+        signed int mole_ : bits[Mole];
+        signed int radians_ : bits[Radians];  // 24
+        signed int currency_ : bits[Currency];
+        signed int count_ : bits[Count];  // 28
+        unsigned int per_unit_ : bits[PerUnit];
+        unsigned int i_flag_ : bits[IFlag];  // 30
+        unsigned int e_flag_ : bits[EFlag];
+        unsigned int equation_ : bits[Equation];  // 32
     };
     // We want this to be exactly 4 bytes by design
     static_assert(
