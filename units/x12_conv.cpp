@@ -11,7 +11,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <cstring>
 #include <tuple>
 
-namespace units {
+namespace UNITS_NAMESPACE {
 using unitD = std::tuple<const char*, const char*, precise_unit>;
 static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> x12_units{{
     unitD{"03", "SECOND", precise::s},

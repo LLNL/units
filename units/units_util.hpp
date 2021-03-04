@@ -8,7 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "units_decl.hpp"
 
-namespace units {
+namespace UNITS_NAMESPACE {
 namespace detail {
 
     /** Helper to check whether operations on bitfield members of given width

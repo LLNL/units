@@ -13,7 +13,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <cstdlib>
 #include <limits>
 
-namespace units {
+namespace UNITS_NAMESPACE {
 /// Constants used in definitions of units
 
 static_assert(

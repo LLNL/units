@@ -18,6 +18,11 @@ if(UNITS_HEADER_ONLY)
     if(UNITS_INSTALL)
         install(TARGETS units-header-only ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
+    if(UNITS_NAMESPACE)
+        target_compile_definitions(
+            units-header-only INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+        )
+    endif()
     add_library(units::units-header-only ALIAS units-header-only)
 else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
@@ -33,7 +38,11 @@ else(UNITS_HEADER_ONLY)
                 units-static PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
             )
         endif()
-
+        if(UNITS_NAMESPACE)
+            target_compile_definitions(
+                units-static INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            )
+        endif()
         add_library(units::units ALIAS units-static)
         add_library(units::static ALIAS units-static)
         if(UNITS_INSTALL)
