@@ -29,7 +29,7 @@ namespace detail {
         constexpr int32_t currency{2};
         constexpr int32_t count{2};
 
-    } // namespace bitwidth
+    }  // namespace bitwidth
     /** Class representing base unit data
     @details the seven SI base units
     https://en.m.wikipedia.org/wiki/SI_base_unit
@@ -39,27 +39,37 @@ namespace detail {
       public:
         /** Number of bits used for encoding base unit exponents */
         enum base {
-            Meter=0,
-            Second=1,
-            Kilogram=2,
-            Ampere=3,
-            Candela=4,
-            Kelvin=5,
-            Mole=6,
-            Radians=7,
-            Currency=8,
-            Count=9,
-            PerUnit=10,
-            IFlag=11,
-            EFlag=12,
-            Equation=13
+            Meter = 0,
+            Second = 1,
+            Kilogram = 2,
+            Ampere = 3,
+            Candela = 4,
+            Kelvin = 5,
+            Mole = 6,
+            Radians = 7,
+            Currency = 8,
+            Count = 9,
+            PerUnit = 10,
+            IFlag = 11,
+            EFlag = 12,
+            Equation = 13
         };
         // Cannot use std::array since no constexpr support in macOS clang
         static constexpr int32_t bits[14] =  // NOLINT
-            {bitwidth::meter, bitwidth::second, bitwidth::kilogram, 
-            bitwidth::ampere, bitwidth::candela, bitwidth::kelvin, 
-            bitwidth::mole, bitwidth::radian, bitwidth::currency, 
-            bitwidth::count, 1, 1, 1, 1};
+            {bitwidth::meter,
+             bitwidth::second,
+             bitwidth::kilogram,
+             bitwidth::ampere,
+             bitwidth::candela,
+             bitwidth::kelvin,
+             bitwidth::mole,
+             bitwidth::radian,
+             bitwidth::currency,
+             bitwidth::count,
+             1,
+             1,
+             1,
+             1};
         // construct from powers
         constexpr unit_data(
             int meters,
