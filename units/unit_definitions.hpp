@@ -1882,4 +1882,4 @@ namespace detail {
         return constants::invalid_conversion;
     }
 }  // namespace detail
-}  // namespace units
+}  // namespace UNITS_NAMESPACE

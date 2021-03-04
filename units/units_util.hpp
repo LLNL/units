@@ -208,4 +208,4 @@ constexpr bool pow_overflows(const T& a, const int power)
     return pow_overflows(a.base_units(), power);
 }
 
-}  // namespace units
+}  // namespace UNITS_NAMESPACE
