@@ -77,8 +77,8 @@ jobs:
         clang3.4:
           containerImage: silkeh/clang:3.4
           units.std: 11
-        clang8:
-          containerImage: helics/buildenv:clang8-builder
+        clang9:
+          containerImage: helics/buildenv:clang9-builder
           units.std: 14
         clang10_20:
           containerImage: helics/buildenv:clang10-builder
