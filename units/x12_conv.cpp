@@ -1036,4 +1036,4 @@ precise_unit dod_unit(const std::string& dod_string)
     return precise::error;
 }
 
-}  // namespace units
+}  // namespace UNITS_NAMESPACE
