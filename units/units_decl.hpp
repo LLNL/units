@@ -356,7 +356,7 @@ namespace detail {
         "Unit data is too large");
 
 }  // namespace detail
-}  // namespace UNITS_NAMESPACE
+}  // namespace units
 
 namespace std {
 /// Hash function for unit_data
@@ -996,7 +996,7 @@ static_assert(
     sizeof(precise_unit) <= 2 * sizeof(double),
     "precise unit type is too large");
 
-}  // namespace UNITS_NAMESPACE
+}  // namespace units
 
 /// Defining the hash functions for a unit and precise_unit so they can be used
 /// in unordered_map

@@ -2750,4 +2750,4 @@ precise_unit r20_unit(const std::string& r20_string)
     return precise::error;
 }
 
-}  // namespace UNITS_NAMESPACE
+}  // namespace units

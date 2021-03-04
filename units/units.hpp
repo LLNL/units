@@ -2080,4 +2080,4 @@ namespace detail {
 }  // namespace detail
 #endif
 
-}  // namespace UNITS_NAMESPACE
+}  // namespace units

@@ -411,4 +411,4 @@ void clearCustomCommodities()
     customCommodityNames.clear();
     customCommodityCodes.clear();
 }
-}  // namespace UNITS_NAMESPACE
+}  // namespace units

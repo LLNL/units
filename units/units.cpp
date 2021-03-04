@@ -6701,7 +6701,7 @@ static precise_unit unit_from_string_internal(
         }
     }
     return precise::invalid;
-}  // namespace UNITS_NAMESPACE
+}  // namespace units
 
 precise_measurement measurement_from_string(
     std::string measurement_string,
@@ -7171,4 +7171,4 @@ namespace detail {
 }  // namespace detail
 #endif
 
-}  // namespace UNITS_NAMESPACE
+}  // namespace units
