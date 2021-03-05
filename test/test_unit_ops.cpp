@@ -1077,6 +1077,9 @@ TEST(UnitUtilTest, inv_overflows)
 
 TEST(UnitUtilTest, pow_overflows)
 {
+    EXPECT_FALSE(pow_overflows(m, -1));
+    EXPECT_FALSE(pow_overflows(m, 0));
+    EXPECT_FALSE(pow_overflows(m, 1));
     EXPECT_FALSE(pow_overflows(m, 2));
     EXPECT_FALSE(pow_overflows(m, 4));
     EXPECT_FALSE(pow_overflows(m, 7));

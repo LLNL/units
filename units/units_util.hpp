@@ -30,8 +30,7 @@ namespace detail {
         template<class T>
         static constexpr bool times_overflows(const T& a, const T& b)
         {
-            return ((a == -1) && (b == min)) || ((b == -1) && (a == min)) ||
-                (a > max / b) || ((a < min / b));
+            return (a * b < min) || (a * b > max);
         }
     };
 
