@@ -70,6 +70,11 @@ else(UNITS_HEADER_ONLY)
             add_library(units::units ALIAS units-shared)
         endif()
         add_library(units::shared ALIAS units-shared)
+        if(UNITS_NAMESPACE)
+            target_compile_definitions(
+                units-shared INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            )
+        endif()
         if(UNITS_INSTALL)
             install(
                 TARGETS units-shared ${UNITS_LIBRARY_EXPORT_COMMAND}
