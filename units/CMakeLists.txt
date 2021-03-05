@@ -30,6 +30,7 @@ else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
         add_library(units-static STATIC ${units_source_files} ${units_header_files})
         generate_export_header(units-static BASE_NAME units)
+        target_compile_definitions(units-static PUBLIC UNITS_EXPORT_HEADER)
         target_include_directories(
             units-static PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
                                 $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
@@ -66,6 +67,7 @@ else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_SHARED_LIBRARY)
         add_library(units-shared SHARED ${units_source_files} ${units_header_files})
         generate_export_header(units-shared BASE_NAME units)
+        target_compile_definitions(units-shared PUBLIC UNITS_EXPORT_HEADER)
         target_include_directories(
             units-shared PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
                                 $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>

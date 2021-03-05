@@ -6,7 +6,6 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #pragma once
 #include "unit_definitions.hpp"
-#include "units_export.h"
 
 #include <cmath>
 #include <string>

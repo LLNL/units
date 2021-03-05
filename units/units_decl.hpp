@@ -5,7 +5,12 @@ See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
 #pragma once
+
+#ifdef UNITS_EXPORT_HEADER
 #include "units_export.h"
+#else
+#define UNITS_EXPORT
+#endif
 
 #include <cmath>
 #include <cstdint>  // for std::uint32_t
