@@ -19,8 +19,8 @@ TEST(unit_base, maxNeg)
     EXPECT_EQ(units::detail::maxNeg(4), -8);
     EXPECT_EQ(units::detail::maxNeg(3), -4);
     EXPECT_EQ(units::detail::maxNeg(2), -2);
-     static_assert(
-     units::detail::maxNeg(4) == -8, "maxNeg not computing correct result");
+    static_assert(
+        units::detail::maxNeg(4) == -8, "maxNeg not computing correct result");
 }
 
 TEST(unitOps, Simple)

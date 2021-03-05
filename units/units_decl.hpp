@@ -20,7 +20,7 @@ namespace detail {
 
     constexpr int32_t maxNeg(uint32_t numberOfBits)
     {
-        return -(int32_t(1U << (numberOfBits-1)));
+        return -(int32_t(1U << (numberOfBits - 1)));
     }
     /** Number of bits used for encoding base unit exponents */
     namespace bitwidth {
@@ -109,8 +109,8 @@ namespace detail {
             kelvin_(maxNeg(bitwidth::kelvin)), mole_(maxNeg(bitwidth::mole)),
             radians_(maxNeg(bitwidth::radian)),
             currency_(maxNeg(bitwidth::currency)),
-            count_(maxNeg(bitwidth::count)),
-            per_unit_(1), i_flag_(1), e_flag_(1), equation_(1)
+            count_(maxNeg(bitwidth::count)), per_unit_(1), i_flag_(1),
+            e_flag_(1), equation_(1)
         {
         }
 
