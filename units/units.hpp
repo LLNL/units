@@ -24,7 +24,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #define UNITS_CPP14_CONSTEXPR_METHOD
 #endif
 
-namespace units {
+namespace UNITS_NAMESPACE {
 /// Generate a conversion factor between two units in a constexpr function, the
 /// units will only convert if they have the same base unit
 template<typename UX, typename UX2>
@@ -2080,4 +2080,4 @@ namespace detail {
 }  // namespace detail
 #endif
 
-}  // namespace units
+}  // namespace UNITS_NAMESPACE
