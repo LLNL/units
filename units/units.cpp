@@ -26,7 +26,7 @@ SPDX-License-Identifier: BSD-3-Clause
 references http://people.csail.mit.edu/jaffer/MIXF/MIXF-08
 */
 
-namespace units {
+namespace UNITS_NAMESPACE {
 
 template<typename X>
 X numericalRoot(X value, int power)
@@ -7171,4 +7171,4 @@ namespace detail {
 }  // namespace detail
 #endif
 
-}  // namespace units
+}  // namespace UNITS_NAMESPACE

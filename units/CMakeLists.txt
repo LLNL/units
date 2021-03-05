@@ -18,6 +18,11 @@ if(UNITS_HEADER_ONLY)
     if(UNITS_INSTALL)
         install(TARGETS units-header-only ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
+    if(UNITS_NAMESPACE)
+        target_compile_definitions(
+            units-header-only INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+        )
+    endif()
     add_library(units::units-header-only ALIAS units-header-only)
 else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
@@ -33,7 +38,11 @@ else(UNITS_HEADER_ONLY)
                 units-static PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
             )
         endif()
-
+        if(UNITS_NAMESPACE)
+            target_compile_definitions(
+                units-static INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            )
+        endif()
         add_library(units::units ALIAS units-static)
         add_library(units::static ALIAS units-static)
         if(UNITS_INSTALL)
@@ -61,6 +70,11 @@ else(UNITS_HEADER_ONLY)
             add_library(units::units ALIAS units-shared)
         endif()
         add_library(units::shared ALIAS units-shared)
+        if(UNITS_NAMESPACE)
+            target_compile_definitions(
+                units-shared INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            )
+        endif()
         if(UNITS_INSTALL)
             install(
                 TARGETS units-shared ${UNITS_LIBRARY_EXPORT_COMMAND}
@@ -79,7 +93,11 @@ else(UNITS_HEADER_ONLY)
         )
 
         add_library(units::object ALIAS units-object)
-
+        if(UNITS_NAMESPACE)
+            target_compile_definitions(
+                units-object INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            )
+        endif()
     endif(UNITS_BUILD_OBJECT_LIBRARY)
 
 endif(UNITS_HEADER_ONLY)
