@@ -93,7 +93,11 @@ else(UNITS_HEADER_ONLY)
         )
 
         add_library(units::object ALIAS units-object)
-
+        if(UNITS_NAMESPACE)
+            target_compile_definitions(
+                units-object INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            )
+        endif()
     endif(UNITS_BUILD_OBJECT_LIBRARY)
 
 endif(UNITS_HEADER_ONLY)

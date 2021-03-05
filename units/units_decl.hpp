@@ -17,17 +17,23 @@ SPDX-License-Identifier: BSD-3-Clause
 
 namespace UNITS_NAMESPACE {
 namespace detail {
+
+    constexpr int32_t maxNeg(uint32_t numberOfBits)
+    {
+        return -(int32_t(1U << (numberOfBits-1)));
+    }
+    /** Number of bits used for encoding base unit exponents */
     namespace bitwidth {
-        constexpr int32_t meter{4};
-        constexpr int32_t second{4};
-        constexpr int32_t kilogram{3};
-        constexpr int32_t ampere{3};
-        constexpr int32_t candela{2};
-        constexpr int32_t kelvin{3};
-        constexpr int32_t mole{2};
-        constexpr int32_t radian{3};
-        constexpr int32_t currency{2};
-        constexpr int32_t count{2};
+        constexpr uint32_t meter{4};
+        constexpr uint32_t second{4};
+        constexpr uint32_t kilogram{3};
+        constexpr uint32_t ampere{3};
+        constexpr uint32_t candela{2};
+        constexpr uint32_t kelvin{3};
+        constexpr uint32_t mole{2};
+        constexpr uint32_t radian{3};
+        constexpr uint32_t currency{2};
+        constexpr uint32_t count{2};
 
     }  // namespace bitwidth
     /** Class representing base unit data
@@ -37,7 +43,7 @@ namespace detail {
     */
     class unit_data {
       public:
-        /** Number of bits used for encoding base unit exponents */
+        /** Ordinal enumeration of the data fields in the unit_data object */
         enum base {
             Meter = 0,
             Second = 1,
@@ -55,7 +61,7 @@ namespace detail {
             Equation = 13
         };
         // Cannot use std::array since no constexpr support in macOS clang
-        static constexpr int32_t bits[14] =  // NOLINT
+        static constexpr uint32_t bits[14] =  // NOLINT
             {bitwidth::meter,
              bitwidth::second,
              bitwidth::kilogram,
@@ -96,8 +102,14 @@ namespace detail {
         }
         /** Construct with the error flag triggered*/
         explicit constexpr unit_data(std::nullptr_t) :
-            meter_(-8), second_(-8), kilogram_(-4), ampere_(-4), candela_(-2),
-            kelvin_(-4), mole_(-2), radians_(-4), currency_(-2), count_(-2),
+            meter_(maxNeg(bitwidth::meter)), second_(maxNeg(bitwidth::second)),
+            kilogram_(maxNeg(bitwidth::kilogram)),
+            ampere_(maxNeg(bitwidth::ampere)),
+            candela_(maxNeg(bitwidth::candela)),
+            kelvin_(maxNeg(bitwidth::kelvin)), mole_(maxNeg(bitwidth::mole)),
+            radians_(maxNeg(bitwidth::radian)),
+            currency_(maxNeg(bitwidth::currency)),
+            count_(maxNeg(bitwidth::count)),
             per_unit_(1), i_flag_(1), e_flag_(1), equation_(1)
         {
         }
