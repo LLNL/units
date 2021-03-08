@@ -8,6 +8,8 @@ set(units_source_files units.cpp x12_conv.cpp r20_conv.cpp commodities.cpp)
 
 set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp units_util.hpp)
 
+include(GenerateExportHeader)
+
 if(UNITS_HEADER_ONLY)
     add_library(units-header-only INTERFACE)
     target_include_directories(
@@ -29,6 +31,7 @@ else(UNITS_HEADER_ONLY)
         add_library(units-static STATIC ${units_source_files} ${units_header_files})
         target_include_directories(
             units-static PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                                $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
                                 $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-static PRIVATE compile_flags_target)
@@ -61,8 +64,11 @@ else(UNITS_HEADER_ONLY)
 
     if(UNITS_BUILD_SHARED_LIBRARY)
         add_library(units-shared SHARED ${units_source_files} ${units_header_files})
+        generate_export_header(units-shared BASE_NAME units)
+        target_compile_definitions(units-shared PUBLIC UNITS_EXPORT_HEADER)
         target_include_directories(
             units-shared PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                                $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
                                 $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-shared PRIVATE compile_flags_target)
