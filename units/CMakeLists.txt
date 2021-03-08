@@ -29,8 +29,6 @@ if(UNITS_HEADER_ONLY)
 else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
         add_library(units-static STATIC ${units_source_files} ${units_header_files})
-        generate_export_header(units-static BASE_NAME units)
-        target_compile_definitions(units-static PUBLIC UNITS_EXPORT_HEADER)
         target_include_directories(
             units-static PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
                                 $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
