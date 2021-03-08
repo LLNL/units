@@ -14,8 +14,11 @@ SPDX-License-Identifier: BSD-3-Clause
 
 using namespace units;
 
+// these tests only make sense if the base type size is 4 bytes(which is the default)
 TEST(randomRoundTrip, basic)
 {
+    if (sizeof(UNITS_BASE_TYPE)==4) {
+
     std::default_random_engine engine(
         std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<unsigned int> distribution(
@@ -30,6 +33,7 @@ TEST(randomRoundTrip, basic)
         auto resunit = unit_cast(unit_from_string(str));
         EXPECT_EQ(startunit, resunit) << "round trip failed " << start;
     }
+    }
 }
 
 struct rtrip : public ::testing::TestWithParam<unsigned int> {
@@ -37,13 +41,15 @@ struct rtrip : public ::testing::TestWithParam<unsigned int> {
 
 TEST_P(rtrip, testConversions)
 {
-    unsigned int start = GetParam();
-    detail::unit_data unitdata(nullptr);
-    memcpy(static_cast<void*>(&unitdata), &start, 4);
-    auto startunit = unit(unitdata);
-    auto str = to_string(startunit);
-    auto resunit = unit_cast(unit_from_string(str));
-    EXPECT_EQ(startunit, resunit) << "round trip failed " << start;
+    if (sizeof(UNITS_BASE_TYPE)==4) {
+        unsigned int start = GetParam();
+        detail::unit_data unitdata(nullptr);
+        memcpy(static_cast<void*>(&unitdata), &start, 4);
+        auto startunit = unit(unitdata);
+        auto str = to_string(startunit);
+        auto resunit = unit_cast(unit_from_string(str));
+        EXPECT_EQ(startunit, resunit) << "round trip failed " << start;
+    }
 }
 
 const std::vector<unsigned int> customList{0, 545404204, 484372462, 1504872254};
