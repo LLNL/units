@@ -389,8 +389,8 @@ namespace detail {
 namespace std {
 /// Hash function for unit_data
 template<>
-struct hash<units::detail::unit_data> {
-    size_t operator()(const units::detail::unit_data& x) const noexcept
+struct hash<UNITS_NAMESPACE::detail::unit_data> {
+    size_t operator()(const UNITS_NAMESPACE::detail::unit_data& x) const noexcept
     {
         unsigned int val;
         std::memcpy(&val, &x, sizeof(val));
@@ -1030,19 +1030,19 @@ static_assert(
 /// in unordered_map
 namespace std {
 template<>
-struct hash<units::unit> {
-    size_t operator()(const units::unit& x) const
+struct hash<UNITS_NAMESPACE::unit> {
+    size_t operator()(const UNITS_NAMESPACE::unit& x) const
     {
-        return hash<units::detail::unit_data>()(x.base_units()) ^
+        return hash<UNITS_NAMESPACE::detail::unit_data>()(x.base_units()) ^
             hash<float>()(x.cround());
     }
 };
 
 template<>
-struct hash<units::precise_unit> {
-    size_t operator()(const units::precise_unit& x) const
+struct hash<UNITS_NAMESPACE::precise_unit> {
+    size_t operator()(const UNITS_NAMESPACE::precise_unit& x) const
     {
-        return hash<units::detail::unit_data>()(x.base_units()) ^
+        return hash<UNITS_NAMESPACE::detail::unit_data>()(x.base_units()) ^
             hash<double>()(x.cround());
     }
 };
