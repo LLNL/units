@@ -37,7 +37,7 @@ else(UNITS_HEADER_ONLY)
         target_include_directories(
             units-static
             PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+                   $<BUILD_INTERFACE:${UNITS_BINARY_DIR}>
                    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-static PRIVATE compile_flags_target)
@@ -80,7 +80,7 @@ else(UNITS_HEADER_ONLY)
         target_include_directories(
             units-shared
             PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+                   $<BUILD_INTERFACE:${UNITS_BINARY_DIR}>
                    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-shared PRIVATE compile_flags_target)
