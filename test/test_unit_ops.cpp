@@ -1029,7 +1029,7 @@ TEST(UnitUtilTest, times_overflows)
     EXPECT_FALSE(times_overflows(im8, m1));
     EXPECT_FALSE(times_overflows(m1, im8));
     // change by 1 *towards* from bound => overflow or underflow
-    if (units::detail::bitwidth::base_size==4) {
+    if (units::detail::bitwidth::base_size == 4) {
         EXPECT_TRUE(times_overflows(m7, m1));
         EXPECT_TRUE(times_overflows(m1, m7));
         EXPECT_TRUE(times_overflows(im8, im1));
@@ -1040,12 +1040,11 @@ TEST(UnitUtilTest, times_overflows)
         EXPECT_FALSE(times_overflows(im8, im1));
         EXPECT_FALSE(times_overflows(im1, im8));
     }
-    
 
     // Start far from bounds:
     EXPECT_FALSE(times_overflows(m3, m4));
     EXPECT_FALSE(times_overflows(m4, m3));
-    
+
     EXPECT_FALSE(times_overflows(im4, im4));
     if (units::detail::bitwidth::base_size == 4) {
         EXPECT_TRUE(times_overflows(m4, m4));  // overflow
@@ -1058,8 +1057,6 @@ TEST(UnitUtilTest, times_overflows)
         EXPECT_FALSE(times_overflows(im5, im4));  // no underflow
         EXPECT_FALSE(times_overflows(count, count));
     }
-
-    
 }
 
 TEST(UnitUtilTest, divides_overflows)

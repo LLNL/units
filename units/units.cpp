@@ -597,17 +597,14 @@ static void addUnitPower(std::string& str, const char* unit, int power)
 {
     bool div{false};
     if (power != 0) {
-        if (!str.empty())
-        {
-            if (str.back() != '/')
-            {
+        if (!str.empty()) {
+            if (str.back() != '/') {
                 str.push_back('*');
-            }
-            else {
+            } else {
                 div = true;
             }
         }
-        
+
         str.append(unit);
         if (power != 1) {
             str.push_back('^');

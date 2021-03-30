@@ -23,8 +23,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #ifndef UNITS_BASE_TYPE
 #define UNITS_BASE_TYPE uint32_t
-#endif 
-
+#endif
 
 namespace UNITS_NAMESPACE {
 namespace detail {
@@ -35,8 +34,9 @@ namespace detail {
     }
     /** Number of bits used for encoding base unit exponents */
     namespace bitwidth {
-        //this allows 4 or 8 bytes in the type, all sizes other than 8 default to 4 bytes
-        constexpr uint32_t base_size = sizeof(UNITS_BASE_TYPE)==8?8:4;
+        // this allows 4 or 8 bytes in the type, all sizes other than 8 default
+        // to 4 bytes
+        constexpr uint32_t base_size = sizeof(UNITS_BASE_TYPE) == 8 ? 8 : 4;
         constexpr uint32_t meter{(base_size == 8) ? 8 : 4};
         constexpr uint32_t second{(base_size == 8) ? 8 : 4};
         constexpr uint32_t kilogram{(base_size == 8) ? 6 : 3};
@@ -52,8 +52,7 @@ namespace detail {
         4 bits for the flags*/
         static_assert(
             (meter + second + kilogram + ampere + candela + kelvin + mole +
-                    radian + currency + count) ==
-                8*base_size-4,
+             radian + currency + count) == 8 * base_size - 4,
             "unit type counts do not match base type size");
     }  // namespace bitwidth
     /** Class representing base unit data
@@ -404,7 +403,8 @@ namespace std {
 /// Hash function for unit_data
 template<>
 struct hash<UNITS_NAMESPACE::detail::unit_data> {
-    size_t operator()(const UNITS_NAMESPACE::detail::unit_data& x) const noexcept
+    size_t operator()(const UNITS_NAMESPACE::detail::unit_data& x) const
+        noexcept
     {
         unsigned int val;
         std::memcpy(&val, &x, sizeof(val));
@@ -1033,9 +1033,11 @@ inline precise_unit sqrt(const precise_unit& u)
 #endif
 
 // Verify that the units are the expected sizes
-static_assert(sizeof(unit) <= detail::bitwidth::base_size*2, "Unit type is too large");
 static_assert(
-    sizeof(precise_unit) <= detail::bitwidth::base_size*2+ sizeof(double),
+    sizeof(unit) <= detail::bitwidth::base_size * 2,
+    "Unit type is too large");
+static_assert(
+    sizeof(precise_unit) <= detail::bitwidth::base_size * 2 + sizeof(double),
     "precise unit type is too large");
 
 }  // namespace UNITS_NAMESPACE

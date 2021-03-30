@@ -862,10 +862,13 @@ namespace precise {
                     7 * bShift(customX, 9U),
                     // -3 or -4  this is probably the most important for
                     // identifying custom units
-                    detail::maxNeg(detail::bitwidth::ampere)+1 - bShift(customX, 6U),
+                    detail::maxNeg(detail::bitwidth::ampere) + 1 -
+                        bShift(customX, 6U),
                     3 * bShift(customX, 4U),  // 3 or 0
-                    detail::maxNeg(detail::bitwidth::mole),  // this also is set so that 1/-2 = -2 for a 2 bit
-                         // signed number
+                    detail::maxNeg(
+                        detail::bitwidth::mole),  // this also is set so that
+                                                  // 1/-2 = -2 for a 2 bit
+                                                  // signed number
                     -2 + 2 * bShift(customX, 5U),
                     -2 * bShift(customX, 3U),
                     0,
