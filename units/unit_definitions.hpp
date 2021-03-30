@@ -862,9 +862,9 @@ namespace precise {
                     7 * bShift(customX, 9U),
                     // -3 or -4  this is probably the most important for
                     // identifying custom units
-                    -3 - bShift(customX, 6U),
+                    detail::maxNeg(detail::bitwidth::ampere)+1 - bShift(customX, 6U),
                     3 * bShift(customX, 4U),  // 3 or 0
-                    -2,  // this also is set so that 1/-2 = -2 for a 2 bit
+                    detail::maxNeg(detail::bitwidth::mole),  // this also is set so that 1/-2 = -2 for a 2 bit
                          // signed number
                     -2 + 2 * bShift(customX, 5U),
                     -2 * bShift(customX, 3U),
@@ -878,7 +878,7 @@ namespace precise {
         /// Check if the unit is a custom unit or inverse custom unit
         inline bool is_custom_unit(const detail::unit_data& UT)
         {
-            if (UT.mole() != -2) {
+            if (UT.mole() != detail::maxNeg(detail::bitwidth::mole)) {
                 // mole is always -2 regardless of inversion
                 return false;
             }
@@ -898,7 +898,9 @@ namespace precise {
             num += (std::labs(UT.second()) >= 6) ? 512 : 0;
             num += (std::labs(UT.kg()) <= 1) ? 128 : 0;
             num += (std::labs(UT.kelvin()) == 3) ? 16 : 0;
-            num += (UT.ampere() == -4) ? 64 : 0;
+            num += (UT.ampere() == detail::maxNeg(detail::bitwidth::ampere)) ?
+                64 :
+                0;
             num += (std::labs(UT.candela()) >= 2) ? 0 : 32;
             num += (std::labs(UT.currency()) >= 2) ? 8 : 0;
             return num;
@@ -968,10 +970,10 @@ namespace precise {
         inline bool is_custom_count_unit(const detail::unit_data& UT)
         {
             if ((UT.kelvin() == -3) && (UT.ampere() == 3)) {
-                return (UT.mole() != -2);
+                return (UT.mole() != detail::maxNeg(detail::bitwidth::mole));
             }
             if ((UT.kelvin() == 3) && (UT.ampere() == -3)) {
-                return (UT.mole() != -2);
+                return (UT.mole() != detail::maxNeg(detail::bitwidth::mole));
             }
             return false;
         }

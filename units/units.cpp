@@ -595,18 +595,42 @@ static std::string generateUnitSequence(double mux, std::string seq)
 // Add a unit power to a string
 static void addUnitPower(std::string& str, const char* unit, int power)
 {
+    bool div{false};
     if (power != 0) {
-        if (!str.empty() && str.back() != '/') {
-            str.push_back('*');
+        if (!str.empty())
+        {
+            if (str.back() != '/')
+            {
+                str.push_back('*');
+            }
+            else {
+                div = true;
+            }
         }
+        
         str.append(unit);
         if (power != 1) {
             str.push_back('^');
-            if (power < 0) {
-                str.push_back('-');
-                str.push_back('0' - power);
+            if (std::labs(power) < 10) {
+                if (power < 0) {
+                    str.push_back('-');
+                    str.push_back('0' - power);
+                } else {
+                    str.push_back('0' + power);
+                }
             } else {
-                str.push_back('0' + power);
+                if (power < 0) {
+                    str.push_back('-');
+                    str.push_back('9');
+                    power += 9;
+                } else {
+                    str.push_back('9');
+                    power -= 9;
+                }
+                if (div) {
+                    str.push_back('/');
+                }
+                addUnitPower(str, unit, power);
             }
         }
     }

@@ -21,6 +21,11 @@ SPDX-License-Identifier: BSD-3-Clause
 #define UNITS_NAMESPACE units
 #endif
 
+#ifndef UNITS_BASE_TYPE
+#define UNITS_BASE_TYPE uint32_t
+#endif 
+
+
 namespace UNITS_NAMESPACE {
 namespace detail {
 
@@ -30,17 +35,26 @@ namespace detail {
     }
     /** Number of bits used for encoding base unit exponents */
     namespace bitwidth {
-        constexpr uint32_t meter{4};
-        constexpr uint32_t second{4};
-        constexpr uint32_t kilogram{3};
-        constexpr uint32_t ampere{3};
-        constexpr uint32_t candela{2};
-        constexpr uint32_t kelvin{3};
-        constexpr uint32_t mole{2};
-        constexpr uint32_t radian{3};
-        constexpr uint32_t currency{2};
-        constexpr uint32_t count{2};
+        //this allows 4 or 8 bytes in the type, all sizes other than 8 default to 4 bytes
+        constexpr uint32_t base_size = sizeof(UNITS_BASE_TYPE)==8?8:4;
+        constexpr uint32_t meter{(base_size == 8) ? 8 : 4};
+        constexpr uint32_t second{(base_size == 8) ? 8 : 4};
+        constexpr uint32_t kilogram{(base_size == 8) ? 6 : 3};
+        constexpr uint32_t ampere{(base_size == 8) ? 6 : 3};
+        constexpr uint32_t candela{(base_size == 8) ? 4 : 2};
+        constexpr uint32_t kelvin{(base_size == 8) ? 6 : 3};
+        constexpr uint32_t mole{(base_size == 8) ? 4 : 2};
+        constexpr uint32_t radian{(base_size == 8) ? 6 : 3};
+        constexpr uint32_t currency{(base_size == 8) ? 6 : 2};
+        constexpr uint32_t count{(base_size == 8) ? 6 : 2};
 
+        /** verify that the actual sum of bitwidths is the appropriate size
+        4 bits for the flags*/
+        static_assert(
+            (meter + second + kilogram + ampere + candela + kelvin + mole +
+                    radian + currency + count) ==
+                8*base_size-4,
+            "unit type counts do not match base type size");
     }  // namespace bitwidth
     /** Class representing base unit data
     @details the seven SI base units
@@ -362,7 +376,7 @@ namespace detail {
                 (power / 2) * ((second_ < 0) || (power < 0) ? 9 : -9);
         }
 
-        // needs to be defined for the full 32 bits
+        // needs to be defined for the full 32 bits(or 64 bits)
         signed int meter_ : bitwidth::meter;
         signed int second_ : bitwidth::second;  // 8
         signed int kilogram_ : bitwidth::kilogram;
@@ -378,9 +392,9 @@ namespace detail {
         unsigned int e_flag_ : 1;
         unsigned int equation_ : 1;  // 32
     };
-    // We want this to be exactly 4 bytes by design
+    // We want this to be exactly 4 (or 8) bytes by design
     static_assert(
-        sizeof(unit_data) == sizeof(std::uint32_t),
+        sizeof(unit_data) == bitwidth::base_size,
         "Unit data is too large");
 
 }  // namespace detail
@@ -1019,9 +1033,9 @@ inline precise_unit sqrt(const precise_unit& u)
 #endif
 
 // Verify that the units are the expected sizes
-static_assert(sizeof(unit) <= sizeof(double), "Unit type is too large");
+static_assert(sizeof(unit) <= detail::bitwidth::base_size*2, "Unit type is too large");
 static_assert(
-    sizeof(precise_unit) <= 2 * sizeof(double),
+    sizeof(precise_unit) <= detail::bitwidth::base_size*2+ sizeof(double),
     "precise unit type is too large");
 
 }  // namespace UNITS_NAMESPACE
