@@ -413,7 +413,7 @@ class measurement {
 
 /// The design requirement is for this to fit in the space of 2 doubles
 static_assert(
-    sizeof(measurement) <= 2 * detail::bitwidth::base_size+sizeof(double),
+    sizeof(measurement) <= 2 * detail::bitwidth::base_size + sizeof(double),
     "Measurement class is too large");
 
 constexpr inline measurement operator*(double val, const unit& unit_base)
@@ -702,9 +702,11 @@ class fixed_measurement {
     const unit units_;  //!< a fixed unit of measurement
 };
 
-/// Design requirement this must fit in space of 2 doubles for a 4 byte base size
+/// Design requirement this must fit in space of 2 doubles for a 4 byte base
+/// size
 static_assert(
-    sizeof(fixed_measurement) <= sizeof(double)+2*detail::bitwidth::base_size,
+    sizeof(fixed_measurement) <=
+        sizeof(double) + 2 * detail::bitwidth::base_size,
     "fixed measurement is too large");
 
 /** Class defining a measurement with tolerance (value+tolerance+unit) with a
@@ -1175,7 +1177,8 @@ class uncertain_measurement {
     unit units_;  //!< a fixed unit of measurement
 };
 
-/// Design requirement this must fit in space of 2 doubles for standard 4 byte base type
+/// Design requirement this must fit in space of 2 doubles for standard 4 byte
+/// base type
 static_assert(
     sizeof(uncertain_measurement) <=
         sizeof(double) + 2 * detail::bitwidth::base_size,
@@ -1351,7 +1354,7 @@ constexpr inline precise_measurement
 /// Design requirement this must fit in space of 3 doubles
 static_assert(
     sizeof(precise_measurement) <=
-        2*sizeof(double) + 2 * detail::bitwidth::base_size,
+        2 * sizeof(double) + 2 * detail::bitwidth::base_size,
     "precise measurement is too large");
 
 /// Class using precise units and double precision

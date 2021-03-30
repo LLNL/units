@@ -26,18 +26,19 @@ if(UNITS_HEADER_ONLY)
         )
     endif()
     if(UNITS_BASE_TYPE)
-            target_compile_definitions(
-                units-header-only PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
-            )
-        endif()
+        target_compile_definitions(
+            units-header-only PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
+        )
+    endif()
     add_library(units::units-header-only ALIAS units-header-only)
 else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
         add_library(units-static STATIC ${units_source_files} ${units_header_files})
         target_include_directories(
-            units-static PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                                $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+            units-static
+            PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+                   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-static PRIVATE compile_flags_target)
 
@@ -77,9 +78,10 @@ else(UNITS_HEADER_ONLY)
         generate_export_header(units-shared BASE_NAME units)
         target_compile_definitions(units-shared PUBLIC UNITS_EXPORT_HEADER)
         target_include_directories(
-            units-shared PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                                $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+            units-shared
+            PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+                   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-shared PRIVATE compile_flags_target)
         if(NOT UNITS_BUILD_STATIC_LIBRARY)
@@ -91,7 +93,7 @@ else(UNITS_HEADER_ONLY)
                 units-shared PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
             )
         endif()
-         if(UNITS_BASE_TYPE)
+        if(UNITS_BASE_TYPE)
             target_compile_definitions(
                 units-shared PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
             )
@@ -119,13 +121,12 @@ else(UNITS_HEADER_ONLY)
                 units-object PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
             )
 
-         if(UNITS_BASE_TYPE)
-            target_compile_definitions(
-                units-object PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
-            )
+            if(UNITS_BASE_TYPE)
+                target_compile_definitions(
+                    units-object PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
+                )
+            endif()
         endif()
-        endif()
-
 
     endif(UNITS_BUILD_OBJECT_LIBRARY)
 
