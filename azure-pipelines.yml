@@ -93,6 +93,7 @@ jobs:
         clang8:
           containerImage: helics/buildenv:clang8-builder
           units.std: 14
+          units.options: -DUNITS_BASE_TYPE=uint64_t
         clang10_20:
           containerImage: helics/buildenv:clang10-builder
           units.std: 20
