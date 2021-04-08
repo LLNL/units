@@ -35,7 +35,7 @@ if(UNITS_HEADER_ONLY)
         target_link_libraries(${T} units::units-header-only compile_flags_target)
     endforeach()
 
-    if (MSVC)
+    if(MSVC)
         target_compile_options(test_unit_ops PRIVATE /wd4127)
     endif()
 else()
