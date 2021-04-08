@@ -218,10 +218,10 @@ namespace detail {
                                                second_ / power,
                                                ampere_ / power,
                                                kelvin_ / power,
-                                               mole_/power,
-                                               candela_/power,
-                                               currency_/power,
-                                               count_/power,
+                                               mole_ / power,
+                                               candela_ / power,
+                                               currency_ / power,
+                                               count_ / power,
                                                radians_ / power,
                                                per_unit_,
                                                (power % 2 == 0) ? 0U : i_flag_,
@@ -363,8 +363,9 @@ namespace detail {
         {
             return meter_ % power == 0 && second_ % power == 0 &&
                 kilogram_ % power == 0 && ampere_ % power == 0 &&
-                candela_ % power == 0 && kelvin_ % power == 0 && mole_% power == 0 &&
-                radians_ % power == 0 && currency_ % power == 0 && count_ % power == 0 &&
+                candela_ % power == 0 && kelvin_ % power == 0 &&
+                mole_ % power == 0 && radians_ % power == 0 &&
+                currency_ % power == 0 && count_ % power == 0 &&
                 equation_ == 0U && e_flag_ == 0U;
         }
         constexpr int rootHertzModifier(int power) const
