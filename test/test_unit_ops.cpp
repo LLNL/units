@@ -112,6 +112,27 @@ TEST(unitOps, root)
 
     EXPECT_EQ(root(unit(-4.5, m), 2), error);
 }
+
+TEST(unitOps, root_pow1) {
+    EXPECT_EQ(root(count, 1), count);
+    EXPECT_EQ(root(cd, 1), cd);
+    EXPECT_EQ(root(mol, 1), mol);
+    EXPECT_EQ(root(currency, 1), currency);
+
+    EXPECT_EQ(root(count, -1), count.inv());
+    EXPECT_EQ(root(cd, -1), cd.inv());
+    EXPECT_EQ(root(mol, -1), mol.inv());
+    EXPECT_EQ(root(currency, -1), currency.inv());
+}
+
+TEST(unitOps, wide_roots)
+{
+    if (units::detail::bitwidth::base_size >4) {
+        EXPECT_EQ(sqrt(mol * mol), mol);
+        EXPECT_EQ(sqrt(count * count), count);
+    }
+}
+
 #endif
 
 TEST(unitOps, nan)
