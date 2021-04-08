@@ -25,14 +25,20 @@ if(UNITS_HEADER_ONLY)
             units-header-only INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
         )
     endif()
+    if(UNITS_BASE_TYPE)
+        target_compile_definitions(
+            units-header-only PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
+        )
+    endif()
     add_library(units::units-header-only ALIAS units-header-only)
 else(UNITS_HEADER_ONLY)
     if(UNITS_BUILD_STATIC_LIBRARY)
         add_library(units-static STATIC ${units_source_files} ${units_header_files})
         target_include_directories(
-            units-static PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                                $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+            units-static
+            PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                   $<BUILD_INTERFACE:${UNITS_BINARY_DIR}>
+                   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-static PRIVATE compile_flags_target)
 
@@ -44,6 +50,11 @@ else(UNITS_HEADER_ONLY)
         if(UNITS_NAMESPACE)
             target_compile_definitions(
                 units-static PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            )
+        endif()
+        if(UNITS_BASE_TYPE)
+            target_compile_definitions(
+                units-static PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
             )
         endif()
         add_library(units::units ALIAS units-static)
@@ -67,9 +78,10 @@ else(UNITS_HEADER_ONLY)
         generate_export_header(units-shared BASE_NAME units)
         target_compile_definitions(units-shared PUBLIC UNITS_EXPORT_HEADER)
         target_include_directories(
-            units-shared PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                                $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+            units-shared
+            PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+                   $<BUILD_INTERFACE:${UNITS_BINARY_DIR}>
+                   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units-shared PRIVATE compile_flags_target)
         if(NOT UNITS_BUILD_STATIC_LIBRARY)
@@ -79,6 +91,11 @@ else(UNITS_HEADER_ONLY)
         if(UNITS_NAMESPACE)
             target_compile_definitions(
                 units-shared PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            )
+        endif()
+        if(UNITS_BASE_TYPE)
+            target_compile_definitions(
+                units-shared PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
             )
         endif()
         if(UNITS_INSTALL)
@@ -103,7 +120,14 @@ else(UNITS_HEADER_ONLY)
             target_compile_definitions(
                 units-object PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
             )
+
+            if(UNITS_BASE_TYPE)
+                target_compile_definitions(
+                    units-object PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
+                )
+            endif()
         endif()
+
     endif(UNITS_BUILD_OBJECT_LIBRARY)
 
 endif(UNITS_HEADER_ONLY)
