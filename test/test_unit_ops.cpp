@@ -112,6 +112,27 @@ TEST(unitOps, root)
 
     EXPECT_EQ(root(unit(-4.5, m), 2), error);
 }
+
+TEST(unitOps, root_pow1) {
+    EXPECT_EQ(root(count, 1), count);
+    EXPECT_EQ(root(cd, 1), cd);
+    EXPECT_EQ(root(mol, 1), mol);
+    EXPECT_EQ(root(currency, 1), currency);
+
+    EXPECT_EQ(root(count, -1), count.inv());
+    EXPECT_EQ(root(cd, -1), cd.inv());
+    EXPECT_EQ(root(mol, -1), mol.inv());
+    EXPECT_EQ(root(currency, -1), currency.inv());
+}
+
+TEST(unitOps, wide_roots)
+{
+    if (units::detail::bitwidth::base_size >4) {
+        EXPECT_EQ(sqrt(mol * mol), mol);
+        EXPECT_EQ(sqrt(count * count), count);
+    }
+}
+
 #endif
 
 TEST(unitOps, nan)
@@ -1029,20 +1050,34 @@ TEST(UnitUtilTest, times_overflows)
     EXPECT_FALSE(times_overflows(im8, m1));
     EXPECT_FALSE(times_overflows(m1, im8));
     // change by 1 *towards* from bound => overflow or underflow
-    EXPECT_TRUE(times_overflows(m7, m1));
-    EXPECT_TRUE(times_overflows(m1, m7));
-    EXPECT_TRUE(times_overflows(im8, im1));
-    EXPECT_TRUE(times_overflows(im1, im8));
+    if (units::detail::bitwidth::base_size == 4) {
+        EXPECT_TRUE(times_overflows(m7, m1));
+        EXPECT_TRUE(times_overflows(m1, m7));
+        EXPECT_TRUE(times_overflows(im8, im1));
+        EXPECT_TRUE(times_overflows(im1, im8));
+    } else {
+        EXPECT_FALSE(times_overflows(m7, m1));
+        EXPECT_FALSE(times_overflows(m1, m7));
+        EXPECT_FALSE(times_overflows(im8, im1));
+        EXPECT_FALSE(times_overflows(im1, im8));
+    }
 
     // Start far from bounds:
     EXPECT_FALSE(times_overflows(m3, m4));
     EXPECT_FALSE(times_overflows(m4, m3));
-    EXPECT_TRUE(times_overflows(m4, m4));  // overflow
-    EXPECT_FALSE(times_overflows(im4, im4));
-    EXPECT_TRUE(times_overflows(im4, im5));  // underflow
-    EXPECT_TRUE(times_overflows(im5, im4));  // underflow
 
-    EXPECT_TRUE(times_overflows(count, count));
+    EXPECT_FALSE(times_overflows(im4, im4));
+    if (units::detail::bitwidth::base_size == 4) {
+        EXPECT_TRUE(times_overflows(m4, m4));  // overflow
+        EXPECT_TRUE(times_overflows(im4, im5));  // underflow
+        EXPECT_TRUE(times_overflows(im5, im4));  // underflow
+        EXPECT_TRUE(times_overflows(count, count));
+    } else {
+        EXPECT_FALSE(times_overflows(m4, m4));  // no overflow
+        EXPECT_FALSE(times_overflows(im4, im5));  // no underflow
+        EXPECT_FALSE(times_overflows(im5, im4));  // no underflow
+        EXPECT_FALSE(times_overflows(count, count));
+    }
 }
 
 TEST(UnitUtilTest, divides_overflows)
@@ -1064,25 +1099,33 @@ TEST(UnitUtilTest, divides_overflows)
     EXPECT_FALSE(divides_overflows(m7, m1));
     EXPECT_FALSE(divides_overflows(im8, im1));
     // change by 1 *towards* from bound => overflow or underflow
-    EXPECT_TRUE(divides_overflows(m7, im1));
-    EXPECT_TRUE(divides_overflows(m1, im7));
-    EXPECT_TRUE(divides_overflows(im8, m1));
-    EXPECT_TRUE(divides_overflows(m1, im8));
+    if (units::detail::bitwidth::base_size == 4) {
+        EXPECT_TRUE(divides_overflows(m7, im1));
+        EXPECT_TRUE(divides_overflows(m1, im7));
+        EXPECT_TRUE(divides_overflows(im8, m1));
+        EXPECT_TRUE(divides_overflows(m1, im8));
+    }
 
     // Start far from bounds:
     EXPECT_FALSE(divides_overflows(m3, im4));
     EXPECT_FALSE(divides_overflows(im4, m3));
-    EXPECT_TRUE(divides_overflows(m4, im4));  // overflow
-    EXPECT_FALSE(divides_overflows(im4, m4));
-    EXPECT_TRUE(divides_overflows(im4, m5));  // underflow
-    EXPECT_TRUE(divides_overflows(m5, im4));  // underflow
+    if (units::detail::bitwidth::base_size == 4) {
+        EXPECT_TRUE(divides_overflows(m4, im4));  // overflow
+        EXPECT_FALSE(divides_overflows(im4, m4));
+        EXPECT_TRUE(divides_overflows(im4, m5));  // underflow
+        EXPECT_TRUE(divides_overflows(m5, im4));  // underflow
+    }
 }
 
 TEST(UnitUtilTest, inv_overflows)
 {
     EXPECT_FALSE(inv_overflows(m));
     const auto inv_mol = one / mol;
-    EXPECT_TRUE(inv_overflows(inv_mol * inv_mol));
+    if (units::detail::bitwidth::base_size == 4) {
+        EXPECT_TRUE(inv_overflows(inv_mol * inv_mol));
+    } else {
+        EXPECT_FALSE(inv_overflows(inv_mol * inv_mol));
+    }
 }
 
 TEST(UnitUtilTest, pow_overflows)
@@ -1093,6 +1136,11 @@ TEST(UnitUtilTest, pow_overflows)
     EXPECT_FALSE(pow_overflows(m, 2));
     EXPECT_FALSE(pow_overflows(m, 4));
     EXPECT_FALSE(pow_overflows(m, 7));
-    EXPECT_TRUE(pow_overflows(m, 8));
-    EXPECT_TRUE(pow_overflows(m * m * m * m, 2));
+    if (units::detail::bitwidth::base_size == 4) {
+        EXPECT_TRUE(pow_overflows(m, 8));
+        EXPECT_TRUE(pow_overflows(m * m * m * m, 2));
+    } else {
+        EXPECT_FALSE(pow_overflows(m, 8));
+        EXPECT_FALSE(pow_overflows(m * m * m * m, 2));
+    }
 }
