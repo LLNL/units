@@ -266,8 +266,11 @@ TEST(unitStrings, customUnits)
 
 TEST(unitStrings, eV)
 {
-    EXPECT_EQ(to_string(precise::energy::eV/constants::c.as_unit()), "eV/[c]");
-    EXPECT_EQ(to_string(precise::energy::eV / (constants::c.as_unit().pow(2))), "eV*[c]^-2");
+    EXPECT_EQ(
+        to_string(precise::energy::eV / constants::c.as_unit()), "eV/[c]");
+    EXPECT_EQ(
+        to_string(precise::energy::eV / (constants::c.as_unit().pow(2))),
+        "eV*[c]^-2");
 }
 
 TEST(stringToUnits, Simple)
