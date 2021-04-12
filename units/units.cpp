@@ -310,13 +310,14 @@ static const umap base_unit_names{
     {unit_cast(precise::us::tsp), "tsp"},
     {unit_cast(precise::us::tbsp), "tbsp"},
     {unit_cast(precise::us::quart), "qt"},
+    {unit_cast(precise::energy::eV/(constants::c.as_unit().pow(2))), "eV*[c]^-2"},
     {unit_cast(precise::data::GiB), "GiB"},
     {unit_cast(precise::other::ppm), "ppm"},
     {unit_cast(precise::other::ppb), "ppb"}};
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
-static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 22> testUnits{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 25> testUnits{
     {ustr{precise::m, "m"},
      ustr{precise::s, "s"},
      ustr{precise::ms, "ms"},
@@ -328,6 +329,8 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 22> testUnits{
      ustr{precise::ft.pow(2), "ft^2"},
      ustr{precise::ft.pow(3), "ft^3"},
      ustr{precise::m.pow(2), "m^2"},
+     ustr{constants::c.as_unit(), "[c]"},
+     ustr{constants::h.as_unit(), "[h]"},
      ustr{precise::L, "L"},
      ustr{precise::kg, "kg"},
      ustr{precise::km, "km"},
@@ -338,6 +341,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 22> testUnits{
      ustr{precise::electrical::mW, "mW"},
      ustr{precise::MW, "MW"},
      ustr{precise::s.pow(2), "s^2"},
+     ustr{precise::energy::eV, "eV"},
      ustr{precise::count, "item"}}};
 
 // units to divide into tests to explore common multiplier units
