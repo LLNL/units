@@ -6268,15 +6268,19 @@ precise_unit
 
 // Step 1.  Check if the string matches something in the map
 // Step 2.  clean the string, remove spaces, '_' and detect dot notation, check
-// for some unicode stuff, check again Step 3. Find multiplication of division
-// operators and split the string into two starting from the last operator
+// for some unicode stuff, check again
+// Step 3.  Find multiplication or division operators and split the string into
+// two starting from the last operator
 // Step 4.  If found Goto step 1 for each of the two parts, then operate on the
-// results Step 5.  Check for ^ and if found goto to step 1 for interior portion
-// then do a power Step 6.  Remove parenthesis and if found goto step 1 Step 7.
-// Check for a SI prefix on the unit Step 8.  Check if the first character is
-// upper case and if so and the string is long make it lower case Step 9.  Check
-// to see if it is a number of some kind and make numerical unit Step 10.
-// Return an error unit
+// results
+// Step 5.  Check for ^ and if found goto to step 1 for interior portion
+// then do a power
+// Step 6.  Remove parenthesis and if found goto step 1.
+// Step 7.  Check for a SI prefix on the unit.
+// Step 8.  Check if the first character is upper case and if so and the string
+// is long make it lower case.
+// Step 9.  Check to see if it is a number of some kind and make numerical unit.
+// Step 10. Return an error unit.
 static precise_unit unit_from_string_internal(
     std::string unit_string,
     std::uint32_t match_flags)
@@ -6447,22 +6451,22 @@ static precise_unit unit_from_string_internal(
                 // this should have been caught as an invalid sequence earlier
                 return precise::invalid;  // LCOV_EXCL_LINE
             }
-            if (isDigitCharacter(
-                    unit_string[sep + 1])) {  // the - ',' is a +/- sign
-                power = -(c1 - ',') * (unit_string[sep + 1] - '0');
-            } else {
-                // the check function should catch this but it would be
-                // problematic if not caught
-                return precise::invalid;  // LCOV_EXCL_LINE
-            }
+            // the - ',' is a +/- sign
+            power = -(c1 - ',');
         } else {
-            if (isDigitCharacter(c1)) {
-                power = (c1 - '0');
-            } else {
-                // the check functions should catch this but it would be
-                // problematic if not caught
-                return precise::invalid;  // LCOV_EXCL_LINE
+            power = +1;
+        }
+        if (isDigitCharacter(unit_string[sep + 1])) {
+            size_t end = sep + 2;
+            for (;
+                 end < unit_string.size() && isDigitCharacter(unit_string[end]);
+                 ++end) {
             }
+            power *= atoi(unit_string.substr(sep + 1, end - sep - 1).c_str());
+        } else {
+            // the check functions should catch this but it would be
+            // problematic if not caught
+            return precise::invalid;  // LCOV_EXCL_LINE
         }
         retunit = unit_to_the_power_of(
             unit_string.substr(0, (pchar > 0) ? pchar + 1 : 1),
