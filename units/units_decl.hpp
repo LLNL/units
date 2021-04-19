@@ -407,9 +407,9 @@ struct hash<UNITS_NAMESPACE::detail::unit_data> {
     size_t operator()(const UNITS_NAMESPACE::detail::unit_data& x) const
         noexcept
     {
-        unsigned int val;
+        UNITS_BASE_TYPE val;
         std::memcpy(&val, &x, sizeof(val));
-        return hash<unsigned int>()(val);
+        return hash<UNITS_BASE_TYPE>()(val);
     }
 };
 }  // namespace std
