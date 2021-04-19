@@ -380,6 +380,13 @@ TEST(preciseUnitOps, Hash)
     EXPECT_EQ(h1, h2);
 }
 
+TEST(preciseUnitOps, Hash_covers_full_unit_data_width)
+{
+    auto h1 = std::hash<precise_unit>()(precise::m);
+    auto h2 = std::hash<precise_unit>()(precise::m * precise::count);
+    EXPECT_NE(h1, h2);
+}
+
 TEST(preciseUnitOps, Inv)
 {
     EXPECT_EQ(precise::m.inv(), precise::one / precise::m);
