@@ -264,6 +264,15 @@ TEST(unitStrings, customUnits)
     EXPECT_EQ(to_string(precise::generate_custom_count_unit(0)), "CXCUN[0]");
 }
 
+TEST(unitStrings, eV)
+{
+    EXPECT_EQ(
+        to_string(precise::energy::eV / constants::c.as_unit()), "eV/[c]");
+    EXPECT_EQ(
+        to_string(precise::energy::eV / (constants::c.as_unit().pow(2))),
+        "eV*[c]^-2");
+}
+
 TEST(stringToUnits, Simple)
 {
     EXPECT_EQ(precise::m, unit_from_string("m"));
