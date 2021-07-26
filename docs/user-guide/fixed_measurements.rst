@@ -18,11 +18,11 @@ Because the `unit` associated with a fixed measurement is fixed.  It becomes leg
         //all other operators are defined with doubles
     }
 
-    dist=5.0;  // this has meaning dist is now 5 meters
-
     dist=dist+3.0;  // dist is now 13 meters
 
     dist-=2.0;  // dist is now 11 meters
+
+    dist=5.0;  // dist is now 5 meters
 
 
 Interactions with `measurement`
