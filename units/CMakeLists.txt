@@ -22,7 +22,7 @@ if(UNITS_BUILD_SHARED_LIBRARY OR BUILD_SHARED_LIBS)
         )
         target_link_libraries(units PRIVATE compile_flags_target)
         
-        add_library(units::units ALIAS units)
+        
         if(UNITS_NAMESPACE)
             target_compile_definitions(
                 units PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
@@ -60,10 +60,9 @@ elseif(UNITS_HEADER_ONLY)
     endif()
     if(UNITS_BASE_TYPE)
         target_compile_definitions(
-            units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
+            units INTERFACE -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
         )
     endif()
-    add_library(units::units ALIAS units)
 
 elseif(UNITS_BUILD_OBJECT_LIBRARY)
         add_library(units OBJECT ${units_source_files} ${units_header_files})
@@ -71,7 +70,6 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
             units PRIVATE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
         )
 
-        add_library(units::units ALIAS units)
         if(UNITS_NAMESPACE)
             target_compile_definitions(
                 units PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
@@ -108,7 +106,6 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
                 units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
             )
         endif()
-        add_library(units::units ALIAS units)
         if(UNITS_INSTALL)
             install(TARGETS units ${UNITS_LIBRARY_EXPORT_COMMAND}
                     DESTINATION ${CMAKE_INSTALL_LIBDIR} # INCLUDES DESTINATION
@@ -122,6 +119,8 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
             set_property(TARGET units PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
         endif()
     endif()
+
+add_library(units::units ALIAS units)
 
 if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
     install(FILES ${units_header_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

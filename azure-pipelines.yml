@@ -38,6 +38,9 @@ jobs:
       matrix:
         Linux14:
           vmImage: 'ubuntu-latest'
+        Linux14shared:
+          vmImage: 'ubuntu-latest'
+          units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON
         macOS17:
           vmImage: 'macOS-latest'
           units.std: 17
