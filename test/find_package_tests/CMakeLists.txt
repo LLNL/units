@@ -25,14 +25,18 @@ if(UNITS_BUILD_SHARED_LIBRARY)
     target_link_libraries(shared-library-test-exe UNITS::units)
 
     add_test(NAME shared-library-test COMMAND shared-library-test-exe)
-    set_property(TEST shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "${HELICS_VERSION}")
+    set_property(
+        TEST shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "${HELICS_VERSION}"
+    )
 
-# Test the C and C++98 targets
+    # Test the C and C++98 targets
 elseif(UNITS_HEADER_ONLY)
     add_executable(header_only-exe ../pkg_test_code/header_only.cpp)
     target_link_libraries(header_only-exe UNITS::units)
 
     add_test(NAME header_only-exe COMMAND header_only-exe)
-    set_property(TEST c-shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "${HELICS_VERSION}")
+    set_property(
+        TEST c-shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "${HELICS_VERSION}"
+    )
 
 endif()

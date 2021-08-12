@@ -63,7 +63,7 @@ matrix:
         - 'bash .ci/run_codecov.sh'
       script:
         - .ci/make_and_test.sh 14 -DUNITS_HEADER_ONLY=ON
-        
+
     # GCC 7 test2 (8 does not support lcov, wait till 9 and new lcov)
     - compiler: gcc
       env:
@@ -87,7 +87,6 @@ matrix:
         - .ci/make_and_test.sh 14
         - .ci/make_and_test.sh 17
         - .ci/make_and_test.sh 11
-
 
       # GCC 4.8
     - compiler: gcc

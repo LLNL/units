@@ -51,8 +51,7 @@ else()
         test_unit_strings PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
 
-   
-    if (NOT UNITS_BUILD_SHARED_LIBRARY)
+    if(NOT UNITS_BUILD_SHARED_LIBRARY)
         target_compile_definitions(
             test_unit_strings PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
         )
