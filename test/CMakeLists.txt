@@ -31,7 +31,7 @@ if(UNITS_HEADER_ONLY)
     foreach(T ${UNIT_TEST_HEADER_ONLY})
 
         add_unit_test(${T}.cpp)
-        target_link_libraries(${T} units::units compile_flags_target)
+        target_link_libraries(${T} units::header_only compile_flags_target)
     endforeach()
 
     if(MSVC)

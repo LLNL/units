@@ -42,28 +42,28 @@ if(UNITS_BUILD_SHARED_LIBRARY OR BUILD_SHARED_LIBS)
                                                             # include/units
             )
         endif()
-        
+        add_library(units::units ALIAS units)
 elseif(UNITS_HEADER_ONLY)
-    add_library(units INTERFACE)
+    add_library(header_only INTERFACE)
     target_include_directories(
-        units INTERFACE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+        header_only INTERFACE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
                                     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
-    target_compile_definitions(units INTERFACE UNITS_HEADER_ONLY)
+    target_compile_definitions(header_only INTERFACE UNITS_HEADER_ONLY)
     if(UNITS_INSTALL)
-        install(TARGETS units ${UNITS_LIBRARY_EXPORT_COMMAND})
+        install(TARGETS header_only ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
     if(UNITS_NAMESPACE)
         target_compile_definitions(
-            units INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+            header_only INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
         )
     endif()
     if(UNITS_BASE_TYPE)
         target_compile_definitions(
-            units INTERFACE -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
+            header_only INTERFACE -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
         )
     endif()
-
+ add_library(units::header_only ALIAS header_only)
 elseif(UNITS_BUILD_OBJECT_LIBRARY)
         add_library(units OBJECT ${units_source_files} ${units_header_files})
         target_include_directories(
@@ -118,9 +118,11 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
         if(UNITS_CLANG_TIDY)
             set_property(TARGET units PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
         endif()
+        add_library(units::units ALIAS units)
     endif()
 
-add_library(units::units ALIAS units)
+
+
 
 if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
     install(FILES ${units_header_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
