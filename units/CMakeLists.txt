@@ -21,9 +21,7 @@ if(UNITS_BUILD_SHARED_LIBRARY OR BUILD_SHARED_LIBS)
                    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
         target_link_libraries(units PRIVATE compile_flags_target)
-        if(NOT UNITS_BUILD_STATIC_LIBRARY)
-            add_library(units::units ALIAS units)
-        endif()
+        
         add_library(units::units ALIAS units)
         if(UNITS_NAMESPACE)
             target_compile_definitions(
@@ -84,6 +82,7 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
                     units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
                 )
             endif()
+        endif()
     else()
         add_library(units STATIC ${units_source_files} ${units_header_files})
         target_include_directories(
@@ -110,7 +109,6 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
             )
         endif()
         add_library(units::units ALIAS units)
-        add_library(units ALIAS units)
         if(UNITS_INSTALL)
             install(TARGETS units ${UNITS_LIBRARY_EXPORT_COMMAND}
                     DESTINATION ${CMAKE_INSTALL_LIBDIR} # INCLUDES DESTINATION

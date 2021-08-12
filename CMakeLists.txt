@@ -38,6 +38,30 @@ if(NOT DEFINED CMAKE_CXX_STANDARD_REQUIRED)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 
+# Set the build output paths
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+        set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib" CACHE PATH
+                                                                           "Archive output dir."
+        )
+    endif()
+    if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib" CACHE PATH
+                                                                           "Library output dir."
+        )
+    endif()
+    if(NOT CMAKE_PDB_OUTPUT_DIRECTORY)
+        set(CMAKE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            CACHE PATH "PDB (MSVC debug symbol)output dir."
+        )
+    endif()
+    if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            CACHE PATH "Executable/dll output dir."
+        )
+    endif()
+endif()
+
 list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")
 list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/ThirdParty/cmake")
 
