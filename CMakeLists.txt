@@ -10,16 +10,16 @@ cmake_minimum_required(VERSION 3.0)
 # Make sure users don't get warnings on a tested (3.0 to 3.16) version of CMake. For
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
-if(${CMAKE_VERSION} VERSION_LESS 3.18)
+if(${CMAKE_VERSION} VERSION_LESS 3.20)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-    cmake_policy(VERSION 3.18)
+    cmake_policy(VERSION 3.20)
 endif()
 
 project(
     UNITS
     LANGUAGES CXX
-    VERSION 0.4.1
+    VERSION 0.5.0
 )
 include(CMakeDependentOption)
 include(CTest)
@@ -36,6 +36,30 @@ endif()
 
 if(NOT DEFINED CMAKE_CXX_STANDARD_REQUIRED)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
+# Set the build output paths
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+        set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib" CACHE PATH
+                                                                           "Archive output dir."
+        )
+    endif()
+    if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib" CACHE PATH
+                                                                           "Library output dir."
+        )
+    endif()
+    if(NOT CMAKE_PDB_OUTPUT_DIRECTORY)
+        set(CMAKE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            CACHE PATH "PDB (MSVC debug symbol)output dir."
+        )
+    endif()
+    if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            CACHE PATH "Executable/dll output dir."
+        )
+    endif()
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")

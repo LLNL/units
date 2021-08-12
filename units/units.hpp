@@ -1751,15 +1751,17 @@ constexpr measurement measurement_cast(const uncertain_measurement& measure)
 
 #ifndef UNITS_HEADER_ONLY
 
-measurement root(const measurement& meas, int power);
+UNITS_EXPORT measurement root(const measurement& meas, int power);
 
-fixed_measurement root(const fixed_measurement& fm, int power);
+UNITS_EXPORT fixed_measurement root(const fixed_measurement& fm, int power);
 
-uncertain_measurement root(const uncertain_measurement& um, int power);
+UNITS_EXPORT uncertain_measurement
+    root(const uncertain_measurement& um, int power);
 
-precise_measurement root(const precise_measurement& pm, int power);
+UNITS_EXPORT precise_measurement root(const precise_measurement& pm, int power);
 
-fixed_precise_measurement root(const fixed_precise_measurement& fpm, int power);
+UNITS_EXPORT fixed_precise_measurement
+    root(const fixed_precise_measurement& fpm, int power);
 
 inline measurement sqrt(const measurement& meas)
 {
@@ -1865,7 +1867,7 @@ inline unit unit_cast_from_string(
 @return a precise unit corresponding to the SI unit for the measurement
 specified in unit_type
 */
-precise_unit default_unit(std::string unit_type);
+UNITS_EXPORT precise_unit default_unit(std::string unit_type);
 
 /** Generate a precise_measurement from a string
 @param measurement_string the string to convert
@@ -1923,14 +1925,16 @@ UNITS_EXPORT std::string to_string(
     std::uint32_t match_flags = 0U);
 
 /// Add a custom unit to be included in any string processing
-void addUserDefinedUnit(const std::string& name, const precise_unit& un);
+UNITS_EXPORT void
+    addUserDefinedUnit(const std::string& name, const precise_unit& un);
 
 /// Add a custom unit to be included in from string interpretation but not used
 /// in generating string representations of units
-void addUserDefinedInputUnit(const std::string& name, const precise_unit& un);
+UNITS_EXPORT void
+    addUserDefinedInputUnit(const std::string& name, const precise_unit& un);
 
 /// Clear all user defined units from memory
-void clearUserDefinedUnits();
+UNITS_EXPORT void clearUserDefinedUnits();
 
 /** load a set of user define units from a file
 @details  file should consist of lines formatted like <user_string> ==
@@ -1942,37 +1946,38 @@ interpreted but the output units are not modified. # indicates a comment line
 @return a string which will be empty if everything worked and an error message
 if it didn't
 */
-std::string definedUnitsFromFile(const std::string& filename) noexcept;
+UNITS_EXPORT std::string
+    definedUnitsFromFile(const std::string& filename) noexcept;
 
 /// Turn off the ability to add custom units for later access
-void disableUserDefinedUnits();
+UNITS_EXPORT void disableUserDefinedUnits();
 /// Enable the ability to add custom units for later access
-void enableUserDefinedUnits();
+UNITS_EXPORT void enableUserDefinedUnits();
 
 /// get the code to use for a particular commodity
-std::uint32_t getCommodity(std::string comm);
+UNITS_EXPORT std::uint32_t getCommodity(std::string comm);
 
 /// get the code to use for a particular commodity
-std::string getCommodityName(std::uint32_t commodity);
+UNITS_EXPORT std::string getCommodityName(std::uint32_t commodity);
 
 /// add a custom commodity for later retrieval
-void addCustomCommodity(std::string comm, std::uint32_t code);
+UNITS_EXPORT void addCustomCommodity(std::string comm, std::uint32_t code);
 /// clear all custom commodities
-void clearCustomCommodities();
+UNITS_EXPORT void clearCustomCommodities();
 /// Turn off the ability to add custom commodities for later access
-void disableCustomCommodities();
+UNITS_EXPORT void disableCustomCommodities();
 /// Enable the ability to add custom commodities for later access
-void enableCustomCommodities();
+UNITS_EXPORT void enableCustomCommodities();
 
 #define EXTRA_UNIT_STANDARDS
 // Some specific unit code standards
 #ifdef EXTRA_UNIT_STANDARDS
 /// generate a unit from a string as defined by the X12 standard
-precise_unit x12_unit(const std::string& x12_string);
+UNITS_EXPORT precise_unit x12_unit(const std::string& x12_string);
 /// generate a unit from a string as defined by the US DOD
-precise_unit dod_unit(const std::string& dod_string);
+UNITS_EXPORT precise_unit dod_unit(const std::string& dod_string);
 /// generate a unit from a string as defined by the r20 standard
-precise_unit r20_unit(const std::string& r20_string);
+UNITS_EXPORT precise_unit r20_unit(const std::string& r20_string);
 #endif
 
 #endif  // UNITS_HEADER_ONLY
@@ -2080,8 +2085,9 @@ namespace detail {
 
 #ifdef ENABLE_UNIT_MAP_ACCESS
 namespace detail {
-    const std::unordered_map<std::string, precise_unit>& getUnitStringMap();
-    const std::unordered_map<unit, const char*>& getUnitNameMap();
+    UNITS_EXPORT const std::unordered_map<std::string, precise_unit>&
+        getUnitStringMap();
+    UNITS_EXPORT const std::unordered_map<unit, const char*>& getUnitNameMap();
 }  // namespace detail
 #endif
 

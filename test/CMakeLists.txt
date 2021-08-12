@@ -21,7 +21,6 @@ set(UNITS_TESTS
     test_unit_strings
     test_measurement_strings
     test_commodities
-    test_leadingNumbers
     test_siunits
 )
 
@@ -32,7 +31,7 @@ if(UNITS_HEADER_ONLY)
     foreach(T ${UNIT_TEST_HEADER_ONLY})
 
         add_unit_test(${T}.cpp)
-        target_link_libraries(${T} units::units-header-only compile_flags_target)
+        target_link_libraries(${T} units::header_only compile_flags_target)
     endforeach()
 
     if(MSVC)
@@ -52,10 +51,19 @@ else()
         test_unit_strings PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
 
-    target_compile_definitions(
-        test_unit_strings PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
-    )
-    target_compile_definitions(test_leadingNumbers PUBLIC -DENABLE_UNIT_TESTING=1)
+   
+    if (NOT UNITS_BUILD_SHARED_LIBRARY)
+        target_compile_definitions(
+            test_unit_strings PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
+        )
+
+        add_unit_test(test_leadingNumbers.cpp)
+        target_link_libraries(test_leadingNumbers units::units compile_flags_target)
+        if(UNITS_CLANG_TIDY)
+            set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
+        endif()
+        target_compile_definitions(test_leadingNumbers PUBLIC -DENABLE_UNIT_TESTING=1)
+    endif()
 
     target_compile_definitions(
         test_conversions2 PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
@@ -102,7 +110,7 @@ else()
     target_link_libraries(examples_test PRIVATE units::units)
     target_compile_definitions(examples_test PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS})
     set_target_properties(examples_test PROPERTIES FOLDER "Tests")
-    add_test(examples_test examples_test)
+    add_test(examples_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/examples_test)
 
     add_executable(test_all_unit_base test_all_unit_base.cpp)
 
