@@ -194,7 +194,8 @@ if(UNITS_INSTALL)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
     if(NOT UNITS_BINARY_ONLY_INSTALL)
-    configure_file(config/unitsConfig.cmake.in
+       include(CMakePackageConfigHelpers)
+       configure_file(config/unitsConfig.cmake.in
         "${PROJECT_BINARY_DIR}/unitsConfig.cmake" @ONLY)
 
         export(EXPORT unitsTargets NAMESPACE units:: FILE ${PROJECT_BINARY_DIR}/unitsTargets.cmake)
