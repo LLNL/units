@@ -132,4 +132,64 @@ else()
         )
     endif()
 
+
+    if(UNITS_INSTALL_PACKAGE_TESTS)
+    set(UNITS_PACKAGE_SEARCH_LOC)
+
+
+if(NOT MSVC)
+    set(package_test_command --test-command "${CMAKE_CTEST_COMMAND}")
+else() # don't try to run the tests on MSVC since that would require copying the dll's and doing
+       # some other setup that isn't that important to run on all OS
+    set(package_test_command)
+endif()
+
+if(CMAKE_BUILD_TYPE)
+    set(UNITS_PACKAGE_TEST_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+else()
+    set(UNITS_PACKAGE_TEST_BUILD_TYPE Release)
+endif()
+
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/find_package_tests")
+
+if(MSVC AND ${CMAKE_VERSION} VERSION_GREATER 3.12.9)
+    # Tests for other CMake projects including and using UNITS using find_package
+    add_test(
+        NAME find-package-testsA
+        COMMAND
+            ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" -A "${CMAKE_GENERATOR_PLATFORM}"
+            ${UNITS_PACKAGE_SEARCH_LOC}
+            "-DUNITS_BUILD_SHARED_LIBRARY=${UNITS_BUILD_SHARED_LIBRARY}"
+            "-DUNITS_HEADER_ONLY=${UNITS_HEADER_ONLY}"
+             "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+            "-DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"
+            "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/find_package_tests"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/find_package_tests"
+    )
+else()
+    add_test(
+        NAME find-package-testsA
+        COMMAND
+            ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" ${UNITS_PACKAGE_SEARCH_LOC}
+            "-DUNITS_BUILD_SHARED_LIBRARY=${UNITS_BUILD_SHARED_LIBRARY}"
+            "-DUNITS_HEADER_ONLY=${UNITS_HEADER_ONLY}"
+            "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+            "-DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"
+            "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/find_package_tests"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/find_package_tests"
+    )
+endif()
+
+add_test(NAME find-package-testsB
+         COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_BINARY_DIR}/find_package_tests" --config
+                 ${UNITS_PACKAGE_TEST_BUILD_TYPE}
+)
+
+add_test(NAME find-package-testsC COMMAND ${CMAKE_CTEST_COMMAND} -C
+                                          ${UNITS_PACKAGE_TEST_BUILD_TYPE}
+         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/find_package_tests"
+)
+ endif() #UNITS_INSTALL_PACKAGE_TESTS
 endif() # UNITS_HEADER_ONLY

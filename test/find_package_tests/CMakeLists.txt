@@ -14,7 +14,7 @@ project(units-find-package-test)
 include(CTest)
 
 # Test the HELICS CMake package config
-find_package(UNITS 0.6 REQUIRED)
+find_package(UNITS 0.5 REQUIRED)
 
 # add some tests inside of the CMake
 
@@ -32,11 +32,11 @@ if(UNITS_BUILD_SHARED_LIBRARY)
     # Test the C and C++98 targets
 elseif(UNITS_HEADER_ONLY)
     add_executable(header_only-exe ../pkg_test_code/header_only.cpp)
-    target_link_libraries(header_only-exe UNITS::units)
+    target_link_libraries(header_only-exe UNITS::units_headers)
 
     add_test(NAME header_only-exe COMMAND header_only-exe)
     set_property(
-        TEST c-shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "${HELICS_VERSION}"
+        TEST header_only-test PROPERTY PASS_REGULAR_EXPRESSION "${HELICS_VERSION}"
     )
 
 endif()

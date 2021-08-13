@@ -66,7 +66,7 @@ if (!meas.units().is_convertible(out)
 
 ## Limitations
 
-- The powers represented by units are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported.
+- The powers represented by units by default are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported, this can be modified at compile time to support a much broader range at the expense of size and computation.  
 - The library uses floating point and double precision for the multipliers which is generally good enough for most engineering contexts, but does come with the limits and associated loss of precision for long series of calculations on floating point numbers.
 - Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So if you are doing a lot of financial calculations or accounting use something more specific for currency manipulations.
 - Fractional unit powers are not supported in general. While some mathematical operations on units are supported any root operations `sqrt` or `cbrt` will only produce valid results if the result is integral powers of the base units. One exception is limited support for √Hz operations in measurements of Amplitude spectral density. A specific definition of a unit representing square root of Hz is available and will work in combination with other units.
@@ -99,7 +99,7 @@ These libraries will work well if the number of units being dealt with is known 
 5.  Working with per unit values
 6.  Dealing with commodities in addition to regular units. i.e. differentiate between a gallon of water and a gallon of gasoline
 7.  Dealing with equation type units
-8.  Complete C++ type safety is not a critical design requirement.
+8.  Complete C++ type safety is **NOT** a critical design requirement.
 9.  Support is needed for some funky custom unit with bizarre base units.
 
 ### Reasons to choose something else
@@ -108,7 +108,7 @@ These libraries will work well if the number of units being dealt with is known 
 2.  Performance is absolutely critical (many other libraries are zero runtime overhead)
 3.  You are only working with a small number of known units
 4.  You cannot use C++11 yet.
-5.  You need to operate on arbitrary powers of base units
+5.  You need to operate on arbitrary or fractional powers of base units
 
 ## Types
 
@@ -143,11 +143,13 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.
 
+The CMake variable `UNITS_BASE_TYPE` if set to a 64 bit type like `uint64_t` will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table.  See [Cmake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
+
 ### Discussion points
 
 - Currency may seem like a unusual choice in units but numbers involving prices are encountered often enough in various disciplines that it is useful to include as part of a unit.
 - Technically count and radians are not units, they are representations of real things. A radian is a representation of rotation around a circle and is therefore distinct from a true unitless quantity even though there are no physical measurements associated with either.
-- And count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605\*10^-15 mol of data. So they are used in different context and don't mix very often, the convert functions does convert between them if necessary.
+- Count and mole are theoretically equivalent though as a practical matter using moles for counts of things is a bit odd for example 1 GB of data is ~1.6605\*10^-15 mol of data. So they are used in different context and don't mix very often, the convert functions do convert between them if necessary.
 - This library **CANNOT** represent fractional unit powers( except for sqrt Hz used in noise density units), and it follows the order of operation in C++ so **IF** you have equations that any portion of the operation may exceed the numerical limits on powers even if the result does not, **BE CAREFUL**.
 - The normal rules about floating point operations losing precision also apply to unit representations with non-integral multipliers.
 - With string conversions there are many units that can be interpreted in multiple ways. In general the priority was given to units in more common use in the United States, or in power systems and electrical engineering which was the origin of this library.
@@ -169,6 +171,8 @@ A set of physical and numerical constants are defined in the `units::constants` 
 There are two parts of the library a header only portion that can simply be copied and used. There are 3 headers `units_decl.hpp` declares the underlying classes. `unit_defintions.hpp` declares constants for many of the units, and `units.hpp` which is the primary public interface to units. If `units.hpp` is included in another file and the variable `UNITS_HEADER_ONLY` is defined then none of the functions that require the cpp files are defined. These header files can simply be included in your project and used with no additional building required.
 
 The second part is a few cpp files that can add some additional functionality. The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings. These files can be built as a standalone static library or included in the source code of whatever project want to use them. The code should build with an C++11 compiler. Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time. Unit numerical conversions are not at compile time, so will have a run-time cost. A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit. The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.
+
+It builds by default with the static library.  Using `UNIT_BUILD_SHARED_LIBRARY` or `BUILD_SHARED_LIBS` will build the shared library instead.  Either one can be used with CMake as units::units.  The header only library target can also be generate `units::header_only`
 
 ## Try it out
 
@@ -275,7 +279,7 @@ These functions are not class methods but operate on units
 
 #### Uncertain measurement methods
 
-Uncertatin measurements have a few additional functions to support the uncertainty calculations
+Uncertain measurements have a few additional functions to support the uncertainty calculations
 
 - `rss_add`, `rss_subtract`, `rss_product`, `rss_divide` are equivalent to the associated operator but use the root-sum of squares method for propagating the uncertainty.
 - `double uncertainty()` get the numerical value of the uncertainty.
