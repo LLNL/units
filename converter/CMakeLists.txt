@@ -24,4 +24,11 @@ if(UNITS_BUILD_CONVERTER_APP)
             target_link_libraries(unit_convert PRIVATE -lstdc++fs)
         endif()
     endif()
+    
+    if (UNITS_INSTALL)
+        install(TARGETS unit_convert
+        EXPORT unitsTargets
+        RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT units_convert)
+  endif()
+
 endif()
