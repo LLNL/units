@@ -108,7 +108,7 @@ else()
 endif()
 
 if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
-    install(FILES ${units_header_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    install(FILES ${units_header_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/units)
     if(UNITS_BUILD_SHARED_LIBRARY OR BUILD_SHARED_LIBS)
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/units_export.h
                 DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/units

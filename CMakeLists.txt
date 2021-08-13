@@ -194,7 +194,31 @@ if(UNITS_INSTALL)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
     if(UNITS_WITH_CMAKE_PACKAGE AND NOT UNITS_BINARY_ONLY_INSTALL)
-        install(EXPORT unitsConfig DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
-        export(EXPORT unitsConfig)
+        install(EXPORT unitsConfig DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+        export(EXPORT unitsConfig NAMESPACE units::)
+        write_basic_package_version_file(${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake COMPATIBILITY AnyNewerVersion)
+        install(FILES ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
     endif()
 endif()
+
+
+
+#if(HELICS_WITH_CMAKE_PACKAGE)
+
+#        set(HELICS_CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+#            CACHE STRING "install path for HELICSConfig.cmake"
+#        )
+#        mark_as_advanced(HELICS_CMAKECONFIG_INSTALL_DIR)
+
+        # Export targets for importing build tree with find_package
+#        export(EXPORT helics-targets NAMESPACE HELICS::
+#               FILE ${PROJECT_BINARY_DIR}/helics-targets.cmake
+#        )
+
+#        install(
+#            EXPORT helics-targets
+#            NAMESPACE HELICS::
+#            DESTINATION ${HELICS_CMAKECONFIG_INSTALL_DIR}
+#            COMPONENT libs
+#        )
+    endif()
