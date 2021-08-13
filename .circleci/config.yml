@@ -1,5 +1,14 @@
 version: 2
 aliases:
+  - &setup_units
+    name: setup_units
+    environment:
+    command: |
+      mkdir -p build
+      cd build
+      eval cmake .. ${CMAKE_FLAGS}
+      make -j 4
+      
   - &run_units
     name: run_units
     environment:
@@ -19,6 +28,13 @@ aliases:
       eval cmake .. ${CMAKE_FLAGS} -DUNITS_BUILD_FUZZ_TARGETS=ON -DUNITS_ENABLE_TESTS=OFF -DUNITS_INSTALL=OFF
       make -j 4
       make QUICK_RAW_FUZZ
+
+  - &run_installer_tests
+    name: run_installer_tests
+    command: |
+      cd build
+      make install
+      ctest -V -R find-package-tests
 
 jobs:
   unitsTSan:
@@ -69,6 +85,16 @@ jobs:
       - store_artifacts:
           path: /root/project/build/FuzzTargets/units_fail_measurement_artifact.txt
 
+  unitsInstall:
+    docker:
+      - image: helics/buildenv:builder
+    environment:
+      CMAKE_FLAGS: '-DUNITS_ENABLE_TESTS=ON -DUNITS_INSTALL_PACKAGE_TESTS=ON -DUNITS_BUILD_SHARED_LIBRARY=ON'
+    steps:
+      - checkout
+      - run: *setup_units
+      - run: *run_installer_tests
+
 workflows:
   version: 2
   units_test:
@@ -76,4 +102,5 @@ workflows:
       - unitsMSan
       - unitsASan
       - unitsTSan
+      - unitsInstall
       - unitsFuzz

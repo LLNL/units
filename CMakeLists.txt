@@ -10,16 +10,16 @@ cmake_minimum_required(VERSION 3.0)
 # Make sure users don't get warnings on a tested (3.0 to 3.16) version of CMake. For
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
-if(${CMAKE_VERSION} VERSION_LESS 3.18)
+if(${CMAKE_VERSION} VERSION_LESS 3.20)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-    cmake_policy(VERSION 3.18)
+    cmake_policy(VERSION 3.20)
 endif()
 
 project(
     UNITS
     LANGUAGES CXX
-    VERSION 0.4.1
+    VERSION 0.5.0
 )
 include(CMakeDependentOption)
 include(CTest)
@@ -36,6 +36,34 @@ endif()
 
 if(NOT DEFINED CMAKE_CXX_STANDARD_REQUIRED)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
+# Set the build output paths
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+        set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
+            "${CMAKE_BINARY_DIR}/lib"
+            CACHE PATH "Archive output dir."
+        )
+    endif()
+    if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
+            "${CMAKE_BINARY_DIR}/lib"
+            CACHE PATH "Library output dir."
+        )
+    endif()
+    if(NOT CMAKE_PDB_OUTPUT_DIRECTORY)
+        set(CMAKE_PDB_OUTPUT_DIRECTORY
+            "${CMAKE_BINARY_DIR}/bin"
+            CACHE PATH "PDB (MSVC debug symbol)output dir."
+        )
+    endif()
+    if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+            "${CMAKE_BINARY_DIR}/bin"
+            CACHE PATH "Executable/dll output dir."
+        )
+    endif()
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")
@@ -55,18 +83,15 @@ set(UNITS_NAMESPACE
     CACHE STRING "Top-level namespace name. Default is `units`."
 )
 
-option(UNITS_INSTALL "Enable installation of the units library" ON)
-mark_as_advanced(UNITS_INSTALL)
-
 cmake_dependent_option(
-    UNITS_WITH_CMAKE_PACKAGE
+    UNITS_INSTALL
     "Generate and install cmake package files"
     ON
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;UNITS_INSTALL;NOT UNITS_BINARY_ONLY_INSTALL"
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT UNITS_BINARY_ONLY_INSTALL"
     OFF
 )
 
-mark_as_advanced(UNITS_WITH_CMAKE_PACKAGE)
+mark_as_advanced(UNITS_INSTALL)
 
 cmake_dependent_option(
     UNITS_BUILD_FUZZ_TARGETS "Build the targets for a fuzzing system" OFF
@@ -85,12 +110,9 @@ set(UNITS_CLANG_TIDY_OPTIONS
 mark_as_advanced(UNITS_CLANG_TIDY_OPTIONS)
 mark_as_advanced(UNITS_CLANG_TIDY)
 
-# Install instructions for this target
-if(UNITS_WITH_CMAKE_PACKAGE)
-    set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT unitsConfig)
-else(UNITS_WITH_CMAKE_PACKAGE)
-    set(UNITS_LIBRARY_EXPORT_COMMAND)
-endif(UNITS_WITH_CMAKE_PACKAGE)
+
+set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT unitsTargets)
+mark_as_advanced(UNITS_LIBRARY_EXPORT_COMMAND)
 
 option(UNITS_HEADER_ONLY "Expose the units library as header-only" OFF)
 
@@ -132,7 +154,13 @@ if(NOT UNITS_HEADER_ONLY)
         UNITS_BUILD_OBJECT_LIBRARY "Enable construction of the units object library"
         OFF "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
     )
-
+else()
+    option(UNITS_BUILD_STATIC_LIBRARY
+               "enable Construction of the units static library" OFF
+        )
+        option(UNITS_BUILD_SHARED_LIBRARY
+               "enable Construction of the units shared library" OFF
+        )
 endif(NOT UNITS_HEADER_ONLY)
 
 # Prepare Clang-Tidy
@@ -165,8 +193,15 @@ if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
-    if(UNITS_WITH_CMAKE_PACKAGE AND NOT UNITS_BINARY_ONLY_INSTALL)
-        install(EXPORT unitsConfig DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
-        export(EXPORT unitsConfig)
+    if(NOT UNITS_BINARY_ONLY_INSTALL)
+    configure_file(config/unitsConfig.cmake.in
+        "${PROJECT_BINARY_DIR}/unitsConfig.cmake" @ONLY)
+
+        export(EXPORT unitsTargets NAMESPACE units:: FILE ${PROJECT_BINARY_DIR}/unitsTargets.cmake)
+        
+        install(EXPORT unitsTargets NAMESPACE units:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
+        
+        write_basic_package_version_file(${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake COMPATIBILITY AnyNewerVersion)
+        install(FILES ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake ${PROJECT_BINARY_DIR}/unitsConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
     endif()
 endif()
