@@ -23,13 +23,14 @@ CMake variables
    This increases the size of a unit by 4 Byte.
 -  `UNITS_NAMESPACE`:  The top level namespace of the library, defaults to `units`.
    When compiling with C++17 (or higher), this can be set to, e.g., `mynamespace::units` to avoid name clashes with other libraries defining `units`.
+-  `UNITS_INSTALL`:  This is set to `ON` normally but defaults to `OFF` if used as a subproejct.  This controls whether anything gets installed by the install target.
 
 If compiling as part of a subproject then a few other options are useful
 
--  `UNITS_HEADER_ONLY`:  Only generate the header only target
+-  `UNITS_HEADER_ONLY`:  Only generate the header only target, sets `UNITS_BUILD_STATIC_LIBRARY` and `UNITS_BUILD_SHARED_LIBRARY` to OFF
 -  `UNITS_INSTALL`:  enable the install instructions of the library
--  `UNITS_WITH_CMAKE_PACKAGE`:  Generate the CMake package variables for an installation or package
--  `UNITS_BUILD_OBJECT_LIBRARY`:  Generate an object library that can be used as part of other builds
+-  `UNITS_BUILD_OBJECT_LIBRARY`:  Generate an object library that can be used as part of other builds.  Only one of `UNITS_BUILD_SHARED_LIBRARY`, `UNITS_BUILD_STATIC_LIBRARY`, or `UNITS_BUILD_OBJECT_LIBRARY` can be set to `ON`.  If more than one are set,  the shared library and object library settings take precedence over the static library.
+- `UNITS_LIBRARY_EXPORT_COMMAND`:  If desired the targets for the units library can be merged into an root project target list by modifying this variable.  The use cases for this are rare, but if this is something you want to do this variable should be set to something like `EXPORT rootProjectTargets`
 
 CMake Targets
 --------------
@@ -37,7 +38,7 @@ CMake Targets
 If you are using the library as a submodule or importing the package there are a couple targets that can be used depending on the build
 
 -  `units::units`  will be set to the library being built, either the shared, static, or object
--  `units::header_only` is a target if `UNITS_HEADER_ONLY` CMake variable is set
+-  `units::header_only` is a target for the headers if `UNITS_HEADER_ONLY` CMake variable is set, then only this target is generated.  This target is always created.
 
 
 Example

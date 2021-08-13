@@ -21,7 +21,7 @@ if(UNITS_BUILD_CONVERTER_APP)
         if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION
                                                     VERSION_EQUAL 8
         )
-            target_link_libraries(unit_sconvert PRIVATE -lstdc++fs)
+            target_link_libraries(units_convert PRIVATE -lstdc++fs)
         endif()
     endif()
     

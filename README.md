@@ -172,7 +172,7 @@ There are two parts of the library a header only portion that can simply be copi
 
 The second part is a few cpp files that can add some additional functionality. The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings. These files can be built as a standalone static library or included in the source code of whatever project want to use them. The code should build with an C++11 compiler. Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time. Unit numerical conversions are not at compile time, so will have a run-time cost. A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit. The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.
 
-It builds by default with the static library.  Using `UNIT_BUILD_SHARED_LIBRARY` or `BUILD_SHARED_LIBS` will build the shared library instead.  Either one can be used with CMake as units::units.  The header only library target can also be generate `units::header_only`
+It builds by default with the static library.  Using `UNIT_BUILD_SHARED_LIBRARY` or `BUILD_SHARED_LIBS` will build the shared library instead.  Either one can be used with CMake as units::units.  The header only library target is also generated `units::header_only`.  The shared/static library has a CMake target `units::units`.
 
 ## Try it out
 
@@ -192,7 +192,7 @@ A [converter](https://units.readthedocs.io/en/latest/introduction/converter.html
 Many units are defined as `constexpr` objects and can be used directly
 
 ```cpp
-#include "units.hpp"
+#include "units/units.hpp"
 using namespace units
 
 measurement length1=45.0*m;
