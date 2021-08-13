@@ -66,7 +66,7 @@ if (!meas.units().is_convertible(out)
 
 ## Limitations
 
-- The powers represented by units by default are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported, this can be modified at compile time to support a much broader range at the expense of size and computation.  
+- The powers represented by units by default are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported, this can be modified at compile time to support a much broader range at the expense of size and computation.
 - The library uses floating point and double precision for the multipliers which is generally good enough for most engineering contexts, but does come with the limits and associated loss of precision for long series of calculations on floating point numbers.
 - Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So if you are doing a lot of financial calculations or accounting use something more specific for currency manipulations.
 - Fractional unit powers are not supported in general. While some mathematical operations on units are supported any root operations `sqrt` or `cbrt` will only produce valid results if the result is integral powers of the base units. One exception is limited support for √Hz operations in measurements of Amplitude spectral density. A specific definition of a unit representing square root of Hz is available and will work in combination with other units.
@@ -143,7 +143,7 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.
 
-The CMake variable `UNITS_BASE_TYPE` if set to a 64 bit type like `uint64_t` will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table.  See [Cmake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
+The CMake variable `UNITS_BASE_TYPE` if set to a 64 bit type like `uint64_t` will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [Cmake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
 
 ### Discussion points
 
@@ -172,7 +172,7 @@ There are two parts of the library a header only portion that can simply be copi
 
 The second part is a few cpp files that can add some additional functionality. The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings. These files can be built as a standalone static library or included in the source code of whatever project want to use them. The code should build with an C++11 compiler. Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time. Unit numerical conversions are not at compile time, so will have a run-time cost. A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit. The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.
 
-It builds by default with the static library.  Using `UNIT_BUILD_SHARED_LIBRARY` or `BUILD_SHARED_LIBS` will build the shared library instead.  Either one can be used with CMake as units::units.  The header only library target is also generated `units::header_only`.  The shared/static library has a CMake target `units::units`.
+It builds by default with the static library. Using `UNIT_BUILD_SHARED_LIBRARY` or `BUILD_SHARED_LIBS` will build the shared library instead. Either one can be used with CMake as units::units. The header only library target is also generated `units::header_only`. The shared/static library has a CMake target `units::units`.
 
 ## Try it out
 
