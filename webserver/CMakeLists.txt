@@ -37,7 +37,7 @@ if(CMAKE_VERSION VERSION_GREATER 3.12)
         if (UNITS_INSTALL)
             install(TARGETS units_webserver
             ${UNITS_LIBRARY_EXPORT_COMMAND}
-            RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT units_webserver)
+            DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT units_webserver)
         endif()
         add_executable(units::units_webserver ALIAS units_webserver)
     endif()

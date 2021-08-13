@@ -28,7 +28,7 @@ if(UNITS_BUILD_CONVERTER_APP)
     if (UNITS_INSTALL)
         install(TARGETS units_convert
         ${UNITS_LIBRARY_EXPORT_COMMAND}
-        RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT units_convert)
+        DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT units_convert)
   endif()
   add_executable(units::units_convert ALIAS units_convert)
 endif()
