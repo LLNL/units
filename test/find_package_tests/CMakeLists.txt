@@ -25,18 +25,12 @@ if(UNITS_BUILD_SHARED_LIBRARY)
     target_link_libraries(shared-library-test-exe units::units)
 
     add_test(NAME shared-library-test COMMAND shared-library-test-exe)
-    set_property(
-        TEST shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "10.7"
-    )
+    set_property(TEST shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "10.7")
 
-    
 endif()
 # Test the header only targets
-    add_executable(header_only-exe ../pkg_test_code/header_only.cpp)
-    target_link_libraries(header_only-exe units::header_only)
+add_executable(header_only-exe ../pkg_test_code/header_only.cpp)
+target_link_libraries(header_only-exe units::header_only)
 
-    add_test(NAME header_only-exe COMMAND header_only-exe)
-    set_property(
-        TEST header_only-exe PROPERTY PASS_REGULAR_EXPRESSION "PASS"
-    )
-
+add_test(NAME header_only-exe COMMAND header_only-exe)
+set_property(TEST header_only-exe PROPERTY PASS_REGULAR_EXPRESSION "PASS")

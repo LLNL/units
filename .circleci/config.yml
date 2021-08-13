@@ -8,7 +8,7 @@ aliases:
       cd build
       eval cmake .. ${CMAKE_FLAGS}
       make -j 4
-      
+
   - &run_units
     name: run_units
     environment:

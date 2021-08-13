@@ -84,11 +84,8 @@ set(UNITS_NAMESPACE
 )
 
 cmake_dependent_option(
-    UNITS_INSTALL
-    "Generate and install cmake package files"
-    ON
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT UNITS_BINARY_ONLY_INSTALL"
-    OFF
+    UNITS_INSTALL "Generate and install cmake package files" ON
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT UNITS_BINARY_ONLY_INSTALL" OFF
 )
 
 mark_as_advanced(UNITS_INSTALL)
@@ -109,7 +106,6 @@ set(UNITS_CLANG_TIDY_OPTIONS
 
 mark_as_advanced(UNITS_CLANG_TIDY_OPTIONS)
 mark_as_advanced(UNITS_CLANG_TIDY)
-
 
 set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT unitsTargets)
 mark_as_advanced(UNITS_LIBRARY_EXPORT_COMMAND)
@@ -155,12 +151,12 @@ if(NOT UNITS_HEADER_ONLY)
         OFF "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
     )
 else()
-    option(UNITS_BUILD_STATIC_LIBRARY
-               "enable Construction of the units static library" OFF
-        )
-        option(UNITS_BUILD_SHARED_LIBRARY
-               "enable Construction of the units shared library" OFF
-        )
+    option(UNITS_BUILD_STATIC_LIBRARY "enable Construction of the units static library"
+           OFF
+    )
+    option(UNITS_BUILD_SHARED_LIBRARY "enable Construction of the units shared library"
+           OFF
+    )
 endif(NOT UNITS_HEADER_ONLY)
 
 # Prepare Clang-Tidy
@@ -194,14 +190,29 @@ if(UNITS_INSTALL)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
     if(NOT UNITS_BINARY_ONLY_INSTALL)
-    configure_file(config/unitsConfig.cmake.in
-        "${PROJECT_BINARY_DIR}/unitsConfig.cmake" @ONLY)
+        configure_file(
+            config/unitsConfig.cmake.in "${PROJECT_BINARY_DIR}/unitsConfig.cmake" @ONLY
+        )
 
-        export(EXPORT unitsTargets NAMESPACE units:: FILE ${PROJECT_BINARY_DIR}/unitsTargets.cmake)
-        
-        install(EXPORT unitsTargets NAMESPACE units:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
-        
-        write_basic_package_version_file(${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake COMPATIBILITY AnyNewerVersion)
-        install(FILES ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake ${PROJECT_BINARY_DIR}/unitsConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
+        export(
+            EXPORT unitsTargets
+            NAMESPACE units::
+            FILE ${PROJECT_BINARY_DIR}/unitsTargets.cmake
+        )
+
+        install(
+            EXPORT unitsTargets
+            NAMESPACE units::
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units
+        )
+
+        write_basic_package_version_file(
+            ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake
+            COMPATIBILITY AnyNewerVersion
+        )
+        install(FILES ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake
+                      ${PROJECT_BINARY_DIR}/unitsConfig.cmake
+                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units
+        )
     endif()
 endif()

@@ -33,11 +33,13 @@ if(CMAKE_VERSION VERSION_GREATER 3.12)
             find_package(Threads REQUIRED)
             target_link_libraries(units_webserver PUBLIC Threads::Threads)
         endif()
-        
-        if (UNITS_INSTALL)
-            install(TARGETS units_webserver
-            ${UNITS_LIBRARY_EXPORT_COMMAND}
-            DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT units_webserver)
+
+        if(UNITS_INSTALL)
+            install(
+                TARGETS units_webserver ${UNITS_LIBRARY_EXPORT_COMMAND}
+                DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                COMPONENT units_webserver
+            )
         endif()
         add_executable(units::units_webserver ALIAS units_webserver)
     endif()
