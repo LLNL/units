@@ -11,11 +11,12 @@ All rights reserved. SPDX-License-Identifier: BSD-3-Clause
 
 int main()
 {
-    units::measurement b(50.0, units::m);
-    units::measurement c(25.0, units::f);
+    using namespace units;
+    units::measurement b(50.0, m);
+    units::measurement c(25.0, ft);
     auto k = b * c;
 
-    if (k.units() == units::units(m.pow(2))) {
+    if (k.units().has_same_base(m.pow(2))) {
         std::cout << "PASS\n";
     } else {
         std::cout << "FAILE\n";
