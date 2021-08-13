@@ -24,11 +24,13 @@ if(UNITS_BUILD_CONVERTER_APP)
             target_link_libraries(units_convert PRIVATE -lstdc++fs)
         endif()
     endif()
-    
-    if (UNITS_INSTALL)
-        install(TARGETS units_convert
-        ${UNITS_LIBRARY_EXPORT_COMMAND}
-        DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT units_convert)
-  endif()
-  add_executable(units::units_convert ALIAS units_convert)
+
+    if(UNITS_INSTALL)
+        install(
+            TARGETS units_convert ${UNITS_LIBRARY_EXPORT_COMMAND}
+            DESTINATION "${CMAKE_INSTALL_BINDIR}"
+            COMPONENT units_convert
+        )
+    endif()
+    add_executable(units::units_convert ALIAS units_convert)
 endif()
