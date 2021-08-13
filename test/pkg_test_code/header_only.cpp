@@ -5,14 +5,20 @@ for Sustainable Energy, LLC.  See the top-level NOTICE for additional details.
 All rights reserved. SPDX-License-Identifier: BSD-3-Clause
 */
 
-#include "helics/helics.h"
+#include "units/units.hpp"
 
-#include <stdio.h>
+#include <iostream>
+
 int main()
 {
-    volatile HelicsFederateInfo fedinfo = helicsCreateFederateInfo();
-    helicsFederateInfoFree(fedinfo);
-    printf("%s\n", helicsGetVersion());
-    helicsCloseLibrary();
-    return (0);
+    units::measurement b(50.0, units::m);
+    units::measurement c(25.0, units::f);
+    auto k = b * c;
+
+    if (k.units() == units::units(m.pow(2))) {
+        std::cout << "PASS\n";
+    } else {
+        std::cout << "FAILE\n";
+    }
+    return 0;
 }

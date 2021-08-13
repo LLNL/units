@@ -10,7 +10,7 @@ set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp units_util.
 
 include(GenerateExportHeader)
 
-if(UNITS_BUILD_SHARED_LIBRARY OR BUILD_SHARED_LIBS)
+if(UNITS_BUILD_SHARED_LIBRARY )
     add_library(units SHARED ${units_source_files} ${units_header_files})
     generate_export_header(units BASE_NAME units)
     target_compile_definitions(units PUBLIC UNITS_EXPORT_HEADER)
@@ -38,30 +38,10 @@ if(UNITS_BUILD_SHARED_LIBRARY OR BUILD_SHARED_LIBS)
         )
     endif()
     add_library(units::units ALIAS units)
-elseif(UNITS_HEADER_ONLY)
-    add_library(header_only INTERFACE)
-    target_include_directories(
-        header_only INTERFACE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
-                              $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    )
-    target_compile_definitions(header_only INTERFACE UNITS_HEADER_ONLY)
-    if(UNITS_INSTALL)
-        install(TARGETS header_only ${UNITS_LIBRARY_EXPORT_COMMAND})
-    endif()
-    if(UNITS_NAMESPACE)
-        target_compile_definitions(
-            header_only INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
-        )
-    endif()
-    if(UNITS_BASE_TYPE)
-        target_compile_definitions(
-            header_only INTERFACE -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
-        )
-    endif()
-    add_library(units::header_only ALIAS header_only)
+    
 elseif(UNITS_BUILD_OBJECT_LIBRARY)
     add_library(units OBJECT ${units_source_files} ${units_header_files})
-    target_include_directories(units PRIVATE $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>)
+    target_include_directories(units PRIVATE $<BUILD_INTERFACE:${units_SOURCE_DIR}>)
 
     if(UNITS_NAMESPACE)
         target_compile_definitions(units PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE})
@@ -72,7 +52,7 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
             )
         endif()
     endif()
-else()
+elseif (UNITS_BUILD_STATIC_LIBRARY)
     add_library(units STATIC ${units_source_files} ${units_header_files})
     target_include_directories(
         units
@@ -93,11 +73,11 @@ else()
     if(UNITS_BASE_TYPE)
         target_compile_definitions(units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE})
     endif()
-    if(UNITS_INSTALL)
+    if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
         install(TARGETS units ${UNITS_LIBRARY_EXPORT_COMMAND}
-                DESTINATION ${CMAKE_INSTALL_LIBDIR} # INCLUDES DESTINATION include/units
+                DESTINATION ${CMAKE_INSTALL_LIBDIR} # INCLUDES DESTINATION include/${PROJECT_NAME}
         )
-    endif(UNITS_INSTALL)
+    endif()
     if(CMAKE_BUILD_TYPE STREQUAL Coverage)
         set_source_files_properties(foo.cpp PROPERTIES COMPILE_FLAGS -Wno-effc++)
     endif()
@@ -106,6 +86,28 @@ else()
     endif()
     add_library(units::units ALIAS units)
 endif()
+
+## add the header only interface library
+add_library(header_only INTERFACE)
+    target_include_directories(
+        header_only INTERFACE $<BUILD_INTERFACE:${units_SOURCE_DIR}>
+                              $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    )
+    target_compile_definitions(header_only INTERFACE UNITS_HEADER_ONLY)
+    if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
+        install(TARGETS header_only ${UNITS_LIBRARY_EXPORT_COMMAND})
+    endif()
+    if(UNITS_NAMESPACE)
+        target_compile_definitions(
+            header_only INTERFACE -DUNITS_NAMESPACE=${UNITS_NAMESPACE}
+        )
+    endif()
+    if(UNITS_BASE_TYPE)
+        target_compile_definitions(
+            header_only INTERFACE -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
+        )
+    endif()
+    add_library(units::header_only ALIAS header_only)
 
 if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
     install(FILES ${units_header_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/units)

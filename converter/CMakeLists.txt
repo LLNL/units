@@ -11,24 +11,24 @@ cmake_dependent_option(
 )
 
 if(UNITS_BUILD_CONVERTER_APP)
-    add_executable(unit_convert converter.cpp)
-    target_link_libraries(unit_convert PUBLIC units::units compile_flags_target)
-    target_include_directories(unit_convert PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
+    add_executable(units_convert converter.cpp)
+    target_link_libraries(units_convert PUBLIC units::units compile_flags_target)
+    target_include_directories(units_convert PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
     target_compile_definitions(
-        unit_convert PUBLIC UNITS_VERSION_STRING="${UNITS_VERSION}"
+        units_convert PUBLIC UNITS_VERSION_STRING="${UNITS_VERSION}"
     )
     if(CMAKE_CXX_STANDARD GREATER 16)
         if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_CXX_COMPILER_VERSION
                                                     VERSION_EQUAL 8
         )
-            target_link_libraries(unit_convert PRIVATE -lstdc++fs)
+            target_link_libraries(unit_sconvert PRIVATE -lstdc++fs)
         endif()
     endif()
     
     if (UNITS_INSTALL)
-        install(TARGETS unit_convert
-        EXPORT unitsTargets
+        install(TARGETS units_convert
+        ${UNITS_LIBRARY_EXPORT_COMMAND}
         RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT units_convert)
   endif()
-
+  add_executable(units::units_convert ALIAS units_convert)
 endif()

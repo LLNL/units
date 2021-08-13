@@ -13,6 +13,6 @@ int main(int /*argc*/, char* /*argv*/[])
 {
     auto u1 = units::measurement_from_string("10.7 meters per second");
 
-    std::cout << u1 << std::endl;
+    std::cout << to_string(u1) << std::endl;
     return 0;
 }

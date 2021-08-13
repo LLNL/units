@@ -83,18 +83,15 @@ set(UNITS_NAMESPACE
     CACHE STRING "Top-level namespace name. Default is `units`."
 )
 
-option(UNITS_INSTALL "Enable installation of the units library" ON)
-mark_as_advanced(UNITS_INSTALL)
-
 cmake_dependent_option(
-    UNITS_WITH_CMAKE_PACKAGE
+    UNITS_INSTALL
     "Generate and install cmake package files"
     ON
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;UNITS_INSTALL;NOT UNITS_BINARY_ONLY_INSTALL"
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT UNITS_BINARY_ONLY_INSTALL"
     OFF
 )
 
-mark_as_advanced(UNITS_WITH_CMAKE_PACKAGE)
+mark_as_advanced(UNITS_INSTALL)
 
 cmake_dependent_option(
     UNITS_BUILD_FUZZ_TARGETS "Build the targets for a fuzzing system" OFF
@@ -113,12 +110,9 @@ set(UNITS_CLANG_TIDY_OPTIONS
 mark_as_advanced(UNITS_CLANG_TIDY_OPTIONS)
 mark_as_advanced(UNITS_CLANG_TIDY)
 
-# Install instructions for this target
-if(UNITS_WITH_CMAKE_PACKAGE)
-    set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT unitsConfig)
-else(UNITS_WITH_CMAKE_PACKAGE)
-    set(UNITS_LIBRARY_EXPORT_COMMAND)
-endif(UNITS_WITH_CMAKE_PACKAGE)
+
+set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT unitsTargets)
+mark_as_advanced(UNITS_LIBRARY_EXPORT_COMMAND)
 
 option(UNITS_HEADER_ONLY "Expose the units library as header-only" OFF)
 
@@ -160,7 +154,13 @@ if(NOT UNITS_HEADER_ONLY)
         UNITS_BUILD_OBJECT_LIBRARY "Enable construction of the units object library"
         OFF "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
     )
-
+else()
+    option(UNITS_BUILD_STATIC_LIBRARY
+               "enable Construction of the units static library" OFF
+        )
+        option(UNITS_BUILD_SHARED_LIBRARY
+               "enable Construction of the units shared library" OFF
+        )
 endif(NOT UNITS_HEADER_ONLY)
 
 # Prepare Clang-Tidy
@@ -193,32 +193,15 @@ if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
-    if(UNITS_WITH_CMAKE_PACKAGE AND NOT UNITS_BINARY_ONLY_INSTALL)
-        install(EXPORT unitsTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
-        export(EXPORT unitsTargets NAMESPACE units::)
+    if(NOT UNITS_BINARY_ONLY_INSTALL)
+    configure_file(config/unitsConfig.cmake.in
+        "${PROJECT_BINARY_DIR}/unitsConfig.cmake" @ONLY)
+
+        export(EXPORT unitsTargets NAMESPACE units:: FILE ${PROJECT_BINARY_DIR}/unitsTargets.cmake)
+        
+        install(EXPORT unitsTargets NAMESPACE units:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
+        
         write_basic_package_version_file(${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake COMPATIBILITY AnyNewerVersion)
-        install(FILES ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
+        install(FILES ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake ${PROJECT_BINARY_DIR}/unitsConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units)
     endif()
 endif()
-
-
-
-#if(HELICS_WITH_CMAKE_PACKAGE)
-
-#        set(HELICS_CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
-#            CACHE STRING "install path for HELICSConfig.cmake"
-#        )
-#        mark_as_advanced(HELICS_CMAKECONFIG_INSTALL_DIR)
-
-        # Export targets for importing build tree with find_package
-#        export(EXPORT helics-targets NAMESPACE HELICS::
-#               FILE ${PROJECT_BINARY_DIR}/helics-targets.cmake
-#        )
-
-#        install(
-#            EXPORT helics-targets
-#            NAMESPACE HELICS::
-#            DESTINATION ${HELICS_CMAKECONFIG_INSTALL_DIR}
-#            COMPONENT libs
-#        )
-#    endif()

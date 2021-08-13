@@ -16,5 +16,5 @@ endif()
 
 # These are IMPORTED targets created by FooBarTargets.cmake
 set(UNITS_LIBRARIES units::units)
-set(UNITS_WEBSERVER units::webserver)
-set(UNITS_CONVERT units::convert
+set(UNITS_WEBSERVER units::units_webserver)
+set(UNITS_CONVERT units::units_convert)
