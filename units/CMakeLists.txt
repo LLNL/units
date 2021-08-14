@@ -17,6 +17,7 @@ if(UNITS_BUILD_SHARED_LIBRARY)
     target_include_directories(
         units
         PUBLIC $<BUILD_INTERFACE:${UNITS_SOURCE_DIR}>
+               $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
                $<BUILD_INTERFACE:${UNITS_BINARY_DIR}>
                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
