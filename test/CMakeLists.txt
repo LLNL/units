@@ -26,14 +26,15 @@ set(UNITS_TESTS
 
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
 
-#  /wd4459 is for a warning of a global m in google test. They won't interfere so ignore it
+# /wd4459 is for a warning of a global m in google test. They won't interfere so ignore
+# it
 if(UNITS_HEADER_ONLY)
 
     foreach(T ${UNIT_TEST_HEADER_ONLY})
 
         add_unit_test(${T}.cpp)
         target_link_libraries(${T} units::header_only compile_flags_target)
-        if (MSVC)
+        if(MSVC)
             target_compile_options(${T} PRIVATE /wd4459)
         endif()
     endforeach()
@@ -49,7 +50,7 @@ else()
         if(UNITS_CLANG_TIDY)
             set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
         endif()
-        if (MSVC)
+        if(MSVC)
             target_compile_options(${T} PRIVATE /wd4459)
         endif()
     endforeach()
@@ -69,7 +70,7 @@ else()
             set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
         endif()
         target_compile_definitions(test_leadingNumbers PUBLIC -DENABLE_UNIT_TESTING=1)
-        if (MSVC)
+        if(MSVC)
             target_compile_options(test_leadingNumbers PRIVATE /wd4459)
         endif()
     endif()
@@ -122,9 +123,9 @@ else()
     add_test(examples_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/examples_test)
 
     add_executable(test_all_unit_base test_all_unit_base.cpp)
-     if (MSVC)
-         target_compile_options(test_all_unit_base PRIVATE /wd4459)
-     endif()
+    if(MSVC)
+        target_compile_options(test_all_unit_base PRIVATE /wd4459)
+    endif()
     target_link_libraries(
         test_all_unit_base gtest gmock gtest_main units::units compile_flags_target
     )

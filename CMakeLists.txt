@@ -155,19 +155,28 @@ else()
     )
 endif(NOT UNITS_HEADER_ONLY)
 
-if (UNITS_BUILD_SHARED_LIBRARY AND UNITS_BUILD_STATIC_LIBRARY)
-    message(WARNING "Both UNITS_BUILD_SHARED_LIBRARY and UNITS_BUILD_STATIC_LIBRARY are set to ON, only the shared library will be built")
+if(UNITS_BUILD_SHARED_LIBRARY AND UNITS_BUILD_STATIC_LIBRARY)
+    message(
+        WARNING
+            "Both UNITS_BUILD_SHARED_LIBRARY and UNITS_BUILD_STATIC_LIBRARY are set to ON, only the shared library will be built"
+    )
 endif()
 
 cmake_dependent_option(
-        UNITS_BUILD_OBJECT_LIBRARY "Enable construction of the units object library"
-        OFF "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
-    )
+    UNITS_BUILD_OBJECT_LIBRARY "Enable construction of the units object library" OFF
+    "NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
+)
 
-if (UNITS_BUILD_SHARED_LIBRARY AND UNITS_BUILD_OBJECT_LIBRARY)
-    message(WARNING "Both UNITS_BUILD_SHARED_LIBRARY and UNITS_BUILD_OBJECT_LIBRARY are set to ON, only the shared library will be built")
-elseif (UNITS_BUILD_STATIC_LIBRARY AND UNITS_BUILD_OBJECT_LIBRARY)
-    message(WARNING "Both UNITS_BUILD_STATIC_LIBRARY and UNITS_BUILD_OBJECT_LIBRARY are set to ON, only the object library will be built")
+if(UNITS_BUILD_SHARED_LIBRARY AND UNITS_BUILD_OBJECT_LIBRARY)
+    message(
+        WARNING
+            "Both UNITS_BUILD_SHARED_LIBRARY and UNITS_BUILD_OBJECT_LIBRARY are set to ON, only the shared library will be built"
+    )
+elseif(UNITS_BUILD_STATIC_LIBRARY AND UNITS_BUILD_OBJECT_LIBRARY)
+    message(
+        WARNING
+            "Both UNITS_BUILD_STATIC_LIBRARY and UNITS_BUILD_OBJECT_LIBRARY are set to ON, only the object library will be built"
+    )
 endif()
 
 # Prepare Clang-Tidy
