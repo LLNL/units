@@ -1,0 +1,20 @@
+# - Config file for the units package
+# It defines the following variables
+#  UNITS_INCLUDE_DIRS - include directories for units library
+#  UNITS_LIBRARIES    - libraries to link against
+#  UNITS_WEBSERVER   - the units webserver executable
+#  UNITS_CONVERT  - the units conversion utility
+
+# Compute paths
+get_filename_component(UNITS_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(UNITS_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET units::units AND NOT units_BINARY_DIR)
+  include("${UNITS_CMAKE_DIR}/unitsTargets.cmake")
+endif()
+
+# These are IMPORTED targets created by FooBarTargets.cmake
+set(UNITS_LIBRARIES units::units)
+set(UNITS_WEBSERVER units::units_webserver)
+set(UNITS_CONVERT units::units_convert)

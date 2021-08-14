@@ -1011,6 +1011,7 @@ TEST(defaultUnits, singleCharacter)
     EXPECT_EQ(precise::K, default_unit("\xC8"));
 }
 
+#ifdef ENABLE_UNIT_TESTING
 TEST(stringGeneration, test1)
 {
     auto res = detail::testing::testCleanUpString(
@@ -1106,7 +1107,9 @@ TEST(stringCleanup, test_9strings)
         "10.7*999999999999999999999999lb", 0);
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
 }
+#endif
 
+#ifdef ENABLE_UNIT_MAP_ACCESS
 TEST(mapTests, testRoundTrip)
 {
     const auto& map = detail::getUnitStringMap();
@@ -1188,6 +1191,8 @@ TEST(mapTests, testRoundTripFromUnit)
         }
     }
 }
+#endif
+
 namespace units {
 
 static std::ostream& operator<<(std::ostream& os, const units::precise_unit& u)
