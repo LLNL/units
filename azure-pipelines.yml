@@ -71,6 +71,15 @@ jobs:
       vmImage: 'ubuntu-latest'
     strategy:
       matrix:
+        gcc7-11:
+          containerImage: gcc:7
+          units.std: 11
+        gcc7-14:
+          containerImage: gcc:7
+          units.std: 14
+        gcc7-17:
+          containerImage: gcc:7
+          units.std: 17
         gcc8:
           containerImage: gcc:8
           units.std: 17
@@ -80,6 +89,9 @@ jobs:
           units.options:
         clang3.4:
           containerImage: silkeh/clang:3.4
+          units.std: 11
+        clang3.5:
+          containerImage: silkeh/clang:3.5
           units.std: 11
     container: $[ variables['containerImage'] ]
     steps:
