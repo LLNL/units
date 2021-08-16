@@ -35,13 +35,13 @@ aliases:
       cd build
       make install
       ctest -V -R find-package-tests
-      
+
   - &run_coverage
     name: run_code_coverage
     command: |
       mkdir -p build
       cd build
-      cmake .. 
+      cmake ..
       eval cmake .. -DCMAKE_BUILD_TYPE=Coverage ${CMAKE_FLAGS}
       make -j 4
       eval cmake --build . --target UNITS_coverage
