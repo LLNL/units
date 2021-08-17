@@ -2,13 +2,17 @@
 
 ## Lawrence Livermore National Lab
 
-- [Corey McNeish](https://github.com/mcneish1)
+
 - [Philip Top](https://github.com/phlptp)
+- [Ryan Mast](https://github.com/nightlark)
 
 ## Other
-
-- [Greg Sjaardema](https://github.com/gsjaardema)
+- [Corey McNeish](https://github.com/mcneish1)
+- [Greg Sjaardema](https://github.com/gsjaardema) -Documentation updates
 - [JensMunkHansen](https://github.com/JensMunkHansen)
+- [Simon Heybrock](https://github.com/SimonHeybrock) -Doc updates and help supporting 64 bit unit base types, some additional constants and suggestions related to particle physics
+- [Kerim371](https://github.com/SimonHeybrock) - CMake builds for the shared library version
+- [Owen Arnold](https://github.com/OwenArnold) -Documentation
 
 ## Used Libraries or Code
 

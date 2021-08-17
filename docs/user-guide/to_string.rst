@@ -32,7 +32,7 @@ The `to_string` function also takes a second argument which is a `std::uint32_t 
 Stream Operators
 ----------------
 
-Output stream operators are NOT included in the library.  It was debatable to include them or not but there would be a lot of additional overloads that would add quite a bit of code to the header files, that in most cases is not necessary so the decision was made to exclude them.  The `to_string` operations provide most of the capbilities with some additional flexibility, and if needed for a particular use case can be added to the user code in a simple fashion
+Output stream operators are NOT included in the library.  It was debatable to include them or not but there would be a lot of additional overloads that would add quite a bit of code to the header files, that in most cases is not necessary so the decision was made to exclude them.  The `to_string` operations provide most of the capabilities with some additional flexibility, and if needed for a particular use case can be added to the user code in a simple fashion
 
 .. code-block:: c++
    namespace units{
@@ -44,3 +44,19 @@ Output stream operators are NOT included in the library.  It was debatable to in
    } // namespace units
 
 Any of the types in the units library with a `to_string` operation can be handled in the same way.  Depending on the compiler, placing the operator in the namespace may or may not be necessary.
+
+Underlying Conversion Map Access
+----------------------------------
+
+The underlying conversion maps may be accessed by users if desired.
+To access them a compile time definition needs to be added to the build `ENABLE_UNIT_MAP_ACCESS`
+
+.. code-block:: c++
+   #ifdef ENABLE_UNIT_MAP_ACCESS
+   namespace detail {
+       const std::unordered_map<std::string, precise_unit>& getUnitStringMap();
+       const std::unordered_map<unit, const char*>& getUnitNameMap();
+   }
+   #endif
+
+These may be useful for building a GUI or smart lookup or some other operations.  `getUnitStringMap()` returns a map of known unit strings, and `getUnitNameMap()` is a mapping of common units back to strings as a building block for the `to_string` operation.

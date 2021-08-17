@@ -8,7 +8,10 @@
 [![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/units/badge/?version=latest)](https://units.readthedocs.io/en/latest/?badge=latest)
 
-[What's new](./CHANGELOG.md) •
+[What's new](./CHANGELOG.md)
+
+*Some of the CMake target names have changed in the latest release, please update builds appropriately*
+
 [Documentation](https://units.readthedocs.io/en/latest/)
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.
@@ -29,6 +32,7 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
   - [Measurements](#measurement-operations)
   - [String Conversions](#available-library-functions)
 - [Contributions](#contributions)
+- [Users](projects-using-the-units-library)
 - [Release](#release)
 
 ## Purpose
@@ -355,6 +359,15 @@ These are all only partially implemented, not recommended for use yet
 ## Contributions
 
 Contributions are welcome. See [Contributing](./CONTRIBUTING.md) for more details and [Contributors](./CONTRIBUTORS.md) for a list of the current and past Contributors to this project.
+
+## Project Using the Units Library
+
+Anyone else using the units library?  Please let us know.
+
+- [HELICS](www.helics.org)
+- [GridDyn](https://github.com/LLNL/GridDyn)
+- [scipp](https://scipp.github.io/)
+
 
 ## Release
 
