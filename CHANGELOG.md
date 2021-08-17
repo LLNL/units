@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.5.0][] - 2020-08-17
-This release includes some changes to the CMake builds and Targets.  Also includes support for 64 bit base types for units with expanded power support, and support for a custom namespace for better integration with other applications.  And additional units for natural gas and particle physics.
+
+This release includes some changes to the CMake builds and Targets. Also includes support for 64 bit base types for units with expanded power support, and support for a custom namespace for better integration with other applications. And additional units for natural gas and particle physics.
 
 ### Changed
 
@@ -167,7 +168,6 @@ Continued work on cleaning up the library and starting to add main documentation
 [#85]: https://github.com/LLNL/units/pull/85
 [#91]: https://github.com/LLNL/units/pull/91
 [#93]: https://github.com/LLNL/units/pull/93
-
 [#109]: https://github.com/LLNL/units/pull/109
 [#111]: https://github.com/LLNL/units/pull/111
 [#112]: https://github.com/LLNL/units/pull/112
@@ -175,7 +175,6 @@ Continued work on cleaning up the library and starting to add main documentation
 [#115]: https://github.com/LLNL/units/pull/115
 [#120]: https://github.com/LLNL/units/pull/120
 [#125]: https://github.com/LLNL/units/pull/125
-
 [#130]: https://github.com/LLNL/units/pull/130
 [#134]: https://github.com/LLNL/units/pull/134
 [#136]: https://github.com/LLNL/units/pull/136
@@ -183,12 +182,10 @@ Continued work on cleaning up the library and starting to add main documentation
 [#141]: https://github.com/LLNL/units/pull/141
 [#142]: https://github.com/LLNL/units/pull/142
 [#146]: https://github.com/LLNL/units/pull/146
-
 [#150]: https://github.com/LLNL/units/pull/150
 [#152]: https://github.com/LLNL/units/pull/152
 [#159]: https://github.com/LLNL/units/pull/159
 [#155]: https://github.com/LLNL/units/pull/155
-
 [0.5.0]: https://github.com/LLNL/units/releases/tag/v0.5.0
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
