@@ -5,23 +5,46 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.5.0][]
+## [0.5.0][] - 2020-08-17
+
+This release includes some changes to the CMake builds and Targets. Also includes support for 64 bit base types for units with expanded power support, and support for a custom namespace for better integration with other applications. And additional units for natural gas and particle physics.
 
 ### Changed
 
 - update the physical constants to latest values and updated related documentation on Physical constants [#56][]
+- CMake targets units::units and units::header_only are the only two public targets [#155][]
+- Updated code checks [#85][]
 
 ### Fixed
 
 - Fixed `-Wshadow` warnings for GCC 4.9 and earlier [#66][]
+- Documentation Fixes and updates [#152][], [#146][], [#111][], [#82][]
+- Fixed pow_overflows not handling 0 correctly [#139][], [#134][]
+- Fixed a few issues with the output strings and some SI units [#130][]
+- Some cleanup for multiplier string generation [#93][]
+- Fixed an issue with plural two character units like `lb`, `oz` [#91][]
+- Fix identified Fuzzing issue [#84][]
+- Fixed some shadow warnings on some compilers [#72][]
+- Fixed some issues with `std::abs` usage [#70][]
 
 ### Added
 
 - Added version output to converter app and the correct version info on the webserver [#54][]
 - Added markdown linter to pre-commit [#64][]
 - CMake format check to pre-commit [#65][]
+- Added tests for the shared library build [#155][]
+- Added support for 64 bit base unit [#150][], [#142][]
+- CMake Variable for manipulating output namespace [#136][], [#141][]
+- Added some support for compiling with C++20 [#125][]
+- Added some additional units for supporting particle physics [#120][],[#115][], [#112][], [#109][]
+- Added support for exposing the main unit maps for string conversions [#113][]
+- Added support for natural gas related units [#74][]
 
 ### Removed
+
+- Travis-CI builds have been migrated to Azure and Circle-CI [#159][]
+- removed units::units-static, and units::units-shared CMake targets[#155][]
+- Removed Becquerel from the generated unit strings as it was producing some very odd units at times [#82][]
 
 ## [0.4.0][] - 2020-03-30
 
@@ -137,6 +160,32 @@ Continued work on cleaning up the library and starting to add main documentation
 [#64]: https://github.com/LLNL/units/pull/64
 [#65]: https://github.com/LLNL/units/pull/65
 [#66]: https://github.com/LLNL/units/pull/66
+[#70]: https://github.com/LLNL/units/pull/70
+[#72]: https://github.com/LLNL/units/pull/72
+[#74]: https://github.com/LLNL/units/pull/74
+[#82]: https://github.com/LLNL/units/pull/82
+[#84]: https://github.com/LLNL/units/pull/84
+[#85]: https://github.com/LLNL/units/pull/85
+[#91]: https://github.com/LLNL/units/pull/91
+[#93]: https://github.com/LLNL/units/pull/93
+[#109]: https://github.com/LLNL/units/pull/109
+[#111]: https://github.com/LLNL/units/pull/111
+[#112]: https://github.com/LLNL/units/pull/112
+[#113]: https://github.com/LLNL/units/pull/113
+[#115]: https://github.com/LLNL/units/pull/115
+[#120]: https://github.com/LLNL/units/pull/120
+[#125]: https://github.com/LLNL/units/pull/125
+[#130]: https://github.com/LLNL/units/pull/130
+[#134]: https://github.com/LLNL/units/pull/134
+[#136]: https://github.com/LLNL/units/pull/136
+[#139]: https://github.com/LLNL/units/pull/139
+[#141]: https://github.com/LLNL/units/pull/141
+[#142]: https://github.com/LLNL/units/pull/142
+[#146]: https://github.com/LLNL/units/pull/146
+[#150]: https://github.com/LLNL/units/pull/150
+[#152]: https://github.com/LLNL/units/pull/152
+[#159]: https://github.com/LLNL/units/pull/159
+[#155]: https://github.com/LLNL/units/pull/155
 [0.5.0]: https://github.com/LLNL/units/releases/tag/v0.5.0
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
