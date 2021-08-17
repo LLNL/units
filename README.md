@@ -10,7 +10,7 @@
 
 [What's new](./CHANGELOG.md)
 
-*Some of the CMake target names have changed in the latest release, please update builds appropriately*
+_Some of the CMake target names have changed in the latest release, please update builds appropriately_
 
 [Documentation](https://units.readthedocs.io/en/latest/)
 
@@ -362,12 +362,11 @@ Contributions are welcome. See [Contributing](./CONTRIBUTING.md) for more detail
 
 ## Project Using the Units Library
 
-Anyone else using the units library?  Please let us know.
+Anyone else using the units library? Please let us know.
 
 - [HELICS](www.helics.org)
 - [GridDyn](https://github.com/LLNL/GridDyn)
 - [scipp](https://scipp.github.io/)
-
 
 ## Release
 

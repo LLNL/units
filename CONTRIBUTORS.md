@@ -2,11 +2,11 @@
 
 ## Lawrence Livermore National Lab
 
-
 - [Philip Top](https://github.com/phlptp)
 - [Ryan Mast](https://github.com/nightlark)
 
 ## Other
+
 - [Corey McNeish](https://github.com/mcneish1)
 - [Greg Sjaardema](https://github.com/gsjaardema) -Documentation updates
 - [JensMunkHansen](https://github.com/JensMunkHansen)
