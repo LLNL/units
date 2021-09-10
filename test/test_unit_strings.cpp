@@ -648,10 +648,10 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST(roundTrip, DebugTest)
 {
-    auto u1 = unit_from_string("U/mL{RBCs}");
+    auto u1 = unit_from_string("1*ampere90");
     auto str = to_string(u1);
     auto u2 = unit_from_string(str);
-    EXPECT_EQ(u2, u1);
+    EXPECT_EQ(unit_cast(u2), unit_cast(u1));
 }
 
 TEST(CommodityStrings, simple)

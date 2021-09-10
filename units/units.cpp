@@ -3793,6 +3793,7 @@ static const smap base_unit_vals{
     {"H_90", precise::conventional::henry90},
     {"coulomb90", precise::conventional::coulomb90},
     {"ampere90", precise::conventional::ampere90},
+    {"amp90", precise::conventional::ampere90},
     {"volt90", precise::conventional::volt90},
     {"watt90", precise::conventional::watt90},
     {"farad90", precise::conventional::farad90},
