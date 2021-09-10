@@ -631,6 +631,9 @@ TEST(UnitDefinitions, inversionConversion)
     EXPECT_NEAR(convert(0.5, m, m.inv()), 2.0, test::tolerance);
 
     EXPECT_NEAR(convert(10, Hz, s), 0.1, test::tolerance);
+
+    EXPECT_NEAR(convert(1.0, kilo*Hz, milli*s), 1.0, test::tolerance);
+    EXPECT_NEAR(convert(1.0, milli * s, Hz ), 1000.0, test::tolerance);
 }
 
 TEST(quickConvert, simple)
