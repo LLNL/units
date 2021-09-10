@@ -2740,7 +2740,11 @@ static const smap base_unit_vals{
     {"joule", precise::J},
     {"Joule", precise::J},
     {"Joules", precise::J},
+#ifdef UNITS_USE_COOKING_UNITS
+    {"C", precise::us::cup},
+#else
     {"C", precise::C},
+#endif
     {"coulomb", precise::C},
     {"faraday", precise::other::faraday},
     {"farady", precise::other::faraday},
@@ -2773,7 +2777,11 @@ static const smap base_unit_vals{
     {"statmho", precise_unit(1.0 / 8.987551787e11, S)},
     {"Wb", precise::Wb},
     {"weber", precise::Wb},
+#ifdef UNITS_USE_COOKING_UNITS
+    {"T", precise::us::tbsp},
+#else
     {"T", precise::T},
+#endif
     {"tesla", precise::T},
     {"H", precise::H},
     {"henry", precise::H},
@@ -3323,6 +3331,11 @@ static const smap base_unit_vals{
     {"PRS", precise::distance::parsec},
     {"pRS", precise::distance::parsec},
     {"[c]", constants::c.as_unit()},
+#ifdef UNITS_USE_COOKING_UNITS
+    {"c", precise::us::cup},
+#else
+    {"c", constants::c.as_unit()},
+#endif
     {"[C]", constants::c.as_unit()},
     {"speedoflight", constants::c.as_unit()},
     {"speedoflightinvacuum", constants::c.as_unit()},
@@ -3956,7 +3969,11 @@ static const smap base_unit_vals{
     {"bag", precise_unit(96.0, precise::lb)},
     {"ton", precise::ton},
     {"ton(short)", precise::ton},
+#ifdef UNITS_USE_COOKING_UNITS
+    {"t", precise::us::tsp},
+#else
     {"t", precise::mass::tonne},  // metric tonne
+#endif
     {"mt", precise::mass::tonne},  // metric tonne
     {"ton_m", precise::mass::tonne},
     {"tonne", precise::mass::tonne},
@@ -4034,6 +4051,7 @@ static const smap base_unit_vals{
     {"fluiddram_us", precise_unit(1.0 / 8.0, precise::us::floz)},
     {"liquidounce", precise::us::floz},
     {"liquidounce_us", precise::us::floz},
+    {"jigger", precise_unit(1.5, precise::us::floz)},
     {"fdr_us", precise::us::dram},
     {"[FDR_US]", precise::us::dram},
     {"fluiddram_us", precise::us::dram},
@@ -4216,6 +4234,9 @@ static const smap base_unit_vals{
     {"tbs", precise::us::tbsp},
     {"tbs_us", precise::us::tbsp},
     {"[TBS_US]", precise::us::tbsp},
+#ifdef UNITS_USE_COOKING_UNITS
+    {"TB", precise::us::tbsp},
+#endif
     {"tablespoon", precise::us::tbsp},
     {"tablespoon_us", precise::us::tbsp},
     {"smidgen", precise_unit(1.0 / 32.0, precise::us::tsp)},
