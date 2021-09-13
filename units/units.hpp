@@ -134,7 +134,7 @@ double convert(double val, const UX& start, const UX2& result)
     if (base_start.has_same_base(base_result.inv())) {
         // ignore flag and e flag  special cases have been dealt with already,
         // so those are just markers
-        return result.multiplier() / (val * start.multiplier());
+        return 1.0 / (val * start.multiplier() * result.multiplier());
     }
     if (start.has_e_flag() || result.has_e_flag()) {
         double converted_val =
