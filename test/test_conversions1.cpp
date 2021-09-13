@@ -632,9 +632,9 @@ TEST(UnitDefinitions, inversionConversion)
 
     EXPECT_NEAR(convert(10, Hz, s), 0.1, test::tolerance);
 
-    EXPECT_FLOAT_EQ(convert(1.0, kilo*Hz, milli*s), 1.0);
-    EXPECT_FLOAT_EQ(convert(1.0, milli * s, Hz ), 1000.0);
-    EXPECT_FLOAT_EQ(convert(50.0, micro * s, kilo*Hz), 20.0);
+    EXPECT_FLOAT_EQ(convert(1.0, kilo * Hz, milli * s), 1.0);
+    EXPECT_FLOAT_EQ(convert(1.0, milli * s, Hz), 1000.0);
+    EXPECT_FLOAT_EQ(convert(50.0, micro * s, kilo * Hz), 20.0);
     EXPECT_FLOAT_EQ(convert(20000, kilo * Hz, nano * s), 50.0);
 }
 
