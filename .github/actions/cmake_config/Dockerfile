@@ -7,7 +7,7 @@ RUN apt-get update \
         libidn11=1.33-2.1ubuntu1.2 \
         ca-certificates=20180409 \
         make=4.1-9.1ubuntu1 \
-        git=1:2.17.1-1ubuntu0.8 \
+        git=1:2.17.1-1ubuntu0.9 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -17,6 +17,6 @@ LABEL name="units.cmake"
 LABEL description="Units cmake tests"
 LABEL vcs-ref=$GIT_COMMIT
 LABEL vcs-url="https://github.com/LLNL/units"
-LABEL version="0.4.2"
+LABEL version="0.5.1"
 
 ENTRYPOINT ["/entrypoint.sh"]
