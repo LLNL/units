@@ -343,7 +343,7 @@ namespace precise {
         constexpr precise_unit watt90{1.00000019553, W};
         constexpr precise_unit farad90{0.99999998235, F};
         constexpr precise_unit henry90{1.00000001779, H};
-    }
+    }  // namespace conventional
 
     /// Meter tonne second system of units
     namespace MTS {

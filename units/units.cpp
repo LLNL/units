@@ -3769,9 +3769,10 @@ static const smap base_unit_vals{
     {"Mton", precise_unit(1000000.0, precise::energy::ton_tnt)},
     {"Gton", precise_unit(1000000000.0, precise::energy::ton_tnt)},
     {"hartree", precise::energy::hartree},
-    {"Eh", precise::energy::hartree}, // this could be confused with Exa-hour, but not likely
-    {"E_h", precise::energy::hartree},  // this could be confused with Exa-hour,
+    {"Eh", precise::energy::hartree},  // this could be confused with Exa-hour,
                                        // but not likely
+    {"E_h", precise::energy::hartree},  // this could be confused with Exa-hour,
+                                        // but not likely
     {"Ha", precise::energy::hartree},
     {"C90", precise::conventional::coulomb90},
     {"ohm90", precise::conventional::ohm90},
@@ -5081,7 +5082,7 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
             if (fnd == 1) {  // if the second character is a space it almost
                              // always means multiply
                 if (unit_string[nloc] == '*' || unit_string[nloc] == '/' ||
-                    unit_string[nloc] == '^' || unit_string[nloc] =='@') {
+                    unit_string[nloc] == '^' || unit_string[nloc] == '@') {
                     unit_string.erase(fnd, 1);
                     fnd = unit_string.find_first_of(spaceChars, fnd);
                     continue;
@@ -5102,7 +5103,6 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                             continue;
                         }
                     }
-                   
                 }
             }
             if (unit_string[fnd - 1] == '/' || unit_string[fnd - 1] == '*') {
