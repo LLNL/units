@@ -338,6 +338,26 @@ TEST(stringToUnits, SIprefix)
     EXPECT_EQ(unit(1e-15, s), unit_cast_from_string("fs"));
 }
 
+
+TEST(stringToUnits, hartree)
+{
+    EXPECT_EQ(precise::energy::hartree, unit_from_string("Eh"));
+    EXPECT_EQ(precise::energy::hartree, unit_from_string("E_h"));
+}
+
+TEST(stringToUnits, conventional)
+{
+    EXPECT_EQ(precise::conventional::coulomb90, unit_from_string("C_90"));
+    EXPECT_EQ(precise::conventional::watt90, unit_from_string("V_90*A90"));
+}
+
+TEST(stringToUnits, gas_constant)
+{
+    auto rval = unit_from_string("J mol^-1 K^-1");
+
+    EXPECT_TRUE(rval.has_same_base(units::constants::R.as_unit().base_units()));
+}
+
 TEST(stringToUnits, Parenthesis)
 {
     EXPECT_EQ(
@@ -628,10 +648,10 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST(roundTrip, DebugTest)
 {
-    auto u1 = unit_from_string("U/mL{RBCs}");
+    auto u1 = unit_from_string("1*ampere90");
     auto str = to_string(u1);
     auto u2 = unit_from_string(str);
-    EXPECT_EQ(u2, u1);
+    EXPECT_EQ(unit_cast(u2), unit_cast(u1));
 }
 
 TEST(CommodityStrings, simple)

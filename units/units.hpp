@@ -1986,6 +1986,9 @@ namespace constants {
     // SI redefinition taken from
     // https://www.nist.gov/si-redefinition/meet-constants
 
+    //common constants from
+    // https://physics.nist.gov/cgi-bin/cuu/Category?view=html&Frequently+used+constants.x=87&Frequently+used+constants.y=18
+
     /// Standard gravity
     constexpr precise_measurement
         g0(9.80665, precise::m / precise::s / precise::s);
@@ -2005,6 +2008,14 @@ namespace constants {
     /// Planck constant (2019 redefinition)
     constexpr precise_measurement h{6.62607015e-34,
                                     precise::J* precise::second};
+    /// atomic mass constant
+    constexpr precise_measurement mu{
+        1.66053906660e-27,
+        precise::kg};
+
+    /// conductance quantum 
+    constexpr precise_measurement G0{7.748091729e-5, precise::siemens};
+
     /// reduced Planck constant (2019 redefinition)
     constexpr precise_measurement hbar{6.62607015e-34 / tau,
                                        precise::J* precise::second};
@@ -2044,6 +2055,21 @@ namespace constants {
     constexpr precise_measurement a0{5.29177210903e-11, precise::m};
     /// Faraday's constant
     constexpr precise_measurement F = Na * e;
+
+    /// Josephson constant
+    constexpr precise_measurement Kj{
+        483597.8484e9,
+        precise::Hz* precise::V.inv()};
+
+    /// magnetic flux quantum
+    constexpr precise_measurement phi0{2.067833848e-15, precise::Wb};
+
+    /// von Kiltzing constant
+    constexpr precise_measurement Rk{25812.80745, precise::ohm};
+
+    /// Rydberg constant 
+    constexpr precise_measurement Rinf{10973731.568160, precise::count/precise::m};
+
     /// Planck units
     namespace planck {
         constexpr precise_measurement length{1.616255e-35, precise::m};
