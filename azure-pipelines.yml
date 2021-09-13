@@ -5,10 +5,10 @@
 # copied from https://github.com/CLIUtils/CLI11
 
 trigger:
-  - master
+  - main
 
 pr:
-  - master
+  - main
 
 variables:
   units.header: OFF
