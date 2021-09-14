@@ -144,12 +144,13 @@ static const umap base_unit_names{
                                        // 1000 m^3 not mega meters cubed
     {kg, "kg"},
     {mol, "mol"},
+    {unit(0.1,m),"dm"}, //don't want to use deci in most conversion contexts but for meter it is fine
     {A, "A"},
     {A * h, "Ah"},
     {V, "V"},
     {s, "s"},
     // this is so Gs doesn't get used which can cause issues
-    {giga * s, "Bs"},
+    {giga * s, "Bs"}, //B is for billion
     {cd, "cd"},
     {K, "K"},
     {N, "N"},
@@ -365,14 +366,22 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 4> creduceUnits{
 static const std::unordered_map<float, char> si_prefixes{
     {0.001F, 'm'},        {1.0F / 1000.0F, 'm'},
     {1000.0F, 'k'},       {1.0F / 0.001F, 'k'},
-    {1e-6F, 'u'},         {0.01F, 'c'},
-    {1.0F / 100.0F, 'c'}, {1.0F / 1e6F, 'u'},
+    {1e-6F, 'u'},         {1.0F / 1e6F, 'u'},
+    {0.01F, 'c'},         {1.0F / 100.0F, 'c'},
     {1000000.0F, 'M'},    {1.0F / 0.000001F, 'M'},
     {1000000000.0F, 'G'}, {1.0F / 0.000000001F, 'G'},
     {1e-9F, 'n'},         {1.0F / 1e9F, 'n'},
     {1e-12F, 'p'},        {1.0F / 1e12F, 'p'},
     {1e-15F, 'f'},        {1.0F / 1e15F, 'f'},
-    {1e12F, 'T'},         {1.0F / 1e-12F, 'T'}};
+    {1e-18F, 'a'},        {1.0F / 1e18F, 'a'},
+    {1e-21F, 'z'},        {1.0F / 1e21F, 'z'},
+    {1e-24F, 'y'},        {1.0F / 1e24F, 'y'},
+    {1e12F, 'T'},         {1.0F / 1e-12F, 'T'},
+    {1e15F, 'P'},         {1.0F / 1e-15F, 'P'},
+    {1e18F, 'E'},         {1.0F / 1e-18F, 'E'},
+    {1e21F, 'Z'},         {1.0F / 1e-21F, 'Z'},
+    {1e24F, 'Y'},         {1.0F / 1e-24F, 'Y'},
+};
 
 // check if the character is something that could begin a number
 static inline bool isNumericalStartCharacter(char X)
@@ -3185,7 +3194,8 @@ static const smap base_unit_vals{
     {"arcmin", precise::angle::arcmin},
     {"amin", precise::angle::arcmin},
     {"am", precise::angle::arcmin},  // as opposed to attometer
-    {"angularminute", precise::angle::arcmin},  // as opposed to attometer
+    {"MOA", precise::angle::arcmin},
+    {"angularminute", precise::angle::arcmin},
     {"'", precise::angle::arcmin},
     {"'", precise::angle::arcmin},
     {u8"\u2032", precise::angle::arcmin},  // double prime
@@ -3195,10 +3205,11 @@ static const smap base_unit_vals{
     {"arcsec", precise::angle::arcsec},
     {"asec", precise::angle::arcsec},
     {"as", precise::angle::arcsec},  // as opposed to attosecond
-    {"angularsecond", precise::angle::arcsec},  // as opposed to attosecond
+    {"angularsecond", precise::angle::arcsec},
     {"\"", precise::angle::arcsec},
     {u8"\u2033", precise::angle::arcsec},  // double prime
     {"mas", precise_unit(0.001, precise::angle::arcsec)},  // milliarcsec
+    {"uas", precise_unit(0.000001, precise::angle::arcsec)},  //microarcsec
     {"rad", precise::rad},
     {"radian", precise::rad},
     {"gon", precise::angle::gon},
