@@ -5092,17 +5092,15 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                     fnd = unit_string.find_first_of(spaceChars, fnd);
                     skipMultiply = true;
                     continue;
-                } else {
-                    if (unit_string.find_first_of('*') == std::string::npos) {
-                        auto oloc = unit_string.find_first_of("/^", nloc);
-                        if (oloc < 9) {
-                            unit_string[fnd] = '*';
-                            fnd = unit_string.find_first_of(spaceChars, fnd);
-                            skipMultiply = true;
-                            continue;
-                        }
+                }
+                if (unit_string.find_first_of('*') == std::string::npos) {
+                    auto oloc = unit_string.find_first_of("/^", nloc);
+                    if (oloc < 9) {
+                        unit_string[fnd] = '*';
+                        fnd = unit_string.find_first_of(spaceChars, fnd);
+                        skipMultiply = true;
+                        continue;
                     }
-                   
                 }
             }
             if (unit_string[fnd - 1] == '/' || unit_string[fnd - 1] == '*') {
