@@ -2340,7 +2340,7 @@ using ckpair = std::pair<const char*, const char*>;
 static precise_unit
     localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 42>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 43>
         internationlReplacements{{
             ckpair{"internationaltable", "_IT"},
             ckpair{"internationalsteamtable", "_IT"},
@@ -2384,6 +2384,7 @@ static precise_unit
             ckpair{"Br", "_br"},
             ckpair{"BR", "_br"},
             ckpair{"UK", "_br"},
+            ckpair{"conventional", "_90"},
         }};
     bool changed = false;
     for (const auto& irep : internationlReplacements) {
@@ -3767,7 +3768,37 @@ static const smap base_unit_vals{
     {"kton", precise_unit(1000.0, precise::energy::ton_tnt)},
     {"Mton", precise_unit(1000000.0, precise::energy::ton_tnt)},
     {"Gton", precise_unit(1000000000.0, precise::energy::ton_tnt)},
-    {"hartree", precise::energy::ton_tnt},
+    {"hartree", precise::energy::hartree},
+    {"Eh", precise::energy::hartree},  // this could be confused with Exa-hour,
+                                       // but not likely
+    {"E_h", precise::energy::hartree},  // this could be confused with Exa-hour,
+                                        // but not likely
+    {"Ha", precise::energy::hartree},
+    {"C90", precise::conventional::coulomb90},
+    {"ohm90", precise::conventional::ohm90},
+    {u8"\u03A990", precise::conventional::ohm90},  // Greek Omega
+    {u8"\u212690", precise::conventional::ohm90},  // Unicode Ohm symbol
+    {"A90", precise::conventional::ampere90},
+    {"V90", precise::conventional::volt90},
+    {"W90", precise::conventional::watt90},
+    {"F90", precise::conventional::farad90},
+    {"H90", precise::conventional::henry90},
+    {"C_90", precise::conventional::coulomb90},
+    {"ohm_90", precise::conventional::ohm90},
+    {u8"\u03A9_90", precise::conventional::ohm90},  // Greek Omega
+    {u8"\u2126_90", precise::conventional::ohm90},  // Unicode Ohm symbol
+    {"A_90", precise::conventional::ampere90},
+    {"V_90", precise::conventional::volt90},
+    {"W_90", precise::conventional::watt90},
+    {"F_90", precise::conventional::farad90},
+    {"H_90", precise::conventional::henry90},
+    {"coulomb90", precise::conventional::coulomb90},
+    {"ampere90", precise::conventional::ampere90},
+    {"amp90", precise::conventional::ampere90},
+    {"volt90", precise::conventional::volt90},
+    {"watt90", precise::conventional::watt90},
+    {"farad90", precise::conventional::farad90},
+    {"henry90", precise::conventional::henry90},
     {"boe", precise::energy::boe},
     {"boe", precise::energy::boe},
     {"foeb", precise::energy::foeb},
@@ -5050,16 +5081,27 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
             }
             if (fnd == 1) {  // if the second character is a space it almost
                              // always means multiply
+                if (unit_string[nloc] == '*' || unit_string[nloc] == '/' ||
+                    unit_string[nloc] == '^' || unit_string[nloc] == '@') {
+                    unit_string.erase(fnd, 1);
+                    fnd = unit_string.find_first_of(spaceChars, fnd);
+                    continue;
+                }
+
                 if (unit_string.size() < 8) {
-                    if (unit_string[nloc] == '*' || unit_string[nloc] == '/') {
-                        unit_string.erase(fnd, 1);
-                        fnd = unit_string.find_first_of(spaceChars, fnd);
-                        continue;
-                    }
                     unit_string[fnd] = '*';
                     fnd = unit_string.find_first_of(spaceChars, fnd);
                     skipMultiply = true;
                     continue;
+                }
+                if (unit_string.find_first_of('*') == std::string::npos) {
+                    auto oloc = unit_string.find_first_of("/^", nloc);
+                    if (oloc < 9) {
+                        unit_string[fnd] = '*';
+                        fnd = unit_string.find_first_of(spaceChars, fnd);
+                        skipMultiply = true;
+                        continue;
+                    }
                 }
             }
             if (unit_string[fnd - 1] == '/' || unit_string[fnd - 1] == '*') {

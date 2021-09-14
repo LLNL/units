@@ -133,6 +133,18 @@ The `CGS <https://en.wikipedia.org/wiki/Centimetre%E2%80%93gram%E2%80%93second_s
 - statOhm
 - statFarad
 
+Conventional Electrical Units
+==================================
+defined in namespace `units::precise::conventional`
+
+- volt90
+- ampere90
+- watt90
+- henry90
+- coulomb90
+- farad90
+- ohm90
+
 Meter Gram Force System
 ============================
 defined in namespace `units::precise::gm`

@@ -334,6 +334,17 @@ namespace precise {
 
     }  // namespace gm
 
+    /// Conventional Electrical Units
+    namespace conventional {
+        constexpr precise_unit volt90{1.00000010666, V};
+        constexpr precise_unit ohm90{1.00000001779, ohm};
+        constexpr precise_unit ampere90{1.00000008887, A};
+        constexpr precise_unit coulomb90{1.00000008887, A};
+        constexpr precise_unit watt90{1.00000019553, W};
+        constexpr precise_unit farad90{0.99999998235, F};
+        constexpr precise_unit henry90{1.00000001779, H};
+    }  // namespace conventional
+
     /// Meter tonne second system of units
     namespace MTS {
         constexpr precise_unit sthene{1000.0, N};
@@ -819,7 +830,7 @@ namespace precise {
         constexpr precise_unit ton_tnt{4.184, precise::giga* precise::J};
         constexpr precise_unit boe{5.8e6, btu_59};
         constexpr precise_unit foeb{6.05e6, btu_59};
-        constexpr precise_unit hartree{4.35974465054e-18, J};
+        constexpr precise_unit hartree{4.3597447222071e-18, J};
         constexpr precise_unit tonhour{3.5168528421, kWh};
 
         constexpr precise_unit scf_mol{1.1953, mol};

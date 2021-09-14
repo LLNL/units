@@ -5,6 +5,21 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0][] ~ 2020-09-30
+
+### Changed
+
+### Fixed
+
+- The "hartree" string produced an incorrect value
+
+### Added
+
+- Added a series of constants to make the available constants match the Nist [Common Constants](https://physics.nist.gov/cgi-bin/cuu/Category?view=html&Frequently+used+constants.x=87&Frequently+used+constants.y=18) list
+- added "Eh" as a valid string value for "hartree"
+
+### Removed
+
 ## [0.5.0][] - 2020-08-17
 
 This release includes some changes to the CMake builds and Targets. Also includes support for 64 bit base types for units with expanded power support, and support for a custom namespace for better integration with other applications. And additional units for natural gas and particle physics.

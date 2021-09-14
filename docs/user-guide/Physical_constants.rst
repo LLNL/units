@@ -6,7 +6,7 @@ The units library comes with a number of physical constants with appropriate uni
 All the physical constants are specified as :ref:`precise measurements` and in the namespace `units::constants`
 In general the most recent definition was chosen which includes the 2019 redefinition of some SI units this matches with the rest of the library and the defined units.
 Inspiration for the different constants was taken from `wikipedia <https://en.wikipedia.org/wiki/List_of_physical_constants>`_ and `NIST <https://physics.nist.gov/cuu/Constants/index.html>`_.
-Defined constants.  The `2019 redefinition <https://www.nist.gov/si-redefinition/meet-constants>`_ of the SI system was used where applicable.
+Defined constants.  The `2019 redefinition <https://www.nist.gov/si-redefinition/meet-constants>`_ of the SI system was used where applicable.  All `common constants <https://physics.nist.gov/cgi-bin/cuu/Category?view=html&Frequently+used+constants.x=87&Frequently+used+constants.y=18>`_ listed from NIST are included
 
 Defined constants
 ----------------------
@@ -31,6 +31,12 @@ Values are taken from `NIST 2018 CODATA <https://physics.nist.gov/cuu/Constants/
 -   Mass of a proton - `mp`
 -   Bohr Radius - `a0`
 -   Faraday's constant - `F`
+-   Atomic mass constant - `mu`
+-   Conductance quantum - `G0`
+-   Josephson constant - `Kj`
+-   Magnetic flux quantum - `phi0`
+-   von Kiltzing constant - `Rk`
+-   Rydberg constant - `Rinf`
 
 Planck Units
 ------------------

@@ -233,7 +233,7 @@ void handle_request(
             res.body() = index_page;
             res.prepare_payload();
         } else {
-            res.set(http::field::content_length, index_page.size());
+            res.content_length(index_page.size());
         }
         return res;
     };
@@ -255,7 +255,7 @@ void handle_request(
             res.body() = resp;
             res.prepare_payload();
         } else {
-            res.set(http::field::content_length, resp.size());
+            res.content_length(resp.size());
         }
         return res;
     };
@@ -269,7 +269,7 @@ void handle_request(
             res.body() = value;
             res.prepare_payload();
         } else {
-            res.set(http::field::content_length, value.size());
+            res.content_length(value.size());
         }
         return res;
     };
@@ -291,7 +291,7 @@ void handle_request(
             res.body() = resp;
             res.prepare_payload();
         } else {
-            res.set(http::field::content_length, resp.size());
+            res.content_length(resp.size());
         }
 
         return res;
