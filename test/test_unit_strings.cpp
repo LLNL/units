@@ -338,7 +338,6 @@ TEST(stringToUnits, SIprefix)
     EXPECT_EQ(unit(1e-15, s), unit_cast_from_string("fs"));
 }
 
-
 TEST(stringToUnits, hartree)
 {
     EXPECT_EQ(precise::energy::hartree, unit_from_string("Eh"));

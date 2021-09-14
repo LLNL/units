@@ -18,9 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Added a series of constants to make the available constants match the Nist [Common Constants](https://physics.nist.gov/cgi-bin/cuu/Category?view=html&Frequently+used+constants.x=87&Frequently+used+constants.y=18) list
 - added "Eh" as a valid string value for "hartree"
 
-
 ### Removed
-
 
 ## [0.5.0][] - 2020-08-17
 
