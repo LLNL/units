@@ -2065,8 +2065,7 @@ namespace constants {
     constexpr precise_measurement Rk{25812.80745, precise::ohm};
 
     /// Rydberg constant
-    constexpr precise_measurement Rinf{10973731.568160,
-                                       precise::count / precise::m};
+    constexpr precise_measurement Rinf{10973731.568160, precise::m.inv()};
 
     /// Planck units
     namespace planck {
