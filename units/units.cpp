@@ -747,6 +747,18 @@ void enableUserDefinedUnits()
     allowUserDefinedUnits.store(true);
 }
 
+int getDefaultDomain() 
+{
+    return 0;
+}
+// how different unit strings can be specified to mean different things
+static int unitsDomain{getDefaultDomain()};
+
+void setUnitsDomain(int newDomain)
+{
+    unitsDomain = newDomain;
+}
+
 using smap = std::unordered_map<std::string, precise_unit>;
 
 /** convert a string into a double */
@@ -3193,18 +3205,16 @@ static const smap base_unit_vals{
     {"arcminute", precise::angle::arcmin},
     {"arcmin", precise::angle::arcmin},
     {"amin", precise::angle::arcmin},
-    {"am", precise::angle::arcmin},  // as opposed to attometer
     {"MOA", precise::angle::arcmin},
     {"angularminute", precise::angle::arcmin},
     {"'", precise::angle::arcmin},
-    {"'", precise::angle::arcmin},
-    {u8"\u2032", precise::angle::arcmin},  // double prime
+    {"`", precise::angle::arcmin},
+    {u8"\u2032", precise::angle::arcmin},  // single prime
     {"arcsecond", precise::angle::arcsec},
     {"''", precise::angle::arcsec},
-    {"''", precise::angle::arcsec},
+    {"``", precise::angle::arcsec},
     {"arcsec", precise::angle::arcsec},
     {"asec", precise::angle::arcsec},
-    {"as", precise::angle::arcsec},  // as opposed to attosecond
     {"angularsecond", precise::angle::arcsec},
     {"\"", precise::angle::arcsec},
     {u8"\u2033", precise::angle::arcsec},  // double prime
@@ -3335,6 +3345,7 @@ static const smap base_unit_vals{
     {"PRS", precise::distance::parsec},
     {"pRS", precise::distance::parsec},
     {"[c]", constants::c.as_unit()},
+    {"c", constants::c.as_unit()},
     {"[C]", constants::c.as_unit()},
     {"speedoflight", constants::c.as_unit()},
     {"speedoflightinvacuum", constants::c.as_unit()},
@@ -4076,6 +4087,7 @@ static const smap base_unit_vals{
     {"fluiddram_us", precise_unit(1.0 / 8.0, precise::us::floz)},
     {"liquidounce", precise::us::floz},
     {"liquidounce_us", precise::us::floz},
+    {"jigger", precise_unit(1.5, precise::us::floz)},
     {"fdr_us", precise::us::dram},
     {"[FDR_US]", precise::us::dram},
     {"fluiddram_us", precise::us::dram},
@@ -4838,6 +4850,46 @@ static bool hasAdditionalOps(const std::string& unit_string)
          std::string::npos);
 }
 
+static std::uint64_t hashGen(std::uint32_t index, const std::string& str)
+{
+    return std::hash<std::string>{}(str) ^
+        std::hash<std::uint32_t>{}(index);
+}
+
+static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
+    {hashGen(domains::ucum,"B"), precise::log::bel},
+    {hashGen(domains::cooking, "C"), precise::us::cup},
+    {hashGen(domains::cooking, "T"), precise::us::tbsp},
+    {hashGen(domains::cooking, "c"), precise::us::cup},
+    {hashGen(domains::cooking, "t"), precise::us::tsp},
+    {hashGen(domains::cooking, "TB"), precise::us::tbsp},
+    {hashGen(domains::astronomy, "am"), precise::angle::arcmin},
+    {hashGen(domains::astronomy, "as"), precise::angle::arcsec},
+    {hashGen(domains::surveying, "'"), precise::us::foot},
+    {hashGen(domains::surveying, "`"), precise::us::foot},
+    {hashGen(domains::surveying, u8"\u2032"), precise::us::foot},
+    {hashGen(domains::surveying, "''"), precise::us::inch},
+    {hashGen(domains::surveying, "``"), precise::us::inch},
+    {hashGen(domains::surveying, "\""), precise::us::inch},
+    {hashGen(domains::surveying, u8"\u2033"), precise::us::inch},
+    {hashGen(domains::nuclear,"rad"), precise::cgs::RAD},
+    {hashGen(domains::nuclear, "rd"), precise::cgs::RAD},
+
+};
+
+static precise_unit getDomainUnit(std::uint32_t domain, const std::string &unit_string)
+{
+    auto h1=hashGen(domain, unit_string);
+
+    return precise::invalid;
+}
+static std::uint32_t getCurrentDomain(std::uint32_t match_flags)
+{
+    auto dmn = match_flags & 0x007CU;
+    
+    return (dmn == 0U) ? domains::defaultDomain : (dmn >> 2U);
+}
+
 static precise_unit
     get_unit(const std::string& unit_string, std::uint32_t match_flags)
 {
@@ -4849,18 +4901,16 @@ static precise_unit
             }
         }
     }
-    /** some specific standards*/
-    switch (match_flags & 0x007CU) {
-        case strict_ucum: {
-            auto fnd = base_ucum_vals.find(unit_string);
-            if (fnd != base_ucum_vals.end()) {
-                return fnd->second;
-            }
-        } break;
-        case strict_si:
-        default:
-            break;
+    
+    auto cdomain = getCurrentDomain(match_flags);
+    if ( cdomain != domains::defaultDomain) {
+        auto dmunit = getDomainUnit(cdomain,unit_string);
+        if (dmunit != precise::invalid)
+        {
+            return dmunit;
+        }
     }
+
     auto fnd = base_unit_vals.find(unit_string);
     if (fnd != base_unit_vals.end()) {
         return fnd->second;
