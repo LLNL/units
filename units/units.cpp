@@ -1675,7 +1675,7 @@ std::string
     return ss.str();
 }
 
-/// Generate the prefix multiplier for SI units
+/// Generate the prefix multiplier for units (including SI)
 static double getPrefixMultiplier(char p)
 {
     switch (p) {
@@ -1731,6 +1731,55 @@ static double getPrefixMultiplier(char p)
     }
 }
 
+/// Generate the prefix multiplier for SI units
+static double getStrictSIPrefixMultiplier(char p)
+{
+    switch (p) {
+        case 'm':
+            return 0.001;
+        case 'k':
+        case 'K':
+            return 1000.0;
+        case 'M':
+            return 1e6;
+        case 'u':
+        case '\xB5':  // latin-1 encoding "micro"
+            return 1e-6;
+        case 'd':
+            return 0.1;
+        case 'c':
+            return 0.01;
+        case 'h':
+        case 'H':
+            return 100.0;
+        case 'n':
+            return 1e-9;
+        case 'p':
+            return 1e-12;
+        case 'G':
+            return 1e9;
+        case 'T':
+            return 1e12;
+        case 'f':
+            return 1e-15;
+        case 'E':
+            return 1e18;
+        case 'P':
+            return 1e15;
+        case 'Z':
+            return 1e21;
+        case 'Y':
+            return 1e24;
+        case 'a':
+            return 1e-18;
+        case 'z':
+            return 1e-21;
+        case 'y':
+            return 1e-24;
+        default:
+            return 0.0;
+    }
+}
 static constexpr uint16_t charindex(char ch1, char ch2)
 {
     return ch1 * 256 + ch2;
@@ -3351,12 +3400,15 @@ static const smap base_unit_vals{
     {"speedoflightinvacuum", constants::c.as_unit()},
     {"light", constants::c.as_unit()},
     {"[h]", constants::h.as_unit()},
+    {"[hbar]", constants::hbar.as_unit()},
+    {"hbar", constants::hbar.as_unit()},
     {"[H]", constants::h.as_unit()},
     {u8"\u210E", constants::h.as_unit()},
     {u8"\u210F", precise_unit(1.0 / constants::tau, constants::h.as_unit())},
     {"[k]", constants::k.as_unit()},
     {"[K]", constants::k.as_unit()},
     {"eps_0", constants::eps0.as_unit()},
+    {"[eps_0]", constants::eps0.as_unit()},
     {"vacuumpermittivity", constants::eps0.as_unit()},
     {"[EPS_0]", constants::eps0.as_unit()},
     {u8"\u03B5"
@@ -3365,6 +3417,7 @@ static const smap base_unit_vals{
     {u8"\u03B5\u2080", constants::eps0.as_unit()},
     {"mu_0", constants::mu0.as_unit()},
     {"[MU_0]", constants::mu0.as_unit()},
+    {"[mu0]", constants::mu0.as_unit()},
     {"[e]", constants::e.as_unit()},
     {"e", constants::e.as_unit()},
     {"[E]", constants::e.as_unit()},
@@ -3372,25 +3425,54 @@ static const smap base_unit_vals{
     {"[G]", constants::G.as_unit()},
     {"[GC]", constants::G.as_unit()},
     {"[g]", constants::g0.as_unit()},
+    {"[g0]", constants::g0.as_unit()},
     {"standardgravity", constants::g0.as_unit()},
     {"standardfreefall", constants::g0.as_unit()},
     {"freefall", constants::g0.as_unit()},
     {"standardaccelerationoffreefall", constants::g0.as_unit()},
     {"accelerationofgravity", constants::g0.as_unit()},
     {"m_e", constants::me.as_unit()},
+    {"[me]", constants::me.as_unit()},
     {"electronmass", constants::me.as_unit()},
     {"[M_E]", constants::me.as_unit()},
     {"m_p", constants::mp.as_unit()},
     {"[M_P]", constants::mp.as_unit()},
+    {"[mp]", constants::mp.as_unit()},
     {"protonmass", constants::mp.as_unit()},
     {"m_n", constants::mn.as_unit()},
     {"[M_N]", constants::mn.as_unit()},
+    {"[mn]", constants::mn.as_unit()},
     {"neutronmass", constants::mn.as_unit()},
     {"planckmass", constants::planck::mass.as_unit()},
     {"plancklength", constants::planck::length.as_unit()},
     {"plancktime", constants::planck::time.as_unit()},
     {"planckcharge", constants::planck::charge.as_unit()},
     {"plancktemperature", constants::planck::temperature.as_unit()},
+    {"[fCs]", constants::fCs.as_unit()},
+    {"[alpha]", constants::alpha.as_unit()},
+    {"[mu]", constants::mu.as_unit()},
+    {"[Na]", constants::Na.as_unit()},
+    {"[Kcd]", constants::Kcd.as_unit()},
+    {"[R]", constants::R.as_unit()},
+    {"[s]", constants::s.as_unit()},
+    {"[H0]", constants::H0.as_unit()},
+    {"[a0]", constants::a0.as_unit()},
+    {"[F]", constants::F.as_unit()},
+    {"[Kj]", constants::Kj.as_unit()},
+    {"[phi0]", constants::phi0.as_unit()},
+    {"[Rk]", constants::Rk.as_unit()},
+    {"[Rinf]", constants::Rinf.as_unit()},
+    {"[plank::length]", constants::planck::length.as_unit()},
+    {"[plank::mass]", constants::planck::mass.as_unit()},
+    {"[plank::time]", constants::planck::time.as_unit()},
+    {"[plank::charge]", constants::planck::charge.as_unit()},
+    {"[plank::temperature]", constants::planck::temperature.as_unit()},
+    {"[atomic::mass]", constants::atomic::mass.as_unit()},
+    {"[atomic::length]", constants::atomic::length.as_unit()},
+    {"[atomic::time]", constants::atomic::time.as_unit()},
+    {"[atomic::charge]", constants::atomic::charge.as_unit()},
+    {"[atomic::energy]", constants::atomic::energy.as_unit()},
+    {"[atomic::action]", constants::atomic::action.as_unit()},
     {"au", precise::distance::au},
     {"AU", precise::distance::au},
     {"ASU", precise::distance::au},
@@ -4858,13 +4940,13 @@ static std::uint64_t hashGen(std::uint32_t index, const std::string& str)
 
 static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::ucum,"B"), precise::log::bel},
+    {hashGen(domains::astronomy, "am"), precise::angle::arcmin},
+    {hashGen(domains::astronomy, "as"), precise::angle::arcsec},
     {hashGen(domains::cooking, "C"), precise::us::cup},
     {hashGen(domains::cooking, "T"), precise::us::tbsp},
     {hashGen(domains::cooking, "c"), precise::us::cup},
     {hashGen(domains::cooking, "t"), precise::us::tsp},
     {hashGen(domains::cooking, "TB"), precise::us::tbsp},
-    {hashGen(domains::astronomy, "am"), precise::angle::arcmin},
-    {hashGen(domains::astronomy, "as"), precise::angle::arcsec},
     {hashGen(domains::surveying, "'"), precise::us::foot},
     {hashGen(domains::surveying, "`"), precise::us::foot},
     {hashGen(domains::surveying, u8"\u2032"), precise::us::foot},
@@ -4874,20 +4956,32 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::surveying, u8"\u2033"), precise::us::inch},
     {hashGen(domains::nuclear,"rad"), precise::cgs::RAD},
     {hashGen(domains::nuclear, "rd"), precise::cgs::RAD},
-
+    {hashGen(domains::us_customary, "C"), precise::us::cup},
+    {hashGen(domains::us_customary, "T"), precise::us::tbsp},
+    {hashGen(domains::us_customary, "c"), precise::us::cup},
+    {hashGen(domains::us_customary, "t"), precise::us::tsp},
+    {hashGen(domains::us_customary, "TB"), precise::us::tbsp},
+    {hashGen(domains::us_customary, "'"), precise::us::foot},
+    {hashGen(domains::us_customary, "`"), precise::us::foot},
+    {hashGen(domains::us_customary, u8"\u2032"), precise::us::foot},
+    {hashGen(domains::us_customary, "''"), precise::us::inch},
+    {hashGen(domains::us_customary, "``"), precise::us::inch},
+    {hashGen(domains::us_customary, "\""), precise::us::inch},
+    {hashGen(domains::us_customary, u8"\u2033"),
+     precise::us::inch}
 };
 
 static precise_unit getDomainUnit(std::uint32_t domain, const std::string &unit_string)
 {
     auto h1=hashGen(domain, unit_string);
-
-    return precise::invalid;
+    auto fnd = domainSpecificUnit.find(h1);
+    return (fnd != domainSpecificUnit.end()) ? fnd->second : precise::invalid;
 }
 static std::uint32_t getCurrentDomain(std::uint32_t match_flags)
 {
-    auto dmn = match_flags & 0x007CU;
+    auto dmn = match_flags & 0x00F8U;
     
-    return (dmn == 0U) ? domains::defaultDomain : (dmn >> 2U);
+    return (dmn == 0U) ? domains::defaultDomain : (dmn >> 3U);
 }
 
 static precise_unit
@@ -6332,7 +6426,9 @@ static precise_unit
         if (c == 'N' && ((match_flags & case_insensitive) != 0)) {
             c = 'n';
         }
-        auto mux = getPrefixMultiplier(c);
+        auto mux = ((match_flags & strict_si) == 0) ?
+            getPrefixMultiplier(c) :
+            getStrictSIPrefixMultiplier(c);
         if (mux != 0.0) {
             auto ustring = unit_string.substr(1);
             if (ustring == "B") {

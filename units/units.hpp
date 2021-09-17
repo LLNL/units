@@ -1791,12 +1791,12 @@ inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
 /** specify a domain to use in unit translation for some ambiguous units*/
 namespace domains {
     constexpr std::uint32_t defaultDomain{0U};
-    constexpr std::uint32_t strict_si{1U};
-    constexpr std::uint32_t ucum{2U};
-    constexpr std::uint32_t cooking{4U};
-    constexpr std::uint32_t astronomy{8U};
-    constexpr std::uint32_t surveying{12U};
-    constexpr std::uint32_t nuclear{16U};
+    constexpr std::uint32_t ucum{1U};
+    constexpr std::uint32_t cooking{2U};
+    constexpr std::uint32_t astronomy{4U};
+    constexpr std::uint32_t nuclear{8U};
+    constexpr std::uint32_t surveying{9U};
+    constexpr std::uint32_t us_customary{11U}; //this is cooking | surveying as well
 }  // namespace domains
 
 /** The unit conversion flag are some modifiers for the string conversion
@@ -1809,20 +1809,20 @@ enum unit_conversion_flags : std::uint32_t {
     single_slash = 2U,  //!< specify that there is a single numerator and
                         //!< denominator only a single slash in the unit
                         //!< operations
-    strict_si = (domains::strict_si << 2U),  //!< input units are strict SI
+    strict_si = (1 << 2U),  //!< input units are strict SI
     strict_ucum =
-        (domains::ucum << 2U),  //!< input units are matching ucum standard
+        (domains::ucum << 3U),  //!< input units are matching ucum standard
 
-    cooking_units = (domains::cooking << 2U),  //!< input units for cooking and
+    cooking_units = (domains::cooking << 3U),  //!< input units for cooking and
                                                //!< recipes are prioritized
     astronomy_units =
         (domains::astronomy
-         << 2U),  //!< input units for astronomy are prioritized
+         << 3U),  //!< input units for astronomy are prioritized
     surveying_units =
         (domains::surveying
-         << 2U),  //!< input units for surveying are prioritized
+         << 3U),  //!< input units for surveying are prioritized
     nuclear_units =
-        (domains::nuclear << 2U),  //!< input units for nuclear physics and
+        (domains::nuclear << 3U),  //!< input units for nuclear physics and
                                    //!< radiation are prioritized
 
     numbers_only = (1U << 12U),  //!< indicate that only numbers should be
