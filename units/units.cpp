@@ -5007,7 +5007,7 @@ static precise_unit
     auto cdomain = getCurrentDomain(match_flags);
     if ( cdomain != domains::defaultDomain) {
         auto dmunit = getDomainUnit(cdomain,unit_string);
-        if (dmunit != precise::invalid)
+        if (is_valid(dmunit))
         {
             return dmunit;
         }
