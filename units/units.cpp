@@ -747,14 +747,15 @@ void enableUserDefinedUnits()
     allowUserDefinedUnits.store(true);
 }
 
-constexpr int getDefaultDomain() 
+static constexpr int getDefaultDomain() 
 {
     #ifdef UNITS_DEFAULT_DOMAIN
     return UNITS_DEFAULT_DOMAIN;
     #else
-    return 0;
+    return domains::defaultDomain;
     #endif
 }
+
 // how different unit strings can be specified to mean different things
 static int unitsDomain{getDefaultDomain()};
 
@@ -4945,6 +4946,7 @@ static std::uint64_t hashGen(std::uint32_t index, const std::string& str)
 static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::ucum,"B"), precise::log::bel},
     {hashGen(domains::ucum, "a"), precise::time::aj},
+    {hashGen(domains::ucum, "year"), precise::time::aj},
     {hashGen(domains::astronomy, "am"), precise::angle::arcmin},
     {hashGen(domains::astronomy, "as"), precise::angle::arcsec},
     {hashGen(domains::astronomy, "year"), precise::time::at},
@@ -4987,7 +4989,7 @@ static std::uint32_t getCurrentDomain(std::uint32_t match_flags)
 {
     auto dmn = match_flags & 0x00F8U;
     
-    return (dmn == 0U) ? domains::defaultDomain : (dmn >> 3U);
+    return (dmn == 0U) ? unitsDomain : (dmn >> 3U);
 }
 
 static precise_unit
