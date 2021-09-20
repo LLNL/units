@@ -1788,6 +1788,8 @@ inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
     return root(meas, 2);
 }
 
+UNITS_EXPORT int setUnitsDomain(int newDomain);
+
 /** specify a domain to use in unit translation for some ambiguous units*/
 namespace domains {
     constexpr std::uint32_t defaultDomain{0U};
@@ -1824,6 +1826,9 @@ enum unit_conversion_flags : std::uint32_t {
     nuclear_units =
         (domains::nuclear << 3U),  //!< input units for nuclear physics and
                                    //!< radiation are prioritized
+                                   //! nuclear_units =
+    us_customary_units=(domains::us_customary << 3U),  //!< input units for nuclear physics and
+                               //!< radiation are prioritized
 
     numbers_only = (1U << 12U),  //!< indicate that only numbers should be
                                  //!< matched in the first segments, mostly

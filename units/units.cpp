@@ -747,16 +747,21 @@ void enableUserDefinedUnits()
     allowUserDefinedUnits.store(true);
 }
 
-int getDefaultDomain() 
+constexpr int getDefaultDomain() 
 {
+    #ifdef UNITS_DEFAULT_DOMAIN
+    return UNITS_DEFAULT_DOMAIN;
+    #else
     return 0;
+    #endif
 }
 // how different unit strings can be specified to mean different things
 static int unitsDomain{getDefaultDomain()};
 
-void setUnitsDomain(int newDomain)
+int setUnitsDomain(int newDomain)
 {
     unitsDomain = newDomain;
+    return unitsDomain;
 }
 
 using smap = std::unordered_map<std::string, precise_unit>;
@@ -2554,11 +2559,6 @@ static std::pair<double, size_t>
     return {0.0, 0};
 }
 
-/** some specific strings for ucum compliance*/
-static const smap base_ucum_vals{
-    {"B", precise::log::bel},
-};
-
 /** units from several locations
 http://vizier.u-strasbg.fr/vizier/doc/catstd-3.2.htx
 http://unitsofmeasure.org/ucum.html#si
@@ -2824,6 +2824,8 @@ static const smap base_unit_vals{
     {"OHM", precise::ohm},
     {"ohm", precise::ohm},
     {"Ohm", precise::ohm},
+    {"kilohm", precise::kilo* precise::ohm}, //special case allowed by SI
+    {"megohm", precise::mega*precise::ohm}, //special case allowed by SI
     {u8"\u03A9", precise::ohm},  // Greek Omega
     {u8"\u2126", precise::ohm},  // Unicode Ohm symbol
     {"abOhm", precise::cgs::abOhm},
@@ -3149,11 +3151,11 @@ static const smap base_unit_vals{
     {"y", precise::time::year},
     {"YR", precise::time::yr},  // this one gets 365 days exactly
     {"yr", precise::time::yr},  // this one gets 365 days exactly
-    {"a", precise::time::year},  // year vs are
-    {"year", precise::time::year},  // year
+    {"a", precise::area::are},  // SI symbol is are
+    {"year", precise::time::year},  // year SI Definition 365 days
     {"yearly", precise::time::year.inv()},  // year
     {"annum", precise::time::year},  // year
-    {"ANN", precise::time::year},  // year
+    {"ANN", precise::time::aj},  // year
     {"decade", precise::ten* precise::time::aj},  // year
     {"century", precise::hundred* precise::time::aj},  // year
     {"millennia", precise::kilo* precise::time::ag},  // year
@@ -3198,6 +3200,8 @@ static const smap base_unit_vals{
     {"leapyear", precise_unit(366.0, precise::time::day)},  // year
     {"yearcommon", precise_unit(365.0, precise::time::day)},  // year
     {"yearleap", precise_unit(366.0, precise::time::day)},  // year
+    {"draconicyear", precise_unit(346.620075883, precise::time::day)},
+    {"lunaryear", precise_unit(12.0, precise::time::mos)},
     {"a_g", precise::time::ag},  // year
     {"meanyear_g", precise::time::ag},  // year
     {"meanyr_g", precise::time::ag},  // year
@@ -3462,11 +3466,11 @@ static const smap base_unit_vals{
     {"[phi0]", constants::phi0.as_unit()},
     {"[Rk]", constants::Rk.as_unit()},
     {"[Rinf]", constants::Rinf.as_unit()},
-    {"[plank::length]", constants::planck::length.as_unit()},
-    {"[plank::mass]", constants::planck::mass.as_unit()},
-    {"[plank::time]", constants::planck::time.as_unit()},
-    {"[plank::charge]", constants::planck::charge.as_unit()},
-    {"[plank::temperature]", constants::planck::temperature.as_unit()},
+    {"[planck::length]", constants::planck::length.as_unit()},
+    {"[planck::mass]", constants::planck::mass.as_unit()},
+    {"[planck::time]", constants::planck::time.as_unit()},
+    {"[planck::charge]", constants::planck::charge.as_unit()},
+    {"[planck::temperature]", constants::planck::temperature.as_unit()},
     {"[atomic::mass]", constants::atomic::mass.as_unit()},
     {"[atomic::length]", constants::atomic::length.as_unit()},
     {"[atomic::time]", constants::atomic::time.as_unit()},
@@ -4940,8 +4944,10 @@ static std::uint64_t hashGen(std::uint32_t index, const std::string& str)
 
 static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::ucum,"B"), precise::log::bel},
+    {hashGen(domains::ucum, "a"), precise::time::aj},
     {hashGen(domains::astronomy, "am"), precise::angle::arcmin},
     {hashGen(domains::astronomy, "as"), precise::angle::arcsec},
+    {hashGen(domains::astronomy, "year"), precise::time::at},
     {hashGen(domains::cooking, "C"), precise::us::cup},
     {hashGen(domains::cooking, "T"), precise::us::tbsp},
     {hashGen(domains::cooking, "c"), precise::us::cup},
