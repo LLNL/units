@@ -1811,7 +1811,7 @@ enum unit_conversion_flags : std::uint32_t {
     single_slash = 2U,  //!< specify that there is a single numerator and
                         //!< denominator only a single slash in the unit
                         //!< operations
-    strict_si = (1 << 2U),  //!< input units are strict SI
+    strict_si = 4U,  //!< input units are strict SI
     strict_ucum =
         (domains::ucum << 3U),  //!< input units are matching ucum standard
 
