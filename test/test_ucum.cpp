@@ -17,6 +17,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 TEST(UCUM, TestAllUnits)
 {
+    units::setUnitsDomain(units::domains::ucum);
     std::ifstream i(TEST_FILE_FOLDER "/ucumDefs.json");
     nlohmann::json defs;
     i >> defs;

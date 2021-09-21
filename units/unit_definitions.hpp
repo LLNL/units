@@ -371,7 +371,7 @@ namespace precise {
         constexpr precise_unit at{365.24219, day* eflag};  // mean tropical year
         constexpr precise_unit aj{365.25, day};  // julian year
         constexpr precise_unit ag{365.2425, day};  // gregorian year
-        constexpr precise_unit year = aj;  // standard year
+        constexpr precise_unit year = yr;  // standard year for SI
         constexpr precise_unit mos{29.53059, day};  // synodal month
         constexpr precise_unit moj{1.0 / 12.0, aj};  // mean julian month
         constexpr precise_unit mog{1.0 / 12.0, ag};  // mean gregorian month

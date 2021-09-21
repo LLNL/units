@@ -1788,6 +1788,19 @@ inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
     return root(meas, 2);
 }
 
+UNITS_EXPORT int setUnitsDomain(int newDomain);
+
+/** specify a domain to use in unit translation for some ambiguous units*/
+namespace domains {
+    constexpr std::uint32_t defaultDomain{0U};
+    constexpr std::uint32_t ucum{1U};
+    constexpr std::uint32_t cooking{2U};
+    constexpr std::uint32_t astronomy{4U};
+    constexpr std::uint32_t nuclear{8U};
+    constexpr std::uint32_t surveying{9U};
+    constexpr std::uint32_t us_customary{11U}; //this is cooking | surveying as well
+}  // namespace domains
+
 /** The unit conversion flag are some modifiers for the string conversion
 operations, some are used internally some are meant for external use, though all
 are possible to use externally
@@ -1798,8 +1811,24 @@ enum unit_conversion_flags : std::uint32_t {
     single_slash = 2U,  //!< specify that there is a single numerator and
                         //!< denominator only a single slash in the unit
                         //!< operations
-    strict_si = 0x0004U,  //!< input units are strict SI
-    strict_ucum = 0x0008U,  //!< input units are matching ucum standard
+    strict_si = 4U,  //!< input units are strict SI
+    strict_ucum =
+        (domains::ucum << 3U),  //!< input units are matching ucum standard
+
+    cooking_units = (domains::cooking << 3U),  //!< input units for cooking and
+                                               //!< recipes are prioritized
+    astronomy_units =
+        (domains::astronomy
+         << 3U),  //!< input units for astronomy are prioritized
+    surveying_units =
+        (domains::surveying
+         << 3U),  //!< input units for surveying are prioritized
+    nuclear_units =
+        (domains::nuclear << 3U),  //!< input units for nuclear physics and
+                                   //!< radiation are prioritized
+                                   //! nuclear_units =
+    us_customary_units=(domains::us_customary << 3U),  //!< input units for nuclear physics and
+                               //!< radiation are prioritized
 
     numbers_only = (1U << 12U),  //!< indicate that only numbers should be
                                  //!< matched in the first segments, mostly
@@ -1980,7 +2009,9 @@ UNITS_EXPORT precise_unit dod_unit(const std::string& dod_string);
 UNITS_EXPORT precise_unit r20_unit(const std::string& r20_string);
 #endif
 
+
 #endif  // UNITS_HEADER_ONLY
+
 /// Physical constants in use with associated units
 namespace constants {
     // SI redefinition taken from
