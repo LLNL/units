@@ -26,7 +26,7 @@ if (UNITS_DOMAIN)
     elseif(${UNITS_DOMAIN} STREQUAL "US_CUSTOMARY")
         set(UNITS_DEFAULT_DOMAIN "domains::us_customary")
     endif()
-endif
+endif()
 
 if(UNITS_BUILD_SHARED_LIBRARY)
     add_library(units SHARED ${units_source_files} ${units_header_files})
@@ -67,7 +67,7 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
 
     if(UNITS_NAMESPACE)
         target_compile_definitions(units PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE})
-    endif
+    endif()
     if(UNITS_BASE_TYPE)
        target_compile_definitions(
                 units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
