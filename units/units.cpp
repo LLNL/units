@@ -3782,7 +3782,6 @@ static const smap base_unit_vals{
     {"mps", precise::m / precise::s},
     {"eV", precise::energy::eV},
     {"bev", precise_unit(1e9, precise::energy::eV)},
-    {"EV", precise::energy::eV},
     {"Ry", precise_unit(13.60583, precise::energy::eV)},  // Rydberg
     {"electronvolt", precise::energy::eV},
     {"electronVolt", precise::energy::eV},
@@ -4390,7 +4389,6 @@ static const smap base_unit_vals{
     {"[QT_US]", precise::us::quart},
     {"quart_us", precise::us::quart},
     {"pt", precise::us::pint},
-    {"PT", precise::us::pint},
     {"pint", precise::us::pint},
     {"pint_us", precise::us::pint},
     {"pt_us", precise::us::pint},
@@ -5396,7 +5394,8 @@ static void ciConversion(std::string& unit_string)
         {"NM", "nm"},      {"ML", "mL"},   {"GS", "Gs"}, {"GL", "Gal"},
         {"MG", "mg"},      {"[G]", "[g]"}, {"PG", "pg"}, {"NG", "ng"},
         {"UG", "ug"},      {"US", "us"},   {"PS", "ps"}, {"RAD", "rad"},
-        {"GB", "gilbert"}, {"WB", "Wb"},   {"CP", "cP"},
+        {"GB", "gilbert"}, {"WB", "Wb"},   {"CP", "cP"}, {"EV", "eV"},
+        {"PT", "pt"},
     };
     // transform to upper case so we have a common starting point
     std::transform(
