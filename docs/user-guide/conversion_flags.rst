@@ -46,4 +46,4 @@ The remainder of the flags are somewhat self explanatory and are primarily used 
 
 to_string Flags
 ---------------------
-No flags currently affect the output though some are planned. 
+No flags currently affect the output though some are planned.
