@@ -10,8 +10,8 @@ Unit_from_string flags
 -    `case_insensitive` --perform case insensitive matching for UCUM case insensitive matching
 -    `single_slash` --specify that there is a single numerator and denominator only a single slash in the unit operations
 -    `strict_si` --input units are strict SI
--    `strict_ucum` --input units are matching UCUM standard
 
+-    `strict_ucum` --input units are matching UCUM standard
 -    `cooking_units` --input units for cooking and recipes are prioritized
 -    `astronomy_units` --input units for astronomy are prioritized
 -    `surveying_units` --input units for surveying are prioritized
@@ -31,3 +31,19 @@ Unit_from_string flags
 -    `skip_partition_check` --skip the partition check algorithm
 -    `skip_si_prefix_check` --skip checking for SI prefixes
 -    `skip_code_replacements` --don't do some code and sequence replacements
+
+Indications for use
+=========================
+The `case_insensitive` flag should be used to ignore capitalization completely.  It is targetted at the UCUM upper case specification but is effective for all situations where case should be ignored.
+
+The library is by nature somewhat flexible in capitalization patterns, because of this some strings are allowed that otherwise would not be if SI were strictly followed.  For example:  `Um` would match to micro meters which should not if being exacting to the SI standard.  The `strict_si` flag prevents some not all of these instances, and whether others can be disabled is being investigated.
+
+The `single_slash` flag is targetted at a few specific programs which use the format of a single slash marking the separation of numerator from denominator.
+
+`strict_ucum`, `cooking_units`, `astronomy_units`, `surveying_units`, `nuclear_units`, and  `us_customary_units` are part of the domain system and can change the unit matched.
+
+The remainder of the flags are somewhat self explanatory and are primarily used as part of the string conversion program to prevent infinite recursion.  The `no_commodities` or `no_per_operator` may be used if it is known those do not apply for a slight increase in performance.  The `no_recursion` or `skip_partition_check` can be use if only simple strings are passed to speed up the process somewhat.
+
+to_string Flags
+---------------------
+No flags currently affect the output though some are planned. 

@@ -2,13 +2,13 @@
 Unit Domains
 ==================
 
-There are some ambiguous unit symbols.  Different fields use the same symbol to mean different things.  In the units library the definition has defaulted to SI standard definition with two known ambiguities.  the symbol 'a' is used for `are`,  the symbol `rad` refers to radians.
+There are some ambiguous unit symbols.  Different fields use the same symbol to mean different things.  In the units library the definition has defaulted to SI standard definition with two known ambiguities.  the symbol 'a' is used for `are`,  the symbol `rad` refers to radians. 
 
 However there are occasions where the units from one field or another are desired.  The units library applies the notion of a unit domain which can be passed to the unit_flags argument for any string conversion, for a few select units this will change the resulting from a string.
 
 Available Domains
 ----------------------
-thus far 5 specific unit domains have been defined they are in the
+thus far 5 specific unit domains have been defined they are in the 
 `units::domains`  namespace.
 
 -   `ucum`  -- THE UNIFIED CODE FOR UNITS OF MEASURE
@@ -18,7 +18,7 @@ thus far 5 specific unit domains have been defined they are in the
 -   `surveying`  -- units and symbols used in surveying in the United states
 -   `us_customary`  --units and symbols traditionally used in the us(combination of cooking and surveying)
 
-The only units and symbols using the domain are those that might be ambiguous or contradictory to the ST definition.  The specific units affected are defined in the next section.
+The only units and symbols using the domain are those that might be ambiguous or contradictory to the ST definition.  The specific units affected are defined in the next section.  
 
 Domain Specific Units
 -----------------------
@@ -27,33 +27,33 @@ These are unit definitions affected by specifying a specific unit domain
 
 UCUM
 ++++++++++
--  `B`  -- bel
--  `a`  -- julian year
+-  `B`  -- bel vs Byte
+-  `a`  -- julian year vs are
 
-Astronomy
+Astronomy 
 ++++++++++++
--  `am`  -- arc minute
--  `as`  -- arc second
--  `year` -- mean tropical year
+-  `am`  -- arc minute vs attometer
+-  `as`  -- arc second vs attosecond
+-  `year` -- mean tropical year vs median calendar year
 
 Cooking
 ++++++++++
--   `C`  -- cup
--   `T`  -- Tablespoon
--   `c`  -- cup
--   `t`  -- teaspoon
--   `TB`  -- Tablespoon
+-   `C`  -- cup vs coulomb
+-   `T`  -- Tablespoon vs Tesla
+-   `c`  -- cup vs speed of light
+-   `t`  -- teaspoon vs metric tonne
+-   `TB`  -- Tablespoon vs TeraByte
 
 Surveying
 ++++++++++++
--   `'` and all variants refer to feet
--   `''` and all variants refer to inches
+-   `'` and all variants refer to feet vs arcmin
+-   `''` and all variants refer to inches vs arcsec
 
 Nuclear
 ++++++++++
 
--   `rad`  radiation absorbed dose
--   `rd`   same as `rad`
+-   `rad`  radiation absorbed dose vs radian
+-   `rd`   same as `rad` vs rod
 
 US customary
 ++++++++++++++++
@@ -66,7 +66,7 @@ More units will likely be added to this as the need arises
 Specifying the domain
 --------------------------
 
-The domain can be specified in the unit_flag string supplied to the `unit_from_string` operation.
+The domain can be specified in the unit_flag string supplied to the `unit_from_string` operation.  
 
 .. code-block:: c++
 
@@ -82,7 +82,7 @@ when used as part of the flags argument the definitions are in the `unit_convers
 -   `us_customary_units`
 
 
-A default domain can also be specified though
+A default domain can also be specified though 
 
 .. code-block:: c++
 
@@ -92,7 +92,7 @@ A default domain can also be specified though
 with the code using one of those found in the `units::domains` namespace.
 this domain will be used unless another is specified through the match flags.
 
-The default domain can be set at compile time through the `UNITS_DEFAULT_DOMAIN` definition which is available through CMake options or specified before compilation.
+The default domain can be set at compile time through the `UNITS_DEFAULT_DOMAIN` definition which is available through CMake options or specified before compilation.  
 
 .. code-block:: c++
 
