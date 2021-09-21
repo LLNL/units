@@ -34,11 +34,11 @@ Unit_from_string flags
 
 Indications for use
 =========================
-The `case_insensitive` flag should be used to ignore capitalization completely.  It is targetted at the UCUM upper case specification but is effective for all situations where case should be ignored.
+The `case_insensitive` flag should be used to ignore capitalization completely.  It is targeted at the UCUM upper case specification but is effective for all situations where case should be ignored.
 
 The library is by nature somewhat flexible in capitalization patterns, because of this some strings are allowed that otherwise would not be if SI were strictly followed.  For example:  `Um` would match to micro meters which should not if being exacting to the SI standard.  The `strict_si` flag prevents some not all of these instances, and whether others can be disabled is being investigated.
 
-The `single_slash` flag is targetted at a few specific programs which use the format of a single slash marking the separation of numerator from denominator.
+The `single_slash` flag is targeted at a few specific programs which use the format of a single slash marking the separation of numerator from denominator.
 
 `strict_ucum`, `cooking_units`, `astronomy_units`, `surveying_units`, `nuclear_units`, and  `us_customary_units` are part of the domain system and can change the unit matched.
 
