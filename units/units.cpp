@@ -144,13 +144,14 @@ static const umap base_unit_names{
                                        // 1000 m^3 not mega meters cubed
     {kg, "kg"},
     {mol, "mol"},
-    {unit(0.1,m),"dm"}, //don't want to use deci in most conversion contexts but for meter it is fine
+    {unit(0.1, m), "dm"},  // don't want to use deci in most conversion contexts
+                           // but for meter it is fine
     {A, "A"},
     {A * h, "Ah"},
     {V, "V"},
     {s, "s"},
     // this is so Gs doesn't get used which can cause issues
-    {giga * s, "Bs"}, //B is for billion
+    {giga * s, "Bs"},  // B is for billion
     {cd, "cd"},
     {K, "K"},
     {N, "N"},
@@ -747,13 +748,13 @@ void enableUserDefinedUnits()
     allowUserDefinedUnits.store(true);
 }
 
-static constexpr int getDefaultDomain() 
+static constexpr int getDefaultDomain()
 {
-    #ifdef UNITS_DEFAULT_DOMAIN
+#ifdef UNITS_DEFAULT_DOMAIN
     return UNITS_DEFAULT_DOMAIN;
-    #else
+#else
     return domains::defaultDomain;
-    #endif
+#endif
 }
 
 // how different unit strings can be specified to mean different things
@@ -2825,8 +2826,8 @@ static const smap base_unit_vals{
     {"OHM", precise::ohm},
     {"ohm", precise::ohm},
     {"Ohm", precise::ohm},
-    {"kilohm", precise::kilo* precise::ohm}, //special case allowed by SI
-    {"megohm", precise::mega*precise::ohm}, //special case allowed by SI
+    {"kilohm", precise::kilo* precise::ohm},  // special case allowed by SI
+    {"megohm", precise::mega* precise::ohm},  // special case allowed by SI
     {u8"\u03A9", precise::ohm},  // Greek Omega
     {u8"\u2126", precise::ohm},  // Unicode Ohm symbol
     {"abOhm", precise::cgs::abOhm},
@@ -3273,7 +3274,7 @@ static const smap base_unit_vals{
     {"\"", precise::angle::arcsec},
     {u8"\u2033", precise::angle::arcsec},  // double prime
     {"mas", precise_unit(0.001, precise::angle::arcsec)},  // milliarcsec
-    {"uas", precise_unit(0.000001, precise::angle::arcsec)},  //microarcsec
+    {"uas", precise_unit(0.000001, precise::angle::arcsec)},  // microarcsec
     {"rad", precise::rad},
     {"radian", precise::rad},
     {"gon", precise::angle::gon},
@@ -4937,12 +4938,11 @@ static bool hasAdditionalOps(const std::string& unit_string)
 
 static std::uint64_t hashGen(std::uint32_t index, const std::string& str)
 {
-    return std::hash<std::string>{}(str) ^
-        std::hash<std::uint32_t>{}(index);
+    return std::hash<std::string>{}(str) ^ std::hash<std::uint32_t>{}(index);
 }
 
 static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
-    {hashGen(domains::ucum,"B"), precise::log::bel},
+    {hashGen(domains::ucum, "B"), precise::log::bel},
     {hashGen(domains::ucum, "a"), precise::time::aj},
     {hashGen(domains::ucum, "year"), precise::time::aj},
     {hashGen(domains::astronomy, "am"), precise::angle::arcmin},
@@ -4960,7 +4960,7 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::surveying, "``"), precise::us::inch},
     {hashGen(domains::surveying, "\""), precise::us::inch},
     {hashGen(domains::surveying, u8"\u2033"), precise::us::inch},
-    {hashGen(domains::nuclear,"rad"), precise::cgs::RAD},
+    {hashGen(domains::nuclear, "rad"), precise::cgs::RAD},
     {hashGen(domains::nuclear, "rd"), precise::cgs::RAD},
     {hashGen(domains::us_customary, "C"), precise::us::cup},
     {hashGen(domains::us_customary, "T"), precise::us::tbsp},
@@ -4973,20 +4973,19 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::us_customary, "''"), precise::us::inch},
     {hashGen(domains::us_customary, "``"), precise::us::inch},
     {hashGen(domains::us_customary, "\""), precise::us::inch},
-    {hashGen(domains::us_customary, u8"\u2033"),
-     precise::us::inch}
-};
+    {hashGen(domains::us_customary, u8"\u2033"), precise::us::inch}};
 
-static precise_unit getDomainUnit(std::uint32_t domain, const std::string &unit_string)
+static precise_unit
+    getDomainUnit(std::uint32_t domain, const std::string& unit_string)
 {
-    auto h1=hashGen(domain, unit_string);
+    auto h1 = hashGen(domain, unit_string);
     auto fnd = domainSpecificUnit.find(h1);
     return (fnd != domainSpecificUnit.end()) ? fnd->second : precise::invalid;
 }
 static std::uint32_t getCurrentDomain(std::uint32_t match_flags)
 {
     auto dmn = match_flags & 0x00F8U;
-    
+
     return (dmn == 0U) ? unitsDomain : (dmn >> 3U);
 }
 
@@ -5001,12 +5000,11 @@ static precise_unit
             }
         }
     }
-    
+
     auto cdomain = getCurrentDomain(match_flags);
-    if ( cdomain != domains::defaultDomain) {
-        auto dmunit = getDomainUnit(cdomain,unit_string);
-        if (is_valid(dmunit))
-        {
+    if (cdomain != domains::defaultDomain) {
+        auto dmunit = getDomainUnit(cdomain, unit_string);
+        if (is_valid(dmunit)) {
             return dmunit;
         }
     }

@@ -124,7 +124,7 @@ TEST(unitStrings, si_prefixes)
     EXPECT_EQ(to_string(unit_from_string("Ym")), "Ym");
 }
 
-TEST(unitStrings, strict_si) 
+TEST(unitStrings, strict_si)
 {
     auto unit = unit_from_string("Um", strict_si);
     EXPECT_NE(unit, unit_from_string("um"));
