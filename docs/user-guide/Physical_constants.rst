@@ -57,6 +57,6 @@ There are a few numbers that are used in the library and include definitions in 
 -   `invalid_conversion` (NaN)
 -   `infinity`
 
-From Strings 
+From Strings
 -----------------
 All constants listed here are available for conversion from strings by wrapping in brackets  For example the luminous efficiency would be converted to a unit by using `[kcd]`  The planck constants are available as `[planck::XXXXX]` or `planckXXXXXX and the atomic constants are available as `[atomic::XXXX]`

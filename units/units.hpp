@@ -1798,7 +1798,8 @@ namespace domains {
     constexpr std::uint32_t astronomy{4U};
     constexpr std::uint32_t nuclear{8U};
     constexpr std::uint32_t surveying{9U};
-    constexpr std::uint32_t us_customary{11U}; //this is cooking | surveying as well
+    constexpr std::uint32_t us_customary{
+        11U};  // this is cooking | surveying as well
 }  // namespace domains
 
 /** The unit conversion flag are some modifiers for the string conversion
@@ -1827,8 +1828,9 @@ enum unit_conversion_flags : std::uint32_t {
         (domains::nuclear << 3U),  //!< input units for nuclear physics and
                                    //!< radiation are prioritized
                                    //! nuclear_units =
-    us_customary_units=(domains::us_customary << 3U),  //!< input units for nuclear physics and
-                               //!< radiation are prioritized
+    us_customary_units =
+        (domains::us_customary << 3U),  //!< input units for nuclear physics and
+                                        //!< radiation are prioritized
 
     numbers_only = (1U << 12U),  //!< indicate that only numbers should be
                                  //!< matched in the first segments, mostly
@@ -2008,7 +2010,6 @@ UNITS_EXPORT precise_unit dod_unit(const std::string& dod_string);
 /// generate a unit from a string as defined by the r20 standard
 UNITS_EXPORT precise_unit r20_unit(const std::string& r20_string);
 #endif
-
 
 #endif  // UNITS_HEADER_ONLY
 
