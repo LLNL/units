@@ -10,8 +10,8 @@ set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp units_util.
 
 include(GenerateExportHeader)
 
-if (UNITS_DOMAIN)
-    if (${UNITS_DOMAIN} MATCHES "domains::")
+if(UNITS_DOMAIN)
+    if(${UNITS_DOMAIN} MATCHES "domains::")
         set(UNITS_DEFAULT_DOMAIN ${UNITS_DOMAIN})
     elseif(${UNITS_DOMAIN} STREQUAL "UCUM")
         set(UNITS_DEFAULT_DOMAIN "domains::strict_ucum")
@@ -48,7 +48,9 @@ if(UNITS_BUILD_SHARED_LIBRARY)
         target_compile_definitions(units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE})
     endif()
     if(UNITS_DEFAULT_DOMAIN)
-        target_compile_definitions(units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN})
+        target_compile_definitions(
+            units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN}
+        )
     endif()
     if(UNITS_INSTALL)
         install(
@@ -69,12 +71,12 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
         target_compile_definitions(units PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE})
     endif()
     if(UNITS_BASE_TYPE)
-       target_compile_definitions(
-                units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE}
-            )
+        target_compile_definitions(units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE})
     endif()
     if(UNITS_DEFAULT_DOMAIN)
-        target_compile_definitions(units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN})
+        target_compile_definitions(
+            units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN}
+        )
     endif()
 elseif(UNITS_BUILD_STATIC_LIBRARY)
     add_library(units STATIC ${units_source_files} ${units_header_files})
@@ -98,7 +100,9 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
         target_compile_definitions(units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE})
     endif()
     if(UNITS_DEFAULT_DOMAIN)
-        target_compile_definitions(units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN})
+        target_compile_definitions(
+            units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN}
+        )
     endif()
     if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
         install(TARGETS units ${UNITS_LIBRARY_EXPORT_COMMAND}
