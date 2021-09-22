@@ -15,6 +15,21 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <ostream>
 #include <sstream>
 
+TEST(UCUM, domain_exclusion)
+{
+    using namespace units::domains;
+    EXPECT_EQ(ucum | astronomy, allDomains);
+    EXPECT_EQ(ucum | nuclear, allDomains);
+    EXPECT_EQ(nuclear | astronomy, allDomains);
+    EXPECT_EQ(surveying | cooking, us_customary);
+    EXPECT_NE(ucum | cooking, us_customary);
+    EXPECT_NE(nuclear | cooking, us_customary);
+    EXPECT_NE(astronomy | cooking, us_customary);
+    EXPECT_NE(ucum | surveying, us_customary);
+    EXPECT_NE(nuclear | surveying, us_customary);
+    EXPECT_NE(astronomy | surveying, us_customary);
+}
+
 TEST(UCUM, TestAllUnits)
 {
     units::setUnitsDomain(units::domains::ucum);

@@ -145,7 +145,8 @@ static const umap base_unit_names{
     {kg, "kg"},
     {mol, "mol"},
     {unit(0.1, m), "dm"},  // don't want to use deci in most conversion contexts
-                           // but for meter it is fine
+                           // but for meter and liter it is fine
+    {unit(0.1, L), "dL"},
     {A, "A"},
     {A * h, "Ah"},
     {V, "V"},
@@ -1745,7 +1746,6 @@ static double getStrictSIPrefixMultiplier(char p)
         case 'm':
             return 0.001;
         case 'k':
-        case 'K':
             return 1000.0;
         case 'M':
             return 1e6;
@@ -1757,7 +1757,6 @@ static double getStrictSIPrefixMultiplier(char p)
         case 'c':
             return 0.01;
         case 'h':
-        case 'H':
             return 100.0;
         case 'n':
             return 1e-9;
@@ -4973,7 +4972,20 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::us_customary, "''"), precise::us::inch},
     {hashGen(domains::us_customary, "``"), precise::us::inch},
     {hashGen(domains::us_customary, "\""), precise::us::inch},
-    {hashGen(domains::us_customary, u8"\u2033"), precise::us::inch}};
+    {hashGen(domains::us_customary, u8"\u2033"), precise::us::inch},
+    {hashGen(domains::allDomains, "B"), precise::log::bel},
+    {hashGen(domains::allDomains, "a"), precise::time::aj},
+    {hashGen(domains::allDomains, "year"), precise::time::aj},
+    {hashGen(domains::allDomains, "am"), precise::angle::arcmin},
+    {hashGen(domains::allDomains, "as"), precise::angle::arcsec},
+    {hashGen(domains::allDomains, "C"), precise::us::cup},
+    {hashGen(domains::allDomains, "T"), precise::us::tbsp},
+    {hashGen(domains::allDomains, "c"), precise::us::cup},
+    {hashGen(domains::allDomains, "t"), precise::us::tsp},
+    {hashGen(domains::allDomains, "TB"), precise::us::tbsp},
+    {hashGen(domains::allDomains, "rad"), precise::cgs::RAD},
+    {hashGen(domains::allDomains, "rd"), precise::cgs::RAD}
+};  // namespace UNITS_NAMESPACE
 
 static precise_unit
     getDomainUnit(std::uint32_t domain, const std::string& unit_string)
@@ -5393,7 +5405,7 @@ static void ciConversion(std::string& unit_string)
         {"MG", "mg"},      {"[G]", "[g]"}, {"PG", "pg"}, {"NG", "ng"},
         {"UG", "ug"},      {"US", "us"},   {"PS", "ps"}, {"RAD", "rad"},
         {"GB", "gilbert"}, {"WB", "Wb"},   {"CP", "cP"}, {"EV", "eV"},
-        {"PT", "pt"},
+        {"PT", "pT"},
     };
     // transform to upper case so we have a common starting point
     std::transform(
