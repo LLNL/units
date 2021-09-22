@@ -144,12 +144,15 @@ static const umap base_unit_names{
                                        // 1000 m^3 not mega meters cubed
     {kg, "kg"},
     {mol, "mol"},
+    {unit(0.1, m), "dm"},  // don't want to use deci in most conversion contexts
+                           // but for meter and liter it is fine
+    {unit(0.1, L), "dL"},
     {A, "A"},
     {A * h, "Ah"},
     {V, "V"},
     {s, "s"},
     // this is so Gs doesn't get used which can cause issues
-    {giga * s, "Bs"},
+    {giga * s, "Bs"},  // B is for billion
     {cd, "cd"},
     {K, "K"},
     {N, "N"},
@@ -365,14 +368,22 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 4> creduceUnits{
 static const std::unordered_map<float, char> si_prefixes{
     {0.001F, 'm'},        {1.0F / 1000.0F, 'm'},
     {1000.0F, 'k'},       {1.0F / 0.001F, 'k'},
-    {1e-6F, 'u'},         {0.01F, 'c'},
-    {1.0F / 100.0F, 'c'}, {1.0F / 1e6F, 'u'},
+    {1e-6F, 'u'},         {1.0F / 1e6F, 'u'},
+    {0.01F, 'c'},         {1.0F / 100.0F, 'c'},
     {1000000.0F, 'M'},    {1.0F / 0.000001F, 'M'},
     {1000000000.0F, 'G'}, {1.0F / 0.000000001F, 'G'},
     {1e-9F, 'n'},         {1.0F / 1e9F, 'n'},
     {1e-12F, 'p'},        {1.0F / 1e12F, 'p'},
     {1e-15F, 'f'},        {1.0F / 1e15F, 'f'},
-    {1e12F, 'T'},         {1.0F / 1e-12F, 'T'}};
+    {1e-18F, 'a'},        {1.0F / 1e18F, 'a'},
+    {1e-21F, 'z'},        {1.0F / 1e21F, 'z'},
+    {1e-24F, 'y'},        {1.0F / 1e24F, 'y'},
+    {1e12F, 'T'},         {1.0F / 1e-12F, 'T'},
+    {1e15F, 'P'},         {1.0F / 1e-15F, 'P'},
+    {1e18F, 'E'},         {1.0F / 1e-18F, 'E'},
+    {1e21F, 'Z'},         {1.0F / 1e-21F, 'Z'},
+    {1e24F, 'Y'},         {1.0F / 1e-24F, 'Y'},
+};
 
 // check if the character is something that could begin a number
 static inline bool isNumericalStartCharacter(char X)
@@ -736,6 +747,24 @@ void disableUserDefinedUnits()
 void enableUserDefinedUnits()
 {
     allowUserDefinedUnits.store(true);
+}
+
+static constexpr int getDefaultDomain()
+{
+#ifdef UNITS_DEFAULT_DOMAIN
+    return UNITS_DEFAULT_DOMAIN;
+#else
+    return domains::defaultDomain;
+#endif
+}
+
+// how different unit strings can be specified to mean different things
+static int unitsDomain{getDefaultDomain()};
+
+int setUnitsDomain(int newDomain)
+{
+    unitsDomain = newDomain;
+    return unitsDomain;
 }
 
 using smap = std::unordered_map<std::string, precise_unit>;
@@ -1654,7 +1683,7 @@ std::string
     return ss.str();
 }
 
-/// Generate the prefix multiplier for SI units
+/// Generate the prefix multiplier for units (including SI)
 static double getPrefixMultiplier(char p)
 {
     switch (p) {
@@ -1710,6 +1739,53 @@ static double getPrefixMultiplier(char p)
     }
 }
 
+/// Generate the prefix multiplier for SI units
+static double getStrictSIPrefixMultiplier(char p)
+{
+    switch (p) {
+        case 'm':
+            return 0.001;
+        case 'k':
+            return 1000.0;
+        case 'M':
+            return 1e6;
+        case 'u':
+        case '\xB5':  // latin-1 encoding "micro"
+            return 1e-6;
+        case 'd':
+            return 0.1;
+        case 'c':
+            return 0.01;
+        case 'h':
+            return 100.0;
+        case 'n':
+            return 1e-9;
+        case 'p':
+            return 1e-12;
+        case 'G':
+            return 1e9;
+        case 'T':
+            return 1e12;
+        case 'f':
+            return 1e-15;
+        case 'E':
+            return 1e18;
+        case 'P':
+            return 1e15;
+        case 'Z':
+            return 1e21;
+        case 'Y':
+            return 1e24;
+        case 'a':
+            return 1e-18;
+        case 'z':
+            return 1e-21;
+        case 'y':
+            return 1e-24;
+        default:
+            return 0.0;
+    }
+}
 static constexpr uint16_t charindex(char ch1, char ch2)
 {
     return ch1 * 256 + ch2;
@@ -2484,11 +2560,6 @@ static std::pair<double, size_t>
     return {0.0, 0};
 }
 
-/** some specific strings for ucum compliance*/
-static const smap base_ucum_vals{
-    {"B", precise::log::bel},
-};
-
 /** units from several locations
 http://vizier.u-strasbg.fr/vizier/doc/catstd-3.2.htx
 http://unitsofmeasure.org/ucum.html#si
@@ -2754,6 +2825,8 @@ static const smap base_unit_vals{
     {"OHM", precise::ohm},
     {"ohm", precise::ohm},
     {"Ohm", precise::ohm},
+    {"kilohm", precise::kilo* precise::ohm},  // special case allowed by SI
+    {"megohm", precise::mega* precise::ohm},  // special case allowed by SI
     {u8"\u03A9", precise::ohm},  // Greek Omega
     {u8"\u2126", precise::ohm},  // Unicode Ohm symbol
     {"abOhm", precise::cgs::abOhm},
@@ -3079,11 +3152,11 @@ static const smap base_unit_vals{
     {"y", precise::time::year},
     {"YR", precise::time::yr},  // this one gets 365 days exactly
     {"yr", precise::time::yr},  // this one gets 365 days exactly
-    {"a", precise::time::year},  // year vs are
-    {"year", precise::time::year},  // year
+    {"a", precise::area::are},  // SI symbol is are
+    {"year", precise::time::year},  // year SI Definition 365 days
     {"yearly", precise::time::year.inv()},  // year
     {"annum", precise::time::year},  // year
-    {"ANN", precise::time::year},  // year
+    {"ANN", precise::time::aj},  // year
     {"decade", precise::ten* precise::time::aj},  // year
     {"century", precise::hundred* precise::time::aj},  // year
     {"millennia", precise::kilo* precise::time::ag},  // year
@@ -3128,6 +3201,8 @@ static const smap base_unit_vals{
     {"leapyear", precise_unit(366.0, precise::time::day)},  // year
     {"yearcommon", precise_unit(365.0, precise::time::day)},  // year
     {"yearleap", precise_unit(366.0, precise::time::day)},  // year
+    {"draconicyear", precise_unit(346.620075883, precise::time::day)},
+    {"lunaryear", precise_unit(12.0, precise::time::mos)},
     {"a_g", precise::time::ag},  // year
     {"meanyear_g", precise::time::ag},  // year
     {"meanyr_g", precise::time::ag},  // year
@@ -3184,21 +3259,21 @@ static const smap base_unit_vals{
     {"arcminute", precise::angle::arcmin},
     {"arcmin", precise::angle::arcmin},
     {"amin", precise::angle::arcmin},
-    {"am", precise::angle::arcmin},  // as opposed to attometer
-    {"angularminute", precise::angle::arcmin},  // as opposed to attometer
+    {"MOA", precise::angle::arcmin},
+    {"angularminute", precise::angle::arcmin},
     {"'", precise::angle::arcmin},
-    {"'", precise::angle::arcmin},
-    {u8"\u2032", precise::angle::arcmin},  // double prime
+    {"`", precise::angle::arcmin},
+    {u8"\u2032", precise::angle::arcmin},  // single prime
     {"arcsecond", precise::angle::arcsec},
     {"''", precise::angle::arcsec},
-    {"''", precise::angle::arcsec},
+    {"``", precise::angle::arcsec},
     {"arcsec", precise::angle::arcsec},
     {"asec", precise::angle::arcsec},
-    {"as", precise::angle::arcsec},  // as opposed to attosecond
-    {"angularsecond", precise::angle::arcsec},  // as opposed to attosecond
+    {"angularsecond", precise::angle::arcsec},
     {"\"", precise::angle::arcsec},
     {u8"\u2033", precise::angle::arcsec},  // double prime
     {"mas", precise_unit(0.001, precise::angle::arcsec)},  // milliarcsec
+    {"uas", precise_unit(0.000001, precise::angle::arcsec)},  // microarcsec
     {"rad", precise::rad},
     {"radian", precise::rad},
     {"gon", precise::angle::gon},
@@ -3324,17 +3399,21 @@ static const smap base_unit_vals{
     {"PRS", precise::distance::parsec},
     {"pRS", precise::distance::parsec},
     {"[c]", constants::c.as_unit()},
+    {"c", constants::c.as_unit()},
     {"[C]", constants::c.as_unit()},
     {"speedoflight", constants::c.as_unit()},
     {"speedoflightinvacuum", constants::c.as_unit()},
     {"light", constants::c.as_unit()},
     {"[h]", constants::h.as_unit()},
+    {"[hbar]", constants::hbar.as_unit()},
+    {"hbar", constants::hbar.as_unit()},
     {"[H]", constants::h.as_unit()},
     {u8"\u210E", constants::h.as_unit()},
     {u8"\u210F", precise_unit(1.0 / constants::tau, constants::h.as_unit())},
     {"[k]", constants::k.as_unit()},
     {"[K]", constants::k.as_unit()},
     {"eps_0", constants::eps0.as_unit()},
+    {"[eps_0]", constants::eps0.as_unit()},
     {"vacuumpermittivity", constants::eps0.as_unit()},
     {"[EPS_0]", constants::eps0.as_unit()},
     {u8"\u03B5"
@@ -3343,6 +3422,7 @@ static const smap base_unit_vals{
     {u8"\u03B5\u2080", constants::eps0.as_unit()},
     {"mu_0", constants::mu0.as_unit()},
     {"[MU_0]", constants::mu0.as_unit()},
+    {"[mu0]", constants::mu0.as_unit()},
     {"[e]", constants::e.as_unit()},
     {"e", constants::e.as_unit()},
     {"[E]", constants::e.as_unit()},
@@ -3350,25 +3430,54 @@ static const smap base_unit_vals{
     {"[G]", constants::G.as_unit()},
     {"[GC]", constants::G.as_unit()},
     {"[g]", constants::g0.as_unit()},
+    {"[g0]", constants::g0.as_unit()},
     {"standardgravity", constants::g0.as_unit()},
     {"standardfreefall", constants::g0.as_unit()},
     {"freefall", constants::g0.as_unit()},
     {"standardaccelerationoffreefall", constants::g0.as_unit()},
     {"accelerationofgravity", constants::g0.as_unit()},
     {"m_e", constants::me.as_unit()},
+    {"[me]", constants::me.as_unit()},
     {"electronmass", constants::me.as_unit()},
     {"[M_E]", constants::me.as_unit()},
     {"m_p", constants::mp.as_unit()},
     {"[M_P]", constants::mp.as_unit()},
+    {"[mp]", constants::mp.as_unit()},
     {"protonmass", constants::mp.as_unit()},
     {"m_n", constants::mn.as_unit()},
     {"[M_N]", constants::mn.as_unit()},
+    {"[mn]", constants::mn.as_unit()},
     {"neutronmass", constants::mn.as_unit()},
     {"planckmass", constants::planck::mass.as_unit()},
     {"plancklength", constants::planck::length.as_unit()},
     {"plancktime", constants::planck::time.as_unit()},
     {"planckcharge", constants::planck::charge.as_unit()},
     {"plancktemperature", constants::planck::temperature.as_unit()},
+    {"[fCs]", constants::fCs.as_unit()},
+    {"[alpha]", constants::alpha.as_unit()},
+    {"[mu]", constants::mu.as_unit()},
+    {"[Na]", constants::Na.as_unit()},
+    {"[Kcd]", constants::Kcd.as_unit()},
+    {"[R]", constants::R.as_unit()},
+    {"[s]", constants::s.as_unit()},
+    {"[H0]", constants::H0.as_unit()},
+    {"[a0]", constants::a0.as_unit()},
+    {"[F]", constants::F.as_unit()},
+    {"[Kj]", constants::Kj.as_unit()},
+    {"[phi0]", constants::phi0.as_unit()},
+    {"[Rk]", constants::Rk.as_unit()},
+    {"[Rinf]", constants::Rinf.as_unit()},
+    {"[planck::length]", constants::planck::length.as_unit()},
+    {"[planck::mass]", constants::planck::mass.as_unit()},
+    {"[planck::time]", constants::planck::time.as_unit()},
+    {"[planck::charge]", constants::planck::charge.as_unit()},
+    {"[planck::temperature]", constants::planck::temperature.as_unit()},
+    {"[atomic::mass]", constants::atomic::mass.as_unit()},
+    {"[atomic::length]", constants::atomic::length.as_unit()},
+    {"[atomic::time]", constants::atomic::time.as_unit()},
+    {"[atomic::charge]", constants::atomic::charge.as_unit()},
+    {"[atomic::energy]", constants::atomic::energy.as_unit()},
+    {"[atomic::action]", constants::atomic::action.as_unit()},
     {"au", precise::distance::au},
     {"AU", precise::distance::au},
     {"ASU", precise::distance::au},
@@ -3673,7 +3782,6 @@ static const smap base_unit_vals{
     {"mps", precise::m / precise::s},
     {"eV", precise::energy::eV},
     {"bev", precise_unit(1e9, precise::energy::eV)},
-    {"EV", precise::energy::eV},
     {"Ry", precise_unit(13.60583, precise::energy::eV)},  // Rydberg
     {"electronvolt", precise::energy::eV},
     {"electronVolt", precise::energy::eV},
@@ -4065,6 +4173,7 @@ static const smap base_unit_vals{
     {"fluiddram_us", precise_unit(1.0 / 8.0, precise::us::floz)},
     {"liquidounce", precise::us::floz},
     {"liquidounce_us", precise::us::floz},
+    {"jigger", precise_unit(1.5, precise::us::floz)},
     {"fdr_us", precise::us::dram},
     {"[FDR_US]", precise::us::dram},
     {"fluiddram_us", precise::us::dram},
@@ -4280,7 +4389,6 @@ static const smap base_unit_vals{
     {"[QT_US]", precise::us::quart},
     {"quart_us", precise::us::quart},
     {"pt", precise::us::pint},
-    {"PT", precise::us::pint},
     {"pint", precise::us::pint},
     {"pint_us", precise::us::pint},
     {"pt_us", precise::us::pint},
@@ -4827,6 +4935,72 @@ static bool hasAdditionalOps(const std::string& unit_string)
          std::string::npos);
 }
 
+static std::uint64_t hashGen(std::uint32_t index, const std::string& str)
+{
+    return std::hash<std::string>{}(str) ^ std::hash<std::uint32_t>{}(index);
+}
+
+static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
+    {hashGen(domains::ucum, "B"), precise::log::bel},
+    {hashGen(domains::ucum, "a"), precise::time::aj},
+    {hashGen(domains::ucum, "year"), precise::time::aj},
+    {hashGen(domains::astronomy, "am"), precise::angle::arcmin},
+    {hashGen(domains::astronomy, "as"), precise::angle::arcsec},
+    {hashGen(domains::astronomy, "year"), precise::time::at},
+    {hashGen(domains::cooking, "C"), precise::us::cup},
+    {hashGen(domains::cooking, "T"), precise::us::tbsp},
+    {hashGen(domains::cooking, "c"), precise::us::cup},
+    {hashGen(domains::cooking, "t"), precise::us::tsp},
+    {hashGen(domains::cooking, "TB"), precise::us::tbsp},
+    {hashGen(domains::surveying, "'"), precise::us::foot},
+    {hashGen(domains::surveying, "`"), precise::us::foot},
+    {hashGen(domains::surveying, u8"\u2032"), precise::us::foot},
+    {hashGen(domains::surveying, "''"), precise::us::inch},
+    {hashGen(domains::surveying, "``"), precise::us::inch},
+    {hashGen(domains::surveying, "\""), precise::us::inch},
+    {hashGen(domains::surveying, u8"\u2033"), precise::us::inch},
+    {hashGen(domains::nuclear, "rad"), precise::cgs::RAD},
+    {hashGen(domains::nuclear, "rd"), precise::cgs::RAD},
+    {hashGen(domains::us_customary, "C"), precise::us::cup},
+    {hashGen(domains::us_customary, "T"), precise::us::tbsp},
+    {hashGen(domains::us_customary, "c"), precise::us::cup},
+    {hashGen(domains::us_customary, "t"), precise::us::tsp},
+    {hashGen(domains::us_customary, "TB"), precise::us::tbsp},
+    {hashGen(domains::us_customary, "'"), precise::us::foot},
+    {hashGen(domains::us_customary, "`"), precise::us::foot},
+    {hashGen(domains::us_customary, u8"\u2032"), precise::us::foot},
+    {hashGen(domains::us_customary, "''"), precise::us::inch},
+    {hashGen(domains::us_customary, "``"), precise::us::inch},
+    {hashGen(domains::us_customary, "\""), precise::us::inch},
+    {hashGen(domains::us_customary, u8"\u2033"), precise::us::inch},
+    {hashGen(domains::allDomains, "B"), precise::log::bel},
+    {hashGen(domains::allDomains, "a"), precise::time::aj},
+    {hashGen(domains::allDomains, "year"), precise::time::aj},
+    {hashGen(domains::allDomains, "am"), precise::angle::arcmin},
+    {hashGen(domains::allDomains, "as"), precise::angle::arcsec},
+    {hashGen(domains::allDomains, "C"), precise::us::cup},
+    {hashGen(domains::allDomains, "T"), precise::us::tbsp},
+    {hashGen(domains::allDomains, "c"), precise::us::cup},
+    {hashGen(domains::allDomains, "t"), precise::us::tsp},
+    {hashGen(domains::allDomains, "TB"), precise::us::tbsp},
+    {hashGen(domains::allDomains, "rad"), precise::cgs::RAD},
+    {hashGen(domains::allDomains, "rd"), precise::cgs::RAD}
+};  // namespace UNITS_NAMESPACE
+
+static precise_unit
+    getDomainUnit(std::uint32_t domain, const std::string& unit_string)
+{
+    auto h1 = hashGen(domain, unit_string);
+    auto fnd = domainSpecificUnit.find(h1);
+    return (fnd != domainSpecificUnit.end()) ? fnd->second : precise::invalid;
+}
+static std::uint32_t getCurrentDomain(std::uint32_t match_flags)
+{
+    auto dmn = match_flags & 0x00F8U;
+
+    return (dmn == 0U) ? unitsDomain : (dmn >> 3U);
+}
+
 static precise_unit
     get_unit(const std::string& unit_string, std::uint32_t match_flags)
 {
@@ -4838,18 +5012,15 @@ static precise_unit
             }
         }
     }
-    /** some specific standards*/
-    switch (match_flags & 0x007CU) {
-        case strict_ucum: {
-            auto fnd = base_ucum_vals.find(unit_string);
-            if (fnd != base_ucum_vals.end()) {
-                return fnd->second;
-            }
-        } break;
-        case strict_si:
-        default:
-            break;
+
+    auto cdomain = getCurrentDomain(match_flags);
+    if (cdomain != domains::defaultDomain) {
+        auto dmunit = getDomainUnit(cdomain, unit_string);
+        if (is_valid(dmunit)) {
+            return dmunit;
+        }
     }
+
     auto fnd = base_unit_vals.find(unit_string);
     if (fnd != base_unit_vals.end()) {
         return fnd->second;
@@ -5233,7 +5404,8 @@ static void ciConversion(std::string& unit_string)
         {"NM", "nm"},      {"ML", "mL"},   {"GS", "Gs"}, {"GL", "Gal"},
         {"MG", "mg"},      {"[G]", "[g]"}, {"PG", "pg"}, {"NG", "ng"},
         {"UG", "ug"},      {"US", "us"},   {"PS", "ps"}, {"RAD", "rad"},
-        {"GB", "gilbert"}, {"WB", "Wb"},   {"CP", "cP"},
+        {"GB", "gilbert"}, {"WB", "Wb"},   {"CP", "cP"}, {"EV", "eV"},
+        {"PT", "pT"},
     };
     // transform to upper case so we have a common starting point
     std::transform(
@@ -6271,7 +6443,9 @@ static precise_unit
         if (c == 'N' && ((match_flags & case_insensitive) != 0)) {
             c = 'n';
         }
-        auto mux = getPrefixMultiplier(c);
+        auto mux = ((match_flags & strict_si) == 0) ?
+            getPrefixMultiplier(c) :
+            getStrictSIPrefixMultiplier(c);
         if (mux != 0.0) {
             auto ustring = unit_string.substr(1);
             if (ustring == "B") {

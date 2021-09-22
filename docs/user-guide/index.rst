@@ -21,3 +21,7 @@ The guide covers the basic types and what operations are available on them, as w
    defined_units
    custom_units
    custom_count_units
+   Unit_domains
+   conversion_flags
+   special_units
+   equation_units
