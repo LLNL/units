@@ -339,6 +339,12 @@ For more description of the possible flags see [flags](https://units.readthedocs
 - `disableUserDefinedUnits()` there is a(likely small-an additional unordered map lookup) performance hit in the string conversions functions if custom units are used so they can be disabled completely if desired.
 - `enableUserDefinedUnits()` enable the use of UserDefinedUnits. they are enabled by default.
 
+#### Unit Domains
+
+- `setUnitsDomain(std::uint32_t newDomain)` : set a default domain to use for string translations if not overridden using the `flags` argument.
+
+For more description of the Unit Domains supported see [Domains](https://units.readthedocs.io/en/latest/user-guide/Unit_domains.html).  Use the constants available in `units::domains` as the argument.  The numerical value is subject to change in future releases as this gets refined.  
+
 #### Commodities
 
 The units library has some support for commodities, more might be added in the future. Commodities are supported in precise_units.
