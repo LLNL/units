@@ -17,6 +17,7 @@ thus far 5 specific unit domains have been defined they are in the
 -   `nuclear`    -- units and symbols used in nuclear or particle physics
 -   `surveying`  -- units and symbols used in surveying in the United states
 -   `us_customary`  --units and symbols traditionally used in the us(combination of cooking and surveying)
+-   `allDomains`  -- this domain does all the above domains where not mutually exclusive. So mostly a combination of ucum and astronomy/nuclear with a few us customary units IT is not recommended to use this but provided for the combinations
 
 The only units and symbols using the domain are those that might be ambiguous or contradictory to the ST definition.  The specific units affected are defined in the next section.
 
@@ -92,13 +93,12 @@ A default domain can also be specified though
 with the code using one of those found in the `units::domains` namespace.
 this domain will be used unless another is specified through the match flags.
 
-The default domain can be set at compile time through the `UNITS_DEFAULT_DOMAIN` definition which is available through CMake options or specified before compilation.
+The default domain can be set at compile time through the `UNITS_DEFAULT_DOMAIN` definition
 
 .. code-block:: c++
 
    #define UNITS_DEFAULT_DOMAIN units::domains::astronomy
    #include "units/units.hpp"
 
-
-
-
+In CMake this field can be defined and will be directly translated.  The `UNITS_DOMAIN` CMake variable can also be used to specify a domain as a string like `UCUM` or `COOKING` and have it appropriately translate.
+See :ref:`Unit Library CMake Reference` for more details.  
