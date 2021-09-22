@@ -4984,8 +4984,8 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::allDomains, "t"), precise::us::tsp},
     {hashGen(domains::allDomains, "TB"), precise::us::tbsp},
     {hashGen(domains::allDomains, "rad"), precise::cgs::RAD},
-    {hashGen(domains::allDomains, "rd"), precise::cgs::RAD}
-};  // namespace UNITS_NAMESPACE
+    {hashGen(domains::allDomains, "rd"),
+     precise::cgs::RAD}};  // namespace UNITS_NAMESPACE
 
 static precise_unit
     getDomainUnit(std::uint32_t domain, const std::string& unit_string)
