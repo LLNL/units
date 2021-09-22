@@ -101,4 +101,4 @@ The default domain can be set at compile time through the `UNITS_DEFAULT_DOMAIN`
    #include "units/units.hpp"
 
 In CMake this field can be defined and will be directly translated.  The `UNITS_DOMAIN` CMake variable can also be used to specify a domain as a string like `UCUM` or `COOKING` and have it appropriately translate.
-See :ref:`Unit Library CMake Reference` for more details.  
+See :ref:`Unit Library CMake Reference` for more details.

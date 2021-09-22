@@ -343,7 +343,7 @@ For more description of the possible flags see [flags](https://units.readthedocs
 
 - `setUnitsDomain(std::uint32_t newDomain)` : set a default domain to use for string translations if not overridden using the `flags` argument.
 
-For more description of the Unit Domains supported see [Domains](https://units.readthedocs.io/en/latest/user-guide/Unit_domains.html).  Use the constants available in `units::domains` as the argument.  The numerical value is subject to change in future releases as this gets refined.  
+For more description of the Unit Domains supported see [Domains](https://units.readthedocs.io/en/latest/user-guide/Unit_domains.html). Use the constants available in `units::domains` as the argument. The numerical value is subject to change in future releases as this gets refined.
 
 #### Commodities
 
