@@ -1792,14 +1792,15 @@ UNITS_EXPORT int setUnitsDomain(int newDomain);
 
 /** specify a domain to use in unit translation for some ambiguous units*/
 namespace domains {
-	//only numbers 1-31 allowed
+    // only numbers 1-31 allowed
     constexpr std::uint32_t defaultDomain{0U};
     constexpr std::uint32_t ucum{7U};
     constexpr std::uint32_t cooking{3U};
     constexpr std::uint32_t nuclear{0x1DU};
     constexpr std::uint32_t surveying{10U};
     constexpr std::uint32_t astronomy{0x1AU};
-    constexpr std::uint32_t us_customary{11U}; // this is cooking | surveying as well
+    constexpr std::uint32_t us_customary{
+        11U};  // this is cooking | surveying as well
     constexpr std::uint32_t allDomains{0x1F};
 }  // namespace domains
 
