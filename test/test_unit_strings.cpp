@@ -101,6 +101,56 @@ TEST(unitStrings, prefixes)
     EXPECT_EQ(to_string(precise::micro * precise::L), "uL");
 }
 
+TEST(unitStrings, si_prefixes)
+{
+    EXPECT_EQ(to_string(unit_from_string("mm")), "mm");
+    EXPECT_EQ(to_string(unit_from_string("cm")), "cm");
+    EXPECT_EQ(to_string(unit_from_string("um")), "um");
+    EXPECT_EQ(to_string(unit_from_string("nm")), "nm");
+    EXPECT_EQ(to_string(unit_from_string("pm")), "pm");
+    EXPECT_EQ(to_string(unit_from_string("fm")), "fm");
+    EXPECT_EQ(to_string(unit_from_string("am")), "am");
+    EXPECT_EQ(to_string(unit_from_string("zm")), "zm");
+    EXPECT_EQ(to_string(unit_from_string("ym")), "ym");
+    EXPECT_EQ(to_string(unit_from_string("dm")), "dm");
+
+    EXPECT_EQ(to_string(unit_from_string("km")), "km");
+    EXPECT_EQ(to_string(unit_from_string("Km")), "km");
+    EXPECT_EQ(to_string(unit_from_string("Mm")), "Mm");
+    EXPECT_EQ(to_string(unit_from_string("Gm")), "Gm");
+    EXPECT_EQ(to_string(unit_from_string("Tm")), "Tm");
+    EXPECT_EQ(to_string(unit_from_string("Em")), "Em");
+    EXPECT_EQ(to_string(unit_from_string("Zm")), "Zm");
+    EXPECT_EQ(to_string(unit_from_string("Ym")), "Ym");
+}
+
+TEST(unitStrings, strict_si)
+{
+    auto unit = unit_from_string("Um", strict_si);
+    EXPECT_NE(unit, unit_from_string("um"));
+
+    unit = unit_from_string("Dm", strict_si);
+    EXPECT_NE(unit, unit_from_string("dm"));
+
+    unit = unit_from_string("Cm", strict_si);
+    EXPECT_NE(unit, unit_from_string("cm"));
+
+    unit = unit_from_string("Am", strict_si);
+    EXPECT_NE(unit, unit_from_string("am"));
+
+    unit = unit_from_string("Fm", strict_si);
+    EXPECT_NE(unit, unit_from_string("fm"));
+}
+
+TEST(unitStrings, astronomy_units)
+{
+    auto unit = unit_from_string("am", astronomy_units);
+    EXPECT_EQ(unit, unit_from_string("arcmin"));
+
+    unit = unit_from_string("am");
+    EXPECT_NE(unit, unit_from_string("am", astronomy_units));
+}
+
 TEST(unitStrings, readability)
 {
     EXPECT_EQ(to_string(precise::m / precise::s.pow(2)), "m/s^2");
