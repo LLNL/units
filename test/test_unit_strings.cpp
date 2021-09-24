@@ -361,6 +361,11 @@ TEST(stringToUnits, Power)
     EXPECT_EQ(precise::V.pow(-2), unit_from_string("1/V^2"));
     EXPECT_EQ(
         precise_unit(27.0, precise::one).pow(3), unit_from_string("27^3"));
+    if (sizeof(UNITS_BASE_TYPE) > 4) {
+        EXPECT_EQ(precise::m.pow(12), unit_from_string("m^12"));
+        EXPECT_EQ(precise::kg.pow(-11), unit_from_string("kg^-11"));
+        EXPECT_EQ(precise::s.pow(23), unit_from_string("s^+23"));
+    }
 }
 
 TEST(stringToUnits, mult)
