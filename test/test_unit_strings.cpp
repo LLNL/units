@@ -245,7 +245,8 @@ TEST(unitStrings, powerunits)
         to_string(precise_unit(1000000000, s.inv() * m.pow(-3))), "1/(uL*s)");
 }
 
-TEST(unitString, bigpowers) {
+TEST(unitString, bigpowers)
+{
     if (sizeof(UNITS_BASE_TYPE) == 8) {
         auto bp = precise::m.pow(12);
         EXPECT_EQ(bp, unit_from_string(to_string(bp)));
