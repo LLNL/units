@@ -25,7 +25,7 @@ aliases:
     command: |
       mkdir -p build
       cd build
-      eval cmake .. ${CMAKE_FLAGS} -DUNITS_BUILD_FUZZ_TARGETS=ON -DUNITS_ENABLE_TESTS=OFF -DUNITS_INSTALL=OFF
+      eval cmake .. ${CMAKE_FLAGS} -DUNITS_BUILD_FUZZ_TARGETS=ON -DUNITS_ENABLE_TESTS=OFF -DUNITS_INSTALL=OFF -DUNITS_BASE_TYPE=std::uint64_t
       make -j 4
       make QUICK_RAW_FUZZ
 
