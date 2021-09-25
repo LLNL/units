@@ -615,7 +615,11 @@ static std::string generateUnitSequence(double mux, std::string seq)
     return muxstr + seq;
 }
 // Add a unit power to a string
-static void addUnitPower(std::string& str, const char* unit, int power, std::uint32_t flags)
+static void addUnitPower(
+    std::string& str,
+    const char* unit,
+    int power,
+    std::uint32_t flags)
 {
     bool div{false};
     if (power != 0) {
@@ -641,7 +645,7 @@ static void addUnitPower(std::string& str, const char* unit, int power, std::uin
                 if (detail::bitwidth::base_size > 4 &&
                     (flags & disable_large_power_strings) == 0U) {
                     str.append(std::to_string(power));
-                    
+
                 } else {
                     if (power < 0) {
                         str.push_back('-');
@@ -689,10 +693,14 @@ static void addUnitFlagStrings(const precise_unit& un, std::string& unitString)
 
 /** add the unit power if it is positive, return true if negative and skip if 0
  */
-static inline int addPosUnits(std::string& str, const char* unitName, int power, std::uint32_t flags)
+static inline int addPosUnits(
+    std::string& str,
+    const char* unitName,
+    int power,
+    std::uint32_t flags)
 {
     if (power > 0) {
-        addUnitPower(str, unitName, power,flags);
+        addUnitPower(str, unitName, power, flags);
     }
     return (power < 0) ? 1 : 0;
 }
@@ -706,7 +714,7 @@ static inline void addNegUnits(
     std::uint32_t flags)
 {
     if (power < 0) {
-        addUnitPower(str, unitName, power,flags);
+        addUnitPower(str, unitName, power, flags);
     }
 }
 
@@ -716,7 +724,7 @@ static std::string
     std::string val;
     auto bu = un.base_units();
     int cnt{0};
-    cnt += addPosUnits(val, "m", bu.meter(),flags);
+    cnt += addPosUnits(val, "m", bu.meter(), flags);
     cnt += addPosUnits(val, "kg", bu.kg(), flags);
     cnt += addPosUnits(val, "s", bu.second(), flags);
     cnt += addPosUnits(val, "A", bu.ampere(), flags);
