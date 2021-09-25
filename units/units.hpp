@@ -1834,7 +1834,7 @@ enum unit_conversion_flags : std::uint32_t {
         (domains::us_customary << 3U),  //!< input units for nuclear physics and
                                         //!< radiation are prioritized
     disable_large_power_strings =
-        (1 << 10U),  // if the units allow large powers (base size==8) then this
+        (1U << 10U),  // if the units allow large powers (base size==8) then this
                      // flag can disable the output of large power strings which
                      // would be invalid if read later for smaller units.
     numbers_only = (1U << 12U),  //!< indicate that only numbers should be
