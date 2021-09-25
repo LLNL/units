@@ -52,7 +52,7 @@ if(UNITS_BUILD_SHARED_LIBRARY)
             units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN}
         )
     endif()
-	if (${CMAKE_CXX_STANDARD} GREATER_EQUAL 17)
+	if (${CMAKE_CXX_STANDARD} GREATER 16)
 		target_compile_definitions(
             units PRIVATE -DUNITS_CONSTEXPR_IF_SUPPORTED=1
         )
@@ -83,7 +83,7 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
             units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN}
         )
     endif()
-	if (${CMAKE_CXX_STANDARD} GREATER_EQUAL 17)
+	if (${CMAKE_CXX_STANDARD} GREATER 16)
 		target_compile_definitions(
             units PRIVATE -DUNITS_CONSTEXPR_IF_SUPPORTED=1
         )
@@ -114,7 +114,7 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
             units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN}
         )
     endif()
-	if (${CMAKE_CXX_STANDARD} GREATER_EQUAL 17)
+	if (${CMAKE_CXX_STANDARD} GREATER 16)
 		target_compile_definitions(
             units PRIVATE -DUNITS_CONSTEXPR_IF_SUPPORTED=1
         )
