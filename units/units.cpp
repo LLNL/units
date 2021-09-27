@@ -532,7 +532,13 @@ static std::string generateUnitSequence(double mux, std::string seq)
         int pw = 1;
         auto pwerloc = seq.find_first_of('^');
         if (pwerloc != std::string::npos) {
-            pw = seq[pwerloc + 1] - '0';
+            if (detail::bitwidth::base_size == sizeof(std::uint32_t) ||
+                seq.size() <= pwerloc + 2 ||
+                 !isDigitCharacter(seq[pwerloc + 2])) {
+                pw = seq[pwerloc + 1] - '0';
+            } else {
+                pw = 10;
+            }
         }
         std::string muxstr;
         switch (pw) {
