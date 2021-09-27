@@ -371,3 +371,40 @@ TEST_P(measProblems, measFiles)
 }
 
 INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(0, 30));
+
+
+class meas64Problems : public ::testing::TestWithParam<int> {
+};
+
+TEST_P(meas64Problems, measFiles)
+{
+    auto cdata = loadFailureFile("meas64_fail", GetParam());
+    auto m1 = measurement_from_string(cdata);
+    if (isnormal(m1)) {
+        auto str = to_string(m1);
+        auto m2 = measurement_from_string(str);
+        ASSERT_TRUE(m2.units().has_same_base(m1.units()) || isnormal(m2));
+        auto mc2 = measurement_cast(m2);
+        auto mc1 = measurement_cast(m1);
+        if (m2 == m1) {
+            EXPECT_EQ(m2, m1);
+            EXPECT_FALSE(m2 != m1);
+        } else if (isnormal(root(m2, 2))) {
+            EXPECT_EQ(root(mc2, 2), root(mc1, 2));
+            EXPECT_FALSE(root(mc2, 2) != root(mc1, 2));
+        } else if (isnormal(root(m2, 3))) {
+            EXPECT_EQ(root(mc2, 3), root(mc1, 3));
+            EXPECT_FALSE(root(mc2, 3) != root(mc1, 3));
+        } else if (isnormal(mc1) && isnormal(mc2)) {
+            EXPECT_TRUE(mc2 == mc1);
+            EXPECT_FALSE(mc2 != mc1);
+        } else {
+            auto uc1 = unit_cast(m1.as_unit());
+            auto uc2 = unit_cast(m2.as_unit());
+            EXPECT_TRUE(uc2 == uc1);
+            EXPECT_FALSE(uc2 != uc1);
+        }
+    }
+}
+
+INSTANTIATE_TEST_SUITE_P(meas64Files, meas64Problems, ::testing::Range(0, 1));
