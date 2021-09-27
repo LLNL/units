@@ -1080,12 +1080,13 @@ static std::string
     clean_unit_string(std::string propUnitString, std::uint32_t commodity)
 {
     using spair = std::tuple<const char*, const char*, int, int>;
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 10> powerseq{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 11> powerseq{
         {spair{"Mm^3", "(1e9km^3)", 4, 8},  // this needs to happen before ^3^2
                                             // conversions
          spair{"^2^2", "^4", 4, 2},
          spair{"^3^2", "^6", 4, 2},
          spair{"^2^3", "^6", 4, 2},
+         spair{"^3^3", "^9", 4, 2}, // this can only happen with extended units
          spair{"Gs", "Bs", 2, 2},
          spair{"*K^", "*1*K^", 3, 5},  // this one is to prevent the next from
                                        // screwing things up

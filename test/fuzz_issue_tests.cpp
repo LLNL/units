@@ -407,4 +407,4 @@ TEST_P(meas64Problems, measFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(meas64Files, meas64Problems, ::testing::Range(0, 1));
+INSTANTIATE_TEST_SUITE_P(meas64Files, meas64Problems, ::testing::Range(1, 2));
