@@ -416,6 +416,11 @@ struct hash<UNITS_NAMESPACE::detail::unit_data> {
 
 namespace UNITS_NAMESPACE {
 namespace detail {
+    template<typename T>
+    constexpr T sqr_power(T a)
+    {
+        return a * a;
+    }
     /// constexpr operator to generate small integer powers of a value(1,0,-1)
     template<typename X>
     constexpr X power_const_small(X val, int power)
@@ -427,9 +432,9 @@ namespace detail {
     template<typename X>
     constexpr X power_const(X val, int power)
     {
-        return (power > 1) ?
-            val * val * power_const(val, power - 2) :
-            (power < -1) ? X(1.0) / (val * val * power_const(val, -power - 2)) :
+        return (power > 1) ? sqr_power(power_const(val, power / 2)) * (power % 2 == 0 ? X(1.0) : val) :
+            (power < -1) ?
+            X(1.0) / (sqr_power(power_const(val, (-power) / 2)) * ((-power) % 2 == 0 ? X(1.0) : val)) :
                           power_const_small(val,power);
     }
 
