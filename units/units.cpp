@@ -5529,14 +5529,17 @@ static bool checkValidUnitString(
         // check all power operations
         cx = unit_string.find_first_of('^');
         while (cx != std::string::npos) {
-            char c = unit_string[cx + 1];
+            bool ndigit = isDigitCharacter(unit_string[cx - 1]);
+            ++cx;
+            char c = unit_string[cx];
             if (!isDigitCharacter(c)) {
                 if (c == '-') {
-                    if (!isDigitCharacter(unit_string[cx + 2])) {
+                    if (!isDigitCharacter(unit_string[cx+1])) {
                         return false;
                     }
+                    ++cx;
                 } else if (c == '(') {
-                    cx += 2;
+                    ++cx;
                     if (unit_string[cx] == '-') {
                         ++cx;
                     }
@@ -5555,6 +5558,18 @@ static bool checkValidUnitString(
                     return false;
                 }
             }
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+            if constexpr (
+                detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+#else
+            if (detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+#endif
+                if (unit_string.size() > cx + 1 &&
+                    isDigitCharacter(unit_string[cx + 1]) && !ndigit) {
+                    // non representable unit power
+                    return false;
+                }
+            }
             cx = unit_string.find_first_of('^', cx + 1);
         }
         // check for sequences of power operations
@@ -5565,8 +5580,8 @@ static bool checkValidUnitString(
                 break;
             }
             switch (cx - prev) {
-                case 2:  // the only way this would get here is ^D^ which is not
-                         // allowed
+                case 2:  // the only way this would get here is ^D^ which is
+                         // not allowed
                     return false;
                 case 3:
                     if (unit_string[prev + 1] == '-') {
@@ -5592,872 +5607,924 @@ static bool checkValidUnitString(
     }
 
     return true;
-}
+    }
 
-static void multiplyRep(std::string& unit_string, size_t loc, size_t sz)
-{
-    if (loc == 0) {
-        unit_string.erase(0, sz);
-        return;
-    }
-    if (unit_string.size() <= loc + sz) {
-        unit_string.erase(loc, sz);
-        if (unit_string.back() == '^' || unit_string.back() == '*' ||
-            unit_string.back() == '/') {
-            unit_string.pop_back();
+    static void multiplyRep(std::string & unit_string, size_t loc, size_t sz)
+    {
+        if (loc == 0) {
+            unit_string.erase(0, sz);
+            return;
         }
-        return;
-    }
-    auto tchar = unit_string[loc - 1];
-    auto tchar2 = unit_string[loc + sz];
-    if (tchar == '*' || tchar == '/' || tchar == '^' || tchar2 == '*' ||
-        tchar2 == '/' || tchar2 == '^') {
-        if ((tchar == '*' || tchar == '/' || tchar == '^') &&
-            (tchar2 == '*' || tchar2 == '/' || tchar2 == '^')) {
-            unit_string.erase(loc - 1, sz + 1);
-        } else {
+        if (unit_string.size() <= loc + sz) {
             unit_string.erase(loc, sz);
-        }
-    } else {
-        unit_string.replace(loc, sz, "*");
-    }
-}
-
-static void cleanUpPowersOfOne(std::string& unit_string)
-{  // get rid of (1)^ sequences
-    auto fndP = unit_string.find("(1)^");
-    while (fndP != std::string::npos) {
-        // string cannot end in '^' from a previous check
-        size_t eraseCnt = 4;
-        auto ch = unit_string[fndP + 4];
-        if (ch == '+' || ch == '-') {
-            ++eraseCnt;
-            if (unit_string.size() <= fndP + eraseCnt) {
-                multiplyRep(unit_string, fndP, eraseCnt);
-                break;
+            if (unit_string.back() == '^' || unit_string.back() == '*' ||
+                unit_string.back() == '/') {
+                unit_string.pop_back();
             }
-            ch = unit_string[fndP + eraseCnt];
+            return;
         }
-        while (isDigitCharacter(ch)) {
-            ++eraseCnt;
-            if (unit_string.size() <= fndP + eraseCnt) {
-                break;
-            }
-            ch = unit_string[fndP + eraseCnt];
-        }
-        multiplyRep(unit_string, fndP, eraseCnt);
-        fndP = unit_string.find("(1)^", fndP);
-    }
-    // get rid of ^1 sequences
-    fndP = unit_string.find("^1");
-    while (fndP != std::string::npos) {
-        if (unit_string.size() > fndP + 2) {
-            if (!isDigitCharacter(unit_string[fndP + 2])) {
-                unit_string.erase(fndP, 2);
+        auto tchar = unit_string[loc - 1];
+        auto tchar2 = unit_string[loc + sz];
+        if (tchar == '*' || tchar == '/' || tchar == '^' || tchar2 == '*' ||
+            tchar2 == '/' || tchar2 == '^') {
+            if ((tchar == '*' || tchar == '/' || tchar == '^') &&
+                (tchar2 == '*' || tchar2 == '/' || tchar2 == '^')) {
+                unit_string.erase(loc - 1, sz + 1);
             } else {
-                fndP = unit_string.find("^1", fndP + 2);
-                continue;
+                unit_string.erase(loc, sz);
             }
         } else {
-            unit_string.erase(fndP, 2);
+            unit_string.replace(loc, sz, "*");
         }
-        fndP = unit_string.find("^1", fndP);
     }
-    // get rid of ^1 sequences
-    fndP = unit_string.find("^(1)");
-    while (fndP != std::string::npos) {
-        multiplyRep(unit_string, fndP, 4);
-        fndP = unit_string.find("^(1)", fndP);
-    }
-}
 
-static void htmlCodeReplacement(std::string& unit_string)
-{
-    auto fnd = unit_string.find("<sup>");
-    while (fnd != std::string::npos) {
-        unit_string.replace(fnd, 5, "^");
-        fnd = unit_string.find("</sup>");
-        if (fnd != std::string::npos) {
-            unit_string.replace(fnd, 6, "");
-        } else {
-            fnd = unit_string.find("<\\/sup>");
-            if (fnd != std::string::npos) {
-                unit_string.replace(fnd, 8, "");
-            }
-        }
-        fnd = unit_string.find("<sup>");
-    }
-    fnd = unit_string.find("<sub>");
-    while (fnd != std::string::npos) {
-        unit_string.replace(fnd, 5, "_");
-        fnd = unit_string.find("</sub>");
-        if (fnd != std::string::npos) {
-            unit_string.replace(fnd, 6, "");
-        } else {
-            fnd = unit_string.find("<\\/sub>");
-            if (fnd != std::string::npos) {
-                unit_string.replace(fnd, 8, "");
-            }
-        }
-        fnd = unit_string.find("<sub>");
-    }
-}
-
-/// do some unicode replacement (unicode in the loose sense any characters not
-/// in the basic ascii set)
-static bool unicodeReplacement(std::string& unit_string)
-{
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 48>
-        ucodeReplacements{{
-            ckpair{u8"\u00d7", "*"},
-            ckpair{u8"\u00f7", "/"},  // division sign
-            ckpair{u8"\u00b7", "*"},
-            ckpair{u8"\u2215", "*"},  // asterisk operator
-            ckpair{u8"\u00B5", "u"},
-            ckpair{u8"\u03BC", "u"},
-            ckpair{u8"\u00E9", "e"},
-            ckpair{u8"\u00E8", "e"},
-            ckpair{u8"\u0301", ""},  // just get rid of the accent
-            ckpair{u8"\u0300", ""},  // just get rid of the accent
-            ckpair{u8"\u2212", "-"},
-            ckpair{u8"\u2009", ""},  // thin space
-            ckpair{u8"\u2007", ""},  // thin space
-            ckpair{u8"\u202f", ""},  // narrow no break space
-            ckpair{u8"\u207B\u00B9", "^(-1)"},
-            ckpair{u8"\u207B\u00B2", "^(-2)"},
-            ckpair{u8"\u207B\u00B3", "^(-3)"},
-            ckpair{u8"-\u00B9", "^(-1)"},
-            ckpair{u8"-\u00B2", "^(-2)"},
-            ckpair{u8"-\u00B3", "^(-3)"},
-            ckpair{u8"\u00b2", "^(2)"},
-            ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do anything
-            ckpair{u8"\u00b3", "^(3)"},
-            ckpair{u8"\u2215", "/"},  // Division slash
-            ckpair{u8"\u00BD", "(0.5)"},  // (1/2) fraction
-            ckpair{u8"\u00BC", "(0.25)"},  // (1/4) fraction
-            ckpair{u8"\u00BE", "(0.75)"},  // (3/4) fraction
-            ckpair{u8"\u2153", "(1/3)"},  // (1/3) fraction
-            ckpair{u8"\u2154", "(2/3)"},  // (2/3) fraction
-            ckpair{u8"\u215B", "0.125"},  // (1/8) fraction
-            ckpair{u8"\u215F", "1/"},  // 1/ numerator operator
-            ckpair{u8"\u20AC", "\x80"},  // euro sign to extended ascii
-            ckpair{u8"\u20BD", "ruble"},  // Ruble sign
-            ckpair{u8"\u01B7", "dr_ap"},  // drachm symbol
-            ckpair{"-\xb3", "^(-3)"},
-            ckpair{"-\xb9", "^(-1)"},
-            ckpair{"-\xb2", "^(-2)"},
-            ckpair{"\xb3", "^(3)"},
-            ckpair{"\xb9", "*"},
-            // superscript 1 which doesn't do anything, replace with multiply
-            ckpair{"\xb2", "^(2)"},
-            ckpair{"\xf7", "/"},
-            ckpair{"\xB7", "*"},
-            ckpair{"\xD7", "*"},
-            ckpair{"\xE9", "e"},  // remove accent
-            ckpair{"\xE8", "e"},  // remove accent
-            ckpair{"\xBD", "(0.5)"},  // (1/2) fraction
-            ckpair{"\xBC", "(0.25)"},  // (1/4) fraction
-            ckpair{"\xBE", "(0.75)"},  // (3/4) fraction
-        }};
-    bool changed{false};
-    for (auto& ucode : ucodeReplacements) {
-        auto fnd = unit_string.find(ucode.first);
-        while (fnd != std::string::npos) {
-            changed = true;
-            unit_string.replace(fnd, strlen(ucode.first), ucode.second);
-            if (fnd > 0 && unit_string[fnd - 1] == '\\') {
-                unit_string.erase(fnd - 1, 1);
-                --fnd;
-            }
-            fnd = unit_string.find(ucode.first, fnd + strlen(ucode.second));
-        }
-    }
-    return changed;
-}
-
-// 10*num usually means a power of 10 so in most cases replace it with 1e
-// except it is not actually 10 or the thing after isn't a number
-// but take into account the few cases where . notation is used
-static void checkPowerOf10(std::string& unit_string)
-{
-    auto fndP = unit_string.find("10*");
-    while (fndP != std::string::npos) {
-        if (unit_string.size() > fndP + 3 &&
-            isNumericalStartCharacter(unit_string[fndP + 3])) {
-            if (fndP == 0 || !isNumericalCharacter(unit_string[fndP - 1]) ||
-                (fndP >= 2 && unit_string[fndP - 1] == '.' &&
-                 (unit_string[fndP - 2] < '0' ||
-                  unit_string[fndP - 2] > '9'))) {
-                auto powerstr = unit_string.substr(fndP + 3);
-                if (looksLikeInteger(powerstr)) {
-                    try {
-                        int power = std::stoi(powerstr);
-                        if (std::labs(power) <= 38) {
-                            unit_string.replace(fndP, 3, "1e");
-                        }
-                    }
-                    catch (const std::out_of_range&) {
-                        // if it is a really big number we obviously skip it
-                    }
-                }
-            }
-        }
-        fndP = unit_string.find("10*", fndP + 3);
-    }
-}
-
-// do some cleaning on the unit string to standardize formatting and deal with
-// some extended ascii and unicode characters
-static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
-{
-    auto slen = unit_string.size();
-    bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
-
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 30>
-        allCodeReplacements{{
-            ckpair{"sq.", "square"},
-            ckpair{"cu.", "cubic"},
-            ckpair{"(US)", "US"},
-            ckpair{"10^", "1e"},
-            ckpair{"10-", "1e-"},
-            ckpair{"^+", "^"},
-            ckpair{"ampere", "amp"},
-            ckpair{"Ampere", "amp"},
-            ckpair{"metre", "meter"},
-            ckpair{"litre", "liter"},
-            ckpair{"B.Th.U.", "BTU"},
-            ckpair{"B.T.U.", "BTU"},
-            ckpair{"Britishthermalunits", "BTU"},
-            ckpair{"Britishthermalunitat", "BTU"},
-            ckpair{"Britishthermalunit", "BTU"},
-            ckpair{"BThU", "BTU"},
-            ckpair{"-US", "US"},
-            ckpair{"--", "*"},
-            // -- is either a double negative or a separator, so make it a
-            // multiplier so it doesn't get erased and then converted to a power
-            ckpair{"\\\\", "\\\\*"},
-            // \\ is always considered a segment terminator so it won't be
-            // misinterpreted as a known escape sequence
-            ckpair{"perunit", "pu"},
-            ckpair{"per-unit", "pu"},
-            ckpair{"/square*", "/square"},
-            ckpair{"/cubic*", "/cubic"},
-            ckpair{"degrees", "deg"},
-            ckpair{"degree", "deg"},
-            ckpair{"Hz^0.5", "rootHertz"},
-            ckpair{"Hz^.5", "rootHertz"},
-            ckpair{"Hz^(1/2)", "rootHertz"},
-            ckpair{"Hz^1/2", "rootHertz"},
-            ckpair{u8"\u221AHz", "rootHertz"},
-        }};
-
-    static const std::string spchar = std::string(" \t\n\r") + '\0';
-    bool changed = false;
-    bool skipMultiply = false;
-    std::size_t skipMultiplyInsertionAfter{std::string::npos};
-    char tail = unit_string.back();
-    if (tail == '^' || tail == '*' || tail == '/' || tail == '.') {
-        unit_string.pop_back();
-        changed = true;
-    }
-    auto c = unit_string.find_first_not_of(spchar);
-    if (c == std::string::npos) {
-        unit_string.clear();
-        return true;
-    }
-    if (unit_string[c] == '/') {
-        unit_string.insert(c, 1, '1');
-        changed = true;
-        skipMultiply = true;
-    }
-    if (!skipcodereplacement) {
-        // clean up some "per" words
-        if (unit_string.compare(0, 4, "per ") == 0) {
-            unit_string.replace(0, 4, "1/");
-            skipMultiply = true;
-        }
-        if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
-            skipMultiply = true;
-        }
-        auto fndP = unit_string.find(" s");
+    static void cleanUpPowersOfOne(std::string & unit_string)
+    {  // get rid of (1)^ sequences
+        auto fndP = unit_string.find("(1)^");
         while (fndP != std::string::npos) {
-            if (fndP + 2 == unit_string.size()) {
-                unit_string[fndP] = '*';
-            } else {
-                switch (unit_string[fndP + 2]) {
-                    case ' ':
-                    case '*':
-                    case '/':
-                    case '^':
-                    case '.':
-                        unit_string[fndP] = '*';
-                        break;
-                    default:
-                        break;
-                }
-            }
-            fndP = unit_string.find(" s", fndP + 1);
-        }
-        fndP = unit_string.find(" of ");
-        while (fndP != std::string::npos) {
-            auto nchar = unit_string.find_first_not_of(
-                std::string(" \t\n\r") + '\0', fndP + 4);
-            if (nchar != std::string::npos) {
-                if (unit_string[nchar] == '(' || unit_string[nchar] == '[') {
-                    skipMultiplyInsertionAfter = fndP;
+            // string cannot end in '^' from a previous check
+            size_t eraseCnt = 4;
+            auto ch = unit_string[fndP + 4];
+            if (ch == '+' || ch == '-') {
+                ++eraseCnt;
+                if (unit_string.size() <= fndP + eraseCnt) {
+                    multiplyRep(unit_string, fndP, eraseCnt);
                     break;
                 }
+                ch = unit_string[fndP + eraseCnt];
             }
-            fndP = unit_string.find(" of ", fndP + 3);
+            while (isDigitCharacter(ch)) {
+                ++eraseCnt;
+                if (unit_string.size() <= fndP + eraseCnt) {
+                    break;
+                }
+                ch = unit_string[fndP + eraseCnt];
+            }
+            multiplyRep(unit_string, fndP, eraseCnt);
+            fndP = unit_string.find("(1)^", fndP);
         }
-        changed |= cleanSpaces(unit_string, skipMultiply);
-        if (unit_string.empty()) {
-            // LCOV_EXCL_START
-            return true;
-            // LCOV_EXCL_STOP
+        // get rid of ^1 sequences
+        fndP = unit_string.find("^1");
+        while (fndP != std::string::npos) {
+            if (unit_string.size() > fndP + 2) {
+                if (!isDigitCharacter(unit_string[fndP + 2])) {
+                    unit_string.erase(fndP, 2);
+                } else {
+                    fndP = unit_string.find("^1", fndP + 2);
+                    continue;
+                }
+            } else {
+                unit_string.erase(fndP, 2);
+            }
+            fndP = unit_string.find("^1", fndP);
         }
+        // get rid of ^1 sequences
+        fndP = unit_string.find("^(1)");
+        while (fndP != std::string::npos) {
+            multiplyRep(unit_string, fndP, 4);
+            fndP = unit_string.find("^(1)", fndP);
+        }
+    }
 
-        checkPowerOf10(unit_string);
-    } else {
-        auto fndP = unit_string.find("of(");
-        if (fndP != std::string::npos) {
-            skipMultiplyInsertionAfter = fndP;
+    static void htmlCodeReplacement(std::string & unit_string)
+    {
+        auto fnd = unit_string.find("<sup>");
+        while (fnd != std::string::npos) {
+            unit_string.replace(fnd, 5, "^");
+            fnd = unit_string.find("</sup>");
+            if (fnd != std::string::npos) {
+                unit_string.replace(fnd, 6, "");
+            } else {
+                fnd = unit_string.find("<\\/sup>");
+                if (fnd != std::string::npos) {
+                    unit_string.replace(fnd, 8, "");
+                }
+            }
+            fnd = unit_string.find("<sup>");
         }
-    }
-    if (unit_string.front() == '(') {
-        removeOuterParenthesis(unit_string);
-        if (unit_string.empty()) {
-            return true;
+        fnd = unit_string.find("<sub>");
+        while (fnd != std::string::npos) {
+            unit_string.replace(fnd, 5, "_");
+            fnd = unit_string.find("</sub>");
+            if (fnd != std::string::npos) {
+                unit_string.replace(fnd, 6, "");
+            } else {
+                fnd = unit_string.find("<\\/sub>");
+                if (fnd != std::string::npos) {
+                    unit_string.replace(fnd, 8, "");
+                }
+            }
+            fnd = unit_string.find("<sub>");
         }
     }
 
-    if (!skipcodereplacement) {
-        // ** means power in some environments
-        if (ReplaceStringInPlace(unit_string, "**", 2, "^", 1)) {
-            changed = true;
-        }
-    }
-    if ((match_flags & case_insensitive) != 0) {
-        ciConversion(unit_string);
-        changed = true;
-    }
-    if (!skipcodereplacement) {
-        // deal with some html stuff
-        auto bloc = unit_string.find_last_of('<');
-        if (bloc != std::string::npos) {
-            htmlCodeReplacement(unit_string);
-        }
-        // some abbreviations and other problematic code replacements
-        for (auto& acode : allCodeReplacements) {
-            auto fnd = unit_string.find(acode.first);
+    /// do some unicode replacement (unicode in the loose sense any characters
+    /// not in the basic ascii set)
+    static bool unicodeReplacement(std::string & unit_string)
+    {
+        static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 48>
+            ucodeReplacements{{
+                ckpair{u8"\u00d7", "*"},
+                ckpair{u8"\u00f7", "/"},  // division sign
+                ckpair{u8"\u00b7", "*"},
+                ckpair{u8"\u2215", "*"},  // asterisk operator
+                ckpair{u8"\u00B5", "u"},
+                ckpair{u8"\u03BC", "u"},
+                ckpair{u8"\u00E9", "e"},
+                ckpair{u8"\u00E8", "e"},
+                ckpair{u8"\u0301", ""},  // just get rid of the accent
+                ckpair{u8"\u0300", ""},  // just get rid of the accent
+                ckpair{u8"\u2212", "-"},
+                ckpair{u8"\u2009", ""},  // thin space
+                ckpair{u8"\u2007", ""},  // thin space
+                ckpair{u8"\u202f", ""},  // narrow no break space
+                ckpair{u8"\u207B\u00B9", "^(-1)"},
+                ckpair{u8"\u207B\u00B2", "^(-2)"},
+                ckpair{u8"\u207B\u00B3", "^(-3)"},
+                ckpair{u8"-\u00B9", "^(-1)"},
+                ckpair{u8"-\u00B2", "^(-2)"},
+                ckpair{u8"-\u00B3", "^(-3)"},
+                ckpair{u8"\u00b2", "^(2)"},
+                ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do
+                                          // anything
+                ckpair{u8"\u00b3", "^(3)"},
+                ckpair{u8"\u2215", "/"},  // Division slash
+                ckpair{u8"\u00BD", "(0.5)"},  // (1/2) fraction
+                ckpair{u8"\u00BC", "(0.25)"},  // (1/4) fraction
+                ckpair{u8"\u00BE", "(0.75)"},  // (3/4) fraction
+                ckpair{u8"\u2153", "(1/3)"},  // (1/3) fraction
+                ckpair{u8"\u2154", "(2/3)"},  // (2/3) fraction
+                ckpair{u8"\u215B", "0.125"},  // (1/8) fraction
+                ckpair{u8"\u215F", "1/"},  // 1/ numerator operator
+                ckpair{u8"\u20AC", "\x80"},  // euro sign to extended ascii
+                ckpair{u8"\u20BD", "ruble"},  // Ruble sign
+                ckpair{u8"\u01B7", "dr_ap"},  // drachm symbol
+                ckpair{"-\xb3", "^(-3)"},
+                ckpair{"-\xb9", "^(-1)"},
+                ckpair{"-\xb2", "^(-2)"},
+                ckpair{"\xb3", "^(3)"},
+                ckpair{"\xb9", "*"},
+                // superscript 1 which doesn't do anything, replace with
+                // multiply
+                ckpair{"\xb2", "^(2)"},
+                ckpair{"\xf7", "/"},
+                ckpair{"\xB7", "*"},
+                ckpair{"\xD7", "*"},
+                ckpair{"\xE9", "e"},  // remove accent
+                ckpair{"\xE8", "e"},  // remove accent
+                ckpair{"\xBD", "(0.5)"},  // (1/2) fraction
+                ckpair{"\xBC", "(0.25)"},  // (1/4) fraction
+                ckpair{"\xBE", "(0.75)"},  // (3/4) fraction
+            }};
+        bool changed{false};
+        for (auto& ucode : ucodeReplacements) {
+            auto fnd = unit_string.find(ucode.first);
             while (fnd != std::string::npos) {
                 changed = true;
-                unit_string.replace(fnd, strlen(acode.first), acode.second);
-                fnd = unit_string.find(acode.first, fnd + 1);
+                unit_string.replace(fnd, strlen(ucode.first), ucode.second);
+                if (fnd > 0 && unit_string[fnd - 1] == '\\') {
+                    unit_string.erase(fnd - 1, 1);
+                    --fnd;
+                }
+                fnd = unit_string.find(ucode.first, fnd + strlen(ucode.second));
             }
         }
+        return changed;
     }
-    if (unit_string.size() >= 2) {
-        auto eit = unit_string.end() - 1;
-        if (*(eit) == '2' || *(eit) == '3') {
-            if ((*(eit - 1) == '-' || *(eit - 1) == '+') &&
-                unit_string.size() >= 3) {
-                --eit;
-            }
-            if (!isDigitCharacter(*(eit - 1))) {
-                switch (*(eit - 1)) {
-                    case '^':
-                    case 'e':
-                    case 'E':
-                    case '/':
-                    case '+':
-                    case '-':
-                        break;
-                    case '*':
-                        *(eit - 1) = '^';
-                        break;
-                    default:
-                        if (eit[0] != '+') {
-                            unit_string.insert(eit, '^');
-                        } else {
-                            *eit = '^';
-                        }
 
+    // 10*num usually means a power of 10 so in most cases replace it with 1e
+    // except it is not actually 10 or the thing after isn't a number
+    // but take into account the few cases where . notation is used
+    static void checkPowerOf10(std::string & unit_string)
+    {
+        auto fndP = unit_string.find("10*");
+        while (fndP != std::string::npos) {
+            if (unit_string.size() > fndP + 3 &&
+                isNumericalStartCharacter(unit_string[fndP + 3])) {
+                if (fndP == 0 || !isNumericalCharacter(unit_string[fndP - 1]) ||
+                    (fndP >= 2 && unit_string[fndP - 1] == '.' &&
+                     (unit_string[fndP - 2] < '0' ||
+                      unit_string[fndP - 2] > '9'))) {
+                    auto powerstr = unit_string.substr(fndP + 3);
+                    if (looksLikeInteger(powerstr)) {
+                        try {
+                            int power = std::stoi(powerstr);
+                            if (std::labs(power) <= 38) {
+                                unit_string.replace(fndP, 3, "1e");
+                            }
+                        }
+                        catch (const std::out_of_range&) {
+                            // if it is a really big number we obviously skip it
+                        }
+                    }
+                }
+            }
+            fndP = unit_string.find("10*", fndP + 3);
+        }
+    }
+
+    // do some cleaning on the unit string to standardize formatting and deal
+    // with some extended ascii and unicode characters
+    static bool cleanUnitString(
+        std::string & unit_string, std::uint32_t match_flags)
+    {
+        auto slen = unit_string.size();
+        bool skipcodereplacement =
+            ((match_flags & skip_code_replacements) != 0);
+
+        static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 30>
+            allCodeReplacements{{
+                ckpair{"sq.", "square"},
+                ckpair{"cu.", "cubic"},
+                ckpair{"(US)", "US"},
+                ckpair{"10^", "1e"},
+                ckpair{"10-", "1e-"},
+                ckpair{"^+", "^"},
+                ckpair{"ampere", "amp"},
+                ckpair{"Ampere", "amp"},
+                ckpair{"metre", "meter"},
+                ckpair{"litre", "liter"},
+                ckpair{"B.Th.U.", "BTU"},
+                ckpair{"B.T.U.", "BTU"},
+                ckpair{"Britishthermalunits", "BTU"},
+                ckpair{"Britishthermalunitat", "BTU"},
+                ckpair{"Britishthermalunit", "BTU"},
+                ckpair{"BThU", "BTU"},
+                ckpair{"-US", "US"},
+                ckpair{"--", "*"},
+                // -- is either a double negative or a separator, so make it a
+                // multiplier so it doesn't get erased and then converted to a
+                // power
+                ckpair{"\\\\", "\\\\*"},
+                // \\ is always considered a segment terminator so it won't be
+                // misinterpreted as a known escape sequence
+                ckpair{"perunit", "pu"},
+                ckpair{"per-unit", "pu"},
+                ckpair{"/square*", "/square"},
+                ckpair{"/cubic*", "/cubic"},
+                ckpair{"degrees", "deg"},
+                ckpair{"degree", "deg"},
+                ckpair{"Hz^0.5", "rootHertz"},
+                ckpair{"Hz^.5", "rootHertz"},
+                ckpair{"Hz^(1/2)", "rootHertz"},
+                ckpair{"Hz^1/2", "rootHertz"},
+                ckpair{u8"\u221AHz", "rootHertz"},
+            }};
+
+        static const std::string spchar = std::string(" \t\n\r") + '\0';
+        bool changed = false;
+        bool skipMultiply = false;
+        std::size_t skipMultiplyInsertionAfter{std::string::npos};
+        char tail = unit_string.back();
+        if (tail == '^' || tail == '*' || tail == '/' || tail == '.') {
+            unit_string.pop_back();
+            changed = true;
+        }
+        auto c = unit_string.find_first_not_of(spchar);
+        if (c == std::string::npos) {
+            unit_string.clear();
+            return true;
+        }
+        if (unit_string[c] == '/') {
+            unit_string.insert(c, 1, '1');
+            changed = true;
+            skipMultiply = true;
+        }
+        if (!skipcodereplacement) {
+            // clean up some "per" words
+            if (unit_string.compare(0, 4, "per ") == 0) {
+                unit_string.replace(0, 4, "1/");
+                skipMultiply = true;
+            }
+            if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
+                skipMultiply = true;
+            }
+            auto fndP = unit_string.find(" s");
+            while (fndP != std::string::npos) {
+                if (fndP + 2 == unit_string.size()) {
+                    unit_string[fndP] = '*';
+                } else {
+                    switch (unit_string[fndP + 2]) {
+                        case ' ':
+                        case '*':
+                        case '/':
+                        case '^':
+                        case '.':
+                            unit_string[fndP] = '*';
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                fndP = unit_string.find(" s", fndP + 1);
+            }
+            fndP = unit_string.find(" of ");
+            while (fndP != std::string::npos) {
+                auto nchar = unit_string.find_first_not_of(
+                    std::string(" \t\n\r") + '\0', fndP + 4);
+                if (nchar != std::string::npos) {
+                    if (unit_string[nchar] == '(' ||
+                        unit_string[nchar] == '[') {
+                        skipMultiplyInsertionAfter = fndP;
                         break;
+                    }
+                }
+                fndP = unit_string.find(" of ", fndP + 3);
+            }
+            changed |= cleanSpaces(unit_string, skipMultiply);
+            if (unit_string.empty()) {
+                // LCOV_EXCL_START
+                return true;
+                // LCOV_EXCL_STOP
+            }
+
+            checkPowerOf10(unit_string);
+        } else {
+            auto fndP = unit_string.find("of(");
+            if (fndP != std::string::npos) {
+                skipMultiplyInsertionAfter = fndP;
+            }
+        }
+        if (unit_string.front() == '(') {
+            removeOuterParenthesis(unit_string);
+            if (unit_string.empty()) {
+                return true;
+            }
+        }
+
+        if (!skipcodereplacement) {
+            // ** means power in some environments
+            if (ReplaceStringInPlace(unit_string, "**", 2, "^", 1)) {
+                changed = true;
+            }
+        }
+        if ((match_flags & case_insensitive) != 0) {
+            ciConversion(unit_string);
+            changed = true;
+        }
+        if (!skipcodereplacement) {
+            // deal with some html stuff
+            auto bloc = unit_string.find_last_of('<');
+            if (bloc != std::string::npos) {
+                htmlCodeReplacement(unit_string);
+            }
+            // some abbreviations and other problematic code replacements
+            for (auto& acode : allCodeReplacements) {
+                auto fnd = unit_string.find(acode.first);
+                while (fnd != std::string::npos) {
+                    changed = true;
+                    unit_string.replace(fnd, strlen(acode.first), acode.second);
+                    fnd = unit_string.find(acode.first, fnd + 1);
                 }
             }
         }
-    }
-    if (!skipcodereplacement) {
-        // handle dot notation for multiplication
-        auto dotloc = unit_string.find_last_of('.');
-        if (dotloc < std::string::npos) {
-            // strings always have a null pointer at the end
-            if (!isDigitCharacter(unit_string[dotloc + 1])) {
-                cleanDotNotation(unit_string, match_flags);
-                changed = true;
-            }
-        }
-        // Check for unicode or extended characters
-        if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) {
-                return (static_cast<std::uint8_t>(x) & 0x80U) != 0;
-            })) {
-            if (unicodeReplacement(unit_string)) {
-                changed = true;
-            }
-        }
+        if (unit_string.size() >= 2) {
+            auto eit = unit_string.end() - 1;
+            if (*(eit) == '2' || *(eit) == '3') {
+                if ((*(eit - 1) == '-' || *(eit - 1) == '+') &&
+                    unit_string.size() >= 3) {
+                    --eit;
+                }
+                if (!isDigitCharacter(*(eit - 1))) {
+                    switch (*(eit - 1)) {
+                        case '^':
+                        case 'e':
+                        case 'E':
+                        case '/':
+                        case '+':
+                        case '-':
+                            break;
+                        case '*':
+                            *(eit - 1) = '^';
+                            break;
+                        default:
+                            if (eit[0] != '+') {
+                                unit_string.insert(eit, '^');
+                            } else {
+                                *eit = '^';
+                            }
 
-        // clear empty parenthesis
-        auto fndP = unit_string.find("()");
-        while (fndP != std::string::npos) {
-            if (unit_string.size() > fndP + 2) {
-                if (unit_string[fndP + 2] == '^') {
-                    unit_string.replace(fndP, 2, "*1");
+                            break;
+                    }
+                }
+            }
+        }
+        if (!skipcodereplacement) {
+            // handle dot notation for multiplication
+            auto dotloc = unit_string.find_last_of('.');
+            if (dotloc < std::string::npos) {
+                // strings always have a null pointer at the end
+                if (!isDigitCharacter(unit_string[dotloc + 1])) {
+                    cleanDotNotation(unit_string, match_flags);
+                    changed = true;
+                }
+            }
+            // Check for unicode or extended characters
+            if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) {
+                    return (static_cast<std::uint8_t>(x) & 0x80U) != 0;
+                })) {
+                if (unicodeReplacement(unit_string)) {
+                    changed = true;
+                }
+            }
+
+            // clear empty parenthesis
+            auto fndP = unit_string.find("()");
+            while (fndP != std::string::npos) {
+                if (unit_string.size() > fndP + 2) {
+                    if (unit_string[fndP + 2] == '^') {
+                        unit_string.replace(fndP, 2, "*1");
+                    } else {
+                        unit_string.erase(fndP, 2);
+                    }
                 } else {
                     unit_string.erase(fndP, 2);
                 }
-            } else {
-                unit_string.erase(fndP, 2);
+                fndP = unit_string.find("()", fndP);
             }
-            fndP = unit_string.find("()", fndP);
+            // clear empty brackets, this would indicate commodities but if
+            // empty there is no commodity
+            clearEmptySegments(unit_string);
+            cleanUpPowersOfOne(unit_string);
+            if (unit_string.empty()) {
+                unit_string.push_back('1');
+                return true;
+            }
         }
-        // clear empty brackets, this would indicate commodities but if empty
-        // there is no commodity
-        clearEmptySegments(unit_string);
-        cleanUpPowersOfOne(unit_string);
-        if (unit_string.empty()) {
-            unit_string.push_back('1');
-            return true;
+        // remove leading *})],  equivalent of 1* but we don't need to process
+        // that further
+        while (!unit_string.empty() &&
+               (unit_string.front() == '*' || unit_string.front() == '}' ||
+                unit_string.front() == ')' || unit_string.front() == ']')) {
+            unit_string.erase(0, 1);
+            changed = true;
+            if (unit_string.empty()) {
+                return true;
+            }
+            // check for parenthesis again
+            if (unit_string.front() == '(') {
+                removeOuterParenthesis(unit_string);
+            }
         }
-    }
-    // remove leading *})],  equivalent of 1* but we don't need to process that
-    // further
-    while (!unit_string.empty() &&
-           (unit_string.front() == '*' || unit_string.front() == '}' ||
-            unit_string.front() == ')' || unit_string.front() == ']')) {
-        unit_string.erase(0, 1);
-        changed = true;
-        if (unit_string.empty()) {
-            return true;
-        }
-        // check for parenthesis again
-        if (unit_string.front() == '(') {
-            removeOuterParenthesis(unit_string);
-        }
-    }
-    // inject multiplies after bracket terminators
-    auto fnd = unit_string.find_first_of(")]}");
-    while (fnd < unit_string.size() - 1 && fnd < skipMultiplyInsertionAfter) {
-        switch (unit_string[fnd + 1]) {
-            case '^':
-            case '*':
-            case '/':
-            case ')':
-            case ']':
-            case '}':
-            case '>':
-                fnd = unit_string.find_first_of(")]}", fnd + 1);
-                break;
-            case 'o':  // handle special case of commodity modifier using "of"
-                if (unit_string.size() > fnd + 3) {
-                    auto tc2 = unit_string[fnd + 3];
-                    if (unit_string[fnd + 2] == 'f' && tc2 != ')' &&
-                        tc2 != ']' && tc2 != '}') {
-                        fnd = unit_string.find_first_of(")]}", fnd + 3);
+        // inject multiplies after bracket terminators
+        auto fnd = unit_string.find_first_of(")]}");
+        while (fnd < unit_string.size() - 1 &&
+               fnd < skipMultiplyInsertionAfter) {
+            switch (unit_string[fnd + 1]) {
+                case '^':
+                case '*':
+                case '/':
+                case ')':
+                case ']':
+                case '}':
+                case '>':
+                    fnd = unit_string.find_first_of(")]}", fnd + 1);
+                    break;
+                case 'o':  // handle special case of commodity modifier using
+                           // "of"
+                    if (unit_string.size() > fnd + 3) {
+                        auto tc2 = unit_string[fnd + 3];
+                        if (unit_string[fnd + 2] == 'f' && tc2 != ')' &&
+                            tc2 != ']' && tc2 != '}') {
+                            fnd = unit_string.find_first_of(")]}", fnd + 3);
+                            break;
+                        }
+                    }
+                    unit_string.insert(fnd + 1, 1, '*');
+                    fnd = unit_string.find_first_of(")]}", fnd + 3);
+                    break;
+                case '{':
+                    if (unit_string[fnd] != '}') {
+                        fnd = unit_string.find_first_of(")]}", fnd + 1);
                         break;
                     }
+                    /* FALLTHRU */
+                default:
+                    if (unit_string[fnd - 1] ==
+                        '\\') {  // ignore escape sequences
+                        fnd = unit_string.find_first_of(")]}", fnd + 1);
+                        break;
+                    }
+                    unit_string.insert(fnd + 1, 1, '*');
+                    fnd = unit_string.find_first_of(")]}", fnd + 2);
+                    break;
+            }
+        }
+        // insert multiplies after ^#
+        fnd = unit_string.find_first_of('^');
+        while (fnd < unit_string.size() - 3 &&
+               fnd < skipMultiplyInsertionAfter) {
+            if (unit_string[fnd + 1] == '-') {
+                ++fnd;
+            }
+            if (fnd < unit_string.size() - 3) {
+                std::size_t seq = 1;
+                auto p = unit_string[fnd + seq];
+                while (p >= '0' && p <= '9' &&
+                       fnd + seq <= unit_string.size() - 1U) {
+                    ++seq;
+                    p = unit_string[fnd + seq];
                 }
-                unit_string.insert(fnd + 1, 1, '*');
-                fnd = unit_string.find_first_of(")]}", fnd + 3);
-                break;
-            case '{':
-                if (unit_string[fnd] != '}') {
-                    fnd = unit_string.find_first_of(")]}", fnd + 1);
+                if (fnd + seq > unit_string.size() - 1U) {
                     break;
                 }
-                /* FALLTHRU */
-            default:
-                if (unit_string[fnd - 1] == '\\') {  // ignore escape sequences
-                    fnd = unit_string.find_first_of(")]}", fnd + 1);
-                    break;
+                if (seq > 1) {
+                    auto c2 = unit_string[fnd + seq];
+                    if (c2 != '\0' && c2 != '*' && c2 != '/' && c2 != '^' &&
+                        c2 != 'e' && c2 != 'E') {
+                        unit_string.insert(fnd + seq, 1, '*');
+                    }
                 }
-                unit_string.insert(fnd + 1, 1, '*');
-                fnd = unit_string.find_first_of(")]}", fnd + 2);
-                break;
-        }
-    }
-    // insert multiplies after ^#
-    fnd = unit_string.find_first_of('^');
-    while (fnd < unit_string.size() - 3 && fnd < skipMultiplyInsertionAfter) {
-        if (unit_string[fnd + 1] == '-') {
-            ++fnd;
-        }
-        if (fnd < unit_string.size() - 3) {
-            std::size_t seq = 1;
-            auto p = unit_string[fnd + seq];
-            while (p >= '0' && p <= '9' &&
-                   fnd + seq <= unit_string.size() - 1U) {
-                ++seq;
-                p = unit_string[fnd + seq];
             }
-            if (fnd + seq > unit_string.size() - 1U) {
-                break;
-            }
-            if (seq > 1) {
-                auto c2 = unit_string[fnd + seq];
-                if (c2 != '\0' && c2 != '*' && c2 != '/' && c2 != '^' &&
-                    c2 != 'e' && c2 != 'E') {
-                    unit_string.insert(fnd + seq, 1, '*');
+            fnd = unit_string.find_first_of('^', fnd + 2);
+        }
+
+        // this still might occur from code replacements or other removal
+        if (!unit_string.empty() && unit_string.front() == '/') {
+            unit_string.insert(unit_string.begin(), '1');
+            changed = true;
+        }
+        if (!skipcodereplacement) {  // make everything inside {} lower case
+            auto bloc = unit_string.find_first_of('{');
+            while (bloc != std::string::npos) {
+                auto ind = bloc + 1;
+                if (segmentcheck(unit_string, '}', ind)) {
+                    std::transform(
+                        unit_string.begin() + bloc + 1,
+                        unit_string.begin() + ind - 1,
+                        unit_string.begin() + bloc + 1,
+                        ::tolower);
+                    bloc = unit_string.find_first_of('{', ind);
+                } else {
+                    bloc = std::string::npos;
                 }
             }
         }
-        fnd = unit_string.find_first_of('^', fnd + 2);
+        return (changed || unit_string.size() != slen);
     }
 
-    // this still might occur from code replacements or other removal
-    if (!unit_string.empty() && unit_string.front() == '/') {
-        unit_string.insert(unit_string.begin(), '1');
-        changed = true;
-    }
-    if (!skipcodereplacement) {  // make everything inside {} lower case
-        auto bloc = unit_string.find_first_of('{');
-        while (bloc != std::string::npos) {
-            auto ind = bloc + 1;
-            if (segmentcheck(unit_string, '}', ind)) {
-                std::transform(
-                    unit_string.begin() + bloc + 1,
-                    unit_string.begin() + ind - 1,
-                    unit_string.begin() + bloc + 1,
-                    ::tolower);
-                bloc = unit_string.find_first_of('{', ind);
-            } else {
-                bloc = std::string::npos;
+    /// cleanup phase 2 if things still aren't working
+    static bool cleanUnitStringPhase2(std::string & unit_string)
+    {
+        auto len = unit_string.length();
+        unit_string.erase(
+            std::remove(unit_string.begin(), unit_string.end(), '_'),
+            unit_string.end());
+        // cleanup extraneous dashes
+        auto dpos = unit_string.find_first_of('-');
+        while (dpos != std::string::npos) {
+            if (dpos < unit_string.size() - 1) {
+                if (unit_string[dpos + 1] >= '0' &&
+                    unit_string[dpos + 1] <= '9') {
+                    dpos = unit_string.find_first_of('-', dpos + 1);
+                    continue;
+                }
             }
+
+            unit_string.erase(dpos, 1);
+            dpos = unit_string.find_first_of('-', dpos);
         }
-    }
-    return (changed || unit_string.size() != slen);
-}
+        unit_string.erase(
+            std::remove(unit_string.begin(), unit_string.end(), '+'),
+            unit_string.end());
 
-/// cleanup phase 2 if things still aren't working
-static bool cleanUnitStringPhase2(std::string& unit_string)
-{
-    auto len = unit_string.length();
-    unit_string.erase(
-        std::remove(unit_string.begin(), unit_string.end(), '_'),
-        unit_string.end());
-    // cleanup extraneous dashes
-    auto dpos = unit_string.find_first_of('-');
-    while (dpos != std::string::npos) {
-        if (dpos < unit_string.size() - 1) {
-            if (unit_string[dpos + 1] >= '0' && unit_string[dpos + 1] <= '9') {
-                dpos = unit_string.find_first_of('-', dpos + 1);
-                continue;
-            }
+        clearEmptySegments(unit_string);
+        return (len != unit_string.length());
+    }
+
+    static precise_unit unit_quick_match(
+        std::string unit_string, std::uint32_t match_flags)
+    {
+        if ((match_flags & case_insensitive) !=
+            0) {  // if not a case insensitive
+                  // matching process just do a
+                  // quick scan first
+            cleanUnitString(unit_string, match_flags);
         }
-
-        unit_string.erase(dpos, 1);
-        dpos = unit_string.find_first_of('-', dpos);
-    }
-    unit_string.erase(
-        std::remove(unit_string.begin(), unit_string.end(), '+'),
-        unit_string.end());
-
-    clearEmptySegments(unit_string);
-    return (len != unit_string.length());
-}
-
-static precise_unit
-    unit_quick_match(std::string unit_string, std::uint32_t match_flags)
-{
-    if ((match_flags & case_insensitive) != 0) {  // if not a case insensitive
-                                                  // matching process just do a
-                                                  // quick scan first
-        cleanUnitString(unit_string, match_flags);
-    }
-    auto retunit = get_unit(unit_string, match_flags);
-    if (is_valid(retunit)) {
-        return retunit;
-    }
-    if (unit_string.size() > 2 &&
-        unit_string.back() == 's') {  // if the string is of length two this is
-                                      // too risky to try since there would be
-                                      // many incorrect matches
-        unit_string.pop_back();
-        retunit = get_unit(unit_string, match_flags);
+        auto retunit = get_unit(unit_string, match_flags);
         if (is_valid(retunit)) {
             return retunit;
         }
-    } else if (unit_string.front() == '[' && unit_string.back() == ']') {
-        unit_string.pop_back();
-        if (unit_string.back() != 'U' && unit_string.back() != 'u') {
-            unit_string.erase(unit_string.begin());
+        if (unit_string.size() > 2 &&
+            unit_string.back() == 's') {  // if the string is of length two this
+                                          // is too risky to try since there
+                                          // would be many incorrect matches
+            unit_string.pop_back();
             retunit = get_unit(unit_string, match_flags);
             if (is_valid(retunit)) {
                 return retunit;
             }
-        }
-    }
-    return precise::invalid;
-}
-/** Under the assumption units were mashed together to for some new work or
-spaces were used as multiplies this function will progressively try to split
-apart units and combine them.
-*/
-static precise_unit tryUnitPartitioning(
-    const std::string& unit_string,
-    std::uint32_t match_flags)
-{
-    std::string ustring = unit_string;
-    // lets try checking for meter next which is one of the most common reasons
-    // for getting here
-    auto fnd = findWordOperatorSep(unit_string, "meter");
-    if (fnd != std::string::npos) {
-        ustring.erase(fnd, 5);
-        auto bunit = unit_from_string_internal(ustring, match_flags);
-        if (is_valid(bunit)) {
-            return precise::m * bunit;
-        }
-    }
-    // detect another somewhat common situation often amphour or ampsecond
-    if (unit_string.compare(0, 3, "amp") == 0) {
-        auto bunit =
-            unit_from_string_internal(unit_string.substr(3), match_flags);
-        if (is_valid(bunit)) {
-            return precise::A * bunit;
-        }
-    }
-    auto mret = getPrefixMultiplierWord(unit_string);
-    if (mret.first != 0.0) {
-        ustring = unit_string.substr(mret.second);
-
-        auto retunit = unit_from_string_internal(ustring, match_flags);
-        if (is_valid(retunit)) {
-            return {mret.first, retunit};
+        } else if (unit_string.front() == '[' && unit_string.back() == ']') {
+            unit_string.pop_back();
+            if (unit_string.back() != 'U' && unit_string.back() != 'u') {
+                unit_string.erase(unit_string.begin());
+                retunit = get_unit(unit_string, match_flags);
+                if (is_valid(retunit)) {
+                    return retunit;
+                }
+            }
         }
         return precise::invalid;
     }
-
-    // a newton(N) in front is somewhat common
-    // try a round with just a quick partition
-    size_t part = (unit_string.front() == 'N') ? 1 : 3;
-    ustring = unit_string.substr(0, part);
-    if (ustring.back() == '(' || ustring.back() == '[' ||
-        ustring.back() == '{') {
-        part = 1;
-        ustring.pop_back();
-    }
-    std::vector<std::string> valid;
-    while (part < unit_string.size() - 1) {
-        auto res = unit_quick_match(ustring, match_flags);
-        if (!is_valid(res) && ustring.size() >= 3) {
-            if (ustring.front() >= 'A' &&
-                ustring.front() <= 'Z') {  // check the lower case version since
-                                           // we skipped partitioning when we
-                                           // did this earlier
-                ustring[0] += 32;
-                res = unit_quick_match(ustring, match_flags);
+    /** Under the assumption units were mashed together to for some new work or
+    spaces were used as multiplies this function will progressively try to split
+    apart units and combine them.
+    */
+    static precise_unit tryUnitPartitioning(
+        const std::string& unit_string, std::uint32_t match_flags)
+    {
+        std::string ustring = unit_string;
+        // lets try checking for meter next which is one of the most common
+        // reasons for getting here
+        auto fnd = findWordOperatorSep(unit_string, "meter");
+        if (fnd != std::string::npos) {
+            ustring.erase(fnd, 5);
+            auto bunit = unit_from_string_internal(ustring, match_flags);
+            if (is_valid(bunit)) {
+                return precise::m * bunit;
             }
         }
-        if (is_valid(res)) {
+        // detect another somewhat common situation often amphour or ampsecond
+        if (unit_string.compare(0, 3, "amp") == 0) {
+            auto bunit =
+                unit_from_string_internal(unit_string.substr(3), match_flags);
+            if (is_valid(bunit)) {
+                return precise::A * bunit;
+            }
+        }
+        auto mret = getPrefixMultiplierWord(unit_string);
+        if (mret.first != 0.0) {
+            ustring = unit_string.substr(mret.second);
+
+            auto retunit = unit_from_string_internal(ustring, match_flags);
+            if (is_valid(retunit)) {
+                return {mret.first, retunit};
+            }
+            return precise::invalid;
+        }
+
+        // a newton(N) in front is somewhat common
+        // try a round with just a quick partition
+        size_t part = (unit_string.front() == 'N') ? 1 : 3;
+        ustring = unit_string.substr(0, part);
+        if (ustring.back() == '(' || ustring.back() == '[' ||
+            ustring.back() == '{') {
+            part = 1;
+            ustring.pop_back();
+        }
+        std::vector<std::string> valid;
+        while (part < unit_string.size() - 1) {
+            auto res = unit_quick_match(ustring, match_flags);
+            if (!is_valid(res) && ustring.size() >= 3) {
+                if (ustring.front() >= 'A' &&
+                    ustring.front() <= 'Z') {  // check the lower case version
+                                               // since we skipped partitioning
+                                               // when we did this earlier
+                    ustring[0] += 32;
+                    res = unit_quick_match(ustring, match_flags);
+                }
+            }
+            if (is_valid(res)) {
+                auto bunit = unit_from_string_internal(
+                    unit_string.substr(part),
+                    match_flags | skip_partition_check);
+                if (is_valid(bunit)) {
+                    return res * bunit;
+                }
+                valid.push_back(ustring);
+            }
+            ustring.push_back(unit_string[part]);
+            ++part;
+            if (ustring.back() == '(' || ustring.back() == '[' ||
+                ustring.back() == '{') {
+                auto start = part;
+                segmentcheck(
+                    unit_string, getMatchCharacter(ustring.back()), part);
+                if (ustring.back() == '(') {
+                    if (unit_string.find_first_of("({[*/", start) < part) {
+                        // this implies that the contents of the parenthesis
+                        // must be a standalone segment and should not be
+                        // included in a check
+                        break;
+                    }
+                }
+                ustring = unit_string.substr(0, part);
+            }
+            if (isDigitCharacter(ustring.back())) {
+                while ((part < unit_string.size() - 1) &&
+                       (unit_string[part] == '.' ||
+                        isDigitCharacter(unit_string[part]))) {
+                    ustring.push_back(unit_string[part]);
+                    ++part;
+                }
+            }
+        }
+        // now do a quick check with a 2 character string since we skipped that
+        // earlier
+        auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
+        if (is_valid(qm2)) {
+            valid.insert(valid.begin(), unit_string.substr(0, 2));
+        }
+        // now pick off a couple 1 character units
+        if (unit_string.front() == 'V' || unit_string.front() == 'A') {
+            valid.insert(valid.begin(), unit_string.substr(0, 1));
+        }
+        // start with the biggest
+        std::reverse(valid.begin(), valid.end());
+        for (auto& vd : valid) {
+            auto res = unit_quick_match(vd, match_flags);
+
             auto bunit = unit_from_string_internal(
-                unit_string.substr(part), match_flags | skip_partition_check);
+                unit_string.substr(vd.size()), match_flags);
             if (is_valid(bunit)) {
                 return res * bunit;
             }
-            valid.push_back(ustring);
         }
-        ustring.push_back(unit_string[part]);
-        ++part;
-        if (ustring.back() == '(' || ustring.back() == '[' ||
-            ustring.back() == '{') {
-            auto start = part;
-            segmentcheck(unit_string, getMatchCharacter(ustring.back()), part);
-            if (ustring.back() == '(') {
-                if (unit_string.find_first_of("({[*/", start) < part) {
-                    // this implies that the contents of the parenthesis must be
-                    // a standalone segment and should not be included in a
-                    // check
-                    break;
-                }
+
+        return precise::invalid;
+    }
+
+    /** Some standards allow for custom units usually in brackets with 'U or U
+     * at the end
+     */
+    static precise_unit checkForCustomUnit(const std::string& unit_string)
+    {
+        size_t loc = std::string::npos;
+        bool index = false;
+        if (unit_string.front() == '[' && unit_string.back() == ']') {
+            if (ends_with(unit_string, "U]")) {
+                loc = unit_string.size() - 2;
+            } else if (ends_with(unit_string, "index]")) {
+                loc = unit_string.size() - 6;
+                index = true;
             }
-            ustring = unit_string.substr(0, part);
-        }
-        if (isDigitCharacter(ustring.back())) {
-            while ((part < unit_string.size() - 1) &&
-                   (unit_string[part] == '.' ||
-                    isDigitCharacter(unit_string[part]))) {
-                ustring.push_back(unit_string[part]);
-                ++part;
+        } else if (unit_string.front() == '{' && unit_string.back() == '}') {
+            if (ends_with(unit_string, "'u}")) {
+                loc = unit_string.size() - 3;
+            } else if (ends_with(unit_string, "index}")) {
+                loc = unit_string.size() - 6;
+                index = true;
             }
         }
-    }
-    // now do a quick check with a 2 character string since we skipped that
-    // earlier
-    auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
-    if (is_valid(qm2)) {
-        valid.insert(valid.begin(), unit_string.substr(0, 2));
-    }
-    // now pick off a couple 1 character units
-    if (unit_string.front() == 'V' || unit_string.front() == 'A') {
-        valid.insert(valid.begin(), unit_string.substr(0, 1));
-    }
-    // start with the biggest
-    std::reverse(valid.begin(), valid.end());
-    for (auto& vd : valid) {
-        auto res = unit_quick_match(vd, match_flags);
+        if (loc != std::string::npos) {
+            if ((unit_string[loc - 1] == '\'') ||
+                (unit_string[loc - 1] == '_')) {
+                --loc;
+            }
+            auto csub = unit_string.substr(1, loc - 1);
 
-        auto bunit = unit_from_string_internal(
-            unit_string.substr(vd.size()), match_flags);
-        if (is_valid(bunit)) {
-            return res * bunit;
-        }
-    }
+            if (index) {
+                auto hcode = getCommodity(csub);
+                return {1.0, precise::generate_custom_count_unit(0), hcode};
+            }
 
-    return precise::invalid;
-}
-
-/** Some standards allow for custom units usually in brackets with 'U or U at
- * the end
- */
-static precise_unit checkForCustomUnit(const std::string& unit_string)
-{
-    size_t loc = std::string::npos;
-    bool index = false;
-    if (unit_string.front() == '[' && unit_string.back() == ']') {
-        if (ends_with(unit_string, "U]")) {
-            loc = unit_string.size() - 2;
-        } else if (ends_with(unit_string, "index]")) {
-            loc = unit_string.size() - 6;
-            index = true;
-        }
-    } else if (unit_string.front() == '{' && unit_string.back() == '}') {
-        if (ends_with(unit_string, "'u}")) {
-            loc = unit_string.size() - 3;
-        } else if (ends_with(unit_string, "index}")) {
-            loc = unit_string.size() - 6;
-            index = true;
-        }
-    }
-    if (loc != std::string::npos) {
-        if ((unit_string[loc - 1] == '\'') || (unit_string[loc - 1] == '_')) {
-            --loc;
-        }
-        auto csub = unit_string.substr(1, loc - 1);
-
-        if (index) {
-            auto hcode = getCommodity(csub);
-            return {1.0, precise::generate_custom_count_unit(0), hcode};
+            std::transform(csub.begin(), csub.end(), csub.begin(), ::tolower);
+            auto custcode = std::hash<std::string>{}(csub);
+            return precise::generate_custom_unit(custcode & 0x3FU);
         }
 
-        std::transform(csub.begin(), csub.end(), csub.begin(), ::tolower);
-        auto custcode = std::hash<std::string>{}(csub);
-        return precise::generate_custom_unit(custcode & 0x3FU);
+        return precise::invalid;
     }
-
-    return precise::invalid;
-}
-/// take a string and raise it to a power after interpreting the units defined
-/// in the string
-static precise_unit unit_to_the_power_of(
-    std::string unit_string,
-    int power,
-    std::uint32_t match_flags)
-{
-    std::uint32_t recursion_modifier = recursion_depth1;
-    if ((match_flags & no_recursion) != 0) {
-        recursion_modifier = 0;
-    }
-
-    precise_unit retunit = precise::invalid;
-    bool partialPowerSegment = (unit_string.back() == ')');
-    int index = static_cast<int>(unit_string.size() - 2);
-    if (partialPowerSegment) {
-        segmentcheckReverse(unit_string, '(', index);
-        if (index > 0 && unit_string[index] == '^') {
-            partialPowerSegment = false;
+    /// take a string and raise it to a power after interpreting the units
+    /// defined in the string
+    static precise_unit unit_to_the_power_of(
+        std::string unit_string, int power, std::uint32_t match_flags)
+    {
+        std::uint32_t recursion_modifier = recursion_depth1;
+        if ((match_flags & no_recursion) != 0) {
+            recursion_modifier = 0;
         }
-    }
-    if (partialPowerSegment) {
-        std::string ustring = unit_string.substr(
-            static_cast<size_t>(index) + 2,
-            unit_string.size() - static_cast<size_t>(index) - 3);
-        retunit = unit_from_string_internal(
-            ustring, match_flags - recursion_modifier);
-        if (!is_valid(retunit)) {
-            if (index >= 0) {
-                if (ustring.find_first_of("(*/^{[") == std::string::npos) {
-                    retunit = unit_from_string_internal(
-                        unit_string, match_flags - recursion_modifier);
-                    if (!is_valid(retunit)) {
+
+        precise_unit retunit = precise::invalid;
+        bool partialPowerSegment = (unit_string.back() == ')');
+        int index = static_cast<int>(unit_string.size() - 2);
+        if (partialPowerSegment) {
+            segmentcheckReverse(unit_string, '(', index);
+            if (index > 0 && unit_string[index] == '^') {
+                partialPowerSegment = false;
+            }
+        }
+        if (partialPowerSegment) {
+            std::string ustring = unit_string.substr(
+                static_cast<size_t>(index) + 2,
+                unit_string.size() - static_cast<size_t>(index) - 3);
+            retunit = unit_from_string_internal(
+                ustring, match_flags - recursion_modifier);
+            if (!is_valid(retunit)) {
+                if (index >= 0) {
+                    if (ustring.find_first_of("(*/^{[") == std::string::npos) {
+                        retunit = unit_from_string_internal(
+                            unit_string, match_flags - recursion_modifier);
+                        if (!is_valid(retunit)) {
+                            return precise::invalid;
+                        }
+                        index = -1;
+                    } else {
                         return precise::invalid;
                     }
-                    index = -1;
                 } else {
                     return precise::invalid;
                 }
-            } else {
+            }
+
+            if (power == -1) {
+                retunit = retunit.inv();
+            } else if (power != 1) {
+                retunit = retunit.pow(power);
+            }
+
+            if (index < 0) {
+                return retunit;
+            }
+            auto a_unit = unit_from_string_internal(
+                unit_string.substr(0, index), match_flags - recursion_modifier);
+            if (!is_error(a_unit)) {
+                return a_unit * retunit;
+            }
+            return precise::defunit;
+        }
+        // auto ustring = unit_string.substr(0, pchar + 1);
+
+        if ((match_flags & case_insensitive) != 0) {
+            cleanUnitString(unit_string, match_flags);
+        }
+
+        retunit = get_unit(unit_string, match_flags);
+        if (is_valid(retunit)) {
+            if (power == 1) {
+                return retunit;
+            }
+            if (power == -1) {
+                return retunit.inv();
+            }
+            return retunit.pow(power);
+        }
+        auto fnd = findWordOperatorSep(unit_string, "per");
+        if (fnd == std::string::npos) {
+            retunit = unit_from_string_internal(
+                unit_string, match_flags - recursion_modifier);
+            if (!is_valid(retunit)) {
                 return precise::invalid;
             }
-        }
-
-        if (power == -1) {
-            retunit = retunit.inv();
-        } else if (power != 1) {
-            retunit = retunit.pow(power);
-        }
-
-        if (index < 0) {
-            return retunit;
-        }
-        auto a_unit = unit_from_string_internal(
-            unit_string.substr(0, index), match_flags - recursion_modifier);
-        if (!is_error(a_unit)) {
-            return a_unit * retunit;
+            if (power == 1) {
+                return retunit;
+            }
+            if (power == -1) {
+                return retunit.inv();
+            }
+            return retunit.pow(power);
         }
         return precise::defunit;
     }
-    // auto ustring = unit_string.substr(0, pchar + 1);
 
-    if ((match_flags & case_insensitive) != 0) {
-        cleanUnitString(unit_string, match_flags);
-    }
-
-    retunit = get_unit(unit_string, match_flags);
-    if (is_valid(retunit)) {
-        if (power == 1) {
-            return retunit;
+    static precise_unit checkSIprefix(
+        const std::string& unit_string, std::uint32_t match_flags)
+    {
+        bool threeAgain{false};
+        if (unit_string.size() >= 3) {
+            if (unit_string[1] == 'A') {
+                threeAgain = true;
+            } else {
+                auto mux =
+                    getPrefixMultiplier2Char(unit_string[0], unit_string[1]);
+                if (mux != 0.0) {
+                    auto ustring = unit_string.substr(2);
+                    if (ustring == "B") {
+                        return {mux, precise::data::byte};
+                    }
+                    if (ustring == "b") {
+                        return {mux, precise::data::bit};
+                    }
+                    auto retunit = unit_quick_match(ustring, match_flags);
+                    if (is_valid(retunit)) {
+                        return {mux, retunit};
+                    }
+                }
+            }
         }
-        if (power == -1) {
-            return retunit.inv();
+        if (unit_string.size() >= 2) {
+            auto c = unit_string.front();
+            if (c == 'N' && ((match_flags & case_insensitive) != 0)) {
+                c = 'n';
+            }
+            auto mux = ((match_flags & strict_si) == 0) ?
+                getPrefixMultiplier(c) :
+                getStrictSIPrefixMultiplier(c);
+            if (mux != 0.0) {
+                auto ustring = unit_string.substr(1);
+                if (ustring == "B") {
+                    return {mux, precise::data::byte};
+                }
+                if (ustring == "b") {
+                    return {mux, precise::data::bit};
+                }
+                auto retunit = unit_quick_match(ustring, match_flags);
+                if (!is_error(retunit)) {
+                    return {mux, retunit};
+                }
+            }
         }
-        return retunit.pow(power);
-    }
-    auto fnd = findWordOperatorSep(unit_string, "per");
-    if (fnd == std::string::npos) {
-        retunit = unit_from_string_internal(
-            unit_string, match_flags - recursion_modifier);
-        if (!is_valid(retunit)) {
-            return precise::invalid;
-        }
-        if (power == 1) {
-            return retunit;
-        }
-        if (power == -1) {
-            return retunit.inv();
-        }
-        return retunit.pow(power);
-    }
-    return precise::defunit;
-}
-
-static precise_unit
-    checkSIprefix(const std::string& unit_string, std::uint32_t match_flags)
-{
-    bool threeAgain{false};
-    if (unit_string.size() >= 3) {
-        if (unit_string[1] == 'A') {
-            threeAgain = true;
-        } else {
+        if (threeAgain) {
             auto mux = getPrefixMultiplier2Char(unit_string[0], unit_string[1]);
             if (mux != 0.0) {
                 auto ustring = unit_string.substr(2);
@@ -6473,245 +6540,209 @@ static precise_unit
                 }
             }
         }
+        return precise::invalid;
     }
-    if (unit_string.size() >= 2) {
-        auto c = unit_string.front();
-        if (c == 'N' && ((match_flags & case_insensitive) != 0)) {
-            c = 'n';
-        }
-        auto mux = ((match_flags & strict_si) == 0) ?
-            getPrefixMultiplier(c) :
-            getStrictSIPrefixMultiplier(c);
-        if (mux != 0.0) {
-            auto ustring = unit_string.substr(1);
-            if (ustring == "B") {
-                return {mux, precise::data::byte};
-            }
-            if (ustring == "b") {
-                return {mux, precise::data::bit};
-            }
-            auto retunit = unit_quick_match(ustring, match_flags);
-            if (!is_error(retunit)) {
-                return {mux, retunit};
-            }
-        }
+
+    precise_unit unit_from_string(
+        std::string unit_string, std::uint32_t match_flags)
+    {
+        // always allow the code replacements on first run
+        match_flags &= (~skip_code_replacements);
+        return unit_from_string_internal(std::move(unit_string), match_flags);
     }
-    if (threeAgain) {
-        auto mux = getPrefixMultiplier2Char(unit_string[0], unit_string[1]);
-        if (mux != 0.0) {
-            auto ustring = unit_string.substr(2);
-            if (ustring == "B") {
-                return {mux, precise::data::byte};
-            }
-            if (ustring == "b") {
-                return {mux, precise::data::bit};
-            }
-            auto retunit = unit_quick_match(ustring, match_flags);
+
+    // Step 1.  Check if the string matches something in the map
+    // Step 2.  clean the string, remove spaces, '_' and detect dot notation,
+    // check for some unicode stuff, check again Step 3.  Find multiplication or
+    // division operators and split the string into two starting from the last
+    // operator Step 4.  If found Goto step 1 for each of the two parts, then
+    // operate on the results Step 5.  Check for ^ and if found goto to step 1
+    // for interior portion then do a power Step 6.  Remove parenthesis and if
+    // found goto step 1. Step 7.  Check for a SI prefix on the unit. Step 8.
+    // Check if the first character is upper case and if so and the string is
+    // long make it lower case. Step 9.  Check to see if it is a number of some
+    // kind and make numerical unit. Step 10. Return an error unit.
+    static precise_unit unit_from_string_internal(
+        std::string unit_string, std::uint32_t match_flags)
+    {
+        if (unit_string.empty()) {
+            return precise::one;
+        }
+        if (unit_string.size() > 1024) {
+            // there is no reason whatsoever that a unit string would be longer
+            // than 1024 characters
+            return precise::invalid;
+        }
+        precise_unit retunit;
+        if ((match_flags & case_insensitive) == 0) {
+            // if not a ci matching process just do a quick scan first
+            retunit = get_unit(unit_string, match_flags);
             if (is_valid(retunit)) {
-                return {mux, retunit};
-            }
-        }
-    }
-    return precise::invalid;
-}
-
-precise_unit
-    unit_from_string(std::string unit_string, std::uint32_t match_flags)
-{
-    // always allow the code replacements on first run
-    match_flags &= (~skip_code_replacements);
-    return unit_from_string_internal(std::move(unit_string), match_flags);
-}
-
-// Step 1.  Check if the string matches something in the map
-// Step 2.  clean the string, remove spaces, '_' and detect dot notation, check
-// for some unicode stuff, check again
-// Step 3.  Find multiplication or division operators and split the string into
-// two starting from the last operator
-// Step 4.  If found Goto step 1 for each of the two parts, then operate on the
-// results
-// Step 5.  Check for ^ and if found goto to step 1 for interior portion
-// then do a power
-// Step 6.  Remove parenthesis and if found goto step 1.
-// Step 7.  Check for a SI prefix on the unit.
-// Step 8.  Check if the first character is upper case and if so and the string
-// is long make it lower case.
-// Step 9.  Check to see if it is a number of some kind and make numerical unit.
-// Step 10. Return an error unit.
-static precise_unit unit_from_string_internal(
-    std::string unit_string,
-    std::uint32_t match_flags)
-{
-    if (unit_string.empty()) {
-        return precise::one;
-    }
-    if (unit_string.size() > 1024) {
-        // there is no reason whatsoever that a unit string would be longer than
-        // 1024 characters
-        return precise::invalid;
-    }
-    precise_unit retunit;
-    if ((match_flags & case_insensitive) == 0) {
-        // if not a ci matching process just do a quick scan first
-        retunit = get_unit(unit_string, match_flags);
-        if (is_valid(retunit)) {
-            return retunit;
-        }
-    }
-    if (cleanUnitString(unit_string, match_flags)) {
-        retunit = get_unit(unit_string, match_flags);
-        if (is_valid(retunit)) {
-            return retunit;
-        }
-    }
-    // verify the string is at least sort of valid
-    if (!checkValidUnitString(unit_string, match_flags)) {
-        return precise::invalid;
-    }
-    // don't do the code replacements again as it won't be needed
-    match_flags |= skip_code_replacements;
-    std::uint32_t recursion_modifier = recursion_depth1;
-    if ((match_flags & no_recursion) != 0) {
-        recursion_modifier = 0;
-    }
-    match_flags += recursion_modifier;
-    if ((match_flags & not_first_pass) == 0) {
-        match_flags |= not_first_pass;
-        match_flags +=
-            partition_check1;  // only allow 3 deep for unit_partitioning
-    }
-    if (unit_string.front() == '{' && unit_string.back() == '}') {
-        if (unit_string.find_last_of('}', unit_string.size() - 2) ==
-            std::string::npos) {
-            retunit = checkForCustomUnit(unit_string);
-            if (!is_error(retunit)) {
                 return retunit;
             }
-            size_t index;
-            return commoditizedUnit(unit_string, precise::one, index);
         }
-    }
-    auto ustring = unit_string;
-    // catch a preceding number on the unit
-    if (looksLikeNumber(unit_string)) {
-        if (unit_string.front() != '1' ||
-            unit_string[1] !=
-                '/') {  // this catches 1/ which should be handled differently
-            size_t index;
-            double front = generateLeadingNumber(unit_string, index);
-            if (std::isnan(front)) {  // out of range
-                return precise::invalid;
+        if (cleanUnitString(unit_string, match_flags)) {
+            retunit = get_unit(unit_string, match_flags);
+            if (is_valid(retunit)) {
+                return retunit;
             }
-
-            if (index >= unit_string.size()) {
-                return {front, precise::one};
-            }
-
-            auto front_unit = precise_unit(front, precise::one);
-            if (unit_string[index] ==
-                '*') {  // for division just keep the slash
-                ++index;
-            }
-            if ((match_flags & no_commodities) == 0 &&
-                unit_string[index] == '{') {
-                front_unit = commoditizedUnit(unit_string, front_unit, index);
-                if (index >= unit_string.length()) {
-                    return front_unit;
+        }
+        // verify the string is at least sort of valid
+        if (!checkValidUnitString(unit_string, match_flags)) {
+            return precise::invalid;
+        }
+        // don't do the code replacements again as it won't be needed
+        match_flags |= skip_code_replacements;
+        std::uint32_t recursion_modifier = recursion_depth1;
+        if ((match_flags & no_recursion) != 0) {
+            recursion_modifier = 0;
+        }
+        match_flags += recursion_modifier;
+        if ((match_flags & not_first_pass) == 0) {
+            match_flags |= not_first_pass;
+            match_flags +=
+                partition_check1;  // only allow 3 deep for unit_partitioning
+        }
+        if (unit_string.front() == '{' && unit_string.back() == '}') {
+            if (unit_string.find_last_of('}', unit_string.size() - 2) ==
+                std::string::npos) {
+                retunit = checkForCustomUnit(unit_string);
+                if (!is_error(retunit)) {
+                    return retunit;
                 }
+                size_t index;
+                return commoditizedUnit(unit_string, precise::one, index);
             }
-            // don't do as many partition check levels for this
-            retunit = unit_from_string_internal(
-                unit_string.substr(index), match_flags + partition_check1);
-            if (is_error(retunit)) {
-                if (unit_string[index] == '(' || unit_string[index] == '[') {
-                    auto cparen = index + 1;
-                    segmentcheck(
-                        unit_string,
-                        getMatchCharacter(unit_string[index]),
-                        cparen);
-                    if (cparen ==
-                        std::string::npos) {  // malformed unit string;
-                        return precise::invalid;
+        }
+        auto ustring = unit_string;
+        // catch a preceding number on the unit
+        if (looksLikeNumber(unit_string)) {
+            if (unit_string.front() != '1' ||
+                unit_string[1] != '/') {  // this catches 1/ which should be
+                                          // handled differently
+                size_t index;
+                double front = generateLeadingNumber(unit_string, index);
+                if (std::isnan(front)) {  // out of range
+                    return precise::invalid;
+                }
+
+                if (index >= unit_string.size()) {
+                    return {front, precise::one};
+                }
+
+                auto front_unit = precise_unit(front, precise::one);
+                if (unit_string[index] ==
+                    '*') {  // for division just keep the slash
+                    ++index;
+                }
+                if ((match_flags & no_commodities) == 0 &&
+                    unit_string[index] == '{') {
+                    front_unit =
+                        commoditizedUnit(unit_string, front_unit, index);
+                    if (index >= unit_string.length()) {
+                        return front_unit;
                     }
-                    auto commodity = getCommodity(
-                        unit_string.substr(index + 1, cparen - index - 1));
-                    front_unit.commodity(commodity);
-                    if (cparen < unit_string.size()) {
-                        retunit = unit_from_string_internal(
-                            unit_string.substr(cparen), match_flags);
-                        if (!is_valid(retunit)) {
+                }
+                // don't do as many partition check levels for this
+                retunit = unit_from_string_internal(
+                    unit_string.substr(index), match_flags + partition_check1);
+                if (is_error(retunit)) {
+                    if (unit_string[index] == '(' ||
+                        unit_string[index] == '[') {
+                        auto cparen = index + 1;
+                        segmentcheck(
+                            unit_string,
+                            getMatchCharacter(unit_string[index]),
+                            cparen);
+                        if (cparen ==
+                            std::string::npos) {  // malformed unit string;
                             return precise::invalid;
                         }
+                        auto commodity = getCommodity(
+                            unit_string.substr(index + 1, cparen - index - 1));
+                        front_unit.commodity(commodity);
+                        if (cparen < unit_string.size()) {
+                            retunit = unit_from_string_internal(
+                                unit_string.substr(cparen), match_flags);
+                            if (!is_valid(retunit)) {
+                                return precise::invalid;
+                            }
+                        } else {
+                            retunit = precise::one;
+                        }
                     } else {
-                        retunit = precise::one;
+                        if (is_valid(retunit)) {
+                            return front_unit * retunit;
+                        }
+                        auto commodity =
+                            getCommodity(unit_string.substr(index));
+                        front_unit.commodity(commodity);
+                        return front_unit;
                     }
-                } else {
-                    if (is_valid(retunit)) {
-                        return front_unit * retunit;
-                    }
-                    auto commodity = getCommodity(unit_string.substr(index));
-                    front_unit.commodity(commodity);
-                    return front_unit;
+                }
+                return front_unit * retunit;
+            }
+        }
+
+        auto sep = findOperatorSep(unit_string, "*/");
+        if (sep != std::string::npos) {
+            precise_unit a_unit;
+            precise_unit b_unit;
+            if (sep + 1 > unit_string.size() / 2) {
+                b_unit = unit_from_string_internal(
+                    unit_string.substr(sep + 1),
+                    match_flags - recursion_modifier);
+                if (!is_valid(b_unit)) {
+                    return precise::invalid;
+                }
+                a_unit = unit_from_string_internal(
+                    unit_string.substr(0, sep),
+                    match_flags - recursion_modifier);
+
+                if (!is_valid(a_unit)) {
+                    return precise::invalid;
+                }
+            } else {
+                a_unit = unit_from_string_internal(
+                    unit_string.substr(0, sep),
+                    match_flags - recursion_modifier);
+
+                if (!is_valid(a_unit)) {
+                    return precise::invalid;
+                }
+                b_unit = unit_from_string_internal(
+                    unit_string.substr(sep + 1),
+                    match_flags - recursion_modifier);
+                if (!is_valid(b_unit)) {
+                    return precise::invalid;
                 }
             }
-            return front_unit * retunit;
+            return (unit_string[sep] == '/') ? (a_unit / b_unit) :
+                                               (a_unit * b_unit);
         }
-    }
+        // flag that is used to circumvent a few checks
+        bool containsPer =
+            (findWordOperatorSep(unit_string, "per") != std::string::npos);
 
-    auto sep = findOperatorSep(unit_string, "*/");
-    if (sep != std::string::npos) {
-        precise_unit a_unit;
-        precise_unit b_unit;
-        if (sep + 1 > unit_string.size() / 2) {
-            b_unit = unit_from_string_internal(
-                unit_string.substr(sep + 1), match_flags - recursion_modifier);
-            if (!is_valid(b_unit)) {
-                return precise::invalid;
+        sep = findOperatorSep(unit_string, "^");
+        if (sep != std::string::npos) {
+            auto pchar = sep - 1;
+            if (unit_string[sep + 1] == '(') {
+                ++sep;
             }
-            a_unit = unit_from_string_internal(
-                unit_string.substr(0, sep), match_flags - recursion_modifier);
-
-            if (!is_valid(a_unit)) {
-                return precise::invalid;
+            char c1 = unit_string[sep + 1];
+            int power{+1};
+            if (c1 == '-' || c1 == '+') {
+                ++sep;
+                if (unit_string.length() < sep + 2) {
+                    // this should have been caught as an invalid sequence
+                    // earlier
+                    return precise::invalid;  // LCOV_EXCL_LINE
+                }
+                // the - ',' is a +/- sign
+                power = -(c1 - ',');
             }
-        } else {
-            a_unit = unit_from_string_internal(
-                unit_string.substr(0, sep), match_flags - recursion_modifier);
-
-            if (!is_valid(a_unit)) {
-                return precise::invalid;
-            }
-            b_unit = unit_from_string_internal(
-                unit_string.substr(sep + 1), match_flags - recursion_modifier);
-            if (!is_valid(b_unit)) {
-                return precise::invalid;
-            }
-        }
-        return (unit_string[sep] == '/') ? (a_unit / b_unit) :
-                                           (a_unit * b_unit);
-    }
-    // flag that is used to circumvent a few checks
-    bool containsPer =
-        (findWordOperatorSep(unit_string, "per") != std::string::npos);
-
-    sep = findOperatorSep(unit_string, "^");
-    if (sep != std::string::npos) {
-        auto pchar = sep - 1;
-        if (unit_string[sep + 1] == '(') {
-            ++sep;
-        }
-        char c1 = unit_string[sep + 1];
-        int power{+1};
-        if (c1 == '-' || c1 == '+') {
-            ++sep;
-            if (unit_string.length() < sep + 2) {
-                // this should have been caught as an invalid sequence earlier
-                return precise::invalid;  // LCOV_EXCL_LINE
-            }
-            // the - ',' is a +/- sign
-            power = -(c1 - ',');
-        }
-        if (isDigitCharacter(unit_string[sep + 1])) {
+            if (isDigitCharacter(unit_string[sep + 1])) {
 #ifdef UNITS_CONSTEXPR_IF_SUPPORTED
             if constexpr (sizeof(UNITS_BASE_TYPE) == 8) {
 #else
