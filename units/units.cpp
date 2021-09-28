@@ -534,7 +534,7 @@ static std::string generateUnitSequence(double mux, std::string seq)
         if (pwerloc != std::string::npos) {
             if (detail::bitwidth::base_size == sizeof(std::uint32_t) ||
                 seq.size() <= pwerloc + 2 ||
-                 !isDigitCharacter(seq[pwerloc + 2])) {
+                !isDigitCharacter(seq[pwerloc + 2])) {
                 pw = seq[pwerloc + 1] - '0';
             } else {
                 pw = 10;
@@ -583,7 +583,7 @@ static std::string generateUnitSequence(double mux, std::string seq)
         return getMultiplierString(mux, noPrefix) + seq;
     }
     int offset = (seq[pwerloc + 1] != '(') ? 1 : 2;
-    int pw = stoi(seq.substr(pwerloc + offset, mloc - pwerloc-offset+1));
+    int pw = stoi(seq.substr(pwerloc + offset, mloc - pwerloc - offset + 1));
     std::string muxstr;
     switch (pw) {
         case -1:
@@ -1094,7 +1094,7 @@ static std::string
          spair{"^2^2", "^4", 4, 2},
          spair{"^3^2", "^6", 4, 2},
          spair{"^2^3", "^6", 4, 2},
-         spair{"^3^3", "^9", 4, 2}, // this can only happen with extended units
+         spair{"^3^3", "^9", 4, 2},  // this can only happen with extended units
          spair{"Gs", "Bs", 2, 2},
          spair{"*K^", "*1*K^", 3, 5},  // this one is to prevent the next from
                                        // screwing things up
