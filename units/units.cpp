@@ -5476,8 +5476,92 @@ static void ciConversion(std::string& unit_string)
         unit_string[loc + 1] = 'g';
     }
 }
+static bool checkExponentOperations(
+    const std::string& unit_string,
+    std::uint32_t match_flags
+)
+{
+    // check all power operations
+    auto cx = unit_string.find_first_of('^');
+    while (cx != std::string::npos) {
+        bool ndigit = isDigitCharacter(unit_string[cx - 1]);
+        ++cx;
+        char c = unit_string[cx];
+        if (!isDigitCharacter(c)) {
+            if (c == '-') {
+                if (!isDigitCharacter(unit_string[cx + 1])) {
+                    return false;
+                }
+                ++cx;
+            } else if (c == '(') {
+                ++cx;
+                if (unit_string[cx] == '-') {
+                    ++cx;
+                }
+                bool dpoint_encountered = false;
+                while (unit_string[cx] != ')') {
+                    if (!isDigitCharacter(unit_string[cx])) {
+                        if (unit_string[cx] == '.' && !dpoint_encountered) {
+                            dpoint_encountered = true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    ++cx;
+                }
+            } else {
+                return false;
+            }
+        }
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+        if constexpr (detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+#else
+        if (detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+#endif
+            if (unit_string.size() > cx + 1 &&
+                isDigitCharacter(unit_string[cx + 1]) && !ndigit) {
+                // non representable unit power
+                return false;
+            }
+        }
+        cx = unit_string.find_first_of('^', cx + 1);
+    }
+    // check for sequences of power operations
+    cx = unit_string.find_last_of('^');
+    while (cx != std::string::npos) {
+        auto prev = unit_string.find_last_of('^', cx - 1);
+        if (prev == std::string::npos) {
+            break;
+        }
+        switch (cx - prev) {
+            case 2:  // the only way this would get here is ^D^ which is
+                     // not allowed
+                return false;
+            case 3:
+                if (unit_string[prev + 1] == '-') {
+                    return false;
+                }
+                break;
+            case 4:  // checking for ^(D)^
+                if (unit_string[prev + 1] == '(') {
+                    return false;
+                }
+                break;
+            case 5:  // checking for ^(-D)^
+                if (unit_string[prev + 1] == '(' &&
+                    unit_string[prev + 2] == '-') {
+                    return false;
+                }
+                break;
+            default:
+                break;
+        }
+        cx = prev;
+    }
+    return true;
+}
 
-// run a few checks on the string to verify it looks somewhat valid
+    // run a few checks on the string to verify it looks somewhat valid
 static bool checkValidUnitString(
     const std::string& unit_string,
     std::uint32_t match_flags)
@@ -5526,83 +5610,9 @@ static bool checkValidUnitString(
                     break;
             }
         }
-        // check all power operations
-        cx = unit_string.find_first_of('^');
-        while (cx != std::string::npos) {
-            bool ndigit = isDigitCharacter(unit_string[cx - 1]);
-            ++cx;
-            char c = unit_string[cx];
-            if (!isDigitCharacter(c)) {
-                if (c == '-') {
-                    if (!isDigitCharacter(unit_string[cx+1])) {
-                        return false;
-                    }
-                    ++cx;
-                } else if (c == '(') {
-                    ++cx;
-                    if (unit_string[cx] == '-') {
-                        ++cx;
-                    }
-                    bool dpoint_encountered = false;
-                    while (unit_string[cx] != ')') {
-                        if (!isDigitCharacter(unit_string[cx])) {
-                            if (unit_string[cx] == '.' && !dpoint_encountered) {
-                                dpoint_encountered = true;
-                            } else {
-                                return false;
-                            }
-                        }
-                        ++cx;
-                    }
-                } else {
-                    return false;
-                }
-            }
-#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
-            if constexpr (
-                detail::bitwidth::base_size == sizeof(std::uint32_t)) {
-#else
-            if (detail::bitwidth::base_size == sizeof(std::uint32_t)) {
-#endif
-                if (unit_string.size() > cx + 1 &&
-                    isDigitCharacter(unit_string[cx + 1]) && !ndigit) {
-                    // non representable unit power
-                    return false;
-                }
-            }
-            cx = unit_string.find_first_of('^', cx + 1);
-        }
-        // check for sequences of power operations
-        cx = unit_string.find_last_of('^');
-        while (cx != std::string::npos) {
-            auto prev = unit_string.find_last_of('^', cx - 1);
-            if (prev == std::string::npos) {
-                break;
-            }
-            switch (cx - prev) {
-                case 2:  // the only way this would get here is ^D^ which is
-                         // not allowed
-                    return false;
-                case 3:
-                    if (unit_string[prev + 1] == '-') {
-                        return false;
-                    }
-                    break;
-                case 4:  // checking for ^(D)^
-                    if (unit_string[prev + 1] == '(') {
-                        return false;
-                    }
-                    break;
-                case 5:  // checking for ^(-D)^
-                    if (unit_string[prev + 1] == '(' &&
-                        unit_string[prev + 2] == '-') {
-                        return false;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            cx = prev;
+        if (!checkExponentOperations(unit_string, match_flags))
+        {
+            return false;
         }
     }
 
