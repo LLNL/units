@@ -258,11 +258,12 @@ TEST(unitString, bigpowers)
     }
 }
 
-TEST(unitString, wrapping) {
+TEST(unitString, wrapping)
+{
     std::string const mol_m3_str("mol/m^3666");
     unit const mol_m3_unit(units::mol / units::m.pow(3));
     auto fstr = unit_from_string(mol_m3_str);
-    EXPECT_NE(fstr,mol_m3_unit);
+    EXPECT_NE(fstr, mol_m3_unit);
 }
 
 TEST(unitStrings, crazyunits)
