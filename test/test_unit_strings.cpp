@@ -245,6 +245,18 @@ TEST(unitStrings, powerunits)
         to_string(precise_unit(1000000000, s.inv() * m.pow(-3))), "1/(uL*s)");
 }
 
+TEST(unitString, bigpowers)
+{
+    if (sizeof(UNITS_BASE_TYPE) == 8) {
+        auto bp = precise::m.pow(12);
+        EXPECT_EQ(bp, unit_from_string(to_string(bp)));
+        auto kp = precise::kg.pow(-11);
+        EXPECT_EQ(kp, unit_from_string(to_string(kp)));
+        auto sp = precise::s.pow(23);
+        auto spstr = to_string(sp);
+        EXPECT_EQ(sp, unit_from_string(spstr));
+    }
+}
 TEST(unitStrings, crazyunits)
 {
     unit cz{detail::unit_data(1, 2, 3, 1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0)};
@@ -361,6 +373,13 @@ TEST(stringToUnits, Power)
     EXPECT_EQ(precise::V.pow(-2), unit_from_string("1/V^2"));
     EXPECT_EQ(
         precise_unit(27.0, precise::one).pow(3), unit_from_string("27^3"));
+    if (sizeof(UNITS_BASE_TYPE) == 8) {
+        EXPECT_EQ(precise::m.pow(12), unit_from_string("m^12"));
+        EXPECT_EQ(precise::kg.pow(-11), unit_from_string("kg^-11"));
+        EXPECT_EQ(precise::s.pow(23), unit_from_string("s^+23"));
+
+        EXPECT_EQ(precise::m.pow(8975), unit_from_string("m^8975"));
+    }
 }
 
 TEST(stringToUnits, mult)

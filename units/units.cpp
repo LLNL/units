@@ -22,6 +22,12 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <utility>
 #include <vector>
 
+#if __cplusplus >= 201703L
+#ifndef UNITS_CONSTEXPR_IF_SUPPORTED
+#define UNITS_CONSTEXPR_IF_SUPPORTED
+#endif
+#endif
+
 /** @file
 references http://people.csail.mit.edu/jaffer/MIXF/MIXF-08
 */
@@ -526,7 +532,13 @@ static std::string generateUnitSequence(double mux, std::string seq)
         int pw = 1;
         auto pwerloc = seq.find_first_of('^');
         if (pwerloc != std::string::npos) {
-            pw = seq[pwerloc + 1] - '0';
+            if (detail::bitwidth::base_size == sizeof(std::uint32_t) ||
+                seq.size() <= pwerloc + 2 ||
+                 !isDigitCharacter(seq[pwerloc + 2])) {
+                pw = seq[pwerloc + 1] - '0';
+            } else {
+                pw = 10;
+            }
         }
         std::string muxstr;
         switch (pw) {
@@ -566,11 +578,12 @@ static std::string generateUnitSequence(double mux, std::string seq)
     if (pwerloc == std::string::npos) {
         return getMultiplierString(mux, noPrefix) + seq;
     }
-    auto mloc = seq.find_first_of("*/");
+    auto mloc = seq.find_first_of("*/)");
     if (mloc < pwerloc) {
         return getMultiplierString(mux, noPrefix) + seq;
     }
-    int pw = stoi(seq.substr(pwerloc + 1, mloc - pwerloc));
+    int offset = (seq[pwerloc + 1] != '(') ? 1 : 2;
+    int pw = stoi(seq.substr(pwerloc + offset, mloc - pwerloc-offset+1));
     std::string muxstr;
     switch (pw) {
         case -1:
@@ -609,7 +622,11 @@ static std::string generateUnitSequence(double mux, std::string seq)
     return muxstr + seq;
 }
 // Add a unit power to a string
-static void addUnitPower(std::string& str, const char* unit, int power)
+static void addUnitPower(
+    std::string& str,
+    const char* unit,
+    int power,
+    std::uint32_t flags)
 {
     bool div{false};
     if (power != 0) {
@@ -632,18 +649,25 @@ static void addUnitPower(std::string& str, const char* unit, int power)
                     str.push_back('0' + power);
                 }
             } else {
-                if (power < 0) {
-                    str.push_back('-');
-                    str.push_back('9');
-                    power += 9;
+                if (detail::bitwidth::base_size > 4 &&
+                    (flags & disable_large_power_strings) == 0U) {
+                    str.push_back('(');
+                    str.append(std::to_string(power));
+                    str.push_back(')');
                 } else {
-                    str.push_back('9');
-                    power -= 9;
+                    if (power < 0) {
+                        str.push_back('-');
+                        str.push_back('9');
+                        power += 9;
+                    } else {
+                        str.push_back('9');
+                        power -= 9;
+                    }
+                    if (div) {
+                        str.push_back('/');
+                    }
+                    addUnitPower(str, unit, power, flags);
                 }
-                if (div) {
-                    str.push_back('/');
-                }
-                addUnitPower(str, unit, power);
             }
         }
     }
@@ -677,63 +701,71 @@ static void addUnitFlagStrings(const precise_unit& un, std::string& unitString)
 
 /** add the unit power if it is positive, return true if negative and skip if 0
  */
-static inline int addPosUnits(std::string& str, const char* unitName, int power)
+static inline int addPosUnits(
+    std::string& str,
+    const char* unitName,
+    int power,
+    std::uint32_t flags)
 {
     if (power > 0) {
-        addUnitPower(str, unitName, power);
+        addUnitPower(str, unitName, power, flags);
     }
     return (power < 0) ? 1 : 0;
 }
 
 /** add the unit power if it is negative, and skip if >= 0
  */
-static inline void
-    addNegUnits(std::string& str, const char* unitName, int power)
+static inline void addNegUnits(
+    std::string& str,
+    const char* unitName,
+    int power,
+    std::uint32_t flags)
 {
     if (power < 0) {
-        addUnitPower(str, unitName, power);
+        addUnitPower(str, unitName, power, flags);
     }
 }
 
-static std::string generateRawUnitString(const precise_unit& un)
+static std::string
+    generateRawUnitString(const precise_unit& un, std::uint32_t flags)
 {
     std::string val;
     auto bu = un.base_units();
     int cnt{0};
-    cnt += addPosUnits(val, "m", bu.meter());
-    cnt += addPosUnits(val, "kg", bu.kg());
-    cnt += addPosUnits(val, "s", bu.second());
-    cnt += addPosUnits(val, "A", bu.ampere());
-    cnt += addPosUnits(val, "K", bu.kelvin());
-    cnt += addPosUnits(val, "mol", bu.mole());
-    cnt += addPosUnits(val, "cd", bu.candela());
-    cnt += addPosUnits(val, "item", bu.count());
-    cnt += addPosUnits(val, "$", bu.currency());
-    cnt += addPosUnits(val, "rad", bu.radian());
+    cnt += addPosUnits(val, "m", bu.meter(), flags);
+    cnt += addPosUnits(val, "kg", bu.kg(), flags);
+    cnt += addPosUnits(val, "s", bu.second(), flags);
+    cnt += addPosUnits(val, "A", bu.ampere(), flags);
+    cnt += addPosUnits(val, "K", bu.kelvin(), flags);
+    cnt += addPosUnits(val, "mol", bu.mole(), flags);
+    cnt += addPosUnits(val, "cd", bu.candela(), flags);
+    cnt += addPosUnits(val, "item", bu.count(), flags);
+    cnt += addPosUnits(val, "$", bu.currency(), flags);
+    cnt += addPosUnits(val, "rad", bu.radian(), flags);
     addUnitFlagStrings(un, val);
     if (cnt == 1) {
         val.push_back('/');
-        addPosUnits(val, "m", -bu.meter());
-        addPosUnits(val, "kg", -bu.kg());
-        addPosUnits(val, "s", -bu.second());
-        addPosUnits(val, "A", -bu.ampere());
-        addPosUnits(val, "K", -bu.kelvin());
-        addPosUnits(val, "mol", -bu.mole());
-        addPosUnits(val, "cd", -bu.candela());
-        addPosUnits(val, "item", -bu.count());
-        addPosUnits(val, "$", -bu.currency());
-        addPosUnits(val, "rad", -bu.radian());
+        addPosUnits(val, "m", -bu.meter(), flags);
+        addPosUnits(val, "kg", -bu.kg(), flags);
+        addPosUnits(val, "s", -bu.second(), flags);
+        addPosUnits(val, "A", -bu.ampere(), flags);
+        addPosUnits(val, "K", -bu.kelvin(), flags);
+        addPosUnits(val, "mol", -bu.mole(), flags);
+        addPosUnits(val, "cd", -bu.candela(), flags);
+        addPosUnits(val, "item", -bu.count(), flags);
+        addPosUnits(val, "$", -bu.currency(), flags);
+        addPosUnits(val, "rad", -bu.radian(), flags);
     } else if (cnt > 1) {
-        addNegUnits(val, "m", bu.meter());
-        addNegUnits(val, "kg", bu.kg());
-        addNegUnits(val, "s", bu.second());
-        addNegUnits(val, "A", bu.ampere());
-        addNegUnits(val, "K", bu.kelvin());
-        addNegUnits(val, "mol", bu.mole());
-        addNegUnits(val, "cd", bu.candela());
-        addNegUnits(val, "item", bu.count());
-        addNegUnits(val, "$", bu.currency());
-        addNegUnits(val, "rad", bu.radian());
+        addNegUnits(val, "m", bu.meter(), flags);
+        addNegUnits(val, "kg", bu.kg(), flags);
+        addNegUnits(val, "s", bu.second(), flags);
+        addNegUnits(val, "A", bu.ampere(), flags);
+        addNegUnits(val, "K", bu.kelvin(), flags);
+        addNegUnits(val, "mol", bu.mole(), flags);
+        addNegUnits(val, "cd", bu.candela(), flags);
+        addNegUnits(val, "item", bu.count(), flags);
+        addNegUnits(val, "$", bu.currency(), flags);
+        addNegUnits(val, "rad", bu.radian(), flags);
     }
     return val;
 }
@@ -1056,12 +1088,13 @@ static std::string
     clean_unit_string(std::string propUnitString, std::uint32_t commodity)
 {
     using spair = std::tuple<const char*, const char*, int, int>;
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 10> powerseq{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<spair, 11> powerseq{
         {spair{"Mm^3", "(1e9km^3)", 4, 8},  // this needs to happen before ^3^2
                                             // conversions
          spair{"^2^2", "^4", 4, 2},
          spair{"^3^2", "^6", 4, 2},
          spair{"^2^3", "^6", 4, 2},
+         spair{"^3^3", "^9", 4, 2}, // this can only happen with extended units
          spair{"Gs", "Bs", 2, 2},
          spair{"*K^", "*1*K^", 3, 5},  // this one is to prevent the next from
                                        // screwing things up
@@ -1396,10 +1429,12 @@ static std::string
     /** check for a few units with odd numbers that allow SI prefixes*/
 
     if (un.unit_type_count() == 1) {
-        return generateUnitSequence(un.multiplier(), generateRawUnitString(un));
+        return generateUnitSequence(
+            un.multiplier(), generateRawUnitString(un, match_flags));
     }
     if (un.unit_type_count() == 2 && un.multiplier() == 1) {
-        return generateUnitSequence(1.0, generateRawUnitString(un));
+        return generateUnitSequence(
+            1.0, generateRawUnitString(un, match_flags));
     }
     /** check for a few units with odd numbers that allow SI prefixes*/
     for (auto& siU : siTestUnits) {
@@ -1629,7 +1664,8 @@ static std::string
         }
     }
     return generateUnitSequence(
-        mino_unit.multiplier(), min_mult + generateRawUnitString(mino_unit));
+        mino_unit.multiplier(),
+        min_mult + generateRawUnitString(mino_unit, match_flags));
 }
 
 std::string to_string(const precise_unit& un, std::uint32_t match_flags)
@@ -6489,15 +6525,19 @@ precise_unit
 
 // Step 1.  Check if the string matches something in the map
 // Step 2.  clean the string, remove spaces, '_' and detect dot notation, check
-// for some unicode stuff, check again Step 3. Find multiplication of division
-// operators and split the string into two starting from the last operator
+// for some unicode stuff, check again
+// Step 3.  Find multiplication or division operators and split the string into
+// two starting from the last operator
 // Step 4.  If found Goto step 1 for each of the two parts, then operate on the
-// results Step 5.  Check for ^ and if found goto to step 1 for interior portion
-// then do a power Step 6.  Remove parenthesis and if found goto step 1 Step 7.
-// Check for a SI prefix on the unit Step 8.  Check if the first character is
-// upper case and if so and the string is long make it lower case Step 9.  Check
-// to see if it is a number of some kind and make numerical unit Step 10.
-// Return an error unit
+// results
+// Step 5.  Check for ^ and if found goto to step 1 for interior portion
+// then do a power
+// Step 6.  Remove parenthesis and if found goto step 1.
+// Step 7.  Check for a SI prefix on the unit.
+// Step 8.  Check if the first character is upper case and if so and the string
+// is long make it lower case.
+// Step 9.  Check to see if it is a number of some kind and make numerical unit.
+// Step 10. Return an error unit.
 static precise_unit unit_from_string_internal(
     std::string unit_string,
     std::uint32_t match_flags)
@@ -6661,29 +6701,50 @@ static precise_unit unit_from_string_internal(
             ++sep;
         }
         char c1 = unit_string[sep + 1];
-        int power;
+        int power{+1};
         if (c1 == '-' || c1 == '+') {
             ++sep;
             if (unit_string.length() < sep + 2) {
                 // this should have been caught as an invalid sequence earlier
                 return precise::invalid;  // LCOV_EXCL_LINE
             }
-            if (isDigitCharacter(
-                    unit_string[sep + 1])) {  // the - ',' is a +/- sign
-                power = -(c1 - ',') * (unit_string[sep + 1] - '0');
+            // the - ',' is a +/- sign
+            power = -(c1 - ',');
+        }
+        if (isDigitCharacter(unit_string[sep + 1])) {
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+            if constexpr (sizeof(UNITS_BASE_TYPE) == 8) {
+#else
+            if (sizeof(UNITS_BASE_TYPE) == 8) {
+#endif
+                size_t end = sep + 2;
+                for (; end < unit_string.size() &&
+                     isDigitCharacter(unit_string[end]);
+                     ++end) {
+                }
+                auto powerStringLength = end - sep - 1;
+                if (powerStringLength > 1) {
+                    auto pstring =
+                        unit_string.substr(sep + 1, powerStringLength);
+                    char* eptr{nullptr};
+                    auto mpower = strtoul(pstring.c_str(), &eptr, 10);
+                    if (eptr - pstring.c_str() ==
+                        static_cast<std::ptrdiff_t>(powerStringLength)) {
+                        power *= mpower;
+                    } else {
+                        return precise::invalid;  // LCOV_EXCL_LINE
+                    }
+                } else {
+                    power *= (unit_string[sep + 1] - '0');
+                }
+
             } else {
-                // the check function should catch this but it would be
-                // problematic if not caught
-                return precise::invalid;  // LCOV_EXCL_LINE
+                power *= (unit_string[sep + 1] - '0');
             }
         } else {
-            if (isDigitCharacter(c1)) {
-                power = (c1 - '0');
-            } else {
-                // the check functions should catch this but it would be
-                // problematic if not caught
-                return precise::invalid;  // LCOV_EXCL_LINE
-            }
+            // the check functions should catch this but it would be
+            // problematic if not caught
+            return precise::invalid;  // LCOV_EXCL_LINE
         }
         retunit = unit_to_the_power_of(
             unit_string.substr(0, (pchar > 0) ? pchar + 1 : 1),
@@ -6943,7 +7004,7 @@ static precise_unit unit_from_string_internal(
         }
     }
     return precise::invalid;
-}  // namespace units
+}  // namespace UNITS_NAMESPACE
 
 precise_measurement measurement_from_string(
     std::string measurement_string,

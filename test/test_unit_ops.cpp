@@ -451,6 +451,9 @@ TEST(preciseUnitOps, root)
     EXPECT_EQ(precise::ft.inv(), root(ft5, -5));
 
     EXPECT_TRUE(is_error(root(precise_unit(-4.5, m), 2)));
+    if (units::detail::bitwidth::base_size == 8) {
+        EXPECT_EQ(precise::ft, root(precise::ft.pow(25), 25));
+    }
 }
 #endif
 
