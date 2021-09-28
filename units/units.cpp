@@ -578,11 +578,12 @@ static std::string generateUnitSequence(double mux, std::string seq)
     if (pwerloc == std::string::npos) {
         return getMultiplierString(mux, noPrefix) + seq;
     }
-    auto mloc = seq.find_first_of("*/");
+    auto mloc = seq.find_first_of("*/)");
     if (mloc < pwerloc) {
         return getMultiplierString(mux, noPrefix) + seq;
     }
-    int pw = stoi(seq.substr(pwerloc + 1, mloc - pwerloc));
+    int offset = (seq[pwerloc + 1] != '(') ? 1 : 2;
+    int pw = stoi(seq.substr(pwerloc + offset, mloc - pwerloc-offset+1));
     std::string muxstr;
     switch (pw) {
         case -1:
@@ -650,8 +651,9 @@ static void addUnitPower(
             } else {
                 if (detail::bitwidth::base_size > 4 &&
                     (flags & disable_large_power_strings) == 0U) {
+                    str.push_back('(');
                     str.append(std::to_string(power));
-
+                    str.push_back(')');
                 } else {
                     if (power < 0) {
                         str.push_back('-');
