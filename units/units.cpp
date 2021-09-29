@@ -5476,8 +5476,7 @@ static void ciConversion(std::string& unit_string)
         unit_string[loc + 1] = 'g';
     }
 }
-static bool checkExponentOperations(
-    const std::string& unit_string)
+static bool checkExponentOperations(const std::string& unit_string)
 {
     // check all power operations
     auto cx = unit_string.find_first_of('^');
