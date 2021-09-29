@@ -5476,6 +5476,88 @@ static void ciConversion(std::string& unit_string)
         unit_string[loc + 1] = 'g';
     }
 }
+static bool checkExponentOperations(
+    const std::string& unit_string)
+{
+    // check all power operations
+    auto cx = unit_string.find_first_of('^');
+    while (cx != std::string::npos) {
+        bool ndigit = isDigitCharacter(unit_string[cx - 1]);
+        ++cx;
+        char c = unit_string[cx];
+        if (!isDigitCharacter(c)) {
+            if (c == '-') {
+                if (!isDigitCharacter(unit_string[cx + 1])) {
+                    return false;
+                }
+                ++cx;
+            } else if (c == '(') {
+                ++cx;
+                if (unit_string[cx] == '-') {
+                    ++cx;
+                }
+                bool dpoint_encountered = false;
+                while (unit_string[cx] != ')') {
+                    if (!isDigitCharacter(unit_string[cx])) {
+                        if (unit_string[cx] == '.' && !dpoint_encountered) {
+                            dpoint_encountered = true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    ++cx;
+                }
+            } else {
+                return false;
+            }
+        }
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+        if constexpr (detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+#else
+        if (detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+#endif
+            if (unit_string.size() > cx + 1 &&
+                isDigitCharacter(unit_string[cx + 1]) && !ndigit) {
+                // non representable unit power
+                return false;
+            }
+        }
+        cx = unit_string.find_first_of('^', cx + 1);
+    }
+    // check for sequences of power operations
+    cx = unit_string.find_last_of('^');
+    while (cx != std::string::npos) {
+        auto prev = unit_string.find_last_of('^', cx - 1);
+        if (prev == std::string::npos) {
+            break;
+        }
+        switch (cx - prev) {
+            case 2:  // the only way this would get here is ^D^ which is
+                     // not allowed
+                return false;
+            case 3:
+                if (unit_string[prev + 1] == '-') {
+                    return false;
+                }
+                break;
+            case 4:  // checking for ^(D)^
+                if (unit_string[prev + 1] == '(') {
+                    return false;
+                }
+                break;
+            case 5:  // checking for ^(-D)^
+                if (unit_string[prev + 1] == '(' &&
+                    unit_string[prev + 2] == '-') {
+                    return false;
+                }
+                break;
+            default:
+                break;
+        }
+        cx = prev;
+    }
+    return true;
+}
 
 // run a few checks on the string to verify it looks somewhat valid
 static bool checkValidUnitString(
@@ -5526,68 +5608,8 @@ static bool checkValidUnitString(
                     break;
             }
         }
-        // check all power operations
-        cx = unit_string.find_first_of('^');
-        while (cx != std::string::npos) {
-            char c = unit_string[cx + 1];
-            if (!isDigitCharacter(c)) {
-                if (c == '-') {
-                    if (!isDigitCharacter(unit_string[cx + 2])) {
-                        return false;
-                    }
-                } else if (c == '(') {
-                    cx += 2;
-                    if (unit_string[cx] == '-') {
-                        ++cx;
-                    }
-                    bool dpoint_encountered = false;
-                    while (unit_string[cx] != ')') {
-                        if (!isDigitCharacter(unit_string[cx])) {
-                            if (unit_string[cx] == '.' && !dpoint_encountered) {
-                                dpoint_encountered = true;
-                            } else {
-                                return false;
-                            }
-                        }
-                        ++cx;
-                    }
-                } else {
-                    return false;
-                }
-            }
-            cx = unit_string.find_first_of('^', cx + 1);
-        }
-        // check for sequences of power operations
-        cx = unit_string.find_last_of('^');
-        while (cx != std::string::npos) {
-            auto prev = unit_string.find_last_of('^', cx - 1);
-            if (prev == std::string::npos) {
-                break;
-            }
-            switch (cx - prev) {
-                case 2:  // the only way this would get here is ^D^ which is not
-                         // allowed
-                    return false;
-                case 3:
-                    if (unit_string[prev + 1] == '-') {
-                        return false;
-                    }
-                    break;
-                case 4:  // checking for ^(D)^
-                    if (unit_string[prev + 1] == '(') {
-                        return false;
-                    }
-                    break;
-                case 5:  // checking for ^(-D)^
-                    if (unit_string[prev + 1] == '(' &&
-                        unit_string[prev + 2] == '-') {
-                        return false;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            cx = prev;
+        if (!checkExponentOperations(unit_string)) {
+            return false;
         }
     }
 
@@ -5703,8 +5725,8 @@ static void htmlCodeReplacement(std::string& unit_string)
     }
 }
 
-/// do some unicode replacement (unicode in the loose sense any characters not
-/// in the basic ascii set)
+/// do some unicode replacement (unicode in the loose sense any characters
+/// not in the basic ascii set)
 static bool unicodeReplacement(std::string& unit_string)
 {
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 48>
@@ -5730,7 +5752,8 @@ static bool unicodeReplacement(std::string& unit_string)
             ckpair{u8"-\u00B2", "^(-2)"},
             ckpair{u8"-\u00B3", "^(-3)"},
             ckpair{u8"\u00b2", "^(2)"},
-            ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do anything
+            ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do
+                                      // anything
             ckpair{u8"\u00b3", "^(3)"},
             ckpair{u8"\u2215", "/"},  // Division slash
             ckpair{u8"\u00BD", "(0.5)"},  // (1/2) fraction
@@ -5748,7 +5771,8 @@ static bool unicodeReplacement(std::string& unit_string)
             ckpair{"-\xb2", "^(-2)"},
             ckpair{"\xb3", "^(3)"},
             ckpair{"\xb9", "*"},
-            // superscript 1 which doesn't do anything, replace with multiply
+            // superscript 1 which doesn't do anything, replace with
+            // multiply
             ckpair{"\xb2", "^(2)"},
             ckpair{"\xf7", "/"},
             ckpair{"\xB7", "*"},
@@ -5806,8 +5830,8 @@ static void checkPowerOf10(std::string& unit_string)
     }
 }
 
-// do some cleaning on the unit string to standardize formatting and deal with
-// some extended ascii and unicode characters
+// do some cleaning on the unit string to standardize formatting and deal
+// with some extended ascii and unicode characters
 static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
 {
     auto slen = unit_string.size();
@@ -5834,7 +5858,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             ckpair{"-US", "US"},
             ckpair{"--", "*"},
             // -- is either a double negative or a separator, so make it a
-            // multiplier so it doesn't get erased and then converted to a power
+            // multiplier so it doesn't get erased and then converted to a
+            // power
             ckpair{"\\\\", "\\\\*"},
             // \\ is always considered a segment terminator so it won't be
             // misinterpreted as a known escape sequence
@@ -6021,8 +6046,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             }
             fndP = unit_string.find("()", fndP);
         }
-        // clear empty brackets, this would indicate commodities but if empty
-        // there is no commodity
+        // clear empty brackets, this would indicate commodities but if
+        // empty there is no commodity
         clearEmptySegments(unit_string);
         cleanUpPowersOfOne(unit_string);
         if (unit_string.empty()) {
@@ -6030,8 +6055,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             return true;
         }
     }
-    // remove leading *})],  equivalent of 1* but we don't need to process that
-    // further
+    // remove leading *})],  equivalent of 1* but we don't need to process
+    // that further
     while (!unit_string.empty() &&
            (unit_string.front() == '*' || unit_string.front() == '}' ||
             unit_string.front() == ')' || unit_string.front() == ']')) {
@@ -6058,7 +6083,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             case '>':
                 fnd = unit_string.find_first_of(")]}", fnd + 1);
                 break;
-            case 'o':  // handle special case of commodity modifier using "of"
+            case 'o':  // handle special case of commodity modifier using
+                       // "of"
                 if (unit_string.size() > fnd + 3) {
                     auto tc2 = unit_string[fnd + 3];
                     if (unit_string[fnd + 2] == 'f' && tc2 != ')' &&
@@ -6179,9 +6205,9 @@ static precise_unit
         return retunit;
     }
     if (unit_string.size() > 2 &&
-        unit_string.back() == 's') {  // if the string is of length two this is
-                                      // too risky to try since there would be
-                                      // many incorrect matches
+        unit_string.back() == 's') {  // if the string is of length two this
+                                      // is too risky to try since there
+                                      // would be many incorrect matches
         unit_string.pop_back();
         retunit = get_unit(unit_string, match_flags);
         if (is_valid(retunit)) {
@@ -6208,8 +6234,8 @@ static precise_unit tryUnitPartitioning(
     std::uint32_t match_flags)
 {
     std::string ustring = unit_string;
-    // lets try checking for meter next which is one of the most common reasons
-    // for getting here
+    // lets try checking for meter next which is one of the most common
+    // reasons for getting here
     auto fnd = findWordOperatorSep(unit_string, "meter");
     if (fnd != std::string::npos) {
         ustring.erase(fnd, 5);
@@ -6251,9 +6277,9 @@ static precise_unit tryUnitPartitioning(
         auto res = unit_quick_match(ustring, match_flags);
         if (!is_valid(res) && ustring.size() >= 3) {
             if (ustring.front() >= 'A' &&
-                ustring.front() <= 'Z') {  // check the lower case version since
-                                           // we skipped partitioning when we
-                                           // did this earlier
+                ustring.front() <= 'Z') {  // check the lower case version
+                                           // since we skipped partitioning
+                                           // when we did this earlier
                 ustring[0] += 32;
                 res = unit_quick_match(ustring, match_flags);
             }
@@ -6274,9 +6300,9 @@ static precise_unit tryUnitPartitioning(
             segmentcheck(unit_string, getMatchCharacter(ustring.back()), part);
             if (ustring.back() == '(') {
                 if (unit_string.find_first_of("({[*/", start) < part) {
-                    // this implies that the contents of the parenthesis must be
-                    // a standalone segment and should not be included in a
-                    // check
+                    // this implies that the contents of the parenthesis
+                    // must be a standalone segment and should not be
+                    // included in a check
                     break;
                 }
             }
@@ -6316,8 +6342,8 @@ static precise_unit tryUnitPartitioning(
     return precise::invalid;
 }
 
-/** Some standards allow for custom units usually in brackets with 'U or U at
- * the end
+/** Some standards allow for custom units usually in brackets with 'U or U
+ * at the end
  */
 static precise_unit checkForCustomUnit(const std::string& unit_string)
 {
@@ -6356,8 +6382,8 @@ static precise_unit checkForCustomUnit(const std::string& unit_string)
 
     return precise::invalid;
 }
-/// take a string and raise it to a power after interpreting the units defined
-/// in the string
+/// take a string and raise it to a power after interpreting the units
+/// defined in the string
 static precise_unit unit_to_the_power_of(
     std::string unit_string,
     int power,
@@ -6524,20 +6550,16 @@ precise_unit
 }
 
 // Step 1.  Check if the string matches something in the map
-// Step 2.  clean the string, remove spaces, '_' and detect dot notation, check
-// for some unicode stuff, check again
-// Step 3.  Find multiplication or division operators and split the string into
-// two starting from the last operator
-// Step 4.  If found Goto step 1 for each of the two parts, then operate on the
-// results
-// Step 5.  Check for ^ and if found goto to step 1 for interior portion
-// then do a power
-// Step 6.  Remove parenthesis and if found goto step 1.
-// Step 7.  Check for a SI prefix on the unit.
-// Step 8.  Check if the first character is upper case and if so and the string
-// is long make it lower case.
-// Step 9.  Check to see if it is a number of some kind and make numerical unit.
-// Step 10. Return an error unit.
+// Step 2.  clean the string, remove spaces, '_' and detect dot notation,
+// check for some unicode stuff, check again Step 3.  Find multiplication or
+// division operators and split the string into two starting from the last
+// operator Step 4.  If found Goto step 1 for each of the two parts, then
+// operate on the results Step 5.  Check for ^ and if found goto to step 1
+// for interior portion then do a power Step 6.  Remove parenthesis and if
+// found goto step 1. Step 7.  Check for a SI prefix on the unit. Step 8.
+// Check if the first character is upper case and if so and the string is
+// long make it lower case. Step 9.  Check to see if it is a number of some
+// kind and make numerical unit. Step 10. Return an error unit.
 static precise_unit unit_from_string_internal(
     std::string unit_string,
     std::uint32_t match_flags)
@@ -6546,8 +6568,8 @@ static precise_unit unit_from_string_internal(
         return precise::one;
     }
     if (unit_string.size() > 1024) {
-        // there is no reason whatsoever that a unit string would be longer than
-        // 1024 characters
+        // there is no reason whatsoever that a unit string would be longer
+        // than 1024 characters
         return precise::invalid;
     }
     precise_unit retunit;
@@ -6595,8 +6617,8 @@ static precise_unit unit_from_string_internal(
     // catch a preceding number on the unit
     if (looksLikeNumber(unit_string)) {
         if (unit_string.front() != '1' ||
-            unit_string[1] !=
-                '/') {  // this catches 1/ which should be handled differently
+            unit_string[1] != '/') {  // this catches 1/ which should be
+                                      // handled differently
             size_t index;
             double front = generateLeadingNumber(unit_string, index);
             if (std::isnan(front)) {  // out of range
@@ -6705,7 +6727,8 @@ static precise_unit unit_from_string_internal(
         if (c1 == '-' || c1 == '+') {
             ++sep;
             if (unit_string.length() < sep + 2) {
-                // this should have been caught as an invalid sequence earlier
+                // this should have been caught as an invalid sequence
+                // earlier
                 return precise::invalid;  // LCOV_EXCL_LINE
             }
             // the - ',' is a +/- sign
