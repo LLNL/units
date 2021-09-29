@@ -5477,8 +5477,7 @@ static void ciConversion(std::string& unit_string)
     }
 }
 static bool checkExponentOperations(
-    const std::string& unit_string,
-    std::uint32_t match_flags)
+    const std::string& unit_string)
 {
     // check all power operations
     auto cx = unit_string.find_first_of('^');
@@ -5609,7 +5608,7 @@ static bool checkValidUnitString(
                     break;
             }
         }
-        if (!checkExponentOperations(unit_string, match_flags)) {
+        if (!checkExponentOperations(unit_string)) {
             return false;
         }
     }
