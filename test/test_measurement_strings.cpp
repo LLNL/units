@@ -91,7 +91,6 @@ TEST(MeasurementToString, unit_withNumbers)
     EXPECT_EQ(str2.compare(0, 11, "10 (0.71241"), 0);
 }
 
-
 TEST(MeasurementToString, numbers)
 {
     auto m1 = measurement_from_string("0.2");
