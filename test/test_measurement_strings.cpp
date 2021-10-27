@@ -91,6 +91,12 @@ TEST(MeasurementToString, unit_withNumbers)
     EXPECT_EQ(str2.compare(0, 11, "10 (0.71241"), 0);
 }
 
+TEST(MeasurementToString, numbers)
+{
+    auto m1 = measurement_from_string("0.2");
+    EXPECT_DOUBLE_EQ(m1.value(), 0.2);
+}
+
 TEST(MeasurementToString, case_sensitive)
 {
     static const std::vector<std::pair<unit, std::string>> twoc_units{

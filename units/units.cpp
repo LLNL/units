@@ -5996,6 +5996,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                     case '/':
                     case '+':
                     case '-':
+                    case '.':
                         break;
                     case '*':
                         *(eit - 1) = '^';
