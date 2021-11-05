@@ -24,12 +24,12 @@ repos:
     hooks:
       - id: remove-tabs
   - repo: https://github.com/codespell-project/codespell
-    rev: v1.17.1
+    rev: v2.1.0
     hooks:
       - id: codespell
         exclude: ^(test/|units/|docs/reference/)
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.3.0
+    rev: v4.0.1
     hooks:
       - id: mixed-line-ending
       - id: trailing-whitespace

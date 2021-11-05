@@ -175,6 +175,8 @@ html_sidebars = {
 }
 
 # -- Options for HTMLHelp output ------------------------------------------
+# Adding last updated timestamp at the bottom of every page
+html_last_updated_fmt = ""  # Empty string = '%b %d, %Y'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "Unitsdoc"
@@ -231,5 +233,5 @@ texinfo_documents = [
 
 
 def setup(app):
-    app.add_stylesheet("css/custom.css")  # may also be an URL
+    app.add_css_file("css/custom.css")  # may also be an URL
     # app.add_transform(AutoStructify)
