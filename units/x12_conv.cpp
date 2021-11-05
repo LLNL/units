@@ -71,18 +71,22 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> x12_units{{
     unitD{"8U", "SQUARE KILOMETER", precise::km.pow(2)},
     unitD{"91", "STOKE", precise::one},
     unitD{"94", "CURL UNIT", precise::one},
-    unitD{"95",
-          "20,000 GALLON TANKCAR",
-          precise_unit(20000, precise::gal) / precise::count},
-    unitD{"96",
-          "10,000 GALLON TANKCAR",
-          precise_unit(10000, precise::gal) / precise::count},
-    unitD{"97",
-          "10 KILOGRAM DRUM",
-          precise_unit(10, precise::kg) / precise::count},
-    unitD{"98",
-          "15 KILOGRAM DRUM",
-          precise_unit(15, precise::kg) / precise::count},
+    unitD{
+        "95",
+        "20,000 GALLON TANKCAR",
+        precise_unit(20000, precise::gal) / precise::count},
+    unitD{
+        "96",
+        "10,000 GALLON TANKCAR",
+        precise_unit(10000, precise::gal) / precise::count},
+    unitD{
+        "97",
+        "10 KILOGRAM DRUM",
+        precise_unit(10, precise::kg) / precise::count},
+    unitD{
+        "98",
+        "15 KILOGRAM DRUM",
+        precise_unit(15, precise::kg) / precise::count},
     unitD{"99", "WATT", precise::watt},
     unitD{"9A", "APOTHECARY POUND", precise::one},
     unitD{"9B", "BRIQUET", precise::one},
@@ -107,9 +111,10 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> x12_units{{
     unitD{"AW", "POWDER-FILLED VIAL", precise::one},
     unitD{"AX", "TWENTY", precise_unit(20.0, precise::one)},
     unitD{"AY", "ASSEMBLY", precise::one},
-    unitD{"B0",
-          "BRITISH THERMAL UNITS PER CUBIC FOOT",
-          precise::btu / (precise::ft.pow(3))},
+    unitD{
+        "B0",
+        "BRITISH THERMAL UNITS PER CUBIC FOOT",
+        precise::btu / (precise::ft.pow(3))},
     unitD{"B2", "BUNK", precise::one},
     unitD{"B3", "BATTING POUND", precise::one},
     unitD{"B4", "BARREL IMPERIAL", precise::one},
@@ -399,9 +404,10 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> x12_units{{
     unitD{"RT", "REVENUE TON MILES", precise::one},
     unitD{"RU", "RUN", precise::one},
     unitD{"RX", "THOUSAND ROUNDS", precise::one},
-    unitD{"S5",
-          "SIXTY-FOURTHS OF AN INCH",
-          precise_unit(1.0 / 64.0, precise::in)},
+    unitD{
+        "S5",
+        "SIXTY-FOURTHS OF AN INCH",
+        precise_unit(1.0 / 64.0, precise::in)},
     unitD{"S6", "SESSIONS", precise::one},
     unitD{"S7", "STORAGE UNITS", precise::one},
     unitD{"S8", "STANDARD ADVERTISING UNIT", precise::one},
@@ -1000,10 +1006,11 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> dod_units = {{
     unitD{"Z2", "CHEST", precise::one},
     unitD{"Z3", "CASK", precise::one},
     unitD{"Z5", "LUG", precise::one},
-    unitD{"ZF",
-          "MILLION BTUS/DEKATHERM",
-          precise::mega* precise::btu /
-              precise_unit(10.0, precise::energy::therm_ec)},
+    unitD{
+        "ZF",
+        "MILLION BTUS/DEKATHERM",
+        precise::mega* precise::btu /
+            precise_unit(10.0, precise::energy::therm_ec)},
 }};
 
 precise_unit x12_unit(const std::string& x12_string)
