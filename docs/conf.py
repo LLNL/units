@@ -107,7 +107,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Units"
-copyright = "2019-2020,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n"
+copyright = "2019-2021,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n"
 author = "Philip Top, Ryan Mast, Corey McNeish"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -115,7 +115,7 @@ author = "Philip Top, Ryan Mast, Corey McNeish"
 # built documents.
 #
 # The short X.Y version.
-version = "0.3.1"
+version = "0.5.0"
 # The full version, including alpha/beta/rc tags.
 release = ""
 
@@ -175,6 +175,8 @@ html_sidebars = {
 }
 
 # -- Options for HTMLHelp output ------------------------------------------
+# Adding last updated timestamp at the bottom of every page
+html_last_updated_fmt = ""  # Empty string = '%b %d, %Y'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "Unitsdoc"
@@ -231,5 +233,5 @@ texinfo_documents = [
 
 
 def setup(app):
-    app.add_stylesheet("css/custom.css")  # may also be an URL
+    app.add_css_file("css/custom.css")  # may also be an URL
     # app.add_transform(AutoStructify)

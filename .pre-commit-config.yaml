@@ -24,12 +24,12 @@ repos:
     hooks:
       - id: remove-tabs
   - repo: https://github.com/codespell-project/codespell
-    rev: v1.17.1
+    rev: v2.1.0
     hooks:
       - id: codespell
         exclude: ^(test/|units/|docs/reference/)
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.3.0
+    rev: v4.0.1
     hooks:
       - id: mixed-line-ending
       - id: trailing-whitespace
@@ -37,14 +37,16 @@ repos:
       - id: check-case-conflict
       - id: check-yaml
         args: ["--allow-multiple-documents"]
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v13.0.0
+    hooks:
+     - id: clang-format
+       types:
+         - c++
   - repo: local
     hooks:
-      - id: docker-clang-format
-        name: Docker Clang Format
-        language: docker_image
-        types:
-          - c++
-        entry: unibeautify/clang-format:latest
-        args:
-          - -style=file
-          - -i
+    - id: disallow-caps
+      name: Disallow improper capitalization
+      language: pygrep
+      entry: PyBind|Numpy|Cmake|CCache|PyTest|Github
+      exclude: .pre-commit-config.yaml

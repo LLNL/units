@@ -48,14 +48,14 @@ jobs:
           vmImage: 'macOS-latest'
           units.std: 11
         Windows17:
-          vmImage: 'vs2017-win2016'
+          vmImage: 'windows-2019'
           units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON
           units.std: 17
         Windows11:
-          vmImage: 'vs2017-win2016'
+          vmImage: 'windows-2019'
           units.std: 11
         Windowslatest:
-          vmImage: 'windows-2019'
+          vmImage: 'windows-2022'
           units.std: 20
           units.options: -DCMAKE_CXX_FLAGS="/std:c++latest"
     pool:
@@ -93,6 +93,17 @@ jobs:
         clang3.5:
           containerImage: silkeh/clang:3.5
           units.std: 11
+        gcc9:
+          containerImage: gcc:9
+          units.std: 17
+          units.options: -DCMAKE_CXX_FLAGS="-Wstrict-overflow=5"
+        gcc11:
+          containerImage: gcc:11
+          units.std: 20
+        clang8_17:
+          containerImage: silkeh/clang:8
+          units.std: 17
+          units.options: -DUNITS_FORCE_LIBCXX=ON
     container: $[ variables['containerImage'] ]
     steps:
       - template: .ci/azure-cmake.yml
