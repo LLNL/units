@@ -48,14 +48,14 @@ jobs:
           vmImage: 'macOS-latest'
           units.std: 11
         Windows17:
-          vmImage: 'vs2017-win2016'
+          vmImage: 'windows-2019'
           units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON
           units.std: 17
         Windows11:
-          vmImage: 'vs2017-win2016'
+          vmImage: 'windows-2019'
           units.std: 11
         Windowslatest:
-          vmImage: 'windows-2019'
+          vmImage: 'windows-2022'
           units.std: 20
           units.options: -DCMAKE_CXX_FLAGS="/std:c++latest"
     pool:
