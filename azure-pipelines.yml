@@ -93,6 +93,17 @@ jobs:
         clang3.5:
           containerImage: silkeh/clang:3.5
           units.std: 11
+        gcc9:
+          containerImage: gcc:9
+          units.std: 17
+          units.options: -DCMAKE_CXX_FLAGS="-Wstrict-overflow=5"
+        gcc11:
+          containerImage: gcc:11
+          units.std: 20
+        clang8_17:
+          containerImage: silkeh/clang:8
+          units.std: 17
+          units.options: -DUNITS_FORCE_LIBCXX=ON
     container: $[ variables['containerImage'] ]
     steps:
       - template: .ci/azure-cmake.yml
