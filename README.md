@@ -7,6 +7,7 @@
 [![CircleCI](https://circleci.com/gh/LLNL/units.svg?style=svg)](https://circleci.com/gh/LLNL/units)
 [![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/units/badge/?version=latest)](https://units.readthedocs.io/en/latest/?badge=latest)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LLNL/units/main.svg)](https://results.pre-commit.ci/latest/github/LLNL/units/main)
 
 [What's new](./CHANGELOG.md)
 
@@ -147,7 +148,7 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.
 
-The CMake variable `UNITS_BASE_TYPE` if set to a 64 bit type like `uint64_t` will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [Cmake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
+The CMake variable `UNITS_BASE_TYPE` if set to a 64 bit type like `uint64_t` will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [CMake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
 
 ### Discussion points
 
