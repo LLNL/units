@@ -107,7 +107,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Units"
-copyright = "2019-2020,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n"
+copyright = "2019-2021,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n"
 author = "Philip Top, Ryan Mast, Corey McNeish"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -115,7 +115,7 @@ author = "Philip Top, Ryan Mast, Corey McNeish"
 # built documents.
 #
 # The short X.Y version.
-version = "0.3.1"
+version = "0.5.0"
 # The full version, including alpha/beta/rc tags.
 release = ""
 
@@ -137,6 +137,7 @@ pygments_style = "default"
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
+section_self_link = False
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
