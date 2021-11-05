@@ -176,39 +176,41 @@ namespace detail {
         /// invert the unit
         constexpr unit_data inv() const
         {
-            return {-meter_,
-                    -kilogram_,
-                    -second_,
-                    -ampere_,
-                    -kelvin_,
-                    -mole_,
-                    -candela_,
-                    -currency_,
-                    -count_,
-                    -radians_,
-                    per_unit_,
-                    i_flag_,
-                    e_flag_,
-                    equation_};
+            return {
+                -meter_,
+                -kilogram_,
+                -second_,
+                -ampere_,
+                -kelvin_,
+                -mole_,
+                -candela_,
+                -currency_,
+                -count_,
+                -radians_,
+                per_unit_,
+                i_flag_,
+                e_flag_,
+                equation_};
         }
         /// take a unit_data to some power
         constexpr unit_data pow(int power) const
         {  // the modifier is to handle a few weird operations that operate on
            // square_root Hz,
-            return {meter_ * power,
-                    kilogram_ * power,
-                    (second_ * power) + rootHertzModifier(power),
-                    ampere_ * power,
-                    kelvin_ * power,
-                    mole_ * power,
-                    candela_ * power,
-                    currency_ * power,
-                    count_ * power,
-                    radians_ * power,
-                    per_unit_,
-                    (power % 2 == 0) ? 0U : i_flag_,
-                    (power % 2 == 0) ? 0U : e_flag_,
-                    equation_};
+            return {
+                meter_ * power,
+                kilogram_ * power,
+                (second_ * power) + rootHertzModifier(power),
+                ampere_ * power,
+                kelvin_ * power,
+                mole_ * power,
+                candela_ * power,
+                currency_ * power,
+                count_ * power,
+                radians_ * power,
+                per_unit_,
+                (power % 2 == 0) ? 0U : i_flag_,
+                (power % 2 == 0) ? 0U : e_flag_,
+                equation_};
         }
         constexpr unit_data root(int power) const
         {
@@ -304,56 +306,59 @@ namespace detail {
         /// generate a new unit_data but with per_unit flag
         constexpr unit_data add_per_unit() const
         {
-            return {meter_,
-                    kilogram_,
-                    second_,
-                    ampere_,
-                    kelvin_,
-                    mole_,
-                    candela_,
-                    currency_,
-                    count_,
-                    radians_,
-                    1U,
-                    i_flag_,
-                    e_flag_,
-                    equation_};
+            return {
+                meter_,
+                kilogram_,
+                second_,
+                ampere_,
+                kelvin_,
+                mole_,
+                candela_,
+                currency_,
+                count_,
+                radians_,
+                1U,
+                i_flag_,
+                e_flag_,
+                equation_};
         }
         /// generate a new unit_data but with i flag
         constexpr unit_data add_i_flag() const
         {
-            return {meter_,
-                    kilogram_,
-                    second_,
-                    ampere_,
-                    kelvin_,
-                    mole_,
-                    candela_,
-                    currency_,
-                    count_,
-                    radians_,
-                    per_unit_,
-                    1U,
-                    e_flag_,
-                    equation_};
+            return {
+                meter_,
+                kilogram_,
+                second_,
+                ampere_,
+                kelvin_,
+                mole_,
+                candela_,
+                currency_,
+                count_,
+                radians_,
+                per_unit_,
+                1U,
+                e_flag_,
+                equation_};
         }
         /// generate a new unit_data but with e flag
         constexpr unit_data add_e_flag() const
         {
-            return {meter_,
-                    kilogram_,
-                    second_,
-                    ampere_,
-                    kelvin_,
-                    mole_,
-                    candela_,
-                    currency_,
-                    count_,
-                    radians_,
-                    per_unit_,
-                    i_flag_,
-                    1U,
-                    equation_};
+            return {
+                meter_,
+                kilogram_,
+                second_,
+                ampere_,
+                kelvin_,
+                mole_,
+                candela_,
+                currency_,
+                count_,
+                radians_,
+                per_unit_,
+                i_flag_,
+                1U,
+                equation_};
         }
 
       private:
@@ -404,8 +409,8 @@ namespace std {
 /// Hash function for unit_data
 template<>
 struct hash<UNITS_NAMESPACE::detail::unit_data> {
-    size_t operator()(const UNITS_NAMESPACE::detail::unit_data& x) const
-        noexcept
+    size_t
+        operator()(const UNITS_NAMESPACE::detail::unit_data& x) const noexcept
     {
         UNITS_BASE_TYPE val;
         std::memcpy(&val, &x, sizeof(val));
@@ -434,10 +439,10 @@ namespace detail {
     {
         return (power > 1) ? sqr_power(power_const(val, power / 2)) *
                 (power % 2 == 0 ? X(1.0) : val) :
-                             (power < -1) ? X(1.0) /
-                    (sqr_power(power_const(val, (-power) / 2)) *
-                     ((-power) % 2 == 0 ? X(1.0) : val)) :
-                                            power_const_small(val, power);
+            (power < -1) ? X(1.0) /
+                (sqr_power(power_const(val, (-power) / 2)) *
+                 ((-power) % 2 == 0 ? X(1.0) : val)) :
+                           power_const_small(val, power);
     }
 
     /// Round the multiplier to the expected level of precision
@@ -556,14 +561,14 @@ class unit {
     /// Unit multiplication
     constexpr unit operator*(const unit& other) const
     {
-        return {base_units_ * other.base_units_,
-                multiplier() * other.multiplier()};
+        return {
+            base_units_ * other.base_units_, multiplier() * other.multiplier()};
     }
     /// Division operator
     constexpr unit operator/(const unit& other) const
     {
-        return {base_units_ / other.base_units_,
-                multiplier() / other.multiplier()};
+        return {
+            base_units_ / other.base_units_, multiplier() / other.multiplier()};
     }
     /// Invert the unit (take 1/unit)
     constexpr unit inv() const
@@ -573,8 +578,8 @@ class unit {
     /// take a unit to an integral power
     constexpr unit pow(int power) const
     {
-        return unit{base_units_.pow(power),
-                    detail::power_const(multiplier_, power)};
+        return unit{
+            base_units_.pow(power), detail::power_const(multiplier_, power)};
     }
     /// Test for unit equivalence to within nominal numerical tolerance (6
     /// decimal digits)
@@ -682,8 +687,8 @@ class precise_unit {
     /// Default constructor
     // NOLINTNEXTLINE(modernize-use-equals-default)
     constexpr precise_unit() noexcept {};
-    explicit constexpr precise_unit(
-        const detail::unit_data& base_unit) noexcept :
+    explicit constexpr precise_unit(const detail::unit_data& base_unit) noexcept
+        :
         base_units_(base_unit)
     {
     }
@@ -748,51 +753,56 @@ class precise_unit {
     /// take the reciprocal of a unit
     constexpr precise_unit inv() const
     {
-        return {base_units_.inv(),
-                (commodity_ == 0) ? 0 : ~commodity_,
-                1.0 / multiplier()};
+        return {
+            base_units_.inv(),
+            (commodity_ == 0) ? 0 : ~commodity_,
+            1.0 / multiplier()};
     }
     /// Multiply with another unit
     constexpr precise_unit operator*(const precise_unit& other) const
     {
-        return {base_units_ * other.base_units_,
-                (commodity_ == 0) ?
-                    other.commodity_ :
-                    ((other.commodity_ == 0) ? commodity_ :
-                                               commodity_ & other.commodity_),
-                multiplier() * other.multiplier()};
+        return {
+            base_units_ * other.base_units_,
+            (commodity_ == 0) ?
+                other.commodity_ :
+                ((other.commodity_ == 0) ? commodity_ :
+                                           commodity_ & other.commodity_),
+            multiplier() * other.multiplier()};
     }
     /// Multiplication operator with a lower precision unit
     constexpr precise_unit operator*(const unit& other) const
     {
-        return {base_units_ * other.base_units_,
-                commodity_,
-                multiplier() * other.multiplier()};
+        return {
+            base_units_ * other.base_units_,
+            commodity_,
+            multiplier() * other.multiplier()};
     }
     /// Division operator
     constexpr precise_unit operator/(const precise_unit& other) const
     {
-        return {base_units_ / other.base_units_,
-                (commodity_ == 0) ?
-                    ((other.commodity_ == 0) ? 0 : ~other.commodity_) :
-                    ((other.commodity_ == 0) ?
-                         commodity_ :
-                         commodity_ & (~other.commodity_)),
-                multiplier() / other.multiplier()};
+        return {
+            base_units_ / other.base_units_,
+            (commodity_ == 0) ?
+                ((other.commodity_ == 0) ? 0 : ~other.commodity_) :
+                ((other.commodity_ == 0) ? commodity_ :
+                                           commodity_ & (~other.commodity_)),
+            multiplier() / other.multiplier()};
     }
     /// Divide by a less precise unit
     constexpr precise_unit operator/(const unit& other) const
     {
-        return {base_units_ / other.base_units_,
-                commodity_,
-                multiplier() / other.multiplier()};
+        return {
+            base_units_ / other.base_units_,
+            commodity_,
+            multiplier() / other.multiplier()};
     }
     /// take a unit to a power
     constexpr precise_unit pow(int power) const
     {
-        return {base_units_.pow(power),
-                commodity_,
-                detail::power_const(multiplier_, power)};
+        return {
+            base_units_.pow(power),
+            commodity_,
+            detail::power_const(multiplier_, power)};
     }
     /// Overloaded equality operator
     bool operator==(const precise_unit& other) const

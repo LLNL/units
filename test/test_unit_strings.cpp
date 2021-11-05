@@ -702,21 +702,22 @@ TEST_P(roundTripString, testRoundTrip)
         << "Round trip string didn't match " << GetParam();
 }
 
-static const std::vector<std::string> testStrings{"million per milliliter",
-                                                  "ng/(8.h)",
-                                                  "mL/kg/d",
-                                                  "ng/mL/h",
-                                                  "10.L/min",
-                                                  "[car_Au]",
-                                                  "/[arb'U]",
-                                                  "U/10*10{cells}",
-                                                  "ag/{cell}",
-                                                  "ug/mmol{creat}",
-                                                  "[ppm]{v/v}",
-                                                  "[IU]/g{Hb}",
-                                                  "U/mL{RBCs}",
-                                                  "{#}/{platelet}",
-                                                  "[IU]/mL"};
+static const std::vector<std::string> testStrings{
+    "million per milliliter",
+    "ng/(8.h)",
+    "mL/kg/d",
+    "ng/mL/h",
+    "10.L/min",
+    "[car_Au]",
+    "/[arb'U]",
+    "U/10*10{cells}",
+    "ag/{cell}",
+    "ug/mmol{creat}",
+    "[ppm]{v/v}",
+    "[IU]/g{Hb}",
+    "U/mL{RBCs}",
+    "{#}/{platelet}",
+    "[IU]/mL"};
 
 INSTANTIATE_TEST_SUITE_P(
     roundTrip,
