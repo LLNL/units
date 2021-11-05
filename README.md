@@ -148,7 +148,7 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.
 
-The CMake variable `UNITS_BASE_TYPE` if set to a 64 bit type like `uint64_t` will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [Cmake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
+The CMake variable `UNITS_BASE_TYPE` if set to a 64 bit type like `uint64_t` will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [CMake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
 
 ### Discussion points
 
