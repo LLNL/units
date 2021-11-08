@@ -1310,3 +1310,22 @@ TEST(stream, test_outstream)
     auto res = sss.str();
     EXPECT_EQ(res, "m");
 }
+
+#ifdef EXTRA_UNIT_STANDARDS
+
+TEST(extra, r20)
+{
+    auto unit = r20_unit("NOT A VALID STRING");
+    EXPECT_TRUE(is_error(unit));
+}
+
+TEST(extra, dod) {
+    auto unit = dod_unit("NOT A VALID STRING");
+    EXPECT_TRUE(is_error(unit));
+}
+
+TEST(extra, x12) {
+    auto unit = x12_unit("NOT A VALID STRING");
+    EXPECT_TRUE(is_error(unit));
+}
+#endif
