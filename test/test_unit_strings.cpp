@@ -1319,12 +1319,14 @@ TEST(extra, r20)
     EXPECT_TRUE(is_error(unit));
 }
 
-TEST(extra, dod) {
+TEST(extra, dod)
+{
     auto unit = dod_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
 }
 
-TEST(extra, x12) {
+TEST(extra, x12)
+{
     auto unit = x12_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
 }
