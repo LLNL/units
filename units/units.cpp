@@ -5732,12 +5732,12 @@ static void htmlCodeReplacement(std::string& unit_string)
 /// not in the basic ascii set)
 static bool unicodeReplacement(std::string& unit_string)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 48>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 66>
         ucodeReplacements{{
             ckpair{u8"\u00d7", "*"},
             ckpair{u8"\u00f7", "/"},  // division sign
             ckpair{u8"\u00b7", "*"},
-            ckpair{u8"\u2215", "*"},  // asterisk operator
+            ckpair{u8"\u2217", "*"},  // asterisk operator
             ckpair{u8"\u00B5", "u"},
             ckpair{u8"\u03BC", "u"},
             ckpair{u8"\u00E9", "e"},
@@ -5751,13 +5751,31 @@ static bool unicodeReplacement(std::string& unit_string)
             ckpair{u8"\u207B\u00B9", "^(-1)"},
             ckpair{u8"\u207B\u00B2", "^(-2)"},
             ckpair{u8"\u207B\u00B3", "^(-3)"},
+            ckpair{u8"\u207B\u2074", "^(-4)"},
+            ckpair{u8"\u207B\u2075", "^(-5)"},
+            ckpair{u8"\u207B\u2076", "^(-6)"},
+            ckpair{u8"\u207B\u2077", "^(-7)"},
+            ckpair{u8"\u207B\u2078", "^(-8)"},
+            ckpair{u8"\u207B\u2079", "^(-9)"},
             ckpair{u8"-\u00B9", "^(-1)"},
             ckpair{u8"-\u00B2", "^(-2)"},
             ckpair{u8"-\u00B3", "^(-3)"},
-            ckpair{u8"\u00b2", "^(2)"},
+            ckpair{u8"-\u2074", "^(-4)"},
+            ckpair{u8"-\u2075", "^(-5)"},
+            ckpair{u8"-\u2076", "^(-6)"},
+            ckpair{u8"-\u2077", "^(-7)"},
+            ckpair{u8"-\u2078", "^(-8)"},
+            ckpair{u8"-\u2079", "^(-9)"},
             ckpair{u8"\u00b9", "*"},  // superscript 1 which doesn't do
                                       // anything
+            ckpair{u8"\u00b2", "^(2)"},
             ckpair{u8"\u00b3", "^(3)"},
+            ckpair{u8"\u2074", "^(4)"},
+            ckpair{u8"\u2075", "^(5)"},
+            ckpair{u8"\u2076", "^(6)"},
+            ckpair{u8"\u2077", "^(7)"},
+            ckpair{u8"\u2078", "^(8)"},
+            ckpair{u8"\u2079", "^(9)"},
             ckpair{u8"\u2215", "/"},  // Division slash
             ckpair{u8"\u00BD", "(0.5)"},  // (1/2) fraction
             ckpair{u8"\u00BC", "(0.25)"},  // (1/4) fraction
