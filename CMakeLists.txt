@@ -7,13 +7,13 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-# Make sure users don't get warnings on a tested (3.0 to 3.16) version of CMake. For
+# Make sure users don't get warnings on a tested (3.0 to 3.22) version of CMake. For
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
-if(${CMAKE_VERSION} VERSION_LESS 3.20)
+if(${CMAKE_VERSION} VERSION_LESS 3.22)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-    cmake_policy(VERSION 3.20)
+    cmake_policy(VERSION 3.22)
 endif()
 
 project(
