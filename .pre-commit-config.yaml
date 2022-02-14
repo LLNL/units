@@ -20,7 +20,7 @@ repos:
     hooks:
       - id: prettier
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.1.11
+    rev: v1.1.12
     hooks:
       - id: remove-tabs
   - repo: https://github.com/codespell-project/codespell
