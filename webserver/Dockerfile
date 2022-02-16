@@ -1,7 +1,7 @@
 FROM helics/buildenv:tumbleweed-builder as builder
 
 # should already be in /root/develop from the builder
-# modification date 2021-08-13
+# modification date 2022-02-16
 
 RUN git clone https://github.com/LLNL/units.git units
 
@@ -11,7 +11,7 @@ RUN cmake ../units -DUNITS_BUILD_WEBSERVER=ON -DBUILD_TESTING=OFF -DCMAKE_CXX_ST
 
 WORKDIR /root/develop/webserver
 
-RUN cp ../build/webserver/units_webserver . && cp ../units/webserver/*.html . && cp ../units/webserver/*.sh .
+RUN cp ../build/bin/units_webserver . && cp ../units/webserver/*.html . && cp ../units/webserver/*.sh .
 
 FROM opensuse/tumbleweed:latest
 
@@ -25,7 +25,7 @@ LABEL name="units.webserver"
 LABEL description="Units library webserver"
 LABEL vcs-ref=$GIT_COMMIT
 LABEL vcs-url="https://github.com/LLNL/units"
-LABEL version="0.4.1"
+LABEL version="0.5.0"
 
 VOLUME /weblog
 
