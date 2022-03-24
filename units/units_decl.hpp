@@ -951,7 +951,7 @@ class precise_unit {
         return {base_units_.add_e_flag(), commodity_, multiplier_};
     }
     /// Set the commodity
-    precise_unit& commodity(unsigned int newCommodity)
+    precise_unit& commodity(std::uint32_t newCommodity)
     {
         commodity_ = newCommodity;
         return *this;

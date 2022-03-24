@@ -49,6 +49,7 @@ namespace commodities {
         nickel = 14,
         cobolt = 15,
         molybdenum = 16,
+        carbon = 17,
 
         // energy
         oil = 101,
@@ -93,10 +94,11 @@ namespace commodities {
 
         // other common unit blocks
         people = 115125,
+        passenger = 115126,
         particles = 117463,
-        cars = 43567,
-        flop = 215262,
-        instruction = 452255,
+        vehicle = 43567,
+        freight = 56226,
+        
 
         // clinical
         tissue = 4622626,
@@ -111,6 +113,11 @@ namespace commodities {
         pixel = 516115414,
         voxel = 516115415,
         errors = 516115418,
+        flop = 215262,
+        instruction = 452255,
+
+        // emmissions
+
     };
 }  // namespace commodities
 
@@ -830,6 +837,10 @@ namespace precise {
 
         constexpr precise_unit ton_tnt{4.184, precise::giga* precise::J};
         constexpr precise_unit boe{5.8e6, btu_59};
+        constexpr precise_unit tce{29.308, precise::giga*precise::J};  // tonne of coal equivalent
+        constexpr precise_unit lge{
+            33.5,
+            precise::mega* precise::J};  // liter of gasoline equivalent
         constexpr precise_unit foeb{6.05e6, btu_59};
         constexpr precise_unit hartree{4.3597447222071e-18, J};
         constexpr precise_unit tonhour{3.5168528421, kWh};
@@ -1307,8 +1318,7 @@ namespace precise {
         // International Unit
         constexpr precise_unit IU = precise_unit(custom::custom_count_unit(2));
         // Arbitrary Unit
-        constexpr precise_unit arbU =
-            precise_unit(custom::custom_count_unit(1));
+        constexpr precise_unit arbU = precise_unit(custom::custom_count_unit(1));
         // index of reactivity
         constexpr precise_unit IR = precise_unit(custom::custom_count_unit(3));
         // limit of flocculation
@@ -1417,6 +1427,12 @@ namespace precise {
         constexpr precise_unit GigaBuck(1000.0, MegaBuck);
     }  // namespace other
 
+    namespace climate {
+        // global warming potential
+        constexpr precise_unit gwp = generate_custom_unit(77);
+        // global temperature change potential
+        constexpr precise_unit gtp = generate_custom_unit(78);
+    }
     constexpr precise_unit rpm = other::rpm;
 }  // namespace precise
 
