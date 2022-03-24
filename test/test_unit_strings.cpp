@@ -855,7 +855,26 @@ TEST(userDefinedUnits, definitions)
 
     EXPECT_EQ(to_string(clucks), "clucks");
 
+    EXPECT_EQ(to_string(clucks.inv()), "1/clucks");
+
     EXPECT_EQ(to_string(clucks.pow(2)), "clucks^2");
+
+    EXPECT_EQ(to_string(clucks*kg), "clucks*kg");
+
+    EXPECT_EQ(to_string(precise::kg/clucks.pow(2)), "kg/clucks^2");
+
+    clearUserDefinedUnits();
+}
+
+TEST(userDefinedUnits, definitions_angstrom)
+{
+    addUserDefinedUnit("angstrom", precise::distance::angstrom);
+
+    auto str = to_string(units::unit_from_string("us / angstrom^2"));
+    EXPECT_EQ(str, "us/angstrom^2");
+    str = to_string(units::unit_from_string("us / angstrom"));
+    EXPECT_EQ(str, "us/angstrom");
+    clearUserDefinedUnits();
 }
 
 TEST(userDefinedUnits, definitionStrings)
@@ -883,8 +902,8 @@ TEST(userDefinedUnits, definitionStringsInputOnly)
     EXPECT_EQ(ipm, idgit / min);
 
     auto str = to_string(ipm);
+    /** input only should not result in any string result with the user defined input*/
     EXPECT_EQ(str.find("idgit"), std::string::npos);
-    EXPECT_NE(str.find("kat"), std::string::npos);
     clearUserDefinedUnits();
 }
 
