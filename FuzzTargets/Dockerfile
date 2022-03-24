@@ -1,7 +1,7 @@
 FROM  helics/buildenv:clang-builder8 as builder
 
 # this is already in a workdir from the builder image
-# modification date 2022-02-16
+# modification date 2022-03-24
 
 RUN git clone https://github.com/LLNL/units.git units
 
@@ -25,7 +25,7 @@ LABEL name="units.fuzzer"
 LABEL description="Units library fuzzer"
 LABEL vcs-ref=$GIT_COMMIT
 LABEL vcs-url="https://github.com/LLNL/units"
-LABEL version="0.5.0"
+LABEL version="0.5.1"
 VOLUME /fuzz
 
 #ENV ASAN_OPTIONS='quarantine_size_mb=16:max_redzone=512:detect_leaks=0:max_malloc_fill_size=1024'

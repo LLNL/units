@@ -1,7 +1,6 @@
-FROM helics/buildenv:tumbleweed-builder as builder
+FROM helics/buildenv:gcc11-builder as builder
 
-# should already be in /root/develop from the builder
-# modification date 2022-02-16
+# modification date 2022-03-24
 
 RUN git clone https://github.com/LLNL/units.git units
 
@@ -13,7 +12,7 @@ WORKDIR /root/develop/webserver
 
 RUN cp ../build/bin/units_webserver . && cp ../units/webserver/*.html . && cp ../units/webserver/*.sh .
 
-FROM opensuse/tumbleweed:latest
+FROM ubuntu:21.10
 
 COPY --from=builder /root/develop/webserver /root/develop/webserver
 
@@ -25,7 +24,8 @@ LABEL name="units.webserver"
 LABEL description="Units library webserver"
 LABEL vcs-ref=$GIT_COMMIT
 LABEL vcs-url="https://github.com/LLNL/units"
-LABEL version="0.5.0"
+LABEL version="0.5.1"
+LABEL date="2022-03-24"
 
 VOLUME /weblog
 
