@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Copyright (c) 2019-2021,
+# Copyright (c) 2019-2022,
 # Lawrence Livermore National Security, LLC;
 # See the top-level NOTICE for additional details. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
@@ -19,7 +19,7 @@ endif()
 project(
     UNITS
     LANGUAGES CXX
-    VERSION 0.5.0
+    VERSION 0.5.1
 )
 include(CMakeDependentOption)
 include(CTest)
