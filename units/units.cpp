@@ -182,14 +182,14 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 21> testUnits{
      ustr{precise::energy::eV, "eV"},
      ustr{precise::count, "item"}}};
 
-// units to divide into tests to explore common multiplier units which can be multiplied by power
+// units to divide into tests to explore common multiplier units which can be
+// multiplied by power
 static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 5> testPowerUnits{
     {ustr{precise::m, "m"},
      ustr{precise::m, "km"},
      ustr{precise::s, "s"},
      ustr{precise::ms, "ft"},
-     ustr{precise::min, "mi"}
-     }};
+     ustr{precise::min, "mi"}}};
 
 // units to divide into tests to explore common multiplier units
 static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 3> siTestUnits{
@@ -1073,8 +1073,9 @@ static std::string find_unit(unit un)
     return std::string{};
 }
 
-static std::string
-    probeUnit(precise_unit un, const std::pair<precise_unit,const char *> &probe)
+static std::string probeUnit(
+    precise_unit un,
+    const std::pair<precise_unit, const char*>& probe)
 {
     // let's try common divisor units
     auto ext = un * probe.first;
@@ -1147,8 +1148,8 @@ static std::string probeUnitBase(
             size_t cut;
             double mx = getDoubleFromString(prefix, &cut);
 
-            auto str = getMultiplierString(1.0 / mx, true) + probe.second + "/" +
-                prefix.substr(cut);
+            auto str = getMultiplierString(1.0 / mx, true) + probe.second +
+                "/" + prefix.substr(cut);
             if (beststr.empty() || str.size() < beststr.size()) {
                 beststr = str;
             }
@@ -1180,7 +1181,7 @@ static std::string probeUnitBase(
     return beststr;
 }
 
-    static std::string
+static std::string
     to_string_internal(precise_unit un, std::uint32_t match_flags)
 {
     switch (std::fpclassify(un.multiplier())) {
@@ -1478,7 +1479,7 @@ static std::string probeUnitBase(
 
     // let's try common units
     for (const auto& tu : testUnits) {
-        auto res = probeUnit(un,tu);
+        auto res = probeUnit(un, tu);
         if (!res.empty()) {
             return res;
         }
@@ -1486,21 +1487,25 @@ static std::string probeUnitBase(
 
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         for (const auto& udu : user_defined_unit_names) {
-            auto res = probeUnit(un, std::make_pair(precise_unit(udu.first),udu.second.c_str()));
+            auto res = probeUnit(
+                un,
+                std::make_pair(precise_unit(udu.first), udu.second.c_str()));
             if (!res.empty()) {
                 return res;
             }
             std::string nstring = std::string(udu.second) + "^2";
             res = probeUnit(
                 un,
-                std::make_pair(precise_unit(udu.first).pow(2), nstring.c_str()));
+                std::make_pair(
+                    precise_unit(udu.first).pow(2), nstring.c_str()));
             if (!res.empty()) {
                 return res;
             }
             nstring = std::string(udu.second) + "^3";
             res = probeUnit(
                 un,
-                std::make_pair(precise_unit(udu.first).pow(3), nstring.c_str()));
+                std::make_pair(
+                    precise_unit(udu.first).pow(3), nstring.c_str()));
             if (!res.empty()) {
                 return res;
             }
@@ -1523,11 +1528,10 @@ static std::string probeUnitBase(
         }
     }
     std::string beststr;
-    
+
     for (auto& tu : testUnits) {
-        auto str = probeUnitBase(un,tu);
-        if (!str.empty())
-        {
+        auto str = probeUnitBase(un, tu);
+        if (!str.empty()) {
             if (!isNumericalStartCharacter(str.front())) {
                 return str;
             }
@@ -1552,7 +1556,8 @@ static std::string probeUnitBase(
             std::string nstring = std::string(udu.second) + "^2";
             str = probeUnitBase(
                 un,
-                std::make_pair(precise_unit(udu.first).pow(2), nstring.c_str()));
+                std::make_pair(
+                    precise_unit(udu.first).pow(2), nstring.c_str()));
             if (!str.empty()) {
                 if (!isNumericalStartCharacter(str.front())) {
                     return str;
@@ -1565,7 +1570,8 @@ static std::string probeUnitBase(
             nstring = std::string(udu.second) + "^3";
             str = probeUnitBase(
                 un,
-                std::make_pair(precise_unit(udu.first).pow(3), nstring.c_str()));
+                std::make_pair(
+                    precise_unit(udu.first).pow(3), nstring.c_str()));
             if (!str.empty()) {
                 if (!isNumericalStartCharacter(str.front())) {
                     return str;
@@ -1600,8 +1606,6 @@ static std::string probeUnitBase(
                 beststr = str;
             }
         }
-
-        
     }
 
     // now just to reduce the order and generate the string

@@ -859,9 +859,9 @@ TEST(userDefinedUnits, definitions)
 
     EXPECT_EQ(to_string(clucks.pow(2)), "clucks^2");
 
-    EXPECT_EQ(to_string(clucks*kg), "clucks*kg");
+    EXPECT_EQ(to_string(clucks * kg), "clucks*kg");
 
-    EXPECT_EQ(to_string(precise::kg/clucks.pow(2)), "kg/clucks^2");
+    EXPECT_EQ(to_string(precise::kg / clucks.pow(2)), "kg/clucks^2");
 
     clearUserDefinedUnits();
 }
@@ -902,7 +902,8 @@ TEST(userDefinedUnits, definitionStringsInputOnly)
     EXPECT_EQ(ipm, idgit / min);
 
     auto str = to_string(ipm);
-    /** input only should not result in any string result with the user defined input*/
+    /** input only should not result in any string result with the user defined
+     * input*/
     EXPECT_EQ(str.find("idgit"), std::string::npos);
     clearUserDefinedUnits();
 }
