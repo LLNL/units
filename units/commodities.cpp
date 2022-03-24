@@ -82,7 +82,7 @@ enum commodity : std::uint32_t
     // other common unit blocks
     people", 115125,
     particles", 117463,
-    cars", 43567,
+    vehicle", 43567,
 
     // clinical
     tissue", 4622626,
@@ -158,7 +158,7 @@ namespace commodities {
         // other common unit blocks
         {people, "people"},
         {particles, "particles"},
-        {cars, "cars"},
+        {vehicle, "vehicle"},
 
         // clinical
         {tissue, "tissue"},
@@ -202,6 +202,7 @@ namespace commodities {
         {"nickel", nickel},
         {"cobolt", cobolt},
         {"molybdenum", molybdenum},
+        {"carbon", carbon},
 
         // energy
         {"oil", oil},
@@ -247,8 +248,8 @@ namespace commodities {
         // other common unit blocks
         {"people", people},
         {"particles", particles},
-        {"cars", cars},
-
+        {"cars", vehicle},
+        {"vehicle", vehicle},
         // clinical
         {"tissue", tissue},
         {"cell", cell},
@@ -270,16 +271,20 @@ namespace commodities {
         {"errors", errors},
     };
 }  // namespace commodities
-static constexpr std::uint32_t Ac{54059}; /* a prime */
-static constexpr std::uint32_t Bc{76963}; /* another prime */
-// static constexpr std::uint32_t Cc{ 86969 }; /* yet another prime */
-static constexpr std::uint32_t firstH{37}; /* also prime */
+
+namespace hashcodes {
+    static constexpr std::uint32_t Ac{54059}; /* a prime */
+    static constexpr std::uint32_t Bc{76963}; /* another prime */
+    // static constexpr std::uint32_t Cc{ 86969 }; /* yet another prime */
+    static constexpr std::uint32_t firstH{37}; /* also prime */
+}  // namespace hashcodes
 
 uint32_t stringHash(const std::string& str)
 {
-    std::uint32_t hash{firstH};
+    std::uint32_t hash{hashcodes::firstH};
     for (auto c : str) {
-        hash = (hash * Ac) ^ (static_cast<std::uint32_t>(c) * Bc);
+        hash = (hash * hashcodes::Ac) ^
+            (static_cast<std::uint32_t>(c) * hashcodes::Bc);
     }
     return hash;  // or return h % C;
 }

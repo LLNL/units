@@ -1,12 +1,14 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Copyright (c) 2019-2021,
+# Copyright (c) 2019-2022,
 # Lawrence Livermore National Security, LLC;
 # See the top-level NOTICE for additional details. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 set(units_source_files units.cpp x12_conv.cpp r20_conv.cpp commodities.cpp)
 
-set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp units_util.hpp)
+set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp units_util.hpp
+                       units_conversion_maps.hpp
+)
 
 include(GenerateExportHeader)
 
@@ -25,6 +27,8 @@ if(UNITS_DOMAIN)
         set(UNITS_DEFAULT_DOMAIN "domains::nuclear")
     elseif(${UNITS_DOMAIN} STREQUAL "US_CUSTOMARY")
         set(UNITS_DEFAULT_DOMAIN "domains::us_customary")
+    elseif(${UNITS_DOMAIN} STREQUAL "CLIMATE")
+        set(UNITS_DEFAULT_DOMAIN "domains::climate")
     endif()
 endif()
 

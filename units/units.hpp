@@ -1800,6 +1800,7 @@ namespace domains {
     constexpr std::uint32_t nuclear{0x1DU};
     constexpr std::uint32_t surveying{10U};
     constexpr std::uint32_t astronomy{0x1AU};
+    constexpr std::uint32_t climate{0x0CU};
     constexpr std::uint32_t us_customary{
         11U};  // this is cooking | surveying as well
     constexpr std::uint32_t allDomains{0x1F};
@@ -1816,24 +1817,21 @@ enum unit_conversion_flags : std::uint32_t {
                         //!< denominator only a single slash in the unit
                         //!< operations
     strict_si = 4U,  //!< input units are strict SI
-    strict_ucum =
-        (domains::ucum << 3U),  //!< input units are matching ucum standard
+    /// input units are matching ucum standard
+    strict_ucum = (domains::ucum << 3U),
 
-    cooking_units = (domains::cooking << 3U),  //!< input units for cooking and
-                                               //!< recipes are prioritized
-    astronomy_units =
-        (domains::astronomy
-         << 3U),  //!< input units for astronomy are prioritized
-    surveying_units =
-        (domains::surveying
-         << 3U),  //!< input units for surveying are prioritized
-    nuclear_units =
-        (domains::nuclear << 3U),  //!< input units for nuclear physics and
-                                   //!< radiation are prioritized
-                                   //! nuclear_units =
-    us_customary_units =
-        (domains::us_customary << 3U),  //!< input units for nuclear physics and
-                                        //!< radiation are prioritized
+    /// input units for cooking and recipes are prioritized
+    cooking_units = (domains::cooking << 3U),
+    /// input units for astronomy are prioritized
+    astronomy_units = (domains::astronomy << 3U),
+    /// input units for surveying are prioritized
+    surveying_units = (domains::surveying << 3U),
+    /** input units for nuclear physics and radiation are prioritized */
+    nuclear_units = (domains::nuclear << 3U),
+    /** input units for nuclear physics and radiation are prioritized */
+    climate_units = (domains::climate << 3U),
+    /* equivalent to surveying_units|cooking_units so uses both domains */
+    us_customary_units = (domains::us_customary << 3U),
     disable_large_power_strings =
         (1U << 10U),  // if the units allow large powers (base size==8) then
                       // this flag can disable the output of large power strings
