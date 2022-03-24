@@ -174,6 +174,9 @@ namespace precise {
     constexpr precise_unit infinite(
         detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         constants::infinity);
+    constexpr precise_unit neginfinite(
+        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        -constants::infinity);
     constexpr precise_unit
         nan(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
             constants::invalid_conversion);
