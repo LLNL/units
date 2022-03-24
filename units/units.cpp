@@ -144,7 +144,8 @@ static int order(const unit& val)
 // string with out-of-order operations
 using umap = std::unordered_map<unit, const char*>;
 
-static umap getDefinedBaseUnitNames() {
+static umap getDefinedBaseUnitNames()
+{
     umap definedNames;
     for (const auto& name : defined_unit_names) {
         if (name.second != nullptr) {
@@ -155,7 +156,6 @@ static umap getDefinedBaseUnitNames() {
 }
 
 static const umap base_unit_names = getDefinedBaseUnitNames();
-   
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
@@ -2447,7 +2447,7 @@ static smap loadDefinedUnits()
 http://vizier.u-strasbg.fr/vizier/doc/catstd-3.2.htx
 http://unitsofmeasure.org/ucum.html#si
 */
-static const smap base_unit_vals =loadDefinedUnits();
+static const smap base_unit_vals = loadDefinedUnits();
 
 // LCOV_EXCL_START
 
@@ -2666,7 +2666,7 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::surveying, u8"\u2033"), precise::us::inch},
     {hashGen(domains::nuclear, "rad"), precise::cgs::RAD},
     {hashGen(domains::nuclear, "rd"), precise::cgs::RAD},
-    {hashGen(domains::climate, "kt"), precise::kilo*precise::t},
+    {hashGen(domains::climate, "kt"), precise::kilo* precise::t},
     {hashGen(domains::us_customary, "C"), precise::us::cup},
     {hashGen(domains::us_customary, "T"), precise::us::tbsp},
     {hashGen(domains::us_customary, "c"), precise::us::cup},
@@ -2691,8 +2691,7 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::allDomains, "TB"), precise::us::tbsp},
     {hashGen(domains::allDomains, "rad"), precise::cgs::RAD},
     {hashGen(domains::allDomains, "kt"), precise::kilo* precise::t},
-    {hashGen(domains::allDomains, "rd"),
-     precise::cgs::RAD}};
+    {hashGen(domains::allDomains, "rd"), precise::cgs::RAD}};
 
 static precise_unit
     getDomainUnit(std::uint32_t domain, const std::string& unit_string)

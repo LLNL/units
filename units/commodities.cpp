@@ -202,7 +202,7 @@ namespace commodities {
         {"nickel", nickel},
         {"cobolt", cobolt},
         {"molybdenum", molybdenum},
-        {"carbon",carbon},
+        {"carbon", carbon},
 
         // energy
         {"oil", oil},
@@ -277,14 +277,14 @@ namespace hashcodes {
     static constexpr std::uint32_t Bc{76963}; /* another prime */
     // static constexpr std::uint32_t Cc{ 86969 }; /* yet another prime */
     static constexpr std::uint32_t firstH{37}; /* also prime */
-}
-
+}  // namespace hashcodes
 
 uint32_t stringHash(const std::string& str)
 {
     std::uint32_t hash{hashcodes::firstH};
     for (auto c : str) {
-        hash = (hash * hashcodes::Ac) ^ (static_cast<std::uint32_t>(c) * hashcodes::Bc);
+        hash = (hash * hashcodes::Ac) ^
+            (static_cast<std::uint32_t>(c) * hashcodes::Bc);
     }
     return hash;  // or return h % C;
 }

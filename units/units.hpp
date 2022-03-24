@@ -1818,28 +1818,20 @@ enum unit_conversion_flags : std::uint32_t {
                         //!< operations
     strict_si = 4U,  //!< input units are strict SI
     /// input units are matching ucum standard
-    strict_ucum =
-        (domains::ucum << 3U),  
+    strict_ucum = (domains::ucum << 3U),
 
     /// input units for cooking and recipes are prioritized
-    cooking_units = (domains::cooking << 3U),  
+    cooking_units = (domains::cooking << 3U),
     /// input units for astronomy are prioritized
-    astronomy_units =
-        (domains::astronomy
-         << 3U),  
+    astronomy_units = (domains::astronomy << 3U),
     /// input units for surveying are prioritized
-    surveying_units =
-        (domains::surveying
-         << 3U),  
+    surveying_units = (domains::surveying << 3U),
     /** input units for nuclear physics and radiation are prioritized */
-    nuclear_units =
-        (domains::nuclear << 3U),  
+    nuclear_units = (domains::nuclear << 3U),
     /** input units for nuclear physics and radiation are prioritized */
-    climate_units =
-        (domains::climate << 3U),
+    climate_units = (domains::climate << 3U),
     /* equivalent to surveying_units|cooking_units so uses both domains */
-    us_customary_units =
-        (domains::us_customary << 3U),  
+    us_customary_units = (domains::us_customary << 3U),
     disable_large_power_strings =
         (1U << 10U),  // if the units allow large powers (base size==8) then
                       // this flag can disable the output of large power strings
