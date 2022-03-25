@@ -25,7 +25,16 @@ For example from a test in the library
    str = to_string(ipm.inv());
    EXPECT_EQ(str, "min/idgit");
 
-Basically user defined units can interact with the string conversion functions just like any other unit defined in the library.
+Basically user defined units can interact with the string conversion functions just like any other unit defined in the library.  A user defined unit gets priority when converting to a string as well including when squared or cubed as part of a compound unit.  For example from the test cases:
+
+.. code-block:: c++
+
+   addUserDefinedUnit("angstrom", units::precise::distance::angstrom);
+
+   auto str = to_string(units::unit_from_string("us / angstrom^2"));
+   EXPECT_EQ(str, "us/angstrom^2");
+   str = to_string(units::unit_from_string("us / angstrom"));
+   EXPECT_EQ(str, "us/angstrom");
 
 If only an ability to interpret strings is needed the `addUserDefinedInputUnit` can be used
 

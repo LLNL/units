@@ -9,6 +9,12 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include <algorithm>
 
+#if (__cplusplus >= 201703L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703)
+#ifndef UNITS_CONSTEXPR_IF_SUPPORTED
+#define UNITS_CONSTEXPR_IF_SUPPORTED
+#endif
+#endif
+
 using namespace units;
 TEST(unitStrings, Simple)
 {
@@ -247,7 +253,11 @@ TEST(unitStrings, powerunits)
 
 TEST(unitString, bigpowers)
 {
-    if (sizeof(UNITS_BASE_TYPE) == 8) {
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+    if constexpr (detail::bitwidth::base_size == sizeof(std::uint64_t)) {
+#else
+    if (detail::bitwidth::base_size == sizeof(std::uint64_t)) {
+#endif
         auto bp = precise::m.pow(12);
         EXPECT_EQ(bp, unit_from_string(to_string(bp)));
         auto kp = precise::kg.pow(-11);
@@ -382,7 +392,11 @@ TEST(stringToUnits, Power)
     EXPECT_EQ(precise::V.pow(-2), unit_from_string("1/V^2"));
     EXPECT_EQ(
         precise_unit(27.0, precise::one).pow(3), unit_from_string("27^3"));
-    if (sizeof(UNITS_BASE_TYPE) == 8) {
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+    if constexpr (detail::bitwidth::base_size == sizeof(std::uint64_t)) {
+#else
+    if (detail::bitwidth::base_size == sizeof(std::uint64_t)) {
+#endif
         EXPECT_EQ(precise::m.pow(12), unit_from_string("m^12"));
         EXPECT_EQ(precise::kg.pow(-11), unit_from_string("kg^-11"));
         EXPECT_EQ(precise::s.pow(23), unit_from_string("s^+23"));
@@ -1225,6 +1239,65 @@ TEST(stringCleanup, test_9strings)
         "10.7*999999999999999999999999lb", 0);
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
 }
+
+TEST(stringGeneration, addPowerString)
+{
+    std::string t1{"bbb"};
+    detail::testing::testAddUnitPower(t1, "cc", 1, 0);
+    EXPECT_EQ(t1, "bbb*cc");
+    t1 = "bbb";
+    detail::testing::testAddUnitPower(t1, "cc", -1, 0);
+    EXPECT_EQ(t1, "bbb*cc^-1");
+    t1 = "bbb/";
+    detail::testing::testAddUnitPower(t1, "cc", 1, 0);
+    EXPECT_EQ(t1, "bbb/cc");
+    t1 = "bbb";
+    detail::testing::testAddUnitPower(t1, "cc", -2, 0);
+    EXPECT_EQ(t1, "bbb*cc^-2");
+    t1 = "bbb*";
+    detail::testing::testAddUnitPower(t1, "cc", -2, 0);
+    EXPECT_EQ(t1, "bbb*cc^-2");
+    t1 = "bbb/";
+    detail::testing::testAddUnitPower(t1, "cc", -2, 0);
+    EXPECT_EQ(t1, "bbb/cc^-2");
+    t1 = "bbb";
+    detail::testing::testAddUnitPower(t1, "cc", 2, 0);
+    EXPECT_EQ(t1, "bbb*cc^2");
+    t1 = "bbb";
+    detail::testing::testAddUnitPower(t1, "cc", 12, 0);
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+    if constexpr (detail::bitwidth::base_size > sizeof(std::uint32_t)) {
+#else
+    if (detail::bitwidth::base_size > sizeof(std::uint32_t)) {
+#endif
+        EXPECT_EQ(t1, "bbb*cc^(12)");
+    } else {
+        EXPECT_EQ(t1, "bbb*cc^9*cc^3");
+    }
+    t1 = "bbb";
+    detail::testing::testAddUnitPower(t1, "cc", -14, 0);
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+    if constexpr (detail::bitwidth::base_size > sizeof(std::uint32_t)) {
+#else
+    if (detail::bitwidth::base_size > sizeof(std::uint32_t)) {
+#endif
+        EXPECT_EQ(t1, "bbb*cc^(-14)");
+    } else {
+        EXPECT_EQ(t1, "bbb*cc^-9*cc^-5");
+    }
+    t1 = "bbb/";
+    detail::testing::testAddUnitPower(t1, "cc", -14, 0);
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+    if constexpr (detail::bitwidth::base_size > sizeof(std::uint32_t)) {
+#else
+    if (detail::bitwidth::base_size > sizeof(std::uint32_t)) {
+#endif
+        EXPECT_EQ(t1, "bbb/cc^(-14)");
+    } else {
+        EXPECT_EQ(t1, "bbb/cc^-9/cc^-5");
+    }
+}
+
 #endif
 
 #ifdef ENABLE_UNIT_MAP_ACCESS

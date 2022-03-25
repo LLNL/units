@@ -471,7 +471,9 @@ static void addUnitPower(
     if (power != 0) {
         if (!str.empty()) {
             if (str.back() != '/') {
-                str.push_back('*');
+                if (str.back() != '*') {
+                    str.push_back('*');
+                }
             } else {
                 div = true;
             }
@@ -2207,6 +2209,15 @@ namespace detail {
             testCleanUpString(std::string testString, std::uint32_t commodity)
         {
             return clean_unit_string(std::move(testString), commodity);
+        }
+
+        void testAddUnitPower(
+            std::string& str,
+            const char* unit,
+            int power,
+            std::uint32_t flags)
+        {
+            return addUnitPower(str, unit, power, flags);
         }
     }  // namespace testing
 }  // namespace detail

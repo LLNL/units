@@ -2146,6 +2146,13 @@ namespace detail {
         // test the string cleanup
         std::string
             testCleanUpString(std::string testString, std::uint32_t commodity);
+
+        // test the add unit power operations
+        void testAddUnitPower(
+            std::string& str,
+            const char* unit,
+            int power,
+            std::uint32_t flags);
     }  // namespace testing
 }  // namespace detail
 #endif

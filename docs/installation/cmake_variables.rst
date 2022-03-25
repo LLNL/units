@@ -15,16 +15,16 @@ CMake variables
 -  `UNITS_BUILD_WEB_SERVER`:  If set to `ON`,  build a webserver,  This uses boost::beast and requires boost 1.70 or greater to build it also requires CMake 3.12 or greater
 -  `UNITS_BUILD_CONVERTER_APP`: enables building a simple command line converter application that can convert units from the command line
 -  `UNITS_ENABLE_EXTRA_COMPILER_WARNINGS`: Turn on bunch of extra compiler warnings, on by default
--  `UNITS_ENABLE_ERROR_ON_WARNINGS`:  Mostly useful in some testing contexts but will turn on Werror so any normal warnings generate an error.
+-  `UNITS_ENABLE_ERROR_ON_WARNINGS`:  Mostly useful in some testing contexts but will turn on `Werror` so any normal warnings generate an error.
 -  `CMAKE_CXX_STANDARD`:  Compile with a particular C++ standard, valid values are `11`, `14`, `17`, and likely `20` though that isn't broadly supported.
 -  `UNITS_BINARY_ONLY_INSTALL`:  Just install shared libraries and executables,  no headers or static libs or packaging information
 -  `UNITS_CLANG_TIDY`:  Enable the clang tidy tests as part of the build
 -  `UNITS_BASE_TYPE`:  Set to `uint64_t` for expanded base-unit power support. This increases the size of a unit by 4 Bytes.
--  `UNITS_DOMAIN`:  Specify a default domain to use for string conversions.  Can be either a name from the domains namespace such as `domains::surveying` or one of 'COOKING', 'ASTRONOMY', 'NUCLEAR', 'SURVEYING', 'USE_CUSTOMARY', 'UCUM'.
+-  `UNITS_DOMAIN`:  Specify a default domain to use for string conversions.  Can be either a name from the domains namespace such as `domains::surveying` or one of 'COOKING', 'ASTRONOMY', 'NUCLEAR', 'SURVEYING', 'USE_CUSTOMARY', 'CLIMATE', or 'UCUM'.
 
 -  `UNITS_NAMESPACE`:  The top level namespace of the library, defaults to `units`.
    When compiling with C++17 (or higher), this can be set to, e.g., `mynamespace::units` to avoid name clashes with other libraries defining `units`.
--  `UNITS_INSTALL`:  This is set to `ON` normally but defaults to `OFF` if used as a subproejct.  This controls whether anything gets installed by the install target.
+-  `UNITS_INSTALL`:  This is set to `ON` normally but defaults to `OFF` if used as a subproject.  This controls whether anything gets installed by the install target.
 
 If compiling as part of a subproject then a few other options are useful
 

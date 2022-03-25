@@ -584,6 +584,8 @@ Some units related to energy are defined in `units::precise::energy`
 - foeb
 - hartree
 - tonhour
+- tce - ton of coal equivalent
+- lge - liter of gasoline equivalent
 
 in the `units::precise` namespace
 
@@ -597,7 +599,7 @@ Power system Units
 Some additional units related to power systems and electrical engineering
 in `units::precise::electrical` namespace
 
-- MW*
+- MW
 - VAR  - W*i_flag
 - MVAR
 - kW
@@ -736,8 +738,9 @@ Some special units that were not otherwise characterized in namespace `units::pr
 - sshws - saffir simpson hurricane wind scale
 - beaufort - Beaufort wind scale
 - fujita - Fujita scale for tornados
-- mach - mach number
+- mach - mach number(multiplier of the speed of sound)
 - rootHertz - square root of Hertz, this is a special handling unit that triggers some specific behavior to handle it.
+- rootMeter - square root of meter, this is a special handling unit that triggers some specific behavior to handle it.
 
 
 Other Units
@@ -751,6 +754,13 @@ General purpose other units not otherwise categorical in namespace `units::preci
 - rpm* - revolution per minute
 - MegaBuck - $1,000,000
 - GigaBuck - $1,000,000,000
+
+Climate Units
+=======================
+Units related to climate in namespace `units::precise::climate`
+
+- gwp - global warming potential
+- gtp - global temperature potential
 
 Units in the `units` namespace
 -------------------------------------
