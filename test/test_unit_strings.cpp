@@ -9,7 +9,6 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include <algorithm>
 
-
 #if (__cplusplus >= 201703L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703)
 #ifndef UNITS_CONSTEXPR_IF_SUPPORTED
 #define UNITS_CONSTEXPR_IF_SUPPORTED
@@ -1241,7 +1240,8 @@ TEST(stringCleanup, test_9strings)
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
 }
 
-TEST(stringGeneration, addPowerString) {
+TEST(stringGeneration, addPowerString)
+{
     std::string t1{"bbb"};
     detail::testing::testAddUnitPower(t1, "cc", 1, 0);
     EXPECT_EQ(t1, "bbb*cc");
@@ -1296,7 +1296,6 @@ TEST(stringGeneration, addPowerString) {
     } else {
         EXPECT_EQ(t1, "bbb/cc^-9/cc^-5");
     }
-    
 }
 
 #endif
