@@ -159,7 +159,7 @@ static const umap base_unit_names = getDefinedBaseUnitNames();
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
-static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 25> testUnits{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 23> testUnits{
     {ustr{precise::m, "m"},
      ustr{precise::s, "s"},
      ustr{precise::ms, "ms"},
@@ -168,9 +168,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 25> testUnits{
      ustr{precise::time::day, "day"},
      ustr{precise::lb, "lb"},
      ustr{precise::ft, "ft"},
-     ustr{precise::ft.pow(2), "ft^2"},
-     ustr{precise::ft.pow(3), "ft^3"},
-     ustr{precise::m.pow(2), "m^2"},
+     ustr{precise::mile, "mi"},
      ustr{constants::c.as_unit(), "[c]"},
      ustr{constants::h.as_unit(), "[h]"},
      ustr{precise::L, "L"},
@@ -182,9 +180,18 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 25> testUnits{
      ustr{precise::electrical::kW, "kW"},
      ustr{precise::electrical::mW, "mW"},
      ustr{precise::MW, "MW"},
-     ustr{precise::s.pow(2), "s^2"},
+     ustr{precise::giga * precise::W, "GW"},
      ustr{precise::energy::eV, "eV"},
      ustr{precise::count, "item"}}};
+
+// units to divide into tests to explore common multiplier units which can be
+// multiplied by power
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 5> testPowerUnits{
+    {ustr{precise::m, "m"},
+     ustr{precise::km, "km"},
+     ustr{precise::s, "s"},
+     ustr{precise::ft, "ft"},
+     ustr{precise::mile, "mi"}}};
 
 // units to divide into tests to explore common multiplier units
 static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 3> siTestUnits{
@@ -1067,6 +1074,110 @@ static std::string find_unit(unit un)
     }
     return std::string{};
 }
+
+static std::string probeUnit(
+    const precise_unit& un,
+    const std::pair<precise_unit, const char*>& probe)
+{
+    // let's try common divisor units
+    auto ext = un * probe.first;
+    auto fnd = find_unit(unit_cast(ext));
+    if (!fnd.empty()) {
+        return fnd + '/' + probe.second;
+    }
+    // let's try inverse of common multiplier units
+    fnd = find_unit(unit_cast(ext.inv()));
+    if (!fnd.empty()) {
+        return std::string("1/(") + fnd + '*' + probe.second + ')';
+    }
+
+    // let's try common multiplier units
+    ext = un / probe.first;
+    fnd = find_unit(unit_cast(ext));
+    if (!fnd.empty()) {
+        return fnd + '*' + probe.second;
+    }
+    // let's try common divisor with inv units
+    fnd = find_unit(unit_cast(ext.inv()));
+    if (!fnd.empty()) {
+        return std::string(probe.second) + '/' + fnd;
+    }
+    return std::string{};
+}
+
+static std::string probeUnitBase(
+    const precise_unit& un,
+    const std::pair<precise_unit, const char*>& probe)
+{
+    std::string beststr;
+    // let's try common divisor units on base units
+    auto ext = un * probe.first;
+    auto base = unit(ext.base_units());
+    auto fnd = find_unit(base);
+    if (!fnd.empty()) {
+        auto prefix = generateUnitSequence(ext.multiplier(), fnd);
+
+        auto str = prefix + '/' + probe.second;
+        if (!isNumericalStartCharacter(str.front())) {
+            return str;
+        }
+        if (beststr.empty() || str.size() < beststr.size()) {
+            beststr = str;
+        }
+    }
+    // let's try inverse of common multiplier units on base units
+    fnd = find_unit(base.inv());
+    if (!fnd.empty()) {
+        auto prefix = getMultiplierString(
+            1.0 / ext.multiplier(), isDigitCharacter(fnd.back()));
+        std::string str{"1/("};
+        str += prefix;
+        str += fnd;
+        str.push_back('*');
+        str.append(probe.second);
+        str.push_back(')');
+        if (!isNumericalStartCharacter(prefix.front())) {
+            return str;
+        }
+        if (beststr.empty() || str.size() < beststr.size()) {
+            beststr = std::move(str);
+        }
+    }
+    // let's try common multiplier units on base units
+    ext = un / probe.first;
+    base = unit(ext.base_units());
+    fnd = find_unit(base);
+    if (!fnd.empty()) {
+        auto prefix = generateUnitSequence(ext.multiplier(), fnd);
+        auto str = prefix + '*' + probe.second;
+        if (!isNumericalStartCharacter(str.front())) {
+            return str;
+        }
+        if (beststr.empty() || str.size() < beststr.size()) {
+            beststr = str;
+        }
+    }
+    // let's try common divisor with inv units on base units
+    fnd = find_unit(base.inv());
+    if (!fnd.empty()) {
+        auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
+        if (isNumericalStartCharacter(prefix.front())) {
+            size_t cut;
+            double mx = getDoubleFromString(prefix, &cut);
+
+            auto str = getMultiplierString(1.0 / mx, true) + probe.second +
+                "/" + prefix.substr(cut);
+            if (beststr.empty() || str.size() < beststr.size()) {
+                beststr = str;
+            }
+
+        } else {
+            return std::string(probe.second) + "/" + prefix;
+        }
+    }
+    return beststr;
+}
+
 static std::string
     to_string_internal(precise_unit un, std::uint32_t match_flags)
 {
@@ -1363,50 +1474,61 @@ static std::string
         return std::string("1/") + prefix;
     }
 
-    // let's try common divisor units
-    for (auto& tu : testUnits) {
-        auto ext = un * tu.first;
-        fnd = find_unit(unit_cast(ext));
-        if (!fnd.empty()) {
-            return fnd + '/' + tu.second;
+    // let's try common units
+    for (const auto& tu : testUnits) {
+        auto res = probeUnit(un, tu);
+        if (!res.empty()) {
+            return res;
         }
     }
 
-    // let's try common multiplier units
-    for (auto& tu : testUnits) {
-        auto ext = un / tu.first;
-        fnd = find_unit(unit_cast(ext));
-        if (!fnd.empty()) {
-            return fnd + '*' + tu.second;
-        }
-    }
-    // let's try common divisor with inv units
-    for (auto& tu : testUnits) {
-        auto ext = un / tu.first;
-        fnd = find_unit(unit_cast(ext.inv()));
-        if (!fnd.empty()) {
-            return std::string(tu.second) + '/' + fnd;
-        }
-    }
-    // let's try inverse of common multiplier units
-    for (auto& tu : testUnits) {
-        auto ext = un * tu.first;
-        fnd = find_unit(unit_cast(ext.inv()));
-        if (!fnd.empty()) {
-            return std::string("1/(") + fnd + '*' + tu.second + ')';
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        for (const auto& udu : user_defined_unit_names) {
+            auto res = probeUnit(
+                un,
+                std::make_pair(precise_unit(udu.first), udu.second.c_str()));
+            if (!res.empty()) {
+                return res;
+            }
+            std::string nstring = std::string(udu.second) + "^2";
+            res = probeUnit(
+                un,
+                std::make_pair(
+                    precise_unit(udu.first).pow(2), nstring.c_str()));
+            if (!res.empty()) {
+                return res;
+            }
+            nstring = std::string(udu.second) + "^3";
+            res = probeUnit(
+                un,
+                std::make_pair(
+                    precise_unit(udu.first).pow(3), nstring.c_str()));
+            if (!res.empty()) {
+                return res;
+            }
         }
     }
 
+    // let's try common units that are often multiplied by power
+    for (const auto& tu : testPowerUnits) {
+        std::string nstring = std::string(tu.second) + "^2";
+        auto res = probeUnit(
+            un, std::make_pair(precise_unit(tu.first).pow(2), nstring.c_str()));
+        if (!res.empty()) {
+            return res;
+        }
+        nstring = std::string(tu.second) + "^3";
+        res = probeUnit(
+            un, std::make_pair(precise_unit(tu.first).pow(3), nstring.c_str()));
+        if (!res.empty()) {
+            return res;
+        }
+    }
     std::string beststr;
-    // let's try common divisor units on base units
-    for (auto& tu : testUnits) {
-        auto ext = un * tu.first;
-        auto base = unit(ext.base_units());
-        fnd = find_unit(base);
-        if (!fnd.empty()) {
-            auto prefix = generateUnitSequence(ext.multiplier(), fnd);
 
-            auto str = prefix + '/' + tu.second;
+    for (auto& tu : testUnits) {
+        auto str = probeUnitBase(un, tu);
+        if (!str.empty()) {
             if (!isNumericalStartCharacter(str.front())) {
                 return str;
             }
@@ -1415,65 +1537,70 @@ static std::string
             }
         }
     }
-
-    // let's try common multiplier units on base units
-    for (auto& tu : testUnits) {
-        auto ext = un / tu.first;
-        auto base = unit(ext.base_units());
-        fnd = find_unit(base);
-        if (!fnd.empty()) {
-            auto prefix = generateUnitSequence(ext.multiplier(), fnd);
-            auto str = prefix + '*' + tu.second;
-            if (!isNumericalStartCharacter(str.front())) {
-                return str;
-            }
-            if (beststr.empty() || str.size() < beststr.size()) {
-                beststr = str;
-            }
-        }
-    }
-    // let's try common divisor with inv units on base units
-    for (auto& tu : testUnits) {
-        auto ext = un / tu.first;
-        auto base = unit(ext.base_units());
-
-        fnd = find_unit(base.inv());
-        if (!fnd.empty()) {
-            auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
-            if (isNumericalStartCharacter(prefix.front())) {
-                size_t cut;
-                double mx = getDoubleFromString(prefix, &cut);
-
-                auto str = getMultiplierString(1.0 / mx, true) + tu.second +
-                    "/" + prefix.substr(cut);
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        for (const auto& udu : user_defined_unit_names) {
+            auto str = probeUnitBase(
+                un,
+                std::make_pair(precise_unit(udu.first), udu.second.c_str()));
+            if (!str.empty()) {
+                if (!isNumericalStartCharacter(str.front())) {
+                    return str;
+                }
                 if (beststr.empty() || str.size() < beststr.size()) {
                     beststr = str;
                 }
+            }
+            std::string nstring = std::string(udu.second) + "^2";
+            str = probeUnitBase(
+                un,
+                std::make_pair(
+                    precise_unit(udu.first).pow(2), nstring.c_str()));
+            if (!str.empty()) {
+                if (!isNumericalStartCharacter(str.front())) {
+                    return str;
+                }
+                if (beststr.empty() || str.size() < beststr.size()) {
+                    beststr = str;
+                }
+            }
 
-            } else {
-                return std::string(tu.second) + "/" + prefix;
+            nstring = std::string(udu.second) + "^3";
+            str = probeUnitBase(
+                un,
+                std::make_pair(
+                    precise_unit(udu.first).pow(3), nstring.c_str()));
+            if (!str.empty()) {
+                if (!isNumericalStartCharacter(str.front())) {
+                    return str;
+                }
+                if (beststr.empty() || str.size() < beststr.size()) {
+                    beststr = str;
+                }
             }
         }
     }
-    // let's try inverse of common multiplier units on base units
-    for (auto& tu : testUnits) {
-        auto ext = un * tu.first;
-        auto base = unit(ext.base_units());
-        fnd = find_unit(base.inv());
-        if (!fnd.empty()) {
-            auto prefix = getMultiplierString(
-                1.0 / ext.multiplier(), isDigitCharacter(fnd.back()));
-            std::string str{"1/("};
-            str += prefix;
-            str += fnd;
-            str.push_back('*');
-            str.append(tu.second);
-            str.push_back(')');
-            if (!isNumericalStartCharacter(prefix.front())) {
+    for (auto& tu : testPowerUnits) {
+        std::string nstring = std::string(tu.second) + "^2";
+        auto str = probeUnitBase(
+            un, std::make_pair(precise_unit(tu.first).pow(2), nstring.c_str()));
+        if (!str.empty()) {
+            if (!isNumericalStartCharacter(str.front())) {
                 return str;
             }
             if (beststr.empty() || str.size() < beststr.size()) {
-                beststr = std::move(str);
+                beststr = str;
+            }
+        }
+
+        nstring = std::string(tu.second) + "^3";
+        str = probeUnitBase(
+            un, std::make_pair(precise_unit(tu.first).pow(3), nstring.c_str()));
+        if (!str.empty()) {
+            if (!isNumericalStartCharacter(str.front())) {
+                return str;
+            }
+            if (beststr.empty() || str.size() < beststr.size()) {
+                beststr = str;
             }
         }
     }
