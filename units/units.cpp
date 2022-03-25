@@ -159,7 +159,7 @@ static const umap base_unit_names = getDefinedBaseUnitNames();
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
-static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 21> testUnits{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 23> testUnits{
     {ustr{precise::m, "m"},
      ustr{precise::s, "s"},
      ustr{precise::ms, "ms"},
@@ -168,6 +168,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 21> testUnits{
      ustr{precise::time::day, "day"},
      ustr{precise::lb, "lb"},
      ustr{precise::ft, "ft"},
+     ustr{precise::mile, "mi"},
      ustr{constants::c.as_unit(), "[c]"},
      ustr{constants::h.as_unit(), "[h]"},
      ustr{precise::L, "L"},
@@ -179,6 +180,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 21> testUnits{
      ustr{precise::electrical::kW, "kW"},
      ustr{precise::electrical::mW, "mW"},
      ustr{precise::MW, "MW"},
+     ustr{precise::giga*precise::W, "GW"},
      ustr{precise::energy::eV, "eV"},
      ustr{precise::count, "item"}}};
 
@@ -186,9 +188,9 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 21> testUnits{
 // multiplied by power
 static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 5> testPowerUnits{
     {ustr{precise::m, "m"},
-     ustr{precise::m, "km"},
+     ustr{precise::km, "km"},
      ustr{precise::s, "s"},
-     ustr{precise::ms, "ft"},
+     ustr{precise::ft, "ft"},
      ustr{precise::mile, "mi"}}};
 
 // units to divide into tests to explore common multiplier units
