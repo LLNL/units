@@ -11,13 +11,14 @@ Available Domains
 thus far 5 specific unit domains have been defined they are in the
 `units::domains`  namespace.
 
--   `ucum`  -- THE UNIFIED CODE FOR UNITS OF MEASURE
--   `cooking`  -- units and symbols commonly used for recipes
--   `astronomy`  -- units and symbols used in astronomy
--   `nuclear`    -- units and symbols used in nuclear or particle physics
--   `surveying`  -- units and symbols used in surveying in the United states
--   `us_customary`  --units and symbols traditionally used in the us(combination of cooking and surveying)
--   `allDomains`  -- this domain does all the above domains where not mutually exclusive. So mostly a combination of ucum and astronomy/nuclear with a few us customary units IT is not recommended to use this but provided for the combinations
+-   `ucum`            -- THE UNIFIED CODE FOR UNITS OF MEASURE
+-   `cooking`         -- units and symbols commonly used for recipes
+-   `astronomy`       -- units and symbols used in astronomy
+-   `nuclear`         -- units and symbols used in nuclear or particle physics
+-   `surveying`       -- units and symbols used in surveying in the United states
+-   `us_customary`    -- units and symbols traditionally used in the us(combination of cooking and surveying)
+-   `climate`         -- units and symbols used in climate science
+-   `allDomains`      -- this domain does all the above domains where not mutually exclusive. So mostly a combination of ucum and astronomy/nuclear with a few us customary units IT is not recommended to use this but provided for the combinations
 
 The only units and symbols using the domain are those that might be ambiguous or contradictory to the ST definition.  The specific units affected are defined in the next section.
 
@@ -56,6 +57,11 @@ Nuclear
 -   `rad`  radiation absorbed dose vs radian
 -   `rd`   same as `rad` vs rod
 
+Climate
+++++++++++
+
+-   `kt`  kilo-tonne vs karat
+
 US customary
 ++++++++++++++++
 
@@ -75,11 +81,12 @@ The domain can be specified in the unit_flag string supplied to the `unit_from_s
 
 when used as part of the flags argument the definitions are in the `unit_conversion_flags` enumeration
 
--   strict_ucum
+-   `strict_ucum`
 -   `cooking_units`
 -   `astronomy_units`
 -   `surveying_units`
 -   `nuclear_units`
+-   `climate_units`
 -   `us_customary_units`
 
 
