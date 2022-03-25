@@ -180,7 +180,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 23> testUnits{
      ustr{precise::electrical::kW, "kW"},
      ustr{precise::electrical::mW, "mW"},
      ustr{precise::MW, "MW"},
-     ustr{precise::giga*precise::W, "GW"},
+     ustr{precise::giga * precise::W, "GW"},
      ustr{precise::energy::eV, "eV"},
      ustr{precise::count, "item"}}};
 
