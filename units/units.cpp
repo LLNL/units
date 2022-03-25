@@ -1085,6 +1085,12 @@ static std::string probeUnit(
     if (!fnd.empty()) {
         return fnd + '/' + probe.second;
     }
+    // let's try inverse of common multiplier units
+    fnd = find_unit(unit_cast(ext.inv()));
+    if (!fnd.empty()) {
+        return std::string("1/(") + fnd + '*' + probe.second + ')';
+    }
+
     // let's try common multiplier units
     ext = un / probe.first;
     fnd = find_unit(unit_cast(ext));
@@ -1092,16 +1098,9 @@ static std::string probeUnit(
         return fnd + '*' + probe.second;
     }
     // let's try common divisor with inv units
-    ext = un / probe.first;
     fnd = find_unit(unit_cast(ext.inv()));
     if (!fnd.empty()) {
         return std::string(probe.second) + '/' + fnd;
-    }
-    // let's try inverse of common multiplier units
-    ext = un * probe.first;
-    fnd = find_unit(unit_cast(ext.inv()));
-    if (!fnd.empty()) {
-        return std::string("1/(") + fnd + '*' + probe.second + ')';
     }
     return std::string{};
 }
@@ -1126,43 +1125,7 @@ static std::string probeUnitBase(
             beststr = str;
         }
     }
-    // let's try common multiplier units on base units
-    ext = un / probe.first;
-    base = unit(ext.base_units());
-    fnd = find_unit(base);
-    if (!fnd.empty()) {
-        auto prefix = generateUnitSequence(ext.multiplier(), fnd);
-        auto str = prefix + '*' + probe.second;
-        if (!isNumericalStartCharacter(str.front())) {
-            return str;
-        }
-        if (beststr.empty() || str.size() < beststr.size()) {
-            beststr = str;
-        }
-    }
-    // let's try common divisor with inv units on base units
-    ext = un / probe.first;
-    base = unit(ext.base_units());
-    fnd = find_unit(base.inv());
-    if (!fnd.empty()) {
-        auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
-        if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut;
-            double mx = getDoubleFromString(prefix, &cut);
-
-            auto str = getMultiplierString(1.0 / mx, true) + probe.second +
-                "/" + prefix.substr(cut);
-            if (beststr.empty() || str.size() < beststr.size()) {
-                beststr = str;
-            }
-
-        } else {
-            return std::string(probe.second) + "/" + prefix;
-        }
-    }
     // let's try inverse of common multiplier units on base units
-    ext = un * probe.first;
-    base = unit(ext.base_units());
     fnd = find_unit(base.inv());
     if (!fnd.empty()) {
         auto prefix = getMultiplierString(
@@ -1178,6 +1141,38 @@ static std::string probeUnitBase(
         }
         if (beststr.empty() || str.size() < beststr.size()) {
             beststr = std::move(str);
+        }
+    }
+    // let's try common multiplier units on base units
+    ext = un / probe.first;
+    base = unit(ext.base_units());
+    fnd = find_unit(base);
+    if (!fnd.empty()) {
+        auto prefix = generateUnitSequence(ext.multiplier(), fnd);
+        auto str = prefix + '*' + probe.second;
+        if (!isNumericalStartCharacter(str.front())) {
+            return str;
+        }
+        if (beststr.empty() || str.size() < beststr.size()) {
+            beststr = str;
+        }
+    }
+    // let's try common divisor with inv units on base units
+    fnd = find_unit(base.inv());
+    if (!fnd.empty()) {
+        auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
+        if (isNumericalStartCharacter(prefix.front())) {
+            size_t cut;
+            double mx = getDoubleFromString(prefix, &cut);
+
+            auto str = getMultiplierString(1.0 / mx, true) + probe.second +
+                "/" + prefix.substr(cut);
+            if (beststr.empty() || str.size() < beststr.size()) {
+                beststr = str;
+            }
+
+        } else {
+            return std::string(probe.second) + "/" + prefix;
         }
     }
     return beststr;
