@@ -189,7 +189,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 5> testPowerUnits{
      ustr{precise::m, "km"},
      ustr{precise::s, "s"},
      ustr{precise::ms, "ft"},
-     ustr{precise::min, "mi"}}};
+     ustr{precise::mile, "mi"}}};
 
 // units to divide into tests to explore common multiplier units
 static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 3> siTestUnits{
