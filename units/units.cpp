@@ -1076,7 +1076,7 @@ static std::string find_unit(unit un)
 }
 
 static std::string probeUnit(
-    precise_unit un,
+    const precise_unit& un,
     const std::pair<precise_unit, const char*>& probe)
 {
     // let's try common divisor units
@@ -1107,7 +1107,7 @@ static std::string probeUnit(
 }
 
 static std::string probeUnitBase(
-    precise_unit un,
+    const precise_unit& un,
     const std::pair<precise_unit, const char*>& probe)
 {
     std::string beststr;
