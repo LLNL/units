@@ -14,7 +14,7 @@ jobs:
     container: helics/buildenv:cpplint
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Run cpplint
       run: cpplint --counting=detailed --recursive units test webserver converter  
   cppcheck:
@@ -22,6 +22,6 @@ jobs:
     container: helics/buildenv:cppcheck2
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Run cppcheck
       run: cppcheck --enable=performance,portability,unusedFunction --suppressions-list=config/cppcheck_suppressions.txt --error-exitcode=-4 -i ThirdParty -i FuzzTargets -i docs -i config .
