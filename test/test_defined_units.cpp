@@ -38,7 +38,7 @@ TEST(unit_string_definitions, si_duplicates)
         if (units::defined_unit_strings_si[ii].first==nullptr) {
             continue;
         }
-        auto res = testMap.try_emplace(
+        auto res = testMap.emplace(
             units::defined_unit_strings_si[ii].first,
             units::defined_unit_strings_si[ii].second);
         EXPECT_TRUE(res.second) << "duplicate si unit string "
@@ -53,7 +53,7 @@ TEST(unit_string_definitions, customary_duplicates)
         if (units::defined_unit_strings_customary[ii].first == nullptr) {
             continue;
         }
-        auto res = testMap.try_emplace(
+        auto res = testMap.emplace(
             units::defined_unit_strings_customary[ii].first,
             units::defined_unit_strings_customary[ii].second);
         EXPECT_TRUE(res.second) << "duplicate unit string "
@@ -68,7 +68,7 @@ TEST(unit_string_definitions, combined_duplicates)
         if (units::defined_unit_strings_si[ii].first == nullptr) {
             continue;
         }
-        auto res = testMap.try_emplace(
+        auto res = testMap.emplace(
             units::defined_unit_strings_si[ii].first,
             units::defined_unit_strings_si[ii].second);
         EXPECT_TRUE(res.second) << "duplicate si unit string "
@@ -79,7 +79,7 @@ TEST(unit_string_definitions, combined_duplicates)
         if (units::defined_unit_strings_customary[ii].first == nullptr) {
             continue;
         }
-        auto res = testMap.try_emplace(
+        auto res = testMap.emplace(
             units::defined_unit_strings_customary[ii].first,
             units::defined_unit_strings_customary[ii].second);
         EXPECT_TRUE(res.second) << "duplicate unit string " << ii << " "
