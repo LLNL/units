@@ -11,7 +11,9 @@ SPDX-License-Identifier: BSD-3-Clause
 
 TEST(unit_string_definitions, si_vector_length)
 {
-    for (int ii = 0; ii < units::defined_unit_strings_si.size(); ++ii) {
+    for (std::size_t ii = 0;
+         ii < units::defined_unit_strings_si.size();
+         ++ii) {
         EXPECT_TRUE(units::defined_unit_strings_si[ii].first != nullptr) << ii;
         if (units::defined_unit_strings_si[ii].first == nullptr) {
             break;
@@ -21,7 +23,8 @@ TEST(unit_string_definitions, si_vector_length)
 
 TEST(unit_string_definitions, customary_vector)
 {
-    for (int ii = 0; ii < units::defined_unit_strings_customary.size(); ++ii) {
+    for (std::size_t ii = 0; ii < units::defined_unit_strings_customary.size();
+         ++ii) {
         EXPECT_TRUE(units::defined_unit_strings_customary[ii].first != nullptr)
             << ii;
         if (units::defined_unit_strings_customary[ii].first == nullptr) {
@@ -33,49 +36,49 @@ TEST(unit_string_definitions, customary_vector)
 TEST(unit_string_definitions, si_duplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
-    for (int ii = 0; ii < units::defined_unit_strings_si.size(); ++ii) {
-        if (units::defined_unit_strings_si[ii].first == nullptr) {
+    for (const auto &ustring: units::defined_unit_strings_si) {
+        if (ustring.first == nullptr) {
             continue;
         }
         auto res = testMap.emplace(
-            units::defined_unit_strings_si[ii].first,
-            units::defined_unit_strings_si[ii].second);
+            ustring.first,
+            ustring.second);
         EXPECT_TRUE(res.second) << "duplicate si unit string "
-                                << units::defined_unit_strings_si[ii].first;
+                                << ustring.first;
     }
 }
 
 TEST(unit_string_definitions, customary_duplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
-    for (int ii = 0; ii < units::defined_unit_strings_customary.size(); ++ii) {
-        if (units::defined_unit_strings_customary[ii].first == nullptr) {
+    for (const auto& ustring : units::defined_unit_strings_customary) {
+        if (ustring.first == nullptr) {
             continue;
         }
         auto res = testMap.emplace(
-            units::defined_unit_strings_customary[ii].first,
-            units::defined_unit_strings_customary[ii].second);
+            ustring.first,
+            ustring.second);
         EXPECT_TRUE(res.second)
             << "duplicate unit string "
-            << units::defined_unit_strings_customary[ii].first;
+            << ustring.first;
     }
 }
 
 TEST(unit_string_definitions, combined_duplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
-    for (int ii = 0; ii < units::defined_unit_strings_si.size(); ++ii) {
-        if (units::defined_unit_strings_si[ii].first == nullptr) {
+    for (const auto& ustring : units::defined_unit_strings_si) {
+        if (ustring.first == nullptr) {
             continue;
         }
         auto res = testMap.emplace(
-            units::defined_unit_strings_si[ii].first,
-            units::defined_unit_strings_si[ii].second);
+            ustring.first, ustring.second);
         EXPECT_TRUE(res.second) << "duplicate si unit string "
-                                << units::defined_unit_strings_si[ii].first;
+                                << ustring.first;
     }
 
-    for (int ii = 0; ii < units::defined_unit_strings_customary.size(); ++ii) {
+    for (std::size_t ii = 0; ii < units::defined_unit_strings_customary.size(); ++ii)
+    {
         if (units::defined_unit_strings_customary[ii].first == nullptr) {
             continue;
         }
