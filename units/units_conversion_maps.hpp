@@ -369,8 +369,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"grampercent", precise_unit(10.0, precise::g / precise::L)},
         {"G%", precise_unit(10.0, precise::g / precise::L)},
         {"U", precise::laboratory::enzyme_unit},
-        // this may not be best but it doesn't actually conflict with anything else right now
-        {"units", precise::laboratory::enzyme_unit},  
+        // this may not be best but it doesn't actually conflict with anything
+        // else right now
+        {"units", precise::laboratory::enzyme_unit},
         {"enzymeunit", precise::laboratory::enzyme_unit},
         {"A", precise::A},
         {"amp", precise::A},
@@ -863,7 +864,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"ERR", precise::error},
         {"ERROR", precise::error},
         {"error", precise::error},
-       
+
         {"Gy", precise::Gy},
         {"gy", precise::Gy},
         {"GY", precise::Gy},
@@ -1025,7 +1026,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"E_h", precise::energy::hartree},  // this could be confused with
                                             // Exa-hour, but not likely
         {"Ha", precise::energy::hartree},
-        
+
         {"fueloilequivalentof1kiloliter",
          precise::energy::foeb / precise::us::barrel* precise::m.pow(3)},
         {"atm", precise::pressure::atm},
@@ -1106,7 +1107,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"AMU", precise::mass::u},
         {"unifiedatomicmassunit", precise::mass::u},
         {"atomicmassunit", precise::mass::u},
-     
+
         {"angstrom", precise::distance::angstrom},
         {u8"\u00C5ngstr\u00F6m", precise::distance::angstrom},
         {"\xE5ngstr\xF6m", precise::distance::angstrom},
@@ -1391,7 +1392,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[HP'_Q]", precise_unit(1.0, precise::log::neglog50000)},
     }};
 
-    UNITS_CPP14_CONSTEXPR_OBJECT std::array<
+UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
     979>
     defined_unit_strings_customary{{
@@ -1466,7 +1467,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[FUR_US]", precise::us::furlong},
         {"furlong_us", precise::us::furlong},
         {"[FUR_I]", precise::us::furlong},
-       
+
         {"mi_us", precise::us::mile},
         {"[MI_US]", precise::us::mile},
         {"mile_us", precise::us::mile},
@@ -1714,8 +1715,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"twp", precise::us::township},
         {"[TWP]", precise::us::township},
         {"township", precise::us::township},
-        
-        
+
         {"astronomicalunitBIPM2006", precise::distance::au_old},
         {"auold", precise::distance::au_old},
         {"ua", precise::distance::au_old},
@@ -1786,7 +1786,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"hp(boiler)", precise::power::hpS},
         {"mph", precise::mph},
         {"mileperhour", precise::mph},
-        
+
         {"nauticalmile", precise::nautical::mile},
         {"nmile", precise::nautical::mile},
         {"nauticalmile_i", precise::nautical::mile},
@@ -1911,7 +1911,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"Mton", precise_unit(1000000.0, precise::energy::ton_tnt)},
         {"Gton", precise_unit(1000000000.0, precise::energy::ton_tnt)},
         // Gigatonne carbon
-        
+
         {"C90", precise::conventional::coulomb90},
         {"ohm90", precise::conventional::ohm90},
         {u8"\u03A990", precise::conventional::ohm90},  // Greek Omega
@@ -1946,7 +1946,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"literofgasolineequivalent", precise::energy::lge},
         {"foeb", precise::energy::foeb},
         {"fueloilequivalentof1barrel", precise::energy::foeb},
-        
+
         {"CFM", precise::other::CFM},
         {"CFS", precise::ft.pow(3) / precise::s},
         {"cfm", precise::other::CFM},
@@ -2004,7 +2004,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"inch{water}", precise::pressure::inH2O},
         {"inchofwatercolumn", precise::pressure::inH2O},
         {"iwg", precise::pressure::inH2O},
-        
+
         {"quad", precise::energy::quad},
         {"therm", precise::energy::therm_ec},
         {"thm", precise::energy::therm_ec},
@@ -2064,7 +2064,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"pound-troy", precise::troy::pound},
         {"pound", precise::lb},
         {"bag", precise_unit(96.0, precise::lb)},
-        
+
         {"tonc", precise::energy::tonc},  // ton cooling
         {"ton(refrigeration)", precise::energy::tonc},  // ton cooling
         {"tonofrefrigeration", precise::energy::tonc},  // ton cooling
@@ -2101,7 +2101,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"jigger", precise_unit(1.5, precise::us::floz)},
         {"fdr_us", precise::us::dram},
         {"[FDR_US]", precise::us::dram},
-        
+
         {"min_us", precise::us::minim},
         {"[MIN_US]", precise::us::minim},
         {"minim_us", precise::us::minim},
@@ -2209,7 +2209,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"ounce", precise::oz},
         {"ounce_av", precise::av::ounce},
         {"ounce_i", precise::av::ounce},
-       
+
         // this is probably more common than kilopoise
         {"kipf", precise::kilo* precise::lbf},
         {"kipforce", precise::kilo* precise::lbf},
@@ -2389,10 +2389,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"span(cloth)", precise::textile::span},
         {"finger(cloth)", precise::textile::finger},
         {"nail(cloth)", precise::textile::nail},
-        
+
         {"smoot", precise::distance::smoot},
         {"[SMOOT]", precise::distance::smoot},
-        
+
         {"[hp_X]",
          precise_unit(1.0, precise::log::neglog10, commodities::Hahnemann)},
         {"[HP_X]",
