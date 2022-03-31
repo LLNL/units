@@ -1923,5 +1923,4 @@ namespace detail {
     }
 }  // namespace detail
 
-
 }  // namespace UNITS_NAMESPACE
