@@ -11,9 +11,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 TEST(unit_string_definitions, si_vector_length)
 {
-    for (std::size_t ii = 0;
-         ii < units::defined_unit_strings_si.size();
-         ++ii) {
+    for (std::size_t ii = 0; ii < units::defined_unit_strings_si.size(); ++ii) {
         EXPECT_TRUE(units::defined_unit_strings_si[ii].first != nullptr) << ii;
         if (units::defined_unit_strings_si[ii].first == nullptr) {
             break;
@@ -36,15 +34,12 @@ TEST(unit_string_definitions, customary_vector)
 TEST(unit_string_definitions, si_duplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
-    for (const auto &ustring: units::defined_unit_strings_si) {
+    for (const auto& ustring : units::defined_unit_strings_si) {
         if (ustring.first == nullptr) {
             continue;
         }
-        auto res = testMap.emplace(
-            ustring.first,
-            ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate si unit string "
-                                << ustring.first;
+        auto res = testMap.emplace(ustring.first, ustring.second);
+        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.first;
     }
 }
 
@@ -55,12 +50,8 @@ TEST(unit_string_definitions, customary_duplicates)
         if (ustring.first == nullptr) {
             continue;
         }
-        auto res = testMap.emplace(
-            ustring.first,
-            ustring.second);
-        EXPECT_TRUE(res.second)
-            << "duplicate unit string "
-            << ustring.first;
+        auto res = testMap.emplace(ustring.first, ustring.second);
+        EXPECT_TRUE(res.second) << "duplicate unit string " << ustring.first;
     }
 }
 
@@ -71,14 +62,12 @@ TEST(unit_string_definitions, combined_duplicates)
         if (ustring.first == nullptr) {
             continue;
         }
-        auto res = testMap.emplace(
-            ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate si unit string "
-                                << ustring.first;
+        auto res = testMap.emplace(ustring.first, ustring.second);
+        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.first;
     }
 
-    for (std::size_t ii = 0; ii < units::defined_unit_strings_customary.size(); ++ii)
-    {
+    for (std::size_t ii = 0; ii < units::defined_unit_strings_customary.size();
+         ++ii) {
         if (units::defined_unit_strings_customary[ii].first == nullptr) {
             continue;
         }
