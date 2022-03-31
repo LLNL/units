@@ -22,6 +22,7 @@ set(UNITS_TESTS
     test_measurement_strings
     test_commodities
     test_siunits
+    test_defined_units
 )
 
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)

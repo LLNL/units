@@ -2574,7 +2574,12 @@ static std::pair<double, size_t>
 static smap loadDefinedUnits()
 {
     smap knownUnits;
-    for (auto& pr : defined_unit_strings) {
+    for (auto& pr : defined_unit_strings_si) {
+        if (pr.first != nullptr) {
+            knownUnits.emplace(pr.first, pr.second);
+        }
+    }
+    for (auto& pr : defined_unit_strings_customary) {
         if (pr.first != nullptr) {
             knownUnits.emplace(pr.first, pr.second);
         }
