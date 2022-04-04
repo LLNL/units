@@ -1922,4 +1922,5 @@ namespace detail {
         return constants::invalid_conversion;
     }
 }  // namespace detail
+
 }  // namespace UNITS_NAMESPACE
