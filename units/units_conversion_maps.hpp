@@ -200,7 +200,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 180>
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1091>
+    1094>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -1390,11 +1390,14 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[HP'_M]", precise_unit(1.0, precise::log::neglog1000)},
         {"[hp'_Q]", precise_unit(1.0, precise::log::neglog50000)},
         {"[HP'_Q]", precise_unit(1.0, precise::log::neglog50000)},
+        {"pH", precise::laboratory::pH},
+        {"pHscale", precise::laboratory::pH},
+        {"[PH]", precise::laboratory::pH},
     }};
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    979>
+    988>
     defined_unit_strings_customary{{
         {"candle", precise::other::candle},
         {"candlepower", precise::other::candle},
@@ -1624,6 +1627,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"cubit(UK)", precise::distance::cubit},
         // because cubit has cu in it which indicates cubed
         {"longcubit", precise::distance::longcubit},
+        // my kids have taken to measuring thing in number of daddy's so it need
+        // to be in the app
+        {"daddy", {75.0, precise::in}},
         {"arpent", precise::distance::arpent_us},
         {"arpent_fr", precise::distance::arpent_fr},
         {"arpentlin", precise::distance::arpent_fr},
@@ -2004,7 +2010,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"inch{water}", precise::pressure::inH2O},
         {"inchofwatercolumn", precise::pressure::inH2O},
         {"iwg", precise::pressure::inH2O},
-
+        // cgs unit of electric quadrupole
+        {"buckingham", {1e-26, precise::cgs::statC_charge* precise::cm.pow(2)}},
+        {"landauer", {0.0175, precise::energy::eV / precise::data::bit}},
         {"quad", precise::energy::quad},
         {"therm", precise::energy::therm_ec},
         {"thm", precise::energy::therm_ec},
@@ -2209,7 +2217,17 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"ounce", precise::oz},
         {"ounce_av", precise::av::ounce},
         {"ounce_i", precise::av::ounce},
-
+        // ancient Roman units
+        {"amphora", {27.84, precise::L}},
+        {"sextarii", {27.84 / 48.0, precise::L}},
+        {"libra", {0.722, precise::av::pound}},
+        {"uncia", {0.722 / 12.0, precise::av::pound}},
+        {"pes", {296.0, precise::mm}},
+        {"stadium", {185.0, precise::m}},
+        {"leuga", {2.22, precise::km}},
+        // chinese units
+        {"shi", {71.68, precise::kg}},
+        {"dan", {71.68, precise::kg}},
         // this is probably more common than kilopoise
         {"kipf", precise::kilo* precise::lbf},
         {"kipforce", precise::kilo* precise::lbf},
@@ -2425,9 +2443,6 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          precise_unit(1.0, precise::log::neglog50000, commodities::Korsakov)},
         {"[KP_Q]",
          precise_unit(1.0, precise::log::neglog50000, commodities::Korsakov)},
-        {"pH", precise::laboratory::pH},
-        {"pHscale", precise::laboratory::pH},
-        {"[PH]", precise::laboratory::pH},
     }};
 
 }  // namespace units
