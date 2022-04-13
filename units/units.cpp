@@ -261,6 +261,12 @@ static inline bool isDigitCharacter(char X)
     return (X >= '0' && X <= '9');
 }
 
+// check if the character is an ascii digit
+static inline bool isMathDigitCharacter(char X)
+{
+    return isDigitCharacter(X)||(X=='*')||(X=='\\');
+}
+
 /// Replace a string in place
 /*static bool ReplaceStringInPlace(
     std::string& subject,
@@ -3186,7 +3192,11 @@ static void
         if (dloc > 0) {
             if (!isDigitCharacter(unit_string[dloc - 1]) ||
                 !isDigitCharacter(unit_string[dloc + 1])) {
-                unit_string[dloc] = '*';
+                if (unit_string[dloc - 1] == '*') {
+                    ++skipped;
+                } else {
+                    unit_string[dloc] = '*';
+                }
             } else {
                 ++skipped;
             }
