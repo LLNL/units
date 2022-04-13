@@ -264,7 +264,7 @@ static inline bool isDigitCharacter(char X)
 // check if the character is an ascii digit
 static inline bool isMathDigitCharacter(char X)
 {
-    return isDigitCharacter(X)||(X=='*')||(X=='\\');
+    return isDigitCharacter(X) || (X == '*') || (X == '\\');
 }
 
 /// Replace a string in place

@@ -224,7 +224,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"-inf", precise::neginfinite},
         {"-.inf", precise::neginfinite},
         {"-.Inf", precise::neginfinite},
-        {"-*inf", precise::neginfinite}, //this is to handle internal string cleaning
+        {"-*inf",
+         precise::neginfinite},  // this is to handle internal string cleaning
         {"-*Inf", precise::neginfinite},
         {"-INF", precise::neginfinite},
         {"-infinity", precise::neginfinite},
