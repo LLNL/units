@@ -3186,7 +3186,11 @@ static void
         if (dloc > 0) {
             if (!isDigitCharacter(unit_string[dloc - 1]) ||
                 !isDigitCharacter(unit_string[dloc + 1])) {
-                unit_string[dloc] = '*';
+                if (unit_string[dloc - 1] == '*') {
+                    ++skipped;
+                } else {
+                    unit_string[dloc] = '*';
+                }
             } else {
                 ++skipped;
             }

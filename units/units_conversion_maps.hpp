@@ -200,7 +200,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 180>
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1094>
+    1100>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -217,10 +217,16 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"1", precise::one},
         {"one", precise::one},
         {"inf", precise::infinite},
+        {".inf", precise::infinite},
         {"INF", precise::infinite},
         {"infinity", precise::infinite},
         {"INFINITY", precise::infinite},
         {"-inf", precise::neginfinite},
+        {"-.inf", precise::neginfinite},
+        {"-.Inf", precise::neginfinite},
+        {"-*inf",
+         precise::neginfinite},  // this is to handle internal string cleaning
+        {"-*Inf", precise::neginfinite},
         {"-INF", precise::neginfinite},
         {"-infinity", precise::neginfinite},
         {"-INFINITY", precise::neginfinite},
@@ -231,6 +237,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"NaN", precise::nan},
         {"NaN%", precise::nan},
         {"NAN", precise::nan},
+        {".NAN", precise::nan},
         {"NaNQ",
          precise_unit(
              detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
