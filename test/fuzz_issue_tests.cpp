@@ -42,8 +42,7 @@ std::string loadFailureFile(const std::string& type, int index)
     return std::string{};
 }
 
-class crashProblems : public ::testing::TestWithParam<int> {
-};
+class crashProblems : public ::testing::TestWithParam<int> {};
 
 TEST_P(crashProblems, crashFiles)
 {
@@ -59,8 +58,7 @@ TEST(fuzzFailures, timeouts)
     EXPECT_NO_THROW(unit_from_string("((())"));
 }
 
-class timeoutProblems : public ::testing::TestWithParam<int> {
-};
+class timeoutProblems : public ::testing::TestWithParam<int> {};
 
 TEST_P(timeoutProblems, timeoutFiles)
 {
@@ -93,8 +91,7 @@ TEST(fuzzFailures, timeoutSingleProblems)
     }
 }
 
-class slowProblems : public ::testing::TestWithParam<int> {
-};
+class slowProblems : public ::testing::TestWithParam<int> {};
 
 TEST_P(slowProblems, slowFiles)
 {
@@ -105,8 +102,7 @@ TEST_P(slowProblems, slowFiles)
 
 INSTANTIATE_TEST_SUITE_P(slowFiles, slowProblems, ::testing::Range(1, 40));
 
-class oomProblems : public ::testing::TestWithParam<int> {
-};
+class oomProblems : public ::testing::TestWithParam<int> {};
 
 TEST_P(oomProblems, oomFiles)
 {
@@ -117,8 +113,7 @@ TEST_P(oomProblems, oomFiles)
 
 INSTANTIATE_TEST_SUITE_P(oomFiles, oomProblems, ::testing::Range(1, 65));
 
-class roundTripString : public ::testing::TestWithParam<std::string> {
-};
+class roundTripString : public ::testing::TestWithParam<std::string> {};
 
 TEST_P(roundTripString, rtripconversions)
 {
@@ -163,8 +158,7 @@ INSTANTIATE_TEST_SUITE_P(
     roundTripString,
     ::testing::ValuesIn(testStrings));
 
-class errorString : public ::testing::TestWithParam<std::string> {
-};
+class errorString : public ::testing::TestWithParam<std::string> {};
 
 TEST_P(errorString, conversionErrors)
 {
@@ -231,8 +225,7 @@ TEST(fuzzFailures, rtripconversions13)
     EXPECT_EQ(u2, u1);
 }
 
-class rtripProblems : public ::testing::TestWithParam<int> {
-};
+class rtripProblems : public ::testing::TestWithParam<int> {};
 
 TEST_P(rtripProblems, rtripFiles)
 {
@@ -293,8 +286,7 @@ TEST(fuzzFailures, rtripSingleProblems)
     }
 }
 
-class rtripflagProblems : public ::testing::TestWithParam<int> {
-};
+class rtripflagProblems : public ::testing::TestWithParam<int> {};
 
 TEST_P(rtripflagProblems, rtripflagFiles)
 {
@@ -334,8 +326,7 @@ INSTANTIATE_TEST_SUITE_P(
     rtripflagProblems,
     ::testing::Range(1, 7));
 
-class measProblems : public ::testing::TestWithParam<int> {
-};
+class measProblems : public ::testing::TestWithParam<int> {};
 
 TEST_P(measProblems, measFiles)
 {
@@ -370,8 +361,7 @@ TEST_P(measProblems, measFiles)
 
 INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(0, 31));
 
-class meas64Problems : public ::testing::TestWithParam<int> {
-};
+class meas64Problems : public ::testing::TestWithParam<int> {};
 
 TEST_P(meas64Problems, measFiles)
 {

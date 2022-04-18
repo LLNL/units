@@ -36,8 +36,7 @@ TEST(randomRoundTrip, basic)
     }
 }
 
-struct rtrip : public ::testing::TestWithParam<unsigned int> {
-};
+struct rtrip : public ::testing::TestWithParam<unsigned int> {};
 
 TEST_P(rtrip, testConversions)
 {

@@ -417,8 +417,7 @@ TEST(otherUnits, saffirSimpson2Speed)
     EXPECT_NEAR(convert(0.0, precise::special::sshws, precise::mph), 39.0, 1.0);
 }
 
-class beaufort : public ::testing::TestWithParam<std::pair<double, double>> {
-};
+class beaufort : public ::testing::TestWithParam<std::pair<double, double>> {};
 
 TEST_P(beaufort, beaufortTests)
 {
@@ -466,8 +465,7 @@ TEST(otherUnits, saffirSimpson2Sbeaufort)
         0.05);  // tropical storm
 }
 
-class fujita : public ::testing::TestWithParam<std::pair<double, double>> {
-};
+class fujita : public ::testing::TestWithParam<std::pair<double, double>> {};
 
 TEST_P(fujita, fujitaTests)
 {
