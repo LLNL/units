@@ -705,8 +705,7 @@ TEST(stringToUnits, electronVolt)
     EXPECT_EQ(unit_from_string("TeV"), precise::tera * precise::energy::eV);
 }
 
-class roundTripString : public ::testing::TestWithParam<std::string> {
-};
+class roundTripString : public ::testing::TestWithParam<std::string> {};
 
 TEST_P(roundTripString, testRoundTrip)
 {
