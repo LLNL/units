@@ -40,7 +40,7 @@ repos:
       - id: end-of-file-fixer
       - id: check-shebang-scripts-are-executable
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v14.0.1
+    rev: v14.0.3
     hooks:
       - id: clang-format
         types:
