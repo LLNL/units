@@ -3655,7 +3655,10 @@ static void checkPowerOf10(std::string& unit_string)
     }
 }
 
-static bool checkShortUnits(std::string& unit_string, const std::string &shortUnit,const std::string &replacement)
+static bool checkShortUnits(
+    std::string& unit_string,
+    const std::string& shortUnit,
+    const std::string& replacement)
 {
     bool mod = false;
     auto fndP = unit_string.find(shortUnit);
@@ -3681,7 +3684,7 @@ static bool checkShortUnits(std::string& unit_string, const std::string &shortUn
     }
     return mod;
 }
-    // do some cleaning on the unit string to standardize formatting and deal
+// do some cleaning on the unit string to standardize formatting and deal
 // with some extended ascii and unicode characters
 static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
 {
@@ -3757,8 +3760,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         }
         checkShortUnits(unit_string, " s", " second");
         checkShortUnits(unit_string, " m", " meter");
-        checkShortUnits(unit_string, " l"," liter");
-       
+        checkShortUnits(unit_string, " l", " liter");
+
         auto fndP = unit_string.find(" of ");
         while (fndP != std::string::npos) {
             auto nchar = unit_string.find_first_not_of(

@@ -444,7 +444,7 @@ TEST(stringToUnits, conventional)
 
 TEST(stringToUnits, specificCombinations)
 {
-    EXPECT_EQ(precise::kg*precise::m, unit_from_string("kg m"));
+    EXPECT_EQ(precise::kg * precise::m, unit_from_string("kg m"));
     EXPECT_EQ(precise::s.pow(2), unit_from_string("sq s"));
     EXPECT_EQ(precise::kg * precise::L, unit_from_string("kg l"));
 }
