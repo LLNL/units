@@ -3664,6 +3664,35 @@ static void checkPowerOf10(std::string& unit_string)
     }
 }
 
+static bool checkShortUnits(
+    std::string& unit_string,
+    const std::string& shortUnit,
+    const std::string& replacement)
+{
+    bool mod = false;
+    auto fndP = unit_string.find(shortUnit);
+    while (fndP != std::string::npos) {
+        if (fndP + shortUnit.size() == unit_string.size()) {
+            unit_string.replace(fndP, shortUnit.size(), replacement);
+            mod = true;
+        } else {
+            switch (unit_string[fndP + shortUnit.size()]) {
+                case ' ':
+                case '*':
+                case '/':
+                case '^':
+                case '.':
+                    unit_string.replace(fndP, shortUnit.size(), replacement);
+                    mod = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+        fndP = unit_string.find(shortUnit, fndP + 1);
+    }
+    return mod;
+}
 // do some cleaning on the unit string to standardize formatting and deal
 // with some extended ascii and unicode characters
 static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
@@ -3738,26 +3767,11 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
             skipMultiply = true;
         }
-        auto fndP = unit_string.find(" s");
-        while (fndP != std::string::npos) {
-            if (fndP + 2 == unit_string.size()) {
-                unit_string[fndP] = '*';
-            } else {
-                switch (unit_string[fndP + 2]) {
-                    case ' ':
-                    case '*':
-                    case '/':
-                    case '^':
-                    case '.':
-                        unit_string[fndP] = '*';
-                        break;
-                    default:
-                        break;
-                }
-            }
-            fndP = unit_string.find(" s", fndP + 1);
-        }
-        fndP = unit_string.find(" of ");
+        checkShortUnits(unit_string, " s", " second");
+        checkShortUnits(unit_string, " m", " meter");
+        checkShortUnits(unit_string, " l", " liter");
+
+        auto fndP = unit_string.find(" of ");
         while (fndP != std::string::npos) {
             auto nchar = unit_string.find_first_not_of(
                 std::string(" \t\n\r") + '\0', fndP + 4);
