@@ -442,6 +442,11 @@ TEST(stringToUnits, conventional)
     EXPECT_EQ(precise::conventional::watt90, unit_from_string("V_90*A90"));
 }
 
+TEST(stringToUnits, specificCombinations)
+{
+    EXPECT_EQ(precise::kg*precise::m, unit_from_string("kg m"));
+}
+
 TEST(stringToUnits, gas_constant)
 {
     auto rval = unit_from_string("J mol^-1 K^-1");
