@@ -3686,32 +3686,59 @@ static void checkPowerOf10(std::string& unit_string)
     }
 }
 
+static std::string shortStringReplacement(char U)
+{
+    switch (U) {
+        case 'm':
+            return "meter";
+        case 's':
+            return "second";
+        case 'S':
+            return "siemens";
+        case 'l':
+            return "liter";
+        case 'g':
+            return "gram";
+        case 'b':
+            return "barn";
+        case 'r':
+            return "revolutions";
+        case 'V':
+            return "volt";
+        case 'F':
+            return "farad";
+        default:
+            return std::string(1, U);
+    }
+}
+
 static bool checkShortUnits(
-    std::string& unit_string,
-    const std::string& shortUnit,
-    const std::string& replacement)
+    std::string& unit_string)
 {
     bool mod = false;
-    auto fndP = unit_string.find(shortUnit);
+    auto fndP = unit_string.find_first_of(' ');
     while (fndP != std::string::npos) {
-        if (fndP + shortUnit.size() == unit_string.size()) {
-            unit_string.replace(fndP, shortUnit.size(), replacement);
+        if (fndP + 2 == unit_string.size()) {
+            unit_string.replace(fndP+1, 1, shortStringReplacement(unit_string[fndP+1]));
             mod = true;
         } else {
-            switch (unit_string[fndP + shortUnit.size()]) {
+            switch (unit_string[fndP + 1]) {
                 case ' ':
                 case '*':
                 case '/':
                 case '^':
                 case '.':
-                    unit_string.replace(fndP, shortUnit.size(), replacement);
+                    unit_string.replace(
+                        fndP + 1,
+                        1,
+                        shortStringReplacement(unit_string[fndP + 1]));
                     mod = true;
                     break;
                 default:
                     break;
             }
         }
-        fndP = unit_string.find(shortUnit, fndP + 1);
+        fndP = unit_string.find_first_of(' ', fndP + 1);
     }
     return mod;
 }
@@ -3781,36 +3808,40 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         skipMultiply = true;
     }
     if (!skipcodereplacement) {
-        // clean up some "per" words
-        if (unit_string.compare(0, 4, "per ") == 0) {
-            unit_string.replace(0, 4, "1/");
-            skipMultiply = true;
-        }
-        if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
-            skipMultiply = true;
-        }
-        checkShortUnits(unit_string, " s", " second");
-        checkShortUnits(unit_string, " m", " meter");
-        checkShortUnits(unit_string, " l", " liter");
-
-        auto fndP = unit_string.find(" of ");
-        while (fndP != std::string::npos) {
-            auto nchar = unit_string.find_first_not_of(
-                std::string(" \t\n\r") + '\0', fndP + 4);
-            if (nchar != std::string::npos) {
-                if (unit_string[nchar] == '(' || unit_string[nchar] == '[') {
-                    skipMultiplyInsertionAfter = fndP;
-                    break;
-                }
+        if (unit_string.find_first_of(' ') != std::string::npos)
+        {
+            //deal with some particular string with a space in them
+            
+            // clean up some "per" words
+            if (unit_string.compare(0, 4, "per ") == 0) {
+                unit_string.replace(0, 4, "1/");
+                skipMultiply = true;
             }
-            fndP = unit_string.find(" of ", fndP + 3);
+            if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
+                skipMultiply = true;
+            }
+            checkShortUnits(unit_string);
+            auto fndP = unit_string.find(" of ");
+            while (fndP != std::string::npos) {
+                auto nchar = unit_string.find_first_not_of(
+                    std::string(" \t\n\r") + '\0', fndP + 4);
+                if (nchar != std::string::npos) {
+                    if (unit_string[nchar] == '(' ||
+                        unit_string[nchar] == '[') {
+                        skipMultiplyInsertionAfter = fndP;
+                        break;
+                    }
+                }
+                fndP = unit_string.find(" of ", fndP + 3);
+            }
+            changed |= cleanSpaces(unit_string, skipMultiply);
+            if (unit_string.empty()) {
+                // LCOV_EXCL_START
+                return true;
+                // LCOV_EXCL_STOP
+            }
         }
-        changed |= cleanSpaces(unit_string, skipMultiply);
-        if (unit_string.empty()) {
-            // LCOV_EXCL_START
-            return true;
-            // LCOV_EXCL_STOP
-        }
+        
 
         checkPowerOf10(unit_string);
     } else {
