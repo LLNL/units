@@ -1398,13 +1398,18 @@ TEST(mapTests, two_by_one)
     for (const auto& val : map) {
         if (val.first.size()==2) {
             if (val.first.front() > 0 && std::isalpha(val.first.front()) != 0) {
-                twocharunits.push_back(val);
+                if (is_valid(val.second)) {
+                    twocharunits.push_back(val);
+                }
+                
             }
             
         }
         if (val.first.size() == 1) {
             if (val.first.front() > 0 && std::isalpha(val.first.front()) != 0) {
-                onecharunits.push_back(val);
+                if (is_valid(val.second)) {
+                    onecharunits.push_back(val);
+                }
             }
            
         }

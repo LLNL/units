@@ -3688,35 +3688,39 @@ static void checkPowerOf10(std::string& unit_string)
 
 static std::string shortStringReplacement(char U)
 {
-    switch (U) {
-        case 'm':
-            return "meter";
-        case 's':
-            return "second";
-        case 'S':
-            return "siemens";
-        case 'l':
-            return "liter";
-        case 'g':
-            return "gram";
-        case 'b':
-            return "barn";
-        case 'r':
-            return "revolutions";
-        case 'V':
-            return "volt";
-        case 'F':
-            return "farad";
-        default:
-            return std::string(1, U);
-    }
+    static const std::unordered_map<char, std::string> singleCharUnitStrings{
+        {'m', "meter"}, {'s', "second"}, {'S', "siemens"},     {' l', "liter"},
+        {'g', "gram"},  {'b', "barn"},   {'r', "revolutions"}, {'V', "volt"},
+        {'F', "farad"}, {'y', "year"},   {'p', "poise"},        {'K', "kelvin"},
+        {'a', "are"},   {'N', "newton"}, {'d', "day"},        {'B', "byte"},
+        {'X', "xu"},   {'T', "tesla"},  {'U', "units"},        {'M', "molar"},
+        {'P', "poise"},   {'W', "watt"},  {'A', "ampere"},      {'C', "coulomb"},
+        {'J', "joule"},   {'H', "henry"},       {'G', "gauss"},
+        {'h', "hour"},        {'D', "day"}, {'o', "arcdeg"}, {'L', "liter "},
+            {'W',"watt"},
+        {'e', "elementarycharge"},   {'t', "tonne"}};
+
+    auto res = singleCharUnitStrings.find(U);
+    return (res == singleCharUnitStrings.end()) ? std::string(1, U) :
+                                                  res->second;
+    
 }
 
-static bool checkShortUnits(
-    std::string& unit_string)
+static bool checkShortUnits(std::string& unit_string, std::uint32_t match_flags)
 {
     bool mod = false;
     auto fndP = unit_string.find_first_of(' ');
+    auto fndPn = unit_string.find_first_not_of(' ', fndP);
+    if (fndP == 2 && fndPn!=std::string::npos && unit_string[fndPn] !='(') {
+        auto str = unit_string.substr(0, 2);
+        auto retunit = get_unit(str, match_flags);
+        if (is_valid(retunit) && str != "fl") {
+            
+            unit_string[2] = '*';
+            fndP = unit_string.find_first_of(' ',3);
+            mod = true;
+        }
+    }
     while (fndP != std::string::npos) {
         if (fndP + 2 == unit_string.size()) {
             unit_string.replace(fndP+1, 1, shortStringReplacement(unit_string[fndP+1]));
@@ -3820,7 +3824,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
                 skipMultiply = true;
             }
-            checkShortUnits(unit_string);
+            checkShortUnits(unit_string,match_flags);
             auto fndP = unit_string.find(" of ");
             while (fndP != std::string::npos) {
                 auto nchar = unit_string.find_first_not_of(
