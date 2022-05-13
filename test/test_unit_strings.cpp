@@ -1396,7 +1396,7 @@ TEST(mapTests, two_by_one)
     std::vector<std::pair<std::string, precise_unit>> twocharunits;
     std::vector<std::pair<std::string, precise_unit>> onecharunits;
     for (const auto& val : map) {
-        if (val.first.size()==2) {
+        if (val.first.size() == 2) {
             if (val.first.front() > 0 && std::isalpha(val.first.front()) != 0) {
                 if (is_valid(val.second)) {
                     twocharunits.push_back(val);
@@ -1416,6 +1416,11 @@ TEST(mapTests, two_by_one)
     }
 
     for (const auto &twochar:twocharunits) {
+        if (twochar.first == "mo" || twochar.first == "mO") {
+            // month has some expected patterns which will cause problems in
+            // this test
+            continue;
+        }
         for (const auto &onechar:onecharunits) {
             std::string ustring = twochar.first + ' ' + onechar.first;
             auto unit = twochar.second * onechar.second;

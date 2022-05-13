@@ -201,7 +201,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 180>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1100>
+    1106>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -1045,12 +1045,15 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"stdatmosphere", precise::pressure::atm},
         {"stdatm", precise::pressure::atm},
         {"mmHg", precise::pressure::mmHg},
+        {"mm_Hg", precise::pressure::mmHg},
         {"mm[Hg]", precise::pressure::mmHg},
         {"MM[HG]", precise::pressure::mmHg},
         {"cmHg", precise::ten* precise::pressure::mmHg},
+        {"cm_Hg", precise::ten* precise::pressure::mmHg},
         {"cm[Hg]", precise::ten* precise::pressure::mmHg},
         {"CM[HG]", precise::ten* precise::pressure::mmHg},
         {"mHg", precise::kilo* precise::pressure::mmHg},
+        {"m_Hg", precise::kilo* precise::pressure::mmHg},
         {"m*Hg", precise::kilo* precise::pressure::mmHg},
         {"m[Hg]", precise::kilo* precise::pressure::mmHg},
         {"M[HG]", precise::kilo* precise::pressure::mmHg},
@@ -1063,12 +1066,15 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"meterofmercurycolumn", precise::kilo* precise::pressure::mmHg},
         {"metersofmercurycolumn", precise::kilo* precise::pressure::mmHg},
         {"mmH2O", precise::pressure::mmH2O},
+        {"mm_H2O", precise::pressure::mmH2O},
         {"mm[H2O]", precise::pressure::mmH2O},
         {"MM[H2O]", precise::pressure::mmH2O},
         {"cmH2O", precise::ten* precise::pressure::mmH2O},
+        {"cm_H2O", precise::ten* precise::pressure::mmH2O},
         {"cm[H2O]", precise::ten* precise::pressure::mmH2O},
         {"CM[H2O]", precise::ten* precise::pressure::mmH2O},
         {"mH2O", precise::kilo* precise::pressure::mmH2O},
+        {"m_H2O", precise::kilo* precise::pressure::mmH2O},
         {"m*H2O", precise::kilo* precise::pressure::mmH2O},
         {"m[H2O]", precise::kilo* precise::pressure::mmH2O},
         {"M[H2O]", precise::kilo* precise::pressure::mmH2O},
@@ -1405,7 +1411,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    988>
+    991>
     defined_unit_strings_customary{{
         {"candle", precise::other::candle},
         {"candlepower", precise::other::candle},
@@ -1991,12 +1997,15 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[PSI]", precise::pressure::psi},
         {"[psi]", precise::pressure::psi},
         {"inHg", precise::pressure::inHg},
+        {"in_Hg", precise::pressure::inHg},
         {"inchHg", precise::pressure::inHg},
         {"ftH2O", precise_unit(12.0, precise::pressure::inH2O)},
         {"footwater", precise_unit(12.0, precise::pressure::inH2O)},
         {"inH2O", precise::pressure::inH2O},
+        {"in_H2O", precise::pressure::inH2O},
         {"inchH2O", precise::pressure::inH2O},
         {"inAq", precise::pressure::inH2O},
+        {"in_Aq", precise::pressure::inH2O},
         {"in[Hg]", precise::pressure::inHg},
         {"in[H2O]", precise::pressure::inH2O},
         {"IN[HG]", precise::pressure::inHg},

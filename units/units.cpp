@@ -3709,20 +3709,49 @@ static std::string shortStringReplacement(char U)
 static bool checkShortUnits(std::string& unit_string, std::uint32_t match_flags)
 {
     bool mod = false;
-    auto fndP = unit_string.find_first_of(' ');
-    auto fndPn = unit_string.find_first_not_of(' ', fndP);
-    if (fndP == 2 && fndPn!=std::string::npos && unit_string[fndPn] !='(') {
-        auto str = unit_string.substr(0, 2);
-        auto retunit = get_unit(str, match_flags);
-        if (is_valid(retunit) && str != "fl") {
+    auto fndNS = unit_string.find_first_not_of(" \t");
+    auto fndP = unit_string.find_first_of(" \t",fndNS+1);
+    auto fndM = unit_string.find_first_of("*/");
+    if (fndP == 2) {
+        if (unit_string.size() > 4) {
+            // the single character section next will catch 4 character string issues
+            auto fndPn = unit_string.find_first_not_of(" \t", fndP);
             
-            unit_string[2] = '*';
-            fndP = unit_string.find_first_of(' ',3);
-            mod = true;
+            if (fndPn != std::string::npos && unit_string[fndPn] != '(' && fndM==std::string::npos)
+            {
+                auto str = unit_string.substr(0, 2);
+                if (str!="fl") {
+                    auto retunit = get_unit(str, match_flags);
+                    if (is_valid(retunit)) {
+                        unit_string[2] = '_';
+                        retunit = get_unit(unit_string, match_flags);
+                        if (!is_valid(retunit)) {
+                            unit_string[2] = '*';
+                        }
+                        fndP = unit_string.find_first_of(" \t", 3);
+                        mod = true;
+                    }
+                }
+                
+            }
+            
         }
     }
     while (fndP != std::string::npos) {
         if (fndP + 2 == unit_string.size()) {
+            // we are at the end of the string
+            if (fndM == std::string::npos) {
+                auto str = unit_string.substr(0, fndP);
+                auto retunit = get_unit(str, match_flags);
+                if (is_valid(retunit)) {
+                    unit_string[fndP] = '_';
+                    retunit = get_unit(unit_string, match_flags);
+                    if (!is_valid(retunit)) {
+                        unit_string[fndP] = '*';
+                    }
+                    return mod;
+                }
+            }
             unit_string.replace(fndP+1, 1, shortStringReplacement(unit_string[fndP+1]));
             mod = true;
         } else {
@@ -3742,7 +3771,7 @@ static bool checkShortUnits(std::string& unit_string, std::uint32_t match_flags)
                     break;
             }
         }
-        fndP = unit_string.find_first_of(' ', fndP + 1);
+        fndP = unit_string.find_first_of(" \t", fndP + 1);
     }
     return mod;
 }
@@ -3812,7 +3841,15 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         skipMultiply = true;
     }
     if (!skipcodereplacement) {
-        if (unit_string.find_first_of(' ') != std::string::npos)
+        // Check for unicode or extended characters
+        if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) {
+                return (static_cast<std::uint8_t>(x) & 0x80U) != 0;
+            })) {
+            if (unicodeReplacement(unit_string)) {
+                changed = true;
+            }
+        }
+        if (unit_string.find_first_of(" \t\n\r") != std::string::npos)
         {
             //deal with some particular string with a space in them
             
@@ -3926,14 +3963,6 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             // strings always have a null pointer at the end
             if (!isDigitCharacter(unit_string[dotloc + 1])) {
                 cleanDotNotation(unit_string, match_flags);
-                changed = true;
-            }
-        }
-        // Check for unicode or extended characters
-        if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) {
-                return (static_cast<std::uint8_t>(x) & 0x80U) != 0;
-            })) {
-            if (unicodeReplacement(unit_string)) {
                 changed = true;
             }
         }
