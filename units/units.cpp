@@ -371,6 +371,19 @@ static std::string generateUnitSequence(double mux, std::string seq)
         int pw = 1;
         auto pwerloc = seq.find_first_of('^');
         if (pwerloc != std::string::npos) {
+#ifdef UNITS_CONSTEXPR_IF_SUPPORTED
+            if constexpr (
+                detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+                if (seq.size() <= pwerloc + 2 ||
+                    !isDigitCharacter(seq[pwerloc + 2])) {
+                    pw = seq[pwerloc + 1] - '0';
+                } else {
+                    pw = 10;
+                }
+            } else {
+                pw = 10;
+            }
+#else
             if (detail::bitwidth::base_size == sizeof(std::uint32_t) ||
                 seq.size() <= pwerloc + 2 ||
                 !isDigitCharacter(seq[pwerloc + 2])) {
@@ -378,6 +391,7 @@ static std::string generateUnitSequence(double mux, std::string seq)
             } else {
                 pw = 10;
             }
+#endif
         }
         std::string muxstr;
         switch (pw) {
@@ -460,6 +474,15 @@ static std::string generateUnitSequence(double mux, std::string seq)
     }
     return muxstr + seq;
 }
+
+// check whether large power strings should be allowed
+static bool allowLargePowers(std::uint32_t flags)
+{
+    return (
+        detail::bitwidth::base_size > 4 &&
+        (flags & disable_large_power_strings) == 0U);
+}
+
 // Add a unit power to a string
 static void addUnitPower(
     std::string& str,
@@ -490,8 +513,7 @@ static void addUnitPower(
                     str.push_back('0' + power);
                 }
             } else {
-                if (detail::bitwidth::base_size > 4 &&
-                    (flags & disable_large_power_strings) == 0U) {
+                if (allowLargePowers(flags)) {
                     str.push_back('(');
                     str.append(std::to_string(power));
                     str.push_back(')');
