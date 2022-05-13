@@ -5028,7 +5028,7 @@ static smap loadDefinedMeasurementTypes()
 precise_unit default_unit(std::string unit_type)
 {
     static const smap measurement_types = loadDefinedMeasurementTypes();
-    
+
     if (unit_type.size() == 1) {
         switch (unit_type[0]) {
             case 'L':

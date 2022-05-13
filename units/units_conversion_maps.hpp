@@ -2453,11 +2453,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          precise_unit(1.0, precise::log::neglog50000, commodities::Korsakov)},
     }};
 
-
 // Mostly from https://en.wikipedia.org/wiki/International_System_of_Units
 UNITS_CPP14_CONSTEXPR_OBJECT
-    std::array<std::pair<const char*, precise_unit>, 236>
-        defined_measurement_types{
+std::array<std::pair<const char*, precise_unit>, 236> defined_measurement_types{
     {
         {"", precise::defunit},
         {"arb", precise::defunit},

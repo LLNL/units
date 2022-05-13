@@ -80,10 +80,10 @@ TEST(unit_string_definitions, combined_duplicates)
     }
 }
 
-
 TEST(unit_string_definitions, measurement_vector_length)
 {
-    for (std::size_t ii = 0; ii < units::defined_measurement_types.size(); ++ii) {
+    for (std::size_t ii = 0; ii < units::defined_measurement_types.size();
+         ++ii) {
         EXPECT_TRUE(units::defined_measurement_types[ii].first != nullptr)
             << ii;
         if (units::defined_measurement_types[ii].first == nullptr) {
@@ -100,6 +100,7 @@ TEST(unit_string_definitions, measurement_duplicates)
             continue;
         }
         auto res = testMap.emplace(ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate measurement type string " << ustring.first;
+        EXPECT_TRUE(res.second)
+            << "duplicate measurement type string " << ustring.first;
     }
 }
