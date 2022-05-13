@@ -3689,7 +3689,7 @@ static void checkPowerOf10(std::string& unit_string)
 static std::string shortStringReplacement(char U)
 {
     static const std::unordered_map<char, std::string> singleCharUnitStrings{
-        {'m', "meter"}, {'s', "second"}, {'S', "siemens"},     {' l', "liter"},
+        {'m', "meter"}, {'s', "second"}, {'S', "siemens"},     {'l', "liter"},
         {'g', "gram"},  {'b', "barn"},   {'r', "revolutions"}, {'V', "volt"},
         {'F', "farad"}, {'y', "year"},   {'p', "poise"},        {'K', "kelvin"},
         {'a', "are"},   {'N', "newton"}, {'d', "day"},        {'B', "byte"},
