@@ -1389,7 +1389,8 @@ TEST(mapTests, testRoundTripFromUnit)
     }
 }
 
-// test combinations of 2 character units string and one character unit strings for misinterpretation
+// test combinations of 2 character units string and one character unit strings
+// for misinterpretation
 TEST(mapTests, two_by_one)
 {
     const auto& map = detail::getUnitStringMap();
@@ -1401,9 +1402,7 @@ TEST(mapTests, two_by_one)
                 if (is_valid(val.second)) {
                     twocharunits.push_back(val);
                 }
-                
             }
-            
         }
         if (val.first.size() == 1) {
             if (val.first.front() > 0 && std::isalpha(val.first.front()) != 0) {
@@ -1411,17 +1410,16 @@ TEST(mapTests, two_by_one)
                     onecharunits.push_back(val);
                 }
             }
-           
         }
     }
 
-    for (const auto &twochar:twocharunits) {
+    for (const auto& twochar : twocharunits) {
         if (twochar.first == "mo" || twochar.first == "mO") {
             // month has some expected patterns which will cause problems in
             // this test
             continue;
         }
-        for (const auto &onechar:onecharunits) {
+        for (const auto& onechar : onecharunits) {
             std::string ustring = twochar.first + ' ' + onechar.first;
             auto unit = twochar.second * onechar.second;
             EXPECT_EQ(unit_from_string(ustring), unit)
