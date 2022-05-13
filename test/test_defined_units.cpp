@@ -79,3 +79,27 @@ TEST(unit_string_definitions, combined_duplicates)
             << units::defined_unit_strings_customary[ii].first;
     }
 }
+
+
+TEST(unit_string_definitions, measurement_vector_length)
+{
+    for (std::size_t ii = 0; ii < units::defined_measurement_types.size(); ++ii) {
+        EXPECT_TRUE(units::defined_measurement_types[ii].first != nullptr)
+            << ii;
+        if (units::defined_measurement_types[ii].first == nullptr) {
+            break;
+        }
+    }
+}
+
+TEST(unit_string_definitions, measurement_duplicates)
+{
+    std::map<std::string, units::precise_unit> testMap;
+    for (const auto& ustring : units::defined_measurement_types) {
+        if (ustring.first == nullptr) {
+            continue;
+        }
+        auto res = testMap.emplace(ustring.first, ustring.second);
+        EXPECT_TRUE(res.second) << "duplicate measurement type string " << ustring.first;
+    }
+}
