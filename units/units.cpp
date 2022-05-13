@@ -3686,32 +3686,93 @@ static void checkPowerOf10(std::string& unit_string)
     }
 }
 
-static bool checkShortUnits(
-    std::string& unit_string,
-    const std::string& shortUnit,
-    const std::string& replacement)
+static std::string shortStringReplacement(char U)
+{
+    static const std::unordered_map<char, std::string> singleCharUnitStrings{
+        {'m', "meter"},       {'s', "second"}, {'S', "siemens"},
+        {'l', "liter"},       {'g', "gram"},   {'b', "barn"},
+        {'r', "revolutions"}, {'V', "volt"},   {'F', "farad"},
+        {'y', "year"},        {'p', "poise"},  {'K', "kelvin"},
+        {'a', "are"},         {'N', "newton"}, {'d', "day"},
+        {'B', "byte"},        {'X', "xu"},     {'T', "tesla"},
+        {'U', "units"},       {'M', "molar"},  {'P', "poise"},
+        {'W', "watt"},        {'A', "ampere"}, {'C', "coulomb"},
+        {'J', "joule"},       {'H', "henry"},  {'G', "gauss"},
+        {'h', "hour"},        {'D', "day"},    {'o', "arcdeg"},
+        {'L', "liter "},      {'W', "watt"},   {'e', "elementarycharge"},
+        {'t', "tonne"}};
+
+    auto res = singleCharUnitStrings.find(U);
+    return (res == singleCharUnitStrings.end()) ? std::string(1, U) :
+                                                  res->second;
+}
+
+static bool checkShortUnits(std::string& unit_string, std::uint32_t match_flags)
 {
     bool mod = false;
-    auto fndP = unit_string.find(shortUnit);
+    auto fndNS = unit_string.find_first_not_of(" \t");
+    auto fndP = unit_string.find_first_of(" \t", fndNS + 1);
+    auto fndM = unit_string.find_first_of("*/");
+    if (fndP == 2) {
+        if (unit_string.size() > 4) {
+            // the single character section next will catch 4 character string
+            // issues
+            auto fndPn = unit_string.find_first_not_of(" \t", fndP);
+
+            if (fndPn != std::string::npos && unit_string[fndPn] != '(' &&
+                fndM == std::string::npos) {
+                auto str = unit_string.substr(0, 2);
+                if (str != "fl") {
+                    auto retunit = get_unit(str, match_flags);
+                    if (is_valid(retunit)) {
+                        unit_string[2] = '_';
+                        retunit = get_unit(unit_string, match_flags);
+                        if (!is_valid(retunit)) {
+                            unit_string[2] = '*';
+                        }
+                        fndP = unit_string.find_first_of(" \t", 3);
+                        mod = true;
+                    }
+                }
+            }
+        }
+    }
     while (fndP != std::string::npos) {
-        if (fndP + shortUnit.size() == unit_string.size()) {
-            unit_string.replace(fndP, shortUnit.size(), replacement);
+        if (fndP + 2 == unit_string.size()) {
+            // we are at the end of the string
+            if (fndM == std::string::npos) {
+                auto str = unit_string.substr(0, fndP);
+                auto retunit = get_unit(str, match_flags);
+                if (is_valid(retunit)) {
+                    unit_string[fndP] = '_';
+                    retunit = get_unit(unit_string, match_flags);
+                    if (!is_valid(retunit)) {
+                        unit_string[fndP] = '*';
+                    }
+                    return mod;
+                }
+            }
+            unit_string.replace(
+                fndP + 1, 1, shortStringReplacement(unit_string[fndP + 1]));
             mod = true;
         } else {
-            switch (unit_string[fndP + shortUnit.size()]) {
+            switch (unit_string[fndP + 1]) {
                 case ' ':
                 case '*':
                 case '/':
                 case '^':
                 case '.':
-                    unit_string.replace(fndP, shortUnit.size(), replacement);
+                    unit_string.replace(
+                        fndP + 1,
+                        1,
+                        shortStringReplacement(unit_string[fndP + 1]));
                     mod = true;
                     break;
                 default:
                     break;
             }
         }
-        fndP = unit_string.find(shortUnit, fndP + 1);
+        fndP = unit_string.find_first_of(" \t", fndP + 1);
     }
     return mod;
 }
@@ -3775,41 +3836,56 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         unit_string.clear();
         return true;
     }
+    if (c != 0) {
+        unit_string.erase(0, c);
+        c = unit_string.find_first_not_of(spchar);
+        changed = true;
+    }
     if (unit_string[c] == '/') {
         unit_string.insert(c, 1, '1');
         changed = true;
         skipMultiply = true;
     }
     if (!skipcodereplacement) {
-        // clean up some "per" words
-        if (unit_string.compare(0, 4, "per ") == 0) {
-            unit_string.replace(0, 4, "1/");
-            skipMultiply = true;
-        }
-        if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
-            skipMultiply = true;
-        }
-        checkShortUnits(unit_string, " s", " second");
-        checkShortUnits(unit_string, " m", " meter");
-        checkShortUnits(unit_string, " l", " liter");
-
-        auto fndP = unit_string.find(" of ");
-        while (fndP != std::string::npos) {
-            auto nchar = unit_string.find_first_not_of(
-                std::string(" \t\n\r") + '\0', fndP + 4);
-            if (nchar != std::string::npos) {
-                if (unit_string[nchar] == '(' || unit_string[nchar] == '[') {
-                    skipMultiplyInsertionAfter = fndP;
-                    break;
-                }
+        // Check for unicode or extended characters
+        if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) {
+                return (static_cast<std::uint8_t>(x) & 0x80U) != 0;
+            })) {
+            if (unicodeReplacement(unit_string)) {
+                changed = true;
             }
-            fndP = unit_string.find(" of ", fndP + 3);
         }
-        changed |= cleanSpaces(unit_string, skipMultiply);
-        if (unit_string.empty()) {
-            // LCOV_EXCL_START
-            return true;
-            // LCOV_EXCL_STOP
+        if (c != std::string::npos) {
+            // deal with some particular string with a space in them
+
+            // clean up some "per" words
+            if (unit_string.compare(0, 4, "per ") == 0) {
+                unit_string.replace(0, 4, "1/");
+                skipMultiply = true;
+            }
+            if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
+                skipMultiply = true;
+            }
+            checkShortUnits(unit_string, match_flags);
+            auto fndP = unit_string.find(" of ");
+            while (fndP != std::string::npos) {
+                auto nchar = unit_string.find_first_not_of(
+                    std::string(" \t\n\r") + '\0', fndP + 4);
+                if (nchar != std::string::npos) {
+                    if (unit_string[nchar] == '(' ||
+                        unit_string[nchar] == '[') {
+                        skipMultiplyInsertionAfter = fndP;
+                        break;
+                    }
+                }
+                fndP = unit_string.find(" of ", fndP + 3);
+            }
+            changed |= cleanSpaces(unit_string, skipMultiply);
+            if (unit_string.empty()) {
+                // LCOV_EXCL_START
+                return true;
+                // LCOV_EXCL_STOP
+            }
         }
 
         checkPowerOf10(unit_string);
@@ -3891,14 +3967,6 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             // strings always have a null pointer at the end
             if (!isDigitCharacter(unit_string[dotloc + 1])) {
                 cleanDotNotation(unit_string, match_flags);
-                changed = true;
-            }
-        }
-        // Check for unicode or extended characters
-        if (std::any_of(unit_string.begin(), unit_string.end(), [](char x) {
-                return (static_cast<std::uint8_t>(x) & 0x80U) != 0;
-            })) {
-            if (unicodeReplacement(unit_string)) {
                 changed = true;
             }
         }
