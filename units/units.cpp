@@ -3835,6 +3835,12 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         unit_string.clear();
         return true;
     }
+    if (c != 0)
+    {
+        unit_string.erase(0, c);
+        c = unit_string.find_first_not_of(spchar);
+        changed = true;
+    }
     if (unit_string[c] == '/') {
         unit_string.insert(c, 1, '1');
         changed = true;
@@ -3849,7 +3855,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                 changed = true;
             }
         }
-        if (unit_string.find_first_of(" \t\n\r") != std::string::npos)
+        if (c != std::string::npos)
         {
             //deal with some particular string with a space in them
             
