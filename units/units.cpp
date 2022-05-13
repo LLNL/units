@@ -392,8 +392,6 @@ static std::string generateUnitSequence(double mux, std::string seq)
                 pw = 10;
             }
 #endif
-
-           
         }
         std::string muxstr;
         switch (pw) {
@@ -478,13 +476,14 @@ static std::string generateUnitSequence(double mux, std::string seq)
 }
 
 // check whether large power strings should be allowed
-static bool allowLargePowers(std::uint32_t flags) {
+static bool allowLargePowers(std::uint32_t flags)
+{
     return (
         detail::bitwidth::base_size > 4 &&
         (flags & disable_large_power_strings) == 0U);
 }
 
-    // Add a unit power to a string
+// Add a unit power to a string
 static void addUnitPower(
     std::string& str,
     const char* unit,
