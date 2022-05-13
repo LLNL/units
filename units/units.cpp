@@ -3689,38 +3689,40 @@ static void checkPowerOf10(std::string& unit_string)
 static std::string shortStringReplacement(char U)
 {
     static const std::unordered_map<char, std::string> singleCharUnitStrings{
-        {'m', "meter"}, {'s', "second"}, {'S', "siemens"},     {'l', "liter"},
-        {'g', "gram"},  {'b', "barn"},   {'r', "revolutions"}, {'V', "volt"},
-        {'F', "farad"}, {'y', "year"},   {'p', "poise"},        {'K', "kelvin"},
-        {'a', "are"},   {'N', "newton"}, {'d', "day"},        {'B', "byte"},
-        {'X', "xu"},   {'T', "tesla"},  {'U', "units"},        {'M', "molar"},
-        {'P', "poise"},   {'W', "watt"},  {'A', "ampere"},      {'C', "coulomb"},
-        {'J', "joule"},   {'H', "henry"},       {'G', "gauss"},
-        {'h', "hour"},        {'D', "day"}, {'o', "arcdeg"}, {'L', "liter "},
-            {'W',"watt"},
-        {'e', "elementarycharge"},   {'t', "tonne"}};
+        {'m', "meter"},       {'s', "second"}, {'S', "siemens"},
+        {'l', "liter"},       {'g', "gram"},   {'b', "barn"},
+        {'r', "revolutions"}, {'V', "volt"},   {'F', "farad"},
+        {'y', "year"},        {'p', "poise"},  {'K', "kelvin"},
+        {'a', "are"},         {'N', "newton"}, {'d', "day"},
+        {'B', "byte"},        {'X', "xu"},     {'T', "tesla"},
+        {'U', "units"},       {'M', "molar"},  {'P', "poise"},
+        {'W', "watt"},        {'A', "ampere"}, {'C', "coulomb"},
+        {'J', "joule"},       {'H', "henry"},  {'G', "gauss"},
+        {'h', "hour"},        {'D', "day"},    {'o', "arcdeg"},
+        {'L', "liter "},      {'W', "watt"},   {'e', "elementarycharge"},
+        {'t', "tonne"}};
 
     auto res = singleCharUnitStrings.find(U);
     return (res == singleCharUnitStrings.end()) ? std::string(1, U) :
                                                   res->second;
-    
 }
 
 static bool checkShortUnits(std::string& unit_string, std::uint32_t match_flags)
 {
     bool mod = false;
     auto fndNS = unit_string.find_first_not_of(" \t");
-    auto fndP = unit_string.find_first_of(" \t",fndNS+1);
+    auto fndP = unit_string.find_first_of(" \t", fndNS + 1);
     auto fndM = unit_string.find_first_of("*/");
     if (fndP == 2) {
         if (unit_string.size() > 4) {
-            // the single character section next will catch 4 character string issues
+            // the single character section next will catch 4 character string
+            // issues
             auto fndPn = unit_string.find_first_not_of(" \t", fndP);
-            
-            if (fndPn != std::string::npos && unit_string[fndPn] != '(' && fndM==std::string::npos)
-            {
+
+            if (fndPn != std::string::npos && unit_string[fndPn] != '(' &&
+                fndM == std::string::npos) {
                 auto str = unit_string.substr(0, 2);
-                if (str!="fl") {
+                if (str != "fl") {
                     auto retunit = get_unit(str, match_flags);
                     if (is_valid(retunit)) {
                         unit_string[2] = '_';
@@ -3732,9 +3734,7 @@ static bool checkShortUnits(std::string& unit_string, std::uint32_t match_flags)
                         mod = true;
                     }
                 }
-                
             }
-            
         }
     }
     while (fndP != std::string::npos) {
@@ -3752,7 +3752,8 @@ static bool checkShortUnits(std::string& unit_string, std::uint32_t match_flags)
                     return mod;
                 }
             }
-            unit_string.replace(fndP+1, 1, shortStringReplacement(unit_string[fndP+1]));
+            unit_string.replace(
+                fndP + 1, 1, shortStringReplacement(unit_string[fndP + 1]));
             mod = true;
         } else {
             switch (unit_string[fndP + 1]) {
@@ -3835,8 +3836,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
         unit_string.clear();
         return true;
     }
-    if (c != 0)
-    {
+    if (c != 0) {
         unit_string.erase(0, c);
         c = unit_string.find_first_not_of(spchar);
         changed = true;
@@ -3855,10 +3855,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                 changed = true;
             }
         }
-        if (c != std::string::npos)
-        {
-            //deal with some particular string with a space in them
-            
+        if (c != std::string::npos) {
+            // deal with some particular string with a space in them
+
             // clean up some "per" words
             if (unit_string.compare(0, 4, "per ") == 0) {
                 unit_string.replace(0, 4, "1/");
@@ -3867,7 +3866,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
                 skipMultiply = true;
             }
-            checkShortUnits(unit_string,match_flags);
+            checkShortUnits(unit_string, match_flags);
             auto fndP = unit_string.find(" of ");
             while (fndP != std::string::npos) {
                 auto nchar = unit_string.find_first_not_of(
@@ -3888,7 +3887,6 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                 // LCOV_EXCL_STOP
             }
         }
-        
 
         checkPowerOf10(unit_string);
     } else {
