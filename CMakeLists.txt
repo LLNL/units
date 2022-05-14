@@ -19,7 +19,7 @@ endif()
 project(
     UNITS
     LANGUAGES CXX
-    VERSION 0.5.1
+    VERSION 0.6.0
 )
 include(CMakeDependentOption)
 include(CTest)

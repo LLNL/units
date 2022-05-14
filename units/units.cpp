@@ -2449,7 +2449,7 @@ using ckpair = std::pair<const char*, const char*>;
 static precise_unit
     localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 43>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 44>
         internationlReplacements{{
             ckpair{"internationaltable", "_IT"},
             ckpair{"internationalsteamtable", "_IT"},
@@ -2483,7 +2483,8 @@ static precise_unit
             ckpair{"apothecary", "_ap"},
             ckpair{"apothecaries", "_ap"},
             ckpair{"avoirdupois", "_av"},
-            ckpair{"Chinese", "_ch"},
+            ckpair{"Chinese", "_cn"},
+            ckpair{"chinese", "_cn"},
             ckpair{"Canadian", "_can"},
             ckpair{"canadian", "_can"},
             ckpair{"survey", "_us"},
@@ -3855,7 +3856,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
                 changed = true;
             }
         }
-        if (c != std::string::npos) {
+        if (unit_string.find_first_of(spchar) != std::string::npos) {
             // deal with some particular string with a space in them
 
             // clean up some "per" words
@@ -3869,8 +3870,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             checkShortUnits(unit_string, match_flags);
             auto fndP = unit_string.find(" of ");
             while (fndP != std::string::npos) {
-                auto nchar = unit_string.find_first_not_of(
-                    std::string(" \t\n\r") + '\0', fndP + 4);
+                auto nchar = unit_string.find_first_not_of(spchar, fndP + 4);
                 if (nchar != std::string::npos) {
                     if (unit_string[nchar] == '(' ||
                         unit_string[nchar] == '[') {
