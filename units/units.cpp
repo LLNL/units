@@ -3870,8 +3870,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             checkShortUnits(unit_string, match_flags);
             auto fndP = unit_string.find(" of ");
             while (fndP != std::string::npos) {
-                auto nchar = unit_string.find_first_not_of(
-                    spchar, fndP + 4);
+                auto nchar = unit_string.find_first_not_of(spchar, fndP + 4);
                 if (nchar != std::string::npos) {
                     if (unit_string[nchar] == '(' ||
                         unit_string[nchar] == '[') {

@@ -143,7 +143,8 @@ double convert(double val, const UX& start, const UX2& result)
             return converted_val;
         }
     }
-    // this is the last chance and will return invalid_result if it doesn't find a match
+    // this is the last chance and will return invalid_result if it doesn't find
+    // a match
     return detail::otherUsefulConversions(val, start, result);
 }
 

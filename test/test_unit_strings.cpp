@@ -1428,7 +1428,6 @@ TEST(mapTests, two_by_one)
     }
 
     for (const auto& onechar : onecharunits) {
-        
         for (const auto& twochar : twocharunits) {
             std::string ustring = onechar.first + ' ' + twochar.first;
             auto unit = twochar.second * onechar.second;
@@ -1438,15 +1437,15 @@ TEST(mapTests, two_by_one)
     }
 }
 
-
-// test combinations of 2 character units string and another 2 character unit strings
-// for misinterpretation
+// test combinations of 2 character units string and another 2 character unit
+// strings for misinterpretation
 TEST(mapTests, two_by_two)
 {
     const auto& map = detail::getUnitStringMap();
     std::vector<std::pair<std::string, precise_unit>> twocharunits;
     for (const auto& val : map) {
-        //fluid is a modifier that applies to several other units so can't be disambiguated
+        // fluid is a modifier that applies to several other units so can't be
+        // disambiguated
         if (val.first.size() == 2 && val.first != "fl") {
             if (val.first.front() > 0 && std::isalpha(val.first.front()) != 0) {
                 if (is_valid(val.second)) {
@@ -1457,7 +1456,6 @@ TEST(mapTests, two_by_two)
     }
 
     for (const auto& twochar : twocharunits) {
-        
         for (const auto& twocharb : twocharunits) {
             std::string ustring = twochar.first + ' ' + twocharb.first;
             auto unit = twochar.second * twocharb.second;

@@ -698,7 +698,6 @@ TEST(invalid_conversions, invalid)
     EXPECT_TRUE(std::isnan(val));
 }
 
-
 TEST(UnitDefinitions, mass_to_weight)
 {
     using namespace units;
