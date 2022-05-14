@@ -2029,7 +2029,7 @@ namespace constants {
 
     /// Standard gravity
     constexpr precise_measurement
-        g0(9.80665, precise::m / precise::s / precise::s);
+        g0(constants::standard_gravity, precise::m / precise::s / precise::s);
     /// Gravitational Constant
     constexpr precise_measurement G(
         6.67430e-11,

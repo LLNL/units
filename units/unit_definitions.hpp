@@ -28,6 +28,7 @@ namespace constants {
     constexpr double invalid_conversion =
         std::numeric_limits<double>::signaling_NaN();
     constexpr double infinity = std::numeric_limits<double>::infinity();
+    constexpr double standard_gravity = 9.80665;
 }  // namespace constants
 
 /// basic commodity definitions
@@ -335,10 +336,10 @@ namespace precise {
 
     /// meter-gram-force system of units
     namespace gm {
-        constexpr precise_unit pond{980.665, cgs::dyn};
-        constexpr precise_unit hyl{9.80665, kg};
-        constexpr precise_unit at{98066.5, Pa};
-        constexpr precise_unit poncelet{980.665, W};
+        constexpr precise_unit pond{constants::standard_gravity*100.0, cgs::dyn};
+        constexpr precise_unit hyl{constants::standard_gravity, kg};
+        constexpr precise_unit at{constants::standard_gravity*10000.0, Pa};
+        constexpr precise_unit poncelet{constants::standard_gravity*100.0, W};
         constexpr precise_unit PS{735.49875, W};  // metric horsepower
 
     }  // namespace gm
@@ -1928,12 +1929,12 @@ namespace detail {
     {
         if (start.has_same_base(N) && result.has_same_base(kg)) {
             // weight to mass
-            return val * start.multiplier() / constants::g0.value() /
+            return val * start.multiplier() / constants::standard_gravity /
                 result.multiplier();
         }
         if (start.has_same_base(kg) && result.has_same_base(N)) {
             // mass to weight
-            return val * start.multiplier() * constants::g0.value() /
+            return val * start.multiplier() * constants::standard_gravity /
                 result.multiplier();
         }
         return constants::invalid_conversion;
