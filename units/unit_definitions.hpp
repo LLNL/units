@@ -336,10 +336,12 @@ namespace precise {
 
     /// meter-gram-force system of units
     namespace gm {
-        constexpr precise_unit pond{constants::standard_gravity*100.0, cgs::dyn};
+        constexpr precise_unit pond{
+            constants::standard_gravity * 100.0,
+            cgs::dyn};
         constexpr precise_unit hyl{constants::standard_gravity, kg};
-        constexpr precise_unit at{constants::standard_gravity*10000.0, Pa};
-        constexpr precise_unit poncelet{constants::standard_gravity*100.0, W};
+        constexpr precise_unit at{constants::standard_gravity * 10000.0, Pa};
+        constexpr precise_unit poncelet{constants::standard_gravity * 100.0, W};
         constexpr precise_unit PS{735.49875, W};  // metric horsepower
 
     }  // namespace gm
