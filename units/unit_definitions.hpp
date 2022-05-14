@@ -1921,6 +1921,23 @@ namespace detail {
         }
         return constants::invalid_conversion;
     }
+
+    template<typename UX, typename UX2>
+    inline double
+        otherUsefulConversions(double val, const UX& start, const UX2& result)
+    {
+        if (start.has_same_base(N) && result.has_same_base(kg)) {
+            // weight to mass
+            return val * start.multiplier() /
+                constants::g0.value() / result.multiplier();
+        }
+        if (start.has_same_base(kg) && result.has_same_base(N)) {
+            // mass to weight
+            return val * start.multiplier() *
+                constants::g0.value() / result.multiplier();
+        }
+        return constants::invalid_conversion;
+    }
 }  // namespace detail
 
 }  // namespace UNITS_NAMESPACE

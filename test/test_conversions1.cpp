@@ -697,3 +697,13 @@ TEST(invalid_conversions, invalid)
     double val = detail::extraValidConversions(2.3, precise::m, precise::lb);
     EXPECT_TRUE(std::isnan(val));
 }
+
+
+TEST(UnitDefinitions, mass_to_weight)
+{
+    using namespace units;
+    EXPECT_NEAR(convert(1.0, N, kg), 0.101971621, test::tolerance);
+    EXPECT_NEAR(convert(1.0, kg, N), constants::g0.value(), test::tolerance);
+
+    EXPECT_NEAR(convert(1.0, precise::lbf, kg), 0.45359237, test::tolerance);
+}

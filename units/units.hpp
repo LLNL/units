@@ -143,7 +143,8 @@ double convert(double val, const UX& start, const UX2& result)
             return converted_val;
         }
     }
-    return constants::invalid_conversion;
+    // this is the last chance and will return invalid_result if it doesn't find a match
+    return detail::otherUsefulConversions(val, start, result);
 }
 
 /// Convert a value from one unit base to another potentially involving pu base

@@ -1426,6 +1426,16 @@ TEST(mapTests, two_by_one)
                 << ustring << " does not produce equivalent unit";
         }
     }
+
+    for (const auto& onechar : onecharunits) {
+        
+        for (const auto& twochar : twocharunits) {
+            std::string ustring = onechar.first + ' ' + twochar.first;
+            auto unit = twochar.second * onechar.second;
+            EXPECT_EQ(unit_from_string(ustring), unit)
+                << ustring << " does not produce equivalent unit";
+        }
+    }
 }
 #endif
 
