@@ -6,12 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.6.0][] ~ 2022-05-16
-This release has a number of fixes for specific unit strings, adds some other units and a new unit_conversion_maps structure to reduce stack usage.  
+
+This release has a number of fixes for specific unit strings, adds some other units and a new unit_conversion_maps structure to reduce stack usage.
 
 ### Changed
--  Convert default branch to "main"
--  The string maps are new defined in a constexpr array in `units_conversion_maps.hpp` this reduces the stack usage significantly and clears up some warnings about that on some compilers [#217][],[#226][]
--  The country specific codes for China and Canada were changed from "ch" and `can` to `cn` and `ca` to match country top level domains [#229][]
+
+- Convert default branch to "main"
+- The string maps are new defined in a constexpr array in `units_conversion_maps.hpp` this reduces the stack usage significantly and clears up some warnings about that on some compilers [#217][],[#226][]
+- The country specific codes for China and Canada were changed from "ch" and `can` to `cn` and `ca` to match country top level domains [#229][]
 
 ### Fixed
 

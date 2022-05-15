@@ -28,7 +28,7 @@ namespace constants {
     constexpr double invalid_conversion =
         std::numeric_limits<double>::signaling_NaN();
     constexpr double infinity = std::numeric_limits<double>::infinity();
-    constexpr double standard_gravity = 9.80665; // in m/s/s
+    constexpr double standard_gravity = 9.80665;  // in m/s/s
     constexpr double speed_of_light = 299792458.0;  // speed of light in m/s
 }  // namespace constants
 
@@ -295,7 +295,8 @@ namespace precise {
 
     /// Units from the cgs system
     namespace cgs {
-        constexpr double c_const = constants::speed_of_light*100.0;  // speed of light in cm/s
+        constexpr double c_const =
+            constants::speed_of_light * 100.0;  // speed of light in cm/s
         constexpr precise_unit erg(1e-7, J);
         constexpr precise_unit dyn(1e-5, N);
         constexpr precise_unit barye(0.1, Pa);

@@ -2036,7 +2036,9 @@ namespace constants {
         precise_unit(
             detail::unit_data(3, -1, -2, 0, 0, 0, 0, 0, 0, 0, 0U, 0U, 0U, 0U)));
     /// Speed of light
-    constexpr precise_measurement c{constants::speed_of_light, precise::m / precise::s};
+    constexpr precise_measurement c{
+        constants::speed_of_light,
+        precise::m / precise::s};
     /// Elementary Charge (2019 redefinition)
     constexpr precise_measurement e(1.602176634e-19, precise::C);
     ///  hyperfine structure transition frequency of the cesium-133 atom
