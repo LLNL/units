@@ -11,8 +11,6 @@
 
 [What's new](./CHANGELOG.md)
 
-_Some of the CMake target names have changed in the latest release, please update builds appropriately_
-
 [Documentation](https://units.readthedocs.io/en/latest/)
 
 A library that provides runtime unit values, instead of individual unit types, for the purposes of working with units of measurement at run time possibly from user input.
@@ -113,7 +111,7 @@ These libraries will work well if the number of units being dealt with is known 
 2.  Performance is absolutely critical (many other libraries are zero runtime overhead)
 3.  You are only working with a small number of known units
 4.  You cannot use C++11 yet.
-5.  You need to operate on arbitrary or fractional powers of base units
+5.  You need to operate on arbitrary or general fractional powers of base units
 
 ## Types
 
@@ -126,7 +124,7 @@ There are only a few types in the library
 - `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.
 - `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types.
 - `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template, except it is 24 bytes instead of 16.
-- `uncertain_measurement` is similar to `measurement` except it uses a 32-bit float for the value and contains an uncertainty field which is also 32-bits. Mathematical operations on `uncertain_measurements` will propagate the uncertainty and convert it as necessary. The class also includes functions for simple-uncertainty propagation like `simple_subtract` which just sums the uncertainties. The sum-of-squares methods is used in the overloaded math operators. Mathematical operations are supported on the type and it interoperates with measurements.
+- `uncertain_measurement` is similar to `measurement` except it uses a 32-bit float for the value and contains an uncertainty field which is also 32-bits. Mathematical operations on `uncertain_measurement`s will propagate the uncertainty and convert it as necessary. The class also includes functions for simple-uncertainty propagation like `simple_subtract` which just sums the uncertainties. The sum-of-squares methods is used in the overloaded math operators. Mathematical operations are supported on the type and it interoperates with measurements.
 
 ## Unit representation
 
@@ -177,7 +175,7 @@ There are two parts of the library a header only portion that can simply be copi
 
 The second part is a few cpp files that can add some additional functionality. The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings. These files can be built as a standalone static library or included in the source code of whatever project want to use them. The code should build with an C++11 compiler. Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time. Unit numerical conversions are not at compile time, so will have a run-time cost. A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit. The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.
 
-It builds by default with the static library. Using `UNIT_BUILD_SHARED_LIBRARY` or `BUILD_SHARED_LIBS` will build the shared library instead. Either one can be used with CMake as units::units. The header only library target is also generated `units::header_only`. The shared/static library has a CMake target `units::units`.
+It builds by default with the static library. Using `UNIT_BUILD_SHARED_LIBRARY` or `BUILD_SHARED_LIBS` will build the shared library instead. Either one can be used with CMake as `units::units`. The header only library target is also generated `units::header_only`. The shared/static library has a CMake target `units::units`.
 
 ## Try it out
 
