@@ -56,6 +56,10 @@ There are a few numbers that are used in the library and include definitions in 
 -   `tau` (2.0*pi)
 -   `invalid_conversion` (NaN)
 -   `infinity`
+-   `standard_gravity`  the numerical value of g0, earth standard gravity in m/s/sec
+-   `speed_of_light`  The numerical value of the speed of light in m/s
+
+The last two are used in several other units and some conversions so it seemed better to just define the numerical value and use that rather than use the same number in several places.
 
 From Strings
 -----------------

@@ -8,11 +8,13 @@
 ## Other
 
 - [Corey McNeish](https://github.com/mcneish1)
-- [Greg Sjaardema](https://github.com/gsjaardema) -Documentation updates
+- [Greg Sjaardema](https://github.com/gsjaardema) - Documentation updates
 - [JensMunkHansen](https://github.com/JensMunkHansen)
-- [Simon Heybrock](https://github.com/SimonHeybrock) -Doc updates and help supporting 64 bit unit base types, some additional constants and suggestions related to particle physics
+- [Simon Heybrock](https://github.com/SimonHeybrock) - Doc updates and help supporting 64 bit unit base types, some additional constants and suggestions related to particle physics
 - [Kerim371](https://github.com/SimonHeybrock) - CMake builds for the shared library version
-- [Owen Arnold](https://github.com/OwenArnold) -Documentation
+- [Owen Arnold](https://github.com/OwenArnold) - Documentation
+- [Peter Steneteg](https://github.com/petersteneteg)
+- [Jan-Lukas Wynen](https://github.com/jl-wynen) - Support for multi-digit power strings
 
 ## Used Libraries or Code
 

@@ -5,22 +5,54 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.6.0][] ~ 2020-09-30
+## [0.6.0][] ~ 2022-05-16
+This release has a number of fixes for specific unit strings, adds some other units and a new unit_conversion_maps structure to reduce stack usage.  
 
 ### Changed
+-  Convert default branch to "main"
+-  The string maps are new defined in a constexpr array in `units_conversion_maps.hpp` this reduces the stack usage significantly and clears up some warnings about that on some compilers [#217][],[#226][]
+-  The country specific codes for China and Canada were changed from "ch" and `can` to `cn` and `ca` to match country top level domains [#229][]
 
 ### Fixed
 
-- The "hartree" string produced an incorrect value
+- The "hartree" string produced an incorrect value [#163][]
+- Fixed an issue with inverse multipliers for inverse conversions [#166][]
+- changed the string conversions to better align with SI recommendations [#173][]
+- Fix an issue with the string "0.2" [#188][]
+- Fix asterisk operator typo [#194][]
+- Update the docker images to use more recent base images [#206][],[#212][]
+- User defined units were not being used in the string conversion operations properly [#213][]
+- Update third party library links [#216][]
+- Clean up some `if constexpr` warnings on some platforms [#227][]
+- Fix an issue of misinterpreting short strings with spaces such as `kg m` [#224][]
 
 ### Added
 
-- Added a series of constants to make the available constants match the Nist [Common Constants](https://physics.nist.gov/cgi-bin/cuu/Category?view=html&Frequently+used+constants.x=87&Frequently+used+constants.y=18) list
-- added "Eh" as a valid string value for "hartree"
+- Added a series of constants to make the available constants match the Nist [Common Constants](https://physics.nist.gov/cgi-bin/cuu/Category?view=html&Frequently+used+constants.x=87&Frequently+used+constants.y=18) list [#163][]
+- added "Eh" as a valid string value for "hartree" [#163][]
+- Added support for larger power factors in units when using larger base [#184][]
+- Added support for some climate related units [#210][],[#179][]
+- Added mass to weight conversions [#229][]
+- added domains to allow some domain specific units that might mean different things in different contexts [#173][]
 
-### Removed
+[#226]: https://github.com/LLNL/units/pull/226
+[#166]: https://github.com/LLNL/units/pull/166
+[#188]: https://github.com/LLNL/units/pull/188
+[#229]: https://github.com/LLNL/units/pull/229
+[#173]: https://github.com/LLNL/units/pull/173
+[#210]: https://github.com/LLNL/units/pull/210
+[#179]: https://github.com/LLNL/units/pull/179
+[#184]: https://github.com/LLNL/units/pull/184
+[#163]: https://github.com/LLNL/units/pull/163
+[#224]: https://github.com/LLNL/units/pull/224
+[#216]: https://github.com/LLNL/units/pull/216
+[#227]: https://github.com/LLNL/units/pull/227
+[#213]: https://github.com/LLNL/units/pull/213
+[#212]: https://github.com/LLNL/units/pull/212
+[#206]: https://github.com/LLNL/units/pull/206
+[#194]: https://github.com/LLNL/units/pull/194
 
-## [0.5.0][] - 2020-08-17
+## [0.5.0][] - 2021-08-17
 
 This release includes some changes to the CMake builds and Targets. Also includes support for 64 bit base types for units with expanded power support, and support for a custom namespace for better integration with other applications. And additional units for natural gas and particle physics.
 
@@ -205,3 +237,4 @@ Continued work on cleaning up the library and starting to add main documentation
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
 [0.2.0]: https://github.com/LLNL/units/releases/tag/v0.2.0
+[0.6.0]: https://github.com/LLNL/units/releases/tag/v0.6.0

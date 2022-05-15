@@ -116,14 +116,20 @@ jobs:
         cmake-version: "3.20"
       if: success() || failure()
 
-    - name: Check CMake 3.21 (full)
+    - name: Check CMake 3.21
       uses: ./.github/actions/quick_cmake
       with:
         cmake-version: "3.21"
       if: success() || failure()
 
-    - name: Check CMake 3.22 (full)
+    - name: Check CMake 3.22
       uses: ./.github/actions/quick_cmake
       with:
         cmake-version: "3.22"
+      if: success() || failure()
+      
+    - name: Check CMake 3.23 (full)
+      uses: ./.github/actions/quick_cmake
+      with:
+        cmake-version: "3.23"
       if: success() || failure()
