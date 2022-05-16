@@ -75,21 +75,82 @@ namespace commodities {
         aligned with recommendation 21 of international trade to the extent possible
         */
         enum packaging : std::uint32_t {
-            sheet = generatePackagingCode(1),
+            //bulk 0-9
+            bulk = generatePackagingCode(0),
+            powder = generatePackagingCode(1),
+            grain = generatePackagingCode(2),
+            nodule = generatePackagingCode(3),
+            liquid = generatePackagingCode(4),
+            gas_liquid = generatePackagingCode(5),
+            gas = generatePackagingCode(6),
+            
+            // loose,unpacked 10-19
+            loose = generatePackagingCode(10),
+            tube = generatePackagingCode(11),
+            rod = generatePackagingCode(12),
+            roll = generatePackagingCode(13),
+            coil = generatePackagingCode(14),
+            sheet = generatePackagingCode(15),
+            bar = generatePackagingCode(16),
+            ingot = generatePackagingCode(17),
+            
+            //rigid box type
+            match_box = generatePackagingCode(21),
+            can = generatePackagingCode(22),
+            carton = generatePackagingCode(23),
+            crate = generatePackagingCode(24),
+            chest = generatePackagingCode(25),
+            cage = generatePackagingCode(26),
+            basket = generatePackagingCode(27),
+            bottlecrate = generatePackagingCode(29),
+
+            // rigid drum 30-39
+            ampoule = generatePackagingCode(31),
+            bottle = generatePackagingCode(32),
+            jerrycan = generatePackagingCode(33),
+            drum = generatePackagingCode(34),
+            vat = generatePackagingCode(35),
+            // rigid bulb 40-49
+            jug = generatePackagingCode(41),
+            bulbous_bottle = generatePackagingCode(42),
+            carboy = generatePackagingCode(43),
+            barrel = generatePackagingCode(44),
+            large_barrel = generatePackagingCode(45),
+            // rigid other 50-59
+            bucket = generatePackagingCode(51),
+            coffin = generatePackagingCode(54),
+            // flexible bagtype 60-69
+            sachet = generatePackagingCode(61),
+            bag_small = generatePackagingCode(62),
+            bag_medium = generatePackagingCode(63),
+            bag_large = generatePackagingCode(64),
+            bale = generatePackagingCode(65),
+            net = generatePackagingCode(66),
+            filmpack = generatePackagingCode(67),
+            // 70-89 reserved
+            // other special packages
+            bobbin = generatePackagingCode(91),
+
+            // the remaining are not standard containers
+            // 100 - 109 vehicles
+            vehicle = generatePackagingCode(100),
+            car = generatePackagingCode(101),
+            locomotive = generatePackagingCode(102),
+            caboose = generatePackagingCode(103),
+            train = generatePackagingCode(104),
+            truck = generatePackagingCode(105),
+
+            // 110 - 120
             group = generatePackagingCode(2),
             lift = generatePackagingCode(3),
             ration = generatePackagingCode(4),
             stick = generatePackagingCode(5),
-            drum = generatePackagingCode(6),
-            car = generatePackagingCode(7),
-            locomotive = generatePackagingCode(8),
-            caboose = generatePackagingCode(9),
-            train = generatePackagingCode(10),
+            
+            
             container = generatePackagingCode(11),
             bin = generatePackagingCode(12),
             bulk_bag = generatePackagingCode(13),
             bag = generatePackagingCode(14),
-            barrel = generatePackagingCode(15),
             ball = generatePackagingCode(16),
             bulk_pack = generatePackagingCode(17),
             capsule = generatePackagingCode(18),
@@ -106,26 +167,22 @@ namespace commodities {
             skien = generatePackagingCode(29),
             shipment = generatePackagingCode(30),
             syringe = generatePackagingCode(31),
-            truck = generatePackagingCode(32),
+            
             small_tin= generatePackagingCode(33),
             large_tin = generatePackagingCode(88),
-            tube = generatePackagingCode(34),
+            
             treatment = generatePackagingCode(35),
             tablet = generatePackagingCode(36),
-            bulk_solid = generatePackagingCode(37),
-            bulk_liquid = generatePackagingCode(137),
+            
             wheel = generatePackagingCode(38),
             wrap = generatePackagingCode(39),
             hanging_container = generatePackagingCode(40),
-            chest = generatePackagingCode(41),
             cast = generatePackagingCode(42),
             lift_val = generatePackagingCode(43),
             carset = generatePackagingCode(44),
-            carload = generatePackagingCode(45),
+            
             card = generatePackagingCode(46),
-            can = generatePackagingCode(47),
             cone = generatePackagingCode(48),
-            carboy = generatePackagingCode(49),
             cylinder = generatePackagingCode(50),
             combo = generatePackagingCode(51),
             lot = generatePackagingCode(52),
@@ -155,7 +212,7 @@ namespace commodities {
             joint = generatePackagingCode(76),
             keg = generatePackagingCode(77),
             barge = generatePackagingCode(78),
-            vehicle = generatePackagingCode(79),
+            
             pallet = generatePackagingCode(80),
             plate = generatePackagingCode(81),
             panel = generatePackagingCode(82),
@@ -165,7 +222,6 @@ namespace commodities {
             set = generatePackagingCode(86),
             thread = generatePackagingCode(87),
             particle = generatePackagingCode(88),
-            ingot = generatePackagingCode(89),
             sling = generatePackagingCode(90),
             line = generatePackagingCode(90),
         };
@@ -235,10 +291,8 @@ namespace commodities {
         // other common unit blocks
         people = generateKnownCode(15),
         passenger = 115126,
-        particles = 117463,
         vehicle = generateHarmonizedCode(87, 3, 0),
-        flop = generateStringCode('f', 'l', 'o', 'p', '_'),
-        instruction = generateKnownCode(8086),
+        failure = generateStringCode('f', 'a', 'i', 'l', '_'),
         freight = 56226,
 
         // clinical
@@ -253,9 +307,9 @@ namespace commodities {
         // computer
         pixel = generateStringCode('p','i','x','e','l'),
         voxel = generateStringCode('v', 'o', 'x', 'e', 'l'),
-        errors = 516115418,
-        flop = 215262,
-        instruction = 452255,
+        errors = generateStringCode('e', 'r', 'r', 'o', 'r'),
+        flop = generateStringCode('f', 'l', 'o', 'p', '_'),
+        instruction = generateKnownCode(8086),
 
         // emmissions
 

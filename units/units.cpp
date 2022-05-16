@@ -1750,12 +1750,12 @@ std::string to_string(const measurement& measure, std::uint64_t match_flags)
 
     auto str = to_string(measure.units(), match_flags);
     if (!str.empty()) {
-        ss << ' ';
-        if (isNumericalStartCharacter(str.front())) {
-            str.insert(str.begin(), '(');
-            str.push_back(')');
-        }
-        ss << str;
+    ss << ' ';
+    if (isNumericalStartCharacter(str.front())) {
+        str.insert(str.begin(), '(');
+        str.push_back(')');
+    }
+    ss << str;
     }
     return ss.str();
 }
@@ -2544,7 +2544,7 @@ using ckpair = std::pair<const char*, const char*>;
 static precise_unit
     localityModifiers(std::string unit, std::uint64_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 47>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 49>
         internationlReplacements{{
             ckpair{"internationaltable", "IT"},
             ckpair{"internationalsteamtable", "IT"},
@@ -2593,6 +2593,8 @@ static precise_unit
             ckpair{"BR", "br"},
             ckpair{"UK", "br"},
             ckpair{"conventional", "90"},
+            ckpair{"AC", "_ac"},
+            ckpair{"DC", "_dc"}
         }};
     bool changed = false;
     for (const auto& irep : internationlReplacements) {
@@ -3380,10 +3382,10 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
             // this now gets dealt with in the dotMultiply code
             ++fnd;
         } else {
-            unit_string.erase(fnd, 1);
-            if (fnd > 0) {
-                skipMultiply = true;
-            }
+        unit_string.erase(fnd, 1);
+        if (fnd > 0) {
+            skipMultiply = true;
+        }
         }
 
         fnd = unit_string.find_first_of(spaceChars, fnd);
@@ -3551,7 +3553,7 @@ static void ciConversion(std::string& unit_string)
             if ((unit_string.length() == 2 &&
                  getPrefixMultiplier(unit_string.front()) != 0.0) ||
                 (unit_string.length() == 3 &&
-                 getPrefixMultiplier2Char(unit_string[0], unit_string[1]) !=
+                getPrefixMultiplier2Char(unit_string[0], unit_string[1]) !=
                      0.0)) {
                 unit_string.back() = 'm';
             }
@@ -4496,25 +4498,25 @@ static precise_unit tryUnitPartitioning(
             break;
         }
         if (ustring.size() >= minPartitionSize) {
-            auto res = unit_quick_match(ustring, match_flags);
-            if (!is_valid(res) && ustring.size() >= 3) {
-                if (ustring.front() >= 'A' &&
-                    ustring.front() <= 'Z') {  // check the lower case version
-                                               // since we skipped partitioning
-                                               // when we did this earlier
-                    ustring[0] += 32;
-                    res = unit_quick_match(ustring, match_flags);
-                }
+        auto res = unit_quick_match(ustring, match_flags);
+        if (!is_valid(res) && ustring.size() >= 3) {
+            if (ustring.front() >= 'A' &&
+                ustring.front() <= 'Z') {  // check the lower case version
+                                           // since we skipped partitioning
+                                           // when we did this earlier
+                ustring[0] += 32;
+                res = unit_quick_match(ustring, match_flags);
             }
-            if (is_valid(res)) {
-                auto bunit = unit_from_string_internal(
+        }
+        if (is_valid(res)) {
+            auto bunit = unit_from_string_internal(
                     unit_string.substr(part),
                     match_flags | skip_partition_check);
-                if (is_valid(bunit)) {
-                    return res * bunit;
-                }
-                valid.push_back(ustring);
+            if (is_valid(bunit)) {
+                return res * bunit;
             }
+            valid.push_back(ustring);
+        }
         }
         ustring.push_back(unit_string[part]);
         ++part;
@@ -4557,11 +4559,11 @@ static precise_unit tryUnitPartitioning(
         }
     }
     if (minPartitionSize <= 2 && !hasSep) {
-        // now do a quick check with a 2 character string since we skipped that
-        // earlier
-        auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
-        if (is_valid(qm2)) {
-            valid.insert(valid.begin(), unit_string.substr(0, 2));
+    // now do a quick check with a 2 character string since we skipped that
+    // earlier
+    auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
+    if (is_valid(qm2)) {
+        valid.insert(valid.begin(), unit_string.substr(0, 2));
         } else if (unit_string.size() == 4) {  // length of 4 is a bit odd so
                                                // check the back two characters
                                                // for a quick match
@@ -4570,14 +4572,14 @@ static precise_unit tryUnitPartitioning(
                 unit_string.substr(0, 2), match_flags);
             if (is_valid(bunit)) {
                 return qm2 * bunit;
-            }
+    }
         }
     }
     if (minPartitionSize <= 1) {
-        // now pick off a couple 1 character units
-        if (unit_string.front() == 'V' || unit_string.front() == 'A') {
-            valid.insert(valid.begin(), unit_string.substr(0, 1));
-        }
+    // now pick off a couple 1 character units
+    if (unit_string.front() == 'V' || unit_string.front() == 'A') {
+        valid.insert(valid.begin(), unit_string.substr(0, 1));
+    }
     }
     // start with the biggest
     std::reverse(valid.begin(), valid.end());
@@ -5167,15 +5169,15 @@ static precise_unit unit_from_string_internal(
 
     if (!containsPer) {
         retunit = checkMultiplierCharacter(unit_string, match_flags, '-');
-        if (!is_error(retunit)) {
-            return retunit;
-        }
+                if (!is_error(retunit)) {
+                    return retunit;
+                }
 
         retunit = checkMultiplierCharacter(unit_string, match_flags, '_');
-        if (!is_error(retunit)) {
-            return retunit;
-        }
-    }
+                if (!is_error(retunit)) {
+                    return retunit;
+                }
+            }
     // try some other cleaning steps
     ustring = unit_string;
     if (cleanUnitStringPhase2(unit_string)) {
