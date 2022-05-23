@@ -55,9 +55,9 @@ aliases:
 jobs:
   unitsTSan:
     docker:
-      - image: helics/buildenv:sanitizers
+      - image: helics/buildenv:sanitizers-14
     environment:
-      CMAKE_FLAGS: '-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS="-fsanitize=thread -stdlib=libc++ -L/root/develop/libcxx_tsan/lib -lc++abi -I/root/develop/libcxx_tsan/include -I/root/develop/libcxx_tsan/include/c++/v1 -Wno-unused-command-line-argument -g -O1 -Wl,-rpath=/root/develop/libcxx_tsan/lib"  '
+      CMAKE_FLAGS: '-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS="-fsanitize=thread -nostdinc++ -nostdlib++ -L/root/develop/libcxx_tsan/lib -lc++ -lc++abi -I/root/develop/libcxx_tsan/include -I/root/develop/libcxx_tsan/include/c++/v1 -Wno-unused-command-line-argument -fno-omit-frame-pointer -g -O2 -Wl,-rpath,/root/develop/libcxx_tsan/lib"  '
       TSAN_OPTIONS: 'second_deadlock_stack=1'
 
     steps:
@@ -66,11 +66,12 @@ jobs:
 
   unitsASan:
     docker:
-      - image: helics/buildenv:sanitizers
+      - image: helics/buildenv:sanitizers-14
     environment:
-      CMAKE_FLAGS: '-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS="-fsanitize=undefined,address -fsanitize-address-use-after-scope -stdlib=libc++ -L/root/develop/libcxx_asan/lib -lc++abi -I/root/develop/libcxx_asan/include -I/root/develop/libcxx_asan/include/c++/v1 -Wno-unused-command-line-argument -fno-omit-frame-pointer -g -O1 -Wl,-rpath=/root/develop/libcxx_asan/lib -fsanitize-blacklist=/root/project/.circleci/asan_blacklist.txt"  '
+      CMAKE_FLAGS: '-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS="-fsanitize=undefined,address -lc++ -lc++abi -fsanitize-address-use-after-scope -Wno-unused-command-line-argument -fno-omit-frame-pointer -g -O1  -fsanitize-blacklist=/root/project/.circleci/asan_blacklist.txt"  '
       LSAN_OPTIONS: 'suppressions=/root/project/.circleci/leak_suppression.txt'
       UBSAN_OPTIONS: 'print_stacktrace=1'
+      ASAN_OPTIONS: 'alloc_dealloc_mismatch=0'
 
     steps:
       - checkout
@@ -78,9 +79,9 @@ jobs:
 
   unitsMSan:
     docker:
-      - image: helics/buildenv:sanitizers
+      - image: helics/buildenv:sanitizers-14
     environment:
-      CMAKE_FLAGS: '-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS="-fsanitize=memory -stdlib=libc++ -L/root/develop/libcxx_msan/lib -lc++abi -I/root/develop/libcxx_msan/include -I/root/develop/libcxx_msan/include/c++/v1 -Wno-unused-command-line-argument -fno-omit-frame-pointer -g -O1 -Wl,-rpath=/root/develop/libcxx_msan/lib" '
+      CMAKE_FLAGS: '-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS="-fsanitize=memory -nostdinc++ -nostdlib++ -L/root/develop/libcxx_msan/lib -lc++ -lc++abi -I/root/develop/libcxx_msan/include -I/root/develop/libcxx_msan/include/c++/v1 -Wno-unused-command-line-argument -fno-omit-frame-pointer -g -O1 -Wl,-rpath,/root/develop/libcxx_msan/lib" '
 
     steps:
       - checkout
