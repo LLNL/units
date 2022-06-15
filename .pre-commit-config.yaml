@@ -29,7 +29,7 @@ repos:
       - id: codespell
         exclude: ^(test/|units/|docs/reference/)
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.2.0
+    rev: v4.3.0
     hooks:
       - id: mixed-line-ending
       - id: trailing-whitespace
@@ -40,7 +40,7 @@ repos:
       - id: end-of-file-fixer
       - id: check-shebang-scripts-are-executable
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v14.0.3
+    rev: v14.0.4-1
     hooks:
       - id: clang-format
         types:
