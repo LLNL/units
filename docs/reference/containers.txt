@@ -1,0 +1,276 @@
+Aerosol AE 42 or 43
+Ampoule, non-protected A M 31
+Ampoule, protected AP 31
+Atomizer AT 42 or 43
+Bag B G 62 to 64
+Bale, compressed BL 65
+Bale, non-compressed B N 65
+Balloon, non-protected BF 42 or 43
+Balloon, protected BP 42 or 43
+Bar BR 16
+Barrel B A 44 or 45
+Bars, inbundle/bunch/truss BZ 16
+Basket B K 27
+Beercrate CB 23 to 27
+Bin BI 21 or 25
+Board B D 16
+Board, inbundle/bunch/truss B Y 16
+Bobbin BB 91
+Bolt BT 13
+Bottle, non-protected, cylindrical B O 32 or 33
+Bottle, non-protected, bulbous BS 42 or 43
+Bottle, protectedcylindrical B Q 32 or 33
+Bottle, protectedbulbous B V 42 or 43
+Bottlecrate, bottlerack BC 29
+Box B X 21 or 25
+Bucket BJ 51
+Bulk, liquefiedgas(atabnormaltemperature/pressure) V Q 05
+Bulk, gas(at1031mbarand15°C) V G 06
+Bulk, liquid VL 04
+Bulk, solid, fineparticles(“powders”) V Y 01
+Bulk, solid, granularparticles(“grains”) V R 02
+Bulk, solid, largeparticles(“nodules”) V O 03
+Bunch B H 61 to 65
+Bundle BE 61 to 65
+Butt B U 44 or 45
+Cage C G 26
+Can, rectangular C A 22
+Can, cylindrical C X 32
+Canister CI 21 or 22
+Canvas CZ 67
+Carboy, non-protected C O 43
+Carboy, protected CP 43
+Carton CT 22 to 24
+Case CS 21 or 25
+Cask C K 44 or 45
+Chest C H 25
+Churn CC 32 or 33
+Coffer CF 24
+Coffin CJ 54
+Coil CL 14
+Collapsibletube TD 62 to 64
+Cover C V 67
+Crate CR 24 to 25
+Creel CE 27
+Cup C U 51
+Cylinder C Y 12
+Demijohn, non-protected DJ 43
+Demijohn, protected DP 43
+Drum D R 34
+Envelope EN 67
+Filmpack FP 67
+Firkin FI 44 or 45
+Flask FL 42 or 43
+Footlocker FO 23
+Frame FR 26
+Framedcrate FD 26
+Fruitcrate FC 23 to 27
+Gasbottle G B 31 or 35
+Girder GI 16
+Girders, inbundle/bunch/truss GZ 16
+Hamper H R 23
+Hogshead H G 44 or 45
+Ingot IN 17
+Ingots, inbundle/bunch/truss IZ 17
+Jar JR 41
+Jerrican, rectangular JC 23
+Jerrican, cylindrical JY 33
+Jug JG 41
+Jutebag JT 61 or 65
+Keg K G 44 or 45
+Log LG 12
+Logs, inbundle/bunch/truss LZ 12
+Milkcrate M C 27
+Multiplybag M B 62 to 64
+Multiwallsack M S 62 to 64
+Mat M T 67
+Match box M X 21
+Nest NS 24
+Net NT 66
+Package PK 21 to 23
+Packet PA 21 to 23
+PL 51
+Parcel PC 21 to 23 or 61 to 63
+Pipe PI 11
+Pipes, inbundle/bunch/truss PZ 11
+Pitcher PH 41
+Plank PN 16
+Planks, inbundle/bunch/truss PZ 16
+Plate PG 15
+Plates, inbundle/bunch/truss PY 15
+Pot PT 41
+Pouch PO 61
+Rednet RT 66
+Reel RL 91
+Ring R G 14
+Rod R D 12
+Rods, inbundle/bunch/truss RZ 12
+Roll R O 13
+Sachet SH 61
+Sack SA 65
+Sea-chest SE 22 or 23
+Shallowcrate SC 27
+Sheet ST 15
+Sheetmetal S M 15
+Sheets, inbundle/bunch/truss SZ 15
+Shrinkwrapped S W 67
+Skeletoncase SK 26
+Slipsheet SL 67
+Spindle SD 91
+Suitcase SU 21 to 23 or 61 to 63
+Tank, rectangular TK 24 or 25
+Tank, cylindrical TY 34 or 35
+Tea-chest TC 21 to 23
+Tin TN 21 or 22
+Tray PU 27
+Tray pack PU 27
+Trunk TR 24 or 25
+Truss TS 16
+Tub TB 51
+Tube TU 11
+Tube, collapsible TD 61 or 65
+Tubes, inbundle/bunch/truss TZ 11
+Tun TO 44 or 45
+Unpacked or unpackaged NE 00
+Vacuum-packed VP 67
+Vat V A 35
+Vial VI 31
+Wickerbottle W B 42 or 43
+Aerosol AE 42 or 43
+Ampoule, non-protected A M 31
+Ampoule, protected AP 31
+Atomizer AT 42 or 43
+Barrel B A 44 or 45
+Bobbin BB 91
+Bottlecrate, bottlerack BC 29
+Board B D 16
+Bundle BE 61 to 65
+Balloon, non-protected BF 42 or 43
+Bag B G 62 to 64
+Bunch B H 61 to 65
+Bin BI 21 or 25
+Bucket BJ 51
+Basket B K 27
+Bale, compressed BL 65
+Bale, non-compressed B N 65
+Bottle, non-protected, cylindrical B O 32 or 33
+Balloon, protected BP 42 or 43
+Bottle, protectedcylindrical B Q 32 or 33
+Bar BR 16
+Bottle, non-protected, bulbous BS 42 or 43
+Bolt BT 13
+Butt B U 44 or 45
+Bottle, protectedbulbous B V 42 or 43
+Box B X 21 or 25
+Board, inbundle/bunch/truss B Y 16
+Bars, inbundle/bunch/truss BZ 16
+Can, rectangular C A 22
+Beercrate CB 23 to 27
+Churn CC 32 or 33
+Creel CE 27
+Coffer CF 24
+Cage C G 26
+Chest C H 25
+Canister CI 21 or 22
+Coffin CJ 54
+Cask C K 44 or 45
+Coil CL 14
+Carboy, non-protected C O 43
+Carboy, protected CP 43
+Crate CR 24 to 25
+Case CS 21 or 25
+Carton CT 22 to 24
+Cup C U 51
+Cover C V 67
+Can, cylindrical C X 32
+Cylinder C Y 12
+Canvas CZ 67
+Demijohn, non-protected DJ 43
+Demijohn, protected DP 43
+Drum D R 34
+Envelope EN 67
+Fruitcrate FC 23 to 27
+Framedcrate FD 26
+Firkin FI 44 or 45
+Flask FL 42 or 43
+Footlocker FO 23
+Filmpack FP 67
+Frame FR 26
+Gasbottle G B 31 or 35
+Girder GI 16
+Girders, inbundle/bunch/truss GZ 16
+Hogshead H G 44 or 45
+Hamper H R 23
+Ingot IN 17
+Ingots, inbundle/bunch/truss IZ 17
+Jerrican, rectangular JC 23
+Jug JG 41
+Jar JR 41
+Jutebag JT 61 or 65
+Jerrican, cylindrical JY 33
+Keg K G 44 or 45
+Log LG 12
+Logs, inbundle/bunch/truss LZ 12
+Multiplybag M B 62 to 64
+Milkcrate M C 27
+Multiwallsack M S 62 to 64
+Shallowcrate SC 27
+Spindle SD 91
+Sea-chest SE 22 or 23
+Sachet SH 61
+Skeletoncase SK 26
+Slipsheet SL 67
+Sheetmetal S M 15
+Sheet ST 15
+Suitcase SU 21 to 23 or 61 to 63
+Shrinkwrapped S W 67
+Sheets, inbundle/bunch/truss SZ 15
+Tub TB 51
+Tea-chest TC 21 to 23
+Tube, collapsible TD 61 or 65
+Collapsibletube TD 62 to 64
+Tank, rectangular TK 24 or 25
+Tin TN 21 or 22
+Tun TO 44 or 45
+Trunk TR 24 or 25
+Truss TS 16
+Tube TU 11
+Tank, cylindrical TY 34 or 35
+Tubes, inbundle/bunch/truss TZ 11
+Vat V A 35
+Bulk, gas(at1031mbarand15°C) V G 06
+Vial VI 31
+Bulk, liquid VL 04
+Bulk, solid, largeparticles(“nodules”) V O 03
+Vacuum-packed VP 67
+Bulk, liquefiedgas(atabnormaltemperature/pressure) V Q 05
+Bulk, solid, granularparticles(“grains”) V R 02
+Bulk, solid, fineparticles(“powders”) V Y 01
+Wickerbottle W B 42 or 43
+Mat M T 67
+Match box M X 21
+Unpacked or unpackaged NE 00
+Nest NS 24
+Net NT 66
+Packet PA 21 to 23
+Parcel PC 21 to 23 or 61 to 63
+Plate PG 15
+Pitcher PH 41
+Pipe PI 11
+Package PK 21 to 23
+Pail PL 51
+Plank PN 16
+Pouch PO 61
+Pot PT 41
+Tray pack PU 27
+Tray PU 27
+Plates, inbundle/bunch/truss PY 15
+Planks, inbundle/bunch/truss PZ 16
+Pipes, inbundle/bunch/truss PZ 11
+Rod R D 12
+Ring R G 14
+Reel RL 91
+Roll R O 13
+Rednet RT 66
+Rods, inbundle/bunch/truss RZ 12
+Sack SA 65
