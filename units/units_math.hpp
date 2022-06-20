@@ -66,31 +66,31 @@ struct is_unit<precise_unit> : std::true_type {
 
 template<
     typename X,
-    typename = std::enable_if<is_measurement<X>::value>::type> X cbrt(const X& measure)
+    typename = typename std::enable_if<is_measurement<X>::value>::type> X cbrt(const X& measure)
 {
     return root(measure,3);
 }
 
-template<typename X, typename=std::enable_if<is_measurement<X>::value>::type>
+template<typename X, typename= typename std::enable_if<is_measurement<X>::value>::type>
 X floor(const X& measure)
 {
     return X((std::floor)(measure.value()),measure.units());
 }
 
-template<typename X, typename = std::enable_if<is_measurement<X>::value>::type>
+template<typename X, typename = typename std::enable_if<is_measurement<X>::value>::type>
 X ceil(const X& measure)
 {
     return X((std::ceil)(measure.value()),measure.units());
 }
 
 
-template<typename X, typename = std::enable_if<is_measurement<X>::value>::type>
+template<typename X, typename = typename std::enable_if<is_measurement<X>::value>::type>
 X round(const X& measure)
 {
     return X((std::round)(measure.value()),measure.units());
 }
 
-template<typename X, typename = std::enable_if<is_measurement<X>::value>::type>
+template<typename X, typename = typename std::enable_if<is_measurement<X>::value>::type>
 X trunc(const X& measure)
 {
     return X((std::trunc)(measure.value()),measure.units());
@@ -100,7 +100,7 @@ X trunc(const X& measure)
 template<
     typename X,
     typename Y,
-    typename = std::enable_if_t<is_measurement<X>::value || is_measurement<Y>::value >>
+    typename = typename std::enable_if<is_measurement<X>::value || is_measurement<Y>::value >::type>
 auto hypot(const X& measure1, const Y& measure2)
 {
     return sqrt(pow(measure1,2)+pow(measure2,2));
@@ -110,8 +110,8 @@ template<
     typename X,
     typename Y,
     typename Z,
-    typename = std::enable_if_t<is_measurement<X>::value ||
-        is_measurement<Y>::value || is_measurement<Z>::value>>
+    typename = typename std::enable_if<is_measurement<X>::value ||
+        is_measurement<Y>::value || is_measurement<Z>::value>::type>
 auto hypot(const X& measure1, const Y& measure2, const Z& measure3)
 {
     return sqrt(pow(measure1,2) + pow(measure2,2)+pow(measure3,2));
@@ -121,26 +121,26 @@ template<
     typename X,
     typename Y,
     typename =
-        std::enable_if_t<is_measurement<X>::value || is_measurement<Y>::value>>
+        typename std::enable_if<is_measurement<X>::value || is_measurement<Y>::value>::type>
 auto fmod(const X& measure1, const Y& measure2)
 {
     return measure1-trunc(measure1/measure2)*measure2;
 }
 
 
-template<typename X, typename = std::enable_if<is_measurement<X>::value>::type>
+template<typename X, typename = typename std::enable_if<is_measurement<X>::value>::type>
 double sin(const X& measure)
 {
     return (std::sin)(measure.value_as(precise::rad));
 }
 
-template<typename X, typename = std::enable_if<is_measurement<X>::value>::type>
+template<typename X, typename = typename std::enable_if<is_measurement<X>::value>::type>
 double cos(const X& measure)
 {
     return (std::cos)(measure.value_as(precise::rad));
 }
 
-template<typename X, typename = std::enable_if<is_measurement<X>::value>::type>
+template<typename X, typename = typename std::enable_if<is_measurement<X>::value>::type>
 double tan(const X& measure)
 {
     return (std::tan)(measure.value_as(precise::rad));
