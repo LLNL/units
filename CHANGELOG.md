@@ -4,6 +4,7 @@ All notable changes to this project after the 0.2.0 release will be documented i
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [0.7.0][] ~ 2022-09-16
 
 Major update to commodities, and addition of unit_math operations to match standard library operations
@@ -14,8 +15,7 @@ Major update to commodities, and addition of unit_math operations to match stand
 
 ### Added
 
-- math operations from the standard library including: trunc, ceil, floor, round, fmod, sin, cos, tan.  
-
+- math operations from the standard library including: trunc, ceil, floor, round, fmod, sin, cos, tan.
 
 ## [0.6.0][] - 2022-05-16
 

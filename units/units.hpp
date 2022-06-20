@@ -412,6 +412,7 @@ class measurement {
     {
         return value_as(unit_cast(desired_units));
     }
+
   private:
     double value_{0.0};  //!< the numerical quantity of the unit
     unit units_;  //!< the actual unit represented
@@ -998,7 +999,7 @@ class uncertain_measurement {
     }
     /// Get the underlying units value
     constexpr unit units() const { return units_; }
-    
+
     /// Get the numerical value as a particular unit type
     double value_as(unit desired_units) const
     {
