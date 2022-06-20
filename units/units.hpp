@@ -407,6 +407,11 @@ class measurement {
             value_ :
             units::convert(value_, units_, desired_unit);
     }
+    /// Get the numerical value as a particular unit type
+    double value_as(precise_unit desired_units) const
+    {
+        return value_as(unit_cast(desired_units));
+    }
 
   private:
     double value_{0.0};  //!< the numerical quantity of the unit
@@ -567,6 +572,12 @@ class fixed_measurement {
         return (units_ == desired_units) ?
             value_ :
             units::convert(static_cast<double>(value_), units_, desired_units);
+    }
+
+    /// Get the numerical value as a particular unit type
+    double value_as(precise_unit desired_units) const
+    {
+        return value_as(unit_cast(desired_units));
     }
 
     fixed_measurement& operator+=(double val)
@@ -996,6 +1007,11 @@ class uncertain_measurement {
             static_cast<double>(value_) :
             units::convert(static_cast<double>(value_), units_, desired_units);
     }
+    /// Get the numerical value as a particular unit type
+    double value_as(const precise_unit& desired_units) const
+    {
+        return value_as(unit_cast(desired_units));
+    }
     /// Get the numerical value of the uncertainty as a particular unit
     double uncertainty_as(unit desired_units) const
     {
@@ -1005,6 +1021,10 @@ class uncertain_measurement {
                 static_cast<double>(uncertainty_), units_, desired_units);
     }
 
+    double uncertainty_as(const precise_unit& desired_units) const
+    {
+        return uncertainty_as(unit_cast(desired_units));
+    }
     /// comparison operators
     /** the equality operator reverts to the measurement comparison if the
     uncertainty is 0 otherwise it returns true if the measurement that is being

@@ -15,6 +15,7 @@ The guide covers the basic types and what operations are available on them, as w
    uncertain_measurements
    from_string
    to_string
+   math_operations
    commodities
    user_defined_units
    Physical_constants

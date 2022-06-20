@@ -5,7 +5,19 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.6.0][] ~ 2022-05-16
+## [0.7.0][] ~ 2022-09-16
+
+Major update to commodities, and addition of unit_math operations to match standard library operations
+
+### Changed
+
+### Fixed
+
+### Added
+
+- math operations from the standard library including: trunc, ceil, floor, round, fmod, sin, cos, tan.
+
+## [0.6.0][] - 2022-05-16
 
 This release has a number of fixes for specific unit strings, adds some other units and a new unit_conversion_maps structure to reduce stack usage.
 
@@ -37,6 +49,7 @@ This release has a number of fixes for specific unit strings, adds some other un
 - Added mass to weight conversions [#229][]
 - added domains to allow some domain specific units that might mean different things in different contexts [#173][]
 
+[#217]: https://github.com/LLNL/units/pull/217
 [#226]: https://github.com/LLNL/units/pull/226
 [#166]: https://github.com/LLNL/units/pull/166
 [#188]: https://github.com/LLNL/units/pull/188
@@ -235,8 +248,9 @@ Continued work on cleaning up the library and starting to add main documentation
 [#152]: https://github.com/LLNL/units/pull/152
 [#159]: https://github.com/LLNL/units/pull/159
 [#155]: https://github.com/LLNL/units/pull/155
+[0.7.0]: https://github.com/LLNL/units/releases/tag/v0.7.0
+[0.6.0]: https://github.com/LLNL/units/releases/tag/v0.6.0
 [0.5.0]: https://github.com/LLNL/units/releases/tag/v0.5.0
 [0.4.0]: https://github.com/LLNL/units/releases/tag/v0.4.0
 [0.3.0]: https://github.com/LLNL/units/releases/tag/v0.3.0
 [0.2.0]: https://github.com/LLNL/units/releases/tag/v0.2.0
-[0.6.0]: https://github.com/LLNL/units/releases/tag/v0.6.0
