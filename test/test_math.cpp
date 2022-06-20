@@ -8,7 +8,6 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/units_math.hpp"
 
-
 using namespace units;
 TEST(mathOps, type_traits)
 {
@@ -28,7 +27,7 @@ TEST(mathOps, uncertain_meas)
 
     auto um3 = floor(um1);
     EXPECT_FLOAT_EQ(um3.value(), 5.0F);
-    
+
     auto um4 = trunc(um1);
     EXPECT_FLOAT_EQ(um4.value(), 5.0F);
 
@@ -79,7 +78,6 @@ TEST(mathOps, fixed_meas)
     EXPECT_FLOAT_EQ(um6.value(), 6.0F);
 }
 
-
 TEST(mathOps, precise_meas)
 {
     precise_measurement um1(5.69F, precise::m.pow(3));
@@ -120,7 +118,8 @@ TEST(mathOps, precise_fixed_meas)
     EXPECT_FLOAT_EQ(um6.value(), 6.0F);
 }
 
-TEST(mathOps, trig_sin) {
+TEST(mathOps, trig_sin)
+{
     measurement m1(constants::pi / 4.0, rad);
     EXPECT_FLOAT_EQ(sin(m1), sin(constants::pi / 4.0));
 
@@ -182,12 +181,12 @@ TEST(mathOps, hypot3)
     precise_measurement m1(5.0, precise::m);
     precise_measurement m2(5.4, precise::in);
     precise_measurement m3(0.01, precise::km);
-    auto res = hypot(m1, m2,m3);
+    auto res = hypot(m1, m2, m3);
     EXPECT_GT(res, m1);
     EXPECT_GT(res, m2);
     EXPECT_GT(res, m3);
-    auto res2 = hypot(m3, m1, m2 );
-    auto res3 = hypot(m2, m3, m1 );
+    auto res2 = hypot(m3, m1, m2);
+    auto res3 = hypot(m2, m3, m1);
     EXPECT_EQ(res, res2);
     EXPECT_EQ(res2, res3);
 }

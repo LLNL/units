@@ -189,7 +189,7 @@ For more details see the [documentation](https://units.readthedocs.io/en/latest/
 ### Converter Application
 
 A [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application can be built as part the units library by setting
-`UNITS_BUILD_CONVERTER_APP=ON` in the CMake build. This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form.  If you want to run your own converter a docker container is available on [dockerhub](https://hub.docker.com/layers/82497105/phlptp/units/webserver/images/sha256-747697d6cabb64c5a53b99e00c4748964a2a7e9a819a93622bfdb32dd5e58b01?context=repo).
+`UNITS_BUILD_CONVERTER_APP=ON` in the CMake build. This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form. If you want to run your own converter a docker container is available on [dockerhub](https://hub.docker.com/layers/82497105/phlptp/units/webserver/images/sha256-747697d6cabb64c5a53b99e00c4748964a2a7e9a819a93622bfdb32dd5e58b01?context=repo).
 
 ## Usage
 
@@ -320,7 +320,7 @@ These free functions work on any of different measurement types.
 
 ### Additional math operations
 
-A few additional math operations are available in the "unit_math.hpp"  header on all measurement types.  This is a header only and is not included by default.   It adds math operations including `ceil`,`floor`,'trunc',`roud`,'fmod',`sin`,`cos`,`tan`.  The trigonometric operations are only defined for measurements that are convertible to radians.  Additionally two type traits are defined including `is_measurement<X>` and `is_unit<X>`.  These traits are only true for defined measurement types and unit types respectively.  
+A few additional math operations are available in the "unit_math.hpp" header on all measurement types. This is a header only and is not included by default. It adds math operations including `ceil`,`floor`,'trunc',`roud`,'fmod',`sin`,`cos`,`tan`. The trigonometric operations are only defined for measurements that are convertible to radians. Additionally two type traits are defined including `is_measurement<X>` and `is_unit<X>`. These traits are only true for defined measurement types and unit types respectively.
 
 ### Available library functions
 
