@@ -111,7 +111,8 @@ template<
     typename Y,
     typename = typename std::enable_if<
         is_measurement<X>::value || is_measurement<Y>::value>::type>
-auto hypot(const X& measure1, const Y& measure2) -> decltype(measure1+measure2)
+auto hypot(const X& measure1, const Y& measure2)
+    -> decltype(measure1 + measure2)
 {
     return sqrt(pow(measure1, 2) + pow(measure2, 2));
 }
@@ -124,7 +125,7 @@ template<
         is_measurement<X>::value || is_measurement<Y>::value ||
         is_measurement<Z>::value>::type>
 auto hypot(const X& measure1, const Y& measure2, const Z& measure3)
-    -> decltype(measure1+measure2+measure3)
+    -> decltype(measure1 + measure2 + measure3)
 {
     return sqrt(pow(measure1, 2) + pow(measure2, 2) + pow(measure3, 2));
 }
