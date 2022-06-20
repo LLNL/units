@@ -16,6 +16,8 @@ SPDX-License-Identifier: BSD-3-Clause
 namespace UNITS_NAMESPACE {
 
     /** declare the type traits*/
+
+/// type_trait for detecting any measurement type
 template<typename T>
 struct is_measurement : std::false_type {
 };
@@ -36,13 +38,19 @@ template<>
 struct is_measurement<uncertain_measurement> : std::true_type {
 };
 
-template<
-    typename X,
-    typename = std::enable_if<is_measurement<X>::value>::type> X cbrt(const X& measure)
-{
-    return root(measure,3);
-}
+/// type_trait for detecting a precise measurement type
+template<typename T>
+struct is_precise_measurement : std::false_type {
+};
 
+template<>
+struct is_precise_measurement<fixed_precise_measurement> : std::true_type {
+};
+template<>
+struct is_precise_measurement<precise_measurement> : std::true_type {
+};
+
+/// type_trait for detecting a unit type
 template<typename T>
 struct is_unit : std::false_type {
 };
@@ -55,6 +63,13 @@ struct is_unit<precise_unit> : std::true_type {
 };
 
 // cmath overloads
+
+template<
+    typename X,
+    typename = std::enable_if<is_measurement<X>::value>::type> X cbrt(const X& measure)
+{
+    return root(measure,3);
+}
 
 template<typename X, typename=std::enable_if<is_measurement<X>::value>::type>
 X floor(const X& measure)
@@ -88,7 +103,7 @@ template<
     typename = std::enable_if_t<is_measurement<X>::value || is_measurement<Y>::value >>
 auto hypot(const X& measure1, const Y& measure2)
 {
-    return sqrt(measure1.pow(2)+measure2.pow(2));
+    return sqrt(pow(measure1,2)+pow(measure2,2));
 }
 
 template<
@@ -99,7 +114,7 @@ template<
         is_measurement<Y>::value || is_measurement<Z>::value>>
 auto hypot(const X& measure1, const Y& measure2, const Z& measure3)
 {
-    return sqrt(measure1.pow(2) + measure2.pow(2)+measure3.pow(2));
+    return sqrt(pow(measure1,2) + pow(measure2,2)+pow(measure3,2));
 }
 
 template<

@@ -163,3 +163,31 @@ TEST(mathOps, trig_tan)
     precise_measurement m4(30.0, precise::deg);
     EXPECT_DOUBLE_EQ(tan(m4), tan(constants::pi / 6.0));
 }
+
+TEST(mathOps, hypot)
+{
+    measurement m1(5.0, m);
+    measurement m2(5.4, in);
+
+    auto res = hypot(m1, m2);
+    EXPECT_GT(res, m1);
+    EXPECT_GT(res, m2);
+
+    auto res2 = hypot(m2, m1);
+    EXPECT_EQ(res, res2);
+}
+
+TEST(mathOps, hypot3)
+{
+    precise_measurement m1(5.0, precise::m);
+    precise_measurement m2(5.4, precise::in);
+    precise_measurement m3(0.01, precise::km);
+    auto res = hypot(m1, m2,m3);
+    EXPECT_GT(res, m1);
+    EXPECT_GT(res, m2);
+    EXPECT_GT(res, m3);
+    auto res2 = hypot(m3, m1, m2 );
+    auto res3 = hypot(m2, m3, m1 );
+    EXPECT_EQ(res, res2);
+    EXPECT_EQ(res2, res3);
+}

@@ -61,7 +61,7 @@ The return value can be checked for validity as an invalid conversion would resu
 or
 
 ```cpp
-if (!meas.units().is_convertible(out)
+if (!meas.units().is_convertible(out))
 {
     throw(std::invalid_argument);
 }
@@ -71,7 +71,7 @@ if (!meas.units().is_convertible(out)
 
 - The powers represented by units by default are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported, this can be modified at compile time to support a much broader range at the expense of size and computation.
 - The library uses floating point and double precision for the multipliers which is generally good enough for most engineering contexts, but does come with the limits and associated loss of precision for long series of calculations on floating point numbers.
-- Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So if you are doing a lot of financial calculations or accounting use something more specific for currency manipulations.
+- Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So, if you are doing a lot of financial calculations or accounting, use something more specific for currency manipulations.
 - Fractional unit powers are not supported in general. While some mathematical operations on units are supported any root operations `sqrt` or `cbrt` will only produce valid results if the result is integral powers of the base units. One exception is limited support for √Hz operations in measurements of Amplitude spectral density. A specific definition of a unit representing square root of Hz is available and will work in combination with other units.
 - While conversions of various temperature definitions are supported, there is no generalized support for datums and bias shifts. It may be possible to add some specific cases in the future for common uses cases but the space requirement limits such use. Some of the other libraries have general support for this.
 - A few [equation](https://units.readthedocs.io/en/latest/user-guide/equation_units.html) like units are supported these include logarithms, nepers, and some things like Saffir-Simpson, Beaufort, and Fujita scales for wind, and Richter scales for earthquakes. There is capacity within the framework to add a few more equation like units if a need arises.
@@ -93,7 +93,7 @@ If you are looking for compile time and prevention of unit errors in equations f
 
 These libraries will work well if the number of units being dealt with is known at compile time. Many also produce zero overhead operations and checking. Therefore in situations where this is possible other libraries are a preferred alternative.
 
-### Reasons to choose this units library vs. another option
+### Reasons to choose this units library over another option
 
 1.  Conversions to and from regular strings are required
 2.  The number of units in use is large
@@ -107,11 +107,12 @@ These libraries will work well if the number of units being dealt with is known 
 
 ### Reasons to choose something else
 
-1.  Type safety and dimensional analysis is a design requirement
+1.  Type safety and dimensional analysis **IS** a design requirement
 2.  Performance is absolutely critical (many other libraries are zero runtime overhead)
 3.  You are only working with a small number of known units
 4.  You cannot use C++11 yet.
 5.  You need to operate on arbitrary or general fractional powers of base units
+6.  You need support for arbitrary datum shifts in the unit library
 
 ## Types
 
@@ -123,7 +124,7 @@ There are only a few types in the library
 - `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement.
 - `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.
 - `fixed_measurement` is a 16 byte type containing a double value along with a constant `unit` and mathematical operations can be performed on it usually producing a new `measurement`. The distinction between `fixed_measurement` and `measurement` is that the unit definition of `fixed_measurement` is constant and any assignments get automatically converted, `fixed_measurement`'s are implicitly convertible to a `measurement` of the same value type. fixed_measurement also support some operation with pure numbers by assuming a unit that are not allowed on regular measurement types.
-- `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template, except it is 24 bytes instead of 16.
+- `fixed_precise_measurement` is similar to `fixed_measurement` except it uses `precise_unit` as a base and uses a double for the measurement instead of a template, and it is 24 bytes instead of 16.
 - `uncertain_measurement` is similar to `measurement` except it uses a 32-bit float for the value and contains an uncertainty field which is also 32-bits. Mathematical operations on `uncertain_measurement`s will propagate the uncertainty and convert it as necessary. The class also includes functions for simple-uncertainty propagation like `simple_subtract` which just sums the uncertainties. The sum-of-squares methods is used in the overloaded math operators. Mathematical operations are supported on the type and it interoperates with measurements.
 
 ## Unit representation
@@ -188,7 +189,7 @@ For more details see the [documentation](https://units.readthedocs.io/en/latest/
 ### Converter Application
 
 A [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application can be built as part the units library by setting
-`UNITS_BUILD_CONVERTER_APP=ON` in the CMake build. This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form.
+`UNITS_BUILD_CONVERTER_APP=ON` in the CMake build. This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form.  If you want to run your own converter a docker container is available on [dockerhub](https://hub.docker.com/layers/82497105/phlptp/units/webserver/images/sha256-747697d6cabb64c5a53b99e00c4748964a2a7e9a819a93622bfdb32dd5e58b01?context=repo).
 
 ## Usage
 
@@ -316,6 +317,10 @@ These free functions work on any of different measurement types.
 - `<measurement> sqrt(<measurement>)` take the square root of a measurement of any kind, the units need to have a valid root.
 - `bool is_valid(<measurement>)` will result in true if the underlying unit is valid and the value is not a nan.
 - `bool isnormal(<measurement>)` will result in true if the underlying unit is normal and the value is not a nan or infinity or subnormal - zero is allowed in the measurement value, but not the unit multiplier.
+
+### Additional math operations
+
+A few additional math operations are available in the "unit_math.hpp"  header on all measurement types.  This is a header only and is not included by default.   It adds math operations including `ceil`,`floor`,'trunc',`roud`,'fmod',`sin`,`cos`,`tan`.  The trigonometric operations are only defined for measurements that are convertible to radians.  Additionally two type traits are defined including `is_measurement<X>` and `is_unit<X>`.  These traits are only true for defined measurement types and unit types respectively.  
 
 ### Available library functions
 
