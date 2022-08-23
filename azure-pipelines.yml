@@ -83,10 +83,6 @@ jobs:
         gcc8:
           containerImage: gcc:8
           units.std: 17
-        gcc4.8:
-          containerImage: gcc:4.8
-          units.std: 11
-          units.options:
         clang3.4:
           containerImage: silkeh/clang:3.4
           units.std: 11
@@ -117,6 +113,10 @@ jobs:
       vmImage: 'ubuntu-latest'
     strategy:
       matrix:
+        gcc4.8:
+          containerImage: helics/buildenv:gcc4-8-builder
+          units.std: 11
+          units.options:
         clang8:
           containerImage: helics/buildenv:clang8-builder
           units.std: 14

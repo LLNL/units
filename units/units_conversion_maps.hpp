@@ -193,7 +193,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 180>
          {unit_cast(precise::us::tbsp), "tbsp"},
          {unit_cast(precise::us::quart), "qt"},
          {unit_cast(precise::energy::eV / (constants::c.as_unit().pow(2))),
-          "eV*[c]^-2"},
+          "(eV*[c]^-2)"},
          {unit_cast(precise::data::GiB), "GiB"},
          {unit_cast(precise::other::ppm), "ppm"},
          {unit_cast(precise::other::ppb), "ppb"}}};
