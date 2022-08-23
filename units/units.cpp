@@ -976,10 +976,8 @@ static std::string
     }
 
     if (!propUnitString.empty()) {
-        if (propUnitString.front() == '(' && propUnitString.back() == ')')
-        { 
-            if (propUnitString.find_first_of('(', 1) == std::string::npos)
-            {
+        if (propUnitString.front() == '(' && propUnitString.back() == ')') {
+            if (propUnitString.find_first_of('(', 1) == std::string::npos) {
                 propUnitString.pop_back();
                 propUnitString.erase(propUnitString.begin());
             }
