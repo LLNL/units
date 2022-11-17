@@ -2153,6 +2153,21 @@ namespace constants {
             1.054571817e-34,
             precise::J* precise::s};
     }  // namespace atomic
+
+    /// constants with uncertainties attached
+    namespace uncertain
+    {
+        constexpr uncertain_measurement mu{measurement_cast(constants::mu), 0.5e-36};
+        constexpr uncertain_measurement me{measurement_cast(constants::me), 2.8e-40};
+        constexpr uncertain_measurement mp{measurement_cast(constants::mp), 0.51e-36};
+        constexpr uncertain_measurement mn{measurement_cast(constants::mn), 0.95e-36};
+        constexpr uncertain_measurement alpha{measurement_cast(constants::alpha),1.1e-12};
+        constexpr uncertain_measurement G{measurement_cast(constants::G),1.5e-15};
+        constexpr uncertain_measurement Rinf{measurement_cast(constants::Rinf),0.000021};
+        constexpr uncertain_measurement eps0{measurement_cast(constants::eps0),1.3e-21};
+        constexpr uncertain_measurement mu0{measurement_cast(constants::mu0),0.19e-15};
+        constexpr uncertain_measurement H0{measurement_cast(constants::H0),1.7};
+    }
 }  // namespace constants
 
 #ifdef ENABLE_UNIT_TESTING
