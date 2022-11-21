@@ -19,50 +19,38 @@ namespace UNITS_NAMESPACE {
 
 /// type_trait for detecting any measurement type
 template<typename T>
-struct is_measurement : std::false_type {
-};
+struct is_measurement : std::false_type {};
 
 template<>
-struct is_measurement<measurement> : std::true_type {
-};
+struct is_measurement<measurement> : std::true_type {};
 template<>
-struct is_measurement<precise_measurement> : std::true_type {
-};
+struct is_measurement<precise_measurement> : std::true_type {};
 template<>
-struct is_measurement<fixed_measurement> : std::true_type {
-};
+struct is_measurement<fixed_measurement> : std::true_type {};
 
 template<>
-struct is_measurement<fixed_precise_measurement> : std::true_type {
-};
+struct is_measurement<fixed_precise_measurement> : std::true_type {};
 
 template<>
-struct is_measurement<uncertain_measurement> : std::true_type {
-};
+struct is_measurement<uncertain_measurement> : std::true_type {};
 
 /// type_trait for detecting a precise measurement type
 template<typename T>
-struct is_precise_measurement : std::false_type {
-};
+struct is_precise_measurement : std::false_type {};
 
 template<>
-struct is_precise_measurement<fixed_precise_measurement> : std::true_type {
-};
+struct is_precise_measurement<fixed_precise_measurement> : std::true_type {};
 template<>
-struct is_precise_measurement<precise_measurement> : std::true_type {
-};
+struct is_precise_measurement<precise_measurement> : std::true_type {};
 
 /// type_trait for detecting a unit type
 template<typename T>
-struct is_unit : std::false_type {
-};
+struct is_unit : std::false_type {};
 
 template<>
-struct is_unit<unit> : std::true_type {
-};
+struct is_unit<unit> : std::true_type {};
 template<>
-struct is_unit<precise_unit> : std::true_type {
-};
+struct is_unit<precise_unit> : std::true_type {};
 
 // cmath overloads
 
