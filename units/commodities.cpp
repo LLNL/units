@@ -167,6 +167,7 @@ namespace commodities {
         {Hahnemann, "Hahnemann"},
         {Korsakov, "Korsakov"},
         {creatinine, "creatinine"},
+        {capsaicin, "capsaicin"},
         {protein, "protein"},
 
         {pixel, "pixel"},

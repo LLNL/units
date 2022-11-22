@@ -33,3 +33,5 @@ ignore:
   - 'examples'
   - 'test'
   - 'FuzzTargets'
+  - 'webserver'
+  - 'converter'
