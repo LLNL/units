@@ -1698,7 +1698,9 @@ std::string
     to_string(const uncertain_measurement& measure, std::uint32_t match_flags)
 {
     // compute the correct number of digits to display for uncertain precision
-    auto digits= static_cast<std::streamsize>(ceil(log10(measure.value()/measure.uncertainty())))+1;
+    auto digits = static_cast<std::streamsize>(
+                      ceil(log10(measure.value() / measure.uncertainty()))) +
+        1;
 
     std::stringstream ss;
     ss.precision(digits);
