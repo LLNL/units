@@ -462,6 +462,26 @@ TEST(uncertainStrings, to_string)
     auto str = to_string(um1);
     EXPECT_EQ(str, "10+/-0.4 m");
 }
+
+
+TEST(uncertainStrings, to_stringReduce)
+{
+    uncertain_measurement um1(10.897, 0.4, m);
+    auto str = to_string(um1);
+    EXPECT_EQ(str, "10.9+/-0.4 m");
+
+    uncertain_measurement um2(10.848, 0.04, m);
+    str = to_string(um2);
+    EXPECT_EQ(str, "10.85+/-0.04 m");
+
+    uncertain_measurement um3(10.848e-7, 0.041e-7, m);
+    str = to_string(um3);
+    EXPECT_EQ(str, "1.085e-06+/-4.1e-09 m");
+
+    uncertain_measurement um4(335.0, 100.0, m);
+    str = to_string(um4);
+    EXPECT_EQ(str, "3.4e+02+/-1e+02 m");
+}
 #endif
 
 TEST(uncertainOps, fractional_uncertainty)
