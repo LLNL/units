@@ -463,7 +463,6 @@ TEST(uncertainStrings, to_string)
     EXPECT_EQ(str, "10+/-0.4 m");
 }
 
-
 TEST(uncertainStrings, to_stringReduce)
 {
     uncertain_measurement um1(10.897, 0.4, m);
