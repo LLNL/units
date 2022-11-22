@@ -119,7 +119,7 @@ namespace commodities {
 
         // emmissions
 
-        // food 
+        // food
         capsaicin = 623452,
     };
 }  // namespace commodities

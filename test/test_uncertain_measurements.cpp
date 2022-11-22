@@ -453,8 +453,8 @@ TEST(uncertainStrings, from_string_concise)
     EXPECT_EQ(um6.units(), kg);
 
     auto um7 = uncertain_measurement_from_string("9.1093837015(28)x10-31 kg");
-    EXPECT_EQ(um7,constants::uncertain::me);
-    EXPECT_DOUBLE_EQ(um7.uncertainty(),constants::uncertain::me.uncertainty());
+    EXPECT_EQ(um7, constants::uncertain::me);
+    EXPECT_DOUBLE_EQ(um7.uncertainty(), constants::uncertain::me.uncertainty());
 }
 TEST(uncertainStrings, to_string)
 {

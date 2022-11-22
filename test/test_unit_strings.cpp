@@ -325,8 +325,8 @@ TEST(unitStrings, watthours)
 {
     EXPECT_EQ(to_string(precise::A * precise::s), "C");
     EXPECT_EQ(to_string(precise::W * precise::hr), "Wh");
-    EXPECT_EQ(to_string(precise::W * precise::hr*precise::iflag), "Wh*flag");
-    EXPECT_EQ(to_string(precise::W * precise::hr*precise::m), "Wh*m");
+    EXPECT_EQ(to_string(precise::W * precise::hr * precise::iflag), "Wh*flag");
+    EXPECT_EQ(to_string(precise::W * precise::hr * precise::m), "Wh*m");
     EXPECT_EQ(to_string(precise::kilo * precise::W * precise::h), "kWh");
     EXPECT_EQ(to_string(precise::mega * precise::W * precise::h), "MWh");
     EXPECT_EQ(to_string(precise::giga * precise::W * precise::h), "GWh");
