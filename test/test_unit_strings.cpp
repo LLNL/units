@@ -162,6 +162,16 @@ TEST(unitStrings, readability)
     EXPECT_EQ(to_string(precise::m / precise::s.pow(2)), "m/s^2");
 }
 
+TEST(unitStrings, dotInterpretation)
+{
+    EXPECT_EQ(precise::m * precise::s, unit_from_string("m.s"));
+    EXPECT_EQ(precise::m * precise::s, unit_from_string("m. s"));
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string("m. s."));
+    EXPECT_EQ(precise::m * precise::s, unit_from_string("m- s"));
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string("m-s"));
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string("m.s."));
+}
+
 TEST(unitStrings, infinite)
 {
     EXPECT_EQ(
