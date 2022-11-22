@@ -23,7 +23,7 @@ Values are taken from `NIST 2018 CODATA <https://physics.nist.gov/cuu/Constants/
 -   Avogadros constant (2019 redefinition) - `Na`
 -   Luminous efficiency - `kcd`
 -   Permittivity of free space - `eps0`
--   Permeability of free space - `u0`
+-   Permeability of free space - `mu0`
 -   Gas Constant - `R`
 -   Stephan Boltzmann constant -`s`
 -   Hubble constant 69.8 km/s/Mpc - `H0`
@@ -64,3 +64,19 @@ The last two are used in several other units and some conversions so it seemed b
 From Strings
 -----------------
 All constants listed here are available for conversion from strings by wrapping in brackets  For example the luminous efficiency would be converted to a unit by using `[kcd]`  The planck constants are available as `[planck::XXXXX]` or `planckXXXXXX and the atomic constants are available as `[atomic::XXXX]`
+
+Uncertainties
+------------------
+Certain physical constants have uncertainties associated with them and have an additional `uncertain_measurement` associated with them see :ref:`uncertain_measurments`.
+These can be found in the `units::constants::uncertain` namespace and include:
+
+-   Gravitational constant - `G`
+-   Permittivity of free space - `eps0`
+-   Permeability of free space - `u0`
+-   Hubble constant 69.8 km/s/Mpc - `H0`
+-   Mass of an electron - `me`
+-   Mass of a proton - `mp`
+-   Atomic mass constant - `mu`
+-   Rydberg constant - `Rinf`
+
+*NOTE:  A few of the uncertain constants have more precision than supported in uncertain_measurments but were included for completeness*

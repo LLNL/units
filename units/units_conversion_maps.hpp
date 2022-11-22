@@ -1411,7 +1411,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    991>
+    994>
     defined_unit_strings_customary{{
         {"candle", precise::other::candle},
         {"candlepower", precise::other::candle},
@@ -2460,6 +2460,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          precise_unit(1.0, precise::log::neglog50000, commodities::Korsakov)},
         {"[KP_Q]",
          precise_unit(1.0, precise::log::neglog50000, commodities::Korsakov)},
+        {"shu",precise_unit(1.0/16,precise::other::ppm,commodities::capsaicin)},
+        {"scoville",precise_unit(1.0/16,precise::other::ppm,commodities::capsaicin)},
+        {"scovilleheatunit",precise_unit(1.0/16,precise::other::ppm,commodities::capsaicin)}
     }};
 
 // Mostly from https://en.wikipedia.org/wiki/International_System_of_Units
