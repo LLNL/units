@@ -3164,8 +3164,8 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 continue;
             }
             if (unit_string[fnd - 1] == '.') {
-                //this is an abbreviation so deal with it later
-                fnd = unit_string.find_first_of(spaceChars, fnd+1);
+                // this is an abbreviation so deal with it later
+                fnd = unit_string.find_first_of(spaceChars, fnd + 1);
                 continue;
             }
             if (unit_string.size() > nloc &&
@@ -3267,8 +3267,8 @@ static void
                     if (dInt == DotInterpretation::multiply) {
                         unit_string[dloc] = '*';
                     } else {
-                        while (unit_string[dloc]=='.'||unit_string[dloc] == ' ')
-                        {
+                        while (unit_string[dloc] == '.' ||
+                               unit_string[dloc] == ' ') {
                             unit_string.erase(dloc, 1);
                         }
                         --dloc;
@@ -3282,8 +3282,8 @@ static void
                 if (dInt == DotInterpretation::multiply) {
                     unit_string[dloc] = '*';
                 } else {
-                    while (unit_string[dloc]=='.'||unit_string[dloc] == ' ')
-                    {
+                    while (unit_string[dloc] == '.' ||
+                           unit_string[dloc] == ' ') {
                         unit_string.erase(dloc, 1);
                     }
                     --dloc;
@@ -3311,8 +3311,8 @@ static void
                 if (dInt == DotInterpretation::multiply) {
                     unit_string[nloc] = '*';
                 } else {
-                    while (unit_string[nloc]=='.'||unit_string[nloc] == ' ')
-                    {
+                    while (unit_string[nloc] == '.' ||
+                           unit_string[nloc] == ' ') {
                         unit_string.erase(nloc, 1);
                     }
                     --nloc;

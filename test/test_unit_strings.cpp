@@ -170,9 +170,9 @@ TEST(unitStrings, dotInterpretation)
     EXPECT_EQ(precise::milli * precise::s, unit_from_string("m. s"));
     // interpret as abbreviation so millisecond
     EXPECT_EQ(precise::milli * precise::s, unit_from_string("m. s."));
-    // connector so space = multiply 
+    // connector so space = multiply
     EXPECT_EQ(precise::m * precise::s, unit_from_string("m- s"));
-    // connector so space = multiply 
+    // connector so space = multiply
     EXPECT_EQ(precise::milli * precise::s, unit_from_string("m-s"));
     // s is abbreviation so first . is also abbreviation so millisecond
     EXPECT_EQ(precise::milli * precise::s, unit_from_string("m.s."));
@@ -180,12 +180,15 @@ TEST(unitStrings, dotInterpretation)
 
 TEST(unitStrings, endwithU)
 {
-    EXPECT_EQ(unit_from_string("astronomical unit"), unit_from_string("astronomicalu"));
+    EXPECT_EQ(
+        unit_from_string("astronomical unit"),
+        unit_from_string("astronomicalu"));
     EXPECT_EQ(unit_from_string("arb. u."), unit_from_string("arbitraryunit"));
     EXPECT_EQ(unit_from_string("arb. u."), unit_from_string("arbitrary u."));
     EXPECT_EQ(unit_from_string("arb. unit"), unit_from_string("arbitrary u."));
     EXPECT_EQ(unit_from_string("p.d.u."), unit_from_string("arbitraryunit"));
-    EXPECT_EQ(unit_from_string("arbitrary unit"), unit_from_string("arbitrary u."));
+    EXPECT_EQ(
+        unit_from_string("arbitrary unit"), unit_from_string("arbitrary u."));
 }
 
 TEST(unitStrings, infinite)
