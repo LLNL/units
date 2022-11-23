@@ -1699,9 +1699,8 @@ std::string
 {
     // compute the correct number of digits to display for uncertain precision
     auto digits = static_cast<std::streamsize>(
-                      ceil(-log10(measure.fractional_uncertainty()))) +
-        1;
-    digits = (digits < 2) ? 2 : digits;
+                      ceil(-log10(measure.fractional_uncertainty())));
+    digits = (digits < 2) ? 2 : digits+1;
     std::stringstream ss;
     ss.precision(digits);
     ss << measure.value_f();
