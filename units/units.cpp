@@ -3225,11 +3225,11 @@ static DotInterpretation findDotInterpretation(const std::string& unit_string)
                     if (unit_string[dloc - 1] == '*' ||
                         unit_string[dloc + 1] == ' ') {
                         return DotInterpretation::abbrev;
-                    } else if (dloc == unit_string.size() - 1) {
-                        return DotInterpretation::abbrev;
-                    } else {
-                        dInt = DotInterpretation::multiply;
                     }
+                    if (dloc == unit_string.size() - 1) {
+                        return DotInterpretation::abbrev;
+                    }
+                    dInt = DotInterpretation::multiply;
                 }
             } else if (unit_string.size() > 1) {
                 if (!isDigitCharacter(unit_string[dloc + 1])) {
