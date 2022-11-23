@@ -3164,8 +3164,8 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 continue;
             }
             if (unit_string[fnd - 1] == '.') {
-                //this is an abbreviation so deal with it later
-                fnd = unit_string.find_first_of(spaceChars, fnd+1);
+                // this is an abbreviation so deal with it later
+                fnd = unit_string.find_first_of(spaceChars, fnd + 1);
                 continue;
             }
             if (unit_string.size() > nloc &&
@@ -3224,26 +3224,24 @@ static DotInterpretation findDotInterpretation(const std::string& unit_string)
     }
     DotInterpretation dInt{DotInterpretation::none};
     while (dloc != std::string::npos) {
-        while (dloc != std::string::npos) {
-            if (dloc > 0) {
-                if (!isDigitCharacter(unit_string[dloc - 1]) ||
-                    !isDigitCharacter(unit_string[dloc + 1])) {
-                    if (unit_string[dloc - 1] == '*' ||
-                        unit_string[dloc + 1] == ' ') {
-                        return DotInterpretation::abbrev;
-                    }
-                    if (dloc == unit_string.size() - 1) {
-                        return DotInterpretation::abbrev;
-                    }
-                    dInt = DotInterpretation::multiply;
+        if (dloc > 0) {
+            if (!isDigitCharacter(unit_string[dloc - 1]) ||
+                !isDigitCharacter(unit_string[dloc + 1])) {
+                if (unit_string[dloc - 1] == '*' ||
+                    unit_string[dloc + 1] == ' ') {
+                    return DotInterpretation::abbrev;
                 }
-            } else if (unit_string.size() > 1) {
-                if (!isDigitCharacter(unit_string[dloc + 1])) {
-                    dInt = DotInterpretation::multiply;
+                if (dloc == unit_string.size() - 1) {
+                    return DotInterpretation::abbrev;
                 }
+                dInt = DotInterpretation::multiply;
             }
-            dloc = unit_string.find_first_of('.', dloc + 1);
+        } else if (unit_string.size() > 1) {
+            if (!isDigitCharacter(unit_string[dloc + 1])) {
+                dInt = DotInterpretation::multiply;
+            }
         }
+        dloc = unit_string.find_first_of('.', dloc + 1);
     }
     return dInt;
 }
@@ -3267,8 +3265,8 @@ static void
                     if (dInt == DotInterpretation::multiply) {
                         unit_string[dloc] = '*';
                     } else {
-                        while (unit_string[dloc]=='.'||unit_string[dloc] == ' ')
-                        {
+                        while (unit_string[dloc] == '.' ||
+                               unit_string[dloc] == ' ') {
                             unit_string.erase(dloc, 1);
                         }
                         --dloc;
@@ -3282,8 +3280,8 @@ static void
                 if (dInt == DotInterpretation::multiply) {
                     unit_string[dloc] = '*';
                 } else {
-                    while (unit_string[dloc]=='.'||unit_string[dloc] == ' ')
-                    {
+                    while (unit_string[dloc] == '.' ||
+                           unit_string[dloc] == ' ') {
                         unit_string.erase(dloc, 1);
                     }
                     --dloc;
@@ -3311,8 +3309,8 @@ static void
                 if (dInt == DotInterpretation::multiply) {
                     unit_string[nloc] = '*';
                 } else {
-                    while (unit_string[nloc]=='.'||unit_string[nloc] == ' ')
-                    {
+                    while (unit_string[nloc] == '.' ||
+                           unit_string[nloc] == ' ') {
                         unit_string.erase(nloc, 1);
                     }
                     --nloc;
