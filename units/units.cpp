@@ -2337,7 +2337,7 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 28> modifiers{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 29> modifiers{{
         modSeq{"squaremeter", "m^2", 11, modifier::anywhere_tail},
         modSeq{"cubicmeter", "m^3", 10, modifier::anywhere_tail},
         modSeq{"cubic", "^3", 5, modifier::start_tail},
@@ -2366,6 +2366,7 @@ static bool wordModifiers(std::string& unit)
         modSeq{"cubic", "^3", 5, modifier::anywhere_tail},
         modSeq{"sq", "^2", 2, modifier::tail_replace},
         modSeq{"cu", "^3", 2, modifier::tail_replace},
+        modSeq{"u", "unit", 1, modifier::tail_replace},
     }};
     if (unit.compare(0, 3, "cup") ==
         0) {  // this causes too many issues so skip it
@@ -3162,6 +3163,11 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 fnd = unit_string.find_first_of(spaceChars, fnd);
                 continue;
             }
+            if (unit_string[fnd - 1] == '.') {
+                //this is an abbreviation so deal with it later
+                fnd = unit_string.find_first_of(spaceChars, fnd+1);
+                continue;
+            }
             if (unit_string.size() > nloc &&
                 (unit_string[nloc] == '/' || unit_string[nloc] == '*')) {
                 unit_string.erase(fnd, 1);
@@ -3261,7 +3267,10 @@ static void
                     if (dInt == DotInterpretation::multiply) {
                         unit_string[dloc] = '*';
                     } else {
-                        unit_string.erase(dloc, 1);
+                        while (unit_string[dloc]=='.'||unit_string[dloc] == ' ')
+                        {
+                            unit_string.erase(dloc, 1);
+                        }
                         --dloc;
                     }
                 }
@@ -3273,7 +3282,10 @@ static void
                 if (dInt == DotInterpretation::multiply) {
                     unit_string[dloc] = '*';
                 } else {
-                    unit_string.erase(dloc, 1);
+                    while (unit_string[dloc]=='.'||unit_string[dloc] == ' ')
+                    {
+                        unit_string.erase(dloc, 1);
+                    }
                     --dloc;
                 }
             } else {
@@ -3299,7 +3311,10 @@ static void
                 if (dInt == DotInterpretation::multiply) {
                     unit_string[nloc] = '*';
                 } else {
-                    unit_string.erase(nloc, 1);
+                    while (unit_string[nloc]=='.'||unit_string[nloc] == ' ')
+                    {
+                        unit_string.erase(nloc, 1);
+                    }
                     --nloc;
                 }
                 dloc = unit_string.find_first_of('.', nloc + 1);

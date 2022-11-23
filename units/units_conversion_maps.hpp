@@ -201,7 +201,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 180>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1106>
+    1121>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -381,6 +381,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         // else right now
         {"units", precise::laboratory::enzyme_unit},
         {"enzymeunit", precise::laboratory::enzyme_unit},
+        {"internationalunitofenzymeactivity",precise::laboratory::enzyme_unit},
+        {"eu", precise::laboratory::enzyme_unit},
         {"A", precise::A},
         {"amp", precise::A},
         {"amps", precise::A},
@@ -1361,14 +1363,25 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"BZ", precise::log::BZ},
         {"[S]", precise::laboratory::svedberg},
         {"svedbergunit", precise::laboratory::svedberg},
+        {"svedberg", precise::laboratory::svedberg},
         {"HPF", precise::laboratory::HPF},
+        {"hpf", precise::laboratory::HPF},
         {"highpowerfield", precise::laboratory::HPF},
         {"LPF", precise::laboratory::LPF},
+        {"lpf", precise::laboratory::LPF},
         {"lowpowerfield", precise::laboratory::LPF},
         {"[arb'U]", precise::laboratory::arbU},
         {"[ARB'U]", precise::laboratory::arbU},
+        {"arbitraryunit",precise::laboratory::arbU},
+        {"arbunit",precise::laboratory::arbU},
+        {"pdu",precise::laboratory::arbU},
+        {"arbu",precise::laboratory::arbU},
+        {"proceduredefinedunit",precise::laboratory::arbU},
+        {"unknownunit",precise::laboratory::arbU},
         {"[IU]", precise::laboratory::IU},
         {"[iU]", precise::laboratory::IU},
+        {"IU", precise::laboratory::IU},
+        {"internationalunit", precise::laboratory::IU},
         {"dobson",
          precise_unit(446.2, precise::micro* precise::mol / precise::m.pow(2))},
         {"DU",
@@ -1380,7 +1393,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[HNSF'U]", precise::clinical::hounsfield},
         {"[PFU]", precise::laboratory::PFU},
         {"PFU", precise::laboratory::PFU},
+        {"pfu", precise::laboratory::PFU},
         {"plaqueformingunits", precise::laboratory::PFU},
+        {"plaqueformingunit", precise::laboratory::PFU},
         {"[Lf]", precise::laboratory::Lf},
         {"[LF]", precise::laboratory::Lf},
         {"[IR]", precise::laboratory::IR},
@@ -1411,7 +1426,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    994>
+    995>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candlepower", precise::other::candle},
@@ -2466,6 +2481,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
           precise_unit(1.0 / 16, precise::other::ppm, commodities::capsaicin)},
          {"scoville",
           precise_unit(1.0 / 16, precise::other::ppm, commodities::capsaicin)},
+         {"scovilleunit",
+             precise_unit(1.0 / 16, precise::other::ppm, commodities::capsaicin)},
          {"scovilleheatunit",
           precise_unit(
               1.0 / 16,
