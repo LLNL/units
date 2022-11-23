@@ -1699,8 +1699,8 @@ std::string
 {
     // compute the correct number of digits to display for uncertain precision
     auto digits = static_cast<std::streamsize>(
-                      ceil(-log10(measure.fractional_uncertainty())));
-    digits = (digits < 2) ? 2 : digits+1;
+        ceil(-log10(measure.fractional_uncertainty())));
+    digits = (digits < 2) ? 2 : digits + 1;
     std::stringstream ss;
     ss.precision(digits);
     ss << measure.value_f();
@@ -3208,19 +3208,12 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
     return spacesRemoved;
 }
 
-enum class DotInterpretation:char
-{
-    none=0,
-    multiply=1,
-    abbrev=2
-};
+enum class DotInterpretation : char { none = 0, multiply = 1, abbrev = 2 };
 
 static DotInterpretation findDotInterpretation(const std::string& unit_string)
 {
-    
     auto dloc = unit_string.find_first_of('.');
-    if (dloc == std::string::npos)
-    {
+    if (dloc == std::string::npos) {
         return DotInterpretation::none;
     }
     DotInterpretation dInt{DotInterpretation::none};
@@ -3229,24 +3222,21 @@ static DotInterpretation findDotInterpretation(const std::string& unit_string)
             if (dloc > 0) {
                 if (!isDigitCharacter(unit_string[dloc - 1]) ||
                     !isDigitCharacter(unit_string[dloc + 1])) {
-                    if (unit_string[dloc - 1] == '*' || unit_string[dloc+1]==' ') {
+                    if (unit_string[dloc - 1] == '*' ||
+                        unit_string[dloc + 1] == ' ') {
                         return DotInterpretation::abbrev;
-                    }
-                    else if (dloc == unit_string.size() - 1)
-                    {
+                    } else if (dloc == unit_string.size() - 1) {
                         return DotInterpretation::abbrev;
-                    }
-                    else
-                    {
-                        dInt=DotInterpretation::multiply;
+                    } else {
+                        dInt = DotInterpretation::multiply;
                     }
                 }
             } else if (unit_string.size() > 1) {
                 if (!isDigitCharacter(unit_string[dloc + 1])) {
-                    dInt=DotInterpretation::multiply;
+                    dInt = DotInterpretation::multiply;
                 }
             }
-            dloc = unit_string.find_first_of('.', dloc+1);
+            dloc = unit_string.find_first_of('.', dloc + 1);
         }
     }
     return dInt;
@@ -3255,7 +3245,7 @@ static DotInterpretation findDotInterpretation(const std::string& unit_string)
 static void
     cleanDotNotation(std::string& unit_string, std::uint32_t match_flags)
 {
-    const auto dInt=findDotInterpretation(unit_string);
+    const auto dInt = findDotInterpretation(unit_string);
 
     // replace all dots with '*'
     size_t st = 0;
@@ -3268,13 +3258,10 @@ static void
                 if (unit_string[dloc - 1] == '*') {
                     ++skipped;
                 } else {
-                    if (dInt==DotInterpretation::multiply)
-                    {
+                    if (dInt == DotInterpretation::multiply) {
                         unit_string[dloc] = '*';
-                    }
-                    else
-                    {
-                        unit_string.erase(dloc,1);
+                    } else {
+                        unit_string.erase(dloc, 1);
                         --dloc;
                     }
                 }
@@ -3283,13 +3270,10 @@ static void
             }
         } else if (unit_string.size() > 1) {
             if (!isDigitCharacter(unit_string[dloc + 1])) {
-                if (dInt==DotInterpretation::multiply)
-                {
+                if (dInt == DotInterpretation::multiply) {
                     unit_string[dloc] = '*';
-                }
-                else
-                {
-                    unit_string.erase(dloc,1);
+                } else {
+                    unit_string.erase(dloc, 1);
                     --dloc;
                 }
             } else {
@@ -3312,13 +3296,10 @@ static void
                 ++nloc;
             }
             if (unit_string[nloc] == '.') {
-                if (dInt==DotInterpretation::multiply)
-                {
+                if (dInt == DotInterpretation::multiply) {
                     unit_string[nloc] = '*';
-                }
-                else
-                {
-                    unit_string.erase(nloc,1);
+                } else {
+                    unit_string.erase(nloc, 1);
                     --nloc;
                 }
                 dloc = unit_string.find_first_of('.', nloc + 1);
