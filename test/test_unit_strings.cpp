@@ -183,6 +183,7 @@ TEST(unitStrings, endwithU)
     EXPECT_EQ(unit_from_string("astronomical unit"), unit_from_string("astronomicalu"));
     EXPECT_EQ(unit_from_string("arb. u."), unit_from_string("arbitraryunit"));
     EXPECT_EQ(unit_from_string("arb. u."), unit_from_string("arbitrary u."));
+    EXPECT_EQ(unit_from_string("arb.u."), unit_from_string("arbitrary u."));
     EXPECT_EQ(unit_from_string("arb. unit"), unit_from_string("arbitrary u."));
     EXPECT_EQ(unit_from_string("p.d.u."), unit_from_string("arbitraryunit"));
     EXPECT_EQ(unit_from_string("arbitrary unit"), unit_from_string("arbitrary u."));
