@@ -1699,9 +1699,8 @@ std::string
 {
     // compute the correct number of digits to display for uncertain precision
     auto digits = static_cast<std::streamsize>(
-                      ceil(-log10(measure.fractional_uncertainty()))) +
-        1;
-    digits = (digits < 2) ? 2 : digits;
+        ceil(-log10(measure.fractional_uncertainty())));
+    digits = (digits < 2) ? 2 : digits + 1;
     std::stringstream ss;
     ss.precision(digits);
     ss << measure.value_f();
@@ -2338,7 +2337,7 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 28> modifiers{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 29> modifiers{{
         modSeq{"squaremeter", "m^2", 11, modifier::anywhere_tail},
         modSeq{"cubicmeter", "m^3", 10, modifier::anywhere_tail},
         modSeq{"cubic", "^3", 5, modifier::start_tail},
@@ -2367,6 +2366,7 @@ static bool wordModifiers(std::string& unit)
         modSeq{"cubic", "^3", 5, modifier::anywhere_tail},
         modSeq{"sq", "^2", 2, modifier::tail_replace},
         modSeq{"cu", "^3", 2, modifier::tail_replace},
+        modSeq{"u", "unit", 1, modifier::tail_replace},
     }};
     if (unit.compare(0, 3, "cup") ==
         0) {  // this causes too many issues so skip it
@@ -3163,6 +3163,11 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 fnd = unit_string.find_first_of(spaceChars, fnd);
                 continue;
             }
+            if (unit_string[fnd - 1] == '.') {
+                // this is an abbreviation so deal with it later
+                fnd = unit_string.find_first_of(spaceChars, fnd + 1);
+                continue;
+            }
             if (unit_string.size() > nloc &&
                 (unit_string[nloc] == '/' || unit_string[nloc] == '*')) {
                 unit_string.erase(fnd, 1);
@@ -3209,9 +3214,43 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
     return spacesRemoved;
 }
 
+enum class DotInterpretation : char { none = 0, multiply = 1, abbrev = 2 };
+
+static DotInterpretation findDotInterpretation(const std::string& unit_string)
+{
+    auto dloc = unit_string.find_first_of('.');
+    if (dloc == std::string::npos) {
+        return DotInterpretation::none;
+    }
+    DotInterpretation dInt{DotInterpretation::none};
+    while (dloc != std::string::npos) {
+        if (dloc > 0) {
+            if (!isDigitCharacter(unit_string[dloc - 1]) ||
+                !isDigitCharacter(unit_string[dloc + 1])) {
+                if (unit_string[dloc - 1] == '*' ||
+                    unit_string[dloc + 1] == ' ') {
+                    return DotInterpretation::abbrev;
+                }
+                if (dloc == unit_string.size() - 1) {
+                    return DotInterpretation::abbrev;
+                }
+                dInt = DotInterpretation::multiply;
+            }
+        } else if (unit_string.size() > 1) {
+            if (!isDigitCharacter(unit_string[dloc + 1])) {
+                dInt = DotInterpretation::multiply;
+            }
+        }
+        dloc = unit_string.find_first_of('.', dloc + 1);
+    }
+    return dInt;
+}
+
 static void
     cleanDotNotation(std::string& unit_string, std::uint32_t match_flags)
 {
+    const auto dInt = findDotInterpretation(unit_string);
+
     // replace all dots with '*'
     size_t st = 0;
     auto dloc = unit_string.find_first_of('.');
@@ -3223,14 +3262,30 @@ static void
                 if (unit_string[dloc - 1] == '*') {
                     ++skipped;
                 } else {
-                    unit_string[dloc] = '*';
+                    if (dInt == DotInterpretation::multiply) {
+                        unit_string[dloc] = '*';
+                    } else {
+                        while (unit_string[dloc] == '.' ||
+                               unit_string[dloc] == ' ') {
+                            unit_string.erase(dloc, 1);
+                        }
+                        --dloc;
+                    }
                 }
             } else {
                 ++skipped;
             }
         } else if (unit_string.size() > 1) {
             if (!isDigitCharacter(unit_string[dloc + 1])) {
-                unit_string[dloc] = '*';
+                if (dInt == DotInterpretation::multiply) {
+                    unit_string[dloc] = '*';
+                } else {
+                    while (unit_string[dloc] == '.' ||
+                           unit_string[dloc] == ' ') {
+                        unit_string.erase(dloc, 1);
+                    }
+                    --dloc;
+                }
             } else {
                 ++skipped;
             }
@@ -3251,7 +3306,15 @@ static void
                 ++nloc;
             }
             if (unit_string[nloc] == '.') {
-                unit_string[nloc] = '*';
+                if (dInt == DotInterpretation::multiply) {
+                    unit_string[nloc] = '*';
+                } else {
+                    while (unit_string[nloc] == '.' ||
+                           unit_string[nloc] == ' ') {
+                        unit_string.erase(nloc, 1);
+                    }
+                    --nloc;
+                }
                 dloc = unit_string.find_first_of('.', nloc + 1);
             } else {
                 ++skipped;
@@ -3839,7 +3902,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
     bool skipMultiply = false;
     std::size_t skipMultiplyInsertionAfter{std::string::npos};
     char tail = unit_string.back();
-    if (tail == '^' || tail == '*' || tail == '/' || tail == '.') {
+    if (tail == '^' || tail == '*' || tail == '/') {
         unit_string.pop_back();
         changed = true;
     }
