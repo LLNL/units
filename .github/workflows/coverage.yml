@@ -42,7 +42,9 @@ jobs:
         run: cmake --build build -j4
 
       - name: Test
-        run: ctest --output-on-failure
+        run: |
+          cd build
+          ctest --output-on-failure
 
       - name: Prepare coverage
         run: |
