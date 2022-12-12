@@ -374,14 +374,14 @@ static std::string generateUnitSequence(double mux, std::string seq)
 #ifdef UNITS_CONSTEXPR_IF_SUPPORTED
             if constexpr (
                 detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+                pw = seq[pwerloc + 1] - '0';
+            } else {
                 if (seq.size() <= pwerloc + 2 ||
                     !isDigitCharacter(seq[pwerloc + 2])) {
                     pw = seq[pwerloc + 1] - '0';
                 } else {
                     pw = 10;
                 }
-            } else {
-                pw = 10;
             }
 #else
             if (detail::bitwidth::base_size == sizeof(std::uint32_t) ||
@@ -2832,7 +2832,13 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::cooking, "C"), precise::us::cup},
     {hashGen(domains::cooking, "T"), precise::us::tbsp},
     {hashGen(domains::cooking, "c"), precise::us::cup},
+    {hashGen(domains::cooking, "smi"),
+     precise_unit(1.0 / 32.0, precise::us::tsp)},
+    {hashGen(domains::cooking, "scruple"),
+     precise_unit(1.0 / 4.0, precise::us::tsp)},
     {hashGen(domains::cooking, "t"), precise::us::tsp},
+    {hashGen(domains::cooking, "ds"),
+     precise_unit(1.0 / 16.0, precise::us::tsp)},
     {hashGen(domains::cooking, "TB"), precise::us::tbsp},
     {hashGen(domains::surveying, "'"), precise::us::foot},
     {hashGen(domains::surveying, "`"), precise::us::foot},

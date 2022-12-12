@@ -1426,7 +1426,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    995>
+    1016>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candlepower", precise::other::candle},
@@ -1721,6 +1721,14 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"degRankine", precise::temperature::degR},
          {"degrankine", precise::temperature::degR},
          {"rankine", precise::temperature::degR},
+         // gas oven temperature conversions
+         {"gasmark", {14.0, precise::temperature::degC}},
+         {"gas", {14.0, precise::temperature::degC}},
+         {"regulomark", {14.0, precise::temperature::degC}},
+         {"regulo", {14.0, precise::temperature::degC}},
+         {"stufe", {25.0, precise::temperature::degC}},
+         {"Thermostat", {27.77778, precise::temperature::degC}},
+         {"Th", {27.77778, precise::temperature::degC}},
          {"oF", precise::degF},
          // this is two strings since F could be interpreted as hex and I don't
          // want it to be
@@ -2301,9 +2309,23 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"tablespoon", precise::us::tbsp},
          {"tablespoon_us", precise::us::tbsp},
          {"smidgen", precise_unit(1.0 / 32.0, precise::us::tsp)},
+         {"smdg", precise_unit(1.0 / 32.0, precise::us::tsp)},
          {"pinch", precise_unit(1.0 / 24.0, precise::us::tsp)},
+         {"pn", precise_unit(1.0 / 24.0, precise::us::tsp)},
          {"dash", precise_unit(1.0 / 16.0, precise::us::tsp)},
          {"tad", precise_unit(1.0 / 8.0, precise::us::tsp)},
+         {"saltspoon", precise_unit(1.0 / 4.0, precise::us::tsp)},
+         {"ssp", precise_unit(1.0 / 4.0, precise::us::tsp)},
+         {"coffeespoon", precise_unit(1.0 / 2.0, precise::us::tsp)},
+         {"csp", precise_unit(1.0 / 2.0, precise::us::tsp)},
+         {"dessertspoon", precise_unit(2.0, precise::us::tsp)},
+         {"dsp", precise_unit(2.0, precise::us::tsp)},
+         {"dssp", precise_unit(2.0, precise::us::tsp)},
+         {"dstspn", precise_unit(2.0, precise::us::tsp)},
+         {"wineglass", precise_unit(1.0 / 4.0, precise::us::cup)},
+         {"wgf", precise_unit(1.0 / 4.0, precise::us::cup)},
+         {"teacup", precise_unit(1.0 / 2.0, precise::us::cup)},
+         {"tcf", precise_unit(1.0 / 2.0, precise::us::cup)},
          {"cup_m", precise::metric::cup},
          {"[CUP_M]", precise::metric::cup_uslegal},
          {"[cup_m]", precise::metric::cup_uslegal},  // ucum definitions I think
