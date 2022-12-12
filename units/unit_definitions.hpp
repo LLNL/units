@@ -1632,11 +1632,26 @@ namespace detail {
     template<typename UX, typename UX2>
     double convertTemperature(double val, const UX& start, const UX2& result)
     {
+        static constexpr double biasTable[]{
+            0.0,0.0,0.0,0.0,0.0,
+            0.0,0.0,0.0,0.0,0.0,
+            0.0,0.0,0.0,0.0,121.0,
+            0.0,0.0,0.0,0.0,0.0,
+            0.0,0.0,0.0,0.0,0.0,
+            150.0,0.0,37.7778,0.0,0.0 };
+
         if (is_temperature(start)) {
             if (units::degF == unit_cast(start)) {
                 val = (val - 32.0) * 5.0 / 9.0;
             } else if (start.multiplier() != 1.0) {
-                val = val * start.multiplier();
+                if (start.multiplier() < 29.5 && start.multiplier()>=0.0)
+                {
+                    val=val*start.multiplier()+biasTable[static_cast<int>(start.multiplier())];
+                }
+                else
+                {
+                    val = val * start.multiplier();
+                }
             }
             val += 273.15;
             // convert to K
@@ -1649,7 +1664,14 @@ namespace detail {
                 val *= 9.0 / 5.0;
                 val += 32.0;
             } else if (result.multiplier() != 1.0) {
-                val = val / result.multiplier();
+                if (result.multiplier() < 25.5 && result.multiplier()>=0.0)
+                {
+                    val=(val-biasTable[static_cast<int>(start.multiplier())])/result.multiplier();
+                }
+                else
+                {
+                    val = val / result.multiplier();
+                }
             }
             return val;
         }

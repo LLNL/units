@@ -121,7 +121,7 @@ TEST(MeasurementToString, case_sensitive)
         precise_measurement case_sensitive_plural =
             measurement_from_string(plural);
         // true
-        EXPECT_TRUE(case_sensitive_plural.units().has_same_base(up.first));
+        EXPECT_TRUE(case_sensitive_plural.units().has_same_base(up.first))<<"error with "<<up.second;
         precise_measurement case_sensitive_singular =
             measurement_from_string(singular);
         EXPECT_TRUE(case_sensitive_singular.units().has_same_base(up.first));
