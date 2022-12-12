@@ -374,14 +374,14 @@ static std::string generateUnitSequence(double mux, std::string seq)
 #ifdef UNITS_CONSTEXPR_IF_SUPPORTED
             if constexpr (
                 detail::bitwidth::base_size == sizeof(std::uint32_t)) {
+                pw = seq[pwerloc + 1] - '0';
+            } else {
                 if (seq.size() <= pwerloc + 2 ||
                     !isDigitCharacter(seq[pwerloc + 2])) {
                     pw = seq[pwerloc + 1] - '0';
                 } else {
                     pw = 10;
                 }
-            } else {
-                pw = 10;
             }
 #else
             if (detail::bitwidth::base_size == sizeof(std::uint32_t) ||
