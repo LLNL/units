@@ -907,9 +907,13 @@ TEST(stringToUnits, invalid)
 TEST(userDefinedUnits, definitions)
 {
     precise_unit clucks(19.3, precise::m * precise::A);
+    precise_unit sclucks(23, precise::m * precise::mol*precise::currency);
     addUserDefinedUnit("clucks", clucks);
+    addUserDefinedUnit("sclucks", sclucks);
 
     EXPECT_EQ(unit_from_string("clucks/A"), precise_unit(19.3, precise::m));
+
+    EXPECT_EQ(unit_from_string("sclucks/$"), precise_unit(23, precise::m*precise::mol));
 
     EXPECT_EQ(to_string(clucks), "clucks");
 
@@ -919,7 +923,27 @@ TEST(userDefinedUnits, definitions)
 
     EXPECT_EQ(to_string(clucks * kg), "clucks*kg");
 
+    EXPECT_EQ(to_string(clucks * V), "clucks*V");
+
+    EXPECT_EQ(to_string(clucks * mol), "mol*clucks");
+
+    EXPECT_EQ(to_string(clucks.pow(2) * kg), "kg*clucks^2");
+
+    EXPECT_EQ(to_string(clucks.pow(3) * kg), "kg*clucks^3");
+
+    EXPECT_EQ(to_string(precise::kg / clucks), "kg/clucks");
+
     EXPECT_EQ(to_string(precise::kg / clucks.pow(2)), "kg/clucks^2");
+
+    EXPECT_EQ(to_string(precise::kg / clucks.pow(3)), "kg/clucks^3");
+
+    EXPECT_EQ(to_string(precise::micro*precise::g / sclucks.pow(3)), "ug/sclucks^3");
+
+    EXPECT_EQ(to_string(precise_unit(17,precise::kg) / sclucks), "17kg/sclucks");
+
+    EXPECT_EQ(to_string(precise_unit(17,precise::kg)/ sclucks.pow(2)), "17kg/sclucks^2");
+
+    EXPECT_EQ(to_string(precise_unit(17,precise::kg) / sclucks.pow(3)), "17kg/sclucks^3");
 
     clearUserDefinedUnits();
 }
@@ -1284,6 +1308,18 @@ TEST(stringCleanup, test_9strings)
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
 }
 
+TEST(stringCleanup, with_commodities)
+{
+    auto res = detail::testing::testCleanUpString("m^2", commodities::aluminum);
+    EXPECT_EQ(res, "m{aluminum}^2");
+
+    res = detail::testing::testCleanUpString("m^-2", commodities::aluminum);
+    EXPECT_EQ(res, "{aluminum}*m^-2");
+
+    res = detail::testing::testCleanUpString("1/m^2", ~commodities::aluminum);
+    EXPECT_EQ(res, "1/m{aluminum}^2");
+}
+
 TEST(stringGeneration, addPowerString)
 {
     std::string t1{"bbb"};
@@ -1534,17 +1570,25 @@ TEST(extra, r20)
 {
     auto unit = r20_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
+    unit=r20_unit("E43");
+    EXPECT_FALSE(is_error(unit));
 }
 
 TEST(extra, dod)
 {
     auto unit = dod_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
+
+    unit = dod_unit("YD");
+    EXPECT_FALSE(is_error(unit));
 }
 
 TEST(extra, x12)
 {
     auto unit = x12_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
+    
+    unit = x12_unit("RB");
+    EXPECT_FALSE(is_error(unit));
 }
 #endif
