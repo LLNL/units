@@ -350,12 +350,10 @@ TEST(unitStrings, electronVolt)
         to_string(precise::count / (precise::milli * precise::energy::eV));
     EXPECT_EQ(str, "count/meV");
 
-    str =
-        to_string(precise::one / (precise::micro * precise::energy::eV));
+    str = to_string(precise::one / (precise::micro * precise::energy::eV));
     EXPECT_EQ(str, "1/ueV");
 
-    str =
-        to_string(precise::m /precise::energy::eV);
+    str = to_string(precise::m / precise::energy::eV);
     EXPECT_EQ(str, "m/eV");
 }
 

@@ -710,9 +710,12 @@ TEST(UnitDefinitions, mass_to_weight)
 TEST(UnitDefinitions, unusualTemperature)
 {
     using namespace units;
-    precise_unit kC=precise::kilo*precise::temperature::degC;
-    EXPECT_NEAR(convert(0.1,kC,precise::temperature::degF),212.0,0.1);
-    EXPECT_NEAR(convert(212,precise::temperature::degF,kC),0.1,0.0001);
+    precise_unit kC = precise::kilo * precise::temperature::degC;
+    EXPECT_NEAR(convert(0.1, kC, precise::temperature::degF), 212.0, 0.1);
+    EXPECT_NEAR(convert(212, precise::temperature::degF, kC), 0.1, 0.0001);
 
-    EXPECT_NEAR(convert(3.0,unit_from_string("gas mark"),precise::temperature::degF),325.0,1.0);
+    EXPECT_NEAR(
+        convert(3.0, unit_from_string("gas mark"), precise::temperature::degF),
+        325.0,
+        1.0);
 }
