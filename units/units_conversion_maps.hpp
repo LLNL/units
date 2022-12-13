@@ -1426,7 +1426,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1016>
+    1017>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candlepower", precise::other::candle},
@@ -1723,6 +1723,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"rankine", precise::temperature::degR},
          // gas oven temperature conversions
          {"gasmark", {14.0, precise::temperature::degC}},
+         {"gasnumber", {14.0, precise::temperature::degC}},
          {"gas", {14.0, precise::temperature::degC}},
          {"regulomark", {14.0, precise::temperature::degC}},
          {"regulo", {14.0, precise::temperature::degC}},

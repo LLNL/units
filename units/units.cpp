@@ -1445,17 +1445,7 @@ static std::string
         nu = un * siU.first;
         if (nu.unit_type_count() == 0) {
             auto mult = getMultiplierString(1.0 / nu.multiplier());
-            if (mult.empty()) {
-                std::string rstring;
-                addUnitFlagStrings(nu, rstring);
-                if (rstring.empty()) {
-                    rstring.push_back('1');
-                }
-                rstring.push_back('/');
-                rstring.append(siU.second);
-                return rstring;
-            }
-            if (!isNumericalStartCharacter(mult.front())) {
+            if (mult.empty() || !isNumericalStartCharacter(mult.front())) {
                 std::string rstring;
                 addUnitFlagStrings(nu, rstring);
                 if (rstring.empty()) {

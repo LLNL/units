@@ -36,22 +36,6 @@ aliases:
       make install
       ctest -V -R find-package-tests
 
-  #- &run_coverage
-  #  name: run_code_coverage
-  #  command: |
-  #    mkdir -p build
-  #    cd build
-  #    cmake ..
-  #    eval cmake .. -DCMAKE_BUILD_TYPE=Coverage ${CMAKE_FLAGS}
-  #    make -j 4
-  #    eval cmake --build . --target UNITS_coverage
-  #    ctest --output-on-failure
-  #    lcov --directory . --capture --output-file coverage.info # capture coverage info
-  #    lcov --remove coverage.info '*/tests/*' '*/examples/*' '*gtest*' '*gmock*' '/usr/*' --output-file coverage.info # filter out system
-  #    lcov --list coverage.info #debug info
-  # Uploading report to CodeCov
-  #    bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
-
 jobs:
   unitsTSan:
     docker:
@@ -111,14 +95,6 @@ jobs:
       - checkout
       - run: *setup_units
       - run: *run_installer_tests
-  #unitsCoverage:
-  #  docker:
-  #    - image: helics/buildenv:gcc7-coverage
-  #  environment:
-  #    CMAKE_FLAGS: '-DUNITS_ENABLE_TESTS=ON -DCMAKE_CXX_STANDARD=14'
-  #  steps:
-  #    - checkout
-  #    - run: *run_coverage
 
 workflows:
   version: 2
@@ -129,4 +105,3 @@ workflows:
       - unitsTSan
       - unitsInstall
       - unitsFuzz
-#      - unitsCoverage
