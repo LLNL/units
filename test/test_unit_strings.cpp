@@ -907,13 +907,15 @@ TEST(stringToUnits, invalid)
 TEST(userDefinedUnits, definitions)
 {
     precise_unit clucks(19.3, precise::m * precise::A);
-    precise_unit sclucks(23, precise::m * precise::mol*precise::currency);
+    precise_unit sclucks(23, precise::m * precise::mol * precise::currency);
     addUserDefinedUnit("clucks", clucks);
     addUserDefinedUnit("sclucks", sclucks);
 
     EXPECT_EQ(unit_from_string("clucks/A"), precise_unit(19.3, precise::m));
 
-    EXPECT_EQ(unit_from_string("sclucks/$"), precise_unit(23, precise::m*precise::mol));
+    EXPECT_EQ(
+        unit_from_string("sclucks/$"),
+        precise_unit(23, precise::m * precise::mol));
 
     EXPECT_EQ(to_string(clucks), "clucks");
 
@@ -937,13 +939,20 @@ TEST(userDefinedUnits, definitions)
 
     EXPECT_EQ(to_string(precise::kg / clucks.pow(3)), "kg/clucks^3");
 
-    EXPECT_EQ(to_string(precise::micro*precise::g / sclucks.pow(3)), "ug/sclucks^3");
+    EXPECT_EQ(
+        to_string(precise::micro * precise::g / sclucks.pow(3)),
+        "ug/sclucks^3");
 
-    EXPECT_EQ(to_string(precise_unit(17,precise::kg) / sclucks), "17kg/sclucks");
+    EXPECT_EQ(
+        to_string(precise_unit(17, precise::kg) / sclucks), "17kg/sclucks");
 
-    EXPECT_EQ(to_string(precise_unit(17,precise::kg)/ sclucks.pow(2)), "17kg/sclucks^2");
+    EXPECT_EQ(
+        to_string(precise_unit(17, precise::kg) / sclucks.pow(2)),
+        "17kg/sclucks^2");
 
-    EXPECT_EQ(to_string(precise_unit(17,precise::kg) / sclucks.pow(3)), "17kg/sclucks^3");
+    EXPECT_EQ(
+        to_string(precise_unit(17, precise::kg) / sclucks.pow(3)),
+        "17kg/sclucks^3");
 
     clearUserDefinedUnits();
 }
@@ -1570,7 +1579,7 @@ TEST(extra, r20)
 {
     auto unit = r20_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
-    unit=r20_unit("E43");
+    unit = r20_unit("E43");
     EXPECT_FALSE(is_error(unit));
 }
 
@@ -1587,7 +1596,7 @@ TEST(extra, x12)
 {
     auto unit = x12_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
-    
+
     unit = x12_unit("RB");
     EXPECT_FALSE(is_error(unit));
 }
