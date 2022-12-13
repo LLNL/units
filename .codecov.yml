@@ -1,12 +1,13 @@
 codecov:
   notify:
     require_ci_to_pass: no
-  branch: master
+    after_n_builds: 6
+  branch: main
 
 coverage:
   precision: 2
   round: down
-  range: '70...100'
+  range: '80...100'
 
   test:
     target: 100%
