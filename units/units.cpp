@@ -2282,7 +2282,7 @@ https://physics.nist.gov/cuu/Units/prefixes.html
 https://physics.nist.gov/cuu/Units/binary.html
 */
 using utup = std::tuple<const char*, double, int>;
-static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 29> prefixWords{{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 34> prefixWords{{
     utup{"atto", precise::atto.multiplier(), 4},
     utup{"centi", precise::centi.multiplier(), 5},
     utup{"deca", precise::deka.multiplier(), 4},
@@ -2311,10 +2311,13 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 29> prefixWords{{
     utup{"zepto", precise::zepto.multiplier(), 5},
     utup{"zetta", precise::zetta.multiplier(), 5},
     utup{"zebi", precise::zebi.multiplier(), 4},
-    utup{
-        "yobi",
-        precise::yobi.multiplier(),
-        4},
+    utup{"yobi", precise::yobi.multiplier(), 4},
+    utup{"ronto", precise::ronto.multiplier(), 5},
+    utup{"quecto", precise::quecto.multiplier(), 6},
+    utup{"ronna", precise::ronna.multiplier(), 5},
+    utup{"quetta", precise::quetta.multiplier(), 5},
+    // this one was proposed (not accepted but finds occasional use)
+    utup{"hella", 1e27, 5},
 }};
 
 bool clearEmptySegments(std::string& unit)
