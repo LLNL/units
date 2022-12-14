@@ -42,6 +42,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 180>
          // because GF is gram force not giga Farad which is a ridiculous unit
          // otherwise generates confusion
          {giga * F, "(1000MF)"},
+
+         // some of these are just dumb units but here to avoid round trip errors
+        {unit_cast(precise::ronna) * T, "(1000YT)"},
+        {unit_cast(precise::quetta) * T, "(1000000YT)"},
          {S, "S"},
          {Wb, "Wb"},
          {T, "T"},
@@ -201,7 +205,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 180>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1121>
+    1129>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -281,6 +285,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"pico", precise::pico},
         {"femto", precise::femto},
         {"atto", precise::atto},
+        {"yocto", precise::yocto},
+        {"zepto", precise::zepto},
+        {"ronto", precise::ronto},
+        {"quecto", precise::quecto},
         {"10", precise_unit(10.0, precise::one)},
         {"ten", precise_unit(10.0, precise::one)},
         {"two", precise_unit(2.0, precise::one)},
@@ -311,6 +319,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"tera", precise::tera},
         {"peta", precise::peta},
         {"exa", precise::exa},
+        {"yotta", precise::yotta},
+        {"zetta", precise::zetta},
+        {"ronna", precise::ronna},
+        {"quetta", precise::quetta},
         {"%", precise::percent},
         {"percent", precise::percent},
         {"percentage", precise::percent},
