@@ -521,16 +521,16 @@ TEST(stringToUnits, multipower)
 TEST(stringToUnits, bitsBytes)
 {
     auto res = unit_from_string("KiB");
-    EXPECT_EQ(res, precise::kibi*precise::data::byte);
+    EXPECT_EQ(res, precise::kibi * precise::data::byte);
 
-     res = unit_from_string("Mib");
-    EXPECT_EQ(res, precise::mebi*precise::data::bit);
+    res = unit_from_string("Mib");
+    EXPECT_EQ(res, precise::mebi * precise::data::bit);
 
     res = unit_from_string("MAB");
-    EXPECT_EQ(res, precise::mega*precise::data::byte);
+    EXPECT_EQ(res, precise::mega * precise::data::byte);
 
     res = unit_from_string("MAb");
-    EXPECT_EQ(res, precise::mega*precise::data::bit);
+    EXPECT_EQ(res, precise::mega * precise::data::bit);
 }
 
 TEST(stringToUnits, dotNotation)
