@@ -206,28 +206,38 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 4> creduceUnits{
      ustr{precise::W, "W^-1*"},
      ustr{precise::W.inv(), "W*"}}};
 
+// this is not constexpr to ensure it is done at runtime
+static float invert(precise_unit val)
+{
+    return (1.0F/val.multiplier_f());
+}
 // thought about making this constexpr array, but the problem is that runtime
 // floats are not guaranteed to be the same as compile time floats so really
 // this map needs to be generated at run-time once multiplier prefixes commonly
 // used
 static const std::unordered_map<float, char> si_prefixes{
-    {0.001F, 'm'},        {1.0F / 1000.0F, 'm'},
-    {1000.0F, 'k'},       {1.0F / 0.001F, 'k'},
-    {1e-6F, 'u'},         {1.0F / 1e6F, 'u'},
-    {0.01F, 'c'},         {1.0F / 100.0F, 'c'},
-    {1000000.0F, 'M'},    {1.0F / 0.000001F, 'M'},
-    {1000000000.0F, 'G'}, {1.0F / 0.000000001F, 'G'},
-    {1e-9F, 'n'},         {1.0F / 1e9F, 'n'},
-    {1e-12F, 'p'},        {1.0F / 1e12F, 'p'},
-    {1e-15F, 'f'},        {1.0F / 1e15F, 'f'},
-    {1e-18F, 'a'},        {1.0F / 1e18F, 'a'},
-    {1e-21F, 'z'},        {1.0F / 1e21F, 'z'},
-    {1e-24F, 'y'},        {1.0F / 1e24F, 'y'},
-    {1e12F, 'T'},         {1.0F / 1e-12F, 'T'},
-    {1e15F, 'P'},         {1.0F / 1e-15F, 'P'},
-    {1e18F, 'E'},         {1.0F / 1e-18F, 'E'},
-    {1e21F, 'Z'},         {1.0F / 1e-21F, 'Z'},
-    {1e24F, 'Y'},         {1.0F / 1e-24F, 'Y'},
+    {precise::milli.multiplier_f(), 'm'}, {invert(precise::kilo), 'm'},
+    {precise::kilo.multiplier_f(), 'k'},  {invert(precise::milli), 'k'},
+    {precise::micro.multiplier_f(), 'u'}, {invert(precise::mega), 'u'},
+    {precise::centi.multiplier_f(), 'c'}, {invert(precise::hecto), 'c'},
+    {precise::mega.multiplier_f(), 'M'},  {invert(precise::micro), 'M'},
+    {precise::giga.multiplier_f(), 'G'},  {invert(precise::nano), 'G'},
+    {precise::nano.multiplier_f(), 'n'},  {invert(precise::giga), 'n'},
+    {precise::pico.multiplier_f(), 'p'},  {invert(precise::tera), 'p'},
+    {precise::femto.multiplier_f(), 'f'}, {invert(precise::peta), 'f'},
+    {precise::atto.multiplier_f(), 'a'},  {invert(precise::exa), 'a'},
+    {precise::tera.multiplier_f(), 'T'},  {invert(precise::pico), 'T'},
+    {precise::peta.multiplier_f(), 'P'},  {invert(precise::femto), 'P'},
+    {precise::exa.multiplier_f(), 'E'},   {invert(precise::atto), 'E'},
+    {precise::zetta.multiplier_f(), 'Z'}, {invert(precise::zepto), 'Z'},
+    {precise::yotta.multiplier_f(), 'Y'}, {invert(precise::yocto), 'Y'},
+    {precise::zepto.multiplier_f(), 'z'}, {invert(precise::zetta), 'z'},
+    {precise::yocto.multiplier_f(), 'y'}, {invert(precise::yotta), 'y'},
+
+    {precise::ronna.multiplier_f(), 'R'}, {invert(precise::ronto), 'R'},
+    {precise::quetta.multiplier_f(), 'Q'}, {invert(precise::quecto), 'Q'},
+    {precise::ronto.multiplier_f(), 'r'}, {invert(precise::ronna), 'r'},
+    {precise::quecto.multiplier_f(), 'q'}, {invert(precise::quetta), 'q'},
 };
 
 // check if the character is something that could begin a number
@@ -1707,104 +1717,126 @@ static double getPrefixMultiplier(char p)
 {
     switch (p) {
         case 'm':
-            return 0.001;
+            return precise::milli.multiplier();
         case 'k':
         case 'K':
-            return 1000.0;
+            return precise::kilo.multiplier();
         case 'M':
-            return 1e6;
+            return precise::mega.multiplier();
         case 'u':
         case 'U':
         case '\xB5':  // latin-1 encoding "micro"
-            return 1e-6;
+            return precise::micro.multiplier();
         case 'd':
         case 'D':
-            return 0.1;
+            return precise::deci.multiplier();
         case 'c':
         case 'C':
-            return 0.01;
+            return precise::centi.multiplier();
         case 'h':
         case 'H':
-            return 100.0;
+            return precise::hecto.multiplier();
         case 'n':
-            return 1e-9;
+            return precise::nano.multiplier();
         case 'p':
-            return 1e-12;
+            return precise::pico.multiplier();
         case 'G':
         case 'B':  // Billion
-            return 1e9;
+            return precise::giga.multiplier();
         case 'T':
-            return 1e12;
+            return precise::tera.multiplier();
         case 'f':
         case 'F':
-            return 1e-15;
+            return precise::femto.multiplier();
         case 'E':
-            return 1e18;
+            return precise::exa.multiplier();
         case 'P':
-            return 1e15;
+            return precise::peta.multiplier();
         case 'Z':
-            return 1e21;
+            return precise::zetta.multiplier();
         case 'Y':
-            return 1e24;
+            return precise::yotta.multiplier();
+        case 'y':
+            return precise::yocto.multiplier();
         case 'a':
         case 'A':
-            return 1e-18;
+            return precise::atto.multiplier();
         case 'z':
-            return 1e-21;
-        case 'y':
-            return 1e-24;
+            return precise::zepto.multiplier();
+        case 'R':
+            return precise::ronna.multiplier();
+        case 'r':
+            return precise::ronto.multiplier();
+        case 'Q':
+            return precise::quetta.multiplier();
+        case 'q':
+            return precise::quecto.multiplier();
         default:
             return 0.0;
     }
 }
 
-/// Generate the prefix multiplier for SI units
+// LCOV_EXCL_START
+// this function doesn't need to be checked
+
+/// Generate the prefix multiplier for strict SI units
 static double getStrictSIPrefixMultiplier(char p)
 {
     switch (p) {
         case 'm':
-            return 0.001;
+            return precise::milli.multiplier();
         case 'k':
-            return 1000.0;
+            return precise::kilo.multiplier();
         case 'M':
-            return 1e6;
+            return precise::mega.multiplier();
         case 'u':
         case '\xB5':  // latin-1 encoding "micro"
-            return 1e-6;
+            return precise::micro.multiplier();
         case 'd':
-            return 0.1;
+            return precise::deci.multiplier();
         case 'c':
-            return 0.01;
+            return precise::centi.multiplier();
         case 'h':
-            return 100.0;
+            return precise::hecto.multiplier();
         case 'n':
-            return 1e-9;
+            return precise::nano.multiplier();
         case 'p':
-            return 1e-12;
+            return precise::pico.multiplier();
         case 'G':
-            return 1e9;
+            return precise::giga.multiplier();
         case 'T':
-            return 1e12;
+            return precise::tera.multiplier();
         case 'f':
-            return 1e-15;
+            return precise::femto.multiplier();
         case 'E':
-            return 1e18;
+            return precise::exa.multiplier();
         case 'P':
-            return 1e15;
+            return precise::peta.multiplier();
         case 'Z':
-            return 1e21;
+            return precise::zetta.multiplier();
         case 'Y':
-            return 1e24;
+            return precise::yotta.multiplier();
         case 'a':
-            return 1e-18;
+            return precise::atto.multiplier();
         case 'z':
-            return 1e-21;
+            return precise::zepto.multiplier();
         case 'y':
-            return 1e-24;
+            return precise::yocto.multiplier();
+        case 'R':
+            return precise::ronna.multiplier();
+        case 'r':
+            return precise::ronto.multiplier();
+        case 'Q':
+            return precise::quetta.multiplier();
+        case 'q':
+            return precise::quecto.multiplier();
         default:
             return 0.0;
     }
 }
+
+//LCOV_EXCL_STOP
+
 static constexpr uint16_t charindex(char ch1, char ch2)
 {
     return ch1 * 256 + ch2;
@@ -1815,36 +1847,35 @@ static double getPrefixMultiplier2Char(char c1, char c2)
 {
     using cpair = std::pair<uint16_t, double>;
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<cpair, 23> char2prefix{{
-        cpair{charindex('D', 'A'), 10.0},
-        cpair{charindex('E', 'X'), 1e18},
+        cpair{charindex('D', 'A'), precise::deka.multiplier()},
+        cpair{charindex('E', 'X'), precise::exa.multiplier()},
         cpair{
             charindex('E', 'i'),
-            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
-        cpair{charindex('G', 'A'), 1e9},
-        cpair{charindex('G', 'i'), 1024.0 * 1024.0 * 1024.0},
-        cpair{charindex('K', 'i'), 1024.0},
-        cpair{charindex('M', 'A'), 1e6},
-        cpair{charindex('M', 'M'), 1e6},
-        cpair{charindex('M', 'i'), 1024.0 * 1024.0},
-        cpair{charindex('P', 'T'), 1e15},
-        cpair{charindex('P', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
-        cpair{charindex('T', 'R'), 1e15},
-        cpair{charindex('T', 'i'), 1024.0 * 1024.0 * 1024.0 * 1024.0},
-        cpair{charindex('Y', 'A'), 1e24},
-        cpair{charindex('Y', 'O'), 1e-24},
+            precise::exbi.multiplier()},
+        cpair{charindex('G', 'A'), precise::giga.multiplier()},
+        cpair{charindex('G', 'i'), precise::gibi.multiplier()},
+        cpair{charindex('K', 'i'), precise::kibi.multiplier()},
+        cpair{charindex('M', 'A'), precise::mega.multiplier()},
+        cpair{charindex('M', 'M'), precise::mega.multiplier()},
+        cpair{charindex('M', 'i'), precise::mebi.multiplier()},
+        cpair{charindex('P', 'T'), precise::peta.multiplier()},
+        cpair{charindex('P', 'i'), precise::pebi.multiplier()},
+        cpair{charindex('T', 'R'), precise::tera.multiplier()},
+        cpair{charindex('T', 'i'), precise::tebi.multiplier()},
+        cpair{charindex('Y', 'A'), precise::yotta.multiplier()},
+        cpair{charindex('Y', 'O'), precise::yocto.multiplier()},
         cpair{
             charindex('Y', 'i'),
-            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 *
-                1024.0},
-        cpair{charindex('Z', 'A'), 1e21},
-        cpair{charindex('Z', 'O'), 1e-21},
+            precise::yobi.multiplier()},
+        cpair{charindex('Z', 'A'), precise::zetta.multiplier()},
+        cpair{charindex('Z', 'O'), precise::zepto.multiplier()},
         cpair{
             charindex('Z', 'i'),
-            1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0},
-        cpair{charindex('d', 'a'), 10.0},
-        cpair{charindex('m', 'A'), 1e6},
-        cpair{charindex('m', 'c'), 1e-6},
-        cpair{charindex('p', 'T'), 1e15},
+            precise::zebi.multiplier()},
+        cpair{charindex('d', 'a'), precise::deka.multiplier()},
+        cpair{charindex('m', 'A'), precise::mega.multiplier()},
+        cpair{charindex('m', 'c'), precise::micro.multiplier()},
+        cpair{charindex('p', 'T'), precise::peta.multiplier()},
     }};
     auto code = charindex(c1, c2);
     auto fnd = std::lower_bound(
@@ -2252,37 +2283,37 @@ https://physics.nist.gov/cuu/Units/binary.html
 */
 using utup = std::tuple<const char*, double, int>;
 static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 29> prefixWords{{
-    utup{"atto", 1e-18, 4},
-    utup{"centi", 0.01, 5},
-    utup{"deca", 10.0, 4},
-    utup{"deci", 0.1, 4},
-    utup{"deka", 10.0, 4},
-    utup{"exa", 1e18, 3},
-    utup{"exbi", 1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0, 4},
-    utup{"femto", 1e-15, 5},
-    utup{"gibi", 1024.0 * 1024.0 * 1024, 4},
-    utup{"giga", 1e9, 4},
-    utup{"hecto", 100.0, 5},
-    utup{"kibi", 1024.0, 4},
-    utup{"kilo", 1000.0, 4},
-    utup{"mebi", 1024.0 * 1024.0, 4},
-    utup{"mega", 1e6, 4},
-    utup{"micro", 1e-6, 5},
-    utup{"milli", 1e-3, 5},
-    utup{"nano", 1e-9, 4},
-    utup{"pebi", 1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0, 4},
-    utup{"peta", 1e15, 4},
-    utup{"pico", 1e-12, 4},
-    utup{"tebi", 1024.0 * 1024.0 * 1024 * 1024.0, 4},
-    utup{"tera", 1e12, 4},
-    utup{"yocto", 1e-24, 5},
-    utup{"yotta", 1e24, 4},
-    utup{"zepto", 1e-21, 5},
-    utup{"zetta", 1e21, 5},
-    utup{"zebi", 1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0, 4},
+    utup{"atto", precise::atto.multiplier(), 4},
+    utup{"centi", precise::centi.multiplier(), 5},
+    utup{"deca", precise::deka.multiplier(), 4},
+    utup{"deci", precise::deci.multiplier(), 4},
+    utup{"deka", precise::deka.multiplier(), 4},
+    utup{"exa", precise::exa.multiplier(), 3},
+    utup{"exbi", precise::exbi.multiplier(), 4},
+    utup{"femto", precise::femto.multiplier(), 5},
+    utup{"gibi", precise::gibi.multiplier(), 4},
+    utup{"giga", precise::giga.multiplier(), 4},
+    utup{"hecto", precise::hecto.multiplier(), 5},
+    utup{"kibi", precise::kibi.multiplier(), 4},
+    utup{"kilo", precise::kilo.multiplier(), 4},
+    utup{"mebi", precise::mebi.multiplier(), 4},
+    utup{"mega", precise::mega.multiplier(), 4},
+    utup{"micro", precise::micro.multiplier(), 5},
+    utup{"milli", precise::milli.multiplier(), 5},
+    utup{"nano", precise::nano.multiplier(), 4},
+    utup{"pebi", precise::pebi.multiplier(), 4},
+    utup{"peta", precise::peta.multiplier(), 4},
+    utup{"pico", precise::pico.multiplier(), 4},
+    utup{"tebi", precise::tebi.multiplier(), 4},
+    utup{"tera", precise::tera.multiplier(), 4},
+    utup{"yocto", precise::yocto.multiplier(), 5},
+    utup{"yotta", precise::yotta.multiplier(), 4},
+    utup{"zepto", precise::zepto.multiplier(), 5},
+    utup{"zetta", precise::zetta.multiplier(), 5},
+    utup{"zebi", precise::zebi.multiplier(), 4},
     utup{
         "yobi",
-        1024.0 * 1024.0 * 1024 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0,
+        precise::yobi.multiplier(),
         4},
 }};
 
@@ -3216,7 +3247,10 @@ static DotInterpretation findDotInterpretation(const std::string& unit_string)
 {
     auto dloc = unit_string.find_first_of('.');
     if (dloc == std::string::npos) {
+        // LCOV_EXCL_START
+        // in all internal contexts this function wouldn't be called if there was no dots
         return DotInterpretation::none;
+        // LCOV_EXCL_STOP
     }
     DotInterpretation dInt{DotInterpretation::none};
     while (dloc != std::string::npos) {
@@ -3759,6 +3793,8 @@ static void checkPowerOf10(std::string& unit_string)
 
 static std::string shortStringReplacement(char U)
 {
+    // LCOV_EXCL_START
+    // not sure why this isn't showing up as covered
     static const std::unordered_map<char, std::string> singleCharUnitStrings{
         {'m', "meter"},       {'s', "second"}, {'S', "siemens"},
         {'l', "liter"},       {'g', "gram"},   {'b', "barn"},
@@ -3772,6 +3808,8 @@ static std::string shortStringReplacement(char U)
         {'h', "hour"},        {'D', "day"},    {'o', "arcdeg"},
         {'L', "liter "},      {'W', "watt"},   {'e', "elementarycharge"},
         {'t', "tonne"}};
+
+    //LCOV_EXCL_STOP
 
     auto res = singleCharUnitStrings.find(U);
     return (res == singleCharUnitStrings.end()) ? std::string(1, U) :

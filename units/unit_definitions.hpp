@@ -185,6 +185,8 @@ namespace precise {
         nan(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
             constants::invalid_conversion);
     // SI prefixes as units
+    constexpr precise_unit deci(1e-1, one);
+    constexpr precise_unit centi(1e-2, one);
     constexpr precise_unit milli(1e-3, one);
     constexpr precise_unit micro(1e-6, one);
     constexpr precise_unit nano(1e-9, one);
@@ -193,7 +195,10 @@ namespace precise {
     constexpr precise_unit atto(1e-18, one);
     constexpr precise_unit zepto(1e-21, one);
     constexpr precise_unit yocto(1e-24, one);
+    constexpr precise_unit ronto(1e-27, one);
+    constexpr precise_unit quecto(1e-30, one);
 
+    constexpr precise_unit deka(10,one);
     constexpr precise_unit hecto(1e2, one);
     constexpr precise_unit kilo(1e3, one);
     constexpr precise_unit mega(1e6, one);
@@ -203,6 +208,8 @@ namespace precise {
     constexpr precise_unit exa(1e18, one);
     constexpr precise_unit zetta(1e21, one);
     constexpr precise_unit yotta(1e24, one);
+    constexpr precise_unit ronna(1e27, one);
+    constexpr precise_unit quetta(1e30, one);
 
     constexpr precise_unit kibi(1024, one);
     constexpr precise_unit mebi = kibi * kibi;
