@@ -43,9 +43,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 180>
          // otherwise generates confusion
          {giga * F, "(1000MF)"},
 
-         // some of these are just dumb units but here to avoid round trip errors
-        {unit_cast(precise::ronna) * T, "(1000YT)"},
-        {unit_cast(precise::quetta) * T, "(1000000YT)"},
+         // some of these are just dumb units but here to avoid round trip
+         // errors
+         {unit_cast(precise::ronna) * T, "(1000YT)"},
+         {unit_cast(precise::quetta) * T, "(1000000YT)"},
          {S, "S"},
          {Wb, "Wb"},
          {T, "T"},
