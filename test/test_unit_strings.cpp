@@ -518,6 +518,21 @@ TEST(stringToUnits, multipower)
     EXPECT_DOUBLE_EQ(res.multiplier(), std::pow(4.56, 9.0));
 }
 
+TEST(stringToUnits, bitsBytes)
+{
+    auto res = unit_from_string("KiB");
+    EXPECT_EQ(res, precise::kibi * precise::data::byte);
+
+    res = unit_from_string("Mib");
+    EXPECT_EQ(res, precise::mebi * precise::data::bit);
+
+    res = unit_from_string("MAB");
+    EXPECT_EQ(res, precise::mega * precise::data::byte);
+
+    res = unit_from_string("MAb");
+    EXPECT_EQ(res, precise::mega * precise::data::bit);
+}
+
 TEST(stringToUnits, dotNotation)
 {
     EXPECT_EQ(precise::m, unit_from_string("m.m.m/m.m", single_slash));
