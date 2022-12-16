@@ -206,6 +206,11 @@ TEST(unitStrings, dotInterpretation)
     EXPECT_EQ(precise::milli * precise::s, unit_from_string("m-s"));
     // s is abbreviation so first . is also abbreviation so millisecond
     EXPECT_EQ(precise::milli * precise::s, unit_from_string("m.s."));
+    // s is abbreviation so first . is also abbreviation so millisecond
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string(".m.s."));
+
+    // s is abbreviation so first . is also abbreviation so millisecond
+    EXPECT_EQ(precise_unit(0.9,precise::milli * precise::s), unit_from_string("0.9.m.s."));
 }
 
 TEST(unitStrings, endwithU)

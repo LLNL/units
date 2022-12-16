@@ -3316,7 +3316,10 @@ static void
         st = dloc + 1;
         dloc = unit_string.find_first_of('.', st);
     }
+    
     if (skipped > 1) {
+        /* this is needed for some sequential conditions with unusual dot notation that forces some to be a multiply
+        */
         skipped = 0;
         dloc = unit_string.find_first_of('.');
         while (dloc != std::string::npos) {
@@ -3329,15 +3332,7 @@ static void
                 ++nloc;
             }
             if (unit_string[nloc] == '.') {
-                if (dInt == DotInterpretation::multiply) {
-                    unit_string[nloc] = '*';
-                } else {
-                    while (unit_string[nloc] == '.' ||
-                           unit_string[nloc] == ' ') {
-                        unit_string.erase(nloc, 1);
-                    }
-                    --nloc;
-                }
+                unit_string[nloc] = '*';
                 dloc = unit_string.find_first_of('.', nloc + 1);
             } else {
                 ++skipped;
