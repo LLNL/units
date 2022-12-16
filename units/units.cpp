@@ -3316,10 +3316,11 @@ static void
         st = dloc + 1;
         dloc = unit_string.find_first_of('.', st);
     }
-    
+
     if (skipped > 1) {
-        /* this is needed for some sequential conditions with unusual dot notation that forces some to be a multiply
-        */
+        /* this is needed for some sequential conditions with unusual dot
+         * notation that forces some to be a multiply
+         */
         skipped = 0;
         dloc = unit_string.find_first_of('.');
         while (dloc != std::string::npos) {
