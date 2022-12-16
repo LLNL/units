@@ -1,18 +1,16 @@
 codecov:
   notify:
     require_ci_to_pass: no
-    after_n_builds: 6
+    after_n_builds: 4
   branch: main
 
 coverage:
   precision: 2
   round: down
   range: '80...100'
-
-  test:
-    target: 100%
   status:
-    project: yes
+    project:
+      informational: true
     patch: yes
     changes: no
 
