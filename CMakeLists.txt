@@ -7,19 +7,19 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-# Make sure users don't get warnings on a tested (3.0 to 3.23) version of CMake. For
+# Make sure users don't get warnings on a tested (3.0 to 3.24) version of CMake. For
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
-if(${CMAKE_VERSION} VERSION_LESS 3.23)
+if(${CMAKE_VERSION} VERSION_LESS 3.24)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-    cmake_policy(VERSION 3.23)
+    cmake_policy(VERSION 3.24)
 endif()
 
 project(
     UNITS
     LANGUAGES CXX
-    VERSION 0.6.0
+    VERSION 0.7.0
 )
 include(CMakeDependentOption)
 include(CTest)
@@ -27,7 +27,7 @@ include(GNUInstallDirs)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT DEFINED CMAKE_CXX_STANDARD)
     # User settable
-    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD 14)
 endif()
 
 if(NOT DEFINED CMAKE_CXX_EXTENSIONS)
