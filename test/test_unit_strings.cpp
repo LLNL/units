@@ -134,7 +134,6 @@ TEST(unitStrings, si_prefixes)
     EXPECT_EQ(to_string(unit_from_string("Qm")), "Qm");
 }
 
-
 TEST(unitStrings, si_prefixes_strict)
 {
     EXPECT_EQ(to_string(unit_from_string("mm", strict_si)), "mm");
