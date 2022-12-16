@@ -119,6 +119,8 @@ TEST(unitStrings, si_prefixes)
     EXPECT_EQ(to_string(unit_from_string("zm")), "zm");
     EXPECT_EQ(to_string(unit_from_string("ym")), "ym");
     EXPECT_EQ(to_string(unit_from_string("dm")), "dm");
+    EXPECT_EQ(to_string(unit_from_string("rm")), "rm");
+    EXPECT_EQ(to_string(unit_from_string("qm")), "qm");
 
     EXPECT_EQ(to_string(unit_from_string("km")), "km");
     EXPECT_EQ(to_string(unit_from_string("Km")), "km");
@@ -128,6 +130,35 @@ TEST(unitStrings, si_prefixes)
     EXPECT_EQ(to_string(unit_from_string("Em")), "Em");
     EXPECT_EQ(to_string(unit_from_string("Zm")), "Zm");
     EXPECT_EQ(to_string(unit_from_string("Ym")), "Ym");
+    EXPECT_EQ(to_string(unit_from_string("Rm")), "Rm");
+    EXPECT_EQ(to_string(unit_from_string("Qm")), "Qm");
+}
+
+
+TEST(unitStrings, si_prefixes_strict)
+{
+    EXPECT_EQ(to_string(unit_from_string("mm", strict_si)), "mm");
+    EXPECT_EQ(to_string(unit_from_string("cm", strict_si)), "cm");
+    EXPECT_EQ(to_string(unit_from_string("um", strict_si)), "um");
+    EXPECT_EQ(to_string(unit_from_string("nm", strict_si)), "nm");
+    EXPECT_EQ(to_string(unit_from_string("pm", strict_si)), "pm");
+    EXPECT_EQ(to_string(unit_from_string("fm", strict_si)), "fm");
+    EXPECT_EQ(to_string(unit_from_string("am", strict_si)), "am");
+    EXPECT_EQ(to_string(unit_from_string("zm", strict_si)), "zm");
+    EXPECT_EQ(to_string(unit_from_string("ym", strict_si)), "ym");
+    EXPECT_EQ(to_string(unit_from_string("dm", strict_si)), "dm");
+    EXPECT_EQ(to_string(unit_from_string("rm", strict_si)), "rm");
+    EXPECT_EQ(to_string(unit_from_string("qm", strict_si)), "qm");
+
+    EXPECT_EQ(to_string(unit_from_string("km", strict_si)), "km");
+    EXPECT_EQ(to_string(unit_from_string("Mm", strict_si)), "Mm");
+    EXPECT_EQ(to_string(unit_from_string("Gm", strict_si)), "Gm");
+    EXPECT_EQ(to_string(unit_from_string("Tm", strict_si)), "Tm");
+    EXPECT_EQ(to_string(unit_from_string("Em", strict_si)), "Em");
+    EXPECT_EQ(to_string(unit_from_string("Zm", strict_si)), "Zm");
+    EXPECT_EQ(to_string(unit_from_string("Ym", strict_si)), "Ym");
+    EXPECT_EQ(to_string(unit_from_string("Rm", strict_si)), "Rm");
+    EXPECT_EQ(to_string(unit_from_string("Qm", strict_si)), "Qm");
 }
 
 TEST(unitStrings, strict_si)

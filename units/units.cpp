@@ -1776,9 +1776,6 @@ static double getPrefixMultiplier(char p)
     }
 }
 
-// LCOV_EXCL_START
-// this function doesn't need to be checked
-
 /// Generate the prefix multiplier for strict SI units
 static double getStrictSIPrefixMultiplier(char p)
 {
@@ -1834,8 +1831,6 @@ static double getStrictSIPrefixMultiplier(char p)
             return 0.0;
     }
 }
-
-// LCOV_EXCL_STOP
 
 static constexpr uint16_t charindex(char ch1, char ch2)
 {
