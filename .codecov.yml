@@ -8,9 +8,6 @@ coverage:
   precision: 2
   round: down
   range: '80...100'
-
-  test:
-    target: 100%
   status:
     project: yes
     patch: yes
