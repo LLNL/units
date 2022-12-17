@@ -1,11 +1,10 @@
 # Units
 
-[![Build Status](https://travis-ci.com/LLNL/units.svg?branch=master)](https://travis-ci.com/LLNL/units)
-[![codecov](https://codecov.io/gh/LLNL/units/branch/master/graph/badge.svg)](https://codecov.io/gh/LLNL/units)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0b5367026f34c4a9dc94ca4c19c770a)](https://app.codacy.com/app/phlptp/units?utm_source=github.com&utm_medium=referral&utm_content=LLNL/units&utm_campaign=Badge_Grade_Settings)
-[![Build Status](https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=master)](https://dev.azure.com/phlptp/units/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://travis-ci.com/LLNL/units.svg?branch=main)](https://travis-ci.com/LLNL/units)
+[![codecov](https://codecov.io/gh/LLNL/units/branch/main/graph/badge.svg)](https://codecov.io/gh/LLNL/units)
+[![Build Status](https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=main)](https://dev.azure.com/phlptp/units/_build/latest?definitionId=1&branchName=main)
 [![CircleCI](https://circleci.com/gh/LLNL/units.svg?style=svg)](https://circleci.com/gh/LLNL/units)
-[![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/master/LICENSE)
+[![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/main/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/units/badge/?version=latest)](https://units.readthedocs.io/en/latest/?badge=latest)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LLNL/units/main.svg)](https://results.pre-commit.ci/latest/github/LLNL/units/main)
 
