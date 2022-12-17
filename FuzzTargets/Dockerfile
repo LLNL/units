@@ -1,4 +1,4 @@
-FROM  helics/buildenv:clang-builder14 as builder
+FROM  helics/buildenv:clang14-builder as builder
 
 # this is already in a workdir from the builder image
 # modification date 2022-12-17
