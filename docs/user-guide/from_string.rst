@@ -44,7 +44,7 @@ The conversion from a string to measurement looks for a leading number before th
 
 The conversion function also handles a few cases where the unit symbol is written before the value such as currency `$27.92`  would be a value of 27.92 with the currency unit.
 
-Uncertain Measurements 
+Uncertain Measurements
 ---------------------------
 
 Similarly to Measurement strings, uncertain measurements can also be converted from strings see :ref:`Uncertain Measurements` for additional details on the formats supported.
