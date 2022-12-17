@@ -18,7 +18,7 @@ endif()
 
 project(
     UNITS
-    LANGUAGES CXX
+    LANGUAGES C CXX
     VERSION 0.7.0
 )
 include(CMakeDependentOption)
