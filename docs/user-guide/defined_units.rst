@@ -51,7 +51,7 @@ Sometimes it is useful to have pure numerical units, often for multiplication wi
 - nan
 
 Also included in this category are `SI prefixes <https://physics.nist.gov/cuu/Units/prefixes.html>`_
-milli, micro, nano, pico, femto, atto, zepto, yocto, kilo, mega, giga, tera, peta, exa, hecto, zetta, yotta
+deci, centi,milli, micro, nano, pico, femto, atto, zepto, yocto, ronto, quecto, deka, hecto, kilo, mega, giga, tera, peta, exa, hecto, zetta, yotta,rotta, quetta.
 
 and SI data prefixes
 kibi, mebi, gibi, tebi, pebi, exbi, zebi, yobi
