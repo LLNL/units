@@ -45,6 +45,10 @@ Cooking
 -   `c`  -- cup vs speed of light
 -   `t`  -- teaspoon vs metric tonne
 -   `TB`  -- Tablespoon vs TeraByte
+-   `smi` -- smidgen vs square mile
+-   `scruple` -- slightly different definition when used in cooking context
+-   `ds`  -- dessertspoon vs deci second 
+
 
 Surveying
 ++++++++++++
@@ -66,6 +70,11 @@ US customary
 ++++++++++++++++
 
 Combination of surveying and cooking
+
+All domains 
+++++++++++++
+
+Combination of all of the above
 
 
 More units will likely be added to this as the need arises
