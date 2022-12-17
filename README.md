@@ -35,7 +35,7 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
 
 ## Purpose
 
-A units library was needed to be able to represent units from a wide range of disciplines and be able to separate them from the numerical values for use in calculations when needed. The main drivers are converting units, often represented by strings, to a standardized unit set when dealing with user input and output. Being able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units. And being able to associate an completely arbritrary unit given by users with a generic interface and support conversions between those user defined units. The library has its origins in power systems so support for per-unit operations was also lacking in the alternatives.
+A units library was needed to be able to represent units from a wide range of disciplines and be able to separate them from the numerical values for use in calculations when needed. The main drivers are converting units, often represented by strings, to a standardized unit set when dealing with user input and output. Being able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units. And being able to associate an completely arbitrary unit given by users with a generic interface and support conversions between those user defined units. The library has its origins in power systems so support for per-unit operations was also lacking in the alternatives.
 
 It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units. The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that. This library does **NOT** provide compile time checking of units. The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and definitions are dealt with at run time, and may be of a wide variety of units.
 
@@ -167,7 +167,7 @@ See [Defined Units](https://units.readthedocs.io/en/latest/user-guide/defined_un
 
 ### Physics constants
 
-A set of physical and numerical constants are defined in the `units::constants` namespace. More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html).  Some of the avaialable constants that are measured vs. defined have an `uncertain_measurement` version available as well that includes the uncertainty.
+A set of physical and numerical constants are defined in the `units::constants` namespace. More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html).  Some of the available constants that are measured vs. defined have an `uncertain_measurement` version available as well that includes the uncertainty.
 
 ## Building the library
 
