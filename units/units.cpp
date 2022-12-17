@@ -2797,7 +2797,8 @@ static precise_unit
     auto finish = unit_string.find_last_of('}');
     if (finish == std::string::npos) {
         // there are checks before this would get called that would catch that
-        // error but it is left in place just in case it gets called in an isolated context
+        // error but it is left in place just in case it gets called in an
+        // isolated context
 
         // LCOV_EXCL_START
         return precise::invalid;
@@ -2877,11 +2878,11 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::us_customary, "\""), precise::us::inch},
     {hashGen(domains::us_customary, u8"\u2033"), precise::us::inch},
     {hashGen(domains::us_customary, "smi"),
-    precise_unit(1.0 / 32.0, precise::us::tsp)},
+     precise_unit(1.0 / 32.0, precise::us::tsp)},
     {hashGen(domains::us_customary, "scruple"),
-    precise_unit(1.0 / 4.0, precise::us::tsp)},
+     precise_unit(1.0 / 4.0, precise::us::tsp)},
     {hashGen(domains::us_customary, "ds"),
-    precise_unit(1.0 / 16.0, precise::us::tsp)},
+     precise_unit(1.0 / 16.0, precise::us::tsp)},
     {hashGen(domains::allDomains, "B"), precise::log::bel},
     {hashGen(domains::allDomains, "a"), precise::time::aj},
     {hashGen(domains::allDomains, "year"), precise::time::aj},
@@ -2896,11 +2897,11 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::allDomains, "kt"), precise::kilo* precise::t},
     {hashGen(domains::allDomains, "rd"), precise::cgs::RAD},
     {hashGen(domains::allDomains, "smi"),
-    precise_unit(1.0 / 32.0, precise::us::tsp)},
+     precise_unit(1.0 / 32.0, precise::us::tsp)},
     {hashGen(domains::allDomains, "scruple"),
-    precise_unit(1.0 / 4.0, precise::us::tsp)},
+     precise_unit(1.0 / 4.0, precise::us::tsp)},
     {hashGen(domains::allDomains, "ds"),
-    precise_unit(1.0 / 16.0, precise::us::tsp)},
+     precise_unit(1.0 / 16.0, precise::us::tsp)},
 };
 
 static precise_unit

@@ -167,7 +167,7 @@ See [Defined Units](https://units.readthedocs.io/en/latest/user-guide/defined_un
 
 ### Physics constants
 
-A set of physical and numerical constants are defined in the `units::constants` namespace. More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html).  Some of the avaialable constants that are measured vs. defined have an `uncertain_measurement` version available as well that includes the uncertainty.
+A set of physical and numerical constants are defined in the `units::constants` namespace. More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html). Some of the avaialable constants that are measured vs. defined have an `uncertain_measurement` version available as well that includes the uncertainty.
 
 ## Building the library
 
