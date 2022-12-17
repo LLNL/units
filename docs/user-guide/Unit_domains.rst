@@ -47,7 +47,7 @@ Cooking
 -   `TB`  -- Tablespoon vs TeraByte
 -   `smi` -- smidgen vs square mile
 -   `scruple` -- slightly different definition when used in cooking context
--   `ds`  -- dessertspoon vs deci second 
+-   `ds`  -- dessertspoon vs deci second
 
 
 Surveying
@@ -71,7 +71,7 @@ US customary
 
 Combination of surveying and cooking
 
-All domains 
+All domains
 ++++++++++++
 
 Combination of all of the above
