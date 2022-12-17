@@ -35,11 +35,11 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
 
 ## Purpose
 
-A units library was needed to be able to represent units of a wide range of disciplines and be able to separate them from the numerical values for use in calculations. The main driver is converting units, often represented by strings, to a standardized unit set when dealing with user input and output. And be able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units. Sometimes the unit type needs to be used inside virtual function calls which must strictly define a type. The library also has its origin in power systems so support for per-unit operations was also lacking in the alternatives.
+A units library was needed to be able to represent units from a wide range of disciplines and be able to separate them from the numerical values for use in calculations when needed. The main drivers are converting units, often represented by strings, to a standardized unit set when dealing with user input and output. Being able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units. And being able to associate an completely arbitrary unit given by users with a generic interface and support conversions between those user defined units. The library has its origins in power systems so support for per-unit operations was also lacking in the alternatives.
 
-It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units. The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that. This library does **NOT** provide compile time checking of units. The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and uses are dealt with at run time, and may be of a wide variety of units.
+It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units. The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that. This library does **NOT** provide compile time checking of units. The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and definitions are dealt with at run time, and may be of a wide variety of units.
 
-This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates. It supports conversion of units to and from strings. It supports mathematical operations on units and measurements which is `constexpr` where possible. It supports units used in a wide variety of scientific and non scientific contexts. Supports conversions between different similar as well as some typical assumptions for supporting conversions. In some cases it also has some notion of commodities, and support for existing unit standards for strings and naming.
+This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates. It supports conversion of units to and from strings. It supports mathematical operations on units and measurements which is `constexpr` where possible. It supports units used in a wide variety of scientific and non scientific contexts. Supports conversions between different units of the same type as well as some typical assumptions for supporting conversions of a few dissimilar types. In some cases it also has some notion of commodities, and support for existing unit standards for strings and naming.
 
 ### Basic use case
 
@@ -70,7 +70,7 @@ if (!meas.units().is_convertible(out))
 
 - The powers represented by units by default are limited see [Unit representation](#unit_representation) and only normal physical units or common operations are supported, this can be modified at compile time to support a much broader range at the expense of size and computation.
 - The library uses floating point and double precision for the multipliers which is generally good enough for most engineering contexts, but does come with the limits and associated loss of precision for long series of calculations on floating point numbers.
-- Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So, if you are doing a lot of financial calculations or accounting, use something more specific for currency manipulations. It also does not maintain any notion of currency conversions since that is a fluctuation value. It may at some point recognize different currency names though.
+- Currency is supported as a unit but it is not recommended to use this for anything beyond basic financial calculations. So, if you are doing a lot of financial calculations or accounting, use something more specific for currency manipulations. It also does not maintain any notion of currency conversions since those fluctuate in value. It may at some point recognize different currency names though commodities.
 - Fractional unit powers are not supported in general. While some mathematical operations on units are supported any root operations `sqrt` or `cbrt` will only produce valid results if the result is integral powers of the base units. One exception is limited support for √Hz operations in measurements of Amplitude spectral density. A specific definition of a unit representing square root of Hz is available and will work in combination with other units.
 - While conversions of various temperature definitions are supported, there is no generalized support for datums and bias shifts. It may be possible to add some specific cases in the future for common uses cases but the space requirement limits such use. Some of the other libraries have general support for this.
 - A few [equation](https://units.readthedocs.io/en/latest/user-guide/equation_units.html) like units are supported these include logarithms, nepers, and some things like Saffir-Simpson, Beaufort, and Fujita scales for wind, and Richter scales for earthquakes. There is capacity within the framework to add a few more equation like units if a need arises.
@@ -146,7 +146,7 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.
 
-The CMake variable `UNITS_BASE_TYPE` if set to a 64 bit type like `uint64_t` will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [CMake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
+The CMake variable `UNITS_BASE_TYPE`, if set to a 64 bit type like `uint64_t`, will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [CMake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
 
 ### Discussion points
 
@@ -167,7 +167,7 @@ See [Defined Units](https://units.readthedocs.io/en/latest/user-guide/defined_un
 
 ### Physics constants
 
-A set of physical and numerical constants are defined in the `units::constants` namespace. More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html)
+A set of physical and numerical constants are defined in the `units::constants` namespace. More details and a list of available constants are described in [Physical Units](https://units.readthedocs.io/en/latest/user-guide/Physical_constants.html). Some of the available constants that are measured vs. defined have an `uncertain_measurement` version available as well that includes the uncertainty.
 
 ## Building the library
 
@@ -188,7 +188,7 @@ For more details see the [documentation](https://units.readthedocs.io/en/latest/
 ### Converter Application
 
 A [converter](https://units.readthedocs.io/en/latest/introduction/converter.html) command line application can be built as part the units library by setting
-`UNITS_BUILD_CONVERTER_APP=ON` in the CMake build. This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form. If you want to run your own converter a docker container is available on [dockerhub](https://hub.docker.com/layers/82497105/phlptp/units/webserver/images/sha256-747697d6cabb64c5a53b99e00c4748964a2a7e9a819a93622bfdb32dd5e58b01?context=repo).
+`UNITS_BUILD_CONVERTER_APP=ON` in the CMake build. This is a simple command line script that takes a measurement entered on the command line and a unit to convert to and returns the new value by itself or part of a string output with the units either simplified or in original form. If you want to run your own converter web server, a docker container is available on [dockerhub](https://hub.docker.com/repository/docker/phlptp/units).
 
 ## Usage
 

@@ -16,7 +16,7 @@ CMake variables
 -  `UNITS_BUILD_CONVERTER_APP`: enables building a simple command line converter application that can convert units from the command line
 -  `UNITS_ENABLE_EXTRA_COMPILER_WARNINGS`: Turn on bunch of extra compiler warnings, on by default
 -  `UNITS_ENABLE_ERROR_ON_WARNINGS`:  Mostly useful in some testing contexts but will turn on `Werror` so any normal warnings generate an error.
--  `CMAKE_CXX_STANDARD`:  Compile with a particular C++ standard, valid values are `11`, `14`, `17`, and likely `20` though that isn't broadly supported.
+-  `CMAKE_CXX_STANDARD`:  Compile with a particular C++ standard, valid values are `11`, `14`, `17`, `20`, and likely `23` though that isn't broadly supported.  Will set to 14 by default if not otherwise specified
 -  `UNITS_BINARY_ONLY_INSTALL`:  Just install shared libraries and executables,  no headers or static libs or packaging information
 -  `UNITS_CLANG_TIDY`:  Enable the clang tidy tests as part of the build
 -  `UNITS_BASE_TYPE`:  Set to `uint64_t` for expanded base-unit power support. This increases the size of a unit by 4 Bytes.
@@ -31,7 +31,7 @@ If compiling as part of a subproject then a few other options are useful
 -  `UNITS_HEADER_ONLY`:  Only generate the header only target, sets `UNITS_BUILD_STATIC_LIBRARY` and `UNITS_BUILD_SHARED_LIBRARY` to OFF
 -  `UNITS_INSTALL`:  enable the install instructions of the library
 -  `UNITS_BUILD_OBJECT_LIBRARY`:  Generate an object library that can be used as part of other builds.  Only one of `UNITS_BUILD_SHARED_LIBRARY`, `UNITS_BUILD_STATIC_LIBRARY`, or `UNITS_BUILD_OBJECT_LIBRARY` can be set to `ON`.  If more than one are set,  the shared library and object library settings take precedence over the static library.
-- `UNITS_LIBRARY_EXPORT_COMMAND`:  If desired the targets for the units library can be merged into an root project target list by modifying this variable.  The use cases for this are rare, but if this is something you want to do this variable should be set to something like `EXPORT rootProjectTargets`
+-  `UNITS_LIBRARY_EXPORT_COMMAND`:  If desired the targets for the units library can be merged into an root project target list by modifying this variable.  The use cases for this are rare, but if this is something you want to do this variable should be set to something like `EXPORT rootProjectTargets`
 
 CMake Targets
 --------------
@@ -53,21 +53,26 @@ As part of the `HELICS <https://github.com/GMLC-TDC/HELICS>`_ library the units 
    set(UNITS_INSTALL OFF CACHE INTERNAL "")
 
    if(NOT CMAKE_CXX_STANDARD)
-      set(CMAKE_CXX_STANDARD 14) # Supported values are ``11``, ``14``, and ``17``.
+        set(CMAKE_CXX_STANDARD 17) # Supported values are ``11``, ``14``, and ``17``.
    endif()
 
    set(UNITS_BUILD_OBJECT_LIBRARY OFF CACHE INTERNAL "")
    set(UNITS_BUILD_STATIC_LIBRARY ON CACHE INTERNAL "")
    set(UNITS_BUILD_SHARED_LIBRARY OFF CACHE INTERNAL "")
+   set(UNITS_BUILD_CONVERTER_APP OFF CACHE INTERNAL "")
    set(UNITS_BUILD_WEBSERVER OFF CACHE INTERNAL "")
+   set(UNITS_CLANG_TIDY_OPTIONS "" CACHE INTERNAL "")
+   set(UNITS_BUILD_FUZZ_TARGETS OFF CACHE INTERNAL "")
 
-   add_subdirectory("${PROJECT_SOURCE_DIR}/ThirdParty/units"
-                 "${PROJECT_BINARY_DIR}/ThirdParty/units")
+   add_subdirectory(
+        "${PROJECT_SOURCE_DIR}/ThirdParty/units" "${PROJECT_BINARY_DIR}/ThirdParty/units"
+   )
 
    set_target_properties(units PROPERTIES FOLDER Extern)
 
    hide_variable(UNITS_HEADER_ONLY)
    hide_variable(UNITS_BUILD_OBJECT_LIBRARY)
+   hide_variable(UNITS_NAMESPACE)
 
 Then the target linked by
 

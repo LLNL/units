@@ -10,7 +10,11 @@ coverage:
   range: '80...100'
   status:
     project:
-      informational: true
+      default:
+        # basic
+        target: 100%
+        threshold: 0%
+        base: auto
     patch: yes
     changes: no
 
