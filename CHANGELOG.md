@@ -26,6 +26,18 @@ Added several math operations for units, restored coverage to 100%, added uncert
 - added support for new SI prefixes: rotta, quetta, ronto, quecto. [#255][]
 - Added a number of uncertain constants [#248][]
 
+[#235]: https://github.com/LLNL/units/pull/235
+[#240]: https://github.com/LLNL/units/pull/240
+[#241]: https://github.com/LLNL/units/pull/241
+[#248]: https://github.com/LLNL/units/pull/248
+[#249]: https://github.com/LLNL/units/pull/249
+[#250]: https://github.com/LLNL/units/pull/250
+[#251]: https://github.com/LLNL/units/pull/251
+[#252]: https://github.com/LLNL/units/pull/252
+[#253]: https://github.com/LLNL/units/pull/253
+[#254]: https://github.com/LLNL/units/pull/254
+[#255]: https://github.com/LLNL/units/pull/255
+
 ## [0.6.0][] - 2022-05-16
 
 This release has a number of fixes for specific unit strings, adds some other units and a new unit_conversion_maps structure to reduce stack usage.
