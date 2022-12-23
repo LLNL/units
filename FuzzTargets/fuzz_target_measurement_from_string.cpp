@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units.hpp"
 #include <cstring>
 #include <exception>
+#include <stdexcept>
 #include <string>
 
 static const bool cflag = []() {
