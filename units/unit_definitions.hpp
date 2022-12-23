@@ -219,6 +219,8 @@ namespace precise {
     constexpr precise_unit exbi = pebi * kibi;
     constexpr precise_unit zebi = exbi * kibi;
     constexpr precise_unit yobi = zebi * kibi;
+    constexpr precise_unit robi = yobi * kibi;
+    constexpr precise_unit qubi = robi * kibi;
 
     // Derived SI units:
     constexpr precise_unit

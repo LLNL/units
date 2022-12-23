@@ -1841,7 +1841,7 @@ static constexpr uint16_t charindex(char ch1, char ch2)
 static double getPrefixMultiplier2Char(char c1, char c2)
 {
     using cpair = std::pair<uint16_t, double>;
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<cpair, 23> char2prefix{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<cpair, 25> char2prefix{{
         cpair{charindex('D', 'A'), precise::deka.multiplier()},
         cpair{charindex('E', 'X'), precise::exa.multiplier()},
         cpair{charindex('E', 'i'), precise::exbi.multiplier()},
@@ -1858,6 +1858,8 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('Y', 'A'), precise::yotta.multiplier()},
         cpair{charindex('Y', 'O'), precise::yocto.multiplier()},
         cpair{charindex('Y', 'i'), precise::yobi.multiplier()},
+        cpair{charindex('R', 'i'), precise::robi.multiplier()},
+        cpair{charindex('Q', 'i'), precise::qubi.multiplier()},
         cpair{charindex('Z', 'A'), precise::zetta.multiplier()},
         cpair{charindex('Z', 'O'), precise::zepto.multiplier()},
         cpair{charindex('Z', 'i'), precise::zebi.multiplier()},
@@ -2271,7 +2273,7 @@ https://physics.nist.gov/cuu/Units/prefixes.html
 https://physics.nist.gov/cuu/Units/binary.html
 */
 using utup = std::tuple<const char*, double, int>;
-static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 34> prefixWords{{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 36> prefixWords{{
     utup{"atto", precise::atto.multiplier(), 4},
     utup{"centi", precise::centi.multiplier(), 5},
     utup{"deca", precise::deka.multiplier(), 4},
@@ -2301,6 +2303,8 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 34> prefixWords{{
     utup{"zetta", precise::zetta.multiplier(), 5},
     utup{"zebi", precise::zebi.multiplier(), 4},
     utup{"yobi", precise::yobi.multiplier(), 4},
+    utup{"robi", precise::robi.multiplier(), 4},
+    utup{"qubi", precise::qubi.multiplier(), 4},
     utup{"ronto", precise::ronto.multiplier(), 5},
     utup{"quecto", precise::quecto.multiplier(), 6},
     utup{"ronna", precise::ronna.multiplier(), 5},
