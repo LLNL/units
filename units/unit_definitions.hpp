@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
 #include "units_decl.hpp"
+#include "commodity_definitions.hpp"
 
 #include <algorithm>
 #include <array>
@@ -112,6 +113,7 @@ namespace precise {
     constexpr precise_unit quecto(1e-30, one);
 
     constexpr precise_unit deka(10, one);
+    constexpr precise_unit deca(10, one);
     constexpr precise_unit hecto(1e2, one);
     constexpr precise_unit kilo(1e3, one);
     constexpr precise_unit mega(1e6, one);

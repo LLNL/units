@@ -244,7 +244,6 @@ namespace commodities {
 
         // other common unit blocks
         {"people", people},
-        {"particles", particle},
         {"cars", vehicle},
         {"vehicle", vehicle},
         // clinical
