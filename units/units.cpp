@@ -319,7 +319,7 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     if (!numOnly) {
         auto si = si_prefixes.find(static_cast<float>(multiplier));
         if (si != si_prefixes.end()) {
-            return { 1, si->second };
+            return std::string( 1, si->second );
         }
     }
     int P = 18;  // the desired precision
@@ -2120,7 +2120,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<wordpair, 11> teens{
 
 static double readTeens(const std::string& str, size_t& index)
 {
-    for (auto& num : teens) {
+    for (const auto& num : teens) {
         if (str.compare(index, std::get<2>(num), std::get<0>(num)) == 0) {
             index += std::get<2>(num);
             return std::get<1>(num);
@@ -2404,7 +2404,7 @@ static bool wordModifiers(std::string& unit)
         0) {  // this is a specific unit and should not be cut off
         return false;
     }
-    for (auto& mod : modifiers) {
+    for (const auto& mod : modifiers) {
         if (unit.size() < std::get<2>(mod)) {
             continue;
         }
@@ -2562,7 +2562,7 @@ static precise_unit
     }
     static constexpr std::array<const char*, 8> rotSequences{
         {"us", "br", "av", "ch", "IT", "th", "ap", "tr"}};
-    for (auto& seq : rotSequences) {
+    for (const auto& seq : rotSequences) {
         if (unit.compare(0, 2, seq) == 0) {
             auto nunit = unit.substr(2);
             if (nunit.back() == 's') {
@@ -2636,12 +2636,12 @@ static std::pair<double, size_t>
 static smap loadDefinedUnits()
 {
     smap knownUnits;
-    for (auto& pr : defined_unit_strings_si) {
+    for (const auto& pr : defined_unit_strings_si) {
         if (pr.first != nullptr) {
             knownUnits.emplace(pr.first, pr.second);
         }
     }
-    for (auto& pr : defined_unit_strings_customary) {
+    for (const auto& pr : defined_unit_strings_customary) {
         if (pr.first != nullptr) {
             knownUnits.emplace(pr.first, pr.second);
         }
