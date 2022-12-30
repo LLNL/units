@@ -259,7 +259,8 @@ namespace precise {
         becquerel(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0));
     constexpr precise_unit
         gray(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    //seivert includes relative biological factor so it marked by the eflag to discriminate from gray
+    // seivert includes relative biological factor so it marked by the eflag to
+    // discriminate from gray
     constexpr precise_unit
         sievert(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
     constexpr precise_unit
@@ -774,12 +775,11 @@ namespace precise {
         constexpr precise_unit psig = psi * eflag;
         constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};
-        constexpr precise_unit torr{
-            1.0 / 760.0,
-            atm* iflag};  // this is really close to mmHg
+        constexpr precise_unit torr{1.0 / 760.0, atm* iflag};  // this is really
+                                                               // close to mmHg
         constexpr precise_unit inH2O{248.843004, Pa};  // at 60 degF
         constexpr precise_unit mmH2O{1.0 / 25.4, inH2O};  // at 60 degF
-        
+
         constexpr precise_unit att = gm::at;  //!< technical atmosphere same as
                                               //!< gravitational metric system
     }  // namespace pressure
@@ -844,7 +844,7 @@ namespace precise {
         constexpr precise_unit btu_60{1054.68, J};
         constexpr precise_unit btu_mean{1055.87, J};
         constexpr precise_unit btu_it{1055.05585262, J};  // international table
-                                                       // btu
+                                                          // btu
         constexpr precise_unit btu_iso{1055.06, J};  // rounded btu_it
         constexpr precise_unit quad(1e15, btu_it);
         constexpr precise_unit tonc(12000.0, btu_th / h);

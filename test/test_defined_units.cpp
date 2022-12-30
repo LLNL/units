@@ -138,7 +138,8 @@ TEST(unit_name_definitions, si_duplicates)
             continue;
         }
         auto res = testMap.emplace(ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.second<< " matching with "<<res.first->second;
+        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.second
+                                << " matching with " << res.first->second;
     }
 }
 
@@ -150,7 +151,8 @@ TEST(unit_name_definitions, customary_duplicates)
             continue;
         }
         auto res = testMap.emplace(ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate unit string " << ustring.second<< " matching with "<<res.first->second;
+        EXPECT_TRUE(res.second) << "duplicate unit string " << ustring.second
+                                << " matching with " << res.first->second;
     }
 }
 
@@ -162,7 +164,8 @@ TEST(unit_name_definitions, combined_duplicates)
             continue;
         }
         auto res = testMap.emplace(ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.second;
+        EXPECT_TRUE(res.second)
+            << "duplicate si unit string " << ustring.second;
     }
 
     for (std::size_t ii = 0; ii < units::defined_unit_names_customary.size();

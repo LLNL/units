@@ -577,8 +577,8 @@ static void addUnitFlagStrings(const precise_unit& un, std::string& unitString)
     }
 }
 
-/** add the unit power to the string if it is positive and return 0, return 1 if negative and skip
-the return value is if any power remains
+/** add the unit power to the string if it is positive and return 0, return 1 if
+negative and skip the return value is if any power remains
  */
 static inline int addPosUnits(
     std::string& str,
@@ -623,9 +623,8 @@ static std::string
     cnt += addPosUnits(val, "rad", bu.radian(), flags);
     addUnitFlagStrings(un, val);
     if (cnt == 1) {
-        if (bu.second() == -1 && val.empty())
-        { 
-            //deal with 1/s  which is usually Hz
+        if (bu.second() == -1 && val.empty()) {
+            // deal with 1/s  which is usually Hz
             addPosUnits(val, "Hz", 1, flags);
             return val;
         }
