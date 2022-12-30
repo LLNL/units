@@ -121,7 +121,7 @@ TEST(unit_name_definitions, si_vector_length)
 TEST(unit_name_definitions, customary_vector)
 {
     for (std::size_t ii = 0; ii < units::defined_unit_names_customary.size();
-        ++ii) {
+         ++ii) {
         EXPECT_TRUE(units::defined_unit_names_customary[ii].second != nullptr)
             << ii;
         if (units::defined_unit_names_customary[ii].second == nullptr) {
@@ -132,41 +132,44 @@ TEST(unit_name_definitions, customary_vector)
 
 TEST(unit_name_definitions, si_duplicates)
 {
-    std::unordered_map<units::precise_unit,std::string> testMap;
+    std::unordered_map<units::precise_unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_si) {
         if (ustring.second == nullptr) {
             continue;
         }
         auto res = testMap.emplace(ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.second<< " matching with "<<res.first->second;
+        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.second
+                                << " matching with " << res.first->second;
     }
 }
 
 TEST(unit_name_definitions, customary_duplicates)
 {
-    std::unordered_map<units::precise_unit,std::string> testMap;
+    std::unordered_map<units::precise_unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_customary) {
         if (ustring.second == nullptr) {
             continue;
         }
         auto res = testMap.emplace(ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate unit string " << ustring.second<< " matching with "<<res.first->second;
+        EXPECT_TRUE(res.second) << "duplicate unit string " << ustring.second
+                                << " matching with " << res.first->second;
     }
 }
 
 TEST(unit_name_definitions, combined_duplicates)
 {
-    std::unordered_map<units::precise_unit,std::string> testMap;
+    std::unordered_map<units::precise_unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_si) {
         if (ustring.second == nullptr) {
             continue;
         }
         auto res = testMap.emplace(ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.second;
+        EXPECT_TRUE(res.second)
+            << "duplicate si unit string " << ustring.second;
     }
 
     for (std::size_t ii = 0; ii < units::defined_unit_names_customary.size();
-        ++ii) {
+         ++ii) {
         if (units::defined_unit_names_customary[ii].second == nullptr) {
             continue;
         }

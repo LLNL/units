@@ -400,7 +400,6 @@ TEST(unitStrings, electronVolt)
     EXPECT_EQ(str, "m/eV");
 }
 
-
 TEST(unitStrings, Hertz)
 {
     EXPECT_EQ(to_string(precise::Hz), "Hz");
