@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/units_conversion_maps.hpp"
 #include <map>
+#include <unordered_map>
 
 TEST(unit_string_definitions, si_vector_length)
 {
@@ -102,5 +103,78 @@ TEST(unit_string_definitions, measurement_duplicates)
         auto res = testMap.emplace(ustring.first, ustring.second);
         EXPECT_TRUE(res.second)
             << "duplicate measurement type string " << ustring.first;
+    }
+}
+
+// test the output names
+
+TEST(unit_name_definitions, si_vector_length)
+{
+    for (std::size_t ii = 0; ii < units::defined_unit_names_si.size(); ++ii) {
+        EXPECT_TRUE(units::defined_unit_names_si[ii].second != nullptr) << ii;
+        if (units::defined_unit_names_si[ii].second == nullptr) {
+            break;
+        }
+    }
+}
+
+TEST(unit_name_definitions, customary_vector)
+{
+    for (std::size_t ii = 0; ii < units::defined_unit_names_customary.size();
+        ++ii) {
+        EXPECT_TRUE(units::defined_unit_names_customary[ii].second != nullptr)
+            << ii;
+        if (units::defined_unit_names_customary[ii].second == nullptr) {
+            break;
+        }
+    }
+}
+
+TEST(unit_name_definitions, si_duplicates)
+{
+    std::unordered_map<units::precise_unit,std::string> testMap;
+    for (const auto& ustring : units::defined_unit_names_si) {
+        if (ustring.second == nullptr) {
+            continue;
+        }
+        auto res = testMap.emplace(ustring.first, ustring.second);
+        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.second<< " matching with "<<res.first->second;
+    }
+}
+
+TEST(unit_name_definitions, customary_duplicates)
+{
+    std::unordered_map<units::precise_unit,std::string> testMap;
+    for (const auto& ustring : units::defined_unit_names_customary) {
+        if (ustring.second == nullptr) {
+            continue;
+        }
+        auto res = testMap.emplace(ustring.first, ustring.second);
+        EXPECT_TRUE(res.second) << "duplicate unit string " << ustring.second<< " matching with "<<res.first->second;
+    }
+}
+
+TEST(unit_name_definitions, combined_duplicates)
+{
+    std::unordered_map<units::precise_unit,std::string> testMap;
+    for (const auto& ustring : units::defined_unit_names_si) {
+        if (ustring.second == nullptr) {
+            continue;
+        }
+        auto res = testMap.emplace(ustring.first, ustring.second);
+        EXPECT_TRUE(res.second) << "duplicate si unit string " << ustring.second;
+    }
+
+    for (std::size_t ii = 0; ii < units::defined_unit_names_customary.size();
+        ++ii) {
+        if (units::defined_unit_names_customary[ii].second == nullptr) {
+            continue;
+        }
+        auto res = testMap.emplace(
+            units::defined_unit_names_customary[ii].first,
+            units::defined_unit_names_customary[ii].second);
+        EXPECT_TRUE(res.second)
+            << "duplicate unit string " << ii << " "
+            << units::defined_unit_names_customary[ii].second;
     }
 }

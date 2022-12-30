@@ -367,6 +367,7 @@ TEST(unitStrings, charge)
     // A * h = 3600 C, better use A * h
     EXPECT_EQ(to_string(precise::A * precise::hr), "Ah");
     EXPECT_EQ(to_string(precise::femto * precise::A * precise::hr), "fAh");
+    EXPECT_EQ(to_string(precise::quecto * precise::A * precise::hr), "qAh");
     EXPECT_EQ(to_string(precise::pico * precise::A * precise::hr), "pAh");
     EXPECT_EQ(to_string(precise::nano * precise::A * precise::hr), "nAh");
     EXPECT_EQ(to_string(precise::micro * precise::A * precise::hr), "uAh");
@@ -397,6 +398,17 @@ TEST(unitStrings, electronVolt)
 
     str = to_string(precise::m / precise::energy::eV);
     EXPECT_EQ(str, "m/eV");
+}
+
+
+TEST(unitStrings, Hertz)
+{
+    EXPECT_EQ(to_string(precise::Hz), "Hz");
+    EXPECT_EQ(to_string(precise::milli * precise::Hz), "mHz");
+    EXPECT_EQ(to_string(precise::kilo * precise::Hz), "kHz");
+    EXPECT_EQ(to_string(precise::mega * precise::Hz), "MHz");
+    EXPECT_EQ(to_string(precise::giga * precise::Hz), "GHz");
+    EXPECT_EQ(to_string(precise::tera * precise::Hz), "THz");
 }
 
 TEST(unitStrings, watthours)

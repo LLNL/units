@@ -147,7 +147,12 @@ using umap = std::unordered_map<unit, const char*>;
 static umap getDefinedBaseUnitNames()
 {
     umap definedNames;
-    for (const auto& name : defined_unit_names) {
+    for (const auto& name : defined_unit_names_si) {
+        if (name.second != nullptr) {
+            definedNames.emplace(name.first, name.second);
+        }
+    }
+    for (const auto& name : defined_unit_names_customary) {
         if (name.second != nullptr) {
             definedNames.emplace(name.first, name.second);
         }
@@ -572,7 +577,8 @@ static void addUnitFlagStrings(const precise_unit& un, std::string& unitString)
     }
 }
 
-/** add the unit power if it is positive, return true if negative and skip if 0
+/** add the unit power to the string if it is positive and return 0, return 1 if negative and skip
+the return value is if any power remains
  */
 static inline int addPosUnits(
     std::string& str,
@@ -617,6 +623,12 @@ static std::string
     cnt += addPosUnits(val, "rad", bu.radian(), flags);
     addUnitFlagStrings(un, val);
     if (cnt == 1) {
+        if (bu.second() == -1 && val.empty())
+        { 
+            //deal with 1/s  which is usually Hz
+            addPosUnits(val, "Hz", 1, flags);
+            return val;
+        }
         val.push_back('/');
         addPosUnits(val, "m", -bu.meter(), flags);
         addPosUnits(val, "kg", -bu.kg(), flags);
@@ -1409,7 +1421,7 @@ static std::string
         }
         return cxstr;
     }
-    /** check for a few units with odd numbers that allow SI prefixes*/
+    /** check for si prefixes on common units*/
 
     if (un.unit_type_count() == 1) {
         return generateUnitSequence(
