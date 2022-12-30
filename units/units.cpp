@@ -1213,7 +1213,7 @@ static std::string probeUnitBase(
     if (!fnd.empty()) {
         auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
         if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut{ 0 };
+            size_t cut{0};
             double mx = getDoubleFromString(prefix, &cut);
 
             auto str = getMultiplierString(1.0 / mx, true) + probe.second +
@@ -1507,7 +1507,7 @@ static std::string
     if (!fnd.empty()) {
         auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
         if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut{ 0 };
+            size_t cut{0};
             double mx = getDoubleFromString(prefix, &cut);
             return getMultiplierString(1.0 / mx, true) + "/" +
                 prefix.substr(cut);
