@@ -132,7 +132,7 @@ TEST(unit_name_definitions, customary_vector)
 
 TEST(unit_name_definitions, si_duplicates)
 {
-    std::unordered_map<units::precise_unit,std::string> testMap;
+    std::unordered_map<units::unit,std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_si) {
         if (ustring.second == nullptr) {
             continue;
@@ -144,7 +144,7 @@ TEST(unit_name_definitions, si_duplicates)
 
 TEST(unit_name_definitions, customary_duplicates)
 {
-    std::unordered_map<units::precise_unit,std::string> testMap;
+    std::unordered_map<units::unit,std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_customary) {
         if (ustring.second == nullptr) {
             continue;
@@ -156,7 +156,7 @@ TEST(unit_name_definitions, customary_duplicates)
 
 TEST(unit_name_definitions, combined_duplicates)
 {
-    std::unordered_map<units::precise_unit,std::string> testMap;
+    std::unordered_map<units::unit,std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_si) {
         if (ustring.second == nullptr) {
             continue;
