@@ -887,7 +887,8 @@ namespace precise {
             return ((static_cast<std::uint32_t>(val >> bit) & 0x1U) > 0U) ? 1 :
                                                                             0;
         }
-        constexpr auto bShiftu(std::uint16_t val, std::uint32_t bit) -> unsigned int
+        constexpr auto bShiftu(std::uint16_t val, std::uint32_t bit)
+            -> unsigned int
         {
             return ((static_cast<std::uint32_t>(val >> bit) & 0x1U) > 0U) ? 1U :
                                                                             0U;
