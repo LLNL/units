@@ -11,6 +11,7 @@ Checks: "
   -google-readability-namespace-comments,
   llvm-include-order,
   modernize*,
+  -modernize-use-trailing-return-type,
   hicpp-*,
   -hicpp-use-equals-default,
   -hicpp-explicit-conversions,
@@ -30,6 +31,7 @@ Checks: "
   portability-*,
   readability-*,
   -readability-magic-numbers,
+  -readability-identifier-length,
   performance-*
   "
 
@@ -41,6 +43,7 @@ WarningsAsErrors: "
   -google-readability-namespace-comments,
   llvm-include-order,
   modernize*,
+  -modernize-use-trailing-return-type,
   hicpp-*,
   -hicpp-use-equals-default,
   -hicpp-explicit-conversions,
@@ -58,6 +61,7 @@ WarningsAsErrors: "
   portability-*,
   readability-*,
   -readability-magic-numbers,
+  -readability-identifier-length,
   performance-*
   "
 
