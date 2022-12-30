@@ -319,7 +319,7 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     if (!numOnly) {
         auto si = si_prefixes.find(static_cast<float>(multiplier));
         if (si != si_prefixes.end()) {
-            return std::string( 1, si->second );
+            return std::string(1, si->second);
         }
     }
     int P = 18;  // the desired precision
