@@ -314,12 +314,12 @@ static bool ReplaceStringInPlace(
 static std::string getMultiplierString(double multiplier, bool numOnly = false)
 {
     if (multiplier == 1.0) {
-        return std::string{};
+        return {};
     }
     if (!numOnly) {
         auto si = si_prefixes.find(static_cast<float>(multiplier));
         if (si != si_prefixes.end()) {
-            return std::string(1, si->second);
+            return { 1, si->second };
         }
     }
     int P = 18;  // the desired precision
@@ -1213,7 +1213,7 @@ static std::string probeUnitBase(
     if (!fnd.empty()) {
         auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
         if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut;
+            size_t cut{ 0 };
             double mx = getDoubleFromString(prefix, &cut);
 
             auto str = getMultiplierString(1.0 / mx, true) + probe.second +
@@ -1431,7 +1431,7 @@ static std::string
             1.0, generateRawUnitString(un, match_flags));
     }
     /** check for a few units with odd numbers that allow SI prefixes*/
-    for (auto& siU : siTestUnits) {
+    for (const auto& siU : siTestUnits) {
         auto nu = un / siU.first;
         if (nu.unit_type_count() == 0) {
             auto mult = getMultiplierString(nu.multiplier());
@@ -1507,7 +1507,7 @@ static std::string
     if (!fnd.empty()) {
         auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
         if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut;
+            size_t cut{ 0 };
             double mx = getDoubleFromString(prefix, &cut);
             return getMultiplierString(1.0 / mx, true) + "/" +
                 prefix.substr(cut);
@@ -1567,7 +1567,7 @@ static std::string
     }
     std::string beststr;
 
-    for (auto& tu : testUnits) {
+    for (const auto& tu : testUnits) {
         auto str = probeUnitBase(un, tu);
         if (!str.empty()) {
             if (!isNumericalStartCharacter(str.front())) {
@@ -1620,7 +1620,7 @@ static std::string
             }
         }
     }
-    for (auto& tu : testPowerUnits) {
+    for (const auto& tu : testPowerUnits) {
         std::string nstring = std::string(tu.second) + "^2";
         auto str = probeUnitBase(
             un, std::make_pair(precise_unit(tu.first).pow(2), nstring.c_str()));
@@ -1654,7 +1654,7 @@ static std::string
     auto mino_unit = un;
     std::string min_mult;
     if (minorder > 3) {
-        for (auto& reduce : creduceUnits) {
+        for (const auto& reduce : creduceUnits) {
             auto od = 1 + order(unit_cast(un * reduce.first));
             if (od < minorder) {
                 minorder = od;
@@ -1880,7 +1880,7 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('p', 'T'), precise::peta.multiplier()},
     }};
     auto code = charindex(c1, c2);
-    auto fnd = std::lower_bound(
+    const auto fnd = std::lower_bound(
         char2prefix.begin(),
         char2prefix.end(),
         cpair{code, 0.0},

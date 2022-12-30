@@ -882,12 +882,12 @@ namespace precise {
 
     /// Some support for custom units
     namespace custom {
-        constexpr int bShift(std::uint16_t val, std::uint32_t bit)
+        constexpr auto bShift(std::uint16_t val, std::uint32_t bit) -> int
         {
             return ((static_cast<std::uint32_t>(val >> bit) & 0x1U) > 0U) ? 1 :
                                                                             0;
         }
-        constexpr unsigned int bShiftu(std::uint16_t val, std::uint32_t bit)
+        constexpr auto bShiftu(std::uint16_t val, std::uint32_t bit) -> unsigned int
         {
             return ((static_cast<std::uint32_t>(val >> bit) & 0x1U) > 0U) ? 1U :
                                                                             0U;

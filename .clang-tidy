@@ -19,6 +19,7 @@ Checks: "
   bugprone-*,
   -bugprone-narrowing-conversions,
   misc-*,
+  -misc-no-recursion,
   cppcoreguidelines-*,
   -cppcoreguidelines-narrowing-conversions,
   -cppcoreguidelines-avoid-magic-numbers,
@@ -32,6 +33,7 @@ Checks: "
   readability-*,
   -readability-magic-numbers,
   -readability-identifier-length,
+  -readability-function-cognitive-complexity,
   performance-*
   "
 
@@ -51,6 +53,7 @@ WarningsAsErrors: "
   bugprone-*,
   -bugprone-narrowing-conversions,
   misc-*,
+  -misc-no-recursion,
   cppcoreguidelines-*,
   -cppcoreguidelines-narrowing-conversions,
   -cppcoreguidelines-avoid-magic-numbers,
@@ -62,6 +65,7 @@ WarningsAsErrors: "
   readability-*,
   -readability-magic-numbers,
   -readability-identifier-length,
+  -readability-function-cognitive-complexity,
   performance-*
   "
 
