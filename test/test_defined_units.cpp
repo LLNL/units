@@ -121,7 +121,7 @@ TEST(unit_name_definitions, si_vector_length)
 TEST(unit_name_definitions, customary_vector)
 {
     for (std::size_t ii = 0; ii < units::defined_unit_names_customary.size();
-        ++ii) {
+         ++ii) {
         EXPECT_TRUE(units::defined_unit_names_customary[ii].second != nullptr)
             << ii;
         if (units::defined_unit_names_customary[ii].second == nullptr) {
@@ -132,7 +132,7 @@ TEST(unit_name_definitions, customary_vector)
 
 TEST(unit_name_definitions, si_duplicates)
 {
-    std::unordered_map<units::unit,std::string> testMap;
+    std::unordered_map<units::unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_si) {
         if (ustring.second == nullptr) {
             continue;
@@ -145,7 +145,7 @@ TEST(unit_name_definitions, si_duplicates)
 
 TEST(unit_name_definitions, customary_duplicates)
 {
-    std::unordered_map<units::unit,std::string> testMap;
+    std::unordered_map<units::unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_customary) {
         if (ustring.second == nullptr) {
             continue;
@@ -158,7 +158,7 @@ TEST(unit_name_definitions, customary_duplicates)
 
 TEST(unit_name_definitions, combined_duplicates)
 {
-    std::unordered_map<units::unit,std::string> testMap;
+    std::unordered_map<units::unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_si) {
         if (ustring.second == nullptr) {
             continue;
@@ -169,7 +169,7 @@ TEST(unit_name_definitions, combined_duplicates)
     }
 
     for (std::size_t ii = 0; ii < units::defined_unit_names_customary.size();
-        ++ii) {
+         ++ii) {
         if (units::defined_unit_names_customary[ii].second == nullptr) {
             continue;
         }
