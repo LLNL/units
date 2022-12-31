@@ -147,7 +147,12 @@ using umap = std::unordered_map<unit, const char*>;
 static umap getDefinedBaseUnitNames()
 {
     umap definedNames;
-    for (const auto& name : defined_unit_names) {
+    for (const auto& name : defined_unit_names_si) {
+        if (name.second != nullptr) {
+            definedNames.emplace(name.first, name.second);
+        }
+    }
+    for (const auto& name : defined_unit_names_customary) {
         if (name.second != nullptr) {
             definedNames.emplace(name.first, name.second);
         }
@@ -309,7 +314,7 @@ static bool ReplaceStringInPlace(
 static std::string getMultiplierString(double multiplier, bool numOnly = false)
 {
     if (multiplier == 1.0) {
-        return std::string{};
+        return {};
     }
     if (!numOnly) {
         auto si = si_prefixes.find(static_cast<float>(multiplier));
@@ -572,7 +577,8 @@ static void addUnitFlagStrings(const precise_unit& un, std::string& unitString)
     }
 }
 
-/** add the unit power if it is positive, return true if negative and skip if 0
+/** add the unit power to the string if it is positive and return 0, return 1 if
+negative and skip the return value is if any power remains
  */
 static inline int addPosUnits(
     std::string& str,
@@ -617,6 +623,11 @@ static std::string
     cnt += addPosUnits(val, "rad", bu.radian(), flags);
     addUnitFlagStrings(un, val);
     if (cnt == 1) {
+        if (bu.second() == -1 && val.empty()) {
+            // deal with 1/s  which is usually Hz
+            addPosUnits(val, "Hz", 1, flags);
+            return val;
+        }
         val.push_back('/');
         addPosUnits(val, "m", -bu.meter(), flags);
         addPosUnits(val, "kg", -bu.kg(), flags);
@@ -1202,7 +1213,7 @@ static std::string probeUnitBase(
     if (!fnd.empty()) {
         auto prefix = generateUnitSequence(1.0 / ext.multiplier(), fnd);
         if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut;
+            size_t cut{0};
             double mx = getDoubleFromString(prefix, &cut);
 
             auto str = getMultiplierString(1.0 / mx, true) + probe.second +
@@ -1409,7 +1420,7 @@ static std::string
         }
         return cxstr;
     }
-    /** check for a few units with odd numbers that allow SI prefixes*/
+    /** check for si prefixes on common units*/
 
     if (un.unit_type_count() == 1) {
         return generateUnitSequence(
@@ -1420,7 +1431,7 @@ static std::string
             1.0, generateRawUnitString(un, match_flags));
     }
     /** check for a few units with odd numbers that allow SI prefixes*/
-    for (auto& siU : siTestUnits) {
+    for (const auto& siU : siTestUnits) {
         auto nu = un / siU.first;
         if (nu.unit_type_count() == 0) {
             auto mult = getMultiplierString(nu.multiplier());
@@ -1496,7 +1507,7 @@ static std::string
     if (!fnd.empty()) {
         auto prefix = generateUnitSequence(1.0 / un.multiplier(), fnd);
         if (isNumericalStartCharacter(prefix.front())) {
-            size_t cut;
+            size_t cut{0};
             double mx = getDoubleFromString(prefix, &cut);
             return getMultiplierString(1.0 / mx, true) + "/" +
                 prefix.substr(cut);
@@ -1556,7 +1567,7 @@ static std::string
     }
     std::string beststr;
 
-    for (auto& tu : testUnits) {
+    for (const auto& tu : testUnits) {
         auto str = probeUnitBase(un, tu);
         if (!str.empty()) {
             if (!isNumericalStartCharacter(str.front())) {
@@ -1609,7 +1620,7 @@ static std::string
             }
         }
     }
-    for (auto& tu : testPowerUnits) {
+    for (const auto& tu : testPowerUnits) {
         std::string nstring = std::string(tu.second) + "^2";
         auto str = probeUnitBase(
             un, std::make_pair(precise_unit(tu.first).pow(2), nstring.c_str()));
@@ -1643,7 +1654,7 @@ static std::string
     auto mino_unit = un;
     std::string min_mult;
     if (minorder > 3) {
-        for (auto& reduce : creduceUnits) {
+        for (const auto& reduce : creduceUnits) {
             auto od = 1 + order(unit_cast(un * reduce.first));
             if (od < minorder) {
                 minorder = od;
@@ -1869,7 +1880,7 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('p', 'T'), precise::peta.multiplier()},
     }};
     auto code = charindex(c1, c2);
-    auto fnd = std::lower_bound(
+    const auto fnd = std::lower_bound(
         char2prefix.begin(),
         char2prefix.end(),
         cpair{code, 0.0},
@@ -2109,7 +2120,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<wordpair, 11> teens{
 
 static double readTeens(const std::string& str, size_t& index)
 {
-    for (auto& num : teens) {
+    for (const auto& num : teens) {
         if (str.compare(index, std::get<2>(num), std::get<0>(num)) == 0) {
             index += std::get<2>(num);
             return std::get<1>(num);
@@ -2393,7 +2404,7 @@ static bool wordModifiers(std::string& unit)
         0) {  // this is a specific unit and should not be cut off
         return false;
     }
-    for (auto& mod : modifiers) {
+    for (const auto& mod : modifiers) {
         if (unit.size() < std::get<2>(mod)) {
             continue;
         }
@@ -2551,7 +2562,7 @@ static precise_unit
     }
     static constexpr std::array<const char*, 8> rotSequences{
         {"us", "br", "av", "ch", "IT", "th", "ap", "tr"}};
-    for (auto& seq : rotSequences) {
+    for (const auto& seq : rotSequences) {
         if (unit.compare(0, 2, seq) == 0) {
             auto nunit = unit.substr(2);
             if (nunit.back() == 's') {
@@ -2625,12 +2636,12 @@ static std::pair<double, size_t>
 static smap loadDefinedUnits()
 {
     smap knownUnits;
-    for (auto& pr : defined_unit_strings_si) {
+    for (const auto& pr : defined_unit_strings_si) {
         if (pr.first != nullptr) {
             knownUnits.emplace(pr.first, pr.second);
         }
     }
-    for (auto& pr : defined_unit_strings_customary) {
+    for (const auto& pr : defined_unit_strings_customary) {
         if (pr.first != nullptr) {
             knownUnits.emplace(pr.first, pr.second);
         }

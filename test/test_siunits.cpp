@@ -73,10 +73,20 @@ TEST(SI, keyUnits)
                 // completely equivalent
                 continue;
             }
+            if (longConv.has_e_flag()) {
+                if (unit_cast(longConv) != unit_cast(altConv)) {
+                    longConv.clear_flags();
+                }
+            }
             EXPECT_EQ(unit_cast(longConv), unit_cast(altConv))
                 << alt << " does not generate the same unit as " << longForm;
-            if (unit_cast(longConv) != unit_cast(altConv)) {
-                longConv = units::unit_from_string(alt);
+            // if (unit_cast(longConv) != unit_cast(altConv)) {
+            //     longConv = units::unit_from_string(alt);
+            // }
+            if (shortConv.has_e_flag()) {
+                if (unit_cast(shortConv) != unit_cast(altConv)) {
+                    shortConv.clear_flags();
+                }
             }
             EXPECT_EQ(unit_cast(shortConv), unit_cast(altConv))
                 << alt << " does not generate the same unit as " << shortForm;

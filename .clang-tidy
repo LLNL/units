@@ -11,6 +11,7 @@ Checks: "
   -google-readability-namespace-comments,
   llvm-include-order,
   modernize*,
+  -modernize-use-trailing-return-type,
   hicpp-*,
   -hicpp-use-equals-default,
   -hicpp-explicit-conversions,
@@ -18,6 +19,7 @@ Checks: "
   bugprone-*,
   -bugprone-narrowing-conversions,
   misc-*,
+  -misc-no-recursion,
   cppcoreguidelines-*,
   -cppcoreguidelines-narrowing-conversions,
   -cppcoreguidelines-avoid-magic-numbers,
@@ -30,6 +32,8 @@ Checks: "
   portability-*,
   readability-*,
   -readability-magic-numbers,
+  -readability-identifier-length,
+  -readability-function-cognitive-complexity,
   performance-*
   "
 
@@ -41,6 +45,7 @@ WarningsAsErrors: "
   -google-readability-namespace-comments,
   llvm-include-order,
   modernize*,
+  -modernize-use-trailing-return-type,
   hicpp-*,
   -hicpp-use-equals-default,
   -hicpp-explicit-conversions,
@@ -48,6 +53,7 @@ WarningsAsErrors: "
   bugprone-*,
   -bugprone-narrowing-conversions,
   misc-*,
+  -misc-no-recursion,
   cppcoreguidelines-*,
   -cppcoreguidelines-narrowing-conversions,
   -cppcoreguidelines-avoid-magic-numbers,
@@ -58,6 +64,8 @@ WarningsAsErrors: "
   portability-*,
   readability-*,
   -readability-magic-numbers,
+  -readability-identifier-length,
+  -readability-function-cognitive-complexity,
   performance-*
   "
 
