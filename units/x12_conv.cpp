@@ -1015,6 +1015,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> dod_units = {{
 
 precise_unit x12_unit(const std::string& x12_string)
 {
+    // NOLINTNEXTLINE (readability-qualified-auto)
     auto ind = std::lower_bound(
         x12_units.begin(),
         x12_units.end(),
@@ -1030,6 +1031,7 @@ precise_unit x12_unit(const std::string& x12_string)
 
 precise_unit dod_unit(const std::string& dod_string)
 {
+    // NOLINTNEXTLINE (readability-qualified-auto)
     auto ind = std::lower_bound(
         dod_units.begin(),
         dod_units.end(),

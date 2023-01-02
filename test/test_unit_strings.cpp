@@ -107,7 +107,7 @@ TEST(unitStrings, prefixes)
     EXPECT_EQ(to_string(precise::micro * precise::L), "uL");
 }
 
-TEST(unitStrings, si_prefixes)
+TEST(unitStrings, siPrefixes)
 {
     EXPECT_EQ(to_string(unit_from_string("mm")), "mm");
     EXPECT_EQ(to_string(unit_from_string("cm")), "cm");
@@ -134,7 +134,7 @@ TEST(unitStrings, si_prefixes)
     EXPECT_EQ(to_string(unit_from_string("Qm")), "Qm");
 }
 
-TEST(unitStrings, si_prefixes_strict)
+TEST(unitStrings, siPrefixesStrict)
 {
     EXPECT_EQ(to_string(unit_from_string("mm", strict_si)), "mm");
     EXPECT_EQ(to_string(unit_from_string("cm", strict_si)), "cm");
@@ -165,7 +165,7 @@ TEST(unitStrings, si_prefixes_strict)
     EXPECT_EQ(to_string(unit_from_string("Qm", strict_si)), "Qm");
 }
 
-TEST(unitStrings, strict_si)
+TEST(unitStrings, strictSi)
 {
     auto unit = unit_from_string("Um", strict_si);
     EXPECT_NE(unit, unit_from_string("um"));
@@ -183,7 +183,7 @@ TEST(unitStrings, strict_si)
     EXPECT_NE(unit, unit_from_string("fm"));
 }
 
-TEST(unitStrings, astronomy_units)
+TEST(unitStrings, astronomyUnits)
 {
     auto unit = unit_from_string("am", astronomy_units);
     EXPECT_EQ(unit, unit_from_string("arcmin"));
@@ -310,13 +310,13 @@ TEST(unitStrings, invtestUnits)
     EXPECT_EQ(res, "1/(Mcd*day)");
 }
 
-TEST(unitStrings, downconvert)
+TEST(unitStrings, downConvert)
 {
     EXPECT_EQ(
         to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g");
 }
 
-TEST(unitStrings, powerunits)
+TEST(unitStrings, powerUnits)
 {
     EXPECT_EQ(to_string((precise::giga * precise::m).pow(2)), "Gm^2");
     EXPECT_EQ(
@@ -451,7 +451,7 @@ TEST(stringToUnits, Simple)
     EXPECT_EQ(precise::m, unit_from_string("meter"));
 }
 
-TEST(stringToUnits, with_space)
+TEST(stringToUnits, withSpace)
 {
     EXPECT_EQ(precise::m.inv(), unit_from_string("1 /m"));
     EXPECT_EQ(precise::m.inv(), unit_from_string("1  /m"));
@@ -466,7 +466,7 @@ TEST(stringToUnits, with_space)
     EXPECT_EQ(precise::m.inv(), unit_from_string("  1/\tm  "));
 }
 
-TEST(stringToUnits, to_default_unit)
+TEST(stringToUnits, toDefaultUnit)
 {
     EXPECT_EQ(precise::defunit, unit_from_string("*"));
     EXPECT_EQ(precise::defunit, unit_from_string("**"));
@@ -540,7 +540,7 @@ TEST(stringToUnits, specificCombinations)
     EXPECT_EQ(precise::kg * precise::L, unit_from_string("kg l"));
 }
 
-TEST(stringToUnits, gas_constant)
+TEST(stringToUnits, gasConstant)
 {
     auto rval = unit_from_string("J mol^-1 K^-1");
 
@@ -1025,7 +1025,7 @@ TEST(userDefinedUnits, definitions)
     clearUserDefinedUnits();
 }
 
-TEST(userDefinedUnits, definitions_angstrom)
+TEST(userDefinedUnits, definitionsAngstrom)
 {
     addUserDefinedUnit("angstrom", precise::distance::angstrom);
 
@@ -1323,7 +1323,7 @@ TEST(stringGeneration, test1)
     EXPECT_EQ(res, "157.1s^-3");
 }
 
-TEST(stringCleanup, test_zstrings)
+TEST(stringCleanup, testZstrings)
 {
     auto res = detail::testing::testCleanUpString("0.000000045lb", 0);
     EXPECT_EQ(res, "0.000000045lb");
@@ -1369,7 +1369,7 @@ TEST(stringCleanup, test_zstrings)
     EXPECT_EQ(res, ".0000000000000000000000004lb");
 }
 
-TEST(stringCleanup, test_9strings)
+TEST(stringCleanup, test9strings)
 {
     auto res = detail::testing::testCleanUpString("4.5999999999999999994lb", 0);
     EXPECT_EQ(res, "4.6lb");
@@ -1385,7 +1385,7 @@ TEST(stringCleanup, test_9strings)
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
 }
 
-TEST(stringCleanup, with_commodities)
+TEST(stringCleanup, withCommodities)
 {
     auto res = detail::testing::testCleanUpString("m^2", commodities::aluminum);
     EXPECT_EQ(res, "m{aluminum}^2");
@@ -1542,7 +1542,7 @@ TEST(mapTests, testRoundTripFromUnit)
 
 // test combinations of 2 character units string and one character unit strings
 // for misinterpretation
-TEST(mapTests, two_by_one)
+TEST(mapTests, twoByOne)
 {
     const auto& map = detail::getUnitStringMap();
     std::vector<std::pair<std::string, precise_unit>> twocharunits;
@@ -1590,7 +1590,7 @@ TEST(mapTests, two_by_one)
 
 // test combinations of 2 character units string and another 2 character unit
 // strings for misinterpretation
-TEST(mapTests, two_by_two)
+TEST(mapTests, twoByTwo)
 {
     const auto& map = detail::getUnitStringMap();
     std::vector<std::pair<std::string, precise_unit>> twocharunits;
@@ -1631,7 +1631,7 @@ static std::ostream& operator<<(std::ostream& os, const units::precise_unit& u)
 
 }  // namespace units
 
-TEST(stream, test_outstream)
+TEST(stream, testOutstream)
 {
     std::stringstream sss;
 

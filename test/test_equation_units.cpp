@@ -357,7 +357,7 @@ TEST(logUnits, error)
         20.0, precise::log::dBA * precise::m / precise::s, precise::m)));
 }
 
-TEST(otherUnits, prism_diopter)
+TEST(otherUnits, prismDiopter)
 {
     EXPECT_NEAR(
         convert(1, precise::deg, precise::clinical::prism_diopter),
@@ -567,7 +567,7 @@ TEST(otherUnits, Richter)
     EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
 }
 
-TEST(otherUnits, moment_energy)
+TEST(otherUnits, momentEnergy)
 {
     auto conv5 = convert(5.0, precise::special::moment_energy, precise::J);
     EXPECT_FALSE(std::isnan(conv5));

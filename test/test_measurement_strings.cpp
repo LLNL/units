@@ -28,7 +28,7 @@ TEST(MeasurementStrings, basic)
     EXPECT_EQ(pm.value(), 0.0);
 }
 
-TEST(MeasurementStrings, basic_cast)
+TEST(MeasurementStrings, basicCast)
 {
     auto pm = measurement_cast_from_string("45 m");
     EXPECT_EQ(pm, 45.0 * m);
@@ -80,7 +80,7 @@ TEST(MeasurementToString, test)
     EXPECT_EQ(str2, "2.7 puMW");
 }
 
-TEST(MeasurementToString, unit_withNumbers)
+TEST(MeasurementToString, unitWithNumbers)
 {
     measurement ounit = 10.0 * unit(0.712412, kg.pow(2));
     precise_measurement ounitp =
@@ -97,7 +97,7 @@ TEST(MeasurementToString, numbers)
     EXPECT_DOUBLE_EQ(m1.value(), 0.2);
 }
 
-TEST(MeasurementToString, case_sensitive)
+TEST(MeasurementToString, caseSensitive)
 {
     static const std::vector<std::pair<unit, std::string>> twoc_units{
         {lb, "lb"},
@@ -105,7 +105,7 @@ TEST(MeasurementToString, case_sensitive)
         {yd, "yd"},
         {unit_cast(precise::us::quart), "qt"}};
 
-    for (auto& up : twoc_units) {
+    for (const auto& up : twoc_units) {
         std::string singular = std::string("17 ") + up.second;
         std::string plural = singular;
         plural.push_back('s');

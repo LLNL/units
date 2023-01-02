@@ -658,7 +658,7 @@ TEST(quickConvert, invalid)
     EXPECT_TRUE(std::isnan(quick_convert(u2, u1)));
 }
 
-TEST(quickConvert, const_constexpr)
+TEST(quickConvert, constConstexpr)
 {
     using namespace units;
     static_assert(
@@ -669,7 +669,7 @@ TEST(quickConvert, const_constexpr)
         "results of quick_convert 2 not correct");
 }
 
-TEST(nat_gas_units, psig)
+TEST(natCasUnits, psig)
 {
     using namespace units;
     double val = convert(15.2, precise::pressure::psi, precise::pressure::psig);
@@ -691,14 +691,14 @@ TEST(nat_gas_units, psig)
     EXPECT_NEAR(val, 20.0, 0.01);
 }
 
-TEST(invalid_conversions, invalid)
+TEST(invalidConversions, invalid)
 {
     using namespace units;
     double val = detail::extraValidConversions(2.3, precise::m, precise::lb);
     EXPECT_TRUE(std::isnan(val));
 }
 
-TEST(UnitDefinitions, mass_to_weight)
+TEST(UnitDefinitions, mass2weight)
 {
     using namespace units;
     EXPECT_NEAR(convert(1.0, N, kg), 0.101971621, test::tolerance);

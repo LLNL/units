@@ -61,7 +61,7 @@ TEST(commodities, custom)
     clearCustomCommodities();
 }
 
-TEST(commodities, custom_disabled)
+TEST(commodities, customDisabled)
 {
     disableCustomCommodities();
     addCustomCommodity("unit_tests", 26262352U);
@@ -74,7 +74,7 @@ TEST(commodities, custom_disabled)
     clearCustomCommodities();
 }
 
-TEST(commodities, custom_short)
+TEST(commodities, customShort)
 {
     disableCustomCommodities();
     auto c = getCommodity("QQQQ");
@@ -104,7 +104,7 @@ TEST(commodities, custom_short)
     enableCustomCommodities();
 }
 
-TEST(commodities, custom_cx_number)
+TEST(commodities, customCxNumber)
 {
     disableCustomCommodities();
     unsigned int comm = 56474732;
@@ -116,7 +116,7 @@ TEST(commodities, custom_cx_number)
     enableCustomCommodities();
 }
 
-TEST(commodities, escape_strings)
+TEST(commodities, escapeStrings)
 {
     auto hcode = getCommodity("c\\{a");
     auto cstring = getCommodityName(hcode);
@@ -156,7 +156,7 @@ TEST(commodities, escape_strings)
     clearCustomCommodities();
 }
 
-TEST(commodities, unusual_to_string)
+TEST(commodities, unusual2string)
 {
     precise_unit com(1.0, precise::kg.inv(), getCommodity("happy'u"));
     auto str = to_string(com);
@@ -177,7 +177,7 @@ TEST(commodities, unusual_to_string)
     EXPECT_EQ(unit_from_string(str), com2inv);
 }
 
-TEST(commodities, unusual_from_string)
+TEST(commodities, unusualFromString)
 {
     auto punit = unit_from_string("{happy'u}");
     EXPECT_EQ(punit.commodity(), 0U);

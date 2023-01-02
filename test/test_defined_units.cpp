@@ -10,7 +10,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <map>
 #include <unordered_map>
 
-TEST(unit_string_definitions, si_vector_length)
+TEST(unitStringDefinitions, siVectorLength)
 {
     for (std::size_t ii = 0; ii < units::defined_unit_strings_si.size(); ++ii) {
         EXPECT_TRUE(units::defined_unit_strings_si[ii].first != nullptr) << ii;
@@ -20,7 +20,7 @@ TEST(unit_string_definitions, si_vector_length)
     }
 }
 
-TEST(unit_string_definitions, customary_vector)
+TEST(unitStringDefinitions, customaryVector)
 {
     for (std::size_t ii = 0; ii < units::defined_unit_strings_customary.size();
          ++ii) {
@@ -32,7 +32,7 @@ TEST(unit_string_definitions, customary_vector)
     }
 }
 
-TEST(unit_string_definitions, si_duplicates)
+TEST(unitStringDefinitions, siDuplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
     for (const auto& ustring : units::defined_unit_strings_si) {
@@ -44,7 +44,7 @@ TEST(unit_string_definitions, si_duplicates)
     }
 }
 
-TEST(unit_string_definitions, customary_duplicates)
+TEST(unitStringDefinitions, customaryDuplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
     for (const auto& ustring : units::defined_unit_strings_customary) {
@@ -56,7 +56,7 @@ TEST(unit_string_definitions, customary_duplicates)
     }
 }
 
-TEST(unit_string_definitions, combined_duplicates)
+TEST(unitStringDefinitions, combinedDuplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
     for (const auto& ustring : units::defined_unit_strings_si) {
@@ -81,7 +81,7 @@ TEST(unit_string_definitions, combined_duplicates)
     }
 }
 
-TEST(unit_string_definitions, measurement_vector_length)
+TEST(unitStringDefinitions, measurementVectorLength)
 {
     for (std::size_t ii = 0; ii < units::defined_measurement_types.size();
          ++ii) {
@@ -93,7 +93,7 @@ TEST(unit_string_definitions, measurement_vector_length)
     }
 }
 
-TEST(unit_string_definitions, measurement_duplicates)
+TEST(unitStringDefinitions, measurementDuplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
     for (const auto& ustring : units::defined_measurement_types) {
@@ -108,7 +108,7 @@ TEST(unit_string_definitions, measurement_duplicates)
 
 // test the output names
 
-TEST(unit_name_definitions, si_vector_length)
+TEST(unitNameDefinitions, siVectorLength)
 {
     for (std::size_t ii = 0; ii < units::defined_unit_names_si.size(); ++ii) {
         EXPECT_TRUE(units::defined_unit_names_si[ii].second != nullptr) << ii;
@@ -118,7 +118,7 @@ TEST(unit_name_definitions, si_vector_length)
     }
 }
 
-TEST(unit_name_definitions, customary_vector)
+TEST(unitNameDefinitions, customaryVector)
 {
     for (std::size_t ii = 0; ii < units::defined_unit_names_customary.size();
          ++ii) {
@@ -130,7 +130,7 @@ TEST(unit_name_definitions, customary_vector)
     }
 }
 
-TEST(unit_name_definitions, si_duplicates)
+TEST(unitNameDefinitions, siDuplicates)
 {
     std::unordered_map<units::unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_si) {
@@ -143,7 +143,7 @@ TEST(unit_name_definitions, si_duplicates)
     }
 }
 
-TEST(unit_name_definitions, customary_duplicates)
+TEST(unitNameDefinitions, customaryDuplicates)
 {
     std::unordered_map<units::unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_customary) {
@@ -156,7 +156,7 @@ TEST(unit_name_definitions, customary_duplicates)
     }
 }
 
-TEST(unit_name_definitions, combined_duplicates)
+TEST(unitNameDefinitions, combinedDuplicates)
 {
     std::unordered_map<units::unit, std::string> testMap;
     for (const auto& ustring : units::defined_unit_names_si) {
