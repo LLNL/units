@@ -204,7 +204,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1129>
+    1133>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -801,6 +801,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"plancktime", constants::planck::time.as_unit()},
         {"planckcharge", constants::planck::charge.as_unit()},
         {"plancktemperature", constants::planck::temperature.as_unit()},
+        {"planckarea", constants::planck::length.as_unit().pow(2)},
+        {"planckvolume", constants::planck::length.as_unit().pow(3)},
+        {"planckenergy", precise_unit(1.9561e9,precise::J)},
         {"[fCs]", constants::fCs.as_unit()},
         {"[alpha]", constants::alpha.as_unit()},
         {"[mu]", constants::mu.as_unit()},
@@ -826,6 +829,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[atomic::charge]", constants::atomic::charge.as_unit()},
         {"[atomic::energy]", constants::atomic::energy.as_unit()},
         {"[atomic::action]", constants::atomic::action.as_unit()},
+        {"[planck::area]", constants::planck::length.as_unit().pow(2)},
+        {"[planck::volume]", constants::planck::length.as_unit().pow(3)},
+        {"[planck::energy]", precise_unit(1.9561e9,precise::J)},
         {"au", precise::distance::au},
         {"AU", precise::distance::au},
         {"ASU", precise::distance::au},
@@ -1110,6 +1116,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"Wa", precise::W* precise::yr},
         {"kilowatthour", precise::kWh},
         {"MWh", precise::MWh},
+        {"MWhr", precise::MWh},
         {"megawatthour", precise::MWh},
         {"M$", precise::other::MegaBuck},
         {"mil$", precise::other::MegaBuck},
@@ -1122,6 +1129,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"litre", precise::L},
         {"mL", precise::mL},  // preferred US notation
         {"ml", precise::mL},
+        {"LPM",precise::L/precise::min},
+        {"LPS",precise::L/precise::s},
         {"t", precise::mass::tonne},  // metric tonne
         {"mt", precise::mass::tonne},  // metric tonne
         {"ton_m", precise::mass::tonne},
@@ -1151,6 +1160,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"BD", precise::bit / precise::s},
         {"bit", precise::bit},
         {"BIT", precise::bit},
+        {"nibble",precise::data::nibble},
+        {"nybble",precise::data::nibble},
         {"bit_s", precise::data::bit_s},
         {"bit-s", precise::data::bit_s},
         {"BIT_S", precise::data::bit_s},
@@ -1437,7 +1448,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1017>
+    1032>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candlepower", precise::other::candle},
@@ -1770,7 +1781,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"twp", precise::us::township},
          {"[TWP]", precise::us::township},
          {"township", precise::us::township},
-
+         {"township_us", precise::us::township},
          {"astronomicalunitBIPM2006", precise::distance::au_old},
          {"auold", precise::distance::au_old},
          {"ua", precise::distance::au_old},
@@ -1795,6 +1806,17 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"acre_br", precise::imp::acre},
          {"acres_br", precise::imp::acre},
          {"buildersacre", precise_unit(40000.0, precise::ft.pow(2))},
+         {"cricketpitch",precise_unit(3.66*22.56, precise::m.pow(2))},
+         {"cricketpitches",precise_unit(3.66*22.56, precise::m.pow(2))},
+         {"footballpitch",precise_unit(105.0*68.0, precise::m.pow(2))},
+         {"footballpitches",precise_unit(105.0*68.0, precise::m.pow(2))},
+         {"footballfield",precise_unit(360.0*160.0, precise::ft.pow(2))},
+             // turkey, UAE, levant unit of area
+         {"dunam",precise_unit(1000.0,precise::m.pow(2))},
+             // taiwan
+         {"ping", precise_unit(3.305,precise::m.pow(2))},
+             // korea unit of area
+         {"pyong",precise_unit(3.305,precise::m.pow(2))},
          {"Gasolineat15.5C",
           precise_unit(739.33, precise::kg / precise::m.pow(3))},
          {"rood", precise_unit(0.25, precise::imp::acre)},
@@ -1965,8 +1987,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"kton", precise_unit(1000.0, precise::energy::ton_tnt)},
          {"Mton", precise_unit(1000000.0, precise::energy::ton_tnt)},
          {"Gton", precise_unit(1000000000.0, precise::energy::ton_tnt)},
+         {"gramoftnt", precise::micro*precise::energy::ton_tnt},
          // Gigatonne carbon
-
          {"C90", precise::conventional::coulomb90},
          {"ohm90", precise::conventional::ohm90},
          {u8"\u03A990", precise::conventional::ohm90},  // Greek Omega
@@ -1994,6 +2016,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"henry90", precise::conventional::henry90},
          {"boe", precise::energy::boe},
          {"barrelofoilequivalent", precise::energy::boe},
+         {"barrelsofoilequivalent", precise::energy::boe},
          {"tce", precise::energy::tce},
          {"tonneofcoalequivalent", precise::energy::tce},
          {"lge", precise::energy::lge},
@@ -2525,7 +2548,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 // Mostly from https://en.wikipedia.org/wiki/International_System_of_Units
 UNITS_CPP14_CONSTEXPR_OBJECT
-std::array<std::pair<const char*, precise_unit>, 237> defined_measurement_types{
+std::array<std::pair<const char*, precise_unit>, 245> defined_measurement_types{
     {
         {"", precise::defunit},
         {"arb", precise::defunit},
@@ -2653,6 +2676,7 @@ std::array<std::pair<const char*, precise_unit>, 237> defined_measurement_types{
         {"illumination", precise::lx},
         {"luminousemittance", precise::lx},
         {"intensityoflight", precise::lx},
+        {"lightintensity", precise::lx},
         {"radioactivity", precise::Bq},
         {"radionuclideactivity", precise::Bq},
         {"radiation", precise::Bq},
@@ -2668,6 +2692,7 @@ std::array<std::pair<const char*, precise_unit>, 237> defined_measurement_types{
         {"equivalentdose", precise::Sv},
         {"doseequivalent", precise::Sv},
         {"radiationdose", precise::Sv},
+        {"radiationdosage", precise::Sv},
         {"effectivedose", precise::Sv},
         {"operationaldose", precise::Sv},
         {"committeddose", precise::Sv},
@@ -2764,5 +2789,11 @@ std::array<std::pair<const char*, precise_unit>, 237> defined_measurement_types{
         {"catalyticconcentration", precise::kat / precise::m.pow(3)},
         {"molarenergy", precise::J / precise::mol},
         {"molarentropy", precise::J / precise::mol / precise::K},
+        {"datatransferrate",precise::bit/precise::s},
+        {"flowrate",precise::m.pow(3)/precise::s},
+        {"fuelconsumption",precise::km/precise::L},
+        {"information",precise::bit},
+        {"unitless",precise::one},
+        {"numeric",precise::one},
     }};
 }  // namespace UNITS_NAMESPACE

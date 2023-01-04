@@ -24,6 +24,7 @@ set(UNITS_TESTS
     test_siunits
     test_defined_units
     test_math
+    test_google_units
 )
 
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
@@ -104,6 +105,10 @@ else()
     target_include_directories(test_udunits PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
     target_compile_definitions(
         test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
+    )
+    
+    target_compile_definitions(
+        test_google_units PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
     if(NOT MSVC)
         target_compile_options(test_ucum PRIVATE -Wno-double-promotion)
