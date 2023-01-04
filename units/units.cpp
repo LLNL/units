@@ -5307,9 +5307,17 @@ precise_unit default_unit(std::string unit_type)
         return default_unit(
             unit_type.substr(0, unit_type.size() - strlen("measure")));
     }
+    if (ends_with(unit_type, "size")) {
+        return default_unit(
+            unit_type.substr(0, unit_type.size() - strlen("size")));
+    }
     if (unit_type.back() == 's' && unit_type.size() > 1) {
         unit_type.pop_back();
         return default_unit(unit_type);
+    }
+    if (ends_with(unit_type, "rate")) {
+        return default_unit(
+            unit_type.substr(0, unit_type.size() - strlen("reate")))/precise::s;
     }
     return precise::invalid;
 }
