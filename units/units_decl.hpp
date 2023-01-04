@@ -30,13 +30,15 @@ namespace detail {
 
     constexpr int32_t maxNeg(uint32_t numberOfBits)
     {
-        return -(int32_t(1U << (numberOfBits - 1)));
+        return -(static_cast<int32_t>(1U << (numberOfBits - 1)));
     }
     /** Number of bits used for encoding base unit exponents */
     namespace bitwidth {
         // this allows 4 or 8 bytes in the type, all sizes other than 8 default
         // to 4 bytes
         constexpr uint32_t base_size = sizeof(UNITS_BASE_TYPE) == 8 ? 8 : 4;
+        constexpr std::size_t base_byte_count =
+            static_cast<std::size_t>(base_size);
         constexpr uint32_t meter{(base_size == 8) ? 8 : 4};
         constexpr uint32_t second{(base_size == 8) ? 8 : 4};
         constexpr uint32_t kilogram{(base_size == 8) ? 6 : 3};
@@ -412,7 +414,7 @@ struct hash<UNITS_NAMESPACE::detail::unit_data> {
     size_t
         operator()(const UNITS_NAMESPACE::detail::unit_data& x) const noexcept
     {
-        UNITS_BASE_TYPE val;
+        UNITS_BASE_TYPE val{0};
         std::memcpy(&val, &x, sizeof(val));
         return hash<UNITS_BASE_TYPE>()(val);
     }
@@ -430,7 +432,7 @@ namespace detail {
     template<typename X>
     constexpr X power_const_small(X val, int power)
     {
-        return (power == 1) ? val : ((power == -1) ? X(1.0) / val : X(1.0));
+        return (power == 1) ? val : ((power == -1) ? X{1.0} / val : X{1.0});
     }
 
     /// constexpr operator to generate an integer power of a number
@@ -438,10 +440,10 @@ namespace detail {
     constexpr X power_const(X val, int power)
     {
         return (power > 1) ? sqr_power(power_const(val, power / 2)) *
-                (power % 2 == 0 ? X(1.0) : val) :
-            (power < -1) ? X(1.0) /
+                (power % 2 == 0 ? X{1.0} : val) :
+            (power < -1) ? X{1.0} /
                 (sqr_power(power_const(val, (-power) / 2)) *
-                 ((-power) % 2 == 0 ? X(1.0) : val)) :
+                 ((-power) % 2 == 0 ? X{1.0} : val)) :
                            power_const_small(val, power);
     }
 
@@ -458,7 +460,7 @@ namespace detail {
         // taking 20 bits out of 24(roughly 10^6), adding 8 first 0b1000 to do
         // rounding using memcpy to abide by strict aliasing rules based on
         // godbolt.org this gets compiled to 2 instructions + the register loads
-        std::uint32_t bits;
+        std::uint32_t bits{0};
         std::memcpy(&bits, &val, sizeof(bits));
         bits += 8UL;
         bits &= 0xFFFFFFF0UL;
@@ -471,7 +473,7 @@ namespace detail {
     inline double cround_precise(double val)
     {
 #ifdef UNITS_NO_IEEE754
-        int exp;
+        int exp{0};
         auto f = frexp(val, &exp);
         f = round(f * 1e12);
         return ldexp(f * 1e-12, exp);
@@ -482,7 +484,7 @@ namespace detail {
         // using memcpy to abide by strict aliasing rules
         // based on godbolt.org this gets compiled to 2 instructions + the
         // register loads
-        std::uint64_t bits;
+        std::uint64_t bits{0};
         std::memcpy(&bits, &val, sizeof(bits));
         bits += 0x800ULL;
         bits &= 0xFFFFFFFFFFFFF000ULL;
@@ -1059,10 +1061,11 @@ inline precise_unit sqrt(const precise_unit& u)
 
 // Verify that the units are the expected sizes
 static_assert(
-    sizeof(unit) <= detail::bitwidth::base_size * 2,
+    sizeof(unit) <= detail::bitwidth::base_byte_count * 2,
     "Unit type is too large");
 static_assert(
-    sizeof(precise_unit) <= detail::bitwidth::base_size * 2 + sizeof(double),
+    sizeof(precise_unit) <=
+        detail::bitwidth::base_byte_count * 2 + sizeof(double),
     "precise unit type is too large");
 
 }  // namespace UNITS_NAMESPACE

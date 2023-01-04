@@ -319,7 +319,8 @@ static std::string getMultiplierString(double multiplier, bool numOnly = false)
     if (!numOnly) {
         auto si = si_prefixes.find(static_cast<float>(multiplier));
         if (si != si_prefixes.end()) {
-            return std::string(1, si->second);
+            // NOLINTNEXTLINE(
+            return std::string(1UL, si->second);
         }
     }
     int P = 18;  // the desired precision
@@ -987,7 +988,7 @@ static std::string
          spair{"*1/", "/", 3, 1},
          spair{"*/", "/", 2, 1}}};
     // run a few checks for unusual conditions
-    for (auto& pseq : powerseq) {
+    for (const auto& pseq : powerseq) {
         auto fnd = propUnitString.find(std::get<0>(pseq));
         while (fnd != std::string::npos) {
             propUnitString.replace(fnd, std::get<2>(pseq), std::get<1>(pseq));
@@ -1039,9 +1040,8 @@ static std::string
                 propUnitString.replace(0, 1, cString.c_str());
             } else {
                 auto locp = propUnitString.find_first_of("^*/");
-                if (propUnitString[locp] != '^') {
-                    propUnitString.insert(locp, cString);
-                } else if (propUnitString[locp + 1] != '-') {
+                if (propUnitString[locp] != '^' ||
+                    propUnitString[locp + 1] != '-') {
                     propUnitString.insert(locp, cString);
                 } else {
                     auto rs = checkForCustomUnit(cString);
@@ -1077,9 +1077,7 @@ static std::string
                 propUnitString.append(cString);
             } else {
                 auto locp = propUnitString.find_last_of("^*");
-                if (locp == std::string::npos) {
-                    propUnitString.append(cString);
-                } else if (locp < loc) {
+                if (locp == std::string::npos || locp < loc) {
                     propUnitString.append(cString);
                 } else {
                     propUnitString.insert(locp, cString);
@@ -1880,6 +1878,7 @@ static double getPrefixMultiplier2Char(char c1, char c2)
         cpair{charindex('p', 'T'), precise::peta.multiplier()},
     }};
     auto code = charindex(c1, c2);
+    // NOLINTNEXTLINE (readability-qualified-auto)
     const auto fnd = std::lower_bound(
         char2prefix.begin(),
         char2prefix.end(),
@@ -1951,9 +1950,9 @@ static double
 /** generate a value from a single numerical block */
 static double getNumberBlock(const std::string& ustring, size_t& index) noexcept
 {
-    double val;
+    double val{constants::invalid_conversion};
     if (ustring.front() == '(') {
-        size_t ival = 1;
+        size_t ival{1};
         if (segmentcheck(ustring, ')', ival)) {
             if (ival == 2) {
                 index = ival;
@@ -1982,7 +1981,7 @@ static double getNumberBlock(const std::string& ustring, size_t& index) noexcept
                 }
             }
             auto substr = ustring.substr(1, ival - 2);
-            size_t ind;
+            size_t ind{0};
             if (hasOp) {
                 val = generateLeadingNumber(substr, ind);
             } else {
@@ -2096,7 +2095,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<wordpair, 9> lt10{
 
 static double read1To10(const std::string& str, size_t& index)
 {
-    for (auto& num : lt10) {
+    for (const auto& num : lt10) {
         if (str.compare(index, std::get<2>(num), std::get<0>(num)) == 0) {
             index += std::get<2>(num);
             return std::get<1>(num);
@@ -2158,11 +2157,11 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
     if (!hasValidNumericalWordStart(ustring)) {
         return val;
     }
-    std::string lcstring = ustring;
+    std::string lcstring{ustring};
     // make the string lower case for consistency
     std::transform(
         lcstring.begin(), lcstring.end(), lcstring.begin(), ::tolower);
-    for (auto& wp : groupNumericalWords) {
+    for (const auto& wp : groupNumericalWords) {
         auto loc = lcstring.find(std::get<0>(wp));
         if (loc != std::string::npos) {
             if (loc == 0) {
@@ -2218,7 +2217,7 @@ static double readNumericalWords(const std::string& ustring, size_t& index)
         index += 3;
     }
     // what we are left with is values below a hundred
-    for (auto& wp : decadeWords) {
+    for (const auto& wp : decadeWords) {
         if (lcstring.compare(index, std::get<2>(wp), std::get<0>(wp)) == 0) {
             val = std::get<1>(wp);
             index += std::get<2>(wp);
@@ -2328,7 +2327,7 @@ bool clearEmptySegments(std::string& unit)
 {
     static const std::array<std::string, 4> Esegs{{"()", "[]", "{}", "<>"}};
     bool changed = false;
-    for (auto& seg : Esegs) {
+    for (const auto& seg : Esegs) {
         auto fnd = unit.find(seg);
         while (fnd != std::string::npos) {
             if (fnd > 0 && unit[fnd - 1] == '\\') {
@@ -2618,6 +2617,7 @@ static precise_unit ignoreModifiers(std::string unit, std::uint32_t match_flags)
 static std::pair<double, size_t>
     getPrefixMultiplierWord(const std::string& unit)
 {
+    // NOLINTNEXTLINE (readability-qualified-auto)
     auto res = std::lower_bound(
         prefixWords.begin(),
         prefixWords.end(),
@@ -2959,7 +2959,7 @@ static precise_unit
     }
     auto c = unit_string.front();
     if ((c == 'C' || c == 'E') && unit_string.size() >= 6) {
-        size_t index;
+        size_t index{0};
         if (unit_string.compare(0, 5, "CXUN[") == 0) {
             if (!hasAdditionalOps(unit_string)) {
                 char* ptr = nullptr;
@@ -3179,7 +3179,7 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
         if ((fnd > 0) && (!skipMultiply)) {
             auto nloc = unit_string.find_first_not_of(spaceChars, fnd);
             if (nloc == std::string::npos) {
-                unit_string.erase(fnd, std::string::npos);
+                unit_string.erase(fnd);
                 return true;
             }
             if (fnd == 1) {  // if the second character is a space it almost
@@ -3418,14 +3418,13 @@ static void ciConversion(std::string& unit_string)
         } else if (unit_string.front() == 'M') {
             unit_string[0] = 'm';
         }
+        // deal with situation with meter as captital M
         if (unit_string.back() == 'M') {
-            if (unit_string.length() == 2 &&
-                getPrefixMultiplier(unit_string.front()) != 0.0) {
-                unit_string.back() = 'm';
-            } else if (
-                unit_string.length() == 3 &&
-                getPrefixMultiplier2Char(unit_string[0], unit_string[1]) !=
-                    0.0) {
+            if ((unit_string.length() == 2 &&
+                 getPrefixMultiplier(unit_string.front()) != 0.0) ||
+                (unit_string.length() == 3 &&
+                 getPrefixMultiplier2Char(unit_string[0], unit_string[1]) !=
+                     0.0)) {
                 unit_string.back() = 'm';
             }
         }
@@ -3540,7 +3539,7 @@ static bool checkValidUnitString(
     }
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
     if (!skipcodereplacement) {
-        for (auto& seq : invalidSequences) {
+        for (const auto& seq : invalidSequences) {
             if (unit_string.find(seq) != std::string::npos) {
                 return false;
             }
@@ -3764,7 +3763,7 @@ static bool unicodeReplacement(std::string& unit_string)
             ckpair{"\xBE", "(0.75)"},  // (3/4) fraction
         }};
     bool changed{false};
-    for (auto& ucode : ucodeReplacements) {
+    for (const auto& ucode : ucodeReplacements) {
         auto fnd = unit_string.find(ucode.first);
         while (fnd != std::string::npos) {
             changed = true;
@@ -4046,7 +4045,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint32_t match_flags)
             htmlCodeReplacement(unit_string);
         }
         // some abbreviations and other problematic code replacements
-        for (auto& acode : allCodeReplacements) {
+        for (const auto& acode : allCodeReplacements) {
             auto fnd = unit_string.find(acode.first);
             while (fnd != std::string::npos) {
                 changed = true;
@@ -4675,7 +4674,7 @@ static precise_unit unit_from_string_internal(
             if (!is_error(retunit)) {
                 return retunit;
             }
-            size_t index;
+            size_t index{0};
             return commoditizedUnit(unit_string, precise::one, index);
         }
     }
@@ -4685,7 +4684,7 @@ static precise_unit unit_from_string_internal(
         if (unit_string.front() != '1' ||
             unit_string[1] != '/') {  // this catches 1/ which should be
                                       // handled differently
-            size_t index;
+            size_t index{0};
             double front = generateLeadingNumber(unit_string, index);
             if (std::isnan(front)) {  // out of range
                 return precise::invalid;
@@ -4913,10 +4912,10 @@ static precise_unit unit_from_string_internal(
             }
         }
     }
-    auto s_ = unit_string.find("s_");
-    if (s_ != std::string::npos) {
+    auto s_location = unit_string.find("s_");
+    if (s_location != std::string::npos) {
         ustring = unit_string;
-        ustring.replace(s_, 2, "_");
+        ustring.replace(s_location, 2, "_");
         retunit = get_unit(ustring, match_flags);
         if (!is_error(retunit)) {
             return retunit;
@@ -4968,7 +4967,7 @@ static precise_unit unit_from_string_internal(
                 return retunit;
             }
             if (looksLikeNumber(unit_string)) {
-                size_t loc;
+                size_t loc{0};
                 auto number = getDoubleFromString(unit_string, &loc);
                 if (loc >= unit_string.length()) {
                     return {number, one};
@@ -5106,8 +5105,7 @@ precise_measurement measurement_from_string(
     match_flags &= (~skip_code_replacements);
     cleanUnitString(measurement_string, match_flags);
 
-    size_t loc;
-
+    size_t loc{0};
     auto val = generateLeadingNumber(measurement_string, loc);
     if (loc == 0) {
         val = readNumericalWords(measurement_string, loc);
@@ -5178,7 +5176,7 @@ uncertain_measurement uncertain_measurement_from_string(
          "&pm;",
          " \\pm "}};
 
-    for (auto pmseq : pmsequences) {
+    for (const auto* pmseq : pmsequences) {
         auto loc = measurement_string.find(pmseq);
         if (loc != std::string::npos) {
             auto p1 = measurement_string.substr(0, loc);
@@ -5234,7 +5232,7 @@ uncertain_measurement uncertain_measurement_from_string(
 static smap loadDefinedMeasurementTypes()
 {
     smap knownMeasurementTypes;
-    for (auto& pr : defined_measurement_types) {
+    for (const auto& pr : defined_measurement_types) {
         if (pr.first != nullptr) {
             knownMeasurementTypes.emplace(pr.first, pr.second);
         }

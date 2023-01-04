@@ -3013,6 +3013,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 2088> r20_units = {{
 
 precise_unit r20_unit(const std::string& r20_string)
 {
+    // NOLINTNEXTLINE (readability-qualified-auto)
     auto ind = std::lower_bound(
         r20_units.begin(),
         r20_units.end(),

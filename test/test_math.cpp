@@ -9,7 +9,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units_math.hpp"
 
 using namespace units;
-TEST(mathOps, type_traits)
+TEST(mathOps, typeTraits)
 {
     EXPECT_TRUE(is_measurement<uncertain_measurement>::value);
     EXPECT_TRUE(is_measurement<measurement>::value);
@@ -18,7 +18,7 @@ TEST(mathOps, type_traits)
     EXPECT_TRUE(is_measurement<fixed_precise_measurement>::value);
 }
 
-TEST(mathOps, uncertain_meas)
+TEST(mathOps, uncertainMeas)
 {
     uncertain_measurement um1(5.69F, 0.01F, m.pow(3));
 
@@ -58,7 +58,7 @@ TEST(mathOps, meas)
     EXPECT_FLOAT_EQ(um6.value(), 6.0F);
 }
 
-TEST(mathOps, fixed_meas)
+TEST(mathOps, fixedMeas)
 {
     fixed_measurement um1(5.69F, m.pow(3));
 
@@ -78,7 +78,7 @@ TEST(mathOps, fixed_meas)
     EXPECT_FLOAT_EQ(um6.value(), 6.0F);
 }
 
-TEST(mathOps, precise_meas)
+TEST(mathOps, preciseMeas)
 {
     precise_measurement um1(5.69F, precise::m.pow(3));
 
@@ -98,7 +98,7 @@ TEST(mathOps, precise_meas)
     EXPECT_FLOAT_EQ(um6.value(), 6.0F);
 }
 
-TEST(mathOps, precise_fixed_meas)
+TEST(mathOps, preciseFixedMeas)
 {
     fixed_precise_measurement um1(5.69F, precise::m.pow(3));
 
@@ -118,7 +118,7 @@ TEST(mathOps, precise_fixed_meas)
     EXPECT_FLOAT_EQ(um6.value(), 6.0F);
 }
 
-TEST(mathOps, trig_sin)
+TEST(mathOps, trigSin)
 {
     measurement m1(constants::pi / 4.0, rad);
     EXPECT_FLOAT_EQ(sin(m1), sin(constants::pi / 4.0));
@@ -133,7 +133,7 @@ TEST(mathOps, trig_sin)
     EXPECT_DOUBLE_EQ(sin(m4), sin(constants::pi / 4.0));
 }
 
-TEST(mathOps, trig_cos)
+TEST(mathOps, trigCos)
 {
     measurement m1(constants::pi / 4.0, rad);
     EXPECT_FLOAT_EQ(cos(m1), cos(constants::pi / 4.0));
@@ -148,7 +148,7 @@ TEST(mathOps, trig_cos)
     EXPECT_DOUBLE_EQ(cos(m4), cos(constants::pi / 4.0));
 }
 
-TEST(mathOps, trig_tan)
+TEST(mathOps, trigTan)
 {
     measurement m1(constants::pi / 6.0, rad);
     EXPECT_FLOAT_EQ(tan(m1), tan(constants::pi / 6.0));
