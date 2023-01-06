@@ -204,7 +204,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1133>
+    1155>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
