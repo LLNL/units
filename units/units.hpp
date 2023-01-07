@@ -1992,6 +1992,11 @@ UNITS_EXPORT void
 UNITS_EXPORT void
     addUserDefinedInputUnit(const std::string& name, const precise_unit& un);
 
+/// Add a custom unit to be included in from string generation but not used
+/// in string interpretation of units
+UNITS_EXPORT void
+    addUserDefinedOutputUnit(const std::string& name, const precise_unit& un);
+
 /// Clear all user defined units from memory
 UNITS_EXPORT void clearUserDefinedUnits();
 
@@ -2000,7 +2005,10 @@ UNITS_EXPORT void clearUserDefinedUnits();
 <definition> where definition is some string that can include spaces
 <user_string> is the name of the custom unit.
 <user_string> => <definition> defines a 1-way translation so input units are
-interpreted but the output units are not modified. # indicates a comment line
+interpreted but the output units are not modified.
+<user_string> <= <definition> defines a 1-way translation so output units are
+interpreted but the input unit interpretation is not modified. # indicates a
+comment line
 @param filename  the name of the file to load
 @return a string which will be empty if everything worked and an error message
 if it didn't

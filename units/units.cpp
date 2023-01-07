@@ -714,6 +714,16 @@ void addUserDefinedInputUnit(const std::string& name, const precise_unit& un)
     }
 }
 
+void addUserDefinedOutputUnit(const std::string& name, const precise_unit& un)
+{
+    if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
+        user_defined_unit_names[unit_cast(un)] = name;
+        allowUserDefinedUnits.store(
+            allowUserDefinedUnits.load(std::memory_order_acquire),
+            std::memory_order_release);
+    }
+}
+
 std::string definedUnitsFromFile(const std::string& filename) noexcept
 {
     std::string output;
@@ -761,7 +771,10 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             if (line[sep + 1] == '=' || line[sep + 1] == '>') {
                 length = 1;
             }
-
+            if (length == 0 && line[sep - 1] == '<') {
+                length = 1;
+                --sep;
+            }
             // get the new definition name
             std::string userdef = line.substr(commentloc, sep - commentloc);
             while (userdef.back() == ' ') {
@@ -801,6 +814,8 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
 
             if (line[sep + length] == '>') {
                 addUserDefinedInputUnit(userdef, meas.as_unit());
+            } else if (line[sep] == '<') {
+                addUserDefinedOutputUnit(userdef, meas.as_unit());
             } else {
                 addUserDefinedUnit(userdef, meas.as_unit());
             }
