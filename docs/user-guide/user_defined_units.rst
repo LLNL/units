@@ -50,6 +50,23 @@ If only an ability to interpret strings is needed the `addUserDefinedInputUnit` 
    EXPECT_EQ(str.find("idgit"), std::string::npos);
    EXPECT_NE(str.find("kat") , std::string::npos);
 
+If only output strings are needed the `addUserDefinedOutputUnit` can be used
+
+.. code-block:: c++
+
+  precise_unit idgit(4.754, mol / m.pow(2));
+    addUserDefinedOutputUnit("idgit", idgit);
+
+    auto ipm = unit_from_string("idgit/min");
+    //this is not able to be read since idgit is undefined as an input
+    EXPECT_NE(ipm, idgit / min);
+
+    auto str = to_string(idgit/min);
+    /** output only should make this work*/
+    EXPECT_EQ(str,"idgit/min");
+
+The output unit can be used when the interpreter works fine but the string output doesn't do what you want it to do. 
+
 Input File
 ------------------
 Sometimes it is useful to have a larger library of units in this case the `std::string definedUnitsFromFile(const std::string& filename)` can be used to load a number of units at once.
@@ -63,7 +80,8 @@ other wise ::
    meh == meeter per hour
    # => indicates input only unit
         mehmeh => meh/s
-
+   # <= indicates output only unit
+        hemhem => s/meh
 or ::
 
    # comment
@@ -91,7 +109,7 @@ or ::
    # escaped quotes
    'q""'= 15.5 W
 
-The basic rule is that one of `[=,;]` will separate a definition name from a unit definition.  If the next character after the separator is an '=' it is ignored.  If it is a '>' it implies input only definition.  Otherwise it calls `addUserDefinedUnit` for each definition.  The function is declared `noexcept` and will return a string with each error separated by a newline.  So if the result string is `empty()` there were no errors.
+The basic rule is that one of `[<=,;]` will separate a definition name from a unit definition.  If the next character after the separator is an '=' it is ignored.  If it is a '>' it implies input only definition. If the separator is an '<=' then it is output only.  Otherwise it calls `addUserDefinedUnit` for each definition.  The function is declared `noexcept` and will return a string with each error separated by a newline.  So if the result string is `empty()` there were no errors.
 
 Other Library Operations
 ---------------------------

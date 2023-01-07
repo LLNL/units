@@ -1067,6 +1067,21 @@ TEST(userDefinedUnits, definitionStringsInputOnly)
     clearUserDefinedUnits();
 }
 
+TEST(userDefinedUnits, definitionStringsOutputOnly)
+{
+    precise_unit idgit(4.754, mol / m.pow(2));
+    addUserDefinedOutputUnit("idgit", idgit);
+
+    auto ipm = unit_from_string("idgit/min");
+    EXPECT_NE(ipm, idgit / min);
+
+    auto str = to_string(idgit/min);
+    /** output only should make this work*/
+    EXPECT_EQ(str,"idgit/min");
+    clearUserDefinedUnits();
+}
+
+
 TEST(userDefinedUnits, disableUserDefinitions)
 {
     clearUserDefinedUnits();
@@ -1156,6 +1171,36 @@ TEST(userDefinedUnits, fileOp3)
     auto y5 = unit_from_string("q\"\"");
     EXPECT_EQ(y5, precise_unit(precise::W, 15.5));
     EXPECT_EQ(to_string(y5), "q\"\"");
+    clearUserDefinedUnits();
+}
+
+TEST(userDefinedUnits, fileOp4)
+{
+    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
+        "/test_unit_files/other_units4.txt");
+    EXPECT_TRUE(outputstr.empty());
+    
+    constexpr precise_unit agV(12.2,precise::V);
+    constexpr precise_unit auV(14.2,precise::V);
+    constexpr precise_unit HgV(17.7,precise::V);
+    constexpr precise_unit FeV(17.7,precise::V);
+
+    auto y1 = unit_from_string("agV");
+
+    EXPECT_EQ(y1, agV);
+    EXPECT_EQ(to_string(y1), "agV");
+
+    auto y2 = unit_from_string("auV");
+    EXPECT_EQ(y2, auV);
+    EXPECT_EQ(to_string(y2), "auV");
+
+    auto y3 = unit_from_string("HgV");
+    EXPECT_EQ(y3, HgV);
+    EXPECT_EQ(to_string(y3), "FeV");
+
+    auto y4 = unit_from_string("FeV");
+    EXPECT_NE(y4, FeV);
+
     clearUserDefinedUnits();
 }
 
