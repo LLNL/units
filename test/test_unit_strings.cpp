@@ -1075,12 +1075,11 @@ TEST(userDefinedUnits, definitionStringsOutputOnly)
     auto ipm = unit_from_string("idgit/min");
     EXPECT_NE(ipm, idgit / min);
 
-    auto str = to_string(idgit/min);
+    auto str = to_string(idgit / min);
     /** output only should make this work*/
-    EXPECT_EQ(str,"idgit/min");
+    EXPECT_EQ(str, "idgit/min");
     clearUserDefinedUnits();
 }
-
 
 TEST(userDefinedUnits, disableUserDefinitions)
 {
@@ -1177,13 +1176,13 @@ TEST(userDefinedUnits, fileOp3)
 TEST(userDefinedUnits, fileOp4)
 {
     auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
-        "/test_unit_files/other_units4.txt");
+                                          "/test_unit_files/other_units4.txt");
     EXPECT_TRUE(outputstr.empty());
-    
-    constexpr precise_unit agV(12.2,precise::V);
-    constexpr precise_unit auV(14.2,precise::V);
-    constexpr precise_unit HgV(17.7,precise::V);
-    constexpr precise_unit FeV(17.7,precise::V);
+
+    constexpr precise_unit agV(12.2, precise::V);
+    constexpr precise_unit auV(14.2, precise::V);
+    constexpr precise_unit HgV(17.7, precise::V);
+    constexpr precise_unit FeV(17.7, precise::V);
 
     auto y1 = unit_from_string("agV");
 

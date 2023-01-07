@@ -65,7 +65,7 @@ If only output strings are needed the `addUserDefinedOutputUnit` can be used
     /** output only should make this work*/
     EXPECT_EQ(str,"idgit/min");
 
-The output unit can be used when the interpreter works fine but the string output doesn't do what you want it to do. 
+The output unit can be used when the interpreter works fine but the string output doesn't do what you want it to do.
 
 Input File
 ------------------

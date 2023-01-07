@@ -739,9 +739,9 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             if (commentloc == std::string::npos || line[commentloc] == '#') {
                 continue;
             }
-            std::size_t esep{ 1 };  // extra separation location to handle quotes
+            std::size_t esep{1};  // extra separation location to handle quotes
             if (line[commentloc] == '\"' || line[commentloc] == '\'') {
-                bool notfound{ true };
+                bool notfound{true};
                 while (notfound) {
                     esep =
                         line.find_first_of(line[commentloc], commentloc + esep);
@@ -751,8 +751,7 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
                     }
                     if (line[esep - 1] != '\\') {
                         notfound = false;
-                    }
-                    else {
+                    } else {
                         // remove the escaped quote
                         line.erase(esep - 1, 1);
                     }
@@ -768,12 +767,11 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
             if (sep == line.size() - 1) {
                 output += line + " does not have any valid definitions\n";
             }
-            int length{ 0 };
+            int length{0};
             if (line[sep + 1] == '=' || line[sep + 1] == '>') {
                 length = 1;
             }
-            if (length == 0 && line[sep - 1] == '<')
-            {
+            if (length == 0 && line[sep - 1] == '<') {
                 length = 1;
                 --sep;
             }
@@ -816,10 +814,8 @@ std::string definedUnitsFromFile(const std::string& filename) noexcept
 
             if (line[sep + length] == '>') {
                 addUserDefinedInputUnit(userdef, meas.as_unit());
-            }
-            else if (line[sep] == '<')
-            {
-                addUserDefinedOutputUnit(userdef,meas.as_unit());
+            } else if (line[sep] == '<') {
+                addUserDefinedOutputUnit(userdef, meas.as_unit());
             } else {
                 addUserDefinedUnit(userdef, meas.as_unit());
             }
