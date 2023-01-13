@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -82,7 +82,7 @@ TEST(Measurement, doubleOps)
     EXPECT_DOUBLE_EQ(fd11.value(), 3.0);
 }
 
-TEST(Measurement, help_constructors)
+TEST(Measurement, helpConstructors)
 {
     auto d1 = 45.0 * m;
     auto d2 = m * 79.0;
@@ -235,7 +235,7 @@ TEST(fixedMeasurement, ops)
     EXPECT_TRUE(d4.units() == ft);
 }
 
-TEST(fixedMeasurement, ops_v2)
+TEST(fixedMeasurement, opsV2)
 {
     fixed_measurement d1(45.0, m);
     fixed_measurement d2(79, m);
@@ -498,7 +498,7 @@ TEST(PreciseMeasurement, doubleOps)
     EXPECT_DOUBLE_EQ(fd8.value(), 2.0);
 }
 
-TEST(PreciseMeasurement, help_constructors)
+TEST(PreciseMeasurement, helpConstructors)
 {
     auto d1 = 45.0 * precise::m;
     auto d2 = precise::m * 79.0;
@@ -574,14 +574,14 @@ TEST(PreciseMeasurement, comparison)
     EXPECT_FALSE((1 * precise::in) <= (2.0 * precise::cm));
 }
 
-TEST(PreciseMeasurement, double_operators)
+TEST(PreciseMeasurement, doubleOperators)
 {
     EXPECT_EQ(precise::m * 7.0, 7.0 * precise::m);
     EXPECT_EQ(precise::m / 4.0, 0.25 * precise::m);
     EXPECT_EQ(4.0 / precise::m, 4.0 * precise::m.inv());
 }
 
-TEST(PreciseMeasurement, convert_to_base)
+TEST(PreciseMeasurement, convert2base)
 {
     precise_measurement m3 = 45.0 * precise::ft;
 
@@ -679,7 +679,7 @@ TEST(fixedPreciseMeasurement, ops)
     EXPECT_TRUE(d4.units() == precise::ft);
 }
 
-TEST(fixedPreciseMeasurement, ops_v2)
+TEST(fixedPreciseMeasurement, opsV2)
 {
     fixed_precise_measurement d1(45.0, precise::m);
     fixed_precise_measurement d2(79, precise::m);

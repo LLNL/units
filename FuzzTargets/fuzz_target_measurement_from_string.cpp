@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units.hpp"
 #include <cstring>
 #include <exception>
+#include <stdexcept>
 #include <string>
 
 static const bool cflag = []() {

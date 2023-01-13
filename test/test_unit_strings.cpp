@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -107,7 +107,7 @@ TEST(unitStrings, prefixes)
     EXPECT_EQ(to_string(precise::micro * precise::L), "uL");
 }
 
-TEST(unitStrings, si_prefixes)
+TEST(unitStrings, siPrefixes)
 {
     EXPECT_EQ(to_string(unit_from_string("mm")), "mm");
     EXPECT_EQ(to_string(unit_from_string("cm")), "cm");
@@ -119,6 +119,8 @@ TEST(unitStrings, si_prefixes)
     EXPECT_EQ(to_string(unit_from_string("zm")), "zm");
     EXPECT_EQ(to_string(unit_from_string("ym")), "ym");
     EXPECT_EQ(to_string(unit_from_string("dm")), "dm");
+    EXPECT_EQ(to_string(unit_from_string("rm")), "rm");
+    EXPECT_EQ(to_string(unit_from_string("qm")), "qm");
 
     EXPECT_EQ(to_string(unit_from_string("km")), "km");
     EXPECT_EQ(to_string(unit_from_string("Km")), "km");
@@ -128,9 +130,42 @@ TEST(unitStrings, si_prefixes)
     EXPECT_EQ(to_string(unit_from_string("Em")), "Em");
     EXPECT_EQ(to_string(unit_from_string("Zm")), "Zm");
     EXPECT_EQ(to_string(unit_from_string("Ym")), "Ym");
+    EXPECT_EQ(to_string(unit_from_string("Rm")), "Rm");
+    EXPECT_EQ(to_string(unit_from_string("Qm")), "Qm");
 }
 
-TEST(unitStrings, strict_si)
+TEST(unitStrings, siPrefixesStrict)
+{
+    EXPECT_EQ(to_string(unit_from_string("mm", strict_si)), "mm");
+    EXPECT_EQ(to_string(unit_from_string("cm", strict_si)), "cm");
+    EXPECT_EQ(to_string(unit_from_string("um", strict_si)), "um");
+    EXPECT_EQ(to_string(unit_from_string("nm", strict_si)), "nm");
+    EXPECT_EQ(to_string(unit_from_string("ng", strict_si)), "ng");
+    EXPECT_EQ(to_string(unit_from_string("cL", strict_si)), "cL");
+    EXPECT_EQ(to_string(unit_from_string("h$", strict_si)), "100$");
+    EXPECT_EQ(to_string(unit_from_string("pm", strict_si)), "pm");
+    EXPECT_EQ(to_string(unit_from_string("fm", strict_si)), "fm");
+    EXPECT_EQ(to_string(unit_from_string("am", strict_si)), "am");
+    EXPECT_EQ(to_string(unit_from_string("zm", strict_si)), "zm");
+    EXPECT_EQ(to_string(unit_from_string("ym", strict_si)), "ym");
+    EXPECT_EQ(to_string(unit_from_string("dm", strict_si)), "dm");
+    EXPECT_EQ(to_string(unit_from_string("rm", strict_si)), "rm");
+    EXPECT_EQ(to_string(unit_from_string("qm", strict_si)), "qm");
+
+    EXPECT_EQ(to_string(unit_from_string("km", strict_si)), "km");
+    EXPECT_EQ(to_string(unit_from_string("kA", strict_si)), "kA");
+    EXPECT_EQ(to_string(unit_from_string("Mm", strict_si)), "Mm");
+    EXPECT_EQ(to_string(unit_from_string("Gm", strict_si)), "Gm");
+    EXPECT_EQ(to_string(unit_from_string("Tm", strict_si)), "Tm");
+    EXPECT_EQ(to_string(unit_from_string("Pm", strict_si)), "Pm");
+    EXPECT_EQ(to_string(unit_from_string("Em", strict_si)), "Em");
+    EXPECT_EQ(to_string(unit_from_string("Zm", strict_si)), "Zm");
+    EXPECT_EQ(to_string(unit_from_string("Ym", strict_si)), "Ym");
+    EXPECT_EQ(to_string(unit_from_string("Rm", strict_si)), "Rm");
+    EXPECT_EQ(to_string(unit_from_string("Qm", strict_si)), "Qm");
+}
+
+TEST(unitStrings, strictSi)
 {
     auto unit = unit_from_string("Um", strict_si);
     EXPECT_NE(unit, unit_from_string("um"));
@@ -148,7 +183,7 @@ TEST(unitStrings, strict_si)
     EXPECT_NE(unit, unit_from_string("fm"));
 }
 
-TEST(unitStrings, astronomy_units)
+TEST(unitStrings, astronomyUnits)
 {
     auto unit = unit_from_string("am", astronomy_units);
     EXPECT_EQ(unit, unit_from_string("arcmin"));
@@ -160,6 +195,43 @@ TEST(unitStrings, astronomy_units)
 TEST(unitStrings, readability)
 {
     EXPECT_EQ(to_string(precise::m / precise::s.pow(2)), "m/s^2");
+}
+
+TEST(unitStrings, dotInterpretation)
+{
+    // interpret . as multiply
+    EXPECT_EQ(precise::m * precise::s, unit_from_string("m.s"));
+    // interpret as abbreviation so millisecond
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string("m. s"));
+    // interpret as abbreviation so millisecond
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string("m. s."));
+    // connector so space = multiply
+    EXPECT_EQ(precise::m * precise::s, unit_from_string("m- s"));
+    // connector so space = multiply
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string("m-s"));
+    // s is abbreviation so first . is also abbreviation so millisecond
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string("m.s."));
+    // s is abbreviation so first . is also abbreviation so millisecond
+    EXPECT_EQ(precise::milli * precise::s, unit_from_string(".m.s."));
+
+    // s is abbreviation so first . is also abbreviation so millisecond
+    EXPECT_EQ(
+        precise_unit(0.9, precise::milli * precise::s),
+        unit_from_string("0.9.m.s."));
+}
+
+TEST(unitStrings, endwithU)
+{
+    EXPECT_EQ(
+        unit_from_string("astronomical unit"),
+        unit_from_string("astronomicalu"));
+    EXPECT_EQ(unit_from_string("arb. u."), unit_from_string("arbitraryunit"));
+    EXPECT_EQ(unit_from_string("arb. u."), unit_from_string("arbitrary u."));
+    EXPECT_EQ(unit_from_string("arb.u."), unit_from_string("arbitrary u."));
+    EXPECT_EQ(unit_from_string("arb. unit"), unit_from_string("arbitrary u."));
+    EXPECT_EQ(unit_from_string("p.d.u."), unit_from_string("arbitraryunit"));
+    EXPECT_EQ(
+        unit_from_string("arbitrary unit"), unit_from_string("arbitrary u."));
 }
 
 TEST(unitStrings, infinite)
@@ -238,13 +310,13 @@ TEST(unitStrings, invtestUnits)
     EXPECT_EQ(res, "1/(Mcd*day)");
 }
 
-TEST(unitStrings, downconvert)
+TEST(unitStrings, downConvert)
 {
     EXPECT_EQ(
         to_string(precise_unit(1000.0, precise::one / precise::kg)), "1/g");
 }
 
-TEST(unitStrings, powerunits)
+TEST(unitStrings, powerUnits)
 {
     EXPECT_EQ(to_string((precise::giga * precise::m).pow(2)), "Gm^2");
     EXPECT_EQ(
@@ -295,6 +367,7 @@ TEST(unitStrings, charge)
     // A * h = 3600 C, better use A * h
     EXPECT_EQ(to_string(precise::A * precise::hr), "Ah");
     EXPECT_EQ(to_string(precise::femto * precise::A * precise::hr), "fAh");
+    EXPECT_EQ(to_string(precise::quecto * precise::A * precise::hr), "qAh");
     EXPECT_EQ(to_string(precise::pico * precise::A * precise::hr), "pAh");
     EXPECT_EQ(to_string(precise::nano * precise::A * precise::hr), "nAh");
     EXPECT_EQ(to_string(precise::micro * precise::A * precise::hr), "uAh");
@@ -319,12 +392,30 @@ TEST(unitStrings, electronVolt)
     auto str =
         to_string(precise::count / (precise::milli * precise::energy::eV));
     EXPECT_EQ(str, "count/meV");
+
+    str = to_string(precise::one / (precise::micro * precise::energy::eV));
+    EXPECT_EQ(str, "1/ueV");
+
+    str = to_string(precise::m / precise::energy::eV);
+    EXPECT_EQ(str, "m/eV");
+}
+
+TEST(unitStrings, Hertz)
+{
+    EXPECT_EQ(to_string(precise::Hz), "Hz");
+    EXPECT_EQ(to_string(precise::milli * precise::Hz), "mHz");
+    EXPECT_EQ(to_string(precise::kilo * precise::Hz), "kHz");
+    EXPECT_EQ(to_string(precise::mega * precise::Hz), "MHz");
+    EXPECT_EQ(to_string(precise::giga * precise::Hz), "GHz");
+    EXPECT_EQ(to_string(precise::tera * precise::Hz), "THz");
 }
 
 TEST(unitStrings, watthours)
 {
     EXPECT_EQ(to_string(precise::A * precise::s), "C");
     EXPECT_EQ(to_string(precise::W * precise::hr), "Wh");
+    EXPECT_EQ(to_string(precise::W * precise::hr * precise::iflag), "Wh*flag");
+    EXPECT_EQ(to_string(precise::W * precise::hr * precise::m), "Wh*m");
     EXPECT_EQ(to_string(precise::kilo * precise::W * precise::h), "kWh");
     EXPECT_EQ(to_string(precise::mega * precise::W * precise::h), "MWh");
     EXPECT_EQ(to_string(precise::giga * precise::W * precise::h), "GWh");
@@ -360,7 +451,7 @@ TEST(stringToUnits, Simple)
     EXPECT_EQ(precise::m, unit_from_string("meter"));
 }
 
-TEST(stringToUnits, with_space)
+TEST(stringToUnits, withSpace)
 {
     EXPECT_EQ(precise::m.inv(), unit_from_string("1 /m"));
     EXPECT_EQ(precise::m.inv(), unit_from_string("1  /m"));
@@ -375,7 +466,7 @@ TEST(stringToUnits, with_space)
     EXPECT_EQ(precise::m.inv(), unit_from_string("  1/\tm  "));
 }
 
-TEST(stringToUnits, to_default_unit)
+TEST(stringToUnits, toDefaultUnit)
 {
     EXPECT_EQ(precise::defunit, unit_from_string("*"));
     EXPECT_EQ(precise::defunit, unit_from_string("**"));
@@ -449,7 +540,7 @@ TEST(stringToUnits, specificCombinations)
     EXPECT_EQ(precise::kg * precise::L, unit_from_string("kg l"));
 }
 
-TEST(stringToUnits, gas_constant)
+TEST(stringToUnits, gasConstant)
 {
     auto rval = unit_from_string("J mol^-1 K^-1");
 
@@ -478,6 +569,21 @@ TEST(stringToUnits, multipower)
 {
     auto res = unit_from_string("(4.56^3)^3");
     EXPECT_DOUBLE_EQ(res.multiplier(), std::pow(4.56, 9.0));
+}
+
+TEST(stringToUnits, bitsBytes)
+{
+    auto res = unit_from_string("KiB");
+    EXPECT_EQ(res, precise::kibi * precise::data::byte);
+
+    res = unit_from_string("Mib");
+    EXPECT_EQ(res, precise::mebi * precise::data::bit);
+
+    res = unit_from_string("MAB");
+    EXPECT_EQ(res, precise::mega * precise::data::byte);
+
+    res = unit_from_string("MAb");
+    EXPECT_EQ(res, precise::mega * precise::data::bit);
 }
 
 TEST(stringToUnits, dotNotation)
@@ -869,9 +975,15 @@ TEST(stringToUnits, invalid)
 TEST(userDefinedUnits, definitions)
 {
     precise_unit clucks(19.3, precise::m * precise::A);
+    precise_unit sclucks(23, precise::m * precise::mol * precise::currency);
     addUserDefinedUnit("clucks", clucks);
+    addUserDefinedUnit("sclucks", sclucks);
 
     EXPECT_EQ(unit_from_string("clucks/A"), precise_unit(19.3, precise::m));
+
+    EXPECT_EQ(
+        unit_from_string("sclucks/$"),
+        precise_unit(23, precise::m * precise::mol));
 
     EXPECT_EQ(to_string(clucks), "clucks");
 
@@ -881,12 +993,39 @@ TEST(userDefinedUnits, definitions)
 
     EXPECT_EQ(to_string(clucks * kg), "clucks*kg");
 
+    EXPECT_EQ(to_string(clucks * V), "clucks*V");
+
+    EXPECT_EQ(to_string(clucks * mol), "mol*clucks");
+
+    EXPECT_EQ(to_string(clucks.pow(2) * kg), "kg*clucks^2");
+
+    EXPECT_EQ(to_string(clucks.pow(3) * kg), "kg*clucks^3");
+
+    EXPECT_EQ(to_string(precise::kg / clucks), "kg/clucks");
+
     EXPECT_EQ(to_string(precise::kg / clucks.pow(2)), "kg/clucks^2");
+
+    EXPECT_EQ(to_string(precise::kg / clucks.pow(3)), "kg/clucks^3");
+
+    EXPECT_EQ(
+        to_string(precise::micro * precise::g / sclucks.pow(3)),
+        "ug/sclucks^3");
+
+    EXPECT_EQ(
+        to_string(precise_unit(17, precise::kg) / sclucks), "17kg/sclucks");
+
+    EXPECT_EQ(
+        to_string(precise_unit(17, precise::kg) / sclucks.pow(2)),
+        "17kg/sclucks^2");
+
+    EXPECT_EQ(
+        to_string(precise_unit(17, precise::kg) / sclucks.pow(3)),
+        "17kg/sclucks^3");
 
     clearUserDefinedUnits();
 }
 
-TEST(userDefinedUnits, definitions_angstrom)
+TEST(userDefinedUnits, definitionsAngstrom)
 {
     addUserDefinedUnit("angstrom", precise::distance::angstrom);
 
@@ -925,6 +1064,20 @@ TEST(userDefinedUnits, definitionStringsInputOnly)
     /** input only should not result in any string result with the user defined
      * input*/
     EXPECT_EQ(str.find("idgit"), std::string::npos);
+    clearUserDefinedUnits();
+}
+
+TEST(userDefinedUnits, definitionStringsOutputOnly)
+{
+    precise_unit idgit(4.754, mol / m.pow(2));
+    addUserDefinedOutputUnit("idgit", idgit);
+
+    auto ipm = unit_from_string("idgit/min");
+    EXPECT_NE(ipm, idgit / min);
+
+    auto str = to_string(idgit / min);
+    /** output only should make this work*/
+    EXPECT_EQ(str, "idgit/min");
     clearUserDefinedUnits();
 }
 
@@ -1017,6 +1170,36 @@ TEST(userDefinedUnits, fileOp3)
     auto y5 = unit_from_string("q\"\"");
     EXPECT_EQ(y5, precise_unit(precise::W, 15.5));
     EXPECT_EQ(to_string(y5), "q\"\"");
+    clearUserDefinedUnits();
+}
+
+TEST(userDefinedUnits, fileOp4)
+{
+    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
+                                          "/test_unit_files/other_units4.txt");
+    EXPECT_TRUE(outputstr.empty());
+
+    constexpr precise_unit agV(12.2, precise::V);
+    constexpr precise_unit auV(14.2, precise::V);
+    constexpr precise_unit HgV(17.7, precise::V);
+    constexpr precise_unit FeV(17.7, precise::V);
+
+    auto y1 = unit_from_string("agV");
+
+    EXPECT_EQ(y1, agV);
+    EXPECT_EQ(to_string(y1), "agV");
+
+    auto y2 = unit_from_string("auV");
+    EXPECT_EQ(y2, auV);
+    EXPECT_EQ(to_string(y2), "auV");
+
+    auto y3 = unit_from_string("HgV");
+    EXPECT_EQ(y3, HgV);
+    EXPECT_EQ(to_string(y3), "FeV");
+
+    auto y4 = unit_from_string("FeV");
+    EXPECT_NE(y4, FeV);
+
     clearUserDefinedUnits();
 }
 
@@ -1184,7 +1367,7 @@ TEST(stringGeneration, test1)
     EXPECT_EQ(res, "157.1s^-3");
 }
 
-TEST(stringCleanup, test_zstrings)
+TEST(stringCleanup, testZstrings)
 {
     auto res = detail::testing::testCleanUpString("0.000000045lb", 0);
     EXPECT_EQ(res, "0.000000045lb");
@@ -1230,7 +1413,7 @@ TEST(stringCleanup, test_zstrings)
     EXPECT_EQ(res, ".0000000000000000000000004lb");
 }
 
-TEST(stringCleanup, test_9strings)
+TEST(stringCleanup, test9strings)
 {
     auto res = detail::testing::testCleanUpString("4.5999999999999999994lb", 0);
     EXPECT_EQ(res, "4.6lb");
@@ -1244,6 +1427,18 @@ TEST(stringCleanup, test_9strings)
     res = detail::testing::testCleanUpString(
         "10.7*999999999999999999999999lb", 0);
     EXPECT_EQ(res, "10.7*999999999999999999999999lb");
+}
+
+TEST(stringCleanup, withCommodities)
+{
+    auto res = detail::testing::testCleanUpString("m^2", commodities::aluminum);
+    EXPECT_EQ(res, "m{aluminum}^2");
+
+    res = detail::testing::testCleanUpString("m^-2", commodities::aluminum);
+    EXPECT_EQ(res, "{aluminum}*m^-2");
+
+    res = detail::testing::testCleanUpString("1/m^2", ~commodities::aluminum);
+    EXPECT_EQ(res, "1/m{aluminum}^2");
 }
 
 TEST(stringGeneration, addPowerString)
@@ -1391,7 +1586,7 @@ TEST(mapTests, testRoundTripFromUnit)
 
 // test combinations of 2 character units string and one character unit strings
 // for misinterpretation
-TEST(mapTests, two_by_one)
+TEST(mapTests, twoByOne)
 {
     const auto& map = detail::getUnitStringMap();
     std::vector<std::pair<std::string, precise_unit>> twocharunits;
@@ -1439,7 +1634,7 @@ TEST(mapTests, two_by_one)
 
 // test combinations of 2 character units string and another 2 character unit
 // strings for misinterpretation
-TEST(mapTests, two_by_two)
+TEST(mapTests, twoByTwo)
 {
     const auto& map = detail::getUnitStringMap();
     std::vector<std::pair<std::string, precise_unit>> twocharunits;
@@ -1480,7 +1675,7 @@ static std::ostream& operator<<(std::ostream& os, const units::precise_unit& u)
 
 }  // namespace units
 
-TEST(stream, test_outstream)
+TEST(stream, testOutstream)
 {
     std::stringstream sss;
 
@@ -1496,17 +1691,25 @@ TEST(extra, r20)
 {
     auto unit = r20_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
+    unit = r20_unit("E43");
+    EXPECT_FALSE(is_error(unit));
 }
 
 TEST(extra, dod)
 {
     auto unit = dod_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
+
+    unit = dod_unit("YD");
+    EXPECT_FALSE(is_error(unit));
 }
 
 TEST(extra, x12)
 {
     auto unit = x12_unit("NOT A VALID STRING");
     EXPECT_TRUE(is_error(unit));
+
+    unit = x12_unit("RB");
+    EXPECT_FALSE(is_error(unit));
 }
 #endif

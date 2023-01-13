@@ -1,0 +1,14 @@
+# test the quotes for inclusion
+agV=12.2 V
+
+"auV"==14.2 V
+
+#input only unit
+HgV=>17.7V
+
+# output only unit
+FeV<=17.7V
+
+
+
+

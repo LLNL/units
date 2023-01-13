@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -658,7 +658,7 @@ TEST(quickConvert, invalid)
     EXPECT_TRUE(std::isnan(quick_convert(u2, u1)));
 }
 
-TEST(quickConvert, const_constexpr)
+TEST(quickConvert, constConstexpr)
 {
     using namespace units;
     static_assert(
@@ -669,7 +669,7 @@ TEST(quickConvert, const_constexpr)
         "results of quick_convert 2 not correct");
 }
 
-TEST(nat_gas_units, psig)
+TEST(natCasUnits, psig)
 {
     using namespace units;
     double val = convert(15.2, precise::pressure::psi, precise::pressure::psig);
@@ -691,18 +691,31 @@ TEST(nat_gas_units, psig)
     EXPECT_NEAR(val, 20.0, 0.01);
 }
 
-TEST(invalid_conversions, invalid)
+TEST(invalidConversions, invalid)
 {
     using namespace units;
     double val = detail::extraValidConversions(2.3, precise::m, precise::lb);
     EXPECT_TRUE(std::isnan(val));
 }
 
-TEST(UnitDefinitions, mass_to_weight)
+TEST(UnitDefinitions, mass2weight)
 {
     using namespace units;
     EXPECT_NEAR(convert(1.0, N, kg), 0.101971621, test::tolerance);
     EXPECT_NEAR(convert(1.0, kg, N), constants::g0.value(), test::tolerance);
 
     EXPECT_NEAR(convert(1.0, precise::lbf, kg), 0.45359237, test::tolerance);
+}
+
+TEST(UnitDefinitions, unusualTemperature)
+{
+    using namespace units;
+    precise_unit kC = precise::kilo * precise::temperature::degC;
+    EXPECT_NEAR(convert(0.1, kC, precise::temperature::degF), 212.0, 0.1);
+    EXPECT_NEAR(convert(212, precise::temperature::degF, kC), 0.1, 0.0001);
+
+    EXPECT_NEAR(
+        convert(3.0, unit_from_string("gas mark"), precise::temperature::degF),
+        325.0,
+        1.0);
 }

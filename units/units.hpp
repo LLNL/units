@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -420,7 +420,8 @@ class measurement {
 
 /// The design requirement is for this to fit in the space of 2 doubles
 static_assert(
-    sizeof(measurement) <= 2 * detail::bitwidth::base_size + sizeof(double),
+    sizeof(measurement) <=
+        2 * detail::bitwidth::base_byte_count + sizeof(double),
     "Measurement class is too large");
 
 constexpr inline measurement operator*(double val, const unit& unit_base)
@@ -719,7 +720,7 @@ class fixed_measurement {
 /// size
 static_assert(
     sizeof(fixed_measurement) <=
-        sizeof(double) + 2 * detail::bitwidth::base_size,
+        sizeof(double) + 2 * detail::bitwidth::base_byte_count,
     "fixed measurement is too large");
 
 /** Class defining a measurement with tolerance (value+tolerance+unit) with a
@@ -1204,7 +1205,7 @@ class uncertain_measurement {
 /// base type
 static_assert(
     sizeof(uncertain_measurement) <=
-        sizeof(double) + 2 * detail::bitwidth::base_size,
+        sizeof(double) + 2 * detail::bitwidth::base_byte_count,
     "uncertain measurement is too large");
 
 /// Class using precise units and double precision
@@ -1374,10 +1375,11 @@ constexpr inline precise_measurement
     return {1.0 / val, unit_base};
 }
 
-/// Design requirement this must fit in space of 3 doubles
+/// Design requirement this must fit in space of 3 doubles if using default base
+/// size
 static_assert(
     sizeof(precise_measurement) <=
-        2 * sizeof(double) + 2 * detail::bitwidth::base_size,
+        2 * sizeof(double) + 2 * detail::bitwidth::base_byte_count,
     "precise measurement is too large");
 
 /// Class using precise units and double precision
@@ -1990,6 +1992,11 @@ UNITS_EXPORT void
 UNITS_EXPORT void
     addUserDefinedInputUnit(const std::string& name, const precise_unit& un);
 
+/// Add a custom unit to be included in from string generation but not used
+/// in string interpretation of units
+UNITS_EXPORT void
+    addUserDefinedOutputUnit(const std::string& name, const precise_unit& un);
+
 /// Clear all user defined units from memory
 UNITS_EXPORT void clearUserDefinedUnits();
 
@@ -1998,7 +2005,10 @@ UNITS_EXPORT void clearUserDefinedUnits();
 <definition> where definition is some string that can include spaces
 <user_string> is the name of the custom unit.
 <user_string> => <definition> defines a 1-way translation so input units are
-interpreted but the output units are not modified. # indicates a comment line
+interpreted but the output units are not modified.
+<user_string> <= <definition> defines a 1-way translation so output units are
+interpreted but the input unit interpretation is not modified. # indicates a
+comment line
 @param filename  the name of the file to load
 @return a string which will be empty if everything worked and an error message
 if it didn't
@@ -2153,6 +2163,40 @@ namespace constants {
             1.054571817e-34,
             precise::J* precise::s};
     }  // namespace atomic
+
+    /// constants with uncertainties attached
+    namespace uncertain {
+        constexpr uncertain_measurement mu{
+            measurement_cast(constants::mu),
+            0.5e-36};
+        constexpr uncertain_measurement me{
+            measurement_cast(constants::me),
+            2.8e-40};
+        constexpr uncertain_measurement mp{
+            measurement_cast(constants::mp),
+            0.51e-36};
+        constexpr uncertain_measurement mn{
+            measurement_cast(constants::mn),
+            0.95e-36};
+        constexpr uncertain_measurement alpha{
+            measurement_cast(constants::alpha),
+            1.1e-12};
+        constexpr uncertain_measurement G{
+            measurement_cast(constants::G),
+            1.5e-15};
+        constexpr uncertain_measurement Rinf{
+            measurement_cast(constants::Rinf),
+            0.000021};
+        constexpr uncertain_measurement eps0{
+            measurement_cast(constants::eps0),
+            1.3e-21};
+        constexpr uncertain_measurement mu0{
+            measurement_cast(constants::mu0),
+            0.19e-15};
+        constexpr uncertain_measurement H0{
+            measurement_cast(constants::H0),
+            1.7};
+    }  // namespace uncertain
 }  // namespace constants
 
 #ifdef ENABLE_UNIT_TESTING

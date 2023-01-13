@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -405,7 +405,7 @@ TEST(uncertainOps, testHeight)
 }
 
 #ifndef UNITS_HEADER_ONLY
-TEST(uncertainStrings, from_string)
+TEST(uncertainStrings, fromString)
 {
     auto um1 = uncertain_measurement_from_string("12+/-3 m");
     EXPECT_EQ(um1.value(), 12.0);
@@ -440,7 +440,7 @@ TEST(uncertainStrings, from_string)
     EXPECT_EQ(um6.value(), 0.0);
 }
 
-TEST(uncertainStrings, from_string_concise)
+TEST(uncertainStrings, fromStringConcise)
 {
     auto um5 = uncertain_measurement_from_string("4.563(4) m");
     EXPECT_FLOAT_EQ(um5.value(), 4.563F);
@@ -451,16 +451,39 @@ TEST(uncertainStrings, from_string_concise)
     EXPECT_FLOAT_EQ(um6.value(), 4.56323e-12F);
     EXPECT_EQ(um6.uncertainty(), 0.00045e-12F);
     EXPECT_EQ(um6.units(), kg);
+
+    auto um7 = uncertain_measurement_from_string("9.1093837015(28)x10-31 kg");
+    EXPECT_EQ(um7, constants::uncertain::me);
+    EXPECT_DOUBLE_EQ(um7.uncertainty(), constants::uncertain::me.uncertainty());
 }
-TEST(uncertainStrings, to_string)
+TEST(uncertainStrings, toString)
 {
     uncertain_measurement um1(10.0, 0.4, m);
     auto str = to_string(um1);
     EXPECT_EQ(str, "10+/-0.4 m");
 }
+
+TEST(uncertainStrings, toStringReduce)
+{
+    uncertain_measurement um1(10.897, 0.4, m);
+    auto str = to_string(um1);
+    EXPECT_EQ(str, "10.9+/-0.4 m");
+
+    uncertain_measurement um2(10.848, 0.04, m);
+    str = to_string(um2);
+    EXPECT_EQ(str, "10.85+/-0.04 m");
+
+    uncertain_measurement um3(10.848e-7, 0.041e-7, m);
+    str = to_string(um3);
+    EXPECT_EQ(str, "1.085e-06+/-4.1e-09 m");
+
+    uncertain_measurement um4(335.0, 100.0, m);
+    str = to_string(um4);
+    EXPECT_EQ(str, "3.4e+02+/-1e+02 m");
+}
 #endif
 
-TEST(uncertainOps, fractional_uncertainty)
+TEST(uncertainOps, fractionalUncertainty)
 {
     uncertain_measurement v0(10.0, 1.0, V);
 
@@ -523,11 +546,11 @@ TEST(uncertainOps, cast)
         std::is_same<decltype(measurement_cast(v0)), measurement>::value,
         "uncertain measurement cast not working properly");
 
-    auto v1 = new uncertain_measurement(10.0F, V);
+    auto* v1 = new uncertain_measurement(10.0F, V);
     EXPECT_TRUE(*v1 == 10.0 * V);
     delete v1;
 
-    auto v2 = new uncertain_measurement(10.0, V);
+    auto* v2 = new uncertain_measurement(10.0, V);
     EXPECT_TRUE(*v2 == 10.0 * V);
     delete v2;
 }

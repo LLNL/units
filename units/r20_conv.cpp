@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -3013,6 +3013,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 2088> r20_units = {{
 
 precise_unit r20_unit(const std::string& r20_string)
 {
+    // NOLINTNEXTLINE (readability-qualified-auto)
     auto ind = std::lower_bound(
         r20_units.begin(),
         r20_units.end(),

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -14,7 +14,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <ostream>
 #include <sstream>
 
-TEST(UDUNITS, accepted_name_symbols)
+TEST(UDUNITS, acceptedNameSymbols)
 {
     tinyxml2::XMLDocument doc;
     auto err = doc.LoadFile(TEST_FILE_FOLDER "/UDUNITS2/udunits2-accepted.xml");
@@ -70,7 +70,7 @@ TEST(UDUNITS, accepted_name_symbols)
     EXPECT_EQ(failConvert, 0);
 }
 
-TEST(UDUNITS, accepted_alias)
+TEST(UDUNITS, acceptedAlias)
 {
     tinyxml2::XMLDocument doc;
     auto err = doc.LoadFile(TEST_FILE_FOLDER "/UDUNITS2/udunits2-accepted.xml");
@@ -133,7 +133,7 @@ TEST(UDUNITS, accepted_alias)
     EXPECT_EQ(failConvert, 0);
 }
 
-TEST(UDUNITS, derived_name_symbols)
+TEST(UDUNITS, derivedNameSymbols)
 {
     tinyxml2::XMLDocument doc;
     auto err = doc.LoadFile(TEST_FILE_FOLDER "/UDUNITS2/udunits2-derived.xml");
@@ -194,7 +194,7 @@ TEST(UDUNITS, derived_name_symbols)
     EXPECT_EQ(failConvert, 0);
 }
 
-TEST(UDUNITS, derived_alias)
+TEST(UDUNITS, derivedAlias)
 {
     tinyxml2::XMLDocument doc;
     auto err = doc.LoadFile(TEST_FILE_FOLDER "/UDUNITS2/udunits2-derived.xml");
@@ -259,7 +259,7 @@ TEST(UDUNITS, derived_alias)
     EXPECT_EQ(failConvert, 0);
 }
 
-TEST(UDUNITS, common_alias)
+TEST(UDUNITS, commonAlias)
 {
     tinyxml2::XMLDocument doc;
     auto err = doc.LoadFile(TEST_FILE_FOLDER "/UDUNITS2/udunits2-common.xml");

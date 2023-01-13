@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -11,7 +11,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <limits>
 using namespace units;
 
-TEST(all_units, all)
+TEST(allUnits, all)
 {
     // this type difference is on purpose
     for (std::uint64_t ii = 0; ii <= std::numeric_limits<std::uint32_t>::max();

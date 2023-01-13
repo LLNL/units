@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -72,7 +72,7 @@ TEST(leadingNumbers, power)
     EXPECT_GE(index, 7U);
 }
 
-TEST(leadingNumbers, parenthesis_single)
+TEST(leadingNumbers, parenthesisSingle)
 {
     size_t index{0U};
     auto res = testLeadingNumber("(4.3)", index);
@@ -93,7 +93,7 @@ TEST(leadingNumbers, parenthesis_single)
     EXPECT_EQ(res, 1.2);
 }
 
-TEST(leadingNumbers, power_cascade)
+TEST(leadingNumbers, powerCascade)
 {
     size_t index{0U};
     auto res = testLeadingNumber("2^2^2", index);
@@ -109,7 +109,7 @@ TEST(leadingNumbers, power_cascade)
     EXPECT_EQ(res, pow(2.0, 0.25));
 }
 
-TEST(leadingNumbers, parenthesis_dual)
+TEST(leadingNumbers, parenthesisDual)
 {
     size_t index{0U};
     auto res = testLeadingNumber("((2))", index);
@@ -178,7 +178,7 @@ TEST(leadingNumbers, strange)
     EXPECT_EQ(res, 56.0);
 }
 
-TEST(leadingNumbers, edge_cases)
+TEST(leadingNumbers, edgeCases)
 {
     size_t index = 0;
     auto res = testLeadingNumber("67.2*45.6*0.0*19.7", index);
@@ -192,7 +192,7 @@ TEST(leadingNumbers, edge_cases)
     EXPECT_EQ(res, 0.0);
 }
 
-TEST(numericalwords, simple)
+TEST(numericalWords, simple)
 {
     size_t index{0U};
     auto res = testNumericalWords("hundredm", index);
@@ -214,7 +214,7 @@ TEST(numericalwords, simple)
     EXPECT_EQ(index, 8U);
 }
 
-TEST(numericalwords, compound)
+TEST(numericalWords, compound)
 {
     size_t index = 0U;
     std::string tword = "hundredthousandm";
@@ -231,7 +231,7 @@ TEST(numericalwords, compound)
     EXPECT_EQ(res, 200400);
 }
 
-TEST(numericalwords, below_hundred)
+TEST(numericalwords, belowHundred)
 {
     std::vector<std::string> ones{
         "",
@@ -291,7 +291,7 @@ TEST(numericalwords, below_hundred)
     EXPECT_DOUBLE_EQ(testNumericalWords("nineteen", index), 19.0);
 }
 
-TEST(numericalwords, spot_checks)
+TEST(numericalwords, spotChecks)
 {
     size_t index = 0;
     auto res = testNumericalWords("twohundredtwentyseven", index);

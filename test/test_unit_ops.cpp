@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -14,7 +14,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 using namespace units;
 
-TEST(unit_base, maxNeg)
+TEST(unitOps, maxNeg)
 {
     EXPECT_EQ(units::detail::maxNeg(4), -8);
     EXPECT_EQ(units::detail::maxNeg(3), -4);
@@ -113,7 +113,7 @@ TEST(unitOps, root)
     EXPECT_EQ(root(unit(-4.5, m), 2), error);
 }
 
-TEST(unitOps, root_pow1)
+TEST(unitOps, rootPow1)
 {
     EXPECT_EQ(root(count, 1), count);
     EXPECT_EQ(root(cd, 1), cd);
@@ -126,7 +126,7 @@ TEST(unitOps, root_pow1)
     EXPECT_EQ(root(currency, -1), currency.inv());
 }
 
-TEST(unitOps, wide_roots)
+TEST(unitOps, wideRoots)
 {
     if (units::detail::bitwidth::base_size > 4) {
         EXPECT_EQ(sqrt(mol * mol), mol);
@@ -380,7 +380,7 @@ TEST(preciseUnitOps, Hash)
     EXPECT_EQ(h1, h2);
 }
 
-TEST(preciseUnitOps, Hash_covers_full_unit_data_width)
+TEST(preciseUnitOps, HashCoversFullUnitDataWidth)
 {
     auto h1 = std::hash<precise_unit>()(precise::m);
     auto h2 = std::hash<precise_unit>()(precise::m * precise::count);
@@ -418,7 +418,7 @@ TEST(preciseUnitOps, Power)
 }
 
 #ifndef UNITS_HEADER_ONLY
-TEST(preciseUnitOps, root)
+TEST(preciseUnitOps, rootMeter)
 {
     auto m1 = precise::m.pow(1);
     EXPECT_EQ(precise::m, root(m1, 1));
@@ -429,7 +429,10 @@ TEST(preciseUnitOps, root)
     auto m4 = precise::m.pow(4);
     EXPECT_EQ(precise::m * precise::m, root(m4, 2));
     EXPECT_EQ(precise::m, root(m4, 4));
+}
 
+TEST(preciseUnitOps, rootFoot)
+{
     EXPECT_EQ(root(precise::ft, 0), precise::one);
     auto ft1 = precise::ft.pow(1);
     EXPECT_EQ(precise::ft, root(ft1, 1));
@@ -438,6 +441,10 @@ TEST(preciseUnitOps, root)
     auto ft2 = precise::ft.pow(2);
     EXPECT_EQ(precise::ft, root(ft2, 2));
     EXPECT_EQ(precise::ft.inv(), root(ft2, -2));
+}
+
+TEST(preciseUnitOps, rootFoot345)
+{
     auto ft3 = precise::ft.pow(3);
     EXPECT_EQ(precise::ft, root(ft3, 3));
     EXPECT_EQ(precise::ft.inv(), root(ft3, -3));
@@ -450,10 +457,14 @@ TEST(preciseUnitOps, root)
     EXPECT_EQ(precise::ft, root(ft5, 5));
     EXPECT_EQ(precise::ft.inv(), root(ft5, -5));
 
-    EXPECT_TRUE(is_error(root(precise_unit(-4.5, m), 2)));
     if (units::detail::bitwidth::base_size == 8) {
         EXPECT_EQ(precise::ft, root(precise::ft.pow(25), 25));
     }
+}
+
+TEST(preciseUnitOps, rootError)
+{
+    EXPECT_TRUE(is_error(root(precise_unit(-4.5, m), 2)));
 }
 #endif
 
@@ -667,7 +678,7 @@ TEST(preciseunitOps, inequality1)
     EXPECT_EQ(eqFailNeg, 0);
 }
 
-TEST(preciseunitOps, subnormal_test)
+TEST(preciseunitOps, subnormal)
 {
     precise_unit u1(2.3456e-306, precise::m);
     precise_unit u2(2.3457e-306, precise::m);
@@ -728,38 +739,32 @@ TEST(customUnits, definition)
     EXPECT_FALSE(cunit1 == cunit2);
 }
 
-TEST(customUnits, testAllInv)
+TEST(customUnits, testCustomInv)
 {
     for (std::uint16_t ii = 0; ii < 1024; ++ii) {
         auto cunit1 = precise::generate_custom_unit(ii);
-        EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()));
+        EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()))
+            << "Error with custom unit detection " << ii;
         EXPECT_FALSE(
             precise::custom::is_custom_unit_inverted(cunit1.base_units()));
-
         EXPECT_FALSE(
             precise::custom::is_custom_count_unit(cunit1.base_units()));
+
         auto cunit2 = cunit1.inv();
-        EXPECT_TRUE(precise::custom::is_custom_unit(cunit2.base_units()));
+        EXPECT_TRUE(precise::custom::is_custom_unit(cunit2.base_units()))
+            << "Error with custom unit detection of inverse " << ii;
         EXPECT_TRUE(
             precise::custom::is_custom_unit_inverted(cunit2.base_units()));
         EXPECT_FALSE(
             precise::custom::is_custom_count_unit(cunit2.base_units()));
+
         auto cunit3 = cunit2.inv();
-        EXPECT_TRUE(precise::custom::is_custom_unit(cunit3.base_units()));
-        EXPECT_FALSE(
-            precise::custom::is_custom_unit_inverted(cunit3.base_units()));
 
         EXPECT_FALSE(cunit1 == cunit2)
             << "Error with false comparison 1 index " << ii;
         EXPECT_FALSE(cunit2 == cunit3)
             << "Error with false comparison 2 index " << ii;
         EXPECT_TRUE(cunit1 == cunit3) << "Error with inversion " << ii;
-        EXPECT_TRUE(precise::custom::is_custom_unit(cunit1.base_units()))
-            << "Error with custom unit detection " << ii;
-        EXPECT_TRUE(precise::custom::is_custom_unit(cunit2.base_units()))
-            << "Error with custom unit detection of inverse " << ii;
-        EXPECT_TRUE(precise::custom::is_custom_unit(cunit3.base_units()))
-            << "Error with custom unit detection inv inv" << ii;
     }
 }
 
@@ -1038,16 +1043,11 @@ TEST(customCountUnits, uniqueness)
     }
 }
 
-TEST(UnitUtilTest, times_overflows)
+TEST(UnitUtilTest, timesOverflowsEdge)
 {
     const auto m1 = m;
-    const auto m3 = m * m * m;
-    const auto m4 = m * m * m * m;
-    const auto m5 = m * m * m * m * m;
     const auto m7 = m * m * m * m * m * m * m;
     const auto im8 = (one / m7) / m;
-    const auto im5 = one / m5;
-    const auto im4 = one / m4;
     const auto im1 = one / m1;
     // At lower or upper bound:
     // unchanged exponent
@@ -1072,6 +1072,15 @@ TEST(UnitUtilTest, times_overflows)
         EXPECT_FALSE(times_overflows(im8, im1));
         EXPECT_FALSE(times_overflows(im1, im8));
     }
+}
+
+TEST(UnitUtilTest, timesOverflowsMid)
+{
+    const auto m3 = m * m * m;
+    const auto m4 = m * m * m * m;
+    const auto m5 = m * m * m * m * m;
+    const auto im5 = one / m5;
+    const auto im4 = one / m4;
 
     // Start far from bounds:
     EXPECT_FALSE(times_overflows(m3, m4));
@@ -1091,16 +1100,12 @@ TEST(UnitUtilTest, times_overflows)
     }
 }
 
-TEST(UnitUtilTest, divides_overflows)
+TEST(UnitUtilTest, dividesOverflowsEdge)
 {
     const auto m1 = m;
-    const auto m3 = m * m * m;
-    const auto m4 = m * m * m * m;
-    const auto m5 = m * m * m * m * m;
     const auto m7 = m * m * m * m * m * m * m;
     const auto im8 = (one / m7) / m;
     const auto im7 = one / m7;
-    const auto im4 = one / m4;
     const auto im1 = one / m1;
     // At lower or upper bound:
     // unchanged exponent
@@ -1116,6 +1121,15 @@ TEST(UnitUtilTest, divides_overflows)
         EXPECT_TRUE(divides_overflows(im8, m1));
         EXPECT_TRUE(divides_overflows(m1, im8));
     }
+}
+
+TEST(UnitUtilTest, dividesOverflows)
+{
+    const auto m3 = m * m * m;
+    const auto m4 = m * m * m * m;
+    const auto m5 = m * m * m * m * m;
+
+    const auto im4 = one / m4;
 
     // Start far from bounds:
     EXPECT_FALSE(divides_overflows(m3, im4));
@@ -1128,7 +1142,7 @@ TEST(UnitUtilTest, divides_overflows)
     }
 }
 
-TEST(UnitUtilTest, inv_overflows)
+TEST(UnitUtilTest, invOverflows)
 {
     EXPECT_FALSE(inv_overflows(m));
     const auto inv_mol = one / mol;
@@ -1139,7 +1153,7 @@ TEST(UnitUtilTest, inv_overflows)
     }
 }
 
-TEST(UnitUtilTest, pow_overflows)
+TEST(UnitUtilTest, powOverflows)
 {
     EXPECT_FALSE(pow_overflows(m, -1));
     EXPECT_FALSE(pow_overflows(m, 0));

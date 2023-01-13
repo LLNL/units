@@ -1,0 +1,30 @@
+
+Angles:arc minutes, arc seconds, degrees, radians, revolutions, turns
+Area:acres, ares, barns, cricket pitches, dunams, football fields, football pitches, hectares, pings, Planck areas, sections, sqcm, sqkm, sqm, sqmm, square centimeter, square feet, square inch, square kilometer, square meter, square millimeter, square yards, stokes, survey townships
+Data transfer rates:bits per second (bps), bytes per second (Bps)
+Electric capacitance:farads
+Electric charge:ampere hour, coulombs, Faradays
+Electric conductance:mhos, siemens
+Electric current:amperes, biots
+Energy:barrels of oil equivalent, British thermal units, BTU, calories, electron volts, ergs, foot-pounds, grams of TNT, joules, kilocalories, kilograms of TNT, megatons of TNT, megawatt hour, mwhr, therm, tons of tnt, watt hours
+Flow rate:CFM, CFS, cubic foot per minute, cubic foot per second, liter per minute, liter per second, LPM, LPS
+Force:dynes, kilograms-force, newtons, pounds-force
+Frequency:GHz, gigahertz, hertz, Hz, KHz, kilohertz, megahertz, MHz
+Fuel consumption:kilometers per liter, liters per 100 kilometers, miles per gallon
+Inductance:henries
+Information size:bits, nybbles, bytes, metric prefixes: kilobytes (kB), megabytes (MB), binary prefixes: kibibytes (KiB), mebibytes (MiB)
+Length:ångström, Astronomical Units, ATA picas, ATA points, chains, Ciceros, cubits, Didot points, english ells, fathoms, feet and inches, flemish ells, football fields, football pitches, french ells, furlongs, Half Ironman Triathlon bikes, Half Ironman Triathlon runs, Half Ironman Triathlon swims, Half Ironman Triathlons, hands, imerial cables, IN picas, IN Points, inches, indoor track lengths, international cables, Ironman Triathlon bikes, Ironman Triathlon runs, Ironman Triathlon swims, Ironman Triathlons, itinerary stadion, kilometers, Kpc, length of a cricket pitch, light days, light hours, light minutes, light seconds, light years, marathons, meters, metres, metres, microns, miles, Mpc, nails, nautical leagues, nautical miles, Olympic Pools, Olympic stadion, Olympic Triathlon bikes, Olympic Triathlon runs, Olympic Triathlon swims, Olympic Triathlons, outdoor track lengths, Parsecs, Planck Lengths, PostScript picas, PostScript points, Rack units, rods, scottish ells, Short Course Pools, Short Course Pools, smoots, spans, Sprint Triathlon bikes, Sprint Triathlon runs, Sprint Triathlon swims, Sprint Triathlons, TeX picas, TeX points, thou, Truchet picas, Truchet points, US cables, yards
+Light intensity and luminous intensity	candelas, footcandles, lamberts, lumens, lux
+Magnetic flux and magnetic flux density	gauss, maxwells, teslas, webers
+Misc:dioptres, emus, katal, moles
+Power:British horsepower, donkeypower, HP, kilowatt, kw, Kw, metric horsepower, mw, watts
+Pressure:atmospheres, barries, bars, inches of mercury, inches of water, mb, millibars, millimeters of mercury, pascals, poises, pounds per square inch
+Radiation dosage:grays, sieverts, rads, rems
+Radioactivity:becquerels, curies, rutherfords
+Speed:kilometers per hour, KPH, meters per second, miles per hour, MPH, nautical miles per hour
+Temperature:C, Celsius, F, Fahrenheit, K, Kelvin, Rankine
+Time:centuries, days, decades, fortnights, halakim, hours, leap years, lunar cycles, lustrum, millennium, minutes, months, seconds, sidereal days, sidereal years, weeks, years
+Unitless (numeric):baker's dozens, dozens, googols, great gross, gross, percent, scores
+Voltage:volts
+Volume:acre-foot, barrels of oil, beer barrels, beer firkins, beer hogsheads, beer kilderkins, board foot, board foot, bushels, cc, ccf, ci, cords, cubic centimeter, cubic centimetre, cubic feet, cubic inch, cubic kilometer, cubic meter, cubic millimeter, cups, English tierces, fluid barrels, fluid drams, fluid ounce, fluid oz., full kegs, gal., gallons, gills, Gross Register Tonnes, half barrels, hogsheads, Imperial beer barrels, Imperial bushel, Imperial bushels, Imperial dessertspoons, Imperial fluid drams, Imperial fluid ounce, Imperial fluid ounces, Imperial gallons, Imperial gills, Imperial minims, Imperial pecks, Imperial pints, Imperial quarts, Imperial tablespoons, Imperial teaspoons, km3, liters, litres, m3, minims, mm3, pecks, pints, puncheons, qt, quarter barrels, quarts, register tonne, shots, sixth barrels, sticks of butter, tablespoons, tbsp, teaspoons, tierces, tsp, wine firkins, wine rundlets
+Weight:amu, atomic mass units, Blintzes, butter firkins, carats, drams, earth masses, English stones, Farshimmelt Blintzes, funt, Furshlugginer Blintzes, grains, grams, imperial tons, jupiter masses, k, kilograms, lunar masses, metric tonnes, micrograms, ounces, pennyweights, pood, pounds, short tons, slugs, soap firkins, solar masses, stones, troy drams, troy ounces

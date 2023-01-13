@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -119,6 +119,8 @@ namespace commodities {
 
         // emmissions
 
+        // food
+        capsaicin = 623452,
     };
 }  // namespace commodities
 
@@ -183,6 +185,8 @@ namespace precise {
         nan(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
             constants::invalid_conversion);
     // SI prefixes as units
+    constexpr precise_unit deci(1e-1, one);
+    constexpr precise_unit centi(1e-2, one);
     constexpr precise_unit milli(1e-3, one);
     constexpr precise_unit micro(1e-6, one);
     constexpr precise_unit nano(1e-9, one);
@@ -191,7 +195,10 @@ namespace precise {
     constexpr precise_unit atto(1e-18, one);
     constexpr precise_unit zepto(1e-21, one);
     constexpr precise_unit yocto(1e-24, one);
+    constexpr precise_unit ronto(1e-27, one);
+    constexpr precise_unit quecto(1e-30, one);
 
+    constexpr precise_unit deka(10, one);
     constexpr precise_unit hecto(1e2, one);
     constexpr precise_unit kilo(1e3, one);
     constexpr precise_unit mega(1e6, one);
@@ -201,6 +208,8 @@ namespace precise {
     constexpr precise_unit exa(1e18, one);
     constexpr precise_unit zetta(1e21, one);
     constexpr precise_unit yotta(1e24, one);
+    constexpr precise_unit ronna(1e27, one);
+    constexpr precise_unit quetta(1e30, one);
 
     constexpr precise_unit kibi(1024, one);
     constexpr precise_unit mebi = kibi * kibi;
@@ -210,6 +219,8 @@ namespace precise {
     constexpr precise_unit exbi = pebi * kibi;
     constexpr precise_unit zebi = exbi * kibi;
     constexpr precise_unit yobi = zebi * kibi;
+    constexpr precise_unit robi = yobi * kibi;
+    constexpr precise_unit qubi = robi * kibi;
 
     // Derived SI units:
     constexpr precise_unit
@@ -248,8 +259,10 @@ namespace precise {
         becquerel(detail::unit_data(0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0));
     constexpr precise_unit
         gray(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    // seivert includes relative biological factor so it marked by the eflag to
+    // discriminate from gray
     constexpr precise_unit
-        sievert(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+        sievert(detail::unit_data(2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0));
     constexpr precise_unit
         katal(detail::unit_data(0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0));
 
@@ -757,16 +770,16 @@ namespace precise {
 
     /// Units related to pressure
     namespace pressure {
+        constexpr precise_unit atm(101325.0, Pa);
         constexpr precise_unit psi{6894.757293168, Pa};
         constexpr precise_unit psig = psi * eflag;
         constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};
-        constexpr precise_unit torr{
-            101325.0 / 760.0,
-            Pa* iflag};  // this is really close to mmHg
+        constexpr precise_unit torr{1.0 / 760.0, atm* iflag};  // this is really
+                                                               // close to mmHg
         constexpr precise_unit inH2O{248.843004, Pa};  // at 60 degF
         constexpr precise_unit mmH2O{1.0 / 25.4, inH2O};  // at 60 degF
-        constexpr precise_unit atm(101325.0, Pa);
+
         constexpr precise_unit att = gm::at;  //!< technical atmosphere same as
                                               //!< gravitational metric system
     }  // namespace pressure
@@ -827,17 +840,17 @@ namespace precise {
 
         constexpr precise_unit btu_th{1054.350, J};  // thermochemical btu
         constexpr precise_unit btu_39{1059.67, J};
-        constexpr precise_unit btu_59{1054.80, J};
+        constexpr precise_unit btu_59{1054.804, J};
         constexpr precise_unit btu_60{1054.68, J};
         constexpr precise_unit btu_mean{1055.87, J};
-        constexpr precise_unit btu_it{1055.05585, J};  // international table
-                                                       // btu
+        constexpr precise_unit btu_it{1055.05585262, J};  // international table
+                                                          // btu
         constexpr precise_unit btu_iso{1055.06, J};  // rounded btu_it
-        constexpr precise_unit quad(1055.05585262, J);
+        constexpr precise_unit quad(1e15, btu_it);
         constexpr precise_unit tonc(12000.0, btu_th / h);
 
         constexpr precise_unit therm_us(100000.0, btu_59);
-        constexpr precise_unit therm_br(105505585.257, J);
+        constexpr precise_unit therm_br(105505585.257348, J);
         constexpr precise_unit therm_ec(100000, btu_iso);
         constexpr precise_unit EER(btu_th / W / h);  // Energy efficiency ratio
         constexpr precise_unit SG(lb / ft.pow(3) * pu);  // Specific gravity
@@ -869,12 +882,13 @@ namespace precise {
 
     /// Some support for custom units
     namespace custom {
-        constexpr int bShift(std::uint16_t val, std::uint32_t bit)
+        constexpr auto bShift(std::uint16_t val, std::uint32_t bit) -> int
         {
             return ((static_cast<std::uint32_t>(val >> bit) & 0x1U) > 0U) ? 1 :
                                                                             0;
         }
-        constexpr unsigned int bShiftu(std::uint16_t val, std::uint32_t bit)
+        constexpr auto bShiftu(std::uint16_t val, std::uint32_t bit)
+            -> unsigned int
         {
             return ((static_cast<std::uint32_t>(val >> bit) & 0x1U) > 0U) ? 1U :
                                                                             0U;
@@ -1630,11 +1644,21 @@ namespace detail {
     template<typename UX, typename UX2>
     double convertTemperature(double val, const UX& start, const UX2& result)
     {
+        static constexpr std::array<double, 30> biasTable{
+            0.0, 0.0, 0.0, 0.0, 0.0,   0.0,   0.0, 0.0,     0.0, 0.0,
+            0.0, 0.0, 0.0, 0.0, 121.0, 0.0,   0.0, 0.0,     0.0, 0.0,
+            0.0, 0.0, 0.0, 0.0, 0.0,   150.0, 0.0, 37.7778, 0.0, 0.0};
+
         if (is_temperature(start)) {
             if (units::degF == unit_cast(start)) {
                 val = (val - 32.0) * 5.0 / 9.0;
             } else if (start.multiplier() != 1.0) {
-                val = val * start.multiplier();
+                if (start.multiplier() < 29.5 && start.multiplier() >= 0.0) {
+                    val = val * start.multiplier() +
+                        biasTable[static_cast<int>(start.multiplier())];
+                } else {
+                    val = val * start.multiplier();
+                }
             }
             val += 273.15;
             // convert to K
@@ -1647,7 +1671,13 @@ namespace detail {
                 val *= 9.0 / 5.0;
                 val += 32.0;
             } else if (result.multiplier() != 1.0) {
-                val = val / result.multiplier();
+                if (result.multiplier() < 25.5 && result.multiplier() >= 0.0) {
+                    val = (val -
+                           biasTable[static_cast<int>(start.multiplier())]) /
+                        result.multiplier();
+                } else {
+                    val = val / result.multiplier();
+                }
             }
             return val;
         }

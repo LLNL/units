@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -167,6 +167,7 @@ namespace commodities {
         {Hahnemann, "Hahnemann"},
         {Korsakov, "Korsakov"},
         {creatinine, "creatinine"},
+        {capsaicin, "capsaicin"},
         {protein, "protein"},
 
         {pixel, "pixel"},

@@ -1,4 +1,4 @@
-name: Tests
+name: CMAKE tests
 on:
   push:
     branches:
@@ -11,7 +11,7 @@ on:
 jobs:
   cmake-config:
     name: CMake config check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
 
@@ -127,9 +127,15 @@ jobs:
       with:
         cmake-version: "3.22"
       if: success() || failure()
-      
+
     - name: Check CMake 3.23 (full)
       uses: ./.github/actions/quick_cmake
       with:
         cmake-version: "3.23"
+      if: success() || failure()
+
+    - name: Check CMake 3.24 (full)
+      uses: ./.github/actions/quick_cmake
+      with:
+        cmake-version: "3.24"
       if: success() || failure()

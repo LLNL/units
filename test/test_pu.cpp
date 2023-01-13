@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2022,
+Copyright (c) 2019-2023,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
@@ -22,7 +22,7 @@ TEST(PU, Ops)
     EXPECT_EQ(puV * puA, pu * W);
     EXPECT_EQ(puV / puA, puOhm);
 }
-TEST(PU, base_generation)
+TEST(PU, baseGeneration)
 {
     EXPECT_EQ(puconversion::generate_base(W.base_units(), 100.0, 34.7), 100.0);
     EXPECT_TRUE(
@@ -56,7 +56,7 @@ TEST(PU, Example1)
         0.000001);
 }
 
-TEST(PU, two_base_values)
+TEST(PU, twoBaseValues)
 {
     EXPECT_EQ(convert(1.47, ohm, defunit, 24.7, 92.3), 1.47);
     EXPECT_NEAR(convert(1.0, in, cm, 5.7, 19.36), 2.54, test::tolerance);
@@ -71,7 +71,7 @@ TEST(PU, two_base_values)
     EXPECT_NEAR(convert(0.1, pu * m, pu * mm, 1.0, 10), 10.0, 0.00001);
 }
 
-TEST(PU, Conversions_just_pu)
+TEST(PU, ConversionsJustPu)
 {
     EXPECT_EQ(convert(1.0, pu, ohm, 5.0), 5.0);
     EXPECT_NEAR(
@@ -81,7 +81,7 @@ TEST(PU, Conversions_just_pu)
     EXPECT_NEAR(convert(3.0, pu, MW, 100, 25000), 300, test::tolerance * 300);
 }
 
-TEST(PU, pu_base_assumptions)
+TEST(PU, puBaseAssumptions)
 {
     EXPECT_NEAR(convert(1.0, puHz, Hz), 60.0, 0.0001);
     EXPECT_NEAR(convert(60.05, Hz, puHz), 60.05 / 60.0, 0.0001);

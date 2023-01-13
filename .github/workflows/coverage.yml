@@ -1,0 +1,65 @@
+name: Coverage
+on:
+  push:
+    branches:
+      - main
+      - v*
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        std: ["11", "14", "17", "20"]
+        unitBase: ["uint64_t", "uint32_t"]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get LCov
+        run: |
+          wget https://github.com/linux-test-project/lcov/releases/download/v1.16/lcov-1.16.tar.gz
+          tar -xzf lcov-1.16.tar.gz
+          cd lcov-1.16
+          sudo make install
+
+      - name: Configure
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_CXX_STANDARD=${{matrix.std}} \
+            -DUNITS_ENABLE_TESTS=ON \
+            -DUNITS_BASE_TYPE=${{matrix.unitBase}} \
+            -DCMAKE_BUILD_TYPE=Coverage
+
+      - name: Build
+        run: cmake --build build -j4
+
+      - name: Test
+        run: |
+          cd build
+          ctest --output-on-failure
+
+      - name: Prepare coverage
+        run: |
+          lcov --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info '*/test/*' '*/examples/*' '*gtest*' '*gmock*' '/usr/*'  '*/converter/*' '*/FuzzTargets/*' '*/webserver/*' --output-file coverage.info
+          lcov --list coverage.info
+        working-directory: build
+
+      - uses: codecov/codecov-action@v3
+        with:
+          files: build/coverage.info
+          fail_ci_if_error: true
+          functionalities: fixes
+
+
+
+
+

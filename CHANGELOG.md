@@ -5,17 +5,38 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.7.0][] ~ 2022-09-16
+## [0.7.0][] - 2022-12-17
 
-Major update to commodities, and addition of unit_math operations to match standard library operations
+Added several math operations for units, restored coverage to 100%, added uncertain constants and cleaner string generation and interpretation around the use of '.' and uncertain measurements, and added support for new SI prefixes.
 
 ### Changed
 
+- Changed the interpretation of '.' in some unit strings to allow more consistent use as abbreviation [#250][]
+- Made the string generation for uncertain measurements obey rules for significant figures more closely [#249][]
+
 ### Fixed
+
+- Get code coverage back to 100% [#256][],[#254][], [#253][], [#252][]
+- Fixed hard coded namespaces in unit_conversion maps [#241][]
+- Fixed a bug found by fuzzing [#240][]
 
 ### Added
 
-- math operations from the standard library including: trunc, ceil, floor, round, fmod, sin, cos, tan.
+- math operations from the standard library including: trunc, ceil, floor, round, fmod, sin, cos, tan. [#235][]
+- added support for new SI prefixes: rotta, quetta, ronto, quecto. [#255][]
+- Added a number of uncertain constants [#248][]
+
+[#235]: https://github.com/LLNL/units/pull/235
+[#240]: https://github.com/LLNL/units/pull/240
+[#241]: https://github.com/LLNL/units/pull/241
+[#248]: https://github.com/LLNL/units/pull/248
+[#249]: https://github.com/LLNL/units/pull/249
+[#250]: https://github.com/LLNL/units/pull/250
+[#251]: https://github.com/LLNL/units/pull/251
+[#252]: https://github.com/LLNL/units/pull/252
+[#253]: https://github.com/LLNL/units/pull/253
+[#254]: https://github.com/LLNL/units/pull/254
+[#255]: https://github.com/LLNL/units/pull/255
 
 ## [0.6.0][] - 2022-05-16
 
