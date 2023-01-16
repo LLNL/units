@@ -13,7 +13,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 namespace UNITS_NAMESPACE {
 
-UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 110>
+UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 111>
     defined_unit_names_si{
         {{m, "m"},
          {m * m, "m^2"},
@@ -116,7 +116,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 110>
          {unit_cast(precise::pressure::atm), "atm"},
          {unit_cast(precise::pressure::mmHg), "mmHg"},
          {unit_cast(precise::pressure::mmH2O), "mmH2O"},
-
+         {unit_cast(precise::laboratory::arbU), "arb. unit"},
          {unit_cast(precise::laboratory::IU), "[IU]"},
          {kWh, "kWh"},
          {MWh, "MWh"},

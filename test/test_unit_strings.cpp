@@ -84,6 +84,11 @@ TEST(unitStrings, si)
     EXPECT_EQ(to_string(ft * lb), "ft*lb");
 }
 
+TEST(unitStrings, laboratoryArbUnits)
+{
+    EXPECT_EQ(to_string(precise::laboratory::arbU), "arb. unit");
+}
+
 TEST(unitStrings, numerical)
 {
     auto odd = unit(0.125, m);
