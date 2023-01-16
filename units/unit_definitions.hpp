@@ -654,14 +654,17 @@ namespace precise {
 
     /// Typographic units for typesetting or printing
     namespace typographic {
+        //definitions from https://www.oberonplace.com/dtp/fonts/point.htm
         namespace american {
             constexpr precise_unit line{1.0 / 12.0, i::inch};
-            constexpr precise_unit point{1.0 / 6.0, line};
-            constexpr precise_unit pica{12.0, point};
+            constexpr precise_unit pica{0.1660, i::inch};
+            constexpr precise_unit point{1.0 / 12.0, pica};
             constexpr precise_unit twip{1.0 / 20.0, point};
 
         }  // namespace american
+
         namespace printers {
+            //also ATA
             constexpr precise_unit point{0.013837, i::inch};
             constexpr precise_unit pica{12.0, point};
         }  // namespace printers
@@ -682,6 +685,21 @@ namespace precise {
             constexpr precise_unit quart{0.25, mm};
 
         }  // namespace metric
+
+        namespace IN {
+            // l'Imprimerie nationale, IN
+            constexpr precise_unit point{0.4, mm};
+        }  // namespace IN
+
+        namespace tex {
+            constexpr precise_unit point{1.0/72.27, i::inch};
+            constexpr precise_unit pica{12.0, point};
+        }
+
+        namespace postscript {
+            constexpr precise_unit point{1.0/72.0,i::inch};
+            constexpr precise_unit pica{12.0, point};
+        }
 
     }  // namespace typographic
 

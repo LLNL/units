@@ -1448,7 +1448,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1032>
+    1050>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candlepower", precise::other::candle},
@@ -1527,6 +1527,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"mile_us", precise::us::mile},
          {"lea_us", precise_unit(3.0, precise::us::mile)},
          {"league_us", precise_unit(3.0, precise::us::mile)},
+        
          {"mil_us", precise::us::mil},
          {"[MIL_US]", precise::us::mil},
          {"inch", precise::in},
@@ -1662,6 +1663,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"nmi_br", precise::imp::nautical_mile},
          {"[NMI_BR]", precise::imp::nautical_mile},
          {"nauticalmile_br", precise::imp::nautical_mile},
+         {"cable_br",precise_unit(0.1,precise::imp::nautical_mile)},
          {"nauticalleague_br", precise_unit(3.0, precise::imp::nautical_mile)},
          {"kn_br", precise::imp::nautical_mile / precise::hr},
          {"[KN_BR]", precise::imp::nautical_mile / precise::hr},
@@ -1676,6 +1678,13 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"cubit", precise::distance::cubit},
          {"cubit_br", precise::distance::cubit},
          {"cubit(UK)", precise::distance::cubit},
+         {"cubit_br", precise::distance::cubit},
+         {"ell",precise_unit(45.0,precise::in)},
+         {"ell_br",precise_unit(45.0,precise::in)},
+         {"englishell",precise_unit(45.0,precise::in)},
+         {"scottishell",precise_unit(0.9398,precise::m)},
+         {"frenchell",precise_unit(1.3716,precise::m)},
+         {"flemishell",precise_unit(.6858,precise::m)},
          // because cubit has cu in it which indicates cubed
          {"longcubit", precise::distance::longcubit},
          // my kids have taken to measuring thing in number of daddy's so it
@@ -1884,6 +1893,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"fathom", precise::nautical::fathom},
          {"fathom_i", precise::nautical::fathom},
          {"fathoms_i", precise::nautical::fathom},
+         {"cable_i",precise_unit(0.1,precise::nautical::mile)},
+         {"cable",precise_unit(0.1,precise::nautical::mile)},
+         {"cable_us",precise_unit(219.5,precise::m)},
          {"fth_i", precise::nautical::fathom},
          {"[FTH_I]", precise::nautical::fathom},
          {"kn", precise::nautical::knot},
@@ -1988,6 +2000,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"Mton", precise_unit(1000000.0, precise::energy::ton_tnt)},
          {"Gton", precise_unit(1000000000.0, precise::energy::ton_tnt)},
          {"gramoftnt", precise::micro*precise::energy::ton_tnt},
+         {"gramsofTNT", precise::micro*precise::energy::ton_tnt},
+         {"gramofTNT", precise::micro*precise::energy::ton_tnt},
+         {"gramsoftnt", precise::micro*precise::energy::ton_tnt},
          // Gigatonne carbon
          {"C90", precise::conventional::coulomb90},
          {"ohm90", precise::conventional::ohm90},

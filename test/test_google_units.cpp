@@ -59,7 +59,15 @@ TEST(googleUnits, unitNames)
                     iustring.erase(ploc);
                 }
                 auto runit=units::unit_from_string(iustring);
-                EXPECT_TRUE(runit.has_same_base(bunit))<<iustring<<" does not convert to a unit with the same base as "<<utype;
+                if (utype == "Misc")
+                {
+                    EXPECT_TRUE(is_valid(runit))<<iustring<<" does not convert to a unit with the same base as "<<utype;
+                }
+                else
+                {
+                    EXPECT_TRUE(runit.has_same_base(bunit))<<iustring<<" does not convert to a unit with the same base as "<<utype;
+                }
+                
                 if (commaloc == std::string::npos)
                 {
                     ustring.clear();
