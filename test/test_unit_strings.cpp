@@ -84,7 +84,7 @@ TEST(unitStrings, si)
     EXPECT_EQ(to_string(ft * lb), "ft*lb");
 }
 
-TEST(unitStrings, laboratory_arb_units)
+TEST(unitStrings, laboratoryArbUnits)
 {
     EXPECT_EQ(to_string(precise::laboratory::arbU), "arb. unit");
 }
