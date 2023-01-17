@@ -704,6 +704,28 @@ void addUserDefinedUnit(const std::string& name, const precise_unit& un)
     }
 }
 
+void removeUserDefinedUnit(const std::string& name)
+{
+    //get the currently converted unit
+    auto unit=unit_cast_from_string(name);
+    if (is_valid(unit))
+    {
+        user_defined_units.erase(name);
+        user_defined_unit_names.erase(unit);
+    }
+    else
+    {
+        for (const auto& udun : user_defined_unit_names)
+        {
+            if (udun.second == name)
+            {
+                user_defined_unit_names.erase(udun.first);
+                break;
+            }
+        }
+    }
+}
+
 void addUserDefinedInputUnit(const std::string& name, const precise_unit& un)
 {
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {

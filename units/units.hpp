@@ -1987,6 +1987,10 @@ UNITS_EXPORT std::string to_string(
 UNITS_EXPORT void
     addUserDefinedUnit(const std::string& name, const precise_unit& un);
 
+/// remove a custom defined unit from conversion consideration for both input and output
+UNITS_EXPORT void
+removeUserDefinedUnit(const std::string& name);
+
 /// Add a custom unit to be included in from string interpretation but not used
 /// in generating string representations of units
 UNITS_EXPORT void
