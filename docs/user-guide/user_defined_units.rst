@@ -79,11 +79,11 @@ A unit can be removed from the user defined unit set via `removeUserDefinedUnit`
 
    str = to_string(ipm.inv());
    EXPECT_EQ(str, "min/idgit");
-   
+
    removeUserDefinedUnit("idgit");
    EXPECT_FALSE(is_valid(unit_from_string("idgit/min")));
 
-The removal also works for user defined units specified via `addUserDefinedInputUnit` or `addUserDefinedOutputUnit`  
+The removal also works for user defined units specified via `addUserDefinedInputUnit` or `addUserDefinedOutputUnit`
 
 
 Input File

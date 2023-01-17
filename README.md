@@ -343,7 +343,7 @@ For more description of the possible flags see [flags](https://units.readthedocs
 - `enableUserDefinedUnits()` enable the use of UserDefinedUnits. they are enabled by default.
 - `addUserDefinedInputUnit(std::string name, precise_unit un)` add a new unit used only for unit input
 - `addUserDefinedOutputUnit(std::string name, precise_unit un)` add an output string for a specific unit
-- `removeUserDefinedUnit(std::string name)` remove a specific unit string previously added as a userDefinedUnit can be input, output, or both.  
+- `removeUserDefinedUnit(std::string name)` remove a specific unit string previously added as a userDefinedUnit can be input, output, or both.
 
 For more details see [User Defined Units](https://units.readthedocs.io/en/latest/user-guide/user_defined_units.html).
 

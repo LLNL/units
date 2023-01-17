@@ -1043,8 +1043,8 @@ TEST(userDefinedUnits, removeUserDefinition)
     auto ipm2 = unit_from_string("$/nidgitC");
     EXPECT_EQ(ipm2, precise::currency / nidgit3);
 
-    EXPECT_EQ(to_string(precise::currency / nidgit2),"$/nidgitS");
-    EXPECT_EQ(to_string(precise::mol / nidgit3),"mol/nidgitC");
+    EXPECT_EQ(to_string(precise::currency / nidgit2), "$/nidgitS");
+    EXPECT_EQ(to_string(precise::mol / nidgit3), "mol/nidgitC");
 
     removeUserDefinedUnit("nidgitS");
 
@@ -1054,9 +1054,8 @@ TEST(userDefinedUnits, removeUserDefinition)
     auto ipm4 = unit_from_string("mol/nidgitC");
     EXPECT_EQ(ipm4, precise::mol / nidgit3);
 
-    EXPECT_NE(to_string(precise::currency / nidgit2),"$/nidgitS");
-    EXPECT_EQ(to_string(precise::s / nidgit3),"s/nidgitC");
-
+    EXPECT_NE(to_string(precise::currency / nidgit2), "$/nidgitS");
+    EXPECT_EQ(to_string(precise::s / nidgit3), "s/nidgitC");
 }
 
 TEST(userDefinedUnits, removeUserInputDefinition)
@@ -1080,7 +1079,6 @@ TEST(userDefinedUnits, removeUserInputDefinition)
 
     auto ipm4 = unit_from_string("mol/nidgitC");
     EXPECT_EQ(ipm4, precise::mol / nidgit3);
-
 }
 
 TEST(userDefinedUnits, removeUserOutputDefinition)
@@ -1090,14 +1088,13 @@ TEST(userDefinedUnits, removeUserOutputDefinition)
     precise_unit nidgit3(3.256, cd / m.pow(3));
     addUserDefinedInputUnit("nidgitC", nidgit3);
 
-    EXPECT_EQ(to_string(precise::currency / nidgit2),"$/nidgitS");
-    EXPECT_EQ(to_string(precise::mol / nidgit3),"mol/nidgitC");
+    EXPECT_EQ(to_string(precise::currency / nidgit2), "$/nidgitS");
+    EXPECT_EQ(to_string(precise::mol / nidgit3), "mol/nidgitC");
 
     removeUserDefinedUnit("nidgitS");
 
-    EXPECT_NE(to_string(precise::currency / nidgit2),"$/nidgitS");
-    EXPECT_EQ(to_string(precise::s / nidgit3),"s/nidgitC");
-
+    EXPECT_NE(to_string(precise::currency / nidgit2), "$/nidgitS");
+    EXPECT_EQ(to_string(precise::s / nidgit3), "s/nidgitC");
 }
 
 TEST(userDefinedUnits, definitionsAngstrom)
