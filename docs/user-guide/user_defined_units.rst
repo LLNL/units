@@ -54,18 +54,37 @@ If only output strings are needed the `addUserDefinedOutputUnit` can be used
 
 .. code-block:: c++
 
-  precise_unit idgit(4.754, mol / m.pow(2));
-    addUserDefinedOutputUnit("idgit", idgit);
+   precise_unit idgit(4.754, mol / m.pow(2));
+   addUserDefinedOutputUnit("idgit", idgit);
 
-    auto ipm = unit_from_string("idgit/min");
-    //this is not able to be read since idgit is undefined as an input
-    EXPECT_NE(ipm, idgit / min);
+   auto ipm = unit_from_string("idgit/min");
+   //this is not able to be read since idgit is undefined as an input
+   EXPECT_NE(ipm, idgit / min);
 
-    auto str = to_string(idgit/min);
-    /** output only should make this work*/
-    EXPECT_EQ(str,"idgit/min");
+   auto str = to_string(idgit/min);
+   /** output only should make this work*/
+   EXPECT_EQ(str,"idgit/min");
 
 The output unit can be used when the interpreter works fine but the string output doesn't do what you want it to do.
+
+A unit can be removed from the user defined unit set via `removeUserDefinedUnit`
+
+.. code-block:: c++
+
+    auto ipm=unit_from_string("idgit/min");
+   EXPECT_EQ(ipm, idgit / min);
+
+   auto str = to_string(ipm);
+   EXPECT_EQ(str, "idgit/min");
+
+   str = to_string(ipm.inv());
+   EXPECT_EQ(str, "min/idgit");
+
+   removeUserDefinedUnit("idgit");
+   EXPECT_FALSE(is_valid(unit_from_string("idgit/min")));
+
+The removal also works for user defined units specified via `addUserDefinedInputUnit` or `addUserDefinedOutputUnit`
+
 
 Input File
 ------------------

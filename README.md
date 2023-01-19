@@ -335,12 +335,17 @@ A few additional math operations are available in the "unit_math.hpp" header on 
 
 For more description of the possible flags see [flags](https://units.readthedocs.io/en/latest/user-guide/conversion_flags.html).
 
-#### Custom Units
+#### User Defined Units
 
 - `addUserDefinedUnit(std::string name, precise_unit un)` add a new unit that can be used in the string operations.
 - `clearUserDefinedUnits()` remove all user defined units from the library.
 - `disableUserDefinedUnits()` there is a(likely small-an additional unordered map lookup) performance hit in the string conversions functions if custom units are used so they can be disabled completely if desired.
 - `enableUserDefinedUnits()` enable the use of UserDefinedUnits. they are enabled by default.
+- `addUserDefinedInputUnit(std::string name, precise_unit un)` add a new unit used only for unit input
+- `addUserDefinedOutputUnit(std::string name, precise_unit un)` add an output string for a specific unit
+- `removeUserDefinedUnit(std::string name)` remove a specific unit string previously added as a userDefinedUnit can be input, output, or both.
+
+For more details see [User Defined Units](https://units.readthedocs.io/en/latest/user-guide/user_defined_units.html).
 
 #### Unit Domains
 
