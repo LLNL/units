@@ -3286,10 +3286,19 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 }
             }
         }
-        unit_string.erase(fnd, 1);
-        if (fnd > 0) {
-            skipMultiply = true;
+        if (fnd > 0 && unit_string[fnd - 1] == '.')
+        {
+            //this now gets dealt with in the dotMultiply code
+            ++fnd;
         }
+        else
+        {
+            unit_string.erase(fnd, 1);
+            if (fnd > 0) {
+                skipMultiply = true;
+            }
+        }
+        
         fnd = unit_string.find_first_of(spaceChars, fnd);
     }
     return spacesRemoved;
