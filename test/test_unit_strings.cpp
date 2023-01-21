@@ -532,6 +532,12 @@ TEST(stringToUnits, hartree)
     EXPECT_EQ(precise::energy::hartree, unit_from_string("E_h"));
 }
 
+TEST(stringToUnits, degC)
+{
+    EXPECT_EQ(precise::degC, root(unit_from_string("degC^2"),2));
+    EXPECT_EQ(to_string(precise::degC.pow(2)),"degC^2");
+}
+
 TEST(stringToUnits, conventional)
 {
     EXPECT_EQ(precise::conventional::coulomb90, unit_from_string("C_90"));

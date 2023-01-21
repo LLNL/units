@@ -13,7 +13,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 namespace UNITS_NAMESPACE {
 
-UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 111>
+UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 112>
     defined_unit_names_si{
         {{m, "m"},
          {m * m, "m^2"},
@@ -69,7 +69,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 111>
          {deg, "deg"},
          {rad, "rad"},
          {degC, u8"\u00B0C"},
-
+         {degC.pow(2), "degC^2"},
          {cm, "cm"},
          {km, "km"},
          {km * km, "km^2"},

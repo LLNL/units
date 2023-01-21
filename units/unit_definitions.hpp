@@ -776,7 +776,7 @@ namespace precise {
         constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};
         constexpr precise_unit torr{1.0 / 760.0, atm* iflag};  // this is really
-                                                               // close to mmHg
+                                                               // close to mmHg and can't use eflag since that means guage
         constexpr precise_unit inH2O{248.843004, Pa};  // at 60 degF
         constexpr precise_unit mmH2O{1.0 / 25.4, inH2O};  // at 60 degF
 

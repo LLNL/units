@@ -151,7 +151,7 @@ namespace detail {
                 radians_ + other.radians_,
                 static_cast<unsigned int>(per_unit_ | other.per_unit_),
                 static_cast<unsigned int>(i_flag_ ^ other.i_flag_),
-                static_cast<unsigned int>(e_flag_ ^ other.e_flag_),
+                static_cast<unsigned int>(e_flag_ | other.e_flag_),
                 static_cast<unsigned int>(equation_ | other.equation_),
             };
         }
@@ -171,7 +171,7 @@ namespace detail {
                 radians_ - other.radians_,
                 static_cast<unsigned int>(per_unit_ | other.per_unit_),
                 static_cast<unsigned int>(i_flag_ ^ other.i_flag_),
-                static_cast<unsigned int>(e_flag_ ^ other.e_flag_),
+                static_cast<unsigned int>(e_flag_ | other.e_flag_),
                 static_cast<unsigned int>(equation_ | other.equation_),
             };
         }
@@ -211,7 +211,7 @@ namespace detail {
                 radians_ * power,
                 per_unit_,
                 (power % 2 == 0) ? 0U : i_flag_,
-                (power % 2 == 0) ? 0U : e_flag_,
+                (power % 2 == 0) ?((i_flag_&&e_flag_)?0U:e_flag_) :e_flag_,
                 equation_};
         }
         constexpr unit_data root(int power) const
@@ -229,7 +229,7 @@ namespace detail {
                                                radians_ / power,
                                                per_unit_,
                                                (power % 2 == 0) ? 0U : i_flag_,
-                                               (power % 2 == 0) ? 0U : e_flag_,
+                                               e_flag_,
                                                0) :
                                            unit_data(nullptr);
         }
@@ -373,7 +373,7 @@ namespace detail {
                 candela_ % power == 0 && kelvin_ % power == 0 &&
                 mole_ % power == 0 && radians_ % power == 0 &&
                 currency_ % power == 0 && count_ % power == 0 &&
-                equation_ == 0U && e_flag_ == 0U;
+                equation_ == 0U;
         }
         constexpr int rootHertzModifier(int power) const
         {
