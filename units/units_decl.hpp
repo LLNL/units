@@ -211,7 +211,8 @@ namespace detail {
                 radians_ * power,
                 per_unit_,
                 (power % 2 == 0) ? 0U : i_flag_,
-                (power % 2 == 0) ?((i_flag_&&e_flag_)?0U:e_flag_) :e_flag_,
+                (power % 2 == 0) ? ((i_flag_ && e_flag_) ? 0U : e_flag_) :
+                                   e_flag_,
                 equation_};
         }
         constexpr unit_data root(int power) const

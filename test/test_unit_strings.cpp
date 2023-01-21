@@ -534,8 +534,8 @@ TEST(stringToUnits, hartree)
 
 TEST(stringToUnits, degC)
 {
-    EXPECT_EQ(precise::degC, root(unit_from_string("degC^2"),2));
-    EXPECT_EQ(to_string(precise::degC.pow(2)),"degC^2");
+    EXPECT_EQ(precise::degC, root(unit_from_string("degC^2"), 2));
+    EXPECT_EQ(to_string(precise::degC.pow(2)), "degC^2");
 }
 
 TEST(stringToUnits, conventional)

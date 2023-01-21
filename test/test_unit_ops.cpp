@@ -735,8 +735,7 @@ TEST(specialOps, rootHertz)
 TEST(specialOps, degC)
 {
     auto res = precise::degC.pow(2);
-    EXPECT_EQ(root(res,2),precise::degC);
-
+    EXPECT_EQ(root(res, 2), precise::degC);
 }
 
 TEST(customUnits, definition)
