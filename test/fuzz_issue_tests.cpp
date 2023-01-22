@@ -359,7 +359,7 @@ TEST_P(measProblems, measFiles)
     }
 }
 
-INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(0, 32));
+INSTANTIATE_TEST_SUITE_P(measFiles, measProblems, ::testing::Range(0, 33));
 
 class meas64Problems : public ::testing::TestWithParam<int> {};
 

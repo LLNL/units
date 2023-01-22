@@ -732,6 +732,12 @@ TEST(specialOps, rootHertz)
     // EXPECT_EQ(rh.pow(-6), s.pow(3));
 }
 
+TEST(specialOps, degC)
+{
+    auto res = precise::degC.pow(2);
+    EXPECT_EQ(root(res, 2), precise::degC);
+}
+
 TEST(customUnits, definition)
 {
     auto cunit1 = precise::generate_custom_unit(4);
