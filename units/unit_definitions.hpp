@@ -689,6 +689,7 @@ namespace precise {
         namespace IN {
             // l'Imprimerie nationale, IN
             constexpr precise_unit point{0.4, mm};
+            constexpr precise_unit pica{12.0, point};
         }  // namespace IN
 
         namespace tex {

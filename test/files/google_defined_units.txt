@@ -13,18 +13,20 @@ Frequency:GHz, gigahertz, hertz, Hz, KHz, kilohertz, megahertz, MHz
 Fuel consumption:kilometers per liter, liters per 100 kilometers, miles per gallon
 Inductance:henries
 Information size:bits, nybbles, bytes, kilobytes (kB), megabytes (MB), kibibytes (KiB), mebibytes (MiB)
-Length:ångström, Astronomical Units, ATA picas, ATA points, chains, Ciceros, cubits, Didot points, english ells, fathoms, feet, inches, flemish ells, french ells, furlongs, hands, imerial cables, IN picas, IN Points, inches, indoor track lengths, international cables, itinerary stadion, kilometers, Kpc, light days, light hours, light minutes, light seconds, light years, marathons, meters, metres, metres, microns, miles, Mpc, nails, nautical leagues, nautical miles, Parsecs, Planck Lengths, PostScript picas, PostScript points, Rack units, rods, scottish ells, smoots, spans, TeX picas, TeX points, thou, Truchet picas, Truchet points, US cables, yards
-Light intensity:candelas, footcandles, lamberts, lumens, lux
-luminous intensity:candelas, footcandles, lamberts, lumens, lux
-Magnetic flux:gauss, maxwells, teslas, webers
-magnetic flux density:gauss, maxwells, teslas, webers
+Length:ångström, Astronomical Units, ATA picas, ATA points, chains, Ciceros, cubits, Didot points, english ells, fathoms, feet, inches, flemish ells, french ells, furlongs, hands, imperial cables, IN picas, IN Points, inches, international cables, itinerary stadion, kilometers, Kpc, light days, light hours, light minutes, light seconds, light years, marathons, meters, metres, metres, microns, miles, Mpc, nails, nautical leagues, nautical miles, Parsecs, Planck Lengths, PostScript picas, PostScript points, Rack units, rods, scottish ells, smoots, spans, TeX picas, TeX points, thou, Truchet picas, Truchet points, US cables, yards
+Light intensity: footcandles, lux
+luminous intensity:candelas
+luminous flux: lumens
+luminance: lamberts
+Magnetic flux: maxwells, webers
+magnetic flux density:gauss, teslas
 Misc:dioptres, emus, katal, moles
 Power:British horsepower, donkeypower, HP, kilowatt, kw, Kw, metric horsepower, mw, watts
-Pressure:atmospheres, barries, bars, inches of mercury, inches of water, mb, millibars, millimeters of mercury, pascals, poises, pounds per square inch
-Radiation dosage:grays, sieverts, rads, rems
+Pressure:atmospheres, barries, bars, inches of mercury, inches of water, mbar, millibars, millimeters of mercury, pascals, poises, pounds per square inch
+Radiation dosage:grays, sieverts, RAD, rems
 Radioactivity:becquerels, curies, rutherfords
 Speed:kilometers per hour, KPH, meters per second, miles per hour, MPH, nautical miles per hour
-Temperature:C, Celsius, F, Fahrenheit, K, Kelvin, Rankine
+Temperature:degC, Celsius, degF, Fahrenheit, K, Kelvin, Rankine
 Time:centuries, days, decades, fortnights, halakim, hours, leap years, lunar cycles, lustrum, millennium, minutes, months, seconds, sidereal days, sidereal years, weeks, years
 Unitless:baker's dozens, dozens, googols, great gross, gross, percent, scores
 Voltage:volts

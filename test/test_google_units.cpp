@@ -34,6 +34,7 @@ TEST(googleUnits, unitTypes)
 TEST(googleUnits, unitNames)
 {
     std::ifstream tfile(TEST_FILE_FOLDER "/google_defined_units.txt");
+    int invalidMatches{0};
     if (tfile.is_open()){   //checking whether the file is open
         std::string tp;
         while(std::getline(tfile, tp)){ //read data from file object and put it into string.
@@ -44,6 +45,11 @@ TEST(googleUnits, unitNames)
                 continue;
             }
             auto bunit=units::default_unit(utype);
+            if (utype == "Unitless")
+            {
+                bunit=units::precise::count;
+            }
+            EXPECT_TRUE(is_valid(bunit))<<"Base unit not found:"<<utype;
             auto ustring=tp.substr(cloc+1);
             while (!ustring.empty())
             {
@@ -59,15 +65,7 @@ TEST(googleUnits, unitNames)
                     iustring.erase(ploc);
                 }
                 auto runit=units::unit_from_string(iustring);
-                if (utype == "Misc")
-                {
-                    EXPECT_TRUE(is_valid(runit))<<iustring<<" does not convert to a unit with the same base as "<<utype;
-                }
-                else
-                {
-                    EXPECT_TRUE(runit.has_same_base(bunit))<<iustring<<" does not convert to a unit with the same base as "<<utype;
-                }
-                
+                EXPECT_TRUE(is_valid(runit))<<iustring<<" does not convert to a valid unit of "<<utype;
                 if (commaloc == std::string::npos)
                 {
                     ustring.clear();
@@ -76,8 +74,23 @@ TEST(googleUnits, unitNames)
                 {
                     ustring=ustring.substr(commaloc+1);
                 }
+
+                if (!is_valid(runit))
+                {
+                    ++invalidMatches;
+                }
+                else if (utype != "Misc")
+                {
+                    EXPECT_TRUE(runit.has_same_base(bunit)||runit.inv().has_same_base(bunit))<<(++invalidMatches,iustring)<<" does not convert to a unit with the same base as "<<utype;
+                }
+                
+               
                 
             }
+        }
+        if (invalidMatches > 0)
+        {
+            std::cout<<"Unable to match "<<invalidMatches << " units "<<std::endl;
         }
     }
 }

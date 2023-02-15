@@ -2519,7 +2519,7 @@ using ckpair = std::pair<const char*, const char*>;
 static precise_unit
     localityModifiers(std::string unit, std::uint32_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 44>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 47>
         internationlReplacements{{
             ckpair{"internationaltable", "_IT"},
             ckpair{"internationalsteamtable", "_IT"},
@@ -2546,7 +2546,10 @@ static precise_unit
             ckpair{"mean", "_m"},
             ckpair{"imperial", "_br"},
             ckpair{"Imperial", "_br"},
+            ckpair{"English", "_br"},
             ckpair{"imp", "_br"},
+            ckpair{"wine", "_wi"},
+            ckpair{"beer", "_wi"},
             ckpair{"US", "_us"},
             ckpair{"(IT)", "_IT"},
             ckpair{"troy", "_tr"},

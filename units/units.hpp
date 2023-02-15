@@ -2168,6 +2168,16 @@ namespace constants {
             precise::J* precise::s};
     }  // namespace atomic
 
+    namespace planetary {
+        namespace mass {
+            constexpr precise_measurement solar{1.9884e30,precise::kg};
+            constexpr precise_measurement earth{5.972e24,precise::kg};
+            constexpr precise_measurement moon{7.348e22,precise::kg};
+            constexpr precise_measurement jupiter{1.899e27,precise::kg};
+            constexpr precise_measurement mars{6.417e23,precise::kg};
+        }
+        
+    }
     /// constants with uncertainties attached
     namespace uncertain {
         constexpr uncertain_measurement mu{
