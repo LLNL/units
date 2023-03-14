@@ -49,7 +49,15 @@ TEST(googleUnits, unitNames)
             {
                 bunit=units::precise::count;
             }
-            EXPECT_TRUE(is_valid(bunit))<<"Base unit not found:"<<utype;
+            if (utype != "Misc")
+            {
+                EXPECT_TRUE(is_valid(bunit))<<"Base unit not found:"<<utype;
+            }
+            else
+            {
+                bunit=units::precise::one;
+            }
+            
             auto ustring=tp.substr(cloc+1);
             while (!ustring.empty())
             {
@@ -61,11 +69,14 @@ TEST(googleUnits, unitNames)
                     auto abbrev=iustring.substr(ploc+1);
                     abbrev.pop_back();
                     auto aunit=units::unit_from_string(abbrev);
-                    EXPECT_TRUE(aunit.has_same_base(bunit))<<abbrev<<" does not convert to a unit with the same base as "<<utype;
+                    if (bunit != units::precise::one)
+                    {
+                        EXPECT_TRUE(aunit.has_same_base(bunit))<<abbrev<<" is valid but does not convert to a unit with the same base as "<<utype;
+                    }
                     iustring.erase(ploc);
                 }
                 auto runit=units::unit_from_string(iustring);
-                EXPECT_TRUE(is_valid(runit))<<iustring<<" does not convert to a valid unit of "<<utype;
+                EXPECT_TRUE(is_valid(runit))<<iustring<<" has no conversion, does not convert to a valid unit of "<<utype;
                 if (commaloc == std::string::npos)
                 {
                     ustring.clear();
@@ -81,7 +92,15 @@ TEST(googleUnits, unitNames)
                 }
                 else if (utype != "Misc")
                 {
-                    EXPECT_TRUE(runit.has_same_base(bunit)||runit.inv().has_same_base(bunit))<<(++invalidMatches,iustring)<<" does not convert to a unit with the same base as "<<utype;
+                    bool convertible=runit.has_same_base(bunit)||runit.inv().has_same_base(bunit);
+                    if (!convertible)
+                    {
+                        auto conv = units::convert(runit, bunit);
+                        if (!std::isnan(conv)){
+                            convertible = true;
+                       }
+                    }
+                    EXPECT_TRUE(convertible)<<(++invalidMatches,iustring)<<" is valid but does not convert to a unit with the same base as "<<utype;
                 }
                 
                

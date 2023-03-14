@@ -1993,6 +1993,17 @@ namespace detail {
             return val * start.multiplier() * constants::standard_gravity /
                 result.multiplier();
         }
+        if (unit_cast(start) == kilo)
+        {
+            if (result.has_same_base(kg))
+            {
+                return convert(val,kg,result);
+            }
+            else if (result.has_same_base(m))
+            {
+                return convert(val,km,result);
+            }
+        }
         return constants::invalid_conversion;
     }
 }  // namespace detail

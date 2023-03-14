@@ -4429,6 +4429,16 @@ static precise_unit tryUnitPartitioning(
     if (is_valid(qm2)) {
         valid.insert(valid.begin(), unit_string.substr(0, 2));
     }
+    else if (unit_string.size() == 4)
+    {// length of 4 is a bit odd so check the back two characters for a quick match
+         qm2 = unit_quick_match(unit_string.substr(2, 2), match_flags);
+         auto bunit = unit_from_string_internal(
+             unit_string.substr(0,2), match_flags);
+         if (is_valid(bunit)) {
+             return qm2 * bunit;
+         }
+    }
+    
     // now pick off a couple 1 character units
     if (unit_string.front() == 'V' || unit_string.front() == 'A') {
         valid.insert(valid.begin(), unit_string.substr(0, 1));

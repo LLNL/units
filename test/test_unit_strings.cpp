@@ -654,9 +654,9 @@ TEST(stringToUnits, words)
     EXPECT_EQ(precise::m.pow(2), unit_from_string("metres squared"));
     EXPECT_EQ(precise::mm.pow(2), unit_from_string("square millimeter"));
     EXPECT_EQ(precise::N * precise::m, unit_from_string("newton meter"));
-    EXPECT_EQ(precise::ft * precise::lb, unit_from_string("ftlb"));
+    EXPECT_EQ(precise::ft * precise::lbf, unit_from_string("ftlb"));
     EXPECT_EQ(
-        precise::ft * precise::lb * precise::s, unit_from_string("ftlbsecond"));
+        precise::ft * precise::lbf * precise::s, unit_from_string("ftlbsecond"));
     EXPECT_EQ(
         precise::gal * precise::second * precise::hp,
         unit_from_string("gallon second horsepower"));
@@ -1397,6 +1397,13 @@ TEST(funnyStrings, powersof1)
     EXPECT_EQ(precise::m, unit_from_string("m^1^1"));
     EXPECT_EQ(precise::m, unit_from_string("m^(1)^1"));
     EXPECT_EQ(precise::m, unit_from_string("m^(1)^-"));
+}
+
+TEST(funnyString, google)
+{  
+    EXPECT_EQ(precise::milli*precise::W, unit_from_string("mw"));
+    EXPECT_EQ(precise::milli*precise::W*precise::hr, unit_from_string("mwhr"));
+    EXPECT_TRUE(is_valid(unit_from_string("imperial beer barrel")));
 }
 
 TEST(defaultUnits, singleCharacter)

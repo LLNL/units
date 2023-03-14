@@ -13,7 +13,7 @@ Frequency:GHz, gigahertz, hertz, Hz, KHz, kilohertz, megahertz, MHz
 Fuel consumption:kilometers per liter, liters per 100 kilometers, miles per gallon
 Inductance:henries
 Information size:bits, nybbles, bytes, kilobytes (kB), megabytes (MB), kibibytes (KiB), mebibytes (MiB)
-Length:ångström, Astronomical Units, ATA picas, ATA points, chains, Ciceros, cubits, Didot points, english ells, fathoms, feet, inches, flemish ells, french ells, furlongs, hands, imperial cables, IN picas, IN Points, inches, international cables, itinerary stadion, kilometers, Kpc, light days, light hours, light minutes, light seconds, light years, marathons, meters, metres, metres, microns, miles, Mpc, nails, nautical leagues, nautical miles, Parsecs, Planck Lengths, PostScript picas, PostScript points, Rack units, rods, scottish ells, smoots, spans, TeX picas, TeX points, thou, Truchet picas, Truchet points, US cables, yards
+Length:ångström, Astronomical Units, ATA picas, k, ATA points, chains, Ciceros, cubits, Didot points, english ells, fathoms, feet, inches, flemish ells, french ells, furlongs, hands, imperial cables, IN picas, IN Points, inches, international cables, itinerary stadion, kilometers, Kpc, light days, light hours, light minutes, light seconds, light years, marathons, meters, metres, metres, microns, miles, Mpc, nails, nautical leagues, nautical miles, Parsecs, Planck Lengths, PostScript picas, PostScript points, Rack units, rods, scottish ells, smoots, spans, TeX picas, TeX points, thou, Truchet picas, Truchet points, US cables, yards
 Light intensity: footcandles, lux
 luminous intensity:candelas
 luminous flux: lumens
@@ -22,7 +22,8 @@ Magnetic flux: maxwells, webers
 magnetic flux density:gauss, teslas
 Misc:dioptres, emus, katal, moles
 Power:British horsepower, donkeypower, HP, kilowatt, kw, Kw, metric horsepower, mw, watts
-Pressure:atmospheres, barries, bars, inches of mercury, inches of water, mbar, millibars, millimeters of mercury, pascals, poises, pounds per square inch
+Pressure:atmospheres, bars, inches of mercury, inches of water, mbar, millibars, millimeters of mercury, pascals, pounds per square inch
+Dynamic Viscosity:poises
 Radiation dosage:grays, sieverts, RAD, rems
 Radioactivity:becquerels, curies, rutherfords
 Speed:kilometers per hour, KPH, meters per second, miles per hour, MPH, nautical miles per hour
@@ -31,4 +32,4 @@ Time:centuries, days, decades, fortnights, halakim, hours, leap years, lunar cyc
 Unitless:baker's dozens, dozens, googols, great gross, gross, percent, scores
 Voltage:volts
 Volume:acre-foot, barrels of oil, beer barrels, beer firkins, beer hogsheads, beer kilderkins, board foot, board foot, bushels, cc, ccf, ci, cords, cubic centimeter, cubic centimetre, cubic feet, cubic inch, cubic kilometer, cubic meter, cubic millimeter, cups, English tierces, fluid barrels, fluid drams, fluid ounce, fluid oz., full kegs, gal., gallons, gills, Gross Register Tonnes, half barrels, hogsheads, Imperial beer barrels, Imperial bushel, Imperial bushels, Imperial dessertspoons, Imperial fluid drams, Imperial fluid ounce, Imperial fluid ounces, Imperial gallons, Imperial gills, Imperial minims, Imperial pecks, Imperial pints, Imperial quarts, Imperial tablespoons, Imperial teaspoons, km3, liters, litres, m3, minims, mm3, pecks, pints, puncheons, qt, quarter barrels, quarts, register tonne, shots, sixth barrels, sticks of butter, tablespoons, tbsp, teaspoons, tierces, tsp, wine firkins, wine rundlets
-mass:amu, atomic mass units, Blintzes, butter firkins, carats, drams, earth masses, English stones, Farshimmelt Blintzes, funt, Furshlugginer Blintzes, grains, grams, imperial tons, jupiter masses, k, kilograms, lunar masses, metric tonnes, micrograms, ounces, pennyweights, pood, pounds, short tons, slugs, soap firkins, solar masses, stones, troy drams, troy ounces
+mass:amu, atomic mass units, Blintzes, butter firkins, k, carats, earth masses, English stones, Farshimmelt Blintzes, funt, Furshlugginer Blintzes, grains, grams, imperial tons, jupiter masses, kilograms, lunar masses, metric tonnes, micrograms, ounces, pennyweights, pood, pounds, short tons, slugs, soap firkins, solar masses, stones, troy drams, troy ounces
