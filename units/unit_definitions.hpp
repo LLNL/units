@@ -654,14 +654,17 @@ namespace precise {
 
     /// Typographic units for typesetting or printing
     namespace typographic {
+        // definitions from https://www.oberonplace.com/dtp/fonts/point.htm
         namespace american {
             constexpr precise_unit line{1.0 / 12.0, i::inch};
-            constexpr precise_unit point{1.0 / 6.0, line};
-            constexpr precise_unit pica{12.0, point};
+            constexpr precise_unit pica{0.1660, i::inch};
+            constexpr precise_unit point{1.0 / 12.0, pica};
             constexpr precise_unit twip{1.0 / 20.0, point};
 
         }  // namespace american
+
         namespace printers {
+            // also ATA
             constexpr precise_unit point{0.013837, i::inch};
             constexpr precise_unit pica{12.0, point};
         }  // namespace printers
@@ -683,6 +686,28 @@ namespace precise {
 
         }  // namespace metric
 
+        namespace IN {
+            // l'Imprimerie nationale, IN
+            constexpr precise_unit point{0.4, mm};
+            constexpr precise_unit pica{12.0, point};
+        }  // namespace IN
+
+        namespace tex {
+            constexpr precise_unit point{1.0 / 72.27, i::inch};
+            constexpr precise_unit pica{12.0, point};
+        }  // namespace tex
+
+        namespace postscript {
+            constexpr precise_unit point{1.0 / 72.0, i::inch};
+            constexpr precise_unit pica{12.0, point};
+        }  // namespace postscript
+        namespace dtp {
+            // desktop publishing
+            constexpr precise_unit point{1.0 / 72.0, i::inch};
+            constexpr precise_unit pica{12.0, point};
+            constexpr precise_unit twip{1.0 / 20.0, point};
+            constexpr precise_unit line{6.0, point};
+        }  // namespace dtp
     }  // namespace typographic
 
     /// units related to distance
@@ -1973,6 +1998,14 @@ namespace detail {
             // mass to weight
             return val * start.multiplier() * constants::standard_gravity /
                 result.multiplier();
+        }
+        if (unit_cast(start) == kilo) {
+            if (result.has_same_base(kg)) {
+                return convert(val, kg, result);
+            }
+            if (result.has_same_base(m)) {
+                return convert(val, km, result);
+            }
         }
         return constants::invalid_conversion;
     }

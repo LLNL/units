@@ -204,7 +204,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1129>
+    1151>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -313,6 +313,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"1e15", precise::peta},
         {"1e18", precise::exa},
         {"kilo", precise::kilo},
+        {"k", precise::kilo},
         {"mega", precise::mega},
         {"giga", precise::giga},
         {"tera", precise::tera},
@@ -573,6 +574,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"ANN", precise::time::aj},  // year
         {"decade", precise::ten* precise::time::aj},  // year
         {"century", precise::hundred* precise::time::aj},  // year
+        {"centuries", precise::hundred* precise::time::aj},  // year
         {"millennia", precise::kilo* precise::time::ag},  // year
         {"millennium", precise::kilo* precise::time::ag},  // year
         {"syr", precise::time::syr},  // sidereal year
@@ -641,6 +643,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"synodalmonth", precise::time::mos},  // synodal month
         {"month_s", precise::time::mos},  // synodal month
         {"lunarmonth", precise::time::mos},  // synodal month
+        {"lunarcycle", precise::time::mos},  // synodal month
         {"moon", precise::time::mos},  // synodal month
         {"mo_j", precise::time::moj},  //
         {"month_j", precise::time::moj},  //
@@ -801,6 +804,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"plancktime", constants::planck::time.as_unit()},
         {"planckcharge", constants::planck::charge.as_unit()},
         {"plancktemperature", constants::planck::temperature.as_unit()},
+        {"planckarea", constants::planck::length.as_unit().pow(2)},
+        {"planckvolume", constants::planck::length.as_unit().pow(3)},
+        {"planckenergy", precise_unit(1.9561e9, precise::J)},
         {"[fCs]", constants::fCs.as_unit()},
         {"[alpha]", constants::alpha.as_unit()},
         {"[mu]", constants::mu.as_unit()},
@@ -826,6 +832,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[atomic::charge]", constants::atomic::charge.as_unit()},
         {"[atomic::energy]", constants::atomic::energy.as_unit()},
         {"[atomic::action]", constants::atomic::action.as_unit()},
+        {"[planck::area]", constants::planck::length.as_unit().pow(2)},
+        {"[planck::volume]", constants::planck::length.as_unit().pow(3)},
+        {"[planck::energy]", precise_unit(1.9561e9, precise::J)},
         {"au", precise::distance::au},
         {"AU", precise::distance::au},
         {"ASU", precise::distance::au},
@@ -852,8 +861,14 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"unit", precise::count},
         {"pair", precise_unit(2.0, precise::count)},
         {"dozen", precise_unit(12.0, precise::count)},
+        {"bakersdozen", precise_unit(13.0, precise::count)},
+        {"baker'sdozen", precise_unit(13.0, precise::count)},
+        {"score", precise_unit(20.0, precise::count)},
         {"octet", precise_unit(8.0, precise::count)},
         {"gross", precise_unit(144.0, precise::count)},
+        {"greatgross", precise_unit(144.0 * 12.0, precise::count)},
+        {"smallgross", precise_unit(10.0 * 12.0, precise::count)},
+        {"googol", precise_unit(1e100, precise::one)},
         {"half", precise_unit(0.5, precise::one)},
         {"quarter", precise_unit(0.25, precise::one)},
         {"third", precise_unit(1.0 / 3.0, precise::one)},
@@ -863,6 +878,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"eighth", precise_unit(0.125, precise::one)},
         {"tenth", precise_unit(0.1, precise::one)},
         {"cell", precise_unit(1.0, precise::count, commodities::cell)},
+        {"cells", precise_unit(1.0, precise::count, commodities::cell)},
         {"{cells}", precise_unit(1.0, precise::count, commodities::cell)},
         // mainly to catch the commodity for using cell
         {"{#}", precise::count},
@@ -1110,6 +1126,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"Wa", precise::W* precise::yr},
         {"kilowatthour", precise::kWh},
         {"MWh", precise::MWh},
+        {"MWhr", precise::MWh},
         {"megawatthour", precise::MWh},
         {"M$", precise::other::MegaBuck},
         {"mil$", precise::other::MegaBuck},
@@ -1122,10 +1139,13 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"litre", precise::L},
         {"mL", precise::mL},  // preferred US notation
         {"ml", precise::mL},
+        {"LPM", precise::L / precise::min},
+        {"LPS", precise::L / precise::s},
         {"t", precise::mass::tonne},  // metric tonne
         {"mt", precise::mass::tonne},  // metric tonne
         {"ton_m", precise::mass::tonne},
         {"tonne", precise::mass::tonne},
+        {"tonne_m", precise::mass::tonne},
         {"TNE", precise::mass::tonne},
         {"Da", precise::mass::Da},
         {"dalton", precise::mass::Da},
@@ -1151,6 +1171,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"BD", precise::bit / precise::s},
         {"bit", precise::bit},
         {"BIT", precise::bit},
+        {"nibble", precise::data::nibble},
+        {"nybble", precise::data::nibble},
         {"bit_s", precise::data::bit_s},
         {"bit-s", precise::data::bit_s},
         {"BIT_S", precise::data::bit_s},
@@ -1437,7 +1459,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1017>
+    1149>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candlepower", precise::other::candle},
@@ -1459,6 +1481,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"Fr", precise::cgs::statC_charge},
          {"franklin", precise::cgs::statC_charge},
          {"esu", precise::cgs::statC_charge},
+         {"emu", precise::cgs::emu},
          {"bar", precise::bar},
          {"BAR", precise::bar},
          {"in", precise::in},
@@ -1475,6 +1498,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"inch_us", precise::us::inch},
          {"inches_us", precise::us::inch},
          {"caliber", precise_unit(0.01, precise::i::inch)},
+         {"rackunit", precise_unit(1.75, precise::i::inch)},
+         {"RU", precise_unit(1.75, precise::i::inch)},
          {"rd", precise::us::rod},
          {"rod", precise::us::rod},
          {"rd_us", precise::us::rod},
@@ -1516,6 +1541,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"mile_us", precise::us::mile},
          {"lea_us", precise_unit(3.0, precise::us::mile)},
          {"league_us", precise_unit(3.0, precise::us::mile)},
+
          {"mil_us", precise::us::mil},
          {"[MIL_US]", precise::us::mil},
          {"inch", precise::in},
@@ -1566,6 +1592,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"sin", precise::in* precise::in},
          {"sin_i", precise::in* precise::in},
          {"[SIN_I]", precise::in* precise::in},
+         {"ci", precise::in.pow(3)},  // cubic inch instead of centiinch
          {"cin", precise::in.pow(3)},  // cubic inch instead of centiinch
          {"cin_i", precise::in.pow(3)},
          {"[CIN_I]", precise::in.pow(3)},
@@ -1611,6 +1638,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"yardus", precise::us::yard},
          {"yard_us", precise::us::yard},
          {"yards_us", precise::us::yard},
+         {"marathon", {26.2, precise::mile}},
          {"sy", precise::yd* precise::yd},
          {"syd", precise::yd* precise::yd},
          {"syd_i", precise::yd* precise::yd},
@@ -1651,6 +1679,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"nmi_br", precise::imp::nautical_mile},
          {"[NMI_BR]", precise::imp::nautical_mile},
          {"nauticalmile_br", precise::imp::nautical_mile},
+         {"cable_br", precise_unit(0.1, precise::imp::nautical_mile)},
          {"nauticalleague_br", precise_unit(3.0, precise::imp::nautical_mile)},
          {"kn_br", precise::imp::nautical_mile / precise::hr},
          {"[KN_BR]", precise::imp::nautical_mile / precise::hr},
@@ -1665,6 +1694,12 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"cubit", precise::distance::cubit},
          {"cubit_br", precise::distance::cubit},
          {"cubit(UK)", precise::distance::cubit},
+         {"ell", precise_unit(45.0, precise::in)},
+         {"ell_br", precise_unit(45.0, precise::in)},
+         {"englishell", precise_unit(45.0, precise::in)},
+         {"scottishell", precise_unit(0.9398, precise::m)},
+         {"frenchell", precise_unit(1.3716, precise::m)},
+         {"flemishell", precise_unit(.6858, precise::m)},
          // because cubit has cu in it which indicates cubed
          {"longcubit", precise::distance::longcubit},
          // my kids have taken to measuring thing in number of daddy's so it
@@ -1689,12 +1724,18 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"liang", precise::chinese::liang},
          {"qian_cn", precise::chinese::qian},
          {"qian", precise::chinese::qian},
+         {"funt", precise_unit(409.51718, precise::g)},  // Russian
+         {"pood", precise_unit(40.0 * 409.51718, precise::g)},  // Russian
+         {"zolotnik", precise_unit(409.51718 / 96.0, precise::g)},  // Russian
          {"biweekly", precise_unit(0.5, precise::time::week.inv())},
          {"fortnight", precise::time::fortnight},
          {"yearleap", precise_unit(366.0, precise::time::day)},  // year
          {"draconicyear", precise_unit(346.620075883, precise::time::day)},
          {"lunaryear", precise_unit(12.0, precise::time::mos)},
-
+         {"halakim", precise_unit(1.0 / 18.0, precise::time::min)},  // Jewish
+         {"halek", precise_unit(1.0 / 18.0, precise::time::min)},  // Jewish
+         {"lustrum", precise_unit(5.0, precise::time::aj)},  // Roman
+         {"lustra", precise_unit(5.0, precise::time::aj)},  // Roman
          {"gon", precise::angle::gon},
          {"gon(grade)", precise::angle::gon},
          {"GON", precise::angle::gon},
@@ -1770,7 +1811,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"twp", precise::us::township},
          {"[TWP]", precise::us::township},
          {"township", precise::us::township},
-
+         {"township_us", precise::us::township},
          {"astronomicalunitBIPM2006", precise::distance::au_old},
          {"auold", precise::distance::au_old},
          {"ua", precise::distance::au_old},
@@ -1795,14 +1836,29 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"acre_br", precise::imp::acre},
          {"acres_br", precise::imp::acre},
          {"buildersacre", precise_unit(40000.0, precise::ft.pow(2))},
+         {"cricketpitch", precise_unit(3.66 * 22.56, precise::m.pow(2))},
+         {"cricketpitches", precise_unit(3.66 * 22.56, precise::m.pow(2))},
+         {"footballpitch", precise_unit(105.0 * 68.0, precise::m.pow(2))},
+         {"footballpitches", precise_unit(105.0 * 68.0, precise::m.pow(2))},
+         {"footballfield", precise_unit(360.0 * 160.0, precise::ft.pow(2))},
+         // turkey, UAE, levant unit of area
+         {"dunam", precise_unit(1000.0, precise::m.pow(2))},
+         // taiwan
+         {"ping", precise_unit(3.305, precise::m.pow(2))},
+         // korea unit of area
+         {"pyong", precise_unit(3.305, precise::m.pow(2))},
          {"Gasolineat15.5C",
           precise_unit(739.33, precise::kg / precise::m.pow(3))},
          {"rood", precise_unit(0.25, precise::imp::acre)},
          // porous solid permeability
          {"darcy", precise_unit(9.869233e-13, precise::m.pow(2))},
          {"$/gal", precise::currency / precise::gal},
+         // allow lower case watt abbreviation
+         {"w", precise::watt},
          {"hp", precise::hp},
+         {"HP", precise::hp},
          {"horsepower", precise::hp},
+         {"donkeypower", {250.0, precise::watt}},
          {"horsepower_i", precise::hp},
          {"horsepower_br", precise::hp},
          {"[HP]", precise::hp},
@@ -1862,6 +1918,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"fathom", precise::nautical::fathom},
          {"fathom_i", precise::nautical::fathom},
          {"fathoms_i", precise::nautical::fathom},
+         {"cable_i", precise_unit(0.1, precise::nautical::mile)},
+         {"cable", precise_unit(0.1, precise::nautical::mile)},
+         {"cable_us", precise_unit(219.5, precise::m)},
          {"fth_i", precise::nautical::fathom},
          {"[FTH_I]", precise::nautical::fathom},
          {"kn", precise::nautical::knot},
@@ -1965,8 +2024,11 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"kton", precise_unit(1000.0, precise::energy::ton_tnt)},
          {"Mton", precise_unit(1000000.0, precise::energy::ton_tnt)},
          {"Gton", precise_unit(1000000000.0, precise::energy::ton_tnt)},
+         {"gramoftnt", precise::micro* precise::energy::ton_tnt},
+         {"gramsofTNT", precise::micro* precise::energy::ton_tnt},
+         {"gramofTNT", precise::micro* precise::energy::ton_tnt},
+         {"gramsoftnt", precise::micro* precise::energy::ton_tnt},
          // Gigatonne carbon
-
          {"C90", precise::conventional::coulomb90},
          {"ohm90", precise::conventional::ohm90},
          {u8"\u03A990", precise::conventional::ohm90},  // Greek Omega
@@ -1994,6 +2056,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"henry90", precise::conventional::henry90},
          {"boe", precise::energy::boe},
          {"barrelofoilequivalent", precise::energy::boe},
+         {"barrelsofoilequivalent", precise::energy::boe},
          {"tce", precise::energy::tce},
          {"tonneofcoalequivalent", precise::energy::tce},
          {"lge", precise::energy::lge},
@@ -2048,19 +2111,23 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"[in_i'Hg]", precise::pressure::inHg},
          {"[IN_I'HG]", precise::pressure::inHg},
          {"inchofmercury", precise::pressure::inHg},
+         {"inchesofmercury", precise::pressure::inHg},
          {"inchmercury", precise::pressure::inHg},
          {"inch{mercury}", precise::pressure::inHg},
          {"inchofmercury_i", precise::pressure::inHg},
          {"inchofmercurycolumn", precise::pressure::inHg},
+         {"inchesofmercurycolumn", precise::pressure::inHg},
          {"[in_i'H2O]", precise::pressure::inH2O},
          {"[IN_I'H2O]", precise::pressure::inH2O},
          {"inchwater", precise::pressure::inH2O},
          {"inch(international)ofwater", precise::pressure::inH2O},
          {"inchofwater", precise::pressure::inH2O},
+         {"inchesofwater", precise::pressure::inH2O},
          {"inchofwaterguage", precise::pressure::inH2O},
          {"inchofwater_i", precise::pressure::inH2O},
          {"inch{water}", precise::pressure::inH2O},
          {"inchofwatercolumn", precise::pressure::inH2O},
+         {"inchesofwatercolumn", precise::pressure::inH2O},
          {"iwg", precise::pressure::inH2O},
          // cgs unit of electric quadrupole
          {"buckingham",
@@ -2087,6 +2154,22 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"drygallon_us", precise::us::dry::gallon},
          {"gallon-historical", precise::us::dry::gallon},
          {"firkin", precise_unit(9.0, precise::us::dry::gallon)},
+         {"rundlet", precise_unit{18.0, precise::imp::gallon}},
+         {"rundlet_wi", precise_unit{18.0, precise::imp::gallon}},
+         {"tierce", precise_unit{42.0, precise::imp::gallon}},
+         {"tierce_wi", precise_unit{42.0, precise::imp::gallon}},
+         {"tierce_br", precise_unit{42.0, precise::imp::gallon}},
+         {"firkin_wi", precise_unit(70.0, precise::imp::gallon)},
+         {"butterfirkin", precise_unit(25.40117, precise::kg)},
+         {"soapfirkin", precise_unit(25.40117, precise::kg)},
+         {"firkin_br", precise_unit(9.0, precise::imp::gallon)},
+         {"kilderkin", precise_unit(18.0, precise::imp::gallon)},
+         {"kilderkin_wi", precise_unit(18.0, precise::imp::gallon)},
+         {"hogshead_wi", precise_unit(52.5, precise::imp::gallon)},
+         {"tun_wi", precise_unit(210.0, precise::imp::gallon)},
+         {"butt_wi", precise_unit(105.0, precise::imp::gallon)},
+         {"barrel_wi", precise_unit(26.25, precise::imp::gallon)},
+         {"beerbarrel_br", precise_unit(26.25, precise::imp::gallon)},
          {"bbl", precise::us::barrel},
          {"barrel", precise::us::barrel},
          {"bbl(oil)", precise::us::barrel},
@@ -2095,7 +2178,16 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"[bbl_us]", precise::us::barrel},
          {"[BBL_US]", precise::us::barrel},
          {"barrel_us", precise::us::barrel},
+         {"keg", precise_unit(15.5, precise::us::gallon)},
+         {"fullkeg", precise_unit(15.5, precise::us::gallon)},
+         {"importkeg", precise_unit(13.2, precise::us::gallon)},
+         {"minikeg", precise_unit(1.32, precise::us::gallon)},
+         {"bubba", precise_unit(1.32, precise::us::gallon)},
+         {"sixtel", precise_unit(5.16, precise::us::gallon)},
+         {"cornykeg", precise_unit(5.16, precise::us::gallon)},
          {"flbarrel_us", precise::us::flbarrel},
+         {"puncheon", precise_unit(84.0, precise::us::gallon)},
+         {"puncheon_wi", precise_unit(84.0, precise::us::gallon)},
          {"fluidbarrel_us", precise::us::flbarrel},
          {"liquidbarrel_us", precise::us::flbarrel},
          {"flbarrel", precise::us::flbarrel},
@@ -2116,6 +2208,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"tonregister", precise_unit(100.0, precise::ft.pow(3))},
          {"tonreg", precise_unit(100.0, precise::ft.pow(3))},
          {"registerton", precise_unit(100.0, precise::ft.pow(3))},
+         {"registertonne", precise_unit(100.0, precise::ft.pow(3))},
          {"waterton", precise_unit(224.0, precise::imp::gallon)},
          {"lb", precise::lb},
          {"LB", precise::lb},
@@ -2124,6 +2217,14 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"[LB_TR]", precise::troy::pound},
          {"pound-troy", precise::troy::pound},
          {"pound", precise::lb},
+         {"solarmass", constants::planetary::mass::solar.as_unit()},
+         {"solarmasses", constants::planetary::mass::solar.as_unit()},
+         {"jupitermass", constants::planetary::mass::jupiter.as_unit()},
+         {"jupitermasses", constants::planetary::mass::jupiter.as_unit()},
+         {"earthmass", constants::planetary::mass::earth.as_unit()},
+         {"earthmasses", constants::planetary::mass::earth.as_unit()},
+         {"lunarmass", constants::planetary::mass::moon.as_unit()},
+         {"lunarmasses", constants::planetary::mass::moon.as_unit()},
          {"bag", precise_unit(96.0, precise::lb)},
 
          {"tonc", precise::energy::tonc},  // ton cooling
@@ -2150,6 +2251,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"floz_us", precise::us::floz},
          {"foz_us", precise::us::floz},
          {"foz", precise::us::floz},
+         {"shot", {1.5, precise::us::floz}},
          {"[FOZ_US]", precise::us::floz},
          {"fluidounce", precise::us::floz},
          {"fluidounce_us", precise::us::floz},
@@ -2166,6 +2268,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"min_us", precise::us::minim},
          {"[MIN_US]", precise::us::minim},
          {"minim_us", precise::us::minim},
+         {"minim", precise::us::minim},
          {"ouncefl", precise::us::floz},
          {"fluidoz", precise::us::floz},
          {"liquidoz", precise::us::floz},
@@ -2243,6 +2346,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"[PWT_TR]", precise::troy::pennyweight},
          {"pennyweight_tr", precise::troy::pennyweight},
          {"pennyweight", precise::troy::pennyweight},
+         {"dram_tr", precise_unit(0.00388793458, precise::kg)},
          {"sc_ap", precise::apothecaries::scruple},
          {"[SC_AP]", precise::apothecaries::scruple},
          {"scruple", precise::apothecaries::scruple},
@@ -2277,7 +2381,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"libra", {0.722, precise::av::pound}},
          {"uncia", {0.722 / 12.0, precise::av::pound}},
          {"pes", {296.0, precise::mm}},
-         {"stadium", {185.0, precise::m}},
+         {"stadium", {220, precise::yd}},
+         {"stadion", {157.0, precise::m}},
+         {"itinerarystadion", {157.0, precise::m}},
+         {"olympicstadion", {157.0, precise::m}},
          {"leuga", {2.22, precise::km}},
          // chinese units
          {"shi", {71.68, precise::kg}},
@@ -2301,12 +2408,23 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"lbf", precise::lbf},
          {"ozf", precise::av::ozf},
          {"poundforce_us", precise::lbf},
+         // the next four are energy even though the breakdown would be power
+         {"foot-pound", precise::ft* precise::lbf},
+         {"foot-pound of energy", precise::ft* precise::lbf},
+         {"foot-pound of torque", precise::ft* precise::lbf},
+         {"footpound", precise::ft* precise::lbf},
+         {"footpoundforce", precise::ft* precise::lbf},
+         {"foot-pounds of energy", precise::ft* precise::lbf},
+         {"foot-pounds of torque", precise::ft* precise::lbf},
+         {"ft-lb", precise::ft* precise::lbf},
+         {"ftlb", precise::ft* precise::lbf},
          {"slug", precise::av::slug},
          // {"kt", precise_unit(200.0, precise::mg)},
          {"cup", precise::us::cup},
          {"cup_us", precise::us::cup},
          {"[CUP_US]", precise::us::cup},
          {"cupUScustomary", precise::us::cup},
+         {"sticksofbutter", {0.5, precise::us::cup}},
          {"tsp", precise::us::tsp},
          {"tsp_us", precise::us::tsp},
          {"[TSP_US]", precise::us::tsp},
@@ -2334,7 +2452,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"dsp", precise_unit(2.0, precise::us::tsp)},
          {"dssp", precise_unit(2.0, precise::us::tsp)},
          {"dstspn", precise_unit(2.0, precise::us::tsp)},
-         {"wineglass", precise_unit(1.0 / 4.0, precise::us::cup)},
+         {"glass_wi", precise_unit(1.0 / 4.0, precise::us::cup)},
          {"wgf", precise_unit(1.0 / 4.0, precise::us::cup)},
          {"teacup", precise_unit(1.0 / 2.0, precise::us::cup)},
          {"tcf", precise_unit(1.0 / 2.0, precise::us::cup)},
@@ -2428,20 +2546,29 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"bbl_br", precise::imp::barrel},
          {"tablespoon_br", precise::imp::tbsp},
          {"teaspoon_br", precise::imp::tsp},
+         {"dessertspoon_br", precise_unit(2.0, precise::imp::tsp)},
          {"tbsp_br", precise::imp::tbsp},
          {"tsp_br", precise::imp::tsp},
          {"cup_br", precise::imp::cup},
-         {"[lne]", precise::typographic::american::line},
-         {"[LNE]", precise::typographic::american::line},
-         {"line", precise::typographic::american::line},
+         {"[lne]", precise::typographic::dtp::line},
+         {"[LNE]", precise::typographic::dtp::line},
+         {"line", precise::typographic::dtp::line},
+         {"line_us", precise::typographic::american::line},
+         {"point_us", precise::typographic::american::point},
+         {"pica_us", precise::typographic::american::pica},
+         {"twip_us", precise::typographic::american::twip},
          {"line_br", precise::typographic::american::line},
-         {"pnt", precise::typographic::american::point},
-         {"[PNT]", precise::typographic::american::point},
-         {"point", precise::typographic::american::point},
-         {"pca", precise::typographic::american::pica},
-         {"[PCA]", precise::typographic::american::pica},
-         {"pica", precise::typographic::american::pica},
-         {"twip", precise::typographic::american::twip},
+         {"pnt", precise::typographic::dtp::point},
+         {"[PNT]", precise::typographic::dtp::point},
+         {"desktoppublishingpoint", precise::typographic::dtp::point},
+         {"pca", precise::typographic::dtp::pica},
+         {"[PCA]", precise::typographic::dtp::pica},
+         {"dtppica", precise::typographic::dtp::pica},
+         {"dtptwip", precise::typographic::dtp::twip},
+         {"dtppoint", precise::typographic::dtp::point},
+         {"point", precise::typographic::dtp::point},
+         {"pica", precise::typographic::dtp::pica},
+         {"twip", precise::typographic::dtp::twip},
          {"printer'spoint", precise::typographic::printers::point},
          {"printerspoint", precise::typographic::printers::point},
          {"pointprinter", precise::typographic::printers::point},
@@ -2451,9 +2578,19 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"printer'spica", precise::typographic::printers::pica},
          {"printerspica", precise::typographic::printers::pica},
          {"picaprinter", precise::typographic::printers::pica},
+         {"ATApica", precise::typographic::printers::pica},
+         {"atapica", precise::typographic::printers::pica},
+         {"picaata", precise::typographic::printers::pica},
+         {"ATApoint", precise::typographic::printers::point},
+         {"atapoint", precise::typographic::printers::point},
+         {"pointata", precise::typographic::printers::point},
          {"pca_pr", precise::typographic::printers::pica},
          {"pcapr", precise::typographic::printers::pica},
          {"[PCA_PR]", precise::typographic::printers::pica},
+         {"INpoint", precise::typographic::IN::point},
+         {"INpica", precise::typographic::IN::pica},
+         {"INPoint", precise::typographic::IN::point},
+         {"INPica", precise::typographic::IN::pica},
          {"pied", precise::typographic::french::pied},
          {"[PIED]", precise::typographic::french::pied},
          {"pouce", precise::typographic::french::pouce},
@@ -2465,6 +2602,16 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"[DIDOT]", precise::typographic::french::didot},
          {"cicero", precise::typographic::french::cicero},
          {"[CICERO]", precise::typographic::french::cicero},
+         {"postscriptpoint", precise::typographic::postscript::point},
+         {"pointpostscript", precise::typographic::postscript::point},
+         {"postscriptpica", precise::typographic::postscript::pica},
+         {"picapostscript", precise::typographic::postscript::pica},
+         {"texpoint", precise::typographic::tex::point},
+         {"pointtex", precise::typographic::tex::point},
+         {"texpica", precise::typographic::tex::pica},
+         {"picatex", precise::typographic::tex::pica},
+         {"truchetpoint", {0.188, precise::mm}},
+         {"truchetpica", {0.188 * 12, precise::mm}},
          {"tex", precise::textile::tex},
          {"texes", precise::textile::tex},
          {"TEX", precise::textile::tex},
@@ -2475,9 +2622,20 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"span(cloth)", precise::textile::span},
          {"finger(cloth)", precise::textile::finger},
          {"nail(cloth)", precise::textile::nail},
-
+         {"nail", precise::textile::nail},
+         {"span", precise::textile::span},
+         {"finger", precise::textile::finger},
          {"smoot", precise::distance::smoot},
          {"[SMOOT]", precise::distance::smoot},
+         // potrzebie system developed by Dononld Knuth
+         // https://polaris93.livejournal.com/2046896.html
+         {"potrzebie", precise_unit(2.2633484517438173216473, precise::mm)},
+         {"blintz", precise_unit(0.0364253863, precise::kg)},
+         {"blintzes", precise_unit(0.0364253863, precise::kg)},
+         {"ngogn", precise_unit(22.633484517438173216473, precise::mm).pow(3)},
+         {"furshlugginer", precise_unit(1000.0, precise::one)},
+         {"farshimmelt", precise_unit(0.000001, precise::one)},
+         {"clarke", precise::day},
 
          {"[hp_X]",
           precise_unit(1.0, precise::log::neglog10, commodities::Hahnemann)},
@@ -2525,7 +2683,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 // Mostly from https://en.wikipedia.org/wiki/International_System_of_Units
 UNITS_CPP14_CONSTEXPR_OBJECT
-std::array<std::pair<const char*, precise_unit>, 237> defined_measurement_types{
+std::array<std::pair<const char*, precise_unit>, 245> defined_measurement_types{
     {
         {"", precise::defunit},
         {"arb", precise::defunit},
@@ -2653,6 +2811,7 @@ std::array<std::pair<const char*, precise_unit>, 237> defined_measurement_types{
         {"illumination", precise::lx},
         {"luminousemittance", precise::lx},
         {"intensityoflight", precise::lx},
+        {"lightintensity", precise::lx},
         {"radioactivity", precise::Bq},
         {"radionuclideactivity", precise::Bq},
         {"radiation", precise::Bq},
@@ -2668,6 +2827,7 @@ std::array<std::pair<const char*, precise_unit>, 237> defined_measurement_types{
         {"equivalentdose", precise::Sv},
         {"doseequivalent", precise::Sv},
         {"radiationdose", precise::Sv},
+        {"radiationdosage", precise::Sv},
         {"effectivedose", precise::Sv},
         {"operationaldose", precise::Sv},
         {"committeddose", precise::Sv},
@@ -2764,5 +2924,11 @@ std::array<std::pair<const char*, precise_unit>, 237> defined_measurement_types{
         {"catalyticconcentration", precise::kat / precise::m.pow(3)},
         {"molarenergy", precise::J / precise::mol},
         {"molarentropy", precise::J / precise::mol / precise::K},
+        {"datatransferrate", precise::bit / precise::s},
+        {"flowrate", precise::m.pow(3) / precise::s},
+        {"fuelconsumption", precise::km / precise::L},
+        {"information", precise::bit},
+        {"unitless", precise::one},
+        {"numeric", precise::one},
     }};
 }  // namespace UNITS_NAMESPACE
