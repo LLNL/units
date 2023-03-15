@@ -701,7 +701,13 @@ namespace precise {
             constexpr precise_unit point{1.0/72.0,i::inch};
             constexpr precise_unit pica{12.0, point};
         }
-
+        namespace dtp {
+            //desktop publishing
+            constexpr precise_unit point{1.0/72.0,i::inch};
+            constexpr precise_unit pica{12.0, point};
+            constexpr precise_unit twip{1.0 / 20.0, point};
+            constexpr precise_unit line{6.0, point};
+        }
     }  // namespace typographic
 
     /// units related to distance

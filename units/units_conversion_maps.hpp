@@ -204,7 +204,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1158>
+    1151>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -878,6 +878,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"eighth", precise_unit(0.125, precise::one)},
         {"tenth", precise_unit(0.1, precise::one)},
         {"cell", precise_unit(1.0, precise::count, commodities::cell)},
+        {"cells", precise_unit(1.0, precise::count, commodities::cell)},
         {"{cells}", precise_unit(1.0, precise::count, commodities::cell)},
         // mainly to catch the commodity for using cell
         {"{#}", precise::count},
@@ -1458,7 +1459,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1150>
+    1149>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candlepower", precise::other::candle},
@@ -1693,7 +1694,6 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"cubit", precise::distance::cubit},
          {"cubit_br", precise::distance::cubit},
          {"cubit(UK)", precise::distance::cubit},
-         {"cubit_br", precise::distance::cubit},
          {"ell",precise_unit(45.0,precise::in)},
          {"ell_br",precise_unit(45.0,precise::in)},
          {"englishell",precise_unit(45.0,precise::in)},
@@ -2168,9 +2168,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"hogshead_wi", precise_unit(52.5, precise::imp::gallon)},
          {"tun_wi", precise_unit(210.0, precise::imp::gallon)},
          {"butt_wi", precise_unit(105.0, precise::imp::gallon)},
-         {"puncheon_wi", precise_unit(70.0, precise::imp::gallon)},
          {"barrel_wi", precise_unit(26.25, precise::imp::gallon)},
-         {"barrel_br", precise_unit(26.25, precise::imp::gallon)},
          {"beerbarrel_br", precise_unit(26.25, precise::imp::gallon)},
          {"bbl", precise::us::barrel},
          {"barrel", precise::us::barrel},
@@ -2415,6 +2413,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"foot-pound of energy",precise::ft*precise::lbf},
          {"foot-pound of torque",precise::ft*precise::lbf},
          {"footpound",precise::ft*precise::lbf},
+         {"footpoundforce",precise::ft*precise::lbf},
          {"foot-pounds of energy",precise::ft*precise::lbf},
          {"foot-pounds of torque",precise::ft*precise::lbf},
          {"ft-lb",precise::ft*precise::lbf},
@@ -2551,17 +2550,25 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"tbsp_br", precise::imp::tbsp},
          {"tsp_br", precise::imp::tsp},
          {"cup_br", precise::imp::cup},
-         {"[lne]", precise::typographic::american::line},
-         {"[LNE]", precise::typographic::american::line},
-         {"line", precise::typographic::american::line},
+         {"[lne]", precise::typographic::dtp::line},
+         {"[LNE]", precise::typographic::dtp::line},
+         {"line", precise::typographic::dtp::line},
+         {"line_us", precise::typographic::american::line},
+         {"point_us", precise::typographic::american::point},
+         {"pica_us", precise::typographic::american::pica},
+         {"twip_us", precise::typographic::american::twip},
          {"line_br", precise::typographic::american::line},
-         {"pnt", precise::typographic::american::point},
-         {"[PNT]", precise::typographic::american::point},
-         {"point", precise::typographic::american::point},
-         {"pca", precise::typographic::american::pica},
-         {"[PCA]", precise::typographic::american::pica},
-         {"pica", precise::typographic::american::pica},
-         {"twip", precise::typographic::american::twip},
+         {"pnt", precise::typographic::dtp::point},
+         {"[PNT]", precise::typographic::dtp::point},
+         {"desktoppublishingpoint", precise::typographic::dtp::point},
+         {"pca", precise::typographic::dtp::pica},
+         {"[PCA]", precise::typographic::dtp::pica},
+         {"dtppica", precise::typographic::dtp::pica},
+         {"dtptwip", precise::typographic::dtp::twip},
+         {"dtppoint", precise::typographic::dtp::point},
+         {"point", precise::typographic::dtp::point},
+         {"pica", precise::typographic::dtp::pica},
+         {"twip", precise::typographic::dtp::twip},
          {"printer'spoint", precise::typographic::printers::point},
          {"printerspoint", precise::typographic::printers::point},
          {"pointprinter", precise::typographic::printers::point},
