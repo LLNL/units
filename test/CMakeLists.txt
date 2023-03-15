@@ -106,7 +106,7 @@ else()
     target_compile_definitions(
         test_udunits PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
-    
+
     target_compile_definitions(
         test_google_units PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
