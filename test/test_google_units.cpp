@@ -67,7 +67,7 @@ TEST(googleUnits, unitNames)
                     if (bunit != units::precise::one) {
                         EXPECT_TRUE(aunit.has_same_base(bunit))
                             << abbrev
-                            << " is valid but does not convert to a unit with the same base as "
+                            << " is valid but had different base than "
                             << utype;
                     }
                     iustring.erase(ploc);
@@ -75,7 +75,7 @@ TEST(googleUnits, unitNames)
                 auto runit = units::unit_from_string(iustring);
                 EXPECT_TRUE(is_valid(runit))
                     << iustring
-                    << " has no conversion, does not convert to a valid unit of "
+                    << "does not convert to a valid unit of "
                     << utype;
                 if (commaloc == std::string::npos) {
                     ustring.clear();
@@ -96,7 +96,7 @@ TEST(googleUnits, unitNames)
                     }
                     EXPECT_TRUE(convertible)
                         << (++invalidMatches, iustring)
-                        << " is valid but does not convert to a unit with the same base as "
+                        << " is valid but had different base than "
                         << utype;
                 }
             }
