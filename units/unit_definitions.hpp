@@ -2002,7 +2002,7 @@ namespace detail {
         if (unit_cast(start) == kilo) {
             if (result.has_same_base(kg)) {
                 return convert(val, kg, result);
-            } 
+            }
             if (result.has_same_base(m)) {
                 return convert(val, km, result);
             }
