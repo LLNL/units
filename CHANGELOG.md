@@ -7,7 +7,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.8.0][] - 2022-03-17
 
-A few user suggested tweaks, and support additional unit string conversions supported by the google unit converter.  Cleaner output for `Hz`   
+A few user suggested tweaks, and support additional unit string conversions supported by the google unit converter. Cleaner output for `Hz`
+
 ### Changed
 
 - modified the eflag to work a little differently than the iflag and moved a couple units to use the eflag instead to support things like `sqrt(degC.pow(2))=degC` [#275][]
@@ -27,7 +28,6 @@ A few user suggested tweaks, and support additional unit string conversions supp
 - Added `removeUserDefinedUnit` method [#273][]
 - Added `addUserDefinedOutput method to specify an output string for a unit [#270][]
 - Added support for `robi` and `qubi` prefixes
-
 
 [#267]: https://github.com/LLNL/units/pull/267
 [#266]: https://github.com/LLNL/units/pull/266

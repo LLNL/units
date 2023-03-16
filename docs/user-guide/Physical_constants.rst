@@ -69,7 +69,7 @@ The masses of some of the solar system bodies are included in `units::constants:
 - solar
 - earth
 - moon
-- jupiter 
+- jupiter
 - mars
 
 

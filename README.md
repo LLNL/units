@@ -11,7 +11,7 @@
 
 [Documentation](https://units.readthedocs.io/en/latest/)
 
-The Units library provides a means of working with units at runtime, including conversion to and from strings.  It provides runtime unit and measurement values, instead of individual types per unit definition for the purposes of working with units of measurement at run time possibly from user input.
+The Units library provides a means of working with units at runtime, including conversion to and from strings. It provides runtime unit and measurement values, instead of individual types per unit definition for the purposes of working with units of measurement at run time possibly from user input.
 
 This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and [HELICS](https://github.com/GMLC-TDC/HELICS) and is currently a work in progress (though getting close). Namespaces, function names, and code organization is subject to change though is fairly stable at this point, input is welcome. A set of [documentation](https://units.readthedocs.io/en/latest/) is available.
 
@@ -34,10 +34,10 @@ This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/Gr
 
 ## Purpose
 
-A units library was needed to be able to represent units from a wide range of disciplines and be able to separate them from the numerical values for use in calculations when needed. The main drivers are 
+A units library was needed to be able to represent units from a wide range of disciplines and be able to separate them from the numerical values for use in calculations when needed. The main drivers are
 
-1. converting units, often represented by strings, to a standardized unit set when dealing with user input and output. 
-2. Being able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units. 
+1. converting units, often represented by strings, to a standardized unit set when dealing with user input and output.
+2. Being able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.
 3. Being able to associate a completely arbitrary unit given by users with a generic interface and support conversions between those user defined units and other units.
 4. The library has its origins in power systems so support for per-unit operations was also lacking in the alternatives.
 5. Capture uncertainty and uncertainty calculations directly with a measurement
@@ -149,7 +149,7 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 | count     | 2    | \[-2,+1\]           | \[-1,+1\]    |                         |
 | radians   | 3    | \[-4,+3\]           | \[-2,+2\]    |                         |
 
-These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered.  See [Unit Details](https://units.readthedocs.io/en/latest/details/unit_base.html#) for additional details on the unit base representation.
+These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered. See [Unit Details](https://units.readthedocs.io/en/latest/details/unit_base.html#) for additional details on the unit base representation.
 
 The CMake variable `UNITS_BASE_TYPE`, if set to a 64 bit type like `uint64_t`, will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [CMake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
 
@@ -162,7 +162,7 @@ The CMake variable `UNITS_BASE_TYPE`, if set to a 64 bit type like `uint64_t`, w
 - The normal rules about floating point operations losing precision also apply to unit representations with non-integral multipliers.
 - With string conversions there are many units that can be interpreted in multiple ways. In general, the priority was given to units in more common use in the United States, or in power systems and electrical engineering which was the origin of this library.
 - The unit `year` has different meanings in different contexts. SI defines the default year as `yr`=`365*day`=`8760*hr` the specific [domains](https://units.readthedocs.io/en/latest/user-guide/unit_domains.html) define it differently. 'year' means `365.25` days in the UCUM domain and the mean tropical year for the astronomy domain.
-- The i_flag functions such that when squared it goes to 0, similar to the imaginary number `i*conj(i)=i^0`. This is useful for directional units such as compass directions and reactive power in power systems.  The e_flag functions as an or operation in multiplication and xor operation during division.
+- The i_flag functions such that when squared it goes to 0, similar to the imaginary number `i*conj(i)=i^0`. This is useful for directional units such as compass directions and reactive power in power systems. The e_flag functions as an or operation in multiplication and xor operation during division.
 - Measurement/unit equality is an interesting topic. The library takes a pragmatic approach vs. a precise mathematical approach. The precision of a float is taken to be roughly 7 decimal digit of precision. A double used in the 'precise' values to be 13 decimal digits of precision. This precision is sufficient to run a few operations without going out of tolerance from floating point operations. It also comes into equality, which is nominally taken to be values and units within this tolerance level. So, numbers are rounded to a certain number of digits then compared to within a tolerance level. Some effort was made to make this uniform, but tolerance around the last digit is not exact. Comparison operators for the units and measurements are provided. Equality and inequality use the rounded comparison; greater and less than are exact, while `>=` and `<=` check first for > or < conditions then check for equality if needed. There are a few situations that are not totally consistent like `1.0000001*m==1.0*m` and `1.0000001*m>1.0*m`, but such is nature of floating point operations. So, from a mathematical purity sense this isn't consistent but does mostly what was needed. If the difference between the two values is a subnormal number the equality comparison also evaluates to true, even if that would otherwise be outside the numerical tolerance.
 
 ## Defined units
@@ -178,7 +178,7 @@ A set of physical and numerical constants are defined in the `units::constants` 
 
 There are two parts of the library a header only portion that can simply be copied and used. There are 5 headers `units_decl.hpp` declares the underlying classes. `units_util.hpp` defines some additional helper functions, `unit_defintions.hpp` declares constants for many of the units, and `units.hpp` which is the primary public interface to units,`units_math.hpp` is an optional extra header that includes additional mathematical operations. If `units.hpp` is included in another file and the variable `UNITS_HEADER_ONLY` is defined then none of the functions that require the cpp files are defined. These header files can simply be included in your project and used with no additional building required.
 
-The second part is a few cpp files that can add some additional functionality. The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings. The `units_conversion_maps.hpp` file defines many of string conversions used in the converters to and from strings.  These files can be built as a standalone static library or included in the source code of whatever project want to use them. The code should build with an C++11 or greater compiler.   It currently defaults to build with C++14.  Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time. Unit numerical conversions are not at compile time, so will have a run-time cost. A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit. The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.
+The second part is a few cpp files that can add some additional functionality. The primary additions from the cpp file are an ability to take roots of units and measurements and convert to and from strings. The `units_conversion_maps.hpp` file defines many of string conversions used in the converters to and from strings. These files can be built as a standalone static library or included in the source code of whatever project want to use them. The code should build with an C++11 or greater compiler. It currently defaults to build with C++14. Most of the library is tagged with constexpr so can be run at compile time to link units that are known at compile time. Unit numerical conversions are not at compile time, so will have a run-time cost. A `quick_convert` function is available to do simple conversions. with a requirement that the units have the same base and not be an equation unit. The cpp code also includes some functions for commodities and will eventually have r20 and x12 conversions, though this is not complete yet.
 
 It builds by default with the static library. Using `UNIT_BUILD_SHARED_LIBRARY` or `BUILD_SHARED_LIBS` will build the shared library instead. Either one can be used with CMake as a `units::units` target. The header only library target is also generated `units::header_only`. The shared/static library has a CMake target `units::units`.
 
@@ -290,7 +290,7 @@ These functions are not class methods but operate on units
 
 Uncertain measurements have a few additional functions to support the uncertainty calculations
 
-- `simple_add`, `simple_subtract`, `simple_product`, `simple_divide` are equivalent to the associated operator but use simple uncertainty propagation.  `simple_product` and `simple_divide` are `constexpr` when compiled with C++14 or greater. The regular operators use root sum of squares propagation.
+- `simple_add`, `simple_subtract`, `simple_product`, `simple_divide` are equivalent to the associated operator but use simple uncertainty propagation. `simple_product` and `simple_divide` are `constexpr` when compiled with C++14 or greater. The regular operators use root sum of squares propagation.
 - `double uncertainty()` get the numerical value of the uncertainty.
 - `float uncertainty_f()` get the numerical value of the uncertainty as a float.
 - `measurement uncertainty_measurement()` get the uncertainty as a separate measurement
@@ -338,7 +338,7 @@ A few additional math operations are available in the `"unit_math.hpp"` header o
 - `precise_unit default_unit( string)`: get a unit associated with a particular kind of measurement. for example `default_unit("length")` would return `precise::m`
 - `precise_measurement measurement_from_string(string,flags)`: convert a string to a precise_measurement.
 - `measurement measurement_cast_from_string(string,flags)`: convert a string to a measurement calls measurement_from_string and does a measurement_cast.
-- `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement. Typically the string will have some segment with a `±`, `+/-` or the html equivalent in it to signify the uncertainty. The compact notation for uncertainties is also supported for example `3.5235(19)`.  
+- `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement. Typically the string will have some segment with a `±`, `+/-` or the html equivalent in it to signify the uncertainty. The compact notation for uncertainties is also supported for example `3.5235(19)`.
 - `std::string to_string([unit|measurement],flags=0)` : convert a unit or measurement to a string, all defined units or measurements listed above are supported. The eventual plan is to support a couple different standards for the strings through the flags, But for now they don't do much.
 
 For more description of the possible flags see [flags](https://units.readthedocs.io/en/latest/user-guide/conversion_flags.html).

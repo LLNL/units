@@ -487,7 +487,7 @@ This is the modern standard or as close to such a thing as exists
 
 `units::precise::typographic`
 +++++++++++++++++++++++++++++++++++++++++++
-Values taken from dtp namespace 
+Values taken from dtp namespace
 
 - point
 - pica
@@ -526,7 +526,7 @@ Some additional units defining a mass `units::precise::mass`
 - ton_assay
 - longton_assay
 - Da
-- u 
+- u
 - tonne
 
 t is included in the `units::precise` namespace as a metric tonne
@@ -808,7 +808,7 @@ Units related to climate in namespace `units::precise::climate`
 - gwp - global warming potential
 - gtp - global temperature potential
 
-Speed Units 
+Speed Units
 ============================
 
 mph and mps are defined in `units::precise` since they are pretty common
