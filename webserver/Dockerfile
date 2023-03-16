@@ -1,7 +1,5 @@
 FROM helics/buildenv:gcc12-builder as builder
 
-# modification date 2022-12-17
-
 WORKDIR /root/develop
 
 RUN git clone https://github.com/LLNL/units.git units
@@ -26,8 +24,8 @@ LABEL name="units.webserver"
 LABEL description="Units library webserver"
 LABEL vcs-ref=$GIT_COMMIT
 LABEL vcs-url="https://github.com/LLNL/units"
-LABEL version="0.7.0"
-LABEL date="2022-12-17"
+LABEL version="0.8.0"
+LABEL date="2023-03-17"
 
 VOLUME /weblog
 

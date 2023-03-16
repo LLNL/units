@@ -25,6 +25,7 @@ For example
    auto str = to_string(um1);
    EXPECT_EQ(str, "10+/-0.4 m");
 
+Uncertain measurment string conversions make some attempt to honor significant digits based on the uncertainty. 
 
 Advanced Usage
 ----------------

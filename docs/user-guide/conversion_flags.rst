@@ -16,6 +16,7 @@ Unit_from_string flags
 -    `astronomy_units` --input units for astronomy are prioritized
 -    `surveying_units` --input units for surveying are prioritized
 -    `nuclear_units` --input units for nuclear physics and radiation are prioritized
+-    `climate_units` --input units for climate sciences
 -    `us_customary_units` -- input units for us customary measurements are prioritized(same as `cooking_units | surveying_units`)
 
 -    `numbers_only` --indicate that only numbers should be matched in the first segments, mostly applies only to power operations
@@ -40,10 +41,11 @@ The library is by nature somewhat flexible in capitalization patterns, because o
 
 The `single_slash` flag is targeted at a few specific programs which use the format of a single slash marking the separation of numerator from denominator.
 
-`strict_ucum`, `cooking_units`, `astronomy_units`, `surveying_units`, `nuclear_units`, and  `us_customary_units` are part of the domain system and can change the unit matched.
+`strict_ucum`, `cooking_units`, `astronomy_units`, `surveying_units`, `nuclear_units`, `climate_units` and  `us_customary_units` are part of the domain system and can change the unit matched.
 
 The remainder of the flags are somewhat self explanatory and are primarily used as part of the string conversion program to prevent infinite recursion.  The `no_commodities` or `no_per_operator` may be used if it is known those do not apply for a slight increase in performance.  The `no_recursion` or `skip_partition_check` can be use if only simple strings are passed to speed up the process somewhat.
 
 to_string Flags
 ---------------------
-No flags currently affect the output though some are planned.
+
+- `disable_large_power_strings` - if the units definition allows large powers this flag can disable the use of them in the output string

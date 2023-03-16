@@ -5,6 +5,40 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0][] - 2022-03-17
+
+A few user suggested tweaks, and support additional unit string conversions supported by the google unit converter.  Cleaner output for `Hz`   
+### Changed
+
+- modified the eflag to work a little differently than the iflag and moved a couple units to use the eflag instead to support things like `sqrt(degC.pow(2))=degC` [#275][]
+- Updated copyright date to 2023 [#266][]
+
+### Fixed
+
+- fix fuzzing issue with arb. unit [#275][]
+- Format arb.unit nicely and fix a hardcoded namespace [#272][]
+- Fix `quad` unit, and clean up some unit conversion strings involving `Hz` [#265][]
+- Update clang tidy and fix resulting issues [#267][]
+
+### Added
+
+- Added several unit strings and cleaned up the typography units [#282][]
+- Added a dependabot configuration for updating the actions [#274][]
+- Added `removeUserDefinedUnit` method [#273][]
+- Added `addUserDefinedOutput method to specify an output string for a unit [#270][]
+- Added support for `robi` and `qubi` prefixes
+
+
+[#267]: https://github.com/LLNL/units/pull/267
+[#266]: https://github.com/LLNL/units/pull/266
+[#265]: https://github.com/LLNL/units/pull/265
+[#270]: https://github.com/LLNL/units/pull/270
+[#273]: https://github.com/LLNL/units/pull/273
+[#272]: https://github.com/LLNL/units/pull/272
+[#274]: https://github.com/LLNL/units/pull/274
+[#275]: https://github.com/LLNL/units/pull/275
+[#282]: https://github.com/LLNL/units/pull/282
+
 ## [0.7.0][] - 2022-12-17
 
 Added several math operations for units, restored coverage to 100%, added uncertain constants and cleaner string generation and interpretation around the use of '.' and uncertain measurements, and added support for new SI prefixes.

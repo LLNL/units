@@ -708,6 +708,9 @@ namespace precise {
             constexpr precise_unit twip{1.0 / 20.0, point};
             constexpr precise_unit line{6.0, point};
         }  // namespace dtp
+
+        constexpr precise_unit poin=dtp::point;
+        constexpr precise_unit pica=dtp::pica;
     }  // namespace typographic
 
     /// units related to distance

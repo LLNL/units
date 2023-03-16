@@ -92,8 +92,8 @@ jobs:
           containerImage: gcc:9
           units.std: 17
           units.options: -DCMAKE_CXX_FLAGS="-Wstrict-overflow=5"
-        gcc11:
-          containerImage: gcc:11
+        gcc12:
+          containerImage: gcc:12
           units.std: 20
     container: $[ variables['containerImage'] ]
     steps:

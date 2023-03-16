@@ -17,6 +17,7 @@ Values are taken from `NIST 2018 CODATA <https://physics.nist.gov/cuu/Constants/
 -   Speed of light - `c`
 -   Elementary Charge (2019 redefinition) - `e`
 -   hyperfine structure transition frequency of the caesium-133 atom - `fCs`
+-   fine structure constant - `alpha`
 -   Planck constant (2019 redefinition) - `h`
 -   Reduced Planck constant (2019 redefinition) - `hbar`
 -   Boltzman constant (2019 redefinition) - `k`
@@ -54,12 +55,23 @@ There are a few numbers that are used in the library and include definitions in 
 
 -   `pi` (3.14159265358979323846)
 -   `tau` (2.0*pi)
--   `invalid_conversion` (NaN)
+-   `invalid_conversion` (signaling NaN)
 -   `infinity`
 -   `standard_gravity`  the numerical value of g0, earth standard gravity in m/s/sec
 -   `speed_of_light`  The numerical value of the speed of light in m/s
 
 The last two are used in several other units and some conversions so it seemed better to just define the numerical value and use that rather than use the same number in several places.
+
+Planetary masses
+----------------
+The masses of some of the solar system bodies are included in `units::constants::Planetary::mass`
+
+- solar
+- earth
+- moon
+- jupiter 
+- mars
+
 
 From Strings
 -----------------
@@ -77,6 +89,8 @@ These can be found in the `units::constants::uncertain` namespace and include:
 -   Mass of an electron - `me`
 -   Mass of a proton - `mp`
 -   Atomic mass constant - `mu`
+-   mass of nuetron - `mn`
 -   Rydberg constant - `Rinf`
+-   fine structure constant - `alpha`
 
 *NOTE:  A few of the uncertain constants have more precision than supported in uncertain_measurments but were included for completeness*

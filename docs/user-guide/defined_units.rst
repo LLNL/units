@@ -171,6 +171,7 @@ Defined in namespace `units::precise::time`,  units marked with * are also defin
 - ms*
 - ns*
 - hr*
+- h*
 - day*
 - week
 - yr* (8760 hr)
@@ -180,7 +181,7 @@ Defined in namespace `units::precise::time`,  units marked with * are also defin
 - at - mean tropical year
 - aj - mean julian year
 - ag - mean gregorian year
-- year - aliased to mean julian year (which seems to be most common usage)
+- year - aliased to median calendar year (365 days) which is the standard for SI
 - mos - synodal (lunar) month
 - moj - mean julian month
 - mog - mean gregorian month
@@ -297,7 +298,7 @@ Some survey units are defined in `units::precise::us::engineers` to distinguish 
 - chain
 - link
 
-The unit gallon is also defined in `units::precise` since that is pretty common to use.
+The unit gal (gallon) is also defined in `units::precise` since that is pretty common to use.
 
 FDA and metric measures
 ========================
@@ -455,6 +456,41 @@ Subsets of the units depending on the location are in subnamespaces
 - point
 - quart
 
+`units::precise::typographic::IN`
++++++++++++++++++++++++++++++++++++++++++++
+l'Imprimerie nationale
+
+- point
+- pica
+
+
+`units::precise::typographic::tex`
++++++++++++++++++++++++++++++++++++++++++++
+
+- point
+- pica
+
+`units::precise::typographic::postscript`
++++++++++++++++++++++++++++++++++++++++++++
+
+- point
+- pica
+
+`units::precise::typographic::dtp`
++++++++++++++++++++++++++++++++++++++++++++
+This is the modern standard or as close to such a thing as exists
+
+- point
+- pica
+- twip
+- line
+
+`units::precise::typographic`
++++++++++++++++++++++++++++++++++++++++++++
+Values taken from dtp namespace 
+
+- point
+- pica
 
 Distance Units
 ===============================
@@ -465,12 +501,13 @@ Some additional distance units are defined in `units::precise::distance`
 - au_old
 - angstrom
 - parsec
-- `smoot`
+- smoot
 - cubit
 - longcubit
 - arpent_us
 - arpent_fr
 - xu
+
 
 Area Units
 ==========================
@@ -488,6 +525,11 @@ Some additional units defining a mass `units::precise::mass`
 - quintal
 - ton_assay
 - longton_assay
+- Da
+- u 
+- tonne
+
+t is included in the `units::precise` namespace as a metric tonne
 
 Volume Units
 ==========================
@@ -509,9 +551,10 @@ A few units defining angles are defined in `units::precise::angle`.
 - arcsec
 - brad - binary radian (1/256 of a circle)
 
+
 Directional Units
 =========================
-A few directional units are defined in `units::precise::direction`, these make use of the `i_flag` and a numerical value
+A few cardinal directional units are defined in `units::precise::direction`, these make use of the `i_flag` and a numerical value
 
 - east
 - north
@@ -650,7 +693,7 @@ Equation units are explained more thoroughly in :ref:`Equation Units`  Some of t
 - dB_W
 - dB_kW
 - dB_Z - radar reflectivity
-- Bz - radar reflectivity
+- BZ - radar reflectivity
 
 
 Textile related Units
@@ -701,12 +744,12 @@ Data Units
 ============
 Units related to computer data and storage in `units::precise::data`
 
-- bit
+- bit*
 - nibble
 - byte
-- kB
-- MB
-- GB
+- kB*
+- MB*
+- GB*
 - kiB
 - MiB
 - GiB
@@ -719,6 +762,8 @@ Units related to computer data and storage in `units::precise::data`
 - nat
 - trit
 - digits
+
+`B` is defined as byte in `units::precise`
 
 Computation units
 ===================
@@ -752,6 +797,7 @@ General purpose other units not otherwise categorical in namespace `units::preci
 - candle
 - faraday
 - rpm* - revolution per minute
+- CFM - cubic feet per minute
 - MegaBuck - $1,000,000
 - GigaBuck - $1,000,000,000
 
@@ -761,6 +807,11 @@ Units related to climate in namespace `units::precise::climate`
 
 - gwp - global warming potential
 - gtp - global temperature potential
+
+Speed Units 
+============================
+
+mph and mps are defined in `units::precise` since they are pretty common
 
 Units in the `units` namespace
 -------------------------------------
