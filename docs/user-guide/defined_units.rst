@@ -501,7 +501,7 @@ Some additional distance units are defined in `units::precise::distance`
 - au_old
 - angstrom
 - parsec
-- smoot
+- `smoot`
 - cubit
 - longcubit
 - arpent_us
