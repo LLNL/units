@@ -52,7 +52,7 @@ jobs:
           units.std: 17
         Windows32bit:
           vmImage: 'windows-2019'
-          units.options: -A "Win32" -DUNITS_BUILD_WEBSERVER=OFF 
+          units.options: -A "Win32" -DUNITS_BUILD_WEBSERVER=OFF
           units.std: 14
         Windows11:
           vmImage: 'windows-2019'
