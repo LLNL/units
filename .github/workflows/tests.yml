@@ -11,7 +11,7 @@ on:
 jobs:
   cmake-config:
     name: CMake config check
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
 
@@ -128,14 +128,20 @@ jobs:
         cmake-version: "3.22"
       if: success() || failure()
 
-    - name: Check CMake 3.23 (full)
+    - name: Check CMake 3.23 
       uses: ./.github/actions/quick_cmake
       with:
         cmake-version: "3.23"
       if: success() || failure()
 
-    - name: Check CMake 3.24 (full)
+    - name: Check CMake 3.24 
       uses: ./.github/actions/quick_cmake
       with:
         cmake-version: "3.24"
+      if: success() || failure()
+      
+    - name: Check CMake 3.25 
+      uses: ./.github/actions/quick_cmake
+      with:
+        cmake-version: "3.25"
       if: success() || failure()
