@@ -11,7 +11,7 @@
 
 [Documentation](https://units.readthedocs.io/en/latest/)
 
-The Units library provides a means of working with units at runtime, including conversion to and from strings. It provides runtime unit and measurement values, instead of individual types per unit definition for the purposes of working with units of measurement at run time possibly from user input.
+The Units library provides a means of working with units of measurement at runtime, including conversion to and from strings. It provides a small number of types for working with units and measurements and operations necessary for user input and output with units.
 
 This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and [HELICS](https://github.com/GMLC-TDC/HELICS) and is currently a work in progress (though getting close). Namespaces, function names, and code organization is subject to change though is fairly stable at this point, input is welcome. A set of [documentation](https://units.readthedocs.io/en/latest/) is available.
 
@@ -42,7 +42,7 @@ A units library was needed to be able to represent units from a wide range of di
 4. The library has its origins in power systems so support for per-unit operations was also lacking in the alternatives.
 5. Capture uncertainty and uncertainty calculations directly with a measurement
 
-It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units. The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that. This library does **NOT** provide compile time checking of units. The units library provides a library that supports units and operations on them where many of the units in use are unknown at compile time and conversions and definitions are dealt with at run time, and may be of a wide variety of units.
+It was desired that the unit representation be a compact type(<=8 bytes) that is typically passed by value, that can represent a wide assortment of units and arbitrary combinations of units. The primary use of the conversions is at run-time to convert user input/output to/from internal units, it is not to provide strict type safety or dimensional analysis, though it can provide some of that. This library does **NOT** provide compile time checking of units. The units library supports units and operations on units where many of the units in use are unknown at compile time and conversions and definitions are dealt with at run time, and may be of a wide variety of units.
 
 This library is an engineering library, created to represent a huge variety of units and measurements in a simple data type instead of a proliferation of templates. It supports conversion of units to and from strings. It supports mathematical operations on units and measurements which are `constexpr` where possible. It supports units used in a wide variety of scientific and non-scientific contexts. Supports conversions between different units of the same type as well as some typical assumptions for supporting conversions of a few dissimilar types. In some cases it also has some notion of commodities, and support for existing unit standards for strings and naming.
 
@@ -123,7 +123,7 @@ These libraries will work well if the number of units being dealt with is known 
 There are only a few types in the library
 
 - `detail::unit_base` is the base representation of physical units and powers. It uses a bitfield to store the base unit representation in a 4-byte representation. It is mostly expected that unit_base will not be used in a standalone context but through one of other types.
-- `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type. The float has an accuracy of around 6 decimal digits. Units within that tolerance will compare equal.
+- `unit` is the primary type representing a physical unit it consists of a `float` multiplier along with a `unit_base` and contains this within an 8 byte type. The float has an accuracy of around 7 decimal digits. Units within that tolerance will compare equal.
 - `precise_unit` is the a more accurate type representing a physical unit it consists of a `double` multiplier along with a `unit_base` and contains this within an 16 byte type. The double has an accuracy of around 13 decimal digits. Units within that tolerance will compare equal. The remaining 4 bytes are used to contain a commodity object code.
 - `measurement` is a 16 byte type containing a double value along with a `unit` and mathematical operations can be performed on it usually producing a new measurement.
 - `precise_measurement` is similar to measurement except using a double for the quantity and a `precise_unit` as the units.
@@ -134,7 +134,7 @@ There are only a few types in the library
 ## Unit representation
 
 The `unit` class consists of a multiplier and a representation of base units.
-The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-units) + radians + currency units + count units. In addition a `unit` has 4 flags, per-unit for per unit or ratio units. One flag\[i_flag\] that is a representation of imaginary units, one flags for a variety of purposes and to differentiate otherwise similar units\[e_flag\]. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4 byte type the represented powers of the units are limited. The table below shows the bit representation range and observed range of use in equations and observed usage
+The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-units) + radians + currency units + count units. In addition a `unit` has 4 flags, per-unit for per unit or ratio units. One flag\[i_flag\] that is a representation of imaginary units, one flags for a variety of purposes and to differentiate otherwise similar units\[e_flag\]. And a flag to indicate an equation unit. Due to the requirement that the base units fit into a 4-byte type the represented powers of the units are limited. The table below shows the bit representation range and observed range of use in equations and observed usage
 
 | Base Unit | Bits | Representable range | Normal Range | Intermediate Operations |
 | --------- | ---- | ------------------- | ------------ | ----------------------- |
@@ -151,7 +151,7 @@ The seven [SI units](https://www.nist.gov/pml/weights-and-measures/metric-si/si-
 
 These ranges were chosen to represent nearly all physical quantities that could be found in various disciplines we have encountered. See [Unit Details](https://units.readthedocs.io/en/latest/details/unit_base.html#) for additional details on the unit base representation.
 
-The CMake variable `UNITS_BASE_TYPE`, if set to a 64 bit type like `uint64_t`, will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [CMake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
+The CMake variable `UNITS_BASE_TYPE`, if set to a 64-bit type like `uint64_t`, will double the space requirements but also change the ranges to be at least a power of 4 larger than the above table. See [CMake Reference](https://units.readthedocs.io/en/latest/installation/cmake_variables.html) for more details.
 
 ### Discussion points
 
@@ -251,7 +251,7 @@ There are also several operator overloads that apply to units and precise_units.
 - `bool <unit>==<unit>` compare two units. this does a rounding compare so there is some tolerance to roughly 7 significant digits for \<unit> and 13 significant digits for <precise_unit>.
 - `bool <unit>!=<unit>` the opposite of `==`
 
-precise_units can usually operate with a precise unit or unit, unit usually can't operate on precise_unit.
+precise_units can usually operate with a `precise_unit` or `unit`, `unit` usually can't operate on `precise_unit`.
 
 #### Unit free functions
 
