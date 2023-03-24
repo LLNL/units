@@ -71,7 +71,7 @@ GitHub Actions
 ----------------
 
 1.  CodeQl
-1.  Coverage (ubuntu 22.04 image C++11,C++14,C++17,C++20 32 and 64 bit unit base)
+1.  Coverage (ubuntu 22.04 image C++11, C++14, C++17, C++20, 32 and 64 bit unit base)
 1.  CPPLINT
 1.  Quick CMAKE checks for all supported versions of cmake
 
