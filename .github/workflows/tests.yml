@@ -15,6 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: update certificates
+      run: |
+        sudo apt-get install ca-certificates
+
     - name: Check CMake 3.4
       with:
         cmake-version: "3.4"
