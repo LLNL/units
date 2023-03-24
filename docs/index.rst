@@ -38,4 +38,3 @@ how-to about how to use the software library.  For the details see :ref:`Details
    user-guide/index
    details/index
    web/index
-
