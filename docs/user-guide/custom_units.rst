@@ -28,6 +28,8 @@ So there is no translation to other units and cannot be converted except to mult
 
 -   custom_unit(37):  is `hounsfield units <https://radiopaedia.org/articles/hounsfield-unit?lang=us>`_ used it CT and radiology
 -   many units in UCUM are defined like `[MPL'U]` or `[mclg'U]`  for this context they define some unit which doesn't interact with other units in any known fashion.  The notion used in the units library for string translations is that these define custom units.  Rather than individually define the library takes a hash of the part of the unit coming before the `'U]'` and generates a 10 bit hash.  That 10 bit hash is used as the custom code for the units.
+-   custom_unit(77):  is global warming potential related to climate operations
+-   custom_unit(78):  is global temperature change potential
 
 The other custom units are available for use or the one with known definition can be use if there is no domain conflicts.
 

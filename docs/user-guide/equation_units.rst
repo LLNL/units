@@ -50,6 +50,7 @@ The wind scales are not very accurate since they match up a slightly fuzzier not
 Equation Value conversions
 -----------------------------
 The actual definitions of the equations are found in the `unit::precise::equation` namespace.  Two functions are provided that convert values from equation values to units and vice versa.
+
 -   `double convert_equnit_to_value(double val, detail::unit_data UT)`
 -   `double convert_value_to_equnit(double val, detail::unit_data UT)`
 

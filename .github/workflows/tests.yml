@@ -9,11 +9,15 @@ on:
       - main
 
 jobs:
-  cmake-config:
-    name: CMake config check
+  cmake-config-2004:
+    name: CMake config check 3.4-3.11
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
+
+    - name: update certificates
+      run: |
+        sudo apt-get install ca-certificates
 
     - name: Check CMake 3.4
       with:
@@ -61,6 +65,12 @@ jobs:
       with:
         cmake-version: "3.11"
       if: success() || failure()
+
+  cmake-config-2204:
+    name: CMake config check 3.12+
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
 
     - name: Check CMake 3.12
       uses: ./.github/actions/quick_cmake
@@ -128,14 +138,20 @@ jobs:
         cmake-version: "3.22"
       if: success() || failure()
 
-    - name: Check CMake 3.23 (full)
+    - name: Check CMake 3.23 
       uses: ./.github/actions/quick_cmake
       with:
         cmake-version: "3.23"
       if: success() || failure()
 
-    - name: Check CMake 3.24 (full)
+    - name: Check CMake 3.24 
       uses: ./.github/actions/quick_cmake
       with:
         cmake-version: "3.24"
+      if: success() || failure()
+      
+    - name: Check CMake 3.25 
+      uses: ./.github/actions/quick_cmake
+      with:
+        cmake-version: "3.25"
       if: success() || failure()

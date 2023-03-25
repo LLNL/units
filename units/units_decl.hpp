@@ -171,7 +171,7 @@ namespace detail {
                 radians_ - other.radians_,
                 static_cast<unsigned int>(per_unit_ | other.per_unit_),
                 static_cast<unsigned int>(i_flag_ ^ other.i_flag_),
-                static_cast<unsigned int>(e_flag_ | other.e_flag_),
+                static_cast<unsigned int>(e_flag_ ^ other.e_flag_),
                 static_cast<unsigned int>(equation_ | other.equation_),
             };
         }

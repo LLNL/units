@@ -11,7 +11,7 @@
 - [Greg Sjaardema](https://github.com/gsjaardema) - Documentation updates
 - [JensMunkHansen](https://github.com/JensMunkHansen)
 - [Simon Heybrock](https://github.com/SimonHeybrock) - Doc updates and help supporting 64 bit unit base types, some additional constants and suggestions related to particle physics
-- [Kerim371](https://github.com/SimonHeybrock) - CMake builds for the shared library version
+- [Kerim371](https://github.com/kerim371) - CMake builds for the shared library version
 - [Owen Arnold](https://github.com/OwenArnold) - Documentation
 - [Peter Steneteg](https://github.com/petersteneteg)
 - [Jan-Lukas Wynen](https://github.com/jl-wynen) - Support for multi-digit power strings
@@ -38,6 +38,7 @@ The converter app uses CLI11 as part of the command line processing for the conv
 
 - [UDUNITS-2](https://github.com/Unidata/UDUNITS-2) The UDUNITS package supports units of physical quantities. Its C library provides for arithmetic manipulation of units and for conversion of numeric values between compatible units. The package contains an extensive unit database, which is in XML format and user-extendable. The package also contains a command-line utility for investigating units and converting values. Some of the unit definition files are used to test the library to ensure compatibility with the definitions in this library. Some of the definitions files are included. UDUNITS-2 is licensed with a [BSD-3-clause](https://github.com/Unidata/UDUNITS-2/blob/master/COPYRIGHT) with an additional clause revoking the license on allegations of patent infringement. No code from UDUNITS-2 is used, only the unit definitions files.
 - [ucum-lhc](https://github.com/lhncbc/ucum-lhc) This is the LHC implementation of validation and conversion services based on the [Unified Code for Units of Measure](http://unitsofmeasure.org/) (UCUM) code system created by the Regenstrief Institute, Inc. The repository is licensed under a [BSD](https://github.com/lhncbc/ucum-lhc/blob/master/LICENSE.md) license. No code is used in units, but the unit definition files are used for testing purposes and some of the JSON files are included in the repository.
+- [google unit conversions](https://support.google.com/websearch/answer/3284611?hl=en#unitconverter) Google unit conversion support was examined to provide additional unit strings and some conversion values.
 
 ### cmake scripts
 

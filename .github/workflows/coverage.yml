@@ -25,6 +25,7 @@ jobs:
 
       - name: Get LCov
         run: |
+          sudo apt-get install ca-certificates
           wget https://github.com/linux-test-project/lcov/releases/download/v1.16/lcov-1.16.tar.gz
           tar -xzf lcov-1.16.tar.gz
           cd lcov-1.16

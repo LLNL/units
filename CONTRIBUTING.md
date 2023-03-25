@@ -4,11 +4,9 @@
 
 The following is a set of guidelines for contributing to UNITS. These are suggested guidelines. Use your best judgment.
 
-## Table of Contents
-
 ## Licensing
 
-The units library is distributed under the terms of the bsd-3 clause license. All new contributions must be made under this [license](https://github.com/LLNL/units/blob/main/LICENSE) in accordance with the github [terms of service](https://help.github.com/en/articles/github-terms-of-service#6-contributions-under-repository-license), which uses inbound=outbound policy. By submitting a pull request you are acknowledging that you have the right to license your code under these terms.
+The units library is distributed under the terms of the BSD-3 clause license. All new contributions must be made under this [license](https://github.com/LLNL/units/blob/main/LICENSE) in accordance with the github [terms of service](https://help.github.com/en/articles/github-terms-of-service#6-contributions-under-repository-license), which uses inbound=outbound policy. By submitting a pull request you are acknowledging that you have the right to license your code under these terms.
 
 ## [Code of Conduct](.github/CODE_OF_CONDUCT.md)
 
@@ -44,4 +42,4 @@ Typically you would want to submit a pull request against the master branch. The
 
 ## Styleguides
 
-Code formatting is controlled via clang-format
+Code formatting is controlled via clang-format and other repo cleanliness issues checked through pre-commit modules
