@@ -99,8 +99,8 @@ TEST(MeasurementToString, numbers)
 
 TEST(MeasurementToString, empty)
 {
-    measurement m1(45.7,one);
-    EXPECT_EQ(to_string(m1),"45.7");
+    measurement m1(45.7, one);
+    EXPECT_EQ(to_string(m1), "45.7");
 }
 
 TEST(MeasurementToString, caseSensitive)
