@@ -1725,13 +1725,17 @@ std::string to_string(const measurement& measure, std::uint32_t match_flags)
     std::stringstream ss;
     ss.precision(6);
     ss << measure.value();
-    ss << ' ';
+    
     auto str = to_string(measure.units(), match_flags);
-    if (isNumericalStartCharacter(str.front())) {
-        str.insert(str.begin(), '(');
-        str.push_back(')');
+    if (!str.empty())
+    {
+        ss << ' ';
+        if (isNumericalStartCharacter(str.front())) {
+            str.insert(str.begin(), '(');
+            str.push_back(')');
+        }
+        ss << str;
     }
-    ss << str;
     return ss.str();
 }
 
