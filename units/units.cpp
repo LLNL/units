@@ -2995,7 +2995,7 @@ static precise_unit
     if (fnd != base_unit_vals.end()) {
         return fnd->second;
     }
-    //empty string would have been found already
+    // empty string would have been found already
     auto c = unit_string.front();
     if ((c == 'C' || c == 'E') && unit_string.size() >= 6) {
         size_t index{0};
