@@ -5328,6 +5328,10 @@ precise_unit default_unit(std::string unit_type)
     if (unit_type.compare(0, 10, "quantityof") == 0) {
         return default_unit(unit_type.substr(10));
     }
+    if (unit_type.compare(0, 6, "rateof") == 0) {
+        return default_unit(unit_type.substr(6)) /
+            precise::s;
+    }
     auto fof = unit_type.rfind("of");
     if (fof != std::string::npos) {
         return default_unit(unit_type.substr(0, fof));
@@ -5372,7 +5376,7 @@ precise_unit default_unit(std::string unit_type)
     }
     if (ends_with(unit_type, "rate")) {
         return default_unit(
-                   unit_type.substr(0, unit_type.size() - strlen("reate"))) /
+                   unit_type.substr(0, unit_type.size() - strlen("rate"))) /
             precise::s;
     }
     return precise::invalid;
