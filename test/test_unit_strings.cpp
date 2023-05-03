@@ -1307,8 +1307,9 @@ TEST(defaultUnits, unitTypes)
 
 TEST(defaultUnits, rate)
 {
-    EXPECT_EQ(default_unit("entropy rate"), precise::J/precise::K/precise::s);
-    EXPECT_EQ(default_unit("rate of mass"), precise::kg/s);
+    EXPECT_EQ(
+        default_unit("entropy rate"), precise::J / precise::K / precise::s);
+    EXPECT_EQ(default_unit("rate of mass"), precise::kg / s);
 }
 
 TEST(commoditizedUnits, basic)

@@ -5329,8 +5329,7 @@ precise_unit default_unit(std::string unit_type)
         return default_unit(unit_type.substr(10));
     }
     if (unit_type.compare(0, 6, "rateof") == 0) {
-        return default_unit(unit_type.substr(6)) /
-            precise::s;
+        return default_unit(unit_type.substr(6)) / precise::s;
     }
     auto fof = unit_type.rfind("of");
     if (fof != std::string::npos) {
