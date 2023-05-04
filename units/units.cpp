@@ -146,7 +146,7 @@ using umap = std::unordered_map<unit, const char*>;
 
 static umap getDefinedBaseUnitNames()
 {
-    umap definedNames;
+    umap definedNames{};
     for (const auto& name : defined_unit_names_si) {
         if (name.second != nullptr) {
             definedNames.emplace(name.first, name.second);
@@ -2673,7 +2673,7 @@ static std::pair<double, size_t>
 
 static smap loadDefinedUnits()
 {
-    smap knownUnits;
+    smap knownUnits{};
     for (const auto& pr : defined_unit_strings_si) {
         if (pr.first != nullptr) {
             knownUnits.emplace(pr.first, pr.second);
@@ -5286,7 +5286,7 @@ uncertain_measurement uncertain_measurement_from_string(
 
 static smap loadDefinedMeasurementTypes()
 {
-    smap knownMeasurementTypes;
+    smap knownMeasurementTypes{};
     for (const auto& pr : defined_measurement_types) {
         if (pr.first != nullptr) {
             knownMeasurementTypes.emplace(pr.first, pr.second);
