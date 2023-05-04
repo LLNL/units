@@ -26,41 +26,41 @@ TEST(mathOps, uncertainMeas)
     EXPECT_EQ(um2, root(um1, 3));
 
     auto um3 = floor(um1);
-    EXPECT_FLOAT_EQ(um3.value(), 5.0F);
+    EXPECT_FLOAT_EQ(um3.value_f(), 5.0F);
 
     auto um4 = trunc(um1);
-    EXPECT_FLOAT_EQ(um4.value(), 5.0F);
+    EXPECT_FLOAT_EQ(um4.value_f(), 5.0F);
 
     auto um5 = ceil(um1);
-    EXPECT_FLOAT_EQ(um5.value(), 6.0F);
+    EXPECT_FLOAT_EQ(um5.value_f(), 6.0F);
 
     auto um6 = round(um1);
-    EXPECT_FLOAT_EQ(um6.value(), 6.0F);
+    EXPECT_FLOAT_EQ(um6.value_f(), 6.0F);
 }
 
 TEST(mathOps, meas)
 {
-    measurement um1(5.69F, m.pow(3));
+    measurement um1(5.69, m.pow(3));
 
     auto um2 = cbrt(um1);
     EXPECT_EQ(um2, root(um1, 3));
 
     auto um3 = floor(um1);
-    EXPECT_FLOAT_EQ(um3.value(), 5.0F);
+    EXPECT_DOUBLE_EQ(um3.value(), 5.0);
 
     auto um4 = trunc(um1);
-    EXPECT_FLOAT_EQ(um4.value(), 5.0F);
+    EXPECT_DOUBLE_EQ(um4.value(), 5.0);
 
     auto um5 = ceil(um1);
-    EXPECT_FLOAT_EQ(um5.value(), 6.0F);
+    EXPECT_DOUBLE_EQ(um5.value(), 6.0);
 
     auto um6 = round(um1);
-    EXPECT_FLOAT_EQ(um6.value(), 6.0F);
+    EXPECT_DOUBLE_EQ(um6.value(), 6.0);
 }
 
 TEST(mathOps, fixedMeas)
 {
-    fixed_measurement um1(5.69F, m.pow(3));
+    fixed_measurement um1(5.69, m.pow(3));
 
     auto um2 = cbrt(um1);
     EXPECT_EQ(um2, root(um1, 3));
@@ -80,7 +80,7 @@ TEST(mathOps, fixedMeas)
 
 TEST(mathOps, preciseMeas)
 {
-    precise_measurement um1(5.69F, precise::m.pow(3));
+    precise_measurement um1(5.69, precise::m.pow(3));
 
     auto um2 = cbrt(um1);
     EXPECT_EQ(um2, root(um1, 3));
@@ -100,7 +100,7 @@ TEST(mathOps, preciseMeas)
 
 TEST(mathOps, preciseFixedMeas)
 {
-    fixed_precise_measurement um1(5.69F, precise::m.pow(3));
+    fixed_precise_measurement um1(5.69, precise::m.pow(3));
 
     auto um2 = cbrt(um1);
     EXPECT_EQ(um2, root(um1, 3));

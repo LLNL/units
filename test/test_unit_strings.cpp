@@ -1305,6 +1305,13 @@ TEST(defaultUnits, unitTypes)
     EXPECT_EQ(default_unit("frequency measure"), precise::Hz);
 }
 
+TEST(defaultUnits, rate)
+{
+    EXPECT_EQ(
+        default_unit("entropy rate"), precise::J / precise::K / precise::s);
+    EXPECT_EQ(default_unit("rate of mass"), precise::kg / s);
+}
+
 TEST(commoditizedUnits, basic)
 {
     auto commu = unit_from_string("meter{cloth}");
