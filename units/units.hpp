@@ -1835,13 +1835,13 @@ UNITS_EXPORT std::uint64_t setDefaultFlags(std::uint64_t defaultFlags);
 
 UNITS_EXPORT std::uint64_t getDefaultFlags();
 
-constexpr auto minPartionSizeShift{ 37UL };
+constexpr auto minPartionSizeShift{37UL};
 /** The unit conversion flag are some modifiers for the string conversion
 operations, some are used internally some are meant for external use, though all
 are possible to use externally
 */
 enum unit_conversion_flags : std::uint64_t {
-    //bits 0-8 are for the domain to use
+    // bits 0-8 are for the domain to use
     /// input units for cooking and recipes are prioritized
     cooking_units = domains::cooking,
     /// input units for astronomy are prioritized
@@ -1857,23 +1857,25 @@ enum unit_conversion_flags : std::uint64_t {
     /// input units are matching ucum standard
     strict_ucum = domains::ucum,
 
-    strict_si = (1U<<8U),  //!< input units are strict SI
+    strict_si = (1U << 8U),  //!< input units are strict SI
 
-    case_insensitive = (1U<<9U),  //!< perform case insensitive matching for UCUM case
-                            //!< insensitive matching
-    single_slash = (1U<<10U),  //!< specify that there is a single numerator and
-                        //!< denominator only a single slash in the unit
-                        //!< operations
-     unused_flag1 = (1U<<11U),  //!< usused flag 1
-    
+    case_insensitive =
+        (1U << 9U),  //!< perform case insensitive matching for UCUM case
+    //!< insensitive matching
+    single_slash =
+        (1U << 10U),  //!< specify that there is a single numerator and
+    //!< denominator only a single slash in the unit
+    //!< operations
+    unused_flag1 = (1U << 11U),  //!< usused flag 1
+
     disable_large_power_strings =
         (1U << 12U),  // if the units allow large powers (base size==8) then
-                      // this flag can disable the output of large power strings
-                      // which would be invalid if read later for smaller units.
+    // this flag can disable the output of large power strings
+    // which would be invalid if read later for smaller units.
     numbers_only = (1U << 13U),  //!< indicate that only numbers should be
-                                 //!< matched in the first segments, mostly
-                                 //!< applies only to power operations
-    unused_flag2 = (1U<<14U),  //!< unused flag 3
+    //!< matched in the first segments, mostly
+    //!< applies only to power operations
+    unused_flag2 = (1U << 14U),  //!< unused flag 3
     recursion_depth1 = (1U << 15U),  //!< skip checking for SI prefixes
     // don't put anything at 16, 15 through 17 are connected to limit
     // recursion depth
@@ -1888,7 +1890,7 @@ enum unit_conversion_flags : std::uint64_t {
         (1U << 24U),  // counter for skipping commodity check vi of
     // nothing at 25, 24 through 26 are connected
     no_commodities = (1U << 26U),  //!< skip commodity checks
-    //27-31 are unused as of yet
+    // 27-31 are unused as of yet
     partition_check1 = (1ULL << 32U),  //!< counter for skipping partitioning
     // nothing at 28, 27 through 29 are connected to limit partition
     // depth
@@ -1897,21 +1899,23 @@ enum unit_conversion_flags : std::uint64_t {
     skip_code_replacements =
         (1ULL << 36U),  //!< don't do some code and sequence replacements
     /// codes 37-39 is a minimum partition size 0-7
-    minimum_partition_size2 = (2ULL<<minPartionSizeShift),
-    minimum_partition_size3 = (3ULL<<minPartionSizeShift),
-    minimum_partition_size4 = (4ULL<<minPartionSizeShift),
-    minimum_partition_size5 = (5ULL<<minPartionSizeShift),
-    minimum_partition_size6 = (6ULL<<minPartionSizeShift),
-    minimum_partition_size7 = (7ULL<<minPartionSizeShift),
+    minimum_partition_size2 = (2ULL << minPartionSizeShift),
+    minimum_partition_size3 = (3ULL << minPartionSizeShift),
+    minimum_partition_size4 = (4ULL << minPartionSizeShift),
+    minimum_partition_size5 = (5ULL << minPartionSizeShift),
+    minimum_partition_size6 = (6ULL << minPartionSizeShift),
+    minimum_partition_size7 = (7ULL << minPartionSizeShift),
 
 };
 
 /// Generate a string representation of the unit
-UNITS_EXPORT std::string
-    to_string(const precise_unit& units, std::uint64_t match_flags = getDefaultFlags());
+UNITS_EXPORT std::string to_string(
+    const precise_unit& units,
+    std::uint64_t match_flags = getDefaultFlags());
 
 /// Generate a string representation of the unit
-inline std::string to_string(const unit& units, std::uint64_t match_flags = getDefaultFlags())
+inline std::string
+    to_string(const unit& units, std::uint64_t match_flags = getDefaultFlags())
 {
     // For naming, precision doesn't matter
     return to_string(precise_unit(units), match_flags);
@@ -1924,8 +1928,9 @@ process somewhat
 @return a precise unit corresponding to the string if no match was found the
 unit will be an error unit
 */
-UNITS_EXPORT precise_unit
-    unit_from_string(std::string unit_string, std::uint64_t match_flags = getDefaultFlags());
+UNITS_EXPORT precise_unit unit_from_string(
+    std::string unit_string,
+    std::uint64_t match_flags = getDefaultFlags());
 
 /** Generate a unit object from a string representation of it
 @details uses a unit_cast to convert the precise_unit to a unit
@@ -1996,8 +2001,9 @@ UNITS_EXPORT std::string to_string(
     std::uint64_t match_flags = getDefaultFlags());
 
 /// Convert a measurement to a string
-UNITS_EXPORT std::string
-    to_string(const measurement& measure, std::uint64_t match_flags = getDefaultFlags());
+UNITS_EXPORT std::string to_string(
+    const measurement& measure,
+    std::uint64_t match_flags = getDefaultFlags());
 
 /// Convert an uncertain measurement to a string
 UNITS_EXPORT std::string to_string(

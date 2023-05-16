@@ -18,9 +18,9 @@ SPDX-License-Identifier: BSD-3-Clause
 TEST(UCUM, domain_exclusion)
 {
     using namespace units::domains;
-   // EXPECT_EQ(ucum | astronomy, allDomains);
-   // EXPECT_EQ(ucum | nuclear, allDomains);
-   // EXPECT_EQ(nuclear | astronomy, allDomains);
+    // EXPECT_EQ(ucum | astronomy, allDomains);
+    // EXPECT_EQ(ucum | nuclear, allDomains);
+    // EXPECT_EQ(nuclear | astronomy, allDomains);
     EXPECT_EQ(surveying | cooking, us_customary);
     EXPECT_NE(ucum | cooking, us_customary);
     EXPECT_NE(nuclear | cooking, us_customary);

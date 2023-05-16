@@ -333,7 +333,7 @@ A few additional math operations are available in the `"unit_math.hpp"` header o
 
 #### String Conversions
 
-The flags argument is optional in all cases.  If not specified it uses the specifed default flags, which can be user specifed at run or compile time.
+The flags argument is optional in all cases. If not specified it uses the specifed default flags, which can be user specifed at run or compile time.
 
 - `precise_unit unit_from_string( string, flags)`: convert a string representation of units into a precise_unit value.
 - `unit unit_cast_from_string( string, flags)`: convert a string representation of units into a unit value NOTE: same as previous function except has an included unit cast for convenience.
@@ -343,8 +343,7 @@ The flags argument is optional in all cases.  If not specified it uses the speci
 - `uncertain_measurement uncertain_measurement_from_string(string,flags)`: convert a string to an uncertain measurement. Typically the string will have some segment with a `±`, `+/-` or the html equivalent in it to signify the uncertainty. The compact notation for uncertainties is also supported for example `3.5235(19)`.
 - `std::string to_string([unit|measurement],flags)` : convert a unit or measurement to a string, all defined units or measurements listed above are supported. The eventual plan is to support a couple different standards for the strings through the flags, But for now they don't do much.
 
-For more description of the possible flags see [flags](https://units.readthedocs.io/en/latest/user-guide/conversion_flags.html).  The default flags can be set through `setDefaultFlags(std::uint32_t flags)` and retreived through `getDefaultFlags()`.  The initial default flag is `OU` but can be modified through `UNITS_DEFAULT_MATCH_FLAGS` compile flag.  
-
+For more description of the possible flags see [flags](https://units.readthedocs.io/en/latest/user-guide/conversion_flags.html). The default flags can be set through `setDefaultFlags(std::uint32_t flags)` and retreived through `getDefaultFlags()`. The initial default flag is `OU` but can be modified through `UNITS_DEFAULT_MATCH_FLAGS` compile flag.
 
 #### User Defined Units
 
@@ -360,7 +359,7 @@ For more details see [User Defined Units](https://units.readthedocs.io/en/latest
 
 #### Unit Domains
 
-- `setUnitsDomain(std::uint32_t newDomain)` : set a default domain to use for string translations if not overridden using the `flags` argument.  The function returns the current flags.
+- `setUnitsDomain(std::uint32_t newDomain)` : set a default domain to use for string translations if not overridden using the `flags` argument. The function returns the current flags.
 
 For more description of the Unit Domains supported see [Domains](https://units.readthedocs.io/en/latest/user-guide/Unit_domains.html). Use the constants available in `units::domains` as the argument. The numerical value is subject to change in future releases as this gets refined.
 

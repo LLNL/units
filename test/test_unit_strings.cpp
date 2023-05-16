@@ -694,7 +694,8 @@ TEST(stringToUnits, exponentForms)
     EXPECT_EQ(
         (precise::micro * precise::meter).pow(2), unit_from_string("um2"));
     EXPECT_EQ(precise::cm.pow(5), unit_from_string("cm5"));
-    EXPECT_EQ(unit_from_string("CM2", case_insensitive), unit_from_string("cm2"));
+    EXPECT_EQ(
+        unit_from_string("CM2", case_insensitive), unit_from_string("cm2"));
 }
 
 TEST(stringToUnits, complex)
@@ -753,7 +754,9 @@ TEST(stringToUnits, equivalents)
     EXPECT_EQ(unit_from_string("/gram"), unit_from_string("/g"));
     EXPECT_EQ(unit_from_string(" per g"), precise::g.inv());
     EXPECT_EQ(unit_from_string("/deciliter"), unit_from_string("/dL"));
-    EXPECT_EQ(unit_from_string("DM2/S2", case_insensitive), unit_from_string("dm2/s2"));
+    EXPECT_EQ(
+        unit_from_string("DM2/S2", case_insensitive),
+        unit_from_string("dm2/s2"));
     EXPECT_EQ(unit_from_string("/cu. m"), m.pow(3).inv());
     EXPECT_EQ(unit_from_string("a gregorian"), precise::time::ag);
     EXPECT_EQ(unit_from_string("cubic inches"), unit_from_string("[cin_i]"));
@@ -985,22 +988,21 @@ TEST(stringToUnits, invalid)
     EXPECT_FALSE(is_valid(unit_from_string("_liquid_()")));
 }
 
-
 TEST(stringToUnits, ParseIssues)
 {
     auto u1 = unit_from_string("Metres");
-    EXPECT_EQ(u1,precise::m);
+    EXPECT_EQ(u1, precise::m);
 
     u1 = unit_from_string("degrees C");
-    EXPECT_EQ(u1,precise::degC);
+    EXPECT_EQ(u1, precise::degC);
 
     u1 = unit_from_string("gramm");
-    EXPECT_EQ(u1,precise::g*precise::m);
+    EXPECT_EQ(u1, precise::g * precise::m);
     u1 = unit_from_string("kilogramm");
-    EXPECT_EQ(u1,precise::kilo*precise::g*precise::m);
+    EXPECT_EQ(u1, precise::kilo * precise::g * precise::m);
 
-    //u1 = unit_from_string("inchy");
-    //EXPECT_EQ(u1,precise::kilo*precise::g*precise::m);
+    // u1 = unit_from_string("inchy");
+    // EXPECT_EQ(u1,precise::kilo*precise::g*precise::m);
 }
 
 TEST(userDefinedUnits, definitions)

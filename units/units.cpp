@@ -680,7 +680,7 @@ static std::uint64_t unitsDomain{getDefaultDomain()};
 
 std::uint64_t setUnitsDomain(std::uint64_t newDomain)
 {
-    std::swap(newDomain,unitsDomain);
+    std::swap(newDomain, unitsDomain);
     return newDomain;
 }
 
@@ -697,11 +697,12 @@ static std::uint64_t defaultMatchFlags{getDefaultMatchFlags()};
 
 std::uint64_t setDefaultFlags(std::uint64_t defaultFlags)
 {
-    std::swap(defaultMatchFlags,defaultFlags);
+    std::swap(defaultMatchFlags, defaultFlags);
     return defaultFlags;
 }
 
-std::uint64_t getDefaultFlags() {
+std::uint64_t getDefaultFlags()
+{
     return defaultMatchFlags;
 }
 
@@ -2990,7 +2991,7 @@ static std::uint64_t getCurrentDomain(std::uint64_t match_flags)
     static constexpr std::uint64_t flagMask{0xFFULL};
     std::uint64_t dmn = match_flags & flagMask;
 
-    return (dmn == 0ULL) ? unitsDomain :dmn;
+    return (dmn == 0ULL) ? unitsDomain : dmn;
 }
 
 static precise_unit
@@ -3976,12 +3977,13 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
 {
     auto slen = unit_string.size();
     bool skipcodereplacement = ((match_flags & skip_code_replacements) != 0);
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 4> earlyCodeReplacements{ {
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 4>
+        earlyCodeReplacements{{
             ckpair{"degree", "deg"},
             ckpair{"Degree", "deg"},
             ckpair{"degs ", "deg"},
             ckpair{"deg ", "deg"},
-}};
+        }};
 
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 30>
         allCodeReplacements{{
@@ -4056,7 +4058,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             }
         }
 
-        // some code replacement that needs to be done before single character and space replacements
+        // some code replacement that needs to be done before single character
+        // and space replacements
         for (const auto& acode : earlyCodeReplacements) {
             auto fnd = unit_string.find(acode.first);
             while (fnd != std::string::npos) {
@@ -4377,7 +4380,7 @@ static precise_unit
 
 static inline std::uint64_t getMinPartitionSize(std::uint64_t match_flags)
 {
-    return (match_flags&minimum_partition_size7)>>minPartionSizeShift;
+    return (match_flags & minimum_partition_size7) >> minPartionSizeShift;
 }
 
 /** Under the assumption units were mashed together to for some new work or
@@ -4427,15 +4430,13 @@ static precise_unit tryUnitPartitioning(
         part = 1;
         ustring.pop_back();
     }
-    auto minPartitionSize=getMinPartitionSize(match_flags);
+    auto minPartitionSize = getMinPartitionSize(match_flags);
     std::vector<std::string> valid;
     while (part < unit_string.size() - 1) {
-        if (unit_string.size() - part < minPartitionSize)
-        {
+        if (unit_string.size() - part < minPartitionSize) {
             break;
         }
-        if (ustring.size() >= minPartitionSize)
-        {
+        if (ustring.size() >= minPartitionSize) {
             auto res = unit_quick_match(ustring, match_flags);
             if (!is_valid(res) && ustring.size() >= 3) {
                 if (ustring.front() >= 'A' &&
@@ -4448,7 +4449,8 @@ static precise_unit tryUnitPartitioning(
             }
             if (is_valid(res)) {
                 auto bunit = unit_from_string_internal(
-                    unit_string.substr(part), match_flags | skip_partition_check);
+                    unit_string.substr(part),
+                    match_flags | skip_partition_check);
                 if (is_valid(bunit)) {
                     return res * bunit;
                 }
@@ -4480,41 +4482,33 @@ static precise_unit tryUnitPartitioning(
             }
         }
     }
-    if (minPartitionSize <= 1)
-    {
-
-    // meter is somewhat common ending so just check that one too
-    if (unit_string.back() == 'm')
-    {
-        auto res = unit_quick_match(ustring, match_flags);
-        if (is_valid(res))
-        {
-            return res * m;
+    if (minPartitionSize <= 1) {
+        // meter is somewhat common ending so just check that one too
+        if (unit_string.back() == 'm') {
+            auto res = unit_quick_match(ustring, match_flags);
+            if (is_valid(res)) {
+                return res * m;
+            }
         }
     }
-
-    }
-    if (minPartitionSize <= 2)
-    {
+    if (minPartitionSize <= 2) {
         // now do a quick check with a 2 character string since we skipped that
         // earlier
         auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
         if (is_valid(qm2)) {
             valid.insert(valid.begin(), unit_string.substr(0, 2));
-        }
-        else if (unit_string.size() == 4) {  // length of 4 is a bit odd so check
-                                            // the back two characters for a
-                                            // quick match
+        } else if (unit_string.size() == 4) {  // length of 4 is a bit odd so
+                                               // check the back two characters
+                                               // for a quick match
             qm2 = unit_quick_match(unit_string.substr(2, 2), match_flags);
-            auto bunit =
-                unit_from_string_internal(unit_string.substr(0, 2), match_flags);
+            auto bunit = unit_from_string_internal(
+                unit_string.substr(0, 2), match_flags);
             if (is_valid(bunit)) {
                 return qm2 * bunit;
             }
         }
     }
-    if (minPartitionSize <= 1)
-    {
+    if (minPartitionSize <= 1) {
         // now pick off a couple 1 character units
         if (unit_string.front() == 'V' || unit_string.front() == 'A') {
             valid.insert(valid.begin(), unit_string.substr(0, 1));
