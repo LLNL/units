@@ -29,7 +29,7 @@ Uncertain measurement string conversions make some attempt to honor significant 
 
 Advanced Usage
 ----------------
-The `to_string` function also takes a second argument which is a `std::uint32_t match_flags` in all cases this default to 0,  it is currently unused though will be used in the future to allow some fine tuning of the output in specific cases.  In the near future a flag to allow utf 8 output strings will convert certain units to more common utf8 symbols such as unit Powers and degree symbols, and a few others.  The output string would default to ascii only characters.
+The `to_string` function also takes a second argument which is a `std::uint64_t match_flags` in all cases this default to 0,  it is currently unused though will be used in the future to allow some fine tuning of the output in specific cases.  In the near future a flag to allow utf 8 output strings will convert certain units to more common utf8 symbols such as unit Powers and degree symbols, and a few others.  The output string would default to ascii only characters.
 
 Stream Operators
 ----------------

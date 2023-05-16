@@ -49,3 +49,8 @@ to_string Flags
 ---------------------
 
 - `disable_large_power_strings` - if the units definition allows large powers this flag can disable the use of them in the output string
+
+Default flags
+====================
+Flags will normally default to `0U` however they can be modified through `setDefaultFlags`.  This function returns the previous value in case it is needed to swap them temporarily.
+The flags can be retreived via `getDefaultFlags()`  This function is automatically called if no flag argument is passed.  The initial value can be set through a compile time or build time option `UNITS_DEFAULT_MATCH_FLAGS`.

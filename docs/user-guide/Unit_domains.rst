@@ -107,7 +107,7 @@ A default domain can also be specified though
 
 
 with the code using one of those found in the `units::domains` namespace.
-this domain will be used unless another is specified through the match flags.
+this domain will be used unless another is specified through the match flags.  This function return the previous domain which can be used if only setting the value temporarily.
 
 The default domain can be set at compile time through the `UNITS_DEFAULT_DOMAIN` definition
 

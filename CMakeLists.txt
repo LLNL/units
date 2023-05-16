@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-# Make sure users don't get warnings on a tested (3.0 to 3.24) version of CMake. For
+# Make sure users don't get warnings on a tested (3.0 to 3.25) version of CMake. For
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
 if(${CMAKE_VERSION} VERSION_LESS 3.25)
@@ -19,7 +19,7 @@ endif()
 project(
     UNITS
     LANGUAGES C CXX
-    VERSION 0.8.0
+    VERSION 0.9.0
 )
 include(CMakeDependentOption)
 include(CTest)
