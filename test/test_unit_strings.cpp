@@ -1008,41 +1008,41 @@ TEST(stringToUnits, ParseIssues)
 TEST(stringToUnits, partitionMinimum)
 {
     auto u1 = unit_from_string("milefoot");
-    EXPECT_EQ(u1, precise::mile*precise::ft);
+    EXPECT_EQ(u1, precise::mile * precise::ft);
 
-    u1 = unit_from_string("milefoot",minimum_partition_size2);
-    EXPECT_EQ(u1, precise::mile*precise::ft);
+    u1 = unit_from_string("milefoot", minimum_partition_size2);
+    EXPECT_EQ(u1, precise::mile * precise::ft);
 
-    u1 = unit_from_string("milefoot",minimum_partition_size3);
-    EXPECT_EQ(u1, precise::mile*precise::ft);
+    u1 = unit_from_string("milefoot", minimum_partition_size3);
+    EXPECT_EQ(u1, precise::mile * precise::ft);
 
-    u1 = unit_from_string("milefoot",minimum_partition_size4);
-    EXPECT_EQ(u1, precise::mile*precise::ft);
+    u1 = unit_from_string("milefoot", minimum_partition_size4);
+    EXPECT_EQ(u1, precise::mile * precise::ft);
 
-    u1 = unit_from_string("milefoot",minimum_partition_size5);
+    u1 = unit_from_string("milefoot", minimum_partition_size5);
     EXPECT_TRUE(is_error(u1));
 
-    u1 = unit_from_string("milefoot",minimum_partition_size6);
+    u1 = unit_from_string("milefoot", minimum_partition_size6);
     EXPECT_TRUE(is_error(u1));
 
-    u1 = unit_from_string("milefoot",minimum_partition_size7);
+    u1 = unit_from_string("milefoot", minimum_partition_size7);
     EXPECT_TRUE(is_error(u1));
 }
 
 TEST(stringToUnits, partitionMinimumDefault)
 {
     auto u1 = unit_from_string("mifoot");
-    EXPECT_EQ(u1, precise::mile*precise::ft);
+    EXPECT_EQ(u1, precise::mile * precise::ft);
 
-    auto prev=setDefaultFlags(minimum_partition_size3);
-    EXPECT_EQ(prev,0ULL);
-    EXPECT_EQ(getDefaultFlags(),minimum_partition_size3);
+    auto prev = setDefaultFlags(minimum_partition_size3);
+    EXPECT_EQ(prev, 0ULL);
+    EXPECT_EQ(getDefaultFlags(), minimum_partition_size3);
 
     u1 = unit_from_string("mifoot");
     EXPECT_TRUE(is_error(u1));
 
-    prev=setDefaultFlags(0ULL);
-    EXPECT_EQ(prev,minimum_partition_size3);
+    prev = setDefaultFlags(0ULL);
+    EXPECT_EQ(prev, minimum_partition_size3);
 }
 
 TEST(userDefinedUnits, definitions)
