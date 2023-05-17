@@ -1835,7 +1835,7 @@ UNITS_EXPORT std::uint64_t setDefaultFlags(std::uint64_t defaultFlags);
 
 UNITS_EXPORT std::uint64_t getDefaultFlags();
 
-constexpr auto minPartionSizeShift{37UL};
+constexpr std::uint64_t minPartionSizeShift{37UL};
 /** The unit conversion flag are some modifiers for the string conversion
 operations, some are used internally some are meant for external use, though all
 are possible to use externally
