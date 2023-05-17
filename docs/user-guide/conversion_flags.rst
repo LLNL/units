@@ -53,4 +53,4 @@ to_string Flags
 Default flags
 ====================
 Flags will normally default to `0U` however they can be modified through `setDefaultFlags`.  This function returns the previous value in case it is needed to swap them temporarily.
-The flags can be retreived via `getDefaultFlags()`  This function is automatically called if no flag argument is passed.  The initial value can be set through a compile time or build time option `UNITS_DEFAULT_MATCH_FLAGS`.
+The flags can be retrieved via `getDefaultFlags()`  This function is automatically called if no flag argument is passed.  The initial value can be set through a compile time or build time option `UNITS_DEFAULT_MATCH_FLAGS`.

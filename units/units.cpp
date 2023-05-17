@@ -1145,7 +1145,7 @@ static std::string
 static const std::pair<const unit, std::string> nullret{invalid, std::string{}};
 
 static std::pair<unit, std::string> find_unit_pair(unit un)
-{
+{    // cppcheck suppression active
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         if (!user_defined_unit_names.empty()) {
             auto fndud = user_defined_unit_names.find(un);
@@ -1162,7 +1162,7 @@ static std::pair<unit, std::string> find_unit_pair(unit un)
 }
 
 static std::string find_unit(unit un)
-{
+{ // cppcheck suppression active
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         if (!user_defined_unit_names.empty()) {
             auto fndud = user_defined_unit_names.find(un);
