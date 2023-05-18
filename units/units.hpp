@@ -1842,7 +1842,7 @@ operations, some are used internally some are meant for external use, though all
 are possible to use externally
 */
 enum unit_conversion_flags : std::uint64_t {
-    no_conversion_flag = 0ULL,
+    default_conversions = 0ULL,
     // bits 0-8 are for the domain to use
     /// input units for cooking and recipes are prioritized
     cooking_units = domains::cooking,
@@ -1870,10 +1870,6 @@ enum unit_conversion_flags : std::uint64_t {
     //!< operations
     unused_flag1 = (1U << 11U),  //!< usused flag 1
 
-    disable_large_power_strings =
-        (1U << 12U),  // if the units allow large powers (base size==8) then
-    // this flag can disable the output of large power strings
-    // which would be invalid if read later for smaller units.
     numbers_only = (1U << 13U),  //!< indicate that only numbers should be
     //!< matched in the first segments, mostly
     //!< applies only to power operations
@@ -1908,6 +1904,11 @@ enum unit_conversion_flags : std::uint64_t {
     minimum_partition_size6 = (6ULL << detail::minPartionSizeShift),
     minimum_partition_size7 = (7ULL << detail::minPartionSizeShift),
 
+    //  48 and higher are for output string flags
+    /** if the units allow large powers(base size == 8) then
+    this flag can disable the output of large power strings
+    which would be invalid if read later for smaller units.*/
+    disable_large_power_strings =(1U << 48U),  
 };
 
 /// Generate a string representation of the unit
