@@ -1834,13 +1834,15 @@ namespace domains {
 UNITS_EXPORT std::uint64_t setDefaultFlags(std::uint64_t defaultFlags);
 
 UNITS_EXPORT std::uint64_t getDefaultFlags();
-
-constexpr std::uint64_t minPartionSizeShift{37UL};
+namespace detail {
+    constexpr std::uint64_t minPartionSizeShift{ 37UL };
+}
 /** The unit conversion flag are some modifiers for the string conversion
 operations, some are used internally some are meant for external use, though all
 are possible to use externally
 */
 enum unit_conversion_flags : std::uint64_t {
+    no_conversion_flag = 0ULL,
     // bits 0-8 are for the domain to use
     /// input units for cooking and recipes are prioritized
     cooking_units = domains::cooking,
@@ -1899,12 +1901,12 @@ enum unit_conversion_flags : std::uint64_t {
     skip_code_replacements =
         (1ULL << 36U),  //!< don't do some code and sequence replacements
     /// codes 37-39 is a minimum partition size 0-7
-    minimum_partition_size2 = (2ULL << minPartionSizeShift),
-    minimum_partition_size3 = (3ULL << minPartionSizeShift),
-    minimum_partition_size4 = (4ULL << minPartionSizeShift),
-    minimum_partition_size5 = (5ULL << minPartionSizeShift),
-    minimum_partition_size6 = (6ULL << minPartionSizeShift),
-    minimum_partition_size7 = (7ULL << minPartionSizeShift),
+    minimum_partition_size2 = (2ULL << detail::minPartionSizeShift),
+    minimum_partition_size3 = (3ULL << detail::minPartionSizeShift),
+    minimum_partition_size4 = (4ULL << detail::minPartionSizeShift),
+    minimum_partition_size5 = (5ULL << detail::minPartionSizeShift),
+    minimum_partition_size6 = (6ULL << detail::minPartionSizeShift),
+    minimum_partition_size7 = (7ULL << detail::minPartionSizeShift),
 
 };
 

@@ -142,6 +142,7 @@ TEST(unitStrings, siPrefixes)
 TEST(unitStrings, siPrefixesStrict)
 {
     EXPECT_EQ(to_string(unit_from_string("mm", strict_si)), "mm");
+    EXPECT_EQ(to_string(unit_from_string("mF", strict_si)), "mF");
     EXPECT_EQ(to_string(unit_from_string("cm", strict_si)), "cm");
     EXPECT_EQ(to_string(unit_from_string("um", strict_si)), "um");
     EXPECT_EQ(to_string(unit_from_string("nm", strict_si)), "nm");
