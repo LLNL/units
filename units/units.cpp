@@ -4380,7 +4380,8 @@ static precise_unit
 
 static inline std::uint64_t getMinPartitionSize(std::uint64_t match_flags)
 {
-    return (match_flags & minimum_partition_size7) >> detail::minPartionSizeShift;
+    return (match_flags & minimum_partition_size7) >>
+        detail::minPartionSizeShift;
 }
 
 /** Under the assumption units were mashed together to for some new work or
