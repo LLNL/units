@@ -59,7 +59,7 @@ All the flags can be "or"ed to make combinations  such as `minimum_partition_siz
 to_string Flags
 ---------------------
 
-- `disable_large_power_strings` - if the units definition allows large powers this flag can disable the use of them in the output string.   
+- `disable_large_power_strings` - if the units definition allows large powers this flag can disable the use of them in the output string.
 
 The to_string flags can be combined with the other conversion flags without issue.
 

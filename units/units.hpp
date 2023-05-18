@@ -1860,17 +1860,17 @@ enum unit_conversion_flags : std::uint64_t {
     strict_ucum = domains::ucum,
 
     strict_si = (1U << 8U),  //!< input units are strict SI
-   /** perform case insensitive matching for UCUM case insensitive matching */
-    case_insensitive =
-        (1U << 9U),  
-    /** specify that there is a single numerator and denominator only a single slash in the unit operations */
-    single_slash =
-        (1U << 10U),  
+    /** perform case insensitive matching for UCUM case insensitive matching */
+    case_insensitive = (1U << 9U),
+    /** specify that there is a single numerator and denominator only a single
+       slash in the unit operations */
+    single_slash = (1U << 10U),
     unused_flag1 = (1U << 11U),  //!< usused flag 1
-    unused_flag2 = (1U << 11U),  //!< usused flag 1
-    /**indicate that only numbers should be matched in the first segments, mostly applies only to power operations */
-    numbers_only = (1U << 13U),  
-    unused_flag2 = (1U << 14U),  //!< unused flag 3
+    unused_flag2 = (1U << 12U),  //!< usused flag 2
+    /**indicate that only numbers should be matched in the first segments,
+       mostly applies only to power operations */
+    numbers_only = (1U << 13U),
+    unused_flag3 = (1U << 14U),  //!< unused flag 3
     recursion_depth1 = (1U << 15U),  //!< skip checking for SI prefixes
     // don't put anything at 16, 15 through 17 are connected to limit
     // recursion depth
@@ -1892,8 +1892,7 @@ enum unit_conversion_flags : std::uint64_t {
     skip_partition_check = (1ULL << 34U),  // skip the partition check algorithm
     skip_si_prefix_check = (1ULL << 35U),  //!< skip checking for SI prefixes
     /** don't do some code and sequence replacements */
-    skip_code_replacements =
-        (1ULL << 36U),  
+    skip_code_replacements = (1ULL << 36U),
     /// codes 37-39 is a minimum partition size 0-7
     minimum_partition_size2 = (2ULL << detail::minPartionSizeShift),
     minimum_partition_size3 = (3ULL << detail::minPartionSizeShift),
@@ -1906,7 +1905,7 @@ enum unit_conversion_flags : std::uint64_t {
     /** if the units allow large powers(base size == 8) then
     this flag can disable the output of large power strings
     which would be invalid if read later for smaller units.*/
-    disable_large_power_strings =(1ULL << 48U),  
+    disable_large_power_strings = (1ULL << 48U),
 };
 
 /// Generate a string representation of the unit
