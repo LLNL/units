@@ -32,12 +32,15 @@ TEST(unitStringDefinitions, customaryVector)
     }
 }
 
-#if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) || UNITS_DISABLE_NON_ENGLISH_UNITS==0
+#if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) ||                               \
+    UNITS_DISABLE_NON_ENGLISH_UNITS == 0
 TEST(unitStringDefinitions, nonenglishVector)
 {
-    for (std::size_t ii = 0; ii < units::defined_unit_strings_non_english.size();
-        ++ii) {
-        EXPECT_TRUE(units::defined_unit_strings_non_english[ii].first != nullptr)
+    for (std::size_t ii = 0;
+         ii < units::defined_unit_strings_non_english.size();
+         ++ii) {
+        EXPECT_TRUE(
+            units::defined_unit_strings_non_english[ii].first != nullptr)
             << ii;
         if (units::defined_unit_strings_non_english[ii].first == nullptr) {
             break;
@@ -70,7 +73,8 @@ TEST(unitStringDefinitions, customaryDuplicates)
     }
 }
 
-#if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) || UNITS_DISABLE_NON_ENGLISH_UNITS==0
+#if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) ||                               \
+    UNITS_DISABLE_NON_ENGLISH_UNITS == 0
 TEST(unitStringDefinitions, nonenglishDuplicates)
 {
     std::map<std::string, units::precise_unit> testMap;
@@ -79,7 +83,8 @@ TEST(unitStringDefinitions, nonenglishDuplicates)
             continue;
         }
         auto res = testMap.emplace(ustring.first, ustring.second);
-        EXPECT_TRUE(res.second) << "duplicate non english unit string " << ustring.first;
+        EXPECT_TRUE(res.second)
+            << "duplicate non english unit string " << ustring.first;
     }
 }
 #endif
@@ -106,9 +111,11 @@ TEST(unitStringDefinitions, combinedDuplicates)
             << "duplicate unit string " << ii << " "
             << units::defined_unit_strings_customary[ii].first;
     }
-#if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) || UNITS_DISABLE_NON_ENGLISH_UNITS==0
-    for (std::size_t ii = 0; ii < units::defined_unit_strings_non_english.size();
-        ++ii) {
+#if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) ||                               \
+    UNITS_DISABLE_NON_ENGLISH_UNITS == 0
+    for (std::size_t ii = 0;
+         ii < units::defined_unit_strings_non_english.size();
+         ++ii) {
         if (units::defined_unit_strings_non_english[ii].first == nullptr) {
             continue;
         }
@@ -221,5 +228,4 @@ TEST(unitNameDefinitions, combinedDuplicates)
             << "duplicate unit string " << ii << " "
             << units::defined_unit_names_customary[ii].second;
     }
-
 }
