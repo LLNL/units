@@ -142,6 +142,7 @@ TEST(unitStrings, siPrefixes)
 TEST(unitStrings, siPrefixesStrict)
 {
     EXPECT_EQ(to_string(unit_from_string("mm", strict_si)), "mm");
+    EXPECT_EQ(to_string(unit_from_string("mF", strict_si)), "mF");
     EXPECT_EQ(to_string(unit_from_string("cm", strict_si)), "cm");
     EXPECT_EQ(to_string(unit_from_string("um", strict_si)), "um");
     EXPECT_EQ(to_string(unit_from_string("nm", strict_si)), "nm");
@@ -694,7 +695,8 @@ TEST(stringToUnits, exponentForms)
     EXPECT_EQ(
         (precise::micro * precise::meter).pow(2), unit_from_string("um2"));
     EXPECT_EQ(precise::cm.pow(5), unit_from_string("cm5"));
-    EXPECT_EQ(unit_from_string("CM2", true), unit_from_string("cm2"));
+    EXPECT_EQ(
+        unit_from_string("CM2", case_insensitive), unit_from_string("cm2"));
 }
 
 TEST(stringToUnits, complex)
@@ -753,13 +755,16 @@ TEST(stringToUnits, equivalents)
     EXPECT_EQ(unit_from_string("/gram"), unit_from_string("/g"));
     EXPECT_EQ(unit_from_string(" per g"), precise::g.inv());
     EXPECT_EQ(unit_from_string("/deciliter"), unit_from_string("/dL"));
-    EXPECT_EQ(unit_from_string("DM2/S2", true), unit_from_string("dm2/s2"));
+    EXPECT_EQ(
+        unit_from_string("DM2/S2", case_insensitive),
+        unit_from_string("dm2/s2"));
     EXPECT_EQ(unit_from_string("/cu. m"), m.pow(3).inv());
     EXPECT_EQ(unit_from_string("a gregorian"), precise::time::ag);
     EXPECT_EQ(unit_from_string("cubic inches"), unit_from_string("[cin_i]"));
     EXPECT_EQ(unit_from_string("/mcl"), unit_from_string("/uL"));
     EXPECT_EQ(unit_from_string("/sec"), unit_from_string("/s"));
     EXPECT_EQ(unit_from_string("g.m"), unit_from_string("gram meter"));
+    EXPECT_EQ(unit_from_string("gf.m"), unit_from_string("gram-force meter"));
 }
 
 TEST(stringToUnits, equivalents2)
@@ -982,6 +987,60 @@ TEST(stringToUnits, invalid)
 
     EXPECT_FALSE(units::is_valid(unit_from_string("liquid")));
     EXPECT_FALSE(is_valid(unit_from_string("_liquid_()")));
+}
+
+TEST(stringToUnits, ParseIssues)
+{
+    auto u1 = unit_from_string("Metres");
+    EXPECT_EQ(u1, precise::m);
+
+    u1 = unit_from_string("degrees C");
+    EXPECT_EQ(u1, precise::degC);
+
+    u1 = unit_from_string("gramm");
+    EXPECT_EQ(u1, precise::g * precise::m);
+    u1 = unit_from_string("kilogramm");
+    EXPECT_EQ(u1, precise::kilo * precise::g * precise::m);
+}
+
+TEST(stringToUnits, partitionMinimum)
+{
+    auto u1 = unit_from_string("milefoot");
+    EXPECT_EQ(u1, precise::mile * precise::ft);
+
+    u1 = unit_from_string("milefoot", minimum_partition_size2);
+    EXPECT_EQ(u1, precise::mile * precise::ft);
+
+    u1 = unit_from_string("milefoot", minimum_partition_size3);
+    EXPECT_EQ(u1, precise::mile * precise::ft);
+
+    u1 = unit_from_string("milefoot", minimum_partition_size4);
+    EXPECT_EQ(u1, precise::mile * precise::ft);
+
+    u1 = unit_from_string("milefoot", minimum_partition_size5);
+    EXPECT_TRUE(is_error(u1));
+
+    u1 = unit_from_string("milefoot", minimum_partition_size6);
+    EXPECT_TRUE(is_error(u1));
+
+    u1 = unit_from_string("milefoot", minimum_partition_size7);
+    EXPECT_TRUE(is_error(u1));
+}
+
+TEST(stringToUnits, partitionMinimumDefault)
+{
+    auto u1 = unit_from_string("mifoot");
+    EXPECT_EQ(u1, precise::mile * precise::ft);
+
+    auto prev = setDefaultFlags(minimum_partition_size3);
+    EXPECT_EQ(prev, 0ULL);
+    EXPECT_EQ(getDefaultFlags(), minimum_partition_size3);
+
+    u1 = unit_from_string("mifoot");
+    EXPECT_TRUE(is_error(u1));
+
+    prev = setDefaultFlags(0ULL);
+    EXPECT_EQ(prev, minimum_partition_size3);
 }
 
 TEST(userDefinedUnits, definitions)

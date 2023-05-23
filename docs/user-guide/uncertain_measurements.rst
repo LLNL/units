@@ -45,7 +45,7 @@ Beyond the operations used in :ref:`Measurements`, there are some specific funct
 String operations
 -------------------
 The units library has some functions to extract an `uncertain_measurement` from a string
--   `uncertain_measurement_from_string(const std::string &ustring, std::uint32_t match_flags=0)`
+-   `uncertain_measurement_from_string(const std::string &ustring, std::uint64_t match_flags=0)`
 
 The from string operation searches for an uncertainty marker then splits the string into two parts.  It then uses the measurement from string operation on both halves of the string and forms an uncertain measurement from them depending on whether both halves have units and or values.  Allowed uncertainty marker strings include \["+/-", "±", "&plusmn;", "+-", "<u>+</u>", "&#xB1;", "&pm;", " \\pm "\].  These possibilities include unicode and ascii values and some sequences used in latex and html.
 

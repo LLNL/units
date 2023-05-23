@@ -6,7 +6,7 @@ The `units_from_string` and `to_string` operations take an optional flags argume
 
 Unit_from_string flags
 -------------------------
-
+-    `default_conversions`  -- no_flags, so using the default operations
 -    `case_insensitive` --perform case insensitive matching for UCUM case insensitive matching
 -    `single_slash` --specify that there is a single numerator and denominator only a single slash in the unit operations
 -    `strict_si` --input units are strict SI
@@ -33,6 +33,13 @@ Unit_from_string flags
 -    `skip_si_prefix_check` --skip checking for SI prefixes
 -    `skip_code_replacements` --don't do some code and sequence replacements
 
+-    `minimum_partition_size2` --specify that any unit partitions must be greater or equal to 2 characters
+-    `minimum_partition_size3` --specify that any unit partitions must be greater or equal to 3 characters
+-    `minimum_partition_size4` --specify that any unit partitions must be greater or equal to 4 characters
+-    `minimum_partition_size5` --specify that any unit partitions must be greater or equal to 5 characters
+-    `minimum_partition_size6` --specify that any unit partitions must be greater or equal to 6 characters
+-    `minimum_partition_size7` --specify that any unit partitions must be greater or equal to 7 characters
+
 Indications for use
 =========================
 The `case_insensitive` flag should be used to ignore capitalization completely.  It is targeted at the UCUM upper case specification but is effective for all situations where case should be ignored.
@@ -45,7 +52,18 @@ The `single_slash` flag is targeted at a few specific programs which use the for
 
 The remainder of the flags are somewhat self explanatory and are primarily used as part of the string conversion program to prevent infinite recursion.  The `no_commodities` or `no_per_operator` may be used if it is known those do not apply for a slight increase in performance.  The `no_recursion` or `skip_partition_check` can be use if only simple strings are passed to speed up the process somewhat.
 
+The minimum partition size flags can be used to restrict how much partitioning it does which can reduce the possibility of "false positives" or unwanted unit matches on the strings
+
+All the flags can be "or"ed to make combinations  such as `minimum_partition_size4|astronomy_units|no_of_operator`
+
 to_string Flags
 ---------------------
 
-- `disable_large_power_strings` - if the units definition allows large powers this flag can disable the use of them in the output string
+- `disable_large_power_strings` - if the units definition allows large powers this flag can disable the use of them in the output string.
+
+The to_string flags can be combined with the other conversion flags without issue.
+
+Default flags
+====================
+Flags will normally default to `0U` however they can be modified through `setDefaultFlags`.  This function returns the previous value in case it is needed to swap them temporarily.
+The flags can be retrieved via `getDefaultFlags()`  This function is automatically called if no flag argument is passed.  The initial value can be set through a compile time or build time option `UNITS_DEFAULT_MATCH_FLAGS`.

@@ -56,6 +56,13 @@ if(UNITS_BUILD_SHARED_LIBRARY)
             units PRIVATE -DUNITS_DEFAULT_DOMAIN=${UNITS_DEFAULT_DOMAIN}
         )
     endif()
+
+    if(UNITS_DEFAULT_MATCH_FLAGS)
+        target_compile_definitions(
+            units PRIVATE -DUNITS_DEFAULT_MATCH_FLAGS=${UNITS_DEFAULT_MATCH_FLAGS}
+        )
+    endif()
+
     if(${CMAKE_CXX_STANDARD} GREATER 16)
         target_compile_definitions(units PRIVATE -DUNITS_CONSTEXPR_IF_SUPPORTED=1)
     endif()

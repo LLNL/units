@@ -1813,56 +1813,64 @@ inline fixed_precise_measurement sqrt(const fixed_precise_measurement& meas)
     return root(meas, 2);
 }
 
-UNITS_EXPORT int setUnitsDomain(int newDomain);
+/** set the default units domain to be used in conversions*/
+UNITS_EXPORT std::uint64_t setUnitsDomain(std::uint64_t newDomain);
 
 /** specify a domain to use in unit translation for some ambiguous units*/
 namespace domains {
-    // only numbers 1-31 allowed
-    constexpr std::uint32_t defaultDomain{0U};
-    constexpr std::uint32_t ucum{7U};
-    constexpr std::uint32_t cooking{3U};
-    constexpr std::uint32_t nuclear{0x1DU};
-    constexpr std::uint32_t surveying{10U};
-    constexpr std::uint32_t astronomy{0x1AU};
-    constexpr std::uint32_t climate{0x0CU};
-    constexpr std::uint32_t us_customary{
+    // only numbers 1-255 allowed
+    constexpr std::uint64_t defaultDomain{0U};
+    constexpr std::uint64_t ucum{7U};
+    constexpr std::uint64_t cooking{3U};
+    constexpr std::uint64_t nuclear{0x1DU};
+    constexpr std::uint64_t surveying{10U};
+    constexpr std::uint64_t astronomy{0x1AU};
+    constexpr std::uint64_t climate{0x0CU};
+    constexpr std::uint64_t us_customary{
         11U};  // this is cooking | surveying as well
-    constexpr std::uint32_t allDomains{0x1F};
+    constexpr std::uint64_t allDomains{0xFF};
 }  // namespace domains
 
+UNITS_EXPORT std::uint64_t setDefaultFlags(std::uint64_t defaultFlags);
+
+UNITS_EXPORT std::uint64_t getDefaultFlags();
+namespace detail {
+    constexpr std::uint64_t minPartionSizeShift{37UL};
+}
 /** The unit conversion flag are some modifiers for the string conversion
 operations, some are used internally some are meant for external use, though all
 are possible to use externally
 */
-enum unit_conversion_flags : std::uint32_t {
-    case_insensitive = 1U,  //!< perform case insensitive matching for UCUM case
-                            //!< insensitive matching
-    single_slash = 2U,  //!< specify that there is a single numerator and
-                        //!< denominator only a single slash in the unit
-                        //!< operations
-    strict_si = 4U,  //!< input units are strict SI
-    /// input units are matching ucum standard
-    strict_ucum = (domains::ucum << 3U),
-
+enum unit_conversion_flags : std::uint64_t {
+    default_conversions = 0ULL,
+    // bits 0-8 are for the domain to use
     /// input units for cooking and recipes are prioritized
-    cooking_units = (domains::cooking << 3U),
+    cooking_units = domains::cooking,
     /// input units for astronomy are prioritized
-    astronomy_units = (domains::astronomy << 3U),
+    astronomy_units = domains::astronomy,
     /// input units for surveying are prioritized
-    surveying_units = (domains::surveying << 3U),
+    surveying_units = domains::surveying,
     /** input units for nuclear physics and radiation are prioritized */
-    nuclear_units = (domains::nuclear << 3U),
+    nuclear_units = domains::nuclear,
     /** input units for nuclear physics and radiation are prioritized */
-    climate_units = (domains::climate << 3U),
+    climate_units = domains::climate,
     /* equivalent to surveying_units|cooking_units so uses both domains */
-    us_customary_units = (domains::us_customary << 3U),
-    disable_large_power_strings =
-        (1U << 10U),  // if the units allow large powers (base size==8) then
-                      // this flag can disable the output of large power strings
-                      // which would be invalid if read later for smaller units.
-    numbers_only = (1U << 12U),  //!< indicate that only numbers should be
-                                 //!< matched in the first segments, mostly
-                                 //!< applies only to power operations
+    us_customary_units = domains::us_customary,
+    /// input units are matching ucum standard
+    strict_ucum = domains::ucum,
+
+    strict_si = (1U << 8U),  //!< input units are strict SI
+    /** perform case insensitive matching for UCUM case insensitive matching */
+    case_insensitive = (1U << 9U),
+    /** specify that there is a single numerator and denominator only a single
+       slash in the unit operations */
+    single_slash = (1U << 10U),
+    unused_flag1 = (1U << 11U),  //!< usused flag 1
+    unused_flag2 = (1U << 12U),  //!< usused flag 2
+    /**indicate that only numbers should be matched in the first segments,
+       mostly applies only to power operations */
+    numbers_only = (1U << 13U),
+    unused_flag3 = (1U << 14U),  //!< unused flag 3
     recursion_depth1 = (1U << 15U),  //!< skip checking for SI prefixes
     // don't put anything at 16, 15 through 17 are connected to limit
     // recursion depth
@@ -1877,20 +1885,37 @@ enum unit_conversion_flags : std::uint32_t {
         (1U << 24U),  // counter for skipping commodity check vi of
     // nothing at 25, 24 through 26 are connected
     no_commodities = (1U << 26U),  //!< skip commodity checks
-    partition_check1 = (1U << 27U),  //!< counter for skipping partitioning
+    // 27-31 are unused as of yet
+    partition_check1 = (1ULL << 32U),  //!< counter for skipping partitioning
     // nothing at 28, 27 through 29 are connected to limit partition
     // depth
-    skip_partition_check = (1U << 29U),  // skip the partition check algorithm
-    skip_si_prefix_check = (1U << 30U),  //!< skip checking for SI prefixes
-    skip_code_replacements =
-        (1U << 31U),  //!< don't do some code and sequence replacements
+    skip_partition_check = (1ULL << 34U),  // skip the partition check algorithm
+    skip_si_prefix_check = (1ULL << 35U),  //!< skip checking for SI prefixes
+    /** don't do some code and sequence replacements */
+    skip_code_replacements = (1ULL << 36U),
+    /// codes 37-39 is a minimum partition size 0-7
+    minimum_partition_size2 = (2ULL << detail::minPartionSizeShift),
+    minimum_partition_size3 = (3ULL << detail::minPartionSizeShift),
+    minimum_partition_size4 = (4ULL << detail::minPartionSizeShift),
+    minimum_partition_size5 = (5ULL << detail::minPartionSizeShift),
+    minimum_partition_size6 = (6ULL << detail::minPartionSizeShift),
+    minimum_partition_size7 = (7ULL << detail::minPartionSizeShift),
+
+    //  48 and higher are for output string flags
+    /** if the units allow large powers(base size == 8) then
+    this flag can disable the output of large power strings
+    which would be invalid if read later for smaller units.*/
+    disable_large_power_strings = (1ULL << 48U),
 };
-/// Generate a string representation of the unit
-UNITS_EXPORT std::string
-    to_string(const precise_unit& units, std::uint32_t match_flags = 0U);
 
 /// Generate a string representation of the unit
-inline std::string to_string(const unit& units, std::uint32_t match_flags = 0U)
+UNITS_EXPORT std::string to_string(
+    const precise_unit& units,
+    std::uint64_t match_flags = getDefaultFlags());
+
+/// Generate a string representation of the unit
+inline std::string
+    to_string(const unit& units, std::uint64_t match_flags = getDefaultFlags())
 {
     // For naming, precision doesn't matter
     return to_string(precise_unit(units), match_flags);
@@ -1903,8 +1928,9 @@ process somewhat
 @return a precise unit corresponding to the string if no match was found the
 unit will be an error unit
 */
-UNITS_EXPORT precise_unit
-    unit_from_string(std::string unit_string, std::uint32_t match_flags = 0U);
+UNITS_EXPORT precise_unit unit_from_string(
+    std::string unit_string,
+    std::uint64_t match_flags = getDefaultFlags());
 
 /** Generate a unit object from a string representation of it
 @details uses a unit_cast to convert the precise_unit to a unit
@@ -1916,7 +1942,7 @@ be an error unit
 */
 inline unit unit_cast_from_string(
     std::string unit_string,
-    std::uint32_t match_flags = 0U)
+    std::uint64_t match_flags = getDefaultFlags())
 {
     return unit_cast(unit_from_string(std::move(unit_string), match_flags));
 }
@@ -1937,7 +1963,7 @@ unit will be an error unit
     */
 UNITS_EXPORT precise_measurement measurement_from_string(
     std::string measurement_string,
-    std::uint32_t match_flags = 0U);
+    std::uint64_t match_flags = getDefaultFlags());
 
 /** Generate a measurement from a string
 @param measurement_string the string to convert
@@ -1948,7 +1974,7 @@ unit will be an error unit
     */
 inline measurement measurement_cast_from_string(
     std::string measurement_string,
-    std::uint32_t match_flags = 0U)
+    std::uint64_t match_flags = getDefaultFlags())
 {
     return measurement_cast(
         measurement_from_string(std::move(measurement_string), match_flags));
@@ -1966,22 +1992,23 @@ unit will be an error unit
 */
 UNITS_EXPORT uncertain_measurement uncertain_measurement_from_string(
     const std::string& measurement_string,
-    std::uint32_t match_flags = 0U);
+    std::uint64_t match_flags = getDefaultFlags());
 
 /// Convert a precise measurement to a string (with some extra decimal digits
 /// displayed)
 UNITS_EXPORT std::string to_string(
     const precise_measurement& measure,
-    std::uint32_t match_flags = 0U);
+    std::uint64_t match_flags = getDefaultFlags());
 
 /// Convert a measurement to a string
-UNITS_EXPORT std::string
-    to_string(const measurement& measure, std::uint32_t match_flags = 0U);
+UNITS_EXPORT std::string to_string(
+    const measurement& measure,
+    std::uint64_t match_flags = getDefaultFlags());
 
 /// Convert an uncertain measurement to a string
 UNITS_EXPORT std::string to_string(
     const uncertain_measurement& measure,
-    std::uint32_t match_flags = 0U);
+    std::uint64_t match_flags = getDefaultFlags());
 
 /// Add a custom unit to be included in any string processing
 UNITS_EXPORT void
@@ -2234,7 +2261,7 @@ namespace detail {
             std::string& str,
             const char* unit,
             int power,
-            std::uint32_t flags);
+            std::uint64_t flags);
     }  // namespace testing
 }  // namespace detail
 #endif

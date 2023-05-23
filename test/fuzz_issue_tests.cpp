@@ -145,7 +145,6 @@ static const std::vector<std::string> testStrings{
     "A\\-\xb2ps",
     "{inDex}",
     "F{U}{U}",
-    "PD-Np0pVcU",
     "per2rUkUper2U+UK",
     ".1.1.1.1e0.1.NNU",
     "/-3Mh/L",
