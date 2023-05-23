@@ -2641,83 +2641,80 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 #if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) ||                               \
     UNITS_DISABLE_NON_ENGLISH_UNITS == 0
 UNITS_CPP14_CONSTEXPR_OBJECT
-    std::array<std::pair<const char*, precise_unit>, 61>
-        defined_unit_strings_non_english{{
-            {"ken", precise::japan::ken},
-            {"cun", precise::chinese::cun},
-            {"cun(Chinese)",
-             precise::chinese::cun},  // interaction with cu for cubic
-            {"cun_cn", precise::chinese::cun},
-            {"chi", precise::chinese::chi},
-            {"chi_cn", precise::chinese::chi},
-            {"zhang", precise::chinese::zhang},
-            {"zhang_cn", precise::chinese::zhang},
-            {"li_cn", precise::chinese::li},
-            {"jin_cn", precise::chinese::jin},
-            {"jin", precise::chinese::jin},
-            {"liang_cn", precise::chinese::liang},
-            {"liang", precise::chinese::liang},
-            {"qian_cn", precise::chinese::qian},
-            {"qian", precise::chinese::qian},
-            {"funt", precise_unit(409.51718, precise::g)},  // Russian
-            {"pood", precise_unit(40.0 * 409.51718, precise::g)},  // Russian
-            {"zolotnik",
-             precise_unit(409.51718 / 96.0, precise::g)},  // Russian
-            {"halakim",
-             precise_unit(1.0 / 18.0, precise::time::min)},  // Jewish
-            {"halek", precise_unit(1.0 / 18.0, precise::time::min)},  // Jewish
-            {"lustrum", precise_unit(5.0, precise::time::aj)},  // Roman
-            {"lustra", precise_unit(5.0, precise::time::aj)},  // Roman
-            // turkey, UAE, levant unit of area
-            {"dunam", precise_unit(1000.0, precise::m.pow(2))},
-            // taiwan
-            {"ping", precise_unit(3.305, precise::m.pow(2))},
-            // korea unit of area
-            {"pyong", precise_unit(3.305, precise::m.pow(2))},
-            // ancient Roman units
-            {"amphora", {27.84, precise::L}},
-            {"sextarii", {27.84 / 48.0, precise::L}},
-            {"libra", {0.722, precise::av::pound}},
-            {"uncia", {0.722 / 12.0, precise::av::pound}},
-            {"pes", {296.0, precise::mm}},
-            {"stadium", {220, precise::yd}},
-            {"stadion", {157.0, precise::m}},
-            {"itinerarystadion", {157.0, precise::m}},
-            {"olympicstadion", {157.0, precise::m}},
-            {"leuga", {2.22, precise::km}},
-            // chinese units
-            {"shi", {71.68, precise::kg}},
-            {"dan", {71.68, precise::kg}},
-            // metric units in other languages
-            {"grama", precise::g},
-            {"gramm", precise::g},
-            {"gramma", precise::g},
-            {"gramme", precise::g},
-            {"gramo", precise::g},
-            {"segundo", precise::s},
-            {"seconde", precise::s},
-            {"sekunde", precise::s},
-            {"secondo", precise::s},
-            {"sekund", precise::s},
-            {"sekunda", precise::s},
-            {"metro", precise::s},
-            // older spanish units
-            {"punto", {0.1613, precise::mm}},
-            {"linea", {1.935, precise::mm}},
-            {"pulgada", {23.216, precise::mm}},
-            {"pie", {278.6, precise::mm}},
-            {"vara", {3.0 * 278.6, precise::mm}},
-            {"paso", {5.0 * 278.6, precise::mm}},
-            {"milla", {5000.0 * 278.6, precise::mm}},
-            {"legua", {15000.0 * 278.6, precise::mm}},
-            {"manzana",
-             {100.0 * 100.0 * 3.0 * 278.6 * 3.0 * 278.6, precise::mm.pow(2)}},
-            {"labor",
-             {1000000.0 * 3.0 * 278.6 * 3.0 * 278.6, precise::mm.pow(2)}},
-            {"zenti", {1.0 / 100.0, precise::one}},  // german for centi
-            {"zentner", {50.0, precise::kg}},  // german
+std::array<std::pair<const char*, precise_unit>, 61>
+    defined_unit_strings_non_english{{
+        {"ken", precise::japan::ken},
+        {"cun", precise::chinese::cun},
+        {"cun(Chinese)",
+         precise::chinese::cun},  // interaction with cu for cubic
+        {"cun_cn", precise::chinese::cun},
+        {"chi", precise::chinese::chi},
+        {"chi_cn", precise::chinese::chi},
+        {"zhang", precise::chinese::zhang},
+        {"zhang_cn", precise::chinese::zhang},
+        {"li_cn", precise::chinese::li},
+        {"jin_cn", precise::chinese::jin},
+        {"jin", precise::chinese::jin},
+        {"liang_cn", precise::chinese::liang},
+        {"liang", precise::chinese::liang},
+        {"qian_cn", precise::chinese::qian},
+        {"qian", precise::chinese::qian},
+        {"funt", precise_unit(409.51718, precise::g)},  // Russian
+        {"pood", precise_unit(40.0 * 409.51718, precise::g)},  // Russian
+        {"zolotnik", precise_unit(409.51718 / 96.0, precise::g)},  // Russian
+        {"halakim", precise_unit(1.0 / 18.0, precise::time::min)},  // Jewish
+        {"halek", precise_unit(1.0 / 18.0, precise::time::min)},  // Jewish
+        {"lustrum", precise_unit(5.0, precise::time::aj)},  // Roman
+        {"lustra", precise_unit(5.0, precise::time::aj)},  // Roman
+        // turkey, UAE, levant unit of area
+        {"dunam", precise_unit(1000.0, precise::m.pow(2))},
+        // taiwan
+        {"ping", precise_unit(3.305, precise::m.pow(2))},
+        // korea unit of area
+        {"pyong", precise_unit(3.305, precise::m.pow(2))},
+        // ancient Roman units
+        {"amphora", {27.84, precise::L}},
+        {"sextarii", {27.84 / 48.0, precise::L}},
+        {"libra", {0.722, precise::av::pound}},
+        {"uncia", {0.722 / 12.0, precise::av::pound}},
+        {"pes", {296.0, precise::mm}},
+        {"stadium", {220, precise::yd}},
+        {"stadion", {157.0, precise::m}},
+        {"itinerarystadion", {157.0, precise::m}},
+        {"olympicstadion", {157.0, precise::m}},
+        {"leuga", {2.22, precise::km}},
+        // chinese units
+        {"shi", {71.68, precise::kg}},
+        {"dan", {71.68, precise::kg}},
+        // metric units in other languages
+        {"grama", precise::g},
+        {"gramm", precise::g},
+        {"gramma", precise::g},
+        {"gramme", precise::g},
+        {"gramo", precise::g},
+        {"segundo", precise::s},
+        {"seconde", precise::s},
+        {"sekunde", precise::s},
+        {"secondo", precise::s},
+        {"sekund", precise::s},
+        {"sekunda", precise::s},
+        {"metro", precise::s},
+        // older spanish units
+        {"punto", {0.1613, precise::mm}},
+        {"linea", {1.935, precise::mm}},
+        {"pulgada", {23.216, precise::mm}},
+        {"pie", {278.6, precise::mm}},
+        {"vara", {3.0 * 278.6, precise::mm}},
+        {"paso", {5.0 * 278.6, precise::mm}},
+        {"milla", {5000.0 * 278.6, precise::mm}},
+        {"legua", {15000.0 * 278.6, precise::mm}},
+        {"manzana",
+         {100.0 * 100.0 * 3.0 * 278.6 * 3.0 * 278.6, precise::mm.pow(2)}},
+        {"labor", {1000000.0 * 3.0 * 278.6 * 3.0 * 278.6, precise::mm.pow(2)}},
+        {"zenti", {1.0 / 100.0, precise::one}},  // german for centi
+        {"zentner", {50.0, precise::kg}},  // german
 
-        }};
+    }};
 
 #endif
 
