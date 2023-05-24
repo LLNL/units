@@ -1009,6 +1009,12 @@ TEST(stringToUnits, ParseIssues)
     u1 = unit_from_string("kilogramm");
     EXPECT_EQ(u1, precise::kilo * precise::g * precise::m);
 #endif
+
+    u1=unit_from_string("inchy");
+    EXPECT_FALSE(is_valid(u1));
+
+    u1=unit_from_string("fln_oz");
+    EXPECT_FALSE(is_valid(u1));
 }
 
 TEST(stringToUnits, partitionMinimum)

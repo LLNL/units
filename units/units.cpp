@@ -4414,7 +4414,7 @@ static precise_unit tryUnitPartitioning(
     // detect another somewhat common situation often amphour or ampsecond
     if (unit_string.compare(0, 3, "amp") == 0) {
         auto bunit =
-            unit_from_string_internal(unit_string.substr(3), match_flags);
+            unit_from_string_internal(unit_string.substr(3), match_flags|minimum_partition_size3);
         if (is_valid(bunit)) {
             return precise::A * bunit;
         }
@@ -4527,9 +4527,8 @@ static precise_unit tryUnitPartitioning(
     std::reverse(valid.begin(), valid.end());
     for (auto& vd : valid) {
         auto res = unit_quick_match(vd, match_flags);
-
-        auto bunit = unit_from_string_internal(
-            unit_string.substr(vd.size()), match_flags);
+        auto nmatch_flags=(vd.size()>3)?match_flags:match_flags|minimum_partition_size3;
+        auto bunit = unit_from_string_internal(unit_string.substr(vd.size()),nmatch_flags);
         if (is_valid(bunit)) {
             return res * bunit;
         }
