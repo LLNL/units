@@ -997,10 +997,18 @@ TEST(stringToUnits, ParseIssues)
     u1 = unit_from_string("degrees C");
     EXPECT_EQ(u1, precise::degC);
 
+#if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) ||                               \
+    UNITS_DISABLE_NON_ENGLISH_UNITS == 0
+    u1 = unit_from_string("gramm");
+    EXPECT_EQ(u1, precise::g);
+    u1 = unit_from_string("kilogramm");
+    EXPECT_EQ(u1, precise::kilo * precise::g);
+#else
     u1 = unit_from_string("gramm");
     EXPECT_EQ(u1, precise::g * precise::m);
     u1 = unit_from_string("kilogramm");
     EXPECT_EQ(u1, precise::kilo * precise::g * precise::m);
+#endif
 }
 
 TEST(stringToUnits, partitionMinimum)

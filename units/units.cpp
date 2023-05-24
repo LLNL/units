@@ -2706,6 +2706,14 @@ static smap loadDefinedUnits()
             knownUnits.emplace(pr.first, pr.second);
         }
     }
+#if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) ||                               \
+    UNITS_DISABLE_NON_ENGLISH_UNITS == 0
+    for (const auto& pr : defined_unit_strings_non_english) {
+        if (pr.first != nullptr) {
+            knownUnits.emplace(pr.first, pr.second);
+        }
+    }
+#endif
     return knownUnits;
 }
 /** units from several locations

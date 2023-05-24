@@ -359,7 +359,7 @@ For more details see [User Defined Units](https://units.readthedocs.io/en/latest
 
 #### Unit Domains
 
-- `setUnitsDomain(std::uint32_t newDomain)` : set a default domain to use for string translations if not overridden using the `flags` argument. The function returns the current flags.
+- `setUnitsDomain(std::uint32_t newDomain)` : set a default domain to use for string translations if not overridden using the `flags` argument. The function returns the previous domain if the domain only needs to be set temporarily.
 
 For more description of the Unit Domains supported see [Domains](https://units.readthedocs.io/en/latest/user-guide/Unit_domains.html). Use the constants available in `units::domains` as the argument. The numerical value is subject to change in future releases as this gets refined.
 
