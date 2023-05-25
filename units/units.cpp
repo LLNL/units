@@ -2546,53 +2546,53 @@ static precise_unit
 {
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 47>
         internationlReplacements{{
-            ckpair{"internationaltable", "_IT"},
-            ckpair{"internationalsteamtable", "_IT"},
-            ckpair{"international", "_i"},
-            ckpair{"USandBritish", "_av"},
-            ckpair{"US&British", "_av"},
-            ckpair{"USAsurvey", "_us"},
-            ckpair{"USsurvey", "_us"},
-            ckpair{"USSurvey", "_us"},
-            ckpair{"USA", "_us"},
-            ckpair{"USstatute", "_us"},
-            ckpair{"statutory", "_us"},
-            ckpair{"statute", "_us"},
-            ckpair{"gregorian", "_g"},
-            ckpair{"Gregorian", "_g"},
-            ckpair{"synodic", "_s"},
-            ckpair{"sidereal", "_sdr"},
-            ckpair{"julian", "_j"},
-            ckpair{"Julian", "_j"},
-            ckpair{"thermochemical", "_th"},
-            ckpair{"Th", "_th"},
-            ckpair{"(th)", "_th"},
-            ckpair{"metric", "_m"},
-            ckpair{"mean", "_m"},
-            ckpair{"imperial", "_br"},
-            ckpair{"Imperial", "_br"},
-            ckpair{"English", "_br"},
-            ckpair{"imp", "_br"},
-            ckpair{"wine", "_wi"},
-            ckpair{"beer", "_wi"},
-            ckpair{"US", "_us"},
-            ckpair{"(IT)", "_IT"},
-            ckpair{"troy", "_tr"},
-            ckpair{"apothecary", "_ap"},
-            ckpair{"apothecaries", "_ap"},
-            ckpair{"avoirdupois", "_av"},
-            ckpair{"Chinese", "_cn"},
-            ckpair{"chinese", "_cn"},
-            ckpair{"Canadian", "_ca"},
-            ckpair{"canadian", "_ca"},
-            ckpair{"survey", "_us"},
-            ckpair{"tropical", "_t"},
-            ckpair{"British", "_br"},
-            ckpair{"british", "_br"},
-            ckpair{"Br", "_br"},
-            ckpair{"BR", "_br"},
-            ckpair{"UK", "_br"},
-            ckpair{"conventional", "_90"},
+            ckpair{"internationaltable", "IT"},
+            ckpair{"internationalsteamtable", "IT"},
+            ckpair{"international", "i"},
+            ckpair{"USandBritish", "av"},
+            ckpair{"US&British", "av"},
+            ckpair{"USAsurvey", "us"},
+            ckpair{"USsurvey", "us"},
+            ckpair{"USSurvey", "us"},
+            ckpair{"USA", "us"},
+            ckpair{"USstatute", "us"},
+            ckpair{"statutory", "us"},
+            ckpair{"statute", "us"},
+            ckpair{"gregorian", "g"},
+            ckpair{"Gregorian", "g"},
+            ckpair{"synodic", "s"},
+            ckpair{"sidereal", "sdr"},
+            ckpair{"julian", "j"},
+            ckpair{"Julian", "j"},
+            ckpair{"thermochemical", "th"},
+            ckpair{"Th", "th"},
+            ckpair{"(th)", "th"},
+            ckpair{"metric", "m"},
+            ckpair{"mean", "m"},
+            ckpair{"imperial", "br"},
+            ckpair{"Imperial", "br"},
+            ckpair{"English", "br"},
+            ckpair{"imp", "br"},
+            ckpair{"wine", "wi"},
+            ckpair{"beer", "wi"},
+            ckpair{"US", "us"},
+            ckpair{"(IT)", "IT"},
+            ckpair{"troy", "tr"},
+            ckpair{"apothecary", "ap"},
+            ckpair{"apothecaries", "ap"},
+            ckpair{"avoirdupois", "av"},
+            ckpair{"Chinese", "cn"},
+            ckpair{"chinese", "cn"},
+            ckpair{"Canadian", "ca"},
+            ckpair{"canadian", "ca"},
+            ckpair{"survey", "us"},
+            ckpair{"tropical", "t"},
+            ckpair{"British", "br"},
+            ckpair{"british", "br"},
+            ckpair{"Br", "br"},
+            ckpair{"BR", "br"},
+            ckpair{"UK", "br"},
+            ckpair{"conventional", "90"},
         }};
     bool changed = false;
     for (const auto& irep : internationlReplacements) {
@@ -2605,7 +2605,15 @@ static precise_unit
                 return precise::invalid;
             }
             unit.erase(fnd, len);
-
+            if (fnd>0 && (unit[fnd - 1] == '_' || unit[fnd - 1] == '-'))
+            {
+                unit.erase(fnd-1,1);
+            }
+            if (fnd < unit.size() && (unit[fnd] == '_' || unit[fnd] == '-'))
+            {
+                unit.erase(fnd,1);
+            }
+            unit.push_back('_');
             unit.append(irep.second);
             changed = true;
             break;
@@ -2623,7 +2631,7 @@ static precise_unit
         {"us", "br", "av", "ch", "IT", "th", "ap", "tr"}};
     for (const auto& seq : rotSequences) {
         if (unit.compare(0, 2, seq) == 0) {
-            auto nunit = unit.substr(2);
+            auto nunit = unit.substr((unit[2]=='-'||unit[3]=='_')?3:2);
             if (nunit.back() == 's') {
                 nunit.pop_back();
             }
@@ -2632,7 +2640,14 @@ static precise_unit
             return get_unit(nunit, match_flags);
         }
         if (ends_with(unit, seq)) {
-            unit.insert(unit.end() - 2, '_');
+            if (unit[unit.size() - 3] == '-')
+            {
+                unit[unit.size() - 3] = '_';
+            }
+            else
+            {
+                unit.insert(unit.end() - 2, '_');
+            }
             return get_unit(unit, match_flags);
         }
     }
