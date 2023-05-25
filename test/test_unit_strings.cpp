@@ -1010,10 +1010,10 @@ TEST(stringToUnits, ParseIssues)
     EXPECT_EQ(u1, precise::kilo * precise::g * precise::m);
 #endif
 
-    u1=unit_from_string("inchy");
+    u1 = unit_from_string("inchy");
     EXPECT_FALSE(is_valid(u1));
 
-    u1=unit_from_string("fln_oz");
+    u1 = unit_from_string("fln_oz");
     EXPECT_FALSE(is_valid(u1));
 }
 
