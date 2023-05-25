@@ -2317,7 +2317,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"[PWT_TR]", precise::troy::pennyweight},
          {"pennyweight_tr", precise::troy::pennyweight},
          {"pennyweight", precise::troy::pennyweight},
-        { "dram_tr", precise_unit{0.00388793458, precise::kg} },
+         {"dram_tr", precise_unit{0.00388793458, precise::kg}},
          {"sc_ap", precise::apothecaries::scruple},
          {"[SC_AP]", precise::apothecaries::scruple},
          {"scruple", precise::apothecaries::scruple},

@@ -2605,13 +2605,11 @@ static precise_unit
                 return precise::invalid;
             }
             unit.erase(fnd, len);
-            if (fnd>0 && (unit[fnd - 1] == '_' || unit[fnd - 1] == '-'))
-            {
-                unit.erase(fnd-1,1);
+            if (fnd > 0 && (unit[fnd - 1] == '_' || unit[fnd - 1] == '-')) {
+                unit.erase(fnd - 1, 1);
             }
-            if (fnd < unit.size() && (unit[fnd] == '_' || unit[fnd] == '-'))
-            {
-                unit.erase(fnd,1);
+            if (fnd < unit.size() && (unit[fnd] == '_' || unit[fnd] == '-')) {
+                unit.erase(fnd, 1);
             }
             unit.push_back('_');
             unit.append(irep.second);
@@ -2631,7 +2629,8 @@ static precise_unit
         {"us", "br", "av", "ch", "IT", "th", "ap", "tr"}};
     for (const auto& seq : rotSequences) {
         if (unit.compare(0, 2, seq) == 0) {
-            auto nunit = unit.substr((unit[2]=='-'||unit[3]=='_')?3:2);
+            auto nunit =
+                unit.substr((unit[2] == '-' || unit[3] == '_') ? 3 : 2);
             if (nunit.back() == 's') {
                 nunit.pop_back();
             }
@@ -2640,12 +2639,9 @@ static precise_unit
             return get_unit(nunit, match_flags);
         }
         if (ends_with(unit, seq)) {
-            if (unit[unit.size() - 3] == '-')
-            {
+            if (unit[unit.size() - 3] == '-') {
                 unit[unit.size() - 3] = '_';
-            }
-            else
-            {
+            } else {
                 unit.insert(unit.end() - 2, '_');
             }
             return get_unit(unit, match_flags);
@@ -2920,7 +2916,10 @@ static precise_unit
     }
     return precise::invalid;
 }
-static precise_unit checkMultiplierCharacter(const std::string& unit_string, std::uint64_t match_flags, char mchar)
+static precise_unit checkMultiplierCharacter(
+    const std::string& unit_string,
+    std::uint64_t match_flags,
+    char mchar)
 {
     // assume mchar means multiply
     std::string ustring;
@@ -2940,22 +2939,18 @@ static precise_unit checkMultiplierCharacter(const std::string& unit_string, std
         while (fd != std::string::npos) {
             if (fd == ustring.size() - 1) {
                 ustring.erase(fd, 1);
-            }
-            else if (isDigitCharacter(ustring[fd + 1])) {
+            } else if (isDigitCharacter(ustring[fd + 1])) {
                 if (fd > 0 && ustring[fd - 1] != '^') {
                     ustring.insert(fd, 1, '^');
                     fd += 1;
                 }
-            }
-            else if (ustring[fd + 1] == mchar)
-            {
-                //repeated characters,  cannot mean separator
+            } else if (ustring[fd + 1] == mchar) {
+                // repeated characters,  cannot mean separator
                 return precise::invalid;
-            }
-            else {
+            } else {
                 ustring[fd] = '*';
             }
-            //ignore adjacent ones
+            // ignore adjacent ones
             fd = ustring.find_first_of(mchar, fd + 2);
         }
         if (ustring != unit_string) {
@@ -4500,7 +4495,7 @@ static precise_unit tryUnitPartitioning(
     }
     auto minPartitionSize = getMinPartitionSize(match_flags);
     std::vector<std::string> valid;
-    bool hasSep{ false };
+    bool hasSep{false};
     while (part < unit_string.size() - 1) {
         if (unit_string.size() - part < minPartitionSize) {
             break;
@@ -4542,9 +4537,9 @@ static precise_unit tryUnitPartitioning(
             }
             ustring = unit_string.substr(0, part);
         }
-        while (ustring.back() == '_' || ustring.back() == '-' && (part < unit_string.size() - 1))
-        {
-            hasSep=true;
+        while (ustring.back() == '_' ||
+               ustring.back() == '-' && (part < unit_string.size() - 1)) {
+            hasSep = true;
             ustring.push_back(unit_string[part]);
             ++part;
         }
@@ -5122,12 +5117,12 @@ static precise_unit unit_from_string_internal(
     }
 
     if (!containsPer) {
-        retunit = checkMultiplierCharacter(unit_string,match_flags,'-');
+        retunit = checkMultiplierCharacter(unit_string, match_flags, '-');
         if (!is_error(retunit)) {
             return retunit;
         }
-        
-        retunit = checkMultiplierCharacter(unit_string,match_flags,'_');
+
+        retunit = checkMultiplierCharacter(unit_string, match_flags, '_');
         if (!is_error(retunit)) {
             return retunit;
         }
@@ -5161,13 +5156,12 @@ static precise_unit unit_from_string_internal(
         }
     }
     {
-        //try removing the _ and checking for a match with no partitioning
+        // try removing the _ and checking for a match with no partitioning
         ustring = unit_string;
         ustring.erase(
-            std::remove(ustring.begin(), ustring.end(), '_'),
-            ustring.end());
+            std::remove(ustring.begin(), ustring.end(), '_'), ustring.end());
         if (ustring != unit_string && !ustring.empty()) {
-            retunit = get_unit(ustring, match_flags|skip_partition_check);
+            retunit = get_unit(ustring, match_flags | skip_partition_check);
             if (!is_error(retunit)) {
                 return retunit;
             }
@@ -5178,13 +5172,17 @@ static precise_unit unit_from_string_internal(
                     return {number, one};
                 }
                 ustring = ustring.substr(loc);
-                retunit = unit_from_string_internal(ustring, match_flags|skip_partition_check);
+                retunit = unit_from_string_internal(
+                    ustring, match_flags | skip_partition_check);
                 if (!is_error(retunit)) {
                     return {number, retunit};
                 }
                 ustring.insert(ustring.begin(), '{');
                 ustring.push_back('}');
-                return {number, commoditizedUnit(ustring, match_flags|skip_partition_check)};
+                return {
+                    number,
+                    commoditizedUnit(
+                        ustring, match_flags | skip_partition_check)};
             }
         }
     }
@@ -5216,7 +5214,7 @@ static precise_unit unit_from_string_internal(
             }
         }
     }
-    
+
     // remove trailing 's'
     if (unit_string.back() == 's') {
         ustring = unit_string;
@@ -5263,7 +5261,6 @@ static precise_unit unit_from_string_internal(
             }
         }
     }
-   
 
     retunit = checkForCustomUnit(unit_string);
     if (!is_error(retunit)) {
