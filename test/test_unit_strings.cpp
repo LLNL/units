@@ -1015,6 +1015,34 @@ TEST(stringToUnits, ParseIssues)
 
     u1 = unit_from_string("fln_oz");
     EXPECT_FALSE(is_valid(u1));
+
+    u1 = unit_from_string("wattm");
+    EXPECT_EQ(u1, precise::W * precise::m);
+}
+
+
+TEST(stringToUnits, rotSequences)
+{
+    auto u1 = unit_from_string("BTU_IT");
+    EXPECT_EQ(u1,unit_from_string("BtuIT"));
+    EXPECT_EQ(u1,unit_from_string("BTU-IT"));
+}
+
+TEST(stringToUnits, cleanPhase2)
+{
+    auto u1 = unit_from_string("tech-nical-at-mosphere");
+    EXPECT_EQ(u1,precise::pressure::att);
+
+    u1 = unit_from_string("+++m++++");
+    EXPECT_EQ(u1,precise::m);
+    u1 = unit_from_string("+++6.7+++m+++");
+    EXPECT_EQ(u1, units::precise_unit( 6.7,precise::m ));
+
+    auto uhippos = unit_from_string("+++6.7+++hippos+++");
+    EXPECT_EQ(uhippos.commodity(), getCommodity("hippos"));
+
+   u1 = unit_from_string("[+++m+++]");
+    EXPECT_EQ(u1,precise::m);
 }
 
 TEST(stringToUnits, partitionMinimum)
