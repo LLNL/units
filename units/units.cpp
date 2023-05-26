@@ -2608,7 +2608,7 @@ static precise_unit
             if (fnd > 0 && unit[fnd - 1] == '_') {
                 unit.erase(fnd - 1, 1);
             }
-            if (fnd < unit.size() && unit[fnd] == '_' ) {
+            if (fnd < unit.size() && unit[fnd] == '_') {
                 unit.erase(fnd, 1);
             }
             unit.push_back('_');
@@ -2629,8 +2629,7 @@ static precise_unit
         {"us", "br", "av", "ch", "IT", "th", "ap", "tr"}};
     for (const auto& seq : rotSequences) {
         if (unit.compare(0, 2, seq) == 0) {
-            auto nunit =
-                unit.substr((unit[3] == '_') ? 3 : 2);
+            auto nunit = unit.substr((unit[3] == '_') ? 3 : 2);
             if (nunit.back() == 's') {
                 nunit.pop_back();
             }
