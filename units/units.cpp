@@ -2546,53 +2546,53 @@ static precise_unit
 {
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 47>
         internationlReplacements{{
-            ckpair{"internationaltable", "_IT"},
-            ckpair{"internationalsteamtable", "_IT"},
-            ckpair{"international", "_i"},
-            ckpair{"USandBritish", "_av"},
-            ckpair{"US&British", "_av"},
-            ckpair{"USAsurvey", "_us"},
-            ckpair{"USsurvey", "_us"},
-            ckpair{"USSurvey", "_us"},
-            ckpair{"USA", "_us"},
-            ckpair{"USstatute", "_us"},
-            ckpair{"statutory", "_us"},
-            ckpair{"statute", "_us"},
-            ckpair{"gregorian", "_g"},
-            ckpair{"Gregorian", "_g"},
-            ckpair{"synodic", "_s"},
-            ckpair{"sidereal", "_sdr"},
-            ckpair{"julian", "_j"},
-            ckpair{"Julian", "_j"},
-            ckpair{"thermochemical", "_th"},
-            ckpair{"Th", "_th"},
-            ckpair{"(th)", "_th"},
-            ckpair{"metric", "_m"},
-            ckpair{"mean", "_m"},
-            ckpair{"imperial", "_br"},
-            ckpair{"Imperial", "_br"},
-            ckpair{"English", "_br"},
-            ckpair{"imp", "_br"},
-            ckpair{"wine", "_wi"},
-            ckpair{"beer", "_wi"},
-            ckpair{"US", "_us"},
-            ckpair{"(IT)", "_IT"},
-            ckpair{"troy", "_tr"},
-            ckpair{"apothecary", "_ap"},
-            ckpair{"apothecaries", "_ap"},
-            ckpair{"avoirdupois", "_av"},
-            ckpair{"Chinese", "_cn"},
-            ckpair{"chinese", "_cn"},
-            ckpair{"Canadian", "_ca"},
-            ckpair{"canadian", "_ca"},
-            ckpair{"survey", "_us"},
-            ckpair{"tropical", "_t"},
-            ckpair{"British", "_br"},
-            ckpair{"british", "_br"},
-            ckpair{"Br", "_br"},
-            ckpair{"BR", "_br"},
-            ckpair{"UK", "_br"},
-            ckpair{"conventional", "_90"},
+            ckpair{"internationaltable", "IT"},
+            ckpair{"internationalsteamtable", "IT"},
+            ckpair{"international", "i"},
+            ckpair{"USandBritish", "av"},
+            ckpair{"US&British", "av"},
+            ckpair{"USAsurvey", "us"},
+            ckpair{"USsurvey", "us"},
+            ckpair{"USSurvey", "us"},
+            ckpair{"USA", "us"},
+            ckpair{"USstatute", "us"},
+            ckpair{"statutory", "us"},
+            ckpair{"statute", "us"},
+            ckpair{"gregorian", "g"},
+            ckpair{"Gregorian", "g"},
+            ckpair{"synodic", "s"},
+            ckpair{"sidereal", "sdr"},
+            ckpair{"julian", "j"},
+            ckpair{"Julian", "j"},
+            ckpair{"thermochemical", "th"},
+            ckpair{"Th", "th"},
+            ckpair{"(th)", "th"},
+            ckpair{"metric", "m"},
+            ckpair{"mean", "m"},
+            ckpair{"imperial", "br"},
+            ckpair{"Imperial", "br"},
+            ckpair{"English", "br"},
+            ckpair{"imp", "br"},
+            ckpair{"wine", "wi"},
+            ckpair{"beer", "wi"},
+            ckpair{"US", "us"},
+            ckpair{"(IT)", "IT"},
+            ckpair{"troy", "tr"},
+            ckpair{"apothecary", "ap"},
+            ckpair{"apothecaries", "ap"},
+            ckpair{"avoirdupois", "av"},
+            ckpair{"Chinese", "cn"},
+            ckpair{"chinese", "cn"},
+            ckpair{"Canadian", "ca"},
+            ckpair{"canadian", "ca"},
+            ckpair{"survey", "us"},
+            ckpair{"tropical", "t"},
+            ckpair{"British", "br"},
+            ckpair{"british", "br"},
+            ckpair{"Br", "br"},
+            ckpair{"BR", "br"},
+            ckpair{"UK", "br"},
+            ckpair{"conventional", "90"},
         }};
     bool changed = false;
     for (const auto& irep : internationlReplacements) {
@@ -2605,7 +2605,13 @@ static precise_unit
                 return precise::invalid;
             }
             unit.erase(fnd, len);
-
+            if (fnd > 0 && unit[fnd - 1] == '_') {
+                unit.erase(fnd - 1, 1);
+            }
+            if (fnd < unit.size() && unit[fnd] == '_') {
+                unit.erase(fnd, 1);
+            }
+            unit.push_back('_');
             unit.append(irep.second);
             changed = true;
             break;
@@ -2623,7 +2629,7 @@ static precise_unit
         {"us", "br", "av", "ch", "IT", "th", "ap", "tr"}};
     for (const auto& seq : rotSequences) {
         if (unit.compare(0, 2, seq) == 0) {
-            auto nunit = unit.substr(2);
+            auto nunit = unit.substr((unit[3] == '_') ? 3 : 2);
             if (nunit.back() == 's') {
                 nunit.pop_back();
             }
@@ -2905,7 +2911,53 @@ static precise_unit
     }
     return precise::invalid;
 }
-
+static precise_unit checkMultiplierCharacter(
+    const std::string& unit_string,
+    std::uint64_t match_flags,
+    char mchar)
+{
+    // assume mchar means multiply
+    std::string ustring;
+    precise_unit retunit;
+    auto fd = unit_string.find_first_of(mchar);
+    if (fd != std::string::npos) {
+        // if there is a single one just check for a merged unit
+        if (unit_string.find_first_of(mchar, fd + 1) == std::string::npos) {
+            ustring = unit_string;
+            ustring.erase(fd, 1);
+            retunit = unit_quick_match(ustring, match_flags);
+            if (!is_error(retunit)) {
+                return retunit;
+            }
+        }
+        ustring = unit_string;
+        while (fd != std::string::npos) {
+            if (fd == ustring.size() - 1) {
+                ustring.erase(fd, 1);
+            } else if (isDigitCharacter(ustring[fd + 1])) {
+                if (fd > 0 && ustring[fd - 1] != '^') {
+                    ustring.insert(fd, 1, '^');
+                    fd += 1;
+                }
+            } else if (ustring[fd + 1] == mchar) {
+                // repeated characters,  cannot mean separator
+                return precise::invalid;
+            } else {
+                ustring[fd] = '*';
+            }
+            // ignore adjacent ones
+            fd = ustring.find_first_of(mchar, fd + 2);
+        }
+        if (ustring != unit_string) {
+            retunit = unit_from_string_internal(
+                ustring, match_flags | skip_partition_check);
+            if (!is_error(retunit)) {
+                return retunit;
+            }
+        }
+    }
+    return precise::invalid;
+}
 // do a check if there are additional operations outside of brackets
 static bool hasAdditionalOps(const std::string& unit_string)
 {
@@ -4328,9 +4380,6 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
 static bool cleanUnitStringPhase2(std::string& unit_string)
 {
     auto len = unit_string.length();
-    unit_string.erase(
-        std::remove(unit_string.begin(), unit_string.end(), '_'),
-        unit_string.end());
     // cleanup extraneous dashes
     auto dpos = unit_string.find_first_of('-');
     while (dpos != std::string::npos) {
@@ -4413,8 +4462,8 @@ static precise_unit tryUnitPartitioning(
     }
     // detect another somewhat common situation often amphour or ampsecond
     if (unit_string.compare(0, 3, "amp") == 0) {
-        auto bunit =
-            unit_from_string_internal(unit_string.substr(3), match_flags);
+        auto bunit = unit_from_string_internal(
+            unit_string.substr(3), match_flags | minimum_partition_size3);
         if (is_valid(bunit)) {
             return precise::A * bunit;
         }
@@ -4441,6 +4490,7 @@ static precise_unit tryUnitPartitioning(
     }
     auto minPartitionSize = getMinPartitionSize(match_flags);
     std::vector<std::string> valid;
+    bool hasSep{false};
     while (part < unit_string.size() - 1) {
         if (unit_string.size() - part < minPartitionSize) {
             break;
@@ -4482,6 +4532,12 @@ static precise_unit tryUnitPartitioning(
             }
             ustring = unit_string.substr(0, part);
         }
+        while (ustring.back() == '_' ||
+               ustring.back() == '-' && (part < unit_string.size() - 1)) {
+            hasSep = true;
+            ustring.push_back(unit_string[part]);
+            ++part;
+        }
         if (isDigitCharacter(ustring.back())) {
             while ((part < unit_string.size() - 1) &&
                    (unit_string[part] == '.' ||
@@ -4500,7 +4556,7 @@ static precise_unit tryUnitPartitioning(
             }
         }
     }
-    if (minPartitionSize <= 2) {
+    if (minPartitionSize <= 2 && !hasSep) {
         // now do a quick check with a 2 character string since we skipped that
         // earlier
         auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
@@ -4527,9 +4583,11 @@ static precise_unit tryUnitPartitioning(
     std::reverse(valid.begin(), valid.end());
     for (auto& vd : valid) {
         auto res = unit_quick_match(vd, match_flags);
-
+        auto nmatch_flags = (vd.size() > 3) ?
+            match_flags :
+            match_flags | minimum_partition_size3;
         auto bunit = unit_from_string_internal(
-            unit_string.substr(vd.size()), match_flags);
+            unit_string.substr(vd.size()), nmatch_flags);
         if (is_valid(bunit)) {
             return res * bunit;
         }
@@ -5054,39 +5112,14 @@ static precise_unit unit_from_string_internal(
     }
 
     if (!containsPer) {
-        // assume - means multiply
-        auto fd = unit_string.find_first_of('-');
-        if (fd != std::string::npos) {
-            // if there is a single one just check for a merged unit
-            if (unit_string.find_first_of('-', fd + 1) == std::string::npos) {
-                ustring = unit_string;
-                ustring.erase(fd, 1);
-                retunit = unit_quick_match(ustring, match_flags);
-                if (!is_error(retunit)) {
-                    return retunit;
-                }
-            }
-            ustring = unit_string;
-            while (fd != std::string::npos) {
-                if (fd == ustring.size() - 1) {
-                    ustring.erase(fd, 1);
-                } else if (isDigitCharacter(ustring[fd + 1])) {
-                    if (fd > 0 && ustring[fd - 1] != '^') {
-                        ustring.insert(fd, 1, '^');
-                        fd += 1;
-                    }
-                } else {
-                    ustring[fd] = '*';
-                }
-                fd = ustring.find_first_of('-', fd + 1);
-            }
-            if (ustring != unit_string) {
-                retunit = unit_from_string_internal(
-                    ustring, match_flags | skip_partition_check);
-                if (!is_error(retunit)) {
-                    return retunit;
-                }
-            }
+        retunit = checkMultiplierCharacter(unit_string, match_flags, '-');
+        if (!is_error(retunit)) {
+            return retunit;
+        }
+
+        retunit = checkMultiplierCharacter(unit_string, match_flags, '_');
+        if (!is_error(retunit)) {
+            return retunit;
         }
     }
     // try some other cleaning steps
@@ -5115,6 +5148,37 @@ static precise_unit unit_from_string_internal(
         } else {  // if we erased everything this could lead to strange units so
                   // just go back to the original
             unit_string = ustring;
+        }
+    }
+    {
+        // try removing the _ and checking for a match with no partitioning
+        ustring = unit_string;
+        ustring.erase(
+            std::remove(ustring.begin(), ustring.end(), '_'), ustring.end());
+        if (ustring != unit_string && !ustring.empty()) {
+            retunit = get_unit(ustring, match_flags | skip_partition_check);
+            if (!is_error(retunit)) {
+                return retunit;
+            }
+            if (looksLikeNumber(ustring)) {
+                size_t loc{0};
+                auto number = getDoubleFromString(ustring, &loc);
+                if (loc >= ustring.length()) {
+                    return {number, one};
+                }
+                ustring = ustring.substr(loc);
+                retunit = unit_from_string_internal(
+                    ustring, match_flags | skip_partition_check);
+                if (!is_error(retunit)) {
+                    return {number, retunit};
+                }
+                ustring.insert(ustring.begin(), '{');
+                ustring.push_back('}');
+                return {
+                    number,
+                    commoditizedUnit(
+                        ustring, match_flags | skip_partition_check)};
+            }
         }
     }
     if (unit_string.front() == '[' && unit_string.back() == ']') {
@@ -5192,6 +5256,7 @@ static precise_unit unit_from_string_internal(
             }
         }
     }
+
     retunit = checkForCustomUnit(unit_string);
     if (!is_error(retunit)) {
         return retunit;

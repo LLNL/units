@@ -204,7 +204,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1151>
+    1152>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -1219,6 +1219,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"kp", precise::kilo* precise::gm::pond},
         // this is probably more common than kilopoise
         {"tonforce_m", precise::mass::tonne* constants::g0.as_unit()},
+        {"tonforce(metric)", precise::mass::tonne* constants::g0.as_unit()},
         {"tf", precise::mass::tonne* constants::g0.as_unit()},
         {"hyl", precise::gm::hyl},
         {"GF", precise::g* constants::g0.as_unit()},  // gram-force vs GF
@@ -2235,7 +2236,6 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"jigger", precise_unit(1.5, precise::us::floz)},
          {"fdr_us", precise::us::dram},
          {"[FDR_US]", precise::us::dram},
-
          {"min_us", precise::us::minim},
          {"[MIN_US]", precise::us::minim},
          {"minim_us", precise::us::minim},
@@ -2317,7 +2317,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"[PWT_TR]", precise::troy::pennyweight},
          {"pennyweight_tr", precise::troy::pennyweight},
          {"pennyweight", precise::troy::pennyweight},
-         {"dram_tr", precise_unit(0.00388793458, precise::kg)},
+         {"dram_tr", precise_unit{0.00388793458, precise::kg}},
          {"sc_ap", precise::apothecaries::scruple},
          {"[SC_AP]", precise::apothecaries::scruple},
          {"scruple", precise::apothecaries::scruple},
