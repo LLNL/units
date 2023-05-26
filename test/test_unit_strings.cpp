@@ -1042,6 +1042,8 @@ TEST(stringToUnits, cleanPhase2)
 
     u1 = unit_from_string("[+++m+++]");
     EXPECT_EQ(u1, precise::m);
+    u1 = unit_from_string("(++++++++)");
+    EXPECT_FALSE(is_valid(u1));
 }
 
 TEST(stringToUnits, partitionMinimum)

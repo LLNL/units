@@ -2605,10 +2605,10 @@ static precise_unit
                 return precise::invalid;
             }
             unit.erase(fnd, len);
-            if (fnd > 0 && (unit[fnd - 1] == '_' || unit[fnd - 1] == '-')) {
+            if (fnd > 0 && unit[fnd - 1] == '_') {
                 unit.erase(fnd - 1, 1);
             }
-            if (fnd < unit.size() && (unit[fnd] == '_' || unit[fnd] == '-')) {
+            if (fnd < unit.size() && unit[fnd] == '_' ) {
                 unit.erase(fnd, 1);
             }
             unit.push_back('_');
@@ -2630,7 +2630,7 @@ static precise_unit
     for (const auto& seq : rotSequences) {
         if (unit.compare(0, 2, seq) == 0) {
             auto nunit =
-                unit.substr((unit[2] == '-' || unit[3] == '_') ? 3 : 2);
+                unit.substr((unit[3] == '_') ? 3 : 2);
             if (nunit.back() == 's') {
                 nunit.pop_back();
             }
@@ -2639,11 +2639,7 @@ static precise_unit
             return get_unit(nunit, match_flags);
         }
         if (ends_with(unit, seq)) {
-            if (unit[unit.size() - 3] == '-') {
-                unit[unit.size() - 3] = '_';
-            } else {
-                unit.insert(unit.end() - 2, '_');
-            }
+            unit.insert(unit.end() - 2, '_');
             return get_unit(unit, match_flags);
         }
     }
