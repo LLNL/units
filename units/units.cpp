@@ -4797,12 +4797,12 @@ static precise_unit
 
 /** handle addition of similar units as a regular unit*/
 static precise_unit
-checkUnitAddition(const std::string& unit_string, std::uint64_t match_flags)
+    checkUnitAddition(const std::string& unit_string, std::uint64_t match_flags)
 {
     auto sep = findOperatorSep(unit_string, "+");
-    if (sep != std::string::npos&& sep>0) {
-        if ((unit_string[sep - 1] == '+') || sep == unit_string.size() - 1 || unit_string[sep + 1] == '+')
-        {
+    if (sep != std::string::npos && sep > 0) {
+        if ((unit_string[sep - 1] == '+') || sep == unit_string.size() - 1 ||
+            unit_string[sep + 1] == '+') {
             return precise::invalid;
         }
         precise_unit a_unit;
@@ -4832,10 +4832,11 @@ checkUnitAddition(const std::string& unit_string, std::uint64_t match_flags)
                 return precise::invalid;
             }
         }
-        auto res=convert(b_unit,a_unit);
-        if (!std::isnan(res))
-        {
-            return { a_unit.base_units(),a_unit.multiplier() + a_unit.multiplier() * res };
+        auto res = convert(b_unit, a_unit);
+        if (!std::isnan(res)) {
+            return {
+                a_unit.base_units(),
+                a_unit.multiplier() + a_unit.multiplier() * res};
         }
     }
     return precise::invalid;
@@ -4979,9 +4980,8 @@ static precise_unit unit_from_string_internal(
             return front_unit * retunit;
         }
     }
-    
-    if (unit_string.find_first_of('+') != std::string::npos)
-    {
+
+    if (unit_string.find_first_of('+') != std::string::npos) {
         retunit = checkUnitAddition(unit_string, match_flags);
         if (is_valid(retunit)) {
             return retunit;
