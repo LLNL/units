@@ -1045,14 +1045,14 @@ TEST(stringToUnits, addition)
         (1.0 * precise::km * precise::m + 1.0 * precise::ft * precise::in)
             .as_unit());
 
-    u1=unit_from_string("meter + hippyhoppy");
+    u1 = unit_from_string("meter + hippyhoppy");
     EXPECT_FALSE(is_valid(u1));
 
-    u1=unit_from_string("hippyhoppy + meter");
+    u1 = unit_from_string("hippyhoppy + meter");
     EXPECT_FALSE(is_valid(u1));
 
-    u1= unit_from_string("meter + kg");
-    EXPECT_EQ(u1, precise::m*precise::kg);
+    u1 = unit_from_string("meter + kg");
+    EXPECT_EQ(u1, precise::m * precise::kg);
 }
 
 TEST(stringToUnits, cleanPhase2)
