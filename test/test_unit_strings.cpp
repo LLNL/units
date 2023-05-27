@@ -1027,6 +1027,22 @@ TEST(stringToUnits, rotSequences)
     EXPECT_EQ(u1, unit_from_string("BTU-IT"));
 }
 
+TEST(stringToUnits, addition)
+{
+    auto u1 = unit_from_string("cm+cm");
+    EXPECT_EQ(u1, precise_unit(2,precise::cm));
+
+    u1 = unit_from_string("km + m+ cm+mm");
+    EXPECT_EQ(u1, precise_unit(1001.011,precise::m));
+    u1 = unit_from_string("kilometer+ 3in");
+    EXPECT_EQ(u1, (1.0*precise::km+3.0*precise::in).as_unit());
+
+    u1 = unit_from_string("km+  7.0 feet");
+    EXPECT_EQ(u1, (1.0*precise::km+7.0*precise::ft).as_unit());
+    u1 = unit_from_string("m*km+  ft*in");
+    EXPECT_EQ(u1, (1.0*precise::km*precise::m+1.0*precise::ft*precise::in).as_unit());
+}
+
 TEST(stringToUnits, cleanPhase2)
 {
     auto u1 = unit_from_string("tech-nical-at-mosphere");
