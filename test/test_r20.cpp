@@ -39,7 +39,7 @@ TEST(r20, conversions)
         auto unit = units::unit_from_string(ustr);
         if (is_valid(unit)) {
             EXPECT_EQ(unit, std::get<2>(r20data[ii]))
-                << ' ' << ii << " \"" << std::get<0>(r20data[ii])<<"\" "<< ustr << " not converted properly";
+                << ' ' << ii << " \"" << std::get<0>(r20data[ii])<<"\" "<< ustr << " conversion does not match "<<to_string(unit) << "vs. "<<to_string(std::get<2>(r20data[ii]));
             if (unit != std::get<2>(r20data[ii])) {
                 ++missed;
             } else {

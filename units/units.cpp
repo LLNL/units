@@ -2421,7 +2421,7 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 29> modifiers{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 30> modifiers{{
         modSeq{"squaremeter", "m^2", 11, modifier::anywhere_tail},
         modSeq{"cubicmeter", "m^3", 10, modifier::anywhere_tail},
         modSeq{"cubic", "^3", 5, modifier::start_tail},
@@ -2432,6 +2432,7 @@ static bool wordModifiers(std::string& unit)
         modSeq{"cubed", "^3", 5, modifier::tail_replace},
         modSeq{"cu", "^3", 2, modifier::start_tail},
         modSeq{"sq", "^2", 2, modifier::start_tail},
+        modSeq{"tenthousand", "10000", 11, modifier::anywhere_replace},
         modSeq{"tenth", "0.1", 5, modifier::anywhere_replace},
         modSeq{"ten", "10", 3, modifier::anywhere_replace},
         modSeq{"one", "", 3, modifier::start_replace},

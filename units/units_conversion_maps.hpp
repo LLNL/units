@@ -204,7 +204,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1152>
+    1170>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -1047,9 +1047,14 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"pu", precise::pu},
         {"perunit", precise::pu},
         {"flag", precise::iflag},
+        {"iflag", precise::iflag},
         {"eflag", precise::eflag},
         {"FLAG", precise::iflag},
         {"EFLAG", precise::eflag},
+        {"IFLAG", precise::iflag},
+        {"linear", precise::iflag},
+        {"imaginary", precise::iflag},
+        {"sqrt(-1)", precise::iflag},
         {"puOhm", precise::pu* precise::ohm},
         {"puohm", precise::pu* precise::ohm},
         {"puHz", precise::electrical::puHz},
@@ -1466,7 +1471,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1112>
+    1130>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
         {"candle_it", precise::lm / precise::sr},
