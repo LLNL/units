@@ -4835,7 +4835,7 @@ checkUnitAddition(const std::string& unit_string, std::uint64_t match_flags)
         auto res=convert(b_unit,a_unit);
         if (!std::isnan(res))
         {
-            return precise_unit(a_unit.base_units(),a_unit.multiplier()+a_unit.multiplier()*res);
+            return { a_unit.base_units(),a_unit.multiplier() + a_unit.multiplier() * res };
         }
     }
     return precise::invalid;
