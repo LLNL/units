@@ -1051,6 +1051,12 @@ TEST(stringToUnits, addition)
     u1 = unit_from_string("hippyhoppy + meter");
     EXPECT_FALSE(is_valid(u1));
 
+    u1 = unit_from_string("arggh + kilometer");
+    EXPECT_FALSE(is_valid(u1));
+
+    u1 = unit_from_string("kilometer + arggh");
+    EXPECT_FALSE(is_valid(u1));
+
     u1 = unit_from_string("meter + kg");
     EXPECT_EQ(u1, precise::m * precise::kg);
 }
