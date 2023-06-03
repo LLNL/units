@@ -36,11 +36,11 @@ namespace UNITS_NAMESPACE {
                 ((digit) ? 0x1000000U : 0U);
         }
         constexpr std::uint32_t
-            generateStringCode(char c1, char c2, char c3, char c4, char c5)
+            generateStringCode(const char code[5])
         {
-            return 0x60000000U + (((c1 - '_') & 0X1FU) << 20U) +
-                (((c2 - '_') & 0X1FU) << 15U) + (((c3 - '_') & 0X1FU) << 10U) +
-                (((c4 - '_') & 0X1FU) << 5U) + ((c5 - '_') & 0X1FU);
+            return 0x60000000U + (((code[0] - '_') & 0X1FU) << 20U) +
+                (((code[1] - '_') & 0X1FU) << 15U) + (((code[2] - '_') & 0X1FU) << 10U) +
+                (((code[3] - '_') & 0X1FU) << 5U) + ((code[4] - '_') & 0X1FU);
         }
 
         constexpr std::uint32_t generateKnownCode(std::uint32_t code)
@@ -53,7 +53,7 @@ namespace UNITS_NAMESPACE {
             return 0x9C000000U + ((code & 0xFFU) << 21U);
         }
 
-        constexpr std::uint32_t generatePackagingCodeUser(std::uint32_t code)
+        constexpr std::uint32_t generatePackagingCodeAlternate(std::uint32_t code)
         {
             return 0x9C000000U + (((code & 0x7FU)+0x80U) << 21U);
         }
@@ -71,6 +71,9 @@ namespace UNITS_NAMESPACE {
                 liquid = generatePackagingCode(4),
                 gas_liquid = generatePackagingCode(5),
                 gas = generatePackagingCode(6),
+                //wet or dry (typically volume or mass)
+                dry = generatePackagingCode(8),
+                wet = generatePackagingCode(9),
 
                 // loose,unpacked 10-19
                 loose = generatePackagingCode(10),
@@ -99,6 +102,7 @@ namespace UNITS_NAMESPACE {
                 jerrycan = generatePackagingCode(33),
                 drum = generatePackagingCode(34),
                 vat = generatePackagingCode(35),
+                cylindrical_tank =generatePackagingCode (38),
                 // rigid bulb 40-49
                 jug = generatePackagingCode(41),
                 bulbous_bottle = generatePackagingCode(42),
@@ -129,6 +133,7 @@ namespace UNITS_NAMESPACE {
                 train = generatePackagingCode(104),
                 truck = generatePackagingCode(105),
                 tankcar = generatePackagingCode(106),
+                tanktruck = generatePackagingCode(107),
 
                 // 110 - 120 organizational packaging
                 group = generatePackagingCode(110),
@@ -136,88 +141,93 @@ namespace UNITS_NAMESPACE {
                 assembly = generatePackagingCode(112),
 
 
-                lift = generatePackagingCodeUser(3),
-                ration = generatePackagingCodeUser(4),
-                stick = generatePackagingCodeUser(5),
+                lift = generatePackagingCodeAlternate(3),
+                ration = generatePackagingCodeAlternate(4),
+                stick = generatePackagingCodeAlternate(5),
 
-                container = generatePackagingCodeUser(11),
-                bin = generatePackagingCodeUser(12),
-                bulk_bag = generatePackagingCodeUser(13),
-                bag = generatePackagingCodeUser(14),
-                ball = generatePackagingCodeUser(16),
-                bulk_pack = generatePackagingCodeUser(17),
-                capsule = generatePackagingCodeUser(18),
-                assortment = generatePackagingCodeUser(19),
-                vial = generatePackagingCodeUser(20),
-                bunk = generatePackagingCodeUser(21),
-                billet = generatePackagingCodeUser(22),
-                bundle = generatePackagingCodeUser(23),
-                board = generatePackagingCodeUser(24),
-                segment = generatePackagingCodeUser(25),
-                spool = generatePackagingCodeUser(26),
-                strip = generatePackagingCodeUser(27),
-                skid = generatePackagingCodeUser(28),
-                skein = generatePackagingCodeUser(29),
-                shipment = generatePackagingCodeUser(30),
-                syringe = generatePackagingCodeUser(31),
+                container = generatePackagingCodeAlternate(11),
+                bin = generatePackagingCodeAlternate(12),
+                bulk_bag = generatePackagingCodeAlternate(13),
+                bag = generatePackagingCodeAlternate(14),
+                ball = generatePackagingCodeAlternate(16),
+                bulk_pack = generatePackagingCodeAlternate(17),
+                capsule = generatePackagingCodeAlternate(18),
+                assortment = generatePackagingCodeAlternate(19),
+                vial = generatePackagingCodeAlternate(20),
+                bunk = generatePackagingCodeAlternate(21),
+                billet = generatePackagingCodeAlternate(22),
+                bundle = generatePackagingCodeAlternate(23),
+                board = generatePackagingCodeAlternate(24),
+                segment = generatePackagingCodeAlternate(25),
+                spool = generatePackagingCodeAlternate(26),
+                strip = generatePackagingCodeAlternate(27),
+                skid = generatePackagingCodeAlternate(28),
+                skein = generatePackagingCodeAlternate(29),
+                shipment = generatePackagingCodeAlternate(30),
+                syringe = generatePackagingCodeAlternate(31),
+                straw = generatePackagingCodeAlternate(32),
+                small_tin = generatePackagingCodeAlternate(33),
+                large_tin = generatePackagingCodeAlternate(88),
 
-                small_tin = generatePackagingCodeUser(33),
-                large_tin = generatePackagingCodeUser(88),
+                treatment = generatePackagingCodeAlternate(35),
+                tablet = generatePackagingCodeAlternate(36),
 
-                treatment = generatePackagingCodeUser(35),
-                tablet = generatePackagingCodeUser(36),
+                wheel = generatePackagingCodeAlternate(38),
+                wrap = generatePackagingCodeAlternate(39),
+                hanging_container = generatePackagingCodeAlternate(40),
+                cast = generatePackagingCodeAlternate(42),
+                lift_van = generatePackagingCodeAlternate(43),
+                carset = generatePackagingCodeAlternate(44),
 
-                wheel = generatePackagingCodeUser(38),
-                wrap = generatePackagingCodeUser(39),
-                hanging_container = generatePackagingCodeUser(40),
-                cast = generatePackagingCodeUser(42),
-                lift_val = generatePackagingCodeUser(43),
-                carset = generatePackagingCodeUser(44),
-
-                card = generatePackagingCodeUser(46),
-                cone = generatePackagingCodeUser(48),
-                cylinder = generatePackagingCodeUser(50),
-                combo = generatePackagingCodeUser(51),
-                lot = generatePackagingCodeUser(52),
-                book = generatePackagingCodeUser(53),
-                block = generatePackagingCodeUser(54),
-                round = generatePackagingCodeUser(55),
-                cassette = generatePackagingCodeUser(56),
-                beam = generatePackagingCodeUser(57),
-                band = generatePackagingCodeUser(58),
-                sleeve = generatePackagingCodeUser(59),
-                disk = generatePackagingCodeUser(60),
-                deal = generatePackagingCodeUser(61),
-                dispenser = generatePackagingCodeUser(62),
-                pack = generatePackagingCodeUser(63),
-                pail = generatePackagingCodeUser(64),
-                reel = generatePackagingCodeUser(65),
-                room = generatePackagingCodeUser(66),
-                session = generatePackagingCodeUser(67),
-                belt = generatePackagingCodeUser(68),
-                dose = generatePackagingCodeUser(69),
-                strand = generatePackagingCodeUser(70),
-                zone = generatePackagingCodeUser(71),
-                envelope = generatePackagingCodeUser(72),
-                blank = generatePackagingCodeUser(73),
-                head = generatePackagingCodeUser(74),
-                jar = generatePackagingCodeUser(75),
+                card = generatePackagingCodeAlternate(46),
+                cone = generatePackagingCodeAlternate(48),
+                cylinder = generatePackagingCodeAlternate(50),
+                combo = generatePackagingCodeAlternate(51),
+                lot = generatePackagingCodeAlternate(52),
+                book = generatePackagingCodeAlternate(53),
+                block = generatePackagingCodeAlternate(54),
+                round = generatePackagingCodeAlternate(55),
+                cassette = generatePackagingCodeAlternate(56),
+                beam = generatePackagingCodeAlternate(57),
+                band = generatePackagingCodeAlternate(58),
+                sleeve = generatePackagingCodeAlternate(59),
+                disk = generatePackagingCodeAlternate(60),
+                deal = generatePackagingCodeAlternate(61),
+                dispenser = generatePackagingCodeAlternate(62),
+                pack = generatePackagingCodeAlternate(63),
+                pail = generatePackagingCodeAlternate(64),
+                reel = generatePackagingCodeAlternate(65),
+                room = generatePackagingCodeAlternate(66),
+                session = generatePackagingCodeAlternate(67),
+                belt = generatePackagingCodeAlternate(68),
+                dose = generatePackagingCodeAlternate(69),
+                strand = generatePackagingCodeAlternate(70),
+                zone = generatePackagingCodeAlternate(71),
+                envelope = generatePackagingCodeAlternate(72),
+                blank = generatePackagingCodeAlternate(73),
+                head = generatePackagingCodeAlternate(74),
+                jar = generatePackagingCodeAlternate(75),
                 joint = generatePackagingCode(76),
-                keg = generatePackagingCodeUser(77),
-                barge = generatePackagingCodeUser(78),
+                keg = generatePackagingCodeAlternate(77),
+                barge = generatePackagingCodeAlternate(78),
 
-                pallet = generatePackagingCodeUser(80),
-                plate = generatePackagingCodeUser(81),
-                panel = generatePackagingCodeUser(82),
-                meal = generatePackagingCodeUser(83),
-                ring = generatePackagingCodeUser(84),
-                sack = generatePackagingCodeUser(85),
-                set = generatePackagingCodeUser(86),
-                thread = generatePackagingCodeUser(87),
-                particle = generatePackagingCodeUser(89),
+                pallet = generatePackagingCodeAlternate(80),
+                plate = generatePackagingCodeAlternate(81),
+                panel = generatePackagingCodeAlternate(82),
+                meal = generatePackagingCodeAlternate(83),
+                ring = generatePackagingCodeAlternate(84),
+                sack = generatePackagingCodeAlternate(85),
+                set = generatePackagingCodeAlternate(86),
+                thread = generatePackagingCodeAlternate(87),
+                particle = generatePackagingCodeAlternate(89),
                 
-                sling = generatePackagingCodeUser(90),
-                line = generatePackagingCodeUser(91),
+                sling = generatePackagingCodeAlternate(90),
+                line = generatePackagingCodeAlternate(91),
+                    casing = generatePackagingCodeAlternate(92),
+                    tote = generatePackagingCodeAlternate(93),
+                    cask = generatePackagingCodeAlternate(94),
+                    page = generatePackagingCodeAlternate(95),
+                    rack = generatePackagingCodeAlternate(96),
             };
         }  // namespace packaging
 
@@ -287,13 +297,15 @@ namespace UNITS_NAMESPACE {
             people = generateKnownCode(15),
             passenger = 115126,
             vehicle = generateHarmonizedCode(87, 3, 0),
-            failure = generateStringCode('f', 'a', 'i', 'l', '_'),
+            failure = generateStringCode("fail_"),
             freight = 56226,
-            labor = 546811,
-
+            labor = generateStringCode("labor"),
+            overtime = generateStringCode("extra"),
+            visit = generateStringCode("visit"),
+            steam = generateStringCode("steam"),
             // clinical
             tissue = generateKnownCode(52632250),
-            cell = generateStringCode('c', 'e', 'l', 'l', '_'),
+            cell = generateStringCode("cell_"),
             embryo = generateKnownCode(52632253),
             Hahnemann = generateKnownCode(2352622),
             Korsakov = generateKnownCode(26262656),
@@ -301,12 +313,14 @@ namespace UNITS_NAMESPACE {
             creatinine = generateKnownCode(2566225),
 
             // computer
-            pixel = generateStringCode('p', 'i', 'x', 'e', 'l'),
-            voxel = generateStringCode('v', 'o', 'x', 'e', 'l'),
-            errors = generateStringCode('e', 'r', 'r', 'o', 'r'),
-            flop = generateStringCode('f', 'l', 'o', 'p', '_'),
+            pixel = generateStringCode("pixel"),
+            voxel = generateStringCode("voxel"),
+            frame = generateStringCode("frame"),
+            errors = generateStringCode("error"),
+            flop = generateStringCode("flop_"),
             instruction = generateKnownCode(8086),
-
+            linesofservice = generateStringCode("telco"),
+            port = generateStringCode("port_"),
             // emmissions
 
             // food
