@@ -164,7 +164,7 @@ auto multiplies(const X& measure1, const Y& measure2)
     auto res = measure1 * measure2;
     if (measure1.units().is_per_unit() != measure2.units().is_per_unit() &&
         measure1.units().has_same_base(measure2.units())) {
-        using mtype = typename decltype(measure1 * measure2);
+        using mtype = decltype(measure1 * measure2);
         using utype = typename std::conditional<
             is_precise_measurement<mtype>::value,
             precise_unit,
