@@ -4532,8 +4532,8 @@ static precise_unit tryUnitPartitioning(
             }
             ustring = unit_string.substr(0, part);
         }
-        while (ustring.back() == '_' ||
-               ustring.back() == '-' && (part < unit_string.size() - 1)) {
+        while ((ustring.back() == '_' ||
+               ustring.back() == '-') && (part < unit_string.size() - 1)) {
             hasSep = true;
             ustring.push_back(unit_string[part]);
             ++part;
