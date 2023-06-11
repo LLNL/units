@@ -190,3 +190,145 @@ TEST(mathOps, hypot3)
     EXPECT_EQ(res, res2);
     EXPECT_EQ(res2, res3);
 }
+
+
+TEST(mathOps, multiplies)
+{
+    precise_measurement m1(0.0001, precise::m*precise::pu);
+    
+    precise_measurement m2(5.4, precise::in);
+    precise_measurement m3(0.01, precise::km);
+
+    precise_measurement mkg(3.0, precise::kg);
+
+    auto m4=multiplies(m2,m3);
+    auto m5 = m2*m3;
+    EXPECT_EQ(m4,m5);
+
+    EXPECT_EQ(multiplies(m1,m3).units(),precise::km);
+    EXPECT_EQ(multiplies(m3,m1).units(),precise::km);
+
+    EXPECT_EQ(multiplies(m2,m1).units(),precise::in);
+    EXPECT_EQ(multiplies(m1,m2).units(),precise::in);
+    EXPECT_EQ(multiplies(m3,m1),multiplies(m1,m3));
+
+
+    EXPECT_TRUE(multiplies(m1,mkg).units().is_per_unit());
+
+    //from user guide example
+    measurement deltaLength=0.0001*pu*m;
+    measurement meas2=6.5*m;
+
+    auto res=multiplies(meas2,deltaLength);
+
+    EXPECT_EQ(to_string(res), "0.00065 m");
+}
+
+
+TEST(mathOps, divides)
+{
+    precise_measurement m1(0.0001, precise::m*precise::N);
+
+    precise_measurement m2(5.4, precise::in);
+    precise_measurement m3(0.01, precise::km);
+
+    auto m4=divides(m1,m2);
+    auto m5 = m1/m2;
+    EXPECT_EQ(m4,m5);
+
+    EXPECT_EQ(divides(m2,m3).units(),precise::km*precise::pu);
+    EXPECT_EQ(divides(m3,m2).units(),precise::in*precise::pu);
+
+    measurement change=0.0001*m;
+    measurement length=10.0*m;
+
+    auto res=divides(change,length);
+
+    EXPECT_EQ(to_string(res), "1e-05 strain");
+}
+
+TEST(mathOps, multDiv_reciprocity)
+{
+    measurement kg1(0.02,g);
+    measurement kgT(3.4,ton);
+    measurement nMass(247.5,lb);
+
+    auto nm1=(kg1/kgT)*nMass;
+    auto nm2=(nMass/kgT*kg1);
+    auto nm3=kg1*nMass/kgT;
+    auto nm4=nMass*(kg1/kgT);
+
+    EXPECT_EQ(nm1,nm2);
+    EXPECT_EQ(nm1,nm3);
+    EXPECT_EQ(nm2,nm4);
+
+    auto nm1b=multiplies(divides(kg1,kgT),nMass);
+    auto nm2b=multiplies(divides(nMass,kgT),kg1);
+    auto nm2b2=multiplies(kg1,divides(nMass,kgT));
+    auto nm3b=divides(multiplies(kg1,nMass),kgT);
+    auto nm4b=multiplies(nMass,divides(kg1,kgT));
+
+    EXPECT_EQ(nm1b,nm2b);
+    EXPECT_EQ(nm2b,nm2b2);
+    EXPECT_EQ(nm1b,nm3b);
+    EXPECT_EQ(nm2b,nm4b);
+
+    EXPECT_EQ(nm1,nm1b);
+    EXPECT_EQ(nm2,nm2b);
+    EXPECT_EQ(nm3,nm3b);
+    EXPECT_EQ(nm4,nm4b);
+}
+
+TEST(strain, example1)
+{
+    measurement deltaLength=0.00001*m;
+    measurement length=1*m;
+
+    auto strain=deltaLength/length;
+
+    EXPECT_EQ(to_string(strain), "1e-05");
+
+    //applied to a 10 ft bar
+    auto distortion=strain*(10*ft);
+    EXPECT_EQ(to_string(distortion), "0.0001 ft");
+}
+
+TEST(strain, example2)
+{
+    precise_measurement strain=1e-05*default_unit("strain");
+    EXPECT_EQ(to_string(strain), "1e-05 strain");
+
+    //applied to a 10 ft bar
+    auto distortion=multiplies(strain,(10*ft));
+    EXPECT_EQ(to_string(distortion), "0.0001 ft");
+}
+
+
+TEST(strain, example3)
+{
+    measurement deltaLength=0.00001*m;
+    measurement length=1*m;
+
+    auto strain=divides(deltaLength,length);
+    EXPECT_EQ(to_string(strain), "1e-05 strain");
+
+    //applied to a 10 ft bar
+    auto distortion=multiplies(strain,(10*ft));
+    EXPECT_EQ(to_string(distortion), "0.0001 ft");
+}
+
+
+TEST(strain, example4)
+{
+    precise_unit ustrain(1e-6,eflag);  // microstrain
+
+    addUserDefinedUnit("ustrain",ustrain);
+    precise_measurement strain=45.7*ustrain;
+    EXPECT_EQ(to_string(strain), "45.7 ustrain");
+
+    //applied to a 10 m bar
+    auto distortion=strain*(10*m);
+    EXPECT_FLOAT_EQ(distortion.value_as(mm),0.457f);
+
+    clearUserDefinedUnits();
+}

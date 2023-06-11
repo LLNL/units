@@ -1328,6 +1328,13 @@ class precise_measurement {
             value_ :
             units::convert(value_, units_, desired_units);
     }
+    /// Get the numerical value as a particular unit type
+    double value_as(const unit& desired_units) const
+    {
+        return (units_ == desired_units) ?
+            value_ :
+            units::convert(value_, units_, desired_units);
+    }
     // double multiplier
     friend constexpr inline precise_measurement
         operator*(double val, const precise_measurement& meas)

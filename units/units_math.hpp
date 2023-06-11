@@ -153,4 +153,44 @@ double tan(const X& measure)
     return (std::tan)(measure.value_as(precise::rad));
 }
 
+
+template<
+    typename X,
+    typename Y,
+    typename = typename std::enable_if<
+    is_measurement<X>::value || is_measurement<Y>::value>::type>
+    auto multiplies(const X& measure1, const Y& measure2)
+    -> decltype(measure1 * measure2)
+{
+    auto res=measure1*measure2;
+    if (measure1.units().is_per_unit() != measure2.units().is_per_unit() && measure1.units().has_same_base(measure2.units()))
+    {
+        using mtype=decltype(measure1 * measure2);
+        using utype=std::conditional<is_precise_measurement<mtype>::value,precise_unit,unit>::type;
+        utype nu=(measure1.units().is_per_unit())?utype(measure2.units()):utype(measure1.units());
+        double nval=(measure1.units().is_per_unit())?measure1.units().multiplier():measure2.units().multiplier();
+        nu.set_flags(0,nu.has_i_flag(),nu.has_e_flag());
+        res =mtype( res.value()*nval,nu);
+    }
+    return res;
+}
+
+template<
+    typename X,
+    typename Y,
+    typename = typename std::enable_if<
+    is_measurement<X>::value || is_measurement<Y>::value>::type>
+    auto divides(const X& measure1, const Y& measure2)
+    -> decltype(measure1 / measure2)
+{
+    auto res=measure1/measure2;
+    if (res.units().has_same_base(one) && !measure1.units().has_same_base(one))
+    {
+        auto nu=measure2.units();
+        nu=nu.add_per_unit();
+        res =decltype(measure1 / measure2)( res.value()*res.units().multiplier()/nu.multiplier(),nu);
+    }
+    return res;
+}
+
 }  // namespace UNITS_NAMESPACE
