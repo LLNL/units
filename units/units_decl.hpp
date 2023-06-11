@@ -308,9 +308,11 @@ namespace detail {
         void clear_flags() { per_unit_ = i_flag_ = e_flag_ = equation_ = 0U; }
 
         /// set all the flags to a specific value;
-        void set_flags(bool per_unit,
-            bool iflag,
-            bool eflag) { per_unit_ = (per_unit)?1:0; i_flag_=(iflag)?1:0,e_flag_=(eflag)?1:0;}
+        void set_flags(bool per_unit, bool iflag, bool eflag)
+        {
+            per_unit_ = (per_unit) ? 1 : 0;
+            i_flag_ = (iflag) ? 1 : 0, e_flag_ = (eflag) ? 1 : 0;
+        }
         /// generate a new unit_data but with per_unit flag
         constexpr unit_data add_per_unit() const
         {
@@ -426,6 +428,7 @@ namespace detail {
                 0U,
                 equation_};
         }
+
       private:
         /* check if the base_unit has a valid root
         @details, checks that all the flags */
@@ -722,7 +725,10 @@ class unit {
     /// set all the flags to 0;
     void clear_flags() { base_units_.clear_flags(); }
     /// set all the flags to a specific value;
-    void set_flags(bool per_unit,bool iflag,bool eflag) { base_units_.set_flags(per_unit,iflag,eflag); }
+    void set_flags(bool per_unit, bool iflag, bool eflag)
+    {
+        base_units_.set_flags(per_unit, iflag, eflag);
+    }
     /// generate a new unit but with per_unit flag
     constexpr unit add_per_unit() const
     {
@@ -753,6 +759,7 @@ class unit {
     {
         return unit{base_units_.clear_e_flag(), multiplier_};
     }
+
   private:
     friend class precise_unit;
     detail::unit_data base_units_{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -1017,7 +1024,10 @@ class precise_unit {
     /// set all the flags to 0;
     void clear_flags() { base_units_.clear_flags(); }
     /// set all the flags to a specific value;
-    void set_flags(bool per_unit,bool iflag,bool eflag) { base_units_.set_flags(per_unit,iflag,eflag); }
+    void set_flags(bool per_unit, bool iflag, bool eflag)
+    {
+        base_units_.set_flags(per_unit, iflag, eflag);
+    }
     /// generate a new unit but with per_unit flag
     constexpr precise_unit add_per_unit() const
     {
@@ -1041,7 +1051,7 @@ class precise_unit {
     /// generate a new unit but with i flag set to 0
     constexpr precise_unit clear_i_flag() const
     {
-        return {base_units_.clear_i_flag(), commodity_,  multiplier_};
+        return {base_units_.clear_i_flag(), commodity_, multiplier_};
     }
     /// generate a new unit but with e flag set to 0
     constexpr precise_unit clear_e_flag() const

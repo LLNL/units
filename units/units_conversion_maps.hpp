@@ -75,7 +75,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 113>
          {km * km, "km^2"},
          {mm, "mm"},
          {nm, "nm"},
-         {pu*m,"strain"},
+         {pu * m, "strain"},
          {unit_cast(precise::distance::ly), "ly"},
          {unit_cast(precise::distance::au), "au"},
          {percent, "%"},
@@ -344,9 +344,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {u8"\U0001D70B", precise_unit(constants::pi, one)},
         {u8"\U0001D745", precise_unit(constants::pi, one)},
         {u8"\U0001D6D1", precise_unit(constants::pi, one)},
-         {u8"\u03B5",precise::pu*precise::m}, //strain
-         {u8"\u0190",precise::pu*precise::m},//strain
-        {"strain",precise::pu*precise::m},//strain
+        {u8"\u03B5", precise::pu* precise::m},  // strain
+        {u8"\u0190", precise::pu* precise::m},  // strain
+        {"strain", precise::pu* precise::m},  // strain
         {"m", precise::m},
         {"Sm", precise::m},  // standard meter used in oil and gas usually Sm^3
         {"meter", precise::m},

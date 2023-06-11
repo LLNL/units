@@ -29,7 +29,7 @@ Method 2
 =============
 
 The default defined unit of strain in the units library uses per unit meters as a basis.  The multiplies and divides methods in the units math library can take per unit flag into account when doing the multiplication to get the original units back.
-The advantages of this are that strain becomes a distinctive unit from all other ratio units.   Volumetric or area strain can be represented in the same way.  It does have the disadvantage of requiring the `multiplies` 
+The advantages of this are that strain becomes a distinctive unit from all other ratio units.   Volumetric or area strain can be represented in the same way.  It does have the disadvantage of requiring the `multiplies`
 
 .. code-block:: c++
    #include <units/units_math.hpp> //for multiplies
@@ -68,11 +68,11 @@ The third potential method is to use one of the indicator flags to define a unit
     auto distortion=strain*(10*m);
     EXPECT_DOUBLE_EQ(distortion.value_as(precise::mm),0.457);
 
-The advantages of this are that the there is no per unit values to handle.  The disadvantage is that the eflag needs to be handled particularly when dealing with strings.  If it is just dealing with computations this is less of an issue. 
-So this method can work fine in some cases.  
+The advantages of this are that the there is no per unit values to handle.  The disadvantage is that the eflag needs to be handled particularly when dealing with strings.  If it is just dealing with computations this is less of an issue.
+So this method can work fine in some cases.
 
 
-Discussion 
+Discussion
 ==================
 There are several ways to represent strain or any other ratio unit that is derived from particular unit cancellations.  All have advantages and disadvantages in particular situations and the method of choice will come down to the expected use cases.
 The library chooses the per unit method as it maintains the source units, but other choices are free to choose if they work better in particular situations.
