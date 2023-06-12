@@ -244,7 +244,7 @@ TEST(mathOps, divides)
     EXPECT_EQ(to_string(res), "1e-05 strain");
 }
 
-TEST(mathOps, multDiv_reciprocity)
+TEST(mathOps, multDivReciprocity)
 {
     measurement kg1(0.02, g);
     measurement kgT(3.4, ton);
@@ -323,7 +323,7 @@ TEST(strain, example4)
 
     // applied to a 10 m bar
     auto distortion = strain * (10 * m);
-    EXPECT_FLOAT_EQ(distortion.value_as(mm), 0.457f);
+    EXPECT_FLOAT_EQ(distortion.value_as(mm), 0.457F);
 
     clearUserDefinedUnits();
 }

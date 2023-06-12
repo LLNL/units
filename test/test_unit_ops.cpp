@@ -304,7 +304,7 @@ TEST(unitOps, equivalency)
     EXPECT_FALSE(m1.is_exactly_the_same(m6));
 }
 
-TEST(unitOps, flag_clear_set_per_unit)
+TEST(unitOps, flagClearSetPerUnit)
 {
     unit m1(0.245, m);
     auto m2 = m1.add_per_unit();
@@ -317,7 +317,7 @@ TEST(unitOps, flag_clear_set_per_unit)
     EXPECT_TRUE(m2.is_exactly_the_same(m1));
 }
 
-TEST(unitOps, flag_clear_set_iflag)
+TEST(unitOps, flagClearSetIflag)
 {
     unit m1(0.245, m);
     auto m2 = m1.add_i_flag();
@@ -330,7 +330,7 @@ TEST(unitOps, flag_clear_set_iflag)
     EXPECT_TRUE(m2.is_exactly_the_same(m1));
 }
 
-TEST(unitOps, flag_clear_set_eflag)
+TEST(unitOps, flagClearSetEflag)
 {
     unit m1(0.245, m);
     auto m2 = m1.add_e_flag();
@@ -343,7 +343,7 @@ TEST(unitOps, flag_clear_set_eflag)
     EXPECT_TRUE(m2.is_exactly_the_same(m1));
 }
 
-TEST(unitOps, flag_clear_set)
+TEST(unitOps, flagClearSet)
 {
     unit m1(0.245, m);
     m1.set_flags(false, true, false);
@@ -646,7 +646,7 @@ TEST(preciseunitOps, equivalency)
     EXPECT_FALSE(precise::ft.is_exactly_the_same(ft));
 }
 
-TEST(preciseunitOps, flag_clear_set_per_unit)
+TEST(preciseunitOps, flagClearSetPerUnit)
 {
     precise_unit m1(0.245, precise::yd);
     auto m2 = m1.add_per_unit();
@@ -659,7 +659,7 @@ TEST(preciseunitOps, flag_clear_set_per_unit)
     EXPECT_TRUE(m2.is_exactly_the_same(m1));
 }
 
-TEST(preciseunitOps, flag_clear_set_iflag)
+TEST(preciseunitOps, flagClearSetIflag)
 {
     precise_unit m1(0.245, precise::yd);
     auto m2 = m1.add_i_flag();
@@ -672,7 +672,7 @@ TEST(preciseunitOps, flag_clear_set_iflag)
     EXPECT_TRUE(m2.is_exactly_the_same(m1));
 }
 
-TEST(preciseunitOps, flag_clear_set_eflag)
+TEST(preciseunitOps, flagClearSetEflag)
 {
     precise_unit m1(0.245, precise::yd);
     auto m2 = m1.add_e_flag();
@@ -685,7 +685,7 @@ TEST(preciseunitOps, flag_clear_set_eflag)
     EXPECT_TRUE(m2.is_exactly_the_same(m1));
 }
 
-TEST(preciseunitOps, flag_clear_set)
+TEST(preciseunitOps, flagClearSet)
 {
     precise_unit m1(0.245, precise::yd);
     m1.set_flags(false, true, false);
