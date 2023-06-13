@@ -26,6 +26,7 @@ Unit_from_string flags
 -    `no_per_operators` --skip matching "per"
 -    `no_locality_modifiers` --skip locality modifiers
 -    `no_of_operator` --skip dealing with "of"
+-    `no_addition` -- skip trying unit addition
 
 -    `no_commodities` --skip commodity checks
 

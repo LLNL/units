@@ -1877,7 +1877,7 @@ enum unit_conversion_flags : std::uint64_t {
     /**indicate that only numbers should be matched in the first segments,
        mostly applies only to power operations */
     numbers_only = (1U << 13U),
-    unused_flag3 = (1U << 14U),  //!< unused flag 3
+    no_addition = (1U << 14U),  //!< do not try unit addition
     recursion_depth1 = (1U << 15U),  //!< skip checking for SI prefixes
     // don't put anything at 16, 15 through 17 are connected to limit
     // recursion depth

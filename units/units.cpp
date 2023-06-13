@@ -4981,11 +4981,13 @@ static precise_unit unit_from_string_internal(
         }
     }
 
-    if (unit_string.find_first_of('+') != std::string::npos) {
+    if (((match_flags & no_addition)==0) && unit_string.find_first_of('+') != std::string::npos) {
         retunit = checkUnitAddition(unit_string, match_flags);
         if (is_valid(retunit)) {
             return retunit;
         }
+        //don't allow recursive addition after this point
+        match_flags|=no_addition;
     }
 
     auto sep = findOperatorSep(unit_string, "*/");
