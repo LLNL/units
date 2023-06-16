@@ -110,14 +110,14 @@ namespace detail {
             int counts,
             int radians,
             unsigned int per_unit,
-            unsigned int flag,
-            unsigned int flag2,
+            unsigned int iflag,
+            unsigned int eflag,
             unsigned int equation) :
             meter_(meters),
             second_(seconds), kilogram_(kilograms), ampere_(amperes),
             candela_(candelas), kelvin_(kelvins), mole_(moles),
             radians_(radians), currency_(currencys), count_(counts),
-            per_unit_(per_unit), i_flag_(flag), e_flag_(flag2),
+            per_unit_(per_unit), i_flag_(iflag), e_flag_(eflag),
             equation_(equation)
         {
         }
@@ -306,6 +306,13 @@ namespace detail {
 
         /// set all the flags to 0;
         void clear_flags() { per_unit_ = i_flag_ = e_flag_ = equation_ = 0U; }
+
+        /// set all the flags to a specific value;
+        void set_flags(bool per_unit, bool iflag, bool eflag)
+        {
+            per_unit_ = (per_unit) ? 1 : 0;
+            i_flag_ = (iflag) ? 1 : 0, e_flag_ = (eflag) ? 1 : 0;
+        }
         /// generate a new unit_data but with per_unit flag
         constexpr unit_data add_per_unit() const
         {
@@ -361,6 +368,64 @@ namespace detail {
                 per_unit_,
                 i_flag_,
                 1U,
+                equation_};
+        }
+
+        /// generate a new unit_data but with per_unit flag set to 0
+        constexpr unit_data clear_per_unit() const
+        {
+            return {
+                meter_,
+                kilogram_,
+                second_,
+                ampere_,
+                kelvin_,
+                mole_,
+                candela_,
+                currency_,
+                count_,
+                radians_,
+                0U,
+                i_flag_,
+                e_flag_,
+                equation_};
+        }
+        /// generate a new unit_data but with i flag set to 0
+        constexpr unit_data clear_i_flag() const
+        {
+            return {
+                meter_,
+                kilogram_,
+                second_,
+                ampere_,
+                kelvin_,
+                mole_,
+                candela_,
+                currency_,
+                count_,
+                radians_,
+                per_unit_,
+                0U,
+                e_flag_,
+                equation_};
+        }
+        /// generate a new unit_data but with e flag set to 0
+        constexpr unit_data clear_e_flag() const
+        {
+            return {
+                meter_,
+                kilogram_,
+                second_,
+                ampere_,
+                kelvin_,
+                mole_,
+                candela_,
+                currency_,
+                count_,
+                radians_,
+                per_unit_,
+                i_flag_,
+                0U,
                 equation_};
         }
 
@@ -659,6 +724,11 @@ class unit {
     constexpr detail::unit_data base_units() const { return base_units_; }
     /// set all the flags to 0;
     void clear_flags() { base_units_.clear_flags(); }
+    /// set all the flags to a specific value;
+    void set_flags(bool per_unit, bool iflag, bool eflag)
+    {
+        base_units_.set_flags(per_unit, iflag, eflag);
+    }
     /// generate a new unit but with per_unit flag
     constexpr unit add_per_unit() const
     {
@@ -673,6 +743,21 @@ class unit {
     constexpr unit add_e_flag() const
     {
         return unit{base_units_.add_e_flag(), multiplier_};
+    }
+    /// generate a new unit but with per_unit flag set to 0
+    constexpr unit clear_per_unit() const
+    {
+        return unit{base_units_.clear_per_unit(), multiplier_};
+    }
+    /// generate a new unit but with i flag set to 0
+    constexpr unit clear_i_flag() const
+    {
+        return unit{base_units_.clear_i_flag(), multiplier_};
+    }
+    /// generate a new unit but with e flag set to 0
+    constexpr unit clear_e_flag() const
+    {
+        return unit{base_units_.clear_e_flag(), multiplier_};
     }
 
   private:
@@ -938,6 +1023,11 @@ class precise_unit {
     constexpr detail::unit_data base_units() const { return base_units_; }
     /// set all the flags to 0;
     void clear_flags() { base_units_.clear_flags(); }
+    /// set all the flags to a specific value;
+    void set_flags(bool per_unit, bool iflag, bool eflag)
+    {
+        base_units_.set_flags(per_unit, iflag, eflag);
+    }
     /// generate a new unit but with per_unit flag
     constexpr precise_unit add_per_unit() const
     {
@@ -952,6 +1042,21 @@ class precise_unit {
     constexpr precise_unit add_e_flag() const
     {
         return {base_units_.add_e_flag(), commodity_, multiplier_};
+    }
+    /// generate a new unit but with per_unit flag set to 0
+    constexpr precise_unit clear_per_unit() const
+    {
+        return {base_units_.clear_per_unit(), commodity_, multiplier_};
+    }
+    /// generate a new unit but with i flag set to 0
+    constexpr precise_unit clear_i_flag() const
+    {
+        return {base_units_.clear_i_flag(), commodity_, multiplier_};
+    }
+    /// generate a new unit but with e flag set to 0
+    constexpr precise_unit clear_e_flag() const
+    {
+        return {base_units_.clear_e_flag(), commodity_, multiplier_};
     }
     /// Set the commodity
     precise_unit& commodity(std::uint32_t newCommodity)
