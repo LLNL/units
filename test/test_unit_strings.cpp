@@ -1151,6 +1151,8 @@ TEST(userDefinedUnits, definitions)
 
     EXPECT_EQ(to_string(clucks * mol), "clucks*mol");
 
+    EXPECT_EQ(to_string(clucks * hp), "hp*clucks");
+
     EXPECT_EQ(to_string(clucks.pow(2) * kg), "kg*clucks^2");
 
     EXPECT_EQ(to_string(clucks.pow(3) * kg), "kg*clucks^3");
