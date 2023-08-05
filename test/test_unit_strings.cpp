@@ -60,7 +60,7 @@ TEST(unitStrings, squared)
 
 TEST(unitStrings, Combos)
 {
-    EXPECT_EQ(to_string(V / km), "V/km");
+    EXPECT_EQ(to_string(V / km), "mV/m");
     EXPECT_EQ(to_string(currency / MWh), "$/MWh");
     EXPECT_EQ(to_string(currency / mile), "$/mi");
     EXPECT_EQ(to_string(kW / gal), "kW/gal");
@@ -414,6 +414,12 @@ TEST(unitStrings, Hertz)
     EXPECT_EQ(to_string(precise::mega * precise::Hz), "MHz");
     EXPECT_EQ(to_string(precise::giga * precise::Hz), "GHz");
     EXPECT_EQ(to_string(precise::tera * precise::Hz), "THz");
+}
+
+TEST(unitStrings, singleBase)
+{
+    EXPECT_EQ(to_string(precise::kilo*precise::J/precise::mol), "kJ/mol");
+    EXPECT_EQ(to_string(precise::kilo*precise::J/precise::rad.pow(2)), "kJ/rad^2");
 }
 
 TEST(unitStrings, watthours)
@@ -1143,7 +1149,7 @@ TEST(userDefinedUnits, definitions)
 
     EXPECT_EQ(to_string(clucks * V), "clucks*V");
 
-    EXPECT_EQ(to_string(clucks * mol), "mol*clucks");
+    EXPECT_EQ(to_string(clucks * mol), "clucks*mol");
 
     EXPECT_EQ(to_string(clucks.pow(2) * kg), "kg*clucks^2");
 
@@ -1561,6 +1567,7 @@ TEST(defaultUnits, singleCharacter)
     EXPECT_EQ(precise::cd, default_unit("J"));
     EXPECT_EQ(precise::K, default_unit("\xC8"));
 }
+
 
 #ifdef ENABLE_UNIT_TESTING
 TEST(stringGeneration, test1)
