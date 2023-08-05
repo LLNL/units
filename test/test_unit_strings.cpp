@@ -418,8 +418,10 @@ TEST(unitStrings, Hertz)
 
 TEST(unitStrings, singleBase)
 {
-    EXPECT_EQ(to_string(precise::kilo*precise::J/precise::mol), "kJ/mol");
-    EXPECT_EQ(to_string(precise::kilo*precise::J/precise::rad.pow(2)), "kJ/rad^2");
+    EXPECT_EQ(to_string(precise::kilo * precise::J / precise::mol), "kJ/mol");
+    EXPECT_EQ(
+        to_string(precise::kilo * precise::J / precise::rad.pow(2)),
+        "kJ/rad^2");
 }
 
 TEST(unitStrings, watthours)
@@ -1567,7 +1569,6 @@ TEST(defaultUnits, singleCharacter)
     EXPECT_EQ(precise::cd, default_unit("J"));
     EXPECT_EQ(precise::K, default_unit("\xC8"));
 }
-
 
 #ifdef ENABLE_UNIT_TESTING
 TEST(stringGeneration, test1)

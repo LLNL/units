@@ -1635,7 +1635,7 @@ static std::string
             return res;
         }
     }
-    
+
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         for (const auto& udu : user_defined_unit_names) {
             auto str = probeUnitBase(
