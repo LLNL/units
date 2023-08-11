@@ -11,7 +11,7 @@ A few user suggested tweaks, and support additional unit string conversions supp
 
 ### Changed
 
-- modified the eflag to work a little differently than the iflag and moved a couple units to use the eflag instead to support things like `sqrt(degC.pow(2))=degC` [#275][]
+- Modified the eflag to work a little differently than the iflag and moved a couple units to use the eflag instead to support things like `sqrt(degC.pow(2))=degC` [#275][]
 - Updated copyright date to 2023 [#266][]
 - Updated to new version of google test and added some additional units and test from the google unit conversion [#283][]
 - Fixed and corrected some documentation to match the latest code [#284][]
@@ -26,7 +26,7 @@ A few user suggested tweaks, and support additional unit string conversions supp
 - Fix `quad` unit, and clean up some unit conversion strings involving `Hz` [#265][]
 - Update clang tidy and fix resulting issues [#267][]
 - Fixed an issue where scalar unit values in measurements using `to_string` could cause a crash [#289][]
-- Fixed some issues with prioritization of units in the string generation
+- Fixed some issues with prioritization of base units in the string generation [#303][] 
 
 ### Added
 
@@ -58,6 +58,7 @@ A few user suggested tweaks, and support additional unit string conversions supp
 [#297]: https://github.com/LLNL/units/pull/297
 [#298]: https://github.com/LLNL/units/pull/298
 [#299]: https://github.com/LLNL/units/pull/299
+[#303]: https://github.com/LLNL/units/pull/299
 
 ## [0.7.0][] - 2022-12-17
 
