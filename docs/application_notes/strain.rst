@@ -32,6 +32,7 @@ The default defined unit of strain in the units library uses per unit meters as 
 The advantages of this are that strain becomes a distinctive unit from all other ratio units.   Volumetric or area strain can be represented in the same way.  It does have the disadvantage of requiring the `multiplies`
 
 .. code-block:: c++
+
    #include <units/units_math.hpp> //for multiplies
    precise_measurement strain=1e-05*default_unit("strain");
    EXPECT_EQ(to_string(strain), "1e-05 strain");
@@ -41,6 +42,7 @@ The advantages of this are that strain becomes a distinctive unit from all other
    EXPECT_EQ(to_string(distortion), "0.0001 ft");
 
 .. code-block:: c++
+
    #include <units/units_math.hpp> //for multiplies divides
    measurement deltaLength=0.00001*m;
    measurement length=1*m;
@@ -58,6 +60,7 @@ Method 3
 The third potential method is to use one of the indicator flags to define a unit for strain.  This can work in cases where there is no other potential conflicts with the flag and you need the `*` operator to work.
 
 .. code-block:: c++
+
     precise_unit ustrain(1e-6,eflag);  // microstrain
 
     addUserDefinedUnit("ustrain",ustrain);
