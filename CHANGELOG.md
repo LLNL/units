@@ -26,7 +26,7 @@ A few user suggested tweaks, and support additional unit string conversions supp
 - Fix `quad` unit, and clean up some unit conversion strings involving `Hz` [#265][]
 - Update clang tidy and fix resulting issues [#267][]
 - Fixed an issue where scalar unit values in measurements using `to_string` could cause a crash [#289][]
-- Fixed some issues with prioritization of base units in the string generation [#303][] 
+- Fixed some issues with prioritization of base units in the string generation [#303][]
 
 ### Added
 

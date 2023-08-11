@@ -36,7 +36,7 @@ Multiplies and divides
 
 Division and multiplication operators for measurements that have support for per_unit measurement
 
-- `multiplies` : works like `*` except when one of the measurements is per_unit and they have the same unit base, then they remove the per unit 
+- `multiplies` : works like `*` except when one of the measurements is per_unit and they have the same unit base, then they remove the per unit
 - `divides` : works like `/` except if both measurements have the same base then the result has a `per_unit` unit
 
 See :ref:`strain` for examples on usage
@@ -49,4 +49,3 @@ Other common mathematical expressions found in `<cmath>`
 - `fmod` : return the floating point modulus of a division operation as long as division is a valid operation
 - `hypot` : works for two and three measurements or floating point values as long as addition is a valid operation.
 - `cbrt` :  works similarly to the `sqrt` operation
-
