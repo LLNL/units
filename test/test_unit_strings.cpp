@@ -445,10 +445,10 @@ TEST(unitStrings, watthours)
 TEST(unitStrings, mm)
 {
     auto speedUnit = unit_from_string("mm/s");
-    EXPECT_EQ(to_string(speedUnit),"mm/s");
+    EXPECT_EQ(to_string(speedUnit), "mm/s");
 
     auto accUnit = unit_from_string("mm/s^2");
-    EXPECT_EQ(to_string(accUnit),"mm/s^2");
+    EXPECT_EQ(to_string(accUnit), "mm/s^2");
 }
 
 TEST(unitStrings, customUnits)
@@ -1501,7 +1501,6 @@ TEST(commoditizedUnits, prefixed)
     EXPECT_EQ(getCommodityName(commu2.commodity()), "info");
     EXPECT_TRUE(commu2.has_same_base(precise::data::byte));
 }
-
 
 TEST(commoditizedUnits, numericalWords)
 {
