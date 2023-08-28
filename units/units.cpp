@@ -166,7 +166,7 @@ using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
 static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 30> testUnits{
     {ustr{precise::s, "s"},
-    ustr{precise::s.pow(2), "s^2"},
+     ustr{precise::s.pow(2), "s^2"},
      ustr{precise::m, "m"},
      ustr{precise::kg, "kg"},
      ustr{precise::mol, "mol"},
