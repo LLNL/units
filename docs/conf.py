@@ -107,15 +107,15 @@ master_doc = "index"
 
 # General information about the project.
 project = "Units"
-copyright = "2019-2021,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n"
-author = "Philip Top, Ryan Mast, Corey McNeish"
+copyright = "2019-2023,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n"
+author = "Philip Top, Ryan Mast"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = "0.5.0"
+version = "0.9.0"
 # The full version, including alpha/beta/rc tags.
 release = ""
 

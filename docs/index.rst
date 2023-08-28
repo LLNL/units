@@ -28,6 +28,7 @@ This software was developed for use in `LLNL/GridDyn <https://github.com/LLNL/Gr
 The :ref:`Introduction` is a discussion about the why? and How the library came together and a generally what it does and how it was tested.
 The :ref:`Installation and Linking` guide is a discussion about linking and using the library, and the :ref:`User Guide` is the
 how-to about how to use the software library.  For the details see :ref:`Details`  and to try out some of the string conversions check out :ref:`Units on the Web`
+Finally :ref:`Application Notes` contains some discussions on particular applications and usages.
 
 .. toctree::
    :maxdepth: 1
@@ -36,5 +37,6 @@ how-to about how to use the software library.  For the details see :ref:`Details
    introduction/index
    installation/index
    user-guide/index
+   application_notes/index
    details/index
    web/index

@@ -5,14 +5,19 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.8.0][] - 2022-03-17
+## [0.8.0][] - 2023-08-11
 
-A few user suggested tweaks, and support additional unit string conversions supported by the google unit converter. Cleaner output for `Hz`
+A few user suggested tweaks, and support additional unit string conversions supported by the google unit converter. Cleaner output for `Hz` and prioritization of SI base units in the to_string operation.
 
 ### Changed
 
-- modified the eflag to work a little differently than the iflag and moved a couple units to use the eflag instead to support things like `sqrt(degC.pow(2))=degC` [#275][]
+- Modified the eflag to work a little differently than the iflag and moved a couple units to use the eflag instead to support things like `sqrt(degC.pow(2))=degC` [#275][]
 - Updated copyright date to 2023 [#266][]
+- Updated to new version of google test and added some additional units and test from the google unit conversion [#283][]
+- Fixed and corrected some documentation to match the latest code [#284][]
+- Altered the match_flags to 64 bits and corresponding updates to the flag constants[#294][]
+- adjusting the partitioning algorithms to have a minimum size and have some controlling flags [#294][],[#297][]
+- split the non-english units into a separate array that can be controlled independently in the build [#296][]
 
 ### Fixed
 
@@ -20,9 +25,15 @@ A few user suggested tweaks, and support additional unit string conversions supp
 - Format arb.unit nicely and fix a hardcoded namespace [#272][]
 - Fix `quad` unit, and clean up some unit conversion strings involving `Hz` [#265][]
 - Update clang tidy and fix resulting issues [#267][]
+- Fixed an issue where scalar unit values in measurements using `to_string` could cause a crash [#289][]
+- Fixed some issues with prioritization of base units in the string generation [#303][]
 
 ### Added
 
+- Added multiplies and divides operations which take into account perunit operations [#299]
+- Added application notes on strain [#299]
+- Added support for addition in unit string, the units on both sides must have the same units [#298]
+- Updated coverage to hit 100% again [#291]
 - Added several unit strings and cleaned up the typography units [#282][]
 - Added a dependabot configuration for updating the actions [#274][]
 - Added `removeUserDefinedUnit` method [#273][]
@@ -38,6 +49,16 @@ A few user suggested tweaks, and support additional unit string conversions supp
 [#274]: https://github.com/LLNL/units/pull/274
 [#275]: https://github.com/LLNL/units/pull/275
 [#282]: https://github.com/LLNL/units/pull/282
+[#283]: https://github.com/LLNL/units/pull/283
+[#284]: https://github.com/LLNL/units/pull/284
+[#289]: https://github.com/LLNL/units/pull/289
+[#291]: https://github.com/LLNL/units/pull/291
+[#294]: https://github.com/LLNL/units/pull/294
+[#296]: https://github.com/LLNL/units/pull/296
+[#297]: https://github.com/LLNL/units/pull/297
+[#298]: https://github.com/LLNL/units/pull/298
+[#299]: https://github.com/LLNL/units/pull/299
+[#303]: https://github.com/LLNL/units/pull/299
 
 ## [0.7.0][] - 2022-12-17
 

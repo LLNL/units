@@ -164,9 +164,17 @@ static const umap base_unit_names = getDefinedBaseUnitNames();
 
 using ustr = std::pair<precise_unit, const char*>;
 // units to divide into tests to explore common multiplier units
-static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 23> testUnits{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 29> testUnits{
     {ustr{precise::m, "m"},
      ustr{precise::s, "s"},
+     ustr{precise::kg, "kg"},
+     ustr{precise::mol, "mol"},
+     ustr{precise::currency, "$"},
+     ustr{precise::rad, "rad"},
+     ustr{precise::count, "item"},
+     ustr{precise::candela, "cd"},
+     ustr{precise::Ampere, "A"},
+     ustr{precise::Kelvin, "K"},
      ustr{precise::ms, "ms"},
      ustr{precise::min, "min"},
      ustr{precise::hr, "hr"},
@@ -177,9 +185,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 23> testUnits{
      ustr{constants::c.as_unit(), "[c]"},
      ustr{constants::h.as_unit(), "[h]"},
      ustr{precise::L, "L"},
-     ustr{precise::kg, "kg"},
      ustr{precise::km, "km"},
-     ustr{precise::currency, "$"},
      ustr{precise::volt, "V"},
      ustr{precise::watt, "W"},
      ustr{precise::electrical::kW, "kW"},
@@ -191,10 +197,11 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 23> testUnits{
 
 // units to divide into tests to explore common multiplier units which can be
 // multiplied by power
-static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 5> testPowerUnits{
+static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 6> testPowerUnits{
     {ustr{precise::m, "m"},
-     ustr{precise::km, "km"},
      ustr{precise::s, "s"},
+     ustr{precise::radian, "rad"},
+     ustr{precise::km, "km"},
      ustr{precise::ft, "ft"},
      ustr{precise::mile, "mi"}}};
 
@@ -1567,11 +1574,22 @@ static std::string
         return std::string("1/") + prefix;
     }
 
-    // let's try common units
+    // let's try common unit combinations
+    std::string beststr;
+
     for (const auto& tu : testUnits) {
-        auto res = probeUnit(un, tu);
-        if (!res.empty()) {
-            return res;
+        auto str = probeUnit(un, tu);
+        if (!str.empty()) {
+            return str;
+        }
+        str = probeUnitBase(un, tu);
+        if (!str.empty()) {
+            if (!isNumericalStartCharacter(str.front())) {
+                return str;
+            }
+            if (beststr.empty() || str.size() < beststr.size()) {
+                beststr = str;
+            }
         }
     }
 
@@ -1617,19 +1635,7 @@ static std::string
             return res;
         }
     }
-    std::string beststr;
 
-    for (const auto& tu : testUnits) {
-        auto str = probeUnitBase(un, tu);
-        if (!str.empty()) {
-            if (!isNumericalStartCharacter(str.front())) {
-                return str;
-            }
-            if (beststr.empty() || str.size() < beststr.size()) {
-                beststr = str;
-            }
-        }
-    }
     if (allowUserDefinedUnits.load(std::memory_order_acquire)) {
         for (const auto& udu : user_defined_unit_names) {
             auto str = probeUnitBase(
@@ -4535,8 +4541,8 @@ static precise_unit tryUnitPartitioning(
             }
             ustring = unit_string.substr(0, part);
         }
-        while (ustring.back() == '_' ||
-               ustring.back() == '-' && (part < unit_string.size() - 1)) {
+        while ((ustring.back() == '_' || ustring.back() == '-') &&
+               (part < unit_string.size() - 1)) {
             hasSep = true;
             ustring.push_back(unit_string[part]);
             ++part;
@@ -4984,11 +4990,14 @@ static precise_unit unit_from_string_internal(
         }
     }
 
-    if (unit_string.find_first_of('+') != std::string::npos) {
+    if (((match_flags & no_addition) == 0) &&
+        unit_string.find_first_of('+') != std::string::npos) {
         retunit = checkUnitAddition(unit_string, match_flags);
         if (is_valid(retunit)) {
             return retunit;
         }
+        // don't allow recursive addition after this point
+        match_flags |= no_addition;
     }
 
     auto sep = findOperatorSep(unit_string, "*/");

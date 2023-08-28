@@ -304,6 +304,64 @@ TEST(unitOps, equivalency)
     EXPECT_FALSE(m1.is_exactly_the_same(m6));
 }
 
+TEST(unitOps, flagClearSetPerUnit)
+{
+    unit m1(0.245, m);
+    auto m2 = m1.add_per_unit();
+    EXPECT_TRUE(m2.is_per_unit());
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    auto m3 = m2.clear_per_unit();
+    EXPECT_FALSE(m3.is_per_unit());
+    EXPECT_TRUE(m1.is_exactly_the_same(m3));
+    m2.clear_flags();
+    EXPECT_TRUE(m2.is_exactly_the_same(m1));
+}
+
+TEST(unitOps, flagClearSetIflag)
+{
+    unit m1(0.245, m);
+    auto m2 = m1.add_i_flag();
+    EXPECT_TRUE(m2.has_i_flag());
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    auto m3 = m2.clear_i_flag();
+    EXPECT_FALSE(m3.has_i_flag());
+    EXPECT_TRUE(m1.is_exactly_the_same(m3));
+    m2.clear_flags();
+    EXPECT_TRUE(m2.is_exactly_the_same(m1));
+}
+
+TEST(unitOps, flagClearSetEflag)
+{
+    unit m1(0.245, m);
+    auto m2 = m1.add_e_flag();
+    EXPECT_TRUE(m2.has_e_flag());
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    auto m3 = m2.clear_e_flag();
+    EXPECT_FALSE(m3.has_e_flag());
+    EXPECT_TRUE(m1.is_exactly_the_same(m3));
+    m2.clear_flags();
+    EXPECT_TRUE(m2.is_exactly_the_same(m1));
+}
+
+TEST(unitOps, flagClearSet)
+{
+    unit m1(0.245, m);
+    m1.set_flags(false, true, false);
+    EXPECT_FALSE(m1.is_per_unit());
+    EXPECT_TRUE(m1.has_i_flag());
+    EXPECT_FALSE(m1.has_e_flag());
+
+    m1.set_flags(true, false, true);
+    EXPECT_TRUE(m1.is_per_unit());
+    EXPECT_FALSE(m1.has_i_flag());
+    EXPECT_TRUE(m1.has_e_flag());
+
+    m1.clear_flags();
+    EXPECT_FALSE(m1.is_per_unit());
+    EXPECT_FALSE(m1.has_i_flag());
+    EXPECT_FALSE(m1.has_e_flag());
+}
+
 TEST(unitOps, convertible)
 {
     unit m1{m};
@@ -586,6 +644,64 @@ TEST(preciseunitOps, equivalency)
 
     EXPECT_TRUE(precise::m.is_exactly_the_same(m));
     EXPECT_FALSE(precise::ft.is_exactly_the_same(ft));
+}
+
+TEST(preciseunitOps, flagClearSetPerUnit)
+{
+    precise_unit m1(0.245, precise::yd);
+    auto m2 = m1.add_per_unit();
+    EXPECT_TRUE(m2.is_per_unit());
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    auto m3 = m2.clear_per_unit();
+    EXPECT_FALSE(m3.is_per_unit());
+    EXPECT_TRUE(m1.is_exactly_the_same(m3));
+    m2.clear_flags();
+    EXPECT_TRUE(m2.is_exactly_the_same(m1));
+}
+
+TEST(preciseunitOps, flagClearSetIflag)
+{
+    precise_unit m1(0.245, precise::yd);
+    auto m2 = m1.add_i_flag();
+    EXPECT_TRUE(m2.has_i_flag());
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    auto m3 = m2.clear_i_flag();
+    EXPECT_FALSE(m3.has_i_flag());
+    EXPECT_TRUE(m1.is_exactly_the_same(m3));
+    m2.clear_flags();
+    EXPECT_TRUE(m2.is_exactly_the_same(m1));
+}
+
+TEST(preciseunitOps, flagClearSetEflag)
+{
+    precise_unit m1(0.245, precise::yd);
+    auto m2 = m1.add_e_flag();
+    EXPECT_TRUE(m2.has_e_flag());
+    EXPECT_FALSE(m1.is_exactly_the_same(m2));
+    auto m3 = m2.clear_e_flag();
+    EXPECT_FALSE(m3.has_e_flag());
+    EXPECT_TRUE(m1.is_exactly_the_same(m3));
+    m2.clear_flags();
+    EXPECT_TRUE(m2.is_exactly_the_same(m1));
+}
+
+TEST(preciseunitOps, flagClearSet)
+{
+    precise_unit m1(0.245, precise::yd);
+    m1.set_flags(false, true, false);
+    EXPECT_FALSE(m1.is_per_unit());
+    EXPECT_TRUE(m1.has_i_flag());
+    EXPECT_FALSE(m1.has_e_flag());
+
+    m1.set_flags(true, false, true);
+    EXPECT_TRUE(m1.is_per_unit());
+    EXPECT_FALSE(m1.has_i_flag());
+    EXPECT_TRUE(m1.has_e_flag());
+
+    m1.clear_flags();
+    EXPECT_FALSE(m1.is_per_unit());
+    EXPECT_FALSE(m1.has_i_flag());
+    EXPECT_FALSE(m1.has_e_flag());
 }
 
 TEST(preciseunitOps, equality1)

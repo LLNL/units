@@ -31,6 +31,16 @@ Trigonometric operations will operate only if the measurement is convertible to 
 -  `cos`
 -  `tan`
 
+Multiplies and divides
+-------------------------------
+
+Division and multiplication operators for measurements that have support for per_unit measurement
+
+- `multiplies` : works like `*` except when one of the measurements is per_unit and they have the same unit base, then they remove the per unit
+- `divides` : works like `/` except if both measurements have the same base then the result has a `per_unit` unit
+
+See :ref:`strain` for examples on usage
+
 Others
 ---------
 
