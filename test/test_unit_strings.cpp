@@ -449,6 +449,13 @@ TEST(unitStrings, mm)
 
     auto accUnit = unit_from_string("mm/s^2");
     EXPECT_EQ(to_string(accUnit), "mm/s^2");
+
+    speedUnit = unit_from_string("km/s");
+    EXPECT_EQ(to_string(speedUnit), "km/s");
+
+    accUnit = unit_from_string("km/s^2");
+    EXPECT_EQ(to_string(accUnit), "km/s^2");
+
 }
 
 TEST(unitStrings, customUnits)
