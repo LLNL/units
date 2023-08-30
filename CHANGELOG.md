@@ -11,7 +11,7 @@ Fix some string output issues related to units with various prefixes of meters a
 
 ### Fixed
 
-- fixed an issue with string output related to mm/s outputing as mHz*m and mm/s^2 outputing as Gy/km [#308][]
+- fixed an issue with string output related to mm/s outputing as mHz\*m and mm/s^2 outputing as Gy/km [#308][]
 
 ## [0.9.0][] - 2023-08-11
 
