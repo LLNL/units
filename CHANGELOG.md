@@ -5,9 +5,19 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.8.0][] - 2023-08-11
+## [0.9.1][] - 2023-08-31
+
+Fix some string output issues related to units with various prefixes of meters and seconds
+
+### Fixed
+
+- fixed an issue with string output related to mm/s outputing as mHz*m and mm/s^2 outputing as Gy/km [#308][]
+
+## [0.9.0][] - 2023-08-11
 
 A few user suggested tweaks, and support additional unit string conversions supported by the google unit converter. Cleaner output for `Hz` and prioritization of SI base units in the to_string operation.
+
+[#308]: https://github.com/LLNL/units/pull/308
 
 ### Changed
 
@@ -58,7 +68,7 @@ A few user suggested tweaks, and support additional unit string conversions supp
 [#297]: https://github.com/LLNL/units/pull/297
 [#298]: https://github.com/LLNL/units/pull/298
 [#299]: https://github.com/LLNL/units/pull/299
-[#303]: https://github.com/LLNL/units/pull/299
+[#303]: https://github.com/LLNL/units/pull/303
 
 ## [0.7.0][] - 2022-12-17
 
