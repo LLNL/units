@@ -16,8 +16,13 @@ else()
     cmake_policy(VERSION 3.25)
 endif()
 
+if (NOT UNITS_CMAKE_PROJECT_NAME)
+   set(UNITS_CMAKE_PROJECT_NAME UNITS)
+   
+endif()
+
 project(
-    UNITS
+    ${UNITS_CMAKE_PROJECT_NAME}
     LANGUAGES C CXX
     VERSION 0.9.0
 )
@@ -66,8 +71,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     endif()
 endif()
 
-list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/config")
-list(APPEND CMAKE_MODULE_PATH "${UNITS_SOURCE_DIR}/ThirdParty/cmake")
+list(APPEND CMAKE_MODULE_PATH "${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}/config")
+list(APPEND CMAKE_MODULE_PATH "${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}/ThirdParty/cmake")
 
 # Allow IDE's to group targets into folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -106,9 +111,6 @@ set(UNITS_CLANG_TIDY_OPTIONS
 
 mark_as_advanced(UNITS_CLANG_TIDY_OPTIONS)
 mark_as_advanced(UNITS_CLANG_TIDY)
-
-set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT unitsTargets)
-mark_as_advanced(UNITS_LIBRARY_EXPORT_COMMAND)
 
 option(UNITS_HEADER_ONLY "Expose the units library as header-only" OFF)
 
@@ -205,6 +207,11 @@ elseif(UNITS_ENABLE_TESTS)
     endif()
 endif()
 
+string(TOLOWER ${UNITS_CMAKE_PROJECT_NAME} UNITS_LC_PROJECT_NAME)
+
+set(UNITS_LIBRARY_EXPORT_COMMAND EXPORT "${UNITS_LC_PROJECT_NAME}Targets")
+mark_as_advanced(UNITS_LIBRARY_EXPORT_COMMAND)
+
 if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
@@ -212,28 +219,28 @@ if(UNITS_INSTALL)
     if(NOT UNITS_BINARY_ONLY_INSTALL)
         include(CMakePackageConfigHelpers)
         configure_file(
-            config/unitsConfig.cmake.in "${PROJECT_BINARY_DIR}/unitsConfig.cmake" @ONLY
+            config/unitsConfig.cmake.in "${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}Config.cmake" @ONLY
         )
 
         export(
             EXPORT unitsTargets
-            NAMESPACE units::
-            FILE ${PROJECT_BINARY_DIR}/unitsTargets.cmake
+            NAMESPACE ${UNITS_LC_PROJECT_NAME}::
+            FILE "${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}Targets.cmake"
         )
 
         install(
             EXPORT unitsTargets
-            NAMESPACE units::
-            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units
+            NAMESPACE ${UNITS_LC_PROJECT_NAME}::
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${UNITS_LC_PROJECT_NAME}
         )
 
         write_basic_package_version_file(
-            ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake
+            ${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}ConfigVersion.cmake
             COMPATIBILITY AnyNewerVersion
         )
-        install(FILES ${PROJECT_BINARY_DIR}/unitsConfigVersion.cmake
-                      ${PROJECT_BINARY_DIR}/unitsConfig.cmake
-                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/units
+        install(FILES ${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}ConfigVersion.cmake
+                      ${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}Config.cmake
+                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${UNITS_LC_PROJECT_NAME}
         )
     endif()
 endif()

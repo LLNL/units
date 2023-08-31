@@ -12,7 +12,7 @@ cmake_dependent_option(
 
 if(UNITS_BUILD_CONVERTER_APP)
     add_executable(units_convert converter.cpp)
-    target_link_libraries(units_convert PUBLIC units::units compile_flags_target)
+    target_link_libraries(units_convert PUBLIC ${UNITS_LC_PROJECT_NAME}::units compile_flags_target)
     target_include_directories(units_convert PRIVATE ${PROJECT_SOURCE_DIR}/ThirdParty)
     target_compile_definitions(
         units_convert PUBLIC UNITS_VERSION_STRING="${UNITS_VERSION}"
@@ -32,5 +32,5 @@ if(UNITS_BUILD_CONVERTER_APP)
             COMPONENT units_convert
         )
     endif()
-    add_executable(units::units_convert ALIAS units_convert)
+    add_executable(${UNITS_LC_PROJECT_NAME}::units_convert ALIAS units_convert)
 endif()
