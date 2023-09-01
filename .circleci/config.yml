@@ -95,6 +95,16 @@ jobs:
       - checkout
       - run: *setup_units
       - run: *run_installer_tests
+      
+  unitsInstall-alt:
+    docker:
+      - image: helics/buildenv:builder
+    environment:
+      CMAKE_FLAGS: '-DUNITS_ENABLE_TESTS=ON -DUNITS_INSTALL_PACKAGE_TESTS=ON -DUNITS_BUILD_SHARED_LIBRARY=ON -DUNITS_CMAKE_PACKAGE_NAME=LLNL-UNITS'
+    steps:
+      - checkout
+      - run: *setup_units
+      - run: *run_installer_tests
 
 workflows:
   version: 2
@@ -104,4 +114,5 @@ workflows:
       - unitsASan
       - unitsTSan
       - unitsInstall
+      - unitsInstall-alt
       - unitsFuzz

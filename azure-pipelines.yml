@@ -96,7 +96,7 @@ jobs:
           containerImage: gcc:9
           units.std: 17
           units.options: -DCMAKE_CXX_FLAGS="-Wstrict-overflow=5"
-        gcc11:
+        gcc11-project_rename:
           containerImage: gcc:11
           units.std: 17
           units.options: -DUNITS_CMAKE_PROJECT_NAME=LLNL-UNITS"

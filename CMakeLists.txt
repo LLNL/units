@@ -7,13 +7,13 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-# Make sure users don't get warnings on a tested (3.0 to 3.25) version of CMake. For
+# Make sure users don't get warnings on a tested (3.0 to 3.27) version of CMake. For
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
-if(${CMAKE_VERSION} VERSION_LESS 3.25)
+if(${CMAKE_VERSION} VERSION_LESS 3.27)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-    cmake_policy(VERSION 3.25)
+    cmake_policy(VERSION 3.27)
 endif()
 
 if (NOT UNITS_CMAKE_PROJECT_NAME)
@@ -71,8 +71,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     endif()
 endif()
 
-list(APPEND CMAKE_MODULE_PATH "${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}/config")
-list(APPEND CMAKE_MODULE_PATH "${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}/ThirdParty/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/config")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/cmake")
 
 # Allow IDE's to group targets into folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
