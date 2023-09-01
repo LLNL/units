@@ -82,7 +82,9 @@ if(UNITS_BUILD_SHARED_LIBRARY)
 
 elseif(UNITS_BUILD_OBJECT_LIBRARY)
     add_library(units OBJECT ${units_source_files} ${units_header_files})
-    target_include_directories(units PRIVATE $<BUILD_INTERFACE:${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}>)
+    target_include_directories(
+        units PRIVATE $<BUILD_INTERFACE:${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}>
+    )
 
     if(UNITS_NAMESPACE)
         target_compile_definitions(units PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE})
@@ -146,7 +148,7 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
         set_property(TARGET units PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
     endif()
     add_library(${UNITS_LC_PROJECT_NAME}::units ALIAS units)
-    message(status "adding library ${UNITS_LC_PROJECT_NAME}::units")
+    message(STATUS "adding library ${UNITS_LC_PROJECT_NAME}::units")
 endif()
 
 # add the header only interface library
@@ -172,7 +174,9 @@ endif()
 add_library(${UNITS_LC_PROJECT_NAME}::header_only ALIAS header_only)
 
 if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
-    install(FILES ${units_header_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${UNITS_LC_PROJECT_NAME})
+    install(FILES ${units_header_files}
+            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${UNITS_LC_PROJECT_NAME}
+    )
     if(UNITS_BUILD_SHARED_LIBRARY OR BUILD_SHARED_LIBS)
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/units_export.h
                 DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${UNITS_LC_PROJECT_NAME}

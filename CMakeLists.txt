@@ -16,9 +16,9 @@ else()
     cmake_policy(VERSION 3.25)
 endif()
 
-if (NOT UNITS_CMAKE_PROJECT_NAME)
-   set(UNITS_CMAKE_PROJECT_NAME UNITS)
-   
+if(NOT UNITS_CMAKE_PROJECT_NAME)
+    set(UNITS_CMAKE_PROJECT_NAME UNITS)
+
 endif()
 
 project(
@@ -72,7 +72,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}/config")
-list(APPEND CMAKE_MODULE_PATH "${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}/ThirdParty/cmake")
+list(APPEND CMAKE_MODULE_PATH
+     "${${UNITS_CMAKE_PROJECT_NAME}_SOURCE_DIR}/ThirdParty/cmake"
+)
 
 # Allow IDE's to group targets into folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -212,9 +214,6 @@ elseif(UNITS_ENABLE_TESTS)
     endif()
 endif()
 
-
-
-
 if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
@@ -222,7 +221,8 @@ if(UNITS_INSTALL)
     if(NOT UNITS_BINARY_ONLY_INSTALL)
         include(CMakePackageConfigHelpers)
         configure_file(
-            config/unitsConfig.cmake.in "${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}Config.cmake" @ONLY
+            config/unitsConfig.cmake.in
+            "${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}Config.cmake" @ONLY
         )
 
         export(
