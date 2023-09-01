@@ -17,7 +17,7 @@ else()
 endif()
 
 if(NOT UNITS_CMAKE_PROJECT_NAME)
-   set(UNITS_CMAKE_PROJECT_NAME UNITS)
+    set(UNITS_CMAKE_PROJECT_NAME UNITS)
 
 endif()
 

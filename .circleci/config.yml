@@ -95,7 +95,7 @@ jobs:
       - checkout
       - run: *setup_units
       - run: *run_installer_tests
-      
+
   unitsInstall-alt:
     docker:
       - image: helics/buildenv:builder

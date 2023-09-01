@@ -13,8 +13,8 @@ project(units-find-package-test)
 
 include(CTest)
 
-if (NOT UNITS_TARGET)
-   set(UNITS_TARGET units)
+if(NOT UNITS_TARGET)
+    set(UNITS_TARGET units)
 endif()
 
 # Test the HELICS CMake package config
@@ -27,7 +27,9 @@ message(STATUS "Binary location is ${PROJECT_BINARY_DIR}")
 if(UNITS_BUILD_SHARED_LIBRARY)
     add_executable(shared-library-test-exe ../pkg_test_code/main.cpp)
     target_link_libraries(shared-library-test-exe ${UNITS_TARGET}::units)
-    target_compile_definitions(shared-library-test-exe UNITS_LIB_HEADER="${UNITS_TARGET}/units.hpp")
+    target_compile_definitions(
+        shared-library-test-exe UNITS_LIB_HEADER="${UNITS_TARGET}/units.hpp"
+    )
 
     add_test(NAME shared-library-test COMMAND shared-library-test-exe)
     set_property(TEST shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "10.7")
