@@ -146,6 +146,7 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
         set_property(TARGET units PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
     endif()
     add_library(${UNITS_LC_PROJECT_NAME}::units ALIAS units)
+    message(status "adding library ${UNITS_LC_PROJECT_NAME}::units")
 endif()
 
 # add the header only interface library
