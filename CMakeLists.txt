@@ -16,9 +16,9 @@ else()
     cmake_policy(VERSION 3.27)
 endif()
 
-if (NOT UNITS_CMAKE_PROJECT_NAME)
+if(NOT UNITS_CMAKE_PROJECT_NAME)
    set(UNITS_CMAKE_PROJECT_NAME UNITS)
-   
+
 endif()
 
 project(
@@ -212,9 +212,6 @@ elseif(UNITS_ENABLE_TESTS)
     endif()
 endif()
 
-
-
-
 if(UNITS_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
@@ -222,7 +219,8 @@ if(UNITS_INSTALL)
     if(NOT UNITS_BINARY_ONLY_INSTALL)
         include(CMakePackageConfigHelpers)
         configure_file(
-            config/unitsConfig.cmake.in "${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}Config.cmake" @ONLY
+            config/unitsConfig.cmake.in
+            "${PROJECT_BINARY_DIR}/${UNITS_LC_PROJECT_NAME}Config.cmake" @ONLY
         )
 
         export(

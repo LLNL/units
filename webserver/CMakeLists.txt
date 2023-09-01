@@ -19,7 +19,8 @@ if(CMAKE_VERSION VERSION_GREATER 3.12)
         find_package(Boost 1.70.0 REQUIRED)
         add_executable(units_webserver unit_web_server.cpp)
         target_link_libraries(
-            units_webserver PUBLIC ${UNITS_LC_PROJECT_NAME}::units compile_flags_target Boost::boost
+            units_webserver PUBLIC ${UNITS_LC_PROJECT_NAME}::units compile_flags_target
+                                   Boost::boost
         )
 
         target_compile_definitions(units_webserver PUBLIC BOOST_DATE_TIME_NO_LIB)

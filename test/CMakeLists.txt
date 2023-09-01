@@ -36,7 +36,9 @@ if(UNITS_HEADER_ONLY)
     foreach(T ${UNIT_TEST_HEADER_ONLY})
 
         add_unit_test(${T}.cpp)
-        target_link_libraries(${T} ${UNITS_LC_PROJECT_NAME}::header_only compile_flags_target)
+        target_link_libraries(
+            ${T} ${UNITS_LC_PROJECT_NAME}::header_only compile_flags_target
+        )
         if(MSVC)
             target_compile_options(${T} PRIVATE /wd4459)
         endif()
@@ -68,7 +70,9 @@ else()
         )
 
         add_unit_test(test_leadingNumbers.cpp)
-        target_link_libraries(test_leadingNumbers ${UNITS_LC_PROJECT_NAME}::units compile_flags_target)
+        target_link_libraries(
+            test_leadingNumbers ${UNITS_LC_PROJECT_NAME}::units compile_flags_target
+        )
         if(UNITS_CLANG_TIDY)
             set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
         endif()
@@ -134,7 +138,8 @@ else()
         target_compile_options(test_all_unit_base PRIVATE /wd4459)
     endif()
     target_link_libraries(
-        test_all_unit_base gtest gmock gtest_main ${UNITS_LC_PROJECT_NAME}::units compile_flags_target
+        test_all_unit_base gtest gmock gtest_main ${UNITS_LC_PROJECT_NAME}::units
+        compile_flags_target
     )
     set_target_properties(test_all_unit_base PROPERTIES FOLDER "Tests")
     # test_all_unit_base should not be added to the tests it will take a long time run
