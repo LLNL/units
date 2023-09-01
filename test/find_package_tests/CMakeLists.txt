@@ -14,7 +14,7 @@ project(units-find-package-test)
 include(CTest)
 
 if(NOT UNITS_TARGET)
-   set(UNITS_TARGET units)
+    set(UNITS_TARGET units)
 endif()
 
 # Test the HELICS CMake package config
@@ -38,6 +38,8 @@ endif()
 # Test the header only targets
 add_executable(header_only-exe ../pkg_test_code/header_only.cpp)
 target_link_libraries(header_only-exe ${UNITS_TARGET}::header_only)
-target_compile_definitions(header_only-exe PUBLIC UNITS_LIB_HEADER="${UNITS_TARGET}/units.hpp")
+target_compile_definitions(
+    header_only-exe PUBLIC UNITS_LIB_HEADER="${UNITS_TARGET}/units.hpp"
+)
 add_test(NAME header_only-exe COMMAND header_only-exe)
 set_property(TEST header_only-exe PROPERTY PASS_REGULAR_EXPRESSION "PASS")
