@@ -29,6 +29,7 @@ CMake variables
 -  `UNITS_NAMESPACE`:  The top level namespace of the library, defaults to `units`.
    When compiling with C++17 (or higher), this can be set to, e.g., `mynamespace::units` to avoid name clashes with other libraries defining `units`.
 -  `UNITS_INSTALL`:  This is set to `ON` normally but defaults to `OFF` if used as a subproject.  This controls whether anything gets installed by the install target.
+-  `UNITS_CMAKE_PROJECT_NAME`:  This is set to `UNITS` by default.   If using this in a package manager or wish to rename the project this variable can be set to another name to change the name of the package.  This will change the install path and cmake target names. For example setting `-DUNITS_CMAKE_PROJECT_NAME=LLNL-UNITS` will create cmake project llnl-units::units, and llnl-units::header_only and will install in a llnl-units directory with appropriate cmake files.
 
 If compiling as part of a subproject then a few other options are useful
 
@@ -40,7 +41,7 @@ If compiling as part of a subproject then a few other options are useful
 CMake Targets
 --------------
 
-If you are using the library as a submodule or importing the package there are a couple targets that can be used depending on the build
+If you are using the library as a submodule or importing the package there are a couple targets that can be used depending on the build.  NOTE:  these can be changed using `UNITS_CMAKE_PROJECT_NAME`.
 
 -  `units::units`  will be set to the library being built, either the shared, static, or object
 -  `units::header_only` is a target for the headers if `UNITS_HEADER_ONLY` CMake variable is set, then only this target is generated.  This target is always created.
