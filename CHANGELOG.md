@@ -15,7 +15,7 @@ Fix some string output issues related to units with various prefixes of meters a
 
 ### Added
 
-- Added a CMAKE variable to change the project name, to resolve some packaging conflicts.  `UNITS_CMAKE_PROJECT_NAME` [#310][]
+- Added a CMAKE variable to change the project name, to resolve some packaging conflicts. `UNITS_CMAKE_PROJECT_NAME` [#310][]
 
 [#308]: https://github.com/LLNL/units/pull/308
 [#310]: https://github.com/LLNL/units/pull/310
