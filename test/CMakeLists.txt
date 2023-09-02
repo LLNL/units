@@ -36,7 +36,9 @@ if(UNITS_HEADER_ONLY)
     foreach(T ${UNIT_TEST_HEADER_ONLY})
 
         add_unit_test(${T}.cpp)
-        target_link_libraries(${T} units::header_only compile_flags_target)
+        target_link_libraries(
+            ${T} ${UNITS_LC_PROJECT_NAME}::header_only compile_flags_target
+        )
         if(MSVC)
             target_compile_options(${T} PRIVATE /wd4459)
         endif()
@@ -49,7 +51,7 @@ else()
     foreach(T ${UNITS_TESTS})
 
         add_unit_test(${T}.cpp)
-        target_link_libraries(${T} units::units compile_flags_target)
+        target_link_libraries(${T} ${UNITS_LC_PROJECT_NAME}::units compile_flags_target)
         if(UNITS_CLANG_TIDY)
             set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
         endif()
@@ -68,7 +70,9 @@ else()
         )
 
         add_unit_test(test_leadingNumbers.cpp)
-        target_link_libraries(test_leadingNumbers units::units compile_flags_target)
+        target_link_libraries(
+            test_leadingNumbers ${UNITS_LC_PROJECT_NAME}::units compile_flags_target
+        )
         if(UNITS_CLANG_TIDY)
             set_property(TARGET ${T} PROPERTY CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
         endif()
@@ -124,7 +128,7 @@ else()
     endif()
 
     add_executable(examples_test examples_test.cpp)
-    target_link_libraries(examples_test PRIVATE units::units)
+    target_link_libraries(examples_test PRIVATE ${UNITS_LC_PROJECT_NAME}::units)
     target_compile_definitions(examples_test PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS})
     set_target_properties(examples_test PROPERTIES FOLDER "Tests")
     add_test(examples_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/examples_test)
@@ -134,7 +138,8 @@ else()
         target_compile_options(test_all_unit_base PRIVATE /wd4459)
     endif()
     target_link_libraries(
-        test_all_unit_base gtest gmock gtest_main units::units compile_flags_target
+        test_all_unit_base gtest gmock gtest_main ${UNITS_LC_PROJECT_NAME}::units
+        compile_flags_target
     )
     set_target_properties(test_all_unit_base PROPERTIES FOLDER "Tests")
     # test_all_unit_base should not be added to the tests it will take a long time run
@@ -181,6 +186,7 @@ else()
                     "${CMAKE_GENERATOR_PLATFORM}" ${UNITS_PACKAGE_SEARCH_LOC}
                     "-DUNITS_BUILD_SHARED_LIBRARY=${UNITS_BUILD_SHARED_LIBRARY}"
                     "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+                    "-DUNITS_TARGET=${UNITS_LC_PROJECT_NAME}"
                     "-DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"
                     "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
                     "${CMAKE_CURRENT_SOURCE_DIR}/find_package_tests"
@@ -192,6 +198,7 @@ else()
                 COMMAND
                     ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" ${UNITS_PACKAGE_SEARCH_LOC}
                     "-DUNITS_BUILD_SHARED_LIBRARY=${UNITS_BUILD_SHARED_LIBRARY}"
+                    "-DUNITS_TARGET=${UNITS_LC_PROJECT_NAME}"
                     "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
                     "-DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"
                     "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
