@@ -25,7 +25,7 @@ LABEL description="Units library webserver"
 LABEL vcs-ref=$GIT_COMMIT
 LABEL vcs-url="https://github.com/LLNL/units"
 LABEL version="0.9.1"
-LABEL date="2023-08-31"
+LABEL date="2023-09-01"
 
 VOLUME /weblog
 

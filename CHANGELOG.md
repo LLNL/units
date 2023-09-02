@@ -5,7 +5,7 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.1][] - 2023-08-31
+## [0.9.1][] - 2023-09-01
 
 Fix some string output issues related to units with various prefixes of meters and seconds
 
@@ -13,11 +13,16 @@ Fix some string output issues related to units with various prefixes of meters a
 
 - fixed an issue with string output related to mm/s outputting as mHz\*m and mm/s^2 outputting as Gy/km [#308][]
 
+### Added
+
+- Added a CMAKE variable to change the project name, to resolve some packaging conflicts.  `UNITS_CMAKE_PROJECT_NAME` [#310][]
+
+[#308]: https://github.com/LLNL/units/pull/308
+[#310]: https://github.com/LLNL/units/pull/310
+
 ## [0.9.0][] - 2023-08-11
 
 A few user suggested tweaks, and support additional unit string conversions supported by the google unit converter. Cleaner output for `Hz` and prioritization of SI base units in the to_string operation.
-
-[#308]: https://github.com/LLNL/units/pull/308
 
 ### Changed
 
