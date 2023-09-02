@@ -7,14 +7,18 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-cmake_minimum_required(VERSION 3.10...3.24)
+cmake_minimum_required(VERSION 3.10...3.27)
 
 project(units-find-package-test)
 
 include(CTest)
 
+if(NOT UNITS_TARGET)
+    set(UNITS_TARGET units)
+endif()
+
 # Test the HELICS CMake package config
-find_package(units 0.6 REQUIRED)
+find_package(${UNITS_TARGET} 0.9 REQUIRED)
 
 # add some tests inside of the CMake
 
@@ -22,7 +26,10 @@ message(STATUS "Binary location is ${PROJECT_BINARY_DIR}")
 # Test the CXX shared library target
 if(UNITS_BUILD_SHARED_LIBRARY)
     add_executable(shared-library-test-exe ../pkg_test_code/main.cpp)
-    target_link_libraries(shared-library-test-exe units::units)
+    target_link_libraries(shared-library-test-exe ${UNITS_TARGET}::units)
+    target_compile_definitions(
+        shared-library-test-exe PUBLIC UNITS_LIB_HEADER="${UNITS_TARGET}/units.hpp"
+    )
 
     add_test(NAME shared-library-test COMMAND shared-library-test-exe)
     set_property(TEST shared-library-test PROPERTY PASS_REGULAR_EXPRESSION "10.7")
@@ -30,7 +37,9 @@ if(UNITS_BUILD_SHARED_LIBRARY)
 endif()
 # Test the header only targets
 add_executable(header_only-exe ../pkg_test_code/header_only.cpp)
-target_link_libraries(header_only-exe units::header_only)
-
+target_link_libraries(header_only-exe ${UNITS_TARGET}::header_only)
+target_compile_definitions(
+    header_only-exe PUBLIC UNITS_LIB_HEADER="${UNITS_TARGET}/units.hpp"
+)
 add_test(NAME header_only-exe COMMAND header_only-exe)
 set_property(TEST header_only-exe PROPERTY PASS_REGULAR_EXPRESSION "PASS")

@@ -28,8 +28,8 @@ LABEL name="units.fuzzer"
 LABEL description="Units library fuzzer"
 LABEL vcs-ref=$GIT_COMMIT
 LABEL vcs-url="https://github.com/LLNL/units"
-LABEL version="0.9.0"
-LABEL date="2023-08-11"
+LABEL version="0.9.1"
+LABEL date="2023-09-01"
 
 VOLUME /fuzz
 

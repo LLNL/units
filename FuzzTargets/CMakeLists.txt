@@ -6,11 +6,15 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 add_executable(fuzz_from_string fuzz_target_from_string.cpp)
-target_link_libraries(fuzz_from_string units::units compile_flags_target)
+target_link_libraries(
+    fuzz_from_string ${UNITS_LC_PROJECT_NAME}::units compile_flags_target
+)
 target_include_directories(fuzz_from_string PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 
 add_executable(fuzz_measurement fuzz_target_measurement_from_string.cpp)
-target_link_libraries(fuzz_measurement units::units compile_flags_target)
+target_link_libraries(
+    fuzz_measurement ${UNITS_LC_PROJECT_NAME}::units compile_flags_target
+)
 target_include_directories(fuzz_measurement PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty)
 
 add_custom_target(
