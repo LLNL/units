@@ -26,9 +26,13 @@ The direct definitions define a set of codes that are defined in a couple differ
 
 The next 3 bits define which method
 
-`000` short strings
+`000` short strings, 5 lower case characters+`_`+'{|}~' (ascii codes 95-126)
 `001` 3 byte alpha numeric code
 `010` 6 character hex code
+`011` 4 byte code ascii code 32-95 [numbers+upper case+punctuation]
+`100` short strings, 5 upper case characters+@[\]^_' (ascii codes 64-95)
+`101` UNUSED
+`110` UNUSED
 `111` pure common commodity codes
 
 others will be defined later.
@@ -36,20 +40,40 @@ others will be defined later.
 Short Strings
 ++++++++++++++++
 
-To avoid always having to do a map lookup, many commodities or commodity codes can be represented by a short string of 5 or fewer characters.  These cannot be case sensitive so '_' is a space or null character and if at the end of the string will be removed for display purposes.  The very limited character set includes '_', `a-z', '`' and, '{|}~'.  This is meant to simplify a chunk of the use cases.  Custom Commodity Strings which are not captured in this mode fall into the custom commodity bin.  The bits for this kind of commodity definition are 010000X[AAAAA][BBBBB][CCCCC][DDDDD][EEEEE], with A, B, C, D, and E representing the bits of the code letters.
+To avoid always having to do a map lookup, many commodities or commodity codes can be represented by a short string of 5 or fewer characters.  These cannot be case sensitive so '_' is a space or null character and if at the end of the string will be removed for display purposes.  The very limited character set includes '_', `a-z', '`' and, '{|}~'.  This is meant to simplify a chunk of the use cases.  Custom Commodity Strings which are not captured in this mode fall into the custom commodity bin.  The bits for this kind of commodity definition are 010000U[AAAAA][BBBBB][CCCCC][DDDDD][EEEEE], with A, B, C, D, and E representing the bits of the code letters.
+There are 2 codes one representing the lower case character set, and one with the upper cases character set with different punctuation marks.
+For the upper case set, setting the `U` bit to 1 indicates a stock symbol.
 
 3 byte code
 ++++++++++++++++
 
 For short alpha/numeric codes of 3 bytes or fewer the byte code can be captured in the lower 24 bits of the commodity code.
-The bits for this kind of commodity definition are 010001XX[AAAAAAAA][BBBBBBBB][CCCCCCCC], with A,B, C representing the bits of the code letters.
+The bits for this kind of commodity definition are 010001[UU][AAAAAAAA][BBBBBBBB][CCCCCCCC], with A,B, C representing the bits of the code letters.
+The codes UU, define a set of types of code 
+
+`00`  user defined
+`01`  UNDEFINED
+`10`  ISO currency codes defined in ISO 4217
+`11`  UNDEFINED
 
 6 character hex code
 ++++++++++++++++++++++
 
 Similar to the 3 byte code some commodities can be represented by a 6 byte hex code
 
-The bits for this kind of commodity definition are 010010XX[AAAA][BBBB][CCCC][DDDD][EEEE][FFFF], with A, B, C, D, E, F representing the bits of hex codes.
+The bits for this kind of commodity definition are 010011XX[AAAA][BBBB][CCCC][DDDD][EEEE][FFFF], with A, B, C, D, E, F representing the bits of hex codes.
+
+4 character codes
+++++++++++++++++++++++
+
+Similar to the 3 byte code some commodities can be represented by a 6 byte hex code
+
+The bits for this kind of commodity definition are 010011[UU][AAAAAA][BBBBBB][CCCCCC][DDDDDD], with A, B, C, D, representing the characters
+
+`00`  user defined
+`01`  Chemical Formula
+`10`  UNDEFINED
+`11`  UNDEFINED
 
 Known Definitions
 +++++++++++++++++++

@@ -717,7 +717,7 @@ namespace precise {
         constexpr precise_unit psi{6894.757293168, Pa};
         constexpr precise_unit psig = psi * eflag;
         constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
-        constexpr precise_unit mmHg{133.322387415, Pa};
+        constexpr precise_unit mmHg{133.322387415, Pa}; //at 0 deg C
         constexpr precise_unit torr{
             1.0 / 760.0,
             atm* iflag};  // this is really
@@ -758,7 +758,7 @@ namespace precise {
         constexpr precise_unit
             hpI(745.69987158227022, W);  // mechanical horsepower
         constexpr precise_unit hpS(9812.5, W);  // Boiler(steam) horsepower
-        constexpr precise_unit hpM(735.49875, W);  // Mechanical horsepower
+        constexpr precise_unit hpM(735.49875, W);  // metric horsepower
 
     }  // namespace power
 
@@ -1142,6 +1142,10 @@ namespace precise {
                     return std::pow(3.0, val);
                 case 15:
                     return std::exp(val / 0.5);
+                case 16: //API Gravity
+                    return 141.5/(val+131.5);
+                case 17:
+                    return (val>0.0)?(140.0/(130.0+val)):(145.0/(145.0-val));
                 case 22:  // saffir simpson hurricane wind scale
                 {
                     double out = -0.17613636364;
@@ -1217,6 +1221,10 @@ namespace precise {
                     return std::log10(val) / std::log10(3);
                 case 15:
                     return 0.5 * (std::log)(val);
+                case 16: //API Gravity
+                    return 141.5/(val)-131.5;
+                case 17: //degree Baume
+                    return (val>1.0)?(145.0*(1.0-1/val)):(140.0/val-130);
                 case 22:  // saffir simpson hurricane scale from wind speed
                 {  // using horners method on polynomial approximation of
                    // saffir-simpson wind speed scale
@@ -1274,7 +1282,7 @@ namespace precise {
         constexpr precise_unit met =
             precise_unit{3.5, mL / min / kg};  //!< metabolic equivalent
         constexpr precise_unit hounsfield = generate_custom_unit(37);
-
+        constexpr precise_unit AHF = generate_custom_unit(38); 
     }  // namespace clinical
 
     /// Units used in chemical and biological laboratories
@@ -1381,6 +1389,9 @@ namespace precise {
 
         // custom defined unit of loudness 
         constexpr precise_unit sone = generate_custom_unit(40);
+        //for measuring density in liquids(mainly petroleum products)
+        constexpr precise_unit degreeAPI = precise_unit(custom::equation_unit(16))*g/mL;
+        constexpr precise_unit degreeBaume = precise_unit(custom::equation_unit(17))*g/mL;
     }  // namespace special
 
     namespace other {
@@ -1404,6 +1415,8 @@ namespace precise {
         constexpr precise_unit gwp = generate_custom_unit(77);
         // global temperature change potential
         constexpr precise_unit gtp = generate_custom_unit(78);
+        // ozone depletion unit
+        constexpr precise_unit odp=generate_custom_unit(79);
     }  // namespace climate
     constexpr precise_unit rpm = other::rpm;
 }  // namespace precise

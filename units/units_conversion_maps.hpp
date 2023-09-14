@@ -205,7 +205,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1170>
+    1172>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -849,21 +849,21 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"astronomicunit", precise::distance::au},
         {"kph", precise::km / precise::hr},
         {"$", precise::currency},
-        {"dollar", precise::currency},
-        {"euro", precise::currency},
-        {"yen", precise::currency},
-        {"ruble", precise::currency},
+        { "dollar", {precise::currency,commodities::currencies::dollar} },
+        {"euro", {precise::currency,commodities::currencies::euro}},
+        {"yen", {precise::currency,commodities::currencies::yen}},
+        {"ruble", {precise::currency,commodities::currencies::ruble}},
         {"currency", precise::currency},
-        {u8"\u00A2", precise_unit(0.01, precise::currency)},  // cent symbol
-        {"\xA2", precise_unit(0.01, precise::currency)},  // cent symbol latin-1
-        {u8"\u00A3", precise::currency},  // pound sign
-        {"\xA3", precise::currency},  // pound sign latin-1
+        { u8"\u00A2", {0.01, precise::currency} },  // cent symbol
+        { "\xA2", {0.01, precise::currency} },  // cent symbol latin-1
+        {u8"\u00A3", {precise::currency,commodities::currencies::pound}},  // pound sign
+        {"\xA3", {precise::currency,commodities::currencies::pound}},  // pound sign latin-1
         {u8"\u00A4", precise::currency},  // currency sign
         {"\xA4", precise::currency},  // currency sign latin-1
-        {u8"\u00A5", precise::currency},  // Yen sign
+        {u8"\u00A5", {precise::currency,commodities::currencies::yen}},  // Yen sign
         {"\xA5", precise::currency},  // Yen sign latin-1
-        {u8"\u0080", precise::currency},  // Euro sign
-        {"\x80", precise::currency},  // Euro sign extended ascii
+        {u8"\u0080", {precise::currency,commodities::currencies::euro}},  // Euro sign
+        {"\x80", {precise::currency,commodities::currencies::euro}},  // Euro sign extended ascii
         {"count", precise::count},
         {"unit", precise::count},
         {"pair", precise_unit(2.0, precise::count)},
@@ -997,7 +997,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"rpm", precise::rpm},
         {"rps", precise_unit(constants::tau, precise::rad / precise::s)},
         {"r", precise_unit(constants::tau, precise::rad)},
-        {"revolutions", precise_unit(constants::tau, precise::rad)},
+        { "revolutions", {constants::tau, precise::rad} },
         {"revolution", precise_unit(constants::tau, precise::rad)},
         {"rev", precise_unit(constants::tau, precise::rad)},
         {"revs", precise_unit(constants::tau, precise::rad)},
@@ -1322,6 +1322,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"Ch", precise::clinical::charriere},
         {"[CH]", precise::clinical::charriere},
         {"french(cathetergauge)", precise::clinical::charriere},
+        {"frenchguage", precise::clinical::charriere},
+        {"Fg", precise::clinical::charriere},
         {"mesh_i", precise::clinical::mesh},
         {"[MESH_I]", precise::clinical::mesh},
         {"mesh", precise::clinical::mesh},
@@ -1350,6 +1352,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"soundpressurelevel", precise_unit(2 * 1e-5, precise::pascal)},
         {"soundpressure", precise_unit(2 * 1e-5, precise::pascal)},
         {"sone", precise::special::sone},
+        {"phon", precise::generate_custom_unit(41)},
         {"BSPL", precise::log::B_SPL},
         {"B[SPL]", precise::log::B_SPL},
         {"B(SPL)", precise::log::B_SPL},
@@ -1475,7 +1478,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1130>
+    1132>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
         {"candle_it", precise::lm / precise::sr},
@@ -1810,7 +1813,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"auold", precise::distance::au_old},
         {"ua", precise::distance::au_old},
         {"FEU", precise_unit(40.0 * 8.0 * 8.5, precise::ft.pow(3))},
-        {"TEU", precise_unit(20.0 * 8.0 * 8.5, precise::ft.pow(3))},
+        { "TEU", {20.0 * 8.0 * 8.5, precise::ft.pow(3)} },
         {"fortyfootequivalent",
          precise_unit(40.0 * 8.0 * 8.5, precise::ft.pow(3))},
         {"twentyfootequivalent",
@@ -1948,6 +1951,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"cal20C", precise::energy::cal_20},
         {"cals15C", precise::energy::cal_15},
         {"cal15C", precise::energy::cal_15},
+        {"cal15", precise::energy::cal_15},
+        {"cal20", precise::energy::cal_20},
         {u8"cal_20\u00B0C", precise::energy::cal_20},
         {"CAL_[15]", precise::energy::cal_15},
         {"CAL_[20]", precise::energy::cal_20},
@@ -2201,7 +2206,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"waterton", precise_unit(224.0, precise::imp::gallon)},
         {"lb", precise::lb},
         {"LB", precise::lb},
-        {"kip", precise::kilo* precise::lb},
+        {"kip", precise::kilo* precise::lbf},
         {"lb_tr", precise::troy::pound},
         {"[LB_TR]", precise::troy::pound},
         {"pound-troy", precise::troy::pound},
@@ -2656,7 +2661,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 #if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) ||                               \
     UNITS_DISABLE_NON_ENGLISH_UNITS == 0
 UNITS_CPP14_CONSTEXPR_OBJECT
-std::array<std::pair<const char*, precise_unit>, 61>
+std::array<std::pair<const char*, precise_unit>, 64>
     defined_unit_strings_non_english{{
         {"ken", precise::japan::ken},
         {"cun", precise::chinese::cun},
@@ -2684,9 +2689,9 @@ std::array<std::pair<const char*, precise_unit>, 61>
         // turkey, UAE, levant unit of area
         {"dunam", precise_unit(1000.0, precise::m.pow(2))},
         // taiwan
-        {"ping", precise_unit(3.305, precise::m.pow(2))},
+        {"ping", {3.305, precise::m.pow(2)}},
         // korea unit of area
-        {"pyong", precise_unit(3.305, precise::m.pow(2))},
+        {"pyong", {3.305, precise::m.pow(2)}},
         // ancient Roman units
         {"amphora", {27.84, precise::L}},
         {"sextarii", {27.84 / 48.0, precise::L}},
@@ -2728,6 +2733,9 @@ std::array<std::pair<const char*, precise_unit>, 61>
         {"labor", {1000000.0 * 3.0 * 278.6 * 3.0 * 278.6, precise::mm.pow(2)}},
         {"zenti", {1.0 / 100.0, precise::one}},  // german for centi
         {"zentner", {50.0, precise::kg}},  // german
+        {"pferdestaerke", precise::power::hpM}, //german horsepower
+        {"cheval vapeur",precise::power::hpM}, //french horsepower
+        {"pfund", {0.5,kg}}, //german
 
     }};
 
@@ -2735,7 +2743,7 @@ std::array<std::pair<const char*, precise_unit>, 61>
 
 // Mostly from https://en.wikipedia.org/wiki/International_System_of_Units
 UNITS_CPP14_CONSTEXPR_OBJECT
-std::array<std::pair<const char*, precise_unit>, 246> defined_measurement_types{
+std::array<std::pair<const char*, precise_unit>, 247> defined_measurement_types{
     {
         {"", precise::defunit},
         {"arb", precise::defunit},
@@ -2908,6 +2916,7 @@ std::array<std::pair<const char*, precise_unit>, 246> defined_measurement_types{
         {"heatcapacity", precise::J / precise::K},
         {"entropy", precise::J / precise::K},
         {"specificentropy", precise::J / precise::kg / precise::K},
+        {"specificgravity",precise::pu*precise::kg/precise::m.pow(3)},
         {"dynamicviscosity", precise::Pa* precise::s},
         {"viscosity", precise::Pa* precise::s},
         {"visc", precise::Pa* precise::s},
