@@ -821,8 +821,7 @@ TEST(stringToUnits, equivalents2)
     EXPECT_EQ(unit_from_string("per mins"), unit_from_string("/min"));
     EXPECT_EQ(unit_from_string("/100 WBCs"), unit_from_string("/100{WBCs}"));
 
-    //   EXPECT_EQ(unit_from_string("lumen meters squared"),
-    //   unit_from_string("lm.m2"));
+    EXPECT_EQ(unit_from_string("lumen meters squared"),unit_from_string("lm.m2"));
 }
 
 TEST(stringToUnits, equivalents3)
@@ -1048,6 +1047,48 @@ TEST(stringToUnits, rotSequences)
     auto u1 = unit_from_string("BTU_IT");
     EXPECT_EQ(u1, unit_from_string("BtuIT"));
     EXPECT_EQ(u1, unit_from_string("BTU-IT"));
+}
+ 
+TEST(stringToUnits, parentheticalModifier)
+{
+    auto u1=unit_from_string("mile(statute)");
+    EXPECT_EQ(u1,precise::mile);
+    auto u2=unit_from_string("mile (statute)");
+    EXPECT_EQ(u2,precise::mile);
+    auto u3=unit_from_string("British thermal unit (thermochemical)");
+    EXPECT_EQ(u3,precise::energy::btu_th);
+}
+
+TEST(stringToUnit, handlingOfSquared)
+{
+    auto u1=unit_from_string("square foot second");
+    EXPECT_EQ(u1,precise::ft.pow(2)*precise::s);
+
+    auto u2=unit_from_string("pascal squared second");
+    EXPECT_EQ(u2,precise::Pa.pow(2)*precise::s);
+
+    auto u3=unit_from_string("coulomb metre squared per volt");
+    EXPECT_EQ(u3,precise::C*precise::m.pow(2)/precise::V);
+
+    auto u4=unit_from_string("ampere square metre per joule second");
+    EXPECT_EQ(u4,precise::A*precise::m.pow(2)/(precise::J*precise::s));
+
+    auto u5=unit_from_string("meter per square seconds per square root of hertz");
+    EXPECT_EQ(u5,precise::special::ASD);
+
+    auto u6=unit_from_string("degree Fahrenheit hour square foot per British thermal unit (international table) inch");
+
+    EXPECT_EQ(u6,precise::degF* precise::hr*precise::ft.pow(2) / precise::energy::btu_it/precise::in);
+}
+
+TEST(stringToUnits, modifiedStrings)
+{
+    auto u1=unit_from_string("linear yard");
+    u1.commodity(0);
+    EXPECT_EQ(u1,precise::yd);
+
+    auto u2=unit_from_string("kilogram per millimetre");
+    EXPECT_EQ(u2,precise::kg/precise::mm);
 }
 
 TEST(stringToUnits, addition)

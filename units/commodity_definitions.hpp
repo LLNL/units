@@ -152,6 +152,7 @@ namespace UNITS_NAMESPACE {
                 // 70-79 reserved
                 displacement=generatePackagingCode(70),
                 lump = generatePackagingCode(71),
+                linear =generatePackagingCode(72),
                 // units library is using 80-89 as descriptors
                 actual = generatePackagingCode(80),
                 theoretical=generatePackagingCode(81),

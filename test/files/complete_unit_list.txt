@@ -1,0 +1,2559 @@
+## SECTION # 
+%, (slope percent), Slope (grade) units, Circular measure
+%, (percent), Percentages and Parts, Franctions and Percent
+=E2=80=B0, (slope permille), Slope (grade) units, Circular measure
+=E2=80=B0, (permille), Percentages and Parts, Franctions and Percent
+=E2=80=B2, (minute), Common Units, Circular measure
+=E2=80=B3, (second), Common Units, Circular measure
+=E2=84=88, (scruple), Apothecaries, Mass and weight
+=E2=84=94, =E2=80=B3, (pound), Apothecaries, Mass and weight
+=E2=84=A5, (ounce), Apothecaries, Mass and weight
+1, (unit, point), Quantity Units, Franctions and Percent
+1/10, (one tenth or .1), Fractions, Franctions and Percent
+1/16, (one sixteenth or .0625), Fractions, Franctions and Percent
+1/2, (half or .5), Fractions, Franctions and Percent
+1/3, (one third or .(3)), Fractions, Franctions and Percent
+1/32, (one thirty-second or .03125), Fractions, Franctions and Percent
+1/4, (quart, one forth or .25), Fractions, Franctions and Percent
+1/5, (tithe, one fifth or .2), Fractions, Franctions and Percent
+1/6, (one sixth or .1(6)), Fractions, Franctions and Percent
+1/7, (one seventh or .142857), Fractions, Franctions and Percent
+1/8, (one eights or .125), Fractions, Franctions and Percent
+1/9, (one ninth or .(1)), Fractions, Franctions and Percent
+=C3=A5ngstr=C3=B6m, Metric, Distance and Length
+=C2=B0C, (degrees Celsius), Temperature increment conversion, Temperature increment
+=C2=B0C, (degrees Celsius), Temperature scale conversion, Temperature
+=C2=B0D, (degrees Delisle), Historical temperature increment conversion, Temperature increment
+=C2=B0D, (degrees Delisle), Historical temperature scales, Temperature
+=C2=B0F, (degrees Fahrenheit), Temperature increment conversion, Temperature increment
+=C2=B0F, (degrees Fahrenheit), Temperature scale conversion, Temperature
+=C6=92=E2=84=A5, (fluid ounce), Apothecaries, Capacity and volume
+=C6=92=CA=92, (fluid dram), Apothecaries, Capacity and volume
+=C2=B0N, (degrees Newton), Historical temperature increment conversion, Temperature increment
+=C2=B0N, (degrees Newton), Historical temperature scales, Temperature
+=C2=B0R, (degrees Rankine), Historical temperature increment conversion, Temperature increment
+=C2=B0R, (degrees Rankine), Historical temperature scales, Temperature
+=C2=B0Re, (degrees Reaumur), Temperature increment conversion, Temperature increment
+=C2=B0Re, (degrees Reaumur), Temperature scale conversion, Temperature
+=C2=B0R=C3=B8, (degrees R=C3=B8mer), Historical temperature increment conversion, Temperature increment
+=C2=B0R=C3=B8, (degrees R=C3=B8mer), Historical temperature scales, Temperature
+=CA=92, (dram (drachm)), Apothecaries, Mass and weight
+=CE=98, (Planck temperature), Temperature increment conversion, Temperature increment
+=CE=98, (Planck temperature), Temperature scale conversion, Temperature
+=C2=B5Ci, (microcurie), Other units, Radioactivity
+=C2=B5Gy, (microgray), Absorbed radiation dose, Radiation
+=C2=B5l, (microliter), Metric, Capacity and volume
+=CE=BCm, (Diameter in micrometres), Wire diameter, Wire and Needle Gauge
+=CE=BCm=C2=B2, (Section area in square micrometres), Wire section area, Wire and Needle Gauge
+=C2=B5, mc, (micro), Metric Prefixes, Franctions and Percent
+=C2=B5N, (micronewton), International System (SI), Force
+=C2=B5R, (microroentgen), Exposure to ionizing radiation, Radiation
+=C2=B5s, (microsecond), Common units, Time
+=C2=B5Sv, (microsievert), Dose equivalent radiation, Radiation
+=CF=83=CF=84=CE=AC=CE=B4=CE=B9=CE=BF=CE=BD, stadion, Ancient Greek, Historical Lengths
+
+## SECTION A 
+a, (atto), Metric Prefixes, Franctions and Percent
+a, (are), Metric, Area
+Acceleration of free fall on Jupiter, Free Fall Acceleration (Solar System), Acceleration
+Acceleration of free fall on Mars, Free Fall Acceleration (Solar System), Acceleration
+Acceleration of free fall on Mercury, Free Fall Acceleration (Solar System), Acceleration
+Acceleration of free fall on Moon, Free Fall Acceleration (Solar System), Acceleration
+Acceleration of free fall on Neptune, Free Fall Acceleration (Solar System), Acceleration
+Acceleration of free fall on Saturn, Free Fall Acceleration (Solar System), Acceleration
+Acceleration of free fall on Sun, Free Fall Acceleration (Solar System), Acceleration
+Acceleration of free fall on Uranus, Free Fall Acceleration (Solar System), Acceleration
+Acceleration of free fall on Venus, Free Fall Acceleration (Solar System), Acceleration
+acetabulum (small cup), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+acre, British (Imperial) And U.S. System, Historical Units of Area
+acre, British (Imperial) And U.S. System, Area
+acre foot, U.S. Liquid Measure, Capacity and volume
+acre foot per day, U.S. and British Imperial, Flow rate by volume
+acre foot per hour, U.S. and British Imperial, Flow rate by volume
+acre foot per minute, U.S. and British Imperial, Flow rate by volume
+acre foot per second, U.S. and British Imperial, Flow rate by volume
+acre foot per year, U.S. and British Imperial, Flow rate by volume
+actus, Ancient Roman, Historical Lengths
+adarme, Old Spanish, Historical weights
+Admiralty cable length, British (Imperial) Nautical Measure, Distance and Length
+Admiralty mile, British (Imperial) Nautical Measure, Distance and Length
+ADSL, Computer Connection Speed, Data transfer rate
+ADSL2, Computer Connection Speed, Data transfer rate
+adult UK shoe size, United Kingdom and Ireland Shoe Size, Shoe Size Conversion
+AED, (United Arab Emirates Dirham), Middle East Currencies, Currency
+Afghan Afghani, (AFN), Asian Currencies, Currency
+AFN, (Afghan Afghani), Asian Currencies, Currency
+akaina (=E1=BC=84=CE=BA=CE=B1=CE=B9=CE=BD=CE=B1), Ancient Greek, Historical Units of Area
+akaina (=E1=BC=84=CE=BA=CE=B1=CE=B9=CE=BD=CE=B1), Ancient Greek, Historical Lengths
+Albanian Lek, (ALL), European Currencies, Currency
+Algerian Dinar, (DZD), African Curriencies, Currency
+ALL, (Albanian Lek), European Currencies, Currency
+almude, Old Portuguese Liquid Measure, Historical Units of Capacity
+aln (forealrm), Old Swedish, Historical Lengths
+alqueire, Old Portuguese Dry Measure, Historical Units of Capacity
+AMD, (Armenian Dram), Asian Currencies, Currency
+amem (fist), Ancient Egypt, Historical Lengths
+American Steel and Wire (ASW) Music Wire Gauge, Music Wire Gauges, Wire and Needle Gauge
+American Wire Gauge, AWG, Wire Gauges, Wire and Needle Gauge
+amphora quadrantal (Roman jar, bushel), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+amu, (atomic mass unit), Metric, Mass and weight
+ANG, (Netherlands Antillean Guilder), Currencies of the Caribbean, Currency
+Angolan Kwanza, (AOA), African Curriencies, Currency
+Angular mil (NATO), Artillery, Circular measure
+Angular mil (Sweden), Artillery, Circular measure
+anomalistic month, Astronomical, Time
+anomalistic year, Astronomical, Time
+AOA, (Angolan Kwanza), African Curriencies, Currency
+apostilb, (asb), Other units, Illuminance
+aranzada, Old Spanish, Historical Units of Area
+are, (a), Metric, Area
+Argentine Peso, (ARS), South American Currencies, Currency
+Armenian Dram, (AMD), Asian Currencies, Currency
+aroura (=E1=BC=84=CF=81=CE=BF=CF=85=CF=81=CE=B1), Ancient Greek, Historical Units of Area
+arpent, Old French, Historical Units of Area
+arpent, Old French, Historical Lengths
+arr=C3=A1tel (libra), Old Portuguese, Historical weights
+arroba, Old Spanish Liquid Measure, Historical Units of Capacity
+arroba, Old Portuguese, Historical weights
+arroba, Old Spanish, Historical weights
+ARS, (Argentine Peso), South American Currencies, Currency
+arshin, Old Russian, Historical Lengths
+Aruban Florin, (AWG), Currencies of the Caribbean, Currency
+asb, (apostilb), Other units, Illuminance
+Asian ring size, Ring Sizes in Japan, China, Korea, Hong Kong, Taiwan, Singapore, Ring size
+Asian shoe size, Asian Shoe Size, Shoe Size Conversion
+astronomical unit, (au), Astronomical, Distance and Length
+ath (=E0=B8=AD=E0=B8=B1=E0=B8=90), Thai units, Mass and weight
+atm, (physical atmosphere), Atmosphere, Stress and Pressure
+atomic mass unit, (amu), Metric, Mass and weight
+atomic unit of force, Atomic Physics Units, Force
+atto, (a), Metric Prefixes, Franctions and Percent
+au, (astronomical unit), Astronomical, Distance and Length
+AUD, (Australian Dollar, $), Major World Currencies, Currency
+Australian children size, Australia and New Zealand Shoe Size, Shoe Size Conversion
+Australian Dollar, $, (AUD), Major World Currencies, Currency
+Australian female shoe size, Australia and New Zealand Shoe Size, Shoe Size Conversion
+Australian male shoe size, Australia and New Zealand Shoe Size, Shoe Size Conversion
+AWG, (Aruban Florin), Currencies of the Caribbean, Currency
+Azerbaijani Manat, (AZN), Asian Currencies, Currency
+AZN, (Azerbaijani Manat), Asian Currencies, Currency
+azumbre, Old Spanish Liquid Measure, Historical Units of Capacity
+
+## SECTION B 
+b, (barn), Metric, Area
+Bahamian Dollar, (BSD), Currencies of the Caribbean, Currency
+Bahraini Dinar, (BHD), Middle East Currencies, Currency
+baht in gold trading, Thai units, Mass and weight
+baht (=E0=B8=9A=E0=B8=B2=E0=B8=97), Thai units, Mass and weight
+baker's dozen, Quantity Units, Franctions and Percent
+BAM, (Bosnia-Herzegovina Convertible Mark), European Currencies, Currency
+Bangladeshi Taka, (BDT), Asian Currencies, Currency
+bar, Metric, Stress and Pressure
+Barbadian Dollar, (BBD), Currencies of the Caribbean, Currency
+barleycorn, British Imperial Measure before 1963, Distance and Length
+barn, (b), Metric, Area
+barrel, English brewery cask units, Capacity and volume
+barrel, English wine cask units, Capacity and volume
+barrel, British Imperial Liquid And Dry, Capacity and volume
+barrel, U.S. Dry Measure, Capacity and volume
+barrel (dry), U.S. Measure, Historical Units of Capacity
+barrel (liquid), U.S. Measure, Historical Units of Capacity
+barrel of oil equivalent, (BOE), Oil Energy Equivalent, Energy and Work
+barrel (petroleum), U.S. Liquid Measure, Capacity and volume
+barrel (petroleum) per day, U.S. and British Imperial, Flow rate by volume
+barrel (petroleum) per hour, U.S. and British Imperial, Flow rate by volume
+barrel (petroleum) per minute, U.S. and British Imperial, Flow rate by volume
+barrel (petroleum) per second, U.S. and British Imperial, Flow rate by volume
+barrel (petroleum) per year, U.S. and British Imperial, Flow rate by volume
+bath, Biblical and Talmudic Liquid Measure (Old Testament), Historical Units of Capacity
+BBD, (Barbadian Dollar), Currencies of the Caribbean, Currency
+BBOE, (billion barrel of oil equivalent), Oil Energy Equivalent, Energy and Work
+BDT, (Bangladeshi Taka), Asian Currencies, Currency
+becquerel, (Bq), SI radioactivity units, Radioactivity
+beka, Biblical, Historical weights
+Belarusian Ruble, (BYN), European Currencies, Currency
+Belize Dollar, (BZD), Central American Currencies, Currency
+bema or diploum (=CE=B2=E1=BF=86=CE=BC=CE=B1, =E1=BC=80=CF=80=CE=BB=CE=BF=E1=BF=A6=CE=BD), Ancient Greek, Historical Units of Area
+berkovets, Old Russian, Historical weights
+Bermudan Dollar, (BMD), North American Currencies, Currency
+bes (8=E2=81=8412 libra, two of an as), Ancient Roman, Historical weights
+bezah (egg-size), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
+BGN, (Bulgarian Lev), European Currencies, Currency
+BHD, (Bahraini Dinar), Middle East Currencies, Currency
+Bhutanese Ngultrum, (BTN), Asian Currencies, Currency
+bia (=E0=B9=80=E0=B8=9A=E0=B8=B5=E0=B9=89=E0=B8=A2), Thai units, Mass and weight
+BIF, (Burundian Franc), African Curriencies, Currency
+billion barrel of oil equivalent, (BBOE), Oil Energy Equivalent, Energy and Work
+binary number (radix 2), Common Radix Numerals, Roman numbers, Hex, Octal and more
+Birmingham or Stubs' Iron Wire Gauge, B.W.G., Wire Gauges, Wire and Needle Gauge
+bismerpund, Old Swedish, Historical weights
+bit, Data Storage and Transmission, Computer storage
+Bitcoin, (BTC), Other Currencies and More, Currency
+bit per second, (bps), Basic Units of Data Transfer Rate, Data transfer rate
+blondel, Other units, Illuminance
+BlueTooth 1, Computer Connection Speed, Data transfer rate
+BlueTooth 2.0, Computer Connection Speed, Data transfer rate
+BMD, (Bermudan Dollar), North American Currencies, Currency
+BND, (Brunei Dollar), Asian Currencies, Currency
+boardfoot, board-foot, (fbmm, bdft, bf), Lumber measure, Capacity and volume
+BOB, (Bolivian Boliviano), South American Currencies, Currency
+BOE, (barrel of oil equivalent), Oil Energy Equivalent, Energy and Work
+Bolivian Boliviano, (BOB), South American Currencies, Currency
+bolt, British Imperial Measure before 1963, Distance and Length
+bolt, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+Bosnia-Herzegovina Convertible Mark, (BAM), European Currencies, Currency
+botella, Old Spanish Liquid Measure, Historical Units of Capacity
+Botswanan Pula, (BWP), African Curriencies, Currency
+bps, (bit per second), Basic Units of Data Transfer Rate, Data transfer rate
+Bq, (becquerel), SI radioactivity units, Radioactivity
+bra=C3=A7a, Old Portuguese, Historical Lengths
+bra=C3=A7a quadrada (square bra=C3=A7a), Old Portuguese, Historical Units of Area
+braza, Old Spanish, Historical Lengths
+Brazilian Real, (BRL), South American Currencies, Currency
+Brazilian shoe size, Brazilian Shoe Size, Shoe Size Conversion
+breakfast cup, Apothecaries, Capacity and volume
+bril, Other units, Illuminance
+British centner, Avoirdupois (U.S. / British), Mass and weight
+British gallon per 100 miles, British system, Fuel economy
+British gallon per day, U.S. and British Imperial, Flow rate by volume
+British gallon per hour, U.S. and British Imperial, Flow rate by volume
+British gallon per minute, U.S. and British Imperial, Flow rate by volume
+British gallon per second, U.S. and British Imperial, Flow rate by volume
+British gallon per year, U.S. and British Imperial, Flow rate by volume
+British Pound Sterling, =C2=A3, (GBP), Major World Currencies, Currency
+British Standard Wire Gauge, SWG, Wire Gauges, Wire and Needle Gauge
+British Thermal Unit, (BTU), British and American, Energy and Work
+British Thermal Unit per hour, (BTU/hr), British and American, Power
+British Thermal Unit per minute, (BTU/min), British and American, Power
+British Thermal Unit per second, (BTU/s), British and American, Power
+BRL, (Brazilian Real), South American Currencies, Currency
+Brunei Dollar, (BND), Asian Currencies, Currency
+B/s, (byte per second), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+B/s, (byte per second), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+BSD, (Bahamian Dollar), Currencies of the Caribbean, Currency
+BTC, (Bitcoin), Other Currencies and More, Currency
+BTN, (Bhutanese Ngultrum), Asian Currencies, Currency
+BTU, (British Thermal Unit), British and American, Energy and Work
+BTU/hr, (British Thermal Unit per hour), British and American, Power
+BTU/min, (British Thermal Unit per minute), British and American, Power
+BTU/s, (British Thermal Unit per second), British and American, Power
+bu, (bushel), U.S. Measure, Historical Units of Capacity
+bu, (bushel), British Imperial Liquid And Dry, Capacity and volume
+bu, (bushel), U.S. Dry Measure, Capacity and volume
+Bulgarian Lev, (BGN), European Currencies, Currency
+Burundian Franc, (BIF), African Curriencies, Currency
+bushel, (bu), U.S. Measure, Historical Units of Capacity
+bushel, (bu), British Imperial Liquid And Dry, Capacity and volume
+bushel, (bu), U.S. Dry Measure, Capacity and volume
+butt, English wine cask units, Capacity and volume
+button, British Imperial Measure before 1963, Distance and Length
+bu (=E5=88=86), Japanese, Distance and Length
+bu (=E6=AD=A5), Chinese units of 1915, Distance and Length
+bu	(=E6=AD=A9), Japanese, Area
+BWP, (Botswanan Pula), African Curriencies, Currency
+BYN, (Belarusian Ruble), European Currencies, Currency
+byte (octet), Data Storage and Transmission, Computer storage
+byte per day, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+byte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+byte per hour, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+byte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+byte per minute, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+byte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+byte per second, (B/s), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+byte per second, (B/s), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+byte per week, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+byte per week, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+BZD, (Belize Dollar), Central American Currencies, Currency
+
+## SECTION C 
+c, (centi), Metric Prefixes, Franctions and Percent
+caballer=C3=ADa, Old Spanish, Historical Units of Area
+cable length, (cbl), International Nautical Measure, Distance and Length
+Cable modem, Computer Connection Speed, Data transfer rate
+CAD, (Canadian Dollar, $), Major World Currencies, Currency
+cah=C3=ADz, Old Spanish Dry Measure, Historical Units of Capacity
+cal, (calorie), Common Units, Energy and Work
+calendar month, Common units, Time
+caliber, British Imperial Measure before 1963, Distance and Length
+calorie, (cal), Common Units, Energy and Work
+calories per hour, Common Units, Power
+calories per minute, Common Units, Power
+calories per second, Common Units, Power
+Cambodian Riel, (KHR), Asian Currencies, Currency
+canada, Old Portuguese Liquid Measure, Historical Units of Capacity
+Canadian Dollar, $, (CAD), Major World Currencies, Currency
+candareen (fan), Hong Kong, Mass and weight
+candareen troy, Hong Kong, Mass and weight
+candy, Indian units (Akbar system), Mass and weight
+c=C3=A1ntara, Old Spanish Liquid Measure, Historical Units of Capacity
+c=C3=A2ntaro, Old Portuguese Liquid Measure, Historical Units of Capacity
+Cape Verdean Escudo, (CVE), African Curriencies, Currency
+carat, Troy, Mass and weight
+carat, (ct), Metric, Mass and weight
+catty (kan), Hong Kong, Mass and weight
+Cayman Islands Dollar, (KYD), Currencies of the Caribbean, Currency
+cbl, (cable length), International Nautical Measure, Distance and Length
+cc, (cubic centimeter), Metric, Historical Units of Capacity
+cc, (cubic centimeter), Metric, Capacity and volume
+ccf, (centum cubic feet), British and U.S. derivatives of length units, Capacity and volume
+CDF, (Congolese Franc), African Curriencies, Currency
+CDMA 1xEV-DO, Computer Connection Speed, Data transfer rate
+CDMA 1xEV-DO rev.A, Computer Connection Speed, Data transfer rate
+CDMA 1xEV-DO rev.B, Computer Connection Speed, Data transfer rate
+cek (=E5=B0=BA), Hong Kong units, Distance and Length
+celemin, Old Spanish, Historical Units of Area
+celem=C3=ADn, Old Spanish Dry Measure, Historical Units of Capacity
+Celsius heat unit, (CHU), Common Units, Energy and Work
+centi, (c), Metric Prefixes, Franctions and Percent
+centigram, Metric, Mass and weight
+centigray, (cGy), Absorbed radiation dose, Radiation
+centiliter, (cl), Metric, Capacity and volume
+centimeter, (cm), Metric, Historical Lengths
+centimeter, (cm), Metric, Distance and Length
+centimeter of mercury, Mercury, Stress and Pressure
+centimeter of water, Water (at 39.2=C2=B0F, 4=C2=B0C), Stress and Pressure
+centum cubic feet, (ccf), British and U.S. derivatives of length units, Capacity and volume
+century, Ancient Roman, Historical Units of Area
+century, Common units, Time
+cetverik (mera), Old Russian Dry Measure, Historical Units of Capacity
+CFA Franc BCEAO, (XOF), African Curriencies, Currency
+CFA Franc BEAC, (XAF), African Curriencies, Currency
+cGy, (centigray), Absorbed radiation dose, Radiation
+ch, (Ramsden's (engineers') chain), US Surveyors' Measure, Distance and Length
+ch, (Gunter's (surveyors') chain), US Surveyors' Measure, Distance and Length
+ch, (Gurley's chain), US Surveyors' Measure, Distance and Length
+chain, British Imperial Measure before 1963, Distance and Length
+chain, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+chang (=E0=B8=8A=E0=B8=B1=E0=B9=88=E0=B8=87), Thai units, Mass and weight
+charka, Old Russian Liquid Measure, Historical Units of Capacity
+ch=C4=93m=C4=93 (=CF=87=CE=AE=CE=BC=CE=B7), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+chetvert (quart), Old Russian Liquid Measure, Historical Units of Capacity
+CHF, (Swiss Franc, Fr), Major World Currencies, Currency
+chi=C2=B2, (fang chi (=E6=96=B9=E5=B0=BA)), Chinese units of 1915, Area
+chi=C2=B2, (fang chi (=E6=96=B9=E5=B0=BA)), Chinese units of 1930, Area
+children size (all genders), U.S. and Canada Customary Shoe Size, Shoe Size Conversion
+children UK size, United Kingdom and Ireland Shoe Size, Shoe Size Conversion
+Chilean Peso, (CLP), South American Currencies, Currency
+Chilean Unidad de Fomento, (CLF), South American Currencies, Currency
+Chinese Yuan, =C2=A5, (CNY), Major World Currencies, Currency
+Chinese Yuan (Offshore, Hong Kong), =C2=A5, (CNH), Asian Currencies, Currency
+chittak, Indian units (Akbar system), Mass and weight
+chi (=E5=B0=BA), Chinese units of 1915, Distance and Length
+chi (=E5=B8=82=E5=B0=BA), Chinese units of 1930, Distance and Length
+choinix (=CF=87=CE=BF=E1=BF=96=CE=BD=CE=B9=CE=BE), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+chous (=CF=87=CE=BF=E1=BF=A6=CF=82), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+cho (=E7=94=BA), Japanese, Distance and Length
+cho (=E7=94=BA, =E7=94=BA=E6=AD=A9), Japanese, Area
+CHU, (Celsius heat unit), Common Units, Energy and Work
+Ci, (curie), Other units, Radioactivity
+cicero, Typographical (Europe - Didot system), Distance and Length
+circle, (circumference), Common Units, Circular measure
+circular inch, Units for Measuring Wire Gauges, Area
+circular mil, (cmil), Units for Measuring Wire Gauges, Area
+circumference, (circle), Common Units, Circular measure
+Circumference in inches, (in), Inner Diameter and Circumference of a Ring, Ring size
+Circumference in millimeters, (mm), Inner Diameter and Circumference of a Ring, Ring size
+C/kg, (coulomb per kilogram), Exposure to ionizing radiation, Radiation
+cl, (centiliter), Metric, Capacity and volume
+CLF, (Chilean Unidad de Fomento), South American Currencies, Currency
+CLP, (Chilean Peso), South American Currencies, Currency
+cm, (centimeter), Metric, Historical Lengths
+cm, (centimeter), Metric, Distance and Length
+cm=C2=B2, (square centimeter), Metric, Historical Units of Area
+cm=C2=B2, (square centimeter), Metric, Area
+cm=C2=B3/day, (cubic centimeter per day), Metric, Flow rate by volume
+cm=C2=B3/hour, (cubic centimeter per hour), Metric, Flow rate by volume
+cm=C2=B3/min, (cubic centimeter per minute), Metric, Flow rate by volume
+cm=C2=B3/s, (cubic centimeter per second), Metric, Flow rate by volume
+cm=C2=B3/year, (cubic centimeter per year), Metric, Flow rate by volume
+CMDA 1x, Computer Connection Speed, Data transfer rate
+cmil, (circular mil), Units for Measuring Wire Gauges, Area
+CNH, (Chinese Yuan (Offshore, Hong Kong), =C2=A5), Asian Currencies, Currency
+CNY, (Chinese Yuan, =C2=A5), Major World Currencies, Currency
+codo, Old Spanish, Historical Lengths
+codo de ribera, Old Spanish, Historical Lengths
+Colombian Peso, (COP), South American Currencies, Currency
+Common decimal number (Hindu-Arabic), Decimal numbers, Roman numbers, Hex, Octal and more
+Comorian Franc, (KMF), African Curriencies, Currency
+congius (a half-pes cube), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+Congolese Franc, (CDF), African Curriencies, Currency
+COP, (Colombian Peso), South American Currencies, Currency
+copa, Old Spanish Liquid Measure, Historical Units of Capacity
+cord, Lumber measure, Capacity and volume
+cortadillo, Old Spanish Liquid Measure, Historical Units of Capacity
+Costa Rican Col=C3=B3n, (CRC), Central American Currencies, Currency
+coto, Old Spanish, Historical Lengths
+cotyla (cup), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+coulomb per kilogram, (C/kg), Exposure to ionizing radiation, Radiation
+c=C3=B4vado, Old Portuguese, Historical Lengths
+CRC, (Costa Rican Col=C3=B3n), Central American Currencies, Currency
+Croatian Kuna, (HRK), European Currencies, Currency
+ct, (carat), Metric, Mass and weight
+cu, (cubit), British Imperial Measure before 1963, Distance and Length
+cuadra of Argentina, Historical Units Still In Use Today, Area
+cuadra of Argentina, Spanish Customary Units Still In Use Today, Distance and Length
+cuadra of Bolivia, Spanish Customary Units Still In Use Today, Distance and Length
+cuadra of Chile, Historical Units Still In Use Today, Area
+cuadra of Chile, Spanish Customary Units Still In Use Today, Distance and Length
+cuadra of Colombia, Spanish Customary Units Still In Use Today, Distance and Length
+cuadra of Ecuador, Historical Units Still In Use Today, Area
+cuadra of Ecuador, Spanish Customary Units Still In Use Today, Distance and Length
+cuadra of Nicaragua, Spanish Customary Units Still In Use Today, Distance and Length
+cuadra of Paraguay, Historical Units Still In Use Today, Area
+cuadra of Paraguay, Spanish Customary Units Still In Use Today, Distance and Length
+cuadra of Peru, Historical Units Still In Use Today, Area
+cuadra of Uruguay, Historical Units Still In Use Today, Area
+cuadra of Uruguay, Spanish Customary Units Still In Use Today, Distance and Length
+cuarter=C3=B3n, Old Spanish, Historical weights
+cuartilla (=C2=BC of a fanega), Old Spanish Dry Measure, Historical Units of Capacity
+cuartillo, Old Spanish, Historical Units of Area
+cuartillo, Old Spanish Liquid Measure, Historical Units of Capacity
+cuartillo (=C2=BC of a celem=C3=ADn), Old Spanish Dry Measure, Historical Units of Capacity
+Cuban Convertible Peso, (CUC), Currencies of the Caribbean, Currency
+Cuban Peso, (CUP), Currencies of the Caribbean, Currency
+cubic centimeter, (cc), Metric, Historical Units of Capacity
+cubic centimeter, (cc), Metric, Capacity and volume
+cubic centimeter of atmosphere, standard cubic centimeter, (scc), Common Units, Energy and Work
+cubic centimeter per day, (cm=C2=B3/day), Metric, Flow rate by volume
+cubic centimeter per hour, (cm=C2=B3/hour), Metric, Flow rate by volume
+cubic centimeter per minute, (cm=C2=B3/min), Metric, Flow rate by volume
+cubic centimeter per second, (cm=C2=B3/s), Metric, Flow rate by volume
+cubic centimeter per year, (cm=C2=B3/year), Metric, Flow rate by volume
+cubic decimeter, (dm=C2=B3), Metric, Capacity and volume
+cubic foot, (ft=C2=B3), British and U.S. derivatives of length units, Capacity and volume
+cubic foot of atmosphere, standard cubic foot, (scf), British and American, Energy and Work
+cubic foot per day, (ft=C2=B3/day), U.S. and British Imperial, Flow rate by volume
+cubic foot per hour, (ft=C2=B3/hour), U.S. and British Imperial, Flow rate by volume
+cubic foot per minute, (ft=C2=B3/min), U.S. and British Imperial, Flow rate by volume
+cubic foot per second, (ft=C2=B3/s), U.S. and British Imperial, Flow rate by volume
+cubic foot per year, (ft=C2=B3/year), U.S. and British Imperial, Flow rate by volume
+cubic inch, (in=C2=B3), British and U.S. derivatives of length units, Capacity and volume
+cubic inch per day, (in=C2=B3/day), U.S. and British Imperial, Flow rate by volume
+cubic inch per hour, (in=C2=B3/hour), U.S. and British Imperial, Flow rate by volume
+cubic inch per minute, (in=C2=B3/min), U.S. and British Imperial, Flow rate by volume
+cubic inch per second, (in=C2=B3/s), U.S. and British Imperial, Flow rate by volume
+cubic inch per year, (in=C2=B3/year), U.S. and British Imperial, Flow rate by volume
+cubic kilometer, (km=C2=B3), Metric, Capacity and volume
+cubic light minute, Astronomical, Capacity and volume
+cubic light second, Astronomical, Capacity and volume
+cubic light year, Astronomical, Capacity and volume
+cubic meter, (m=C2=B3), Metric, Historical Units of Capacity
+cubic meter, (m=C2=B3), Metric, Capacity and volume
+cubic meter per day, (m=C2=B3/day), Metric, Flow rate by volume
+cubic meter per hour, (m=C2=B3/hour), Metric, Flow rate by volume
+cubic meter per minute, (m=C2=B3/min), Metric, Flow rate by volume
+cubic meter per second, (m=C2=B3/s), Metric, Flow rate by volume
+cubic meter per year, (m=C2=B3/year), Metric, Flow rate by volume
+cubic mile, (mi=C2=B3), British and U.S. derivatives of length units, Capacity and volume
+cubic millimeter, (mm=C2=B3), Metric, Historical Units of Capacity
+cubic millimeter, (mm=C2=B3), Metric, Capacity and volume
+cubic parsec, (pc=C2=B3), Astronomical, Capacity and volume
+cubic ton of timber, Lumber measure, Capacity and volume
+cubic yard, (yd=C2=B3), British and U.S. derivatives of length units, Capacity and volume
+cubic yard of atmosphere, standard cubic yard, (scy), British and American, Energy and Work
+cubit, Biblical, Historical Lengths
+cubit, (cu), British Imperial Measure before 1963, Distance and Length
+cubitus (cubit), Ancient Roman, Historical Lengths
+CUC, (Cuban Convertible Peso), Currencies of the Caribbean, Currency
+cuerda, Old Spanish, Historical Lengths
+cuerda of Puerto Rico, Old Spanish, Historical Units of Area
+cuerda of Valencia, Old Spanish, Historical Lengths
+culeus (hose), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+cun=C2=B2, (fang cun (=E6=96=B9=E5=AF=B8)), Chinese units of 1915, Area
+cun=C2=B2, (fang cun (=E6=96=B9=E5=AF=B8)), Chinese units of 1930, Area
+cun (=E5=AF=B8), Chinese units of 1915, Distance and Length
+cun (=E5=B8=82=E5=AF=B8), Chinese units of 1930, Distance and Length
+cuo (=E6=92=AE), Chinese units of 1930, Capacity and volume
+cup, Cooking (International), Capacity and volume
+cup, Cooking (U.S.), Capacity and volume
+CUP, (Cuban Peso), Currencies of the Caribbean, Currency
+curie, (Ci), Other units, Radioactivity
+CVE, (Cape Verdean Escudo), African Curriencies, Currency
+cyathus (shot or dose), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+Czech Republic Koruna, (CZK), European Currencies, Currency
+CZK, (Czech Republic Koruna), European Currencies, Currency
+
+## SECTION D 
+d, (deci), Metric Prefixes, Franctions and Percent
+da, (deka), Metric Prefixes, Franctions and Percent
+daktylos (=CE=B4=CE=AC=CE=BA=CF=84=CF=85=CE=BB=CE=BF=CF=82, finger), Ancient Greek, Historical Lengths
+Danish Krone, (DKK), European Currencies, Currency
+dan (=E5=B8=82=E6=8B=85 / =E6=93=94), Chinese units since 1959, Mass and weight
+dan (=E5=B8=82=E7=9F=B3), Chinese units of 1930, Capacity and volume
+dan (=E6=93=94 / =E6=8B=85), Chinese units between 1930 and 1959, Mass and weight
+dan (=E7=9F=B3), Chinese units of 1915, Capacity and volume
+day, Common units, Time
+days, hours, minutes and seconds, (Dd&nbsp;HH:MM:SS), Common units, Time
+Dd&nbsp;HH:MM:SS, (days, hours, minutes and seconds), Common units, Time
+death, Acute radiation syndrome, Radiation
+decade, dicker, Quantity Units, Franctions and Percent
+decaliter, Metric, Capacity and volume
+decanewton, (dN), International System (SI), Force
+decaorgion (=CE=B4=CE=B5=CE=BA=CE=AC=CF=89=CF=81=CE=B3=CE=BF=CE=BD), Ancient Greek, Historical Units of Area
+decare, Metric, Area
+decempeda, Ancient Roman, Historical Lengths
+deci, (d), Metric Prefixes, Franctions and Percent
+deciliter, (dl), Metric, Capacity and volume
+decimeter, (dm), Metric, Distance and Length
+deg, (degree), Common Units, Circular measure
+degree, (deg), Common Units, Circular measure
+Degree per day, Degree, Angular velocity
+Degree per hour, Degree, Angular velocity
+Degree per minute, Degree, Angular velocity
+Degree per second, Degree, Angular velocity
+Degree per week, Degree, Angular velocity
+degrees Celsius, (=C2=B0C), Temperature increment conversion, Temperature increment
+degrees Celsius, (=C2=B0C), Temperature scale conversion, Temperature
+degrees Delisle, (=C2=B0D), Historical temperature increment conversion, Temperature increment
+degrees Delisle, (=C2=B0D), Historical temperature scales, Temperature
+degrees Fahrenheit, (=C2=B0F), Temperature increment conversion, Temperature increment
+degrees Fahrenheit, (=C2=B0F), Temperature scale conversion, Temperature
+degrees, minutes, seconds, (d=C2=B0m=E2=80=B2s=E2=80=B3), Common Units, Circular measure
+degrees Newton, (=C2=B0N), Historical temperature increment conversion, Temperature increment
+degrees Newton, (=C2=B0N), Historical temperature scales, Temperature
+degrees Rankine, (=C2=B0R), Historical temperature increment conversion, Temperature increment
+degrees Rankine, (=C2=B0R), Historical temperature scales, Temperature
+degrees Reaumur, (=C2=B0Re), Temperature increment conversion, Temperature increment
+degrees Reaumur, (=C2=B0Re), Temperature scale conversion, Temperature
+degrees R=C3=B8mer, (=C2=B0R=C3=B8), Historical temperature increment conversion, Temperature increment
+degrees R=C3=B8mer, (=C2=B0R=C3=B8), Historical temperature scales, Temperature
+deka, (da), Metric Prefixes, Franctions and Percent
+dekadrachm (=CE=B4=CE=B5=CE=BA=CE=AC=CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=BF=CE=BD, 10 drachmae), Ancient Greek (Aeginetic standard), Historical weights
+dekadrachm (=CE=B4=CE=B5=CE=BA=CE=AC=CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=BF=CE=BD, 10 drachmae), Ancient Greek (Attic/Eubolic standard), Historical weights
+dekapous (=CE=B4=CE=B5=CE=BA=CE=AC=CF=80=CE=BF=CF=85=CF=82), Ancient Greek, Historical Lengths
+Density of air at sea level, Densities of various materials, Density
+Density of copper, Densities of various materials, Density
+Density of diamond, Densities of various materials, Density
+Density of gold, Densities of various materials, Density
+Density of ice, Densities of various materials, Density
+Density of iron, Densities of various materials, Density
+Density of lead, Densities of various materials, Density
+Density of platinum, Densities of various materials, Density
+Density of silver, Densities of various materials, Density
+Density of water at 0=C2=B0C, Densities of various materials, Density
+Density of water at 100=C2=B0C, Densities of various materials, Density
+Density of water at 4=C2=B0C, Densities of various materials, Density
+dental radiology, Radiation dose examples, Radiation
+denzt, Old Austrian, Historical weights
+deret (hand), Ancient Egypt, Historical Lengths
+dessert spoon, Apothecaries, Capacity and volume
+dessert teaspoon, Cooking (Australian), Capacity and volume
+desyatina (farmery), Old Russian, Historical Units of Area
+desyatina (state), Old Russian, Historical Units of Area
+deunx (11=E2=81=8412 libra, less a twelfth), Ancient Roman, Historical weights
+Devanagari number (India and Nepal), Decimal numbers, Roman numbers, Hex, Octal and more
+dextans (10=E2=81=8412 libra, less a sixth), Ancient Roman, Historical weights
+dhurra, Indian units (Akbar system), Mass and weight
+Diameter in inches, (in), Inner Diameter and Circumference of a Ring, Ring size
+Diameter in inches, (in), Wire diameter, Wire and Needle Gauge
+Diameter in micrometres, (=CE=BCm), Wire diameter, Wire and Needle Gauge
+Diameter in millimeters, (mm), Inner Diameter and Circumference of a Ring, Ring size
+Diameter in millimetres, (mm), Wire diameter, Wire and Needle Gauge
+Diameter in mils, Wire diameter, Wire and Needle Gauge
+diarrhea, Acute radiation syndrome, Radiation
+diaulos (=CE=B4=CE=AF=CE=B1=CF=85=CE=BB=CE=BF=CF=82), Ancient Greek, Historical Lengths
+dichas (=CE=B4=CE=B9=CF=87=CE=AC=CF=82, midfoot), Ancient Greek, Historical Lengths
+didrachm (=CE=B4=CE=AF=CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=BF=CE=BD, 2 drachmae), Ancient Greek (Aeginetic standard), Historical weights
+didrachm (=CE=B4=CE=AF=CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=BF=CE=BD, 2 drachmae), Ancient Greek (Attic/Eubolic standard), Historical weights
+digit, British Imperial Measure before 1963, Distance and Length
+digitus (finger), Ancient Roman, Historical Lengths
+diobol (=CE=B4=CE=B9=CF=8E=CE=B2=CE=BF=CE=BB=CE=BF=CE=BD, 2 obols), Ancient Greek (Aeginetic standard), Historical weights
+diobol (=CE=B4=CE=B9=CF=8E=CE=B2=CE=BF=CE=BB=CE=BF=CE=BD, 2 obols), Ancient Greek (Attic/Eubolic standard), Historical weights
+dioptre (diopter), Optical, Distance and Length
+diploun b=C4=93ma (=CE=B4=CE=B9=CF=80=CE=BB=CE=BF=E1=BF=A6=CE=BD =CE=B2=E1=BF=86=CE=BC=CE=B1, double pace), Ancient Greek, Historical Lengths
+disintegrations per minute, (dpm), Other units, Radioactivity
+disintegrations per second, Other units, Radioactivity
+djeba (finger), Ancient Egypt, Historical Lengths
+djeser, bu, Ancient Egypt, Historical Lengths
+DJF, (Djiboutian Franc), African Curriencies, Currency
+Djiboutian Franc, (DJF), African Curriencies, Currency
+DKK, (Danish Krone), European Currencies, Currency
+dl, (deciliter), Metric, Capacity and volume
+dm, (decimeter), Metric, Distance and Length
+dm=C2=B2, (square decimeter), Metric, Area
+dm=C2=B3, (cubic decimeter), Metric, Capacity and volume
+d=C2=B0m=E2=80=B2s=E2=80=B3, (degrees, minutes, seconds), Common Units, Circular measure
+dN, (decanewton), International System (SI), Force
+dodecaorgion (=CE=B4=CF=89=CE=B4=CE=B5=CE=BA=CE=AC=CF=89=CF=81=CE=B3=CE=BF=CE=BD), Ancient Greek, Historical Units of Area
+dodrans (9=E2=81=8412 libra, less a fourth), Ancient Roman, Historical weights
+doite, Troy, Mass and weight
+dolichos (=CE=B4=CF=8C=CE=BB=CE=B9=CF=87=CE=BF=CF=82), Ancient Greek, Historical Lengths
+dolya, Old Russian, Historical weights
+Dominican Peso, (DOP), Currencies of the Caribbean, Currency
+donum of Cyprus, Historical Units Still In Use Today, Area
+DOP, (Dominican Peso), Currencies of the Caribbean, Currency
+doppelzentner, Old German (Prussian), Historical weights
+d=C5=8Dron (=CE=B4=E1=BF=B6=CF=81=CE=BF=CE=BD), Ancient Greek, Historical Lengths
+dou (=E5=B8=82=E6=96=97), Chinese units of 1930, Capacity and volume
+dou (=E6=96=97), Chinese units of 1915, Capacity and volume
+dozen, Quantity Units, Franctions and Percent
+dpm, (disintegrations per minute), Other units, Radioactivity
+dr, (dram), Avoirdupois (U.S. / British), Mass and weight
+drachma (1=E2=81=848 uncia, from Greek unit =CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=AE), Ancient Roman, Historical weights
+drachma (=CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=AE, dram), Ancient Greek (Aeginetic standard), Historical weights
+drachma (=CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=AE, dram), Ancient Greek (Attic/Eubolic standard), Historical weights
+dracontic month, Astronomical, Time
+dracontic year, Astronomical, Time
+dram, (dr), Avoirdupois (U.S. / British), Mass and weight
+dram (drachm), (=CA=92), Apothecaries, Mass and weight
+DS-3, Computer Connection Speed, Data transfer rate
+duella (=E2=85=93 uncia, little double [sixths]), Ancient Roman, Historical weights
+duet, Number of Performers, Franctions and Percent
+dulum (=D0=B4=D1=83=D0=BB=D1=83=D0=BC) of Bosnia and Herzegovina and Serbia, Historical Units Still In Use Today, Area
+dunam (d=C3=B6n=C3=BCm, =D8=AF=D9=88=D9=86=D9=85) of Turkey, Syria, Israel, Palestine, Jordan, Lebanon, Historical Units Still In Use Today, Area
+dunam of Iraq, Historical Units Still In Use Today, Area
+duodecimal number (radix 12), Other Radix Numerals, Roman numbers, Hex, Octal and more
+dwt, (pennyweight), Troy, Mass and weight
+dyn, (dyne), Centimeter-Gram-Second System (CGS), Force
+dyne, (dyn), Centimeter-Gram-Second System (CGS), Force
+dyne centimeter, Metric, Torque
+dyne meter, Metric, Torque
+dynym or dylym of Albania, Historical Units Still In Use Today, Area
+DZD, (Algerian Dinar), African Curriencies, Currency
+
+## SECTION E 
+E, (exa), Metric Prefixes, Franctions and Percent
+E1, Computer Connection Speed, Data transfer rate
+East Caribbean Dollar, (XCD), Currencies of the Caribbean, Currency
+Eastern Arabic number (Middle East), Decimal numbers, Roman numbers, Hex, Octal and more
+Eb [EiB], (exabyte  [exbibyte]), Data Storage and Transmission, Computer storage
+Ebit [Eibit], (exabit [exbibit]), Data Storage and Transmission, Computer storage
+EDGE, Computer Connection Speed, Data transfer rate
+EGP, (Egyptian Pound), African Curriencies, Currency
+Egyptian Pound, (EGP), African Curriencies, Currency
+electronvolt, (eV), Common Units, Energy and Work
+ell, Old Russian, Historical Lengths
+ell, British Imperial Measure before 1963, Distance and Length
+elle, Old German (Prussian), Historical Lengths
+English Music Wire Gauge, Music Wire Gauges, Wire and Needle Gauge
+ephah (=D7=90=D7=99=D7=A4=D7=94), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
+erg, Common Units, Energy and Work
+erg per second, Common Units, Power
+Eritrean Nakfa, (ERN), African Curriencies, Currency
+ERN, (Eritrean Nakfa), African Curriencies, Currency
+escr=C3=B3pulo, Old Portuguese, Historical weights
+estadal, Old Spanish, Historical Lengths
+estadal cuadrado (square estadal), Old Spanish, Historical Units of Area
+ETB, (Ethiopian Birr), African Curriencies, Currency
+Ethernet 1000BASE-T, Computer Connection Speed, Data transfer rate
+Ethernet 100BASE-T, Computer Connection Speed, Data transfer rate
+Ethernet 10BASE-T, Computer Connection Speed, Data transfer rate
+Ethernet 10GBASE-T (IEEE 802.3an-2006), Computer Connection Speed, Data transfer rate
+Ethernet 40GBASE-T (IEEE 802.3bq-2016), Computer Connection Speed, Data transfer rate
+Ethiopian Birr, (ETB), African Curriencies, Currency
+etzbah, Biblical, Historical Lengths
+EUR, (Euro, =E2=82=AC), Major World Currencies, Currency
+Euro, =E2=82=AC, (EUR), Major World Currencies, Currency
+European ring size (ISO), European Standard Sizes (ISO 8653:2016, most European countries), Ring size
+European shoe size, Continental Europe and Middle East Shoe Size, Shoe Size Conversion
+eV, (electronvolt), Common Units, Energy and Work
+exa, (E), Metric Prefixes, Franctions and Percent
+exabit [exbibit], (Ebit [Eibit]), Data Storage and Transmission, Computer storage
+exabyte  [exbibyte], (Eb [EiB]), Data Storage and Transmission, Computer storage
+
+## SECTION F 
+f, (femto), Metric Prefixes, Franctions and Percent
+fai mue (=E0=B8=9F=E0=B8=B2=E0=B8=A2=E0=B8=A1=E0=B8=B7=E0=B8=AD, palm of grain), Thai units, Capacity and volume
+Falkland Islands Pound, (FKP), African Curriencies, Currency
+famn (fanthom), Old Swedish, Historical Lengths
+fanega, Old Spanish Dry Measure, Historical Units of Capacity
+fanegada, Old Spanish, Historical Units of Area
+fanega de cebada (bushel of barley), Old Spanish, Historical weights
+fanega de centeno (bushel of rye), Old Spanish, Historical weights
+fanega de trigo (bushel of wheat), Old Spanish, Historical weights
+fanga, Old Portuguese Dry Measure, Historical Units of Capacity
+fang chi (=E6=96=B9=E5=B0=BA), (chi=C2=B2), Chinese units of 1915, Area
+fang chi (=E6=96=B9=E5=B0=BA), (chi=C2=B2), Chinese units of 1930, Area
+fang cun (=E6=96=B9=E5=AF=B8), (cun=C2=B2), Chinese units of 1915, Area
+fang cun (=E6=96=B9=E5=AF=B8), (cun=C2=B2), Chinese units of 1930, Area
+fang zhang (=E6=96=B9=E4=B8=88), (zhang=C2=B2), Chinese units of 1915, Area
+fang zhang (=E6=96=B9=E4=B8=88), (zhang=C2=B2), Chinese units of 1930, Area
+fan (=E5=88=86), Hong Kong units, Distance and Length
+fath, (US fathom), US Nautical Measure, Distance and Length
+fath, (fathom), International Nautical Measure, Distance and Length
+fathom, (fath), International Nautical Measure, Distance and Length
+fbmm, bdft, bf, (boardfoot, board-foot), Lumber measure, Capacity and volume
+fc, (foot-candle), Photography units, Illuminance
+feddan (=D9=81=D8=AF=D9=91=D8=A7=D9=86=E2=80=8E) of Egypt, Sudan, Syria, Sultanate of Oman, Historical Units Still In Use Today, Area
+feet and inches, (x'y"), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+female shoe size (common), U.S. and Canada Customary Shoe Size, Shoe Size Conversion
+female shoe size (FIA), U.S. and Canada Customary Shoe Size, Shoe Size Conversion
+femto, (f), Metric Prefixes, Franctions and Percent
+femtosecond, (fs), Common units, Time
+fen (=E5=88=86), Chinese units of 1915, Area
+fen (=E5=88=86), Chinese units of 1915, Distance and Length
+fen (=E5=88=86), Chinese units of 1915 before 1930, Mass and weight
+fen (=E5=B8=82=E5=88=86), Chinese units of 1930, Area
+fen (=E5=B8=82=E5=88=86), Chinese units of 1930, Distance and Length
+fen (=E5=B8=82=E5=88=86), Chinese units between 1930 and 1959, Mass and weight
+fen (=E5=B8=82=E5=88=86), Chinese units since 1959, Mass and weight
+fever, Acute radiation syndrome, Radiation
+fg, (frigoria), Common Units, Energy and Work
+fg/h, (frigoria per hour), Common Units, Power
+Fijian Dollar, (FJD), Currencies of Australia and Oceania, Currency
+Financial Chinese number, Decimal numbers, Roman numbers, Hex, Octal and more
+finger, British Imperial Measure before 1963, Distance and Length
+firkin, English brewery cask units, Capacity and volume
+fj=C3=A4rdingsv=C3=A4g, Old Swedish, Historical Lengths
+FJD, (Fijian Dollar), Currencies of Australia and Oceania, Currency
+FKP, (Falkland Islands Pound), African Curriencies, Currency
+fl dr, (fluid drachm), British Imperial Liquid And Dry, Capacity and volume
+fl dr, (fluid dram), U.S. Liquid Measure, Capacity and volume
+flock, Quantity Units, Franctions and Percent
+fl oz, (fluid ounce), U.S. Liquid Measure, Capacity and volume
+fluid drachm, (fl dr), British Imperial Liquid And Dry, Capacity and volume
+fluid dram, (=C6=92=CA=92), Apothecaries, Capacity and volume
+fluid dram, (fl dr), U.S. Liquid Measure, Capacity and volume
+fluid ounce, (oz), U.S. Measure, Historical Units of Capacity
+fluid ounce, (oz), British Imperial Liquid And Dry, Capacity and volume
+fluid ounce, (=C6=92=E2=84=A5), Apothecaries, Capacity and volume
+fluid ounce, (fl oz), U.S. Liquid Measure, Capacity and volume
+fluid scruple, British Imperial Liquid And Dry, Capacity and volume
+foot, Old Russian, Historical Lengths
+foot, (ft), The American System of Measures (US Customary Units), Historical Lengths
+foot, (ft), British Imperial Measure before 1963, Distance and Length
+foot, (ft), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+foot-candle, (fc), Photography units, Illuminance
+foot-lambert, Other units, Illuminance
+foot length in centimeters, Foot and Last lengths, Shoe Size Conversion
+foot length in inches, Foot and Last lengths, Shoe Size Conversion
+foot length in millimeters, Foot and Last lengths, Shoe Size Conversion
+foot of water, Water (at 39.2=C2=B0F, 4=C2=B0C), Stress and Pressure
+foot per hour, British (Imperial) And U.S. System, Speed
+foot per minute, British (Imperial) And U.S. System, Speed
+foot per second, British (Imperial) And U.S. System, Speed
+foot per second squared, (ft/s=C2=B2), British (Imperial) And U.S. System, Acceleration
+foot per year, British (Imperial) And U.S. System, Speed
+foot-pound, (ft*lbs), British and American, Energy and Work
+foot pound-force per second, (ft*lbf/s), British and American, Power
+fot (foot), Old Swedish, Historical Lengths
+French Catheter Scale (FG or Ch), Medical Needle and Catheter Gauges, Wire and Needle Gauge
+French Polynesia CFP Franc, (XPF), Currencies of Australia and Oceania, Currency
+frigoria, (fg), Common Units, Energy and Work
+frigoria per hour, (fg/h), Common Units, Power
+fs, (femtosecond), Common units, Time
+ft, (foot), The American System of Measures (US Customary Units), Historical Lengths
+ft, (Storage length in feet), CNC Memory Capacity, Computer storage
+ft, (Gunter's (surveyors') foot), US Surveyors' Measure, Distance and Length
+ft, (foot), British Imperial Measure before 1963, Distance and Length
+ft, (foot), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+ft=C2=B2, (square foot), British (Imperial) And U.S. System, Historical Units of Area
+ft=C2=B2, (square foot), British (Imperial) And U.S. System, Area
+ft=C2=B3, (cubic foot), British and U.S. derivatives of length units, Capacity and volume
+ft=C2=B3/day, (cubic foot per day), U.S. and British Imperial, Flow rate by volume
+ft=C2=B3/hour, (cubic foot per hour), U.S. and British Imperial, Flow rate by volume
+ft=C2=B3/min, (cubic foot per minute), U.S. and British Imperial, Flow rate by volume
+ft=C2=B3/s, (cubic foot per second), U.S. and British Imperial, Flow rate by volume
+ft=C2=B3/year, (cubic foot per year), U.S. and British Imperial, Flow rate by volume
+ft*lbf/s, (foot pound-force per second), British and American, Power
+ft*lbs, (foot-pound), British and American, Energy and Work
+ft/s=C2=B2, (foot per second squared), British (Imperial) And U.S. System, Acceleration
+fueang (=E0=B9=80=E0=B8=9F=E0=B8=B7=E0=B9=89=E0=B8=AD=E0=B8=87), Thai units, Mass and weight
+fun (=E5=88=86), Japanese, Mass and weight
+furlong, US Surveyors' Measure, Distance and Length
+furlong, British Imperial Measure before 1963, Distance and Length
+furlong, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+fuss, Old Austrian, Historical Lengths
+fuss, Old German (Prussian), Historical Lengths
+
+## SECTION G 
+g, (gram), Metric, Historical weights
+g, (Standard acceleration of free fall on Earth), Free Fall Acceleration (Solar System), Acceleration
+g, (gram), Metric, Mass and weight
+G, (giga), Metric Prefixes, Franctions and Percent
+gal, (gallon	(liquid)), U.S. Measure, Historical Units of Capacity
+gal, (gallon	(dry)), U.S. Measure, Historical Units of Capacity
+gal, (gallon), British Imperial Liquid And Dry, Capacity and volume
+gal, (gallon), U.S. Dry Measure, Capacity and volume
+gal, (gallon), U.S. Liquid Measure, Capacity and volume
+Gal, (Galileo), Other Units, Acceleration
+gal/100km, (gallon per 100 km), Other units, Fuel economy
+gal/day, (U.S. gallon per day), U.S. and British Imperial, Flow rate by volume
+Galileo, (Gal), Other Units, Acceleration
+gallon, (gal), British Imperial Liquid And Dry, Capacity and volume
+gallon, (gal), U.S. Dry Measure, Capacity and volume
+gallon, (gal), U.S. Liquid Measure, Capacity and volume
+gallon-atmosphere (UK), British and American, Energy and Work
+gallon-atmosphere (US), British and American, Energy and Work
+gallon	(dry), (gal), U.S. Measure, Historical Units of Capacity
+gallon	(liquid), (gal), U.S. Measure, Historical Units of Capacity
+gallon per 100 km, (gal/100km), Other units, Fuel economy
+gallons per 100 miles, U.S. system, Fuel economy
+gallons per 10 miles, U.S. system, Fuel economy
+gal/year, (U.S. gallon per year), U.S. and British Imperial, Flow rate by volume
+Gambian Dalasi, (GMD), African Curriencies, Currency
+garnetz, Old Russian Dry Measure, Historical Units of Capacity
+Gastrointestinal X-ray investigation, Radiation dose examples, Radiation
+Gb [GiB], (gigabyte [gibibyte]), Data Storage and Transmission, Computer storage
+Gbit [Gibit], (gigabit [gibibit]), Data Storage and Transmission, Computer storage
+GBP, (British Pound Sterling, =C2=A3), Major World Currencies, Currency
+Gbps, (gigabit per second), Basic Units of Data Transfer Rate, Data transfer rate
+GBq, (gigabecquerel), SI radioactivity units, Radioactivity
+GB/s, (gigabyte per second), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+g/cm=C2=B3, (gram per cubic centimeter), Metric System, Density
+g/day, (gram per day), Metric, Flow rate by mass
+g/dm=C2=B3, (gram per cubic decimeter), Metric System, Density
+GEL, (Georgian Lari), Asian Currencies, Currency
+geographical mile, Geographical (German), Distance and Length
+Georgian Lari, (GEL), Asian Currencies, Currency
+gerah, Biblical, Historical weights
+geredium, Ancient Roman, Historical Units of Area
+German thousandth, Artillery, Circular measure
+ge (=E5=90=88), Chinese units of 1915, Capacity and volume
+ge (=E5=90=88), Chinese units of 1930, Capacity and volume
+gf, (gravet-force), Gravitational Metric System, Force
+Gf, (grave-force), Gravitational Metric System, Force
+gf/cm=C2=B2, (gram per square centimeter), Metric, Stress and Pressure
+GGP, (Guernsey Pound), European Currencies, Currency
+Ghanaian Cedi, (GHS), African Curriencies, Currency
+g/hour, (gram per hour), Metric, Flow rate by mass
+GHS, (Ghanaian Cedi), African Curriencies, Currency
+gibibyte per day, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+gibibyte per hour, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+gibibyte per minute, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+gibibyte per second, (GiB/s), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+gibibyte per week, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+Gibraltar Pound, (GIP), European Currencies, Currency
+GiB/s, (gibibyte per second), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+giga, (G), Metric Prefixes, Franctions and Percent
+gigabecquerel, (GBq), SI radioactivity units, Radioactivity
+gigabit [gibibit], (Gbit [Gibit]), Data Storage and Transmission, Computer storage
+gigabit per second, (Gbps), Basic Units of Data Transfer Rate, Data transfer rate
+gigabyte [gibibyte], (Gb [GiB]), Data Storage and Transmission, Computer storage
+gigabyte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+gigabyte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+gigabyte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+gigabyte per second, (GB/s), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+gigabyte per week, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+gigacalories per hour, Common Units, Power
+gigacalories per minute, Common Units, Power
+gigacalories per second, Common Units, Power
+gigatonne of coal equivalent, (Gtce), Coal Energy Equivalent, Energy and Work
+gigatonne of oil equivalent, (Gtoe), Oil Energy Equivalent, Energy and Work
+gill, U.S. Liquid Measure, Capacity and volume
+GIP, (Gibraltar Pound), European Currencies, Currency
+g/L, (gram per litre), Metric System, Density
+glass-tumbler, Apothecaries, Capacity and volume
+g/m=C2=B3, (gram per cubic meter), Metric System, Density
+GMD, (Gambian Dalasi), African Curriencies, Currency
+g/min, (gram per minute), Metric, Flow rate by mass
+g/mL, (gram per millilitre), Metric System, Density
+GNF, (Guinean Franc), African Curriencies, Currency
+goad, British Imperial Measure before 1963, Distance and Length
+Gold (troy ounce), (XAU), Other Currencies and More, Currency
+GOST 22483-2012 Standard Wire Cross-Section, (mm=C2=B2), Wire Gauges, Wire and Needle Gauge
+go	(=E5=90=88), Japanese, Area
+go (=E5=90=88), Japanese, Capacity and volume
+gph, (U.S. gallon per hour), U.S. and British Imperial, Flow rate by volume
+gpm, (U.S. gallon per minute), U.S. and British Imperial, Flow rate by volume
+GPRS, Computer Connection Speed, Data transfer rate
+gps, (U.S. gallon per second), U.S. and British Imperial, Flow rate by volume
+gr, (grain), Apothecaries, Mass and weight
+gr, (grain), Avoirdupois (U.S. / British), Mass and weight
+grad, (grade), Common Units, Circular measure
+grade, (grad), Common Units, Circular measure
+gradus (step), Ancient Roman, Historical Lengths
+grain, (gr), Apothecaries, Mass and weight
+grain, Troy, Mass and weight
+grain, (gr), Avoirdupois (U.S. / British), Mass and weight
+gram, (g), Metric, Historical weights
+gram, (g), Metric, Mass and weight
+gram-force, Gravitational Metric System, Force
+gram-force centimeter, Metric, Torque
+gram-force meter, Metric, Torque
+gram per cubic centimeter, (g/cm=C2=B3), Metric System, Density
+gram per cubic decimeter, (g/dm=C2=B3), Metric System, Density
+gram per cubic meter, (g/m=C2=B3), Metric System, Density
+gram per day, (g/day), Metric, Flow rate by mass
+gram per hour, (g/hour), Metric, Flow rate by mass
+gram per litre, (g/L), Metric System, Density
+gram per millilitre, (g/mL), Metric System, Density
+gram per minute, (g/min), Metric, Flow rate by mass
+gram per second, (g/s), Metric, Flow rate by mass
+gram per square centimeter, (gf/cm=C2=B2), Metric, Stress and Pressure
+gram per year, (g/year), Metric, Flow rate by mass
+gran, Old German (Prussian), Historical weights
+grano, Old Spanish, Historical weights
+gr=C3=A3o, Old Portuguese, Historical weights
+grave-force, (Gf), Gravitational Metric System, Force
+gravet-force, (gf), Gravitational Metric System, Force
+gray, (Gy), Absorbed radiation dose, Radiation
+Gray day, Illuminance examples, Illuminance
+great gross, Quantity Units, Franctions and Percent
+great hundred, Quantity Units, Franctions and Percent
+Greek numeral, Greek numerals, Roman numbers, Hex, Octal and more
+Gregorian year, Common units, Time
+gross, Quantity Units, Franctions and Percent
+g/s, (gram per second), Metric, Flow rate by mass
+Gtce, (gigatonne of coal equivalent), Coal Energy Equivalent, Energy and Work
+Gtoe, (gigatonne of oil equivalent), Oil Energy Equivalent, Energy and Work
+GTQ, (Guatemalan Quetzal), Central American Currencies, Currency
+Guatemalan Quetzal, (GTQ), Central American Currencies, Currency
+Guernsey Pound, (GGP), European Currencies, Currency
+Guinean Franc, (GNF), African Curriencies, Currency
+Gunter's (surveyors') chain, (ch), US Surveyors' Measure, Distance and Length
+Gunter's (surveyors') foot, (ft), US Surveyors' Measure, Distance and Length
+Gunter's (surveyors') link, US Surveyors' Measure, Distance and Length
+Gunter's (surveyors') pole, US Surveyors' Measure, Distance and Length
+Gunter's (surveyors') yard, US Surveyors' Measure, Distance and Length
+Gurley's chain, (ch), US Surveyors' Measure, Distance and Length
+Gurley's link, US Surveyors' Measure, Distance and Length
+Guyanaese Dollar, (GYD), South American Currencies, Currency
+Gy, (gray), Absorbed radiation dose, Radiation
+GYD, (Guyanaese Dollar), South American Currencies, Currency
+g/year, (gram per year), Metric, Flow rate by mass
+
+## SECTION H 
+h, (hecto), Metric Prefixes, Franctions and Percent
+Haitian Gourde, (HTG), Currencies of the Caribbean, Currency
+half-dozen, Quantity Units, Franctions and Percent
+half or .5, (1/2), Fractions, Franctions and Percent
+hamma (=E1=BC=85=CE=BC=CE=BC=CE=B1), Ancient Greek, Historical Lengths
+hand, (hd), British Imperial Measure before 1963, Distance and Length
+hand, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+handbreadth, Biblical, Historical Lengths
+hao (=E6=AF=AB), Chinese units of 1915, Area
+hao (=E6=AF=AB), Chinese units of 1930, Area
+hao (=E6=AF=AB), Chinese units of 1915, Distance and Length
+hao (=E6=AF=AB), Chinese units of 1930, Distance and Length
+hao (=E6=AF=AB), Chinese units of 1915 before 1930, Mass and weight
+hao (=E6=AF=AB), Chinese units between 1930 and 1959, Mass and weight
+hao (=E6=AF=AB), Chinese units since 1959, Mass and weight
+haploun b=C4=93ma (=E1=BC=81=CF=80=CE=BB=CE=BF=E1=BF=A6=CE=BD =CE=B2=E1=BF=86=CE=BC=CE=B1, single pace), Ancient Greek, Historical Lengths
+hap (=E0=B8=AB=E0=B8=B2=E0=B8=9A), Thai units, Mass and weight
+hd, (hand), British Imperial Measure before 1963, Distance and Length
+headache, Acute radiation syndrome, Radiation
+hectare, Metric, Historical Units of Area
+hectare, Metric, Area
+hecto, (h), Metric Prefixes, Franctions and Percent
+hectoliter, (hl), Metric, Capacity and volume
+hectopascal, (hPa), Metric, Stress and Pressure
+hekteus (=E1=BC=91=CE=BA=CF=84=CE=B5=CF=8D=CF=82, a sixth of a medimnos), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+hektos (=E1=BC=95=CE=BA=CF=84=CE=BF=CF=82), Ancient Greek, Historical Units of Area
+h=C4=93miekton (=E1=BC=A1=CE=BC=CE=AF=CE=B5=CE=BA=CF=84=CE=BF=CE=BD), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+h=C4=93miektos (=E1=BC=A1=CE=BC=CE=AF=CE=B5=CE=BA=CF=84=CE=BF=CF=82), Ancient Greek, Historical Units of Area
+hemina (pint), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+hemiobol (=E1=BC=A1=CE=BC=CE=B9=CF=89=CE=B2=CF=8C=CE=BB=CE=B9=CE=BF=CE=BD, =C2=BD obol), Ancient Greek (Aeginetic standard), Historical weights
+hemiobol (=E1=BC=A1=CE=BC=CE=B9=CF=89=CE=B2=CF=8C=CE=BB=CE=B9=CE=BF=CE=BD, =C2=BD obol), Ancient Greek (Attic/Eubolic standard), Historical weights
+hemipodion (=E1=BC=A1=CE=BC=CE=B9=CF=80=CF=8C=CE=B4=CE=B9=CE=BF=CE=BD), Ancient Greek, Historical Lengths
+hemitetartemorion (=E1=BC=A1=CE=BC=CE=B9=CF=84=CE=B5=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, =C2=BD tetartemorion), Ancient Greek (Aeginetic standard), Historical weights
+hemitetartemorion (=E1=BC=A1=CE=BC=CE=B9=CF=84=CE=B5=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, =C2=BD tetartemorion), Ancient Greek (Attic/Eubolic standard), Historical weights
+hexadecimal number (radix 16), Common Radix Numerals, Roman numbers, Hex, Octal and more
+hexapod=C4=93s or orgya (=E1=BC=91=CE=BE=CE=B1=CF=80=CF=8C=CE=B4=CE=B7=CF=82, =E1=BD=80=CF=81=CE=B3=CF=85=CE=B9=CE=AC), Ancient Greek, Historical Units of Area
+h ft, (hoppus foot, hoppus cube), Lumber measure, Capacity and volume
+HH:MM:SS, (time per kilometer), Pace (Various Sports), Speed
+HH:MM:SS, (time per mile), Pace (Various Sports), Speed
+HH:MM:SS, (time per 500 meters (500m split in rowing)), Pace (Various Sports), Speed
+hin, Biblical and Talmudic Liquid Measure (Old Testament), Historical Units of Capacity
+hippikon (=E1=BC=B1=CF=80=CF=80=CE=B9=CE=BA=CF=8C=CE=BD), Ancient Greek, Historical Lengths
+hiro (=E5=B0=8B), Japanese, Distance and Length
+HKD, (Hong Kong Dollar, $), Major World Currencies, Currency
+hl, (hectoliter), Metric, Capacity and volume
+HNL, (Honduran Lempira), Central American Currencies, Currency
+hogshead, English brewery cask units, Capacity and volume
+hogshead, English wine cask units, Capacity and volume
+homestead, British (Imperial) And U.S. System, Area
+Honduran Lempira, (HNL), Central American Currencies, Currency
+Hong Kong Dollar, $, (HKD), Major World Currencies, Currency
+Hong Kong shoe size, Hong Kong Shoe Size, Shoe Size Conversion
+hoppus foot, hoppus cube, (h ft), Lumber measure, Capacity and volume
+hoppus ton, (HT), Lumber measure, Capacity and volume
+horizontal pitch, (HP), Computer Equipment, Distance and Length
+horsepower, boiler, (hp(S)), Common Units, Power
+horsepower, electric, (hp(E)), Common Units, Power
+horsepower hour, (hp*h), Common Units, Energy and Work
+horsepower, hydraulic, Common Units, Power
+horsepower, mechanical (imperial), (hp(I)), Common Units, Power
+horsepower, metric, (hp(M)), Common Units, Power
+hour, Common units, Time
+hourly average background radiation, Radiation dose examples, Radiation
+hour per gibibyte, Data Transfer Time (older, 1024-based), Data transfer rate
+hour per gigabyte, Data Transfer Time (current, 1000-based), Data transfer rate
+hour per mebibyte, Data Transfer Time (older, 1024-based), Data transfer rate
+hour per megabyte, Data Transfer Time (current, 1000-based), Data transfer rate
+HP, (horizontal pitch), Computer Equipment, Distance and Length
+hPa, (hectopascal), Metric, Stress and Pressure
+hp(E), (horsepower, electric), Common Units, Power
+hp*h, (horsepower hour), Common Units, Energy and Work
+hp(I), (horsepower, mechanical (imperial)), Common Units, Power
+hp(M), (horsepower, metric), Common Units, Power
+hp(S), (horsepower, boiler), Common Units, Power
+HRK, (Croatian Kuna), European Currencies, Currency
+HT, (hoppus ton), Lumber measure, Capacity and volume
+HTG, (Haitian Gourde), Currencies of the Caribbean, Currency
+HUF, (Hungarian Forint), European Currencies, Currency
+hundred, Quantity Units, Franctions and Percent
+Hungarian Forint, (HUF), European Currencies, Currency
+hu (=E5=BF=BD), Chinese units of 1915, Distance and Length
+hu (=E5=BF=BD), Chinese units of 1930, Distance and Length
+hu (=E5=BF=BD), Chinese units since 1959, Mass and weight
+hu (=E6=96=9B), Chinese units of 1915, Capacity and volume
+hyakume (=E7=99=BE=E7=9B=AE), Japanese, Mass and weight
+
+## SECTION I 
+Icelandic Kr=C3=B3na, (ISK), European Currencies, Currency
+IDR, (Indonesian Rupiah), Asian Currencies, Currency
+IEC 60228:2004 Standard Wire Cross-Section, (mm=C2=B2), Wire Gauges, Wire and Needle Gauge
+ILS, (Israeli New Sheqel), Middle East Currencies, Currency
+IMP, (Manx pound (Isle of Man)), European Currencies, Currency
+in, (Diameter in inches), Inner Diameter and Circumference of a Ring, Ring size
+in, (Circumference in inches), Inner Diameter and Circumference of a Ring, Ring size
+in, (Diameter in inches), Wire diameter, Wire and Needle Gauge
+in, (inch), The American System of Measures (US Customary Units), Historical Lengths
+in, (inch), British Imperial Measure before 1963, Distance and Length
+in, (inch), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+in=C2=B2, (Section area in square inches), Wire section area, Wire and Needle Gauge
+in=C2=B2, (square inch), British (Imperial) And U.S. System, Historical Units of Area
+in=C2=B2, (square inch), British (Imperial) And U.S. System, Area
+in=C2=B3, (cubic inch), British and U.S. derivatives of length units, Capacity and volume
+in=C2=B3/day, (cubic inch per day), U.S. and British Imperial, Flow rate by volume
+in=C2=B3/hour, (cubic inch per hour), U.S. and British Imperial, Flow rate by volume
+in=C2=B3/min, (cubic inch per minute), U.S. and British Imperial, Flow rate by volume
+in=C2=B3/s, (cubic inch per second), U.S. and British Imperial, Flow rate by volume
+in=C2=B3/year, (cubic inch per year), U.S. and British Imperial, Flow rate by volume
+inch, Old Russian, Historical Lengths
+inch, (in), The American System of Measures (US Customary Units), Historical Lengths
+inch, (in), British Imperial Measure before 1963, Distance and Length
+inch, (in), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+inch of mercury, Mercury, Stress and Pressure
+inch of water, Water (at 39.2=C2=B0F, 4=C2=B0C), Stress and Pressure
+inch per hour, British (Imperial) And U.S. System, Speed
+inch per minute, British (Imperial) And U.S. System, Speed
+inch per second, British (Imperial) And U.S. System, Speed
+inch per second squared, (in/s=C2=B2), British (Imperial) And U.S. System, Acceleration
+inch per year, British (Imperial) And U.S. System, Speed
+Indian Rupee, (INR), Asian Currencies, Currency
+Indonesian Rupiah, (IDR), Asian Currencies, Currency
+INR, (Indian Rupee), Asian Currencies, Currency
+in/s=C2=B2, (inch per second squared), British (Imperial) And U.S. System, Acceleration
+IQD, (Iraqi Dinar), Middle East Currencies, Currency
+Iranian Rial, (IRR), Middle East Currencies, Currency
+Iraqi Dinar, (IQD), Middle East Currencies, Currency
+IRR, (Iranian Rial), Middle East Currencies, Currency
+ISDN, Computer Connection Speed, Data transfer rate
+ISK, (Icelandic Kr=C3=B3na), European Currencies, Currency
+Israeli New Sheqel, (ILS), Middle East Currencies, Currency
+iteru (river measure), Ancient Egypt, Historical Lengths
+
+## SECTION J 
+J, (joule), International System (SI), Energy and Work
+Jamaican Dollar, (JMD), Currencies of the Caribbean, Currency
+Japanese Yen, =C2=A5, (JPY), Major World Currencies, Currency
+JEP, (Jersey Pound), European Currencies, Currency
+Jersey Pound, (JEP), European Currencies, Currency
+jin (=E5=B8=82=E6=96=A4), Chinese units between 1930 and 1959, Mass and weight
+jin (=E5=B8=82=E6=96=A4), Chinese units since 1959, Mass and weight
+jin (=E6=96=A4), Chinese units of 1915 before 1930, Mass and weight
+JMD, (Jamaican Dollar), Currencies of the Caribbean, Currency
+JOD, (Jordanian Dinar), Asian Currencies, Currency
+Jordanian Dinar, (JOD), Asian Currencies, Currency
+joule, (J), International System (SI), Energy and Work
+joule per hour, Common Units, Power
+joule per minute, Common Units, Power
+joule per second, Common Units, Power
+jo (=E4=B8=88), Japanese, Distance and Length
+jo	(=E7=95=B3), Japanese, Area
+JPY, (Japanese Yen, =C2=A5), Major World Currencies, Currency
+Julian year, Common units, Time
+
+## SECTION K 
+k, (kilo), Metric Prefixes, Franctions and Percent
+K, (kelvin), Temperature increment conversion, Temperature increment
+K, (kelvin), Temperature scale conversion, Temperature
+kalamos (=CE=BA=CE=AC=CE=BB=CE=B1=CE=BC=CE=BF=CF=82), Ancient Greek, Historical Lengths
+kam mue (=E0=B8=81=E0=B8=B3=E0=B8=A1=E0=B8=B7=E0=B8=AD, hand of grain), Thai units, Capacity and volume
+kan, kanme (=E8=B2=AB, =E8=B2=AB=E7=9B=AE), Japanese, Mass and weight
+karch, Old Austrian, Historical weights
+kav (=D7=A7=D7=91), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
+Kazakhstani Tenge, (KZT), Asian Currencies, Currency
+Kbit [Kibit], (kilobit [kibibit]), Data Storage and Transmission, Computer storage
+Kb [KiB], (kilobyte [kibybyte]), Data Storage and Transmission, Computer storage
+kBOE, (kilobarrel of oil equivalent), Oil Energy Equivalent, Energy and Work
+Kbps, (kilobit per second), Basic Units of Data Transfer Rate, Data transfer rate
+kBq, (kilobecquerel), SI radioactivity units, Radioactivity
+KB/s, (kilobyte per second), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+kcal, (kilocalorie), Common Units, Energy and Work
+Kcmil, (Section area in thousands of circular mils), Wire section area, Wire and Needle Gauge
+kcmil, MCM, (thousand of circular mils), Units for Measuring Wire Gauges, Area
+kelvin, (K), Temperature increment conversion, Temperature increment
+kelvin, (K), Temperature scale conversion, Temperature
+Kenyan Shilling, (KES), African Curriencies, Currency
+ken (=E9=96=93), Japanese, Distance and Length
+keramion (=CE=BA=CE=B5=CF=81=CE=AC=CE=BC=CE=B9=CE=BF=CE=BD, Roman amphora), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+KES, (Kenyan Shilling), African Curriencies, Currency
+kezayit (olive-size, =D7=9B=D6=B0=D6=BC=D7=96=D6=B7=D7=99=D6=B4=D7=AA), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
+kg, (kilogram), Metric, Historical weights
+kg, (kilogram), Metric, Mass and weight
+kg/cm=C2=B3, (kilogram per cubic centimeter), Metric System, Density
+kg/day, (kilogram per day), Metric, Flow rate by mass
+kg/dm=C2=B3, (kilogram per cubic decimeter), Metric System, Density
+kgf, (kilogram-force), Gravitational Metric System, Force
+kgf.cm, (kilogram-force centimeter), Metric, Torque
+kgf/cm=C2=B2, (kilogram per square centimeter), Metric, Stress and Pressure
+kgf.m, (kilogram-force meter), Metric, Torque
+kgf/m=C2=B2, (kilogram per square meter), Metric, Stress and Pressure
+kg/hour, (kilogram per hour), Metric, Flow rate by mass
+kg/L, (kilogram per litre), Metric System, Density
+kg/m=C2=B3, (kilogram per cubic meter), Metric System, Density
+kg/min, (kilogram per minute), Metric, Flow rate by mass
+kg/mL, (kilogram per millilitre), Metric System, Density
+kg/s, (kilogram per second), Metric, Flow rate by mass
+KGS, (Kyrgystani Som), Asian Currencies, Currency
+kg/year, (kilogram per year), Metric, Flow rate by mass
+Khmer number, Decimal numbers, Roman numbers, Hex, Octal and more
+KHR, (Cambodian Riel), Asian Currencies, Currency
+khuep (=E0=B8=84=E0=B8=B7=E0=B8=9A, span), Thai units, Distance and Length
+kibibyte per day, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+kibibyte per hour, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+kibibyte per minute, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+kibibyte per second, (KiB/s), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+kibibyte per week, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+KiB/s, (kibibyte per second), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+kilderkin, English brewery cask units, Capacity and volume
+kilo, (k), Metric Prefixes, Franctions and Percent
+kilobarrel of oil equivalent, (kBOE), Oil Energy Equivalent, Energy and Work
+kilobecquerel, (kBq), SI radioactivity units, Radioactivity
+kilobit [kibibit], (Kbit [Kibit]), Data Storage and Transmission, Computer storage
+kilobit per second, (Kbps), Basic Units of Data Transfer Rate, Data transfer rate
+kilobyte [kibybyte], (Kb [KiB]), Data Storage and Transmission, Computer storage
+kilobyte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+kilobyte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+kilobyte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+kilobyte per second, (KB/s), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+kilobyte per week, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+kilocalorie, (kcal), Common Units, Energy and Work
+kilocalories per hour, Common Units, Power
+kilocalories per minute, Common Units, Power
+kilocalories per second, Common Units, Power
+kilogram, (kg), Metric, Historical weights
+kilogram, (kg), Metric, Mass and weight
+kilogram-force, (kgf), Gravitational Metric System, Force
+kilogram-force centimeter, (kgf.cm), Metric, Torque
+kilogram-force meter, (kgf.m), Metric, Torque
+kilogramm-force meter per second, Common Units, Power
+kilogram of liquefied natural gas, higher heating value, Liquefied Natural Gas (LNG) Energy Equivalent, Energy and Work
+kilogram of liquefied natural gas, lower heating value, Liquefied Natural Gas (LNG) Energy Equivalent, Energy and Work
+kilogram of LPG, higher heating value, Liquefied Petrolium Gas (LPG) Energy Equivalent, Energy and Work
+kilogram of LPG, lower heating value, Liquefied Petrolium Gas (LPG) Energy Equivalent, Energy and Work
+kilogram of TNT, TNT Energy Equivalent, Energy and Work
+kilogram per cubic centimeter, (kg/cm=C2=B3), Metric System, Density
+kilogram per cubic decimeter, (kg/dm=C2=B3), Metric System, Density
+kilogram per cubic meter, (kg/m=C2=B3), Metric System, Density
+kilogram per day, (kg/day), Metric, Flow rate by mass
+kilogram per hour, (kg/hour), Metric, Flow rate by mass
+kilogram per litre, (kg/L), Metric System, Density
+kilogram per millilitre, (kg/mL), Metric System, Density
+kilogram per minute, (kg/min), Metric, Flow rate by mass
+kilogram per second, (kg/s), Metric, Flow rate by mass
+kilogram per square centimeter, (kgf/cm=C2=B2), Metric, Stress and Pressure
+kilogram per square meter, (kgf/m=C2=B2), Metric, Stress and Pressure
+kilogram per year, (kg/year), Metric, Flow rate by mass
+kilojoule, (kJ), International System (SI), Energy and Work
+kilometer, (km), Metric, Historical Lengths
+kilometer, (km), Metric, Distance and Length
+kilometer per hour, Metric, Speed
+kilometer per minute, Metric, Speed
+kilometer per second, (km/s), Metric, Speed
+kilometer per second squared, (km/s=C2=B2), Metric, Acceleration
+kilometer per year, Metric, Speed
+kilonewton, (kN), International System (SI), Force
+kilonewton (on Earth surface), (kN), Metric, Mass and weight
+kilonewton per square meter, (kN/m=C2=B2), Metric, Stress and Pressure
+kilopascal, (kPa), Metric, Stress and Pressure
+kilopond, (kp), Gravitational Metric System, Force
+kilopound, kip (mass), Avoirdupois (U.S. / British), Mass and weight
+kilotonne, Metric, Mass and weight
+kilowatt, (kW), International System (SI), Power
+kilowatt hour, (kW*h), Common Units, Energy and Work
+kin (=E6=96=A4), Japanese, Mass and weight
+kipf, (kip-force), English Engineering and British Gravitational Units, Force
+kip-force, (kipf), English Engineering and British Gravitational Units, Force
+kirat (=D9=82=D9=8A=D8=B1=D8=A7=D8=B7) of Egypt, Historical Units Still In Use Today, Area
+kJ, (kilojoule), International System (SI), Energy and Work
+klafner, Old Austrian, Historical Lengths
+klima, Ancient Roman, Historical Units of Area
+km, (kilometer), Metric, Historical Lengths
+km, (kilometer), Metric, Distance and Length
+km=C2=B2, (square kilometer), Metric, Historical Units of Area
+km=C2=B2, (square kilometer), Metric, Area
+km=C2=B3, (cubic kilometer), Metric, Capacity and volume
+KMF, (Comorian Franc), African Curriencies, Currency
+km/gal, (km per gallon), Other units, Fuel economy
+km/l, (km per litre), Metric system, Fuel economy
+km per gallon, (km/gal), Other units, Fuel economy
+km per litre, (km/l), Metric system, Fuel economy
+km/s, (kilometer per second), Metric, Speed
+km/s=C2=B2, (kilometer per second squared), Metric, Acceleration
+kN, (kilonewton), International System (SI), Force
+kN, (kilonewton (on Earth surface)), Metric, Mass and weight
+knet (rod of cord), Ancient Egypt, Historical Lengths
+kN/m=C2=B2, (kilonewton per square meter), Metric, Stress and Pressure
+knot, Nautical, Speed
+kochliarion (=CE=BA=CE=BF=CF=87=CE=BB=CE=B9=CE=AC=CF=81=CE=B9=CE=BF=CE=BD), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+kochliarion (=CE=BA=CE=BF=CF=87=CE=BB=CE=B9=CE=AC=CF=81=CE=B9=CE=BF=CE=BD, spoon), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+koku (=E7=9F=B3), Japanese, Capacity and volume
+konch=C4=93 (=CE=BA=CF=8C=CE=B3=CF=87=CE=B7), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+kondylos (=CE=BA=CF=8C=CE=BD=CE=B4=CF=85=CE=BB=CE=BF=CF=82, two fingers), Ancient Greek, Historical Lengths
+kor (=D7=9B=D7=95=D7=A8), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
+kosaya sazhen, Old Russian, Historical Lengths
+kotyl=C4=93 or h=C4=93mina (=CE=BA=CE=BF=CF=84=CF=8D=CE=BB=CE=B7, =E1=BC=A1=CE=BC=CE=AF=CE=BD=CE=B1), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+kotyl=C4=93, tryblion or h=C4=93mina (=CE=BA=CE=BF=CF=84=CF=8D=CE=BB=CE=B7, =CF=84=CF=81=CF=8D=CE=B2=CE=BB=CE=B9=CE=BF=CE=BD, =E1=BC=A1=CE=BC=CE=AF=CE=BD=CE=B1), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+kp, (kilopond), Gravitational Metric System, Force
+kPa, (kilopascal), Metric, Stress and Pressure
+KPW, (North Korean Won), Asian Currencies, Currency
+krabiat (=E0=B8=81=E0=B8=A3=E0=B8=B0=E0=B9=80=E0=B8=9A=E0=B8=B5=E0=B8=A2=E0=B8=94, quarter of a finger), Thai units, Distance and Length
+KRW, (South Korean Won), Asian Currencies, Currency
+ksi, (thousand pounds per square inch), British and U.S. (Imperial system), Stress and Pressure
+Kuwaiti Dinar, (KWD), Middle East Currencies, Currency
+kvarter, Old Swedish, Historical Lengths
+kW, (kilowatt), International System (SI), Power
+KWD, (Kuwaiti Dinar), Middle East Currencies, Currency
+kW*h, (kilowatt hour), Common Units, Energy and Work
+kwian (=E0=B9=80=E0=B8=81=E0=B8=A7=E0=B8=B5=E0=B8=A2=E0=B8=99, cartload), Thai units, Capacity and volume
+kyathos (=CE=BA=CF=8D=CE=B1=CE=B8=CE=BF=CF=82), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+kyathos (=CE=BA=CF=8D=CE=B1=CE=B8=CE=BF=CF=82), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+KYD, (Cayman Islands Dollar), Currencies of the Caribbean, Currency
+Kyrgystani Som, (KGS), Asian Currencies, Currency
+KZT, (Kazakhstani Tenge), Asian Currencies, Currency
+
+## SECTION L 
+l, (liter), Metric, Historical Units of Capacity
+l, (liter), Metric, Capacity and volume
+L, (Planck length), Natural units, Distance and Length
+l/100km, (litres per 100 km), Metric system, Fuel economy
+l/10km, (litres per 10 km), Metric system, Fuel economy
+L=E2=81=BB=C2=B9MT=E2=81=BB=C2=B2, (Planck pressure), Natural units, Stress and Pressure
+L=C2=B2, (Planck area), Natural units, Area
+L=C2=B2MT=E2=81=BB=C2=B2, (Planck energy), Natural units, Energy and Work
+L=C2=B2MT=E2=81=BB=C2=B3, (Planck power), Natural units, Power
+L=C2=B3, (Planck volume), Natural units, Capacity and volume
+L=E2=81=BB=C2=B3M, (Planck density), Natural units, Density
+labor, Old Spanish, Historical Units of Area
+LAK, (Laotian Kip), Asian Currencies, Currency
+land, British Imperial Measure before 1963, Distance and Length
+land, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+Laotian Kip, (LAK), Asian Currencies, Currency
+last length in cm, Foot and Last lengths, Shoe Size Conversion
+last length in mm, Foot and Last lengths, Shoe Size Conversion
+last lentgh in in, Foot and Last lengths, Shoe Size Conversion
+l atm, (liter-atmosphere), Common Units, Energy and Work
+lb, (pound), Avoirdupois (U.S.), Historical weights
+lb, (pound), Avoirdupois (U.S. / British), Mass and weight
+lb/day, (pound per day), U.S. and British Imperial, Flow rate by mass
+lbf, (pound-force), English Engineering and British Gravitational Units, Force
+lb/ft=C2=B3, (pound per cubic foot), British and U.S., Density
+lb/gal, (pound per U.S. gallon), British and U.S., Density
+lb/hour, (pound per hour), U.S. and British Imperial, Flow rate by mass
+lb/in=C2=B3, (pound per cubic inch), British and U.S., Density
+lb/min, (pound per minute), U.S. and British Imperial, Flow rate by mass
+LBP, (Lebanese Pound), African Curriencies, Currency
+lb/s, (pound per second), U.S. and British Imperial, Flow rate by mass
+lbsf.ft, (pound-force foot), British and U.S., Torque
+lbsf.in, (pound-force inch), British and U.S., Torque
+lb/yd=C2=B3, (pound per cubic yard), British and U.S., Density
+lb/year, (pound per year), U.S. and British Imperial, Flow rate by mass
+l/day, (liter per day), Metric, Flow rate by volume
+league, British Imperial Measure before 1963, Distance and Length
+league, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+league (square), Old Spanish, Historical Units of Area
+Lebanese Pound, (LBP), African Curriencies, Currency
+legua, Old Spanish, Historical Lengths
+legua de por grado (league of the degree), Old Spanish, Historical Lengths
+legua marina (nautical), Old Spanish, Historical Lengths
+Lesotho Loti, (LSL), African Curriencies, Currency
+letek (=D7=9C=D7=AA=D7=9A), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
+leuga (league), Ancient Roman, Historical Lengths
+leukopenia, Acute radiation syndrome, Radiation
+l/hour, (liter per hour), Metric, Flow rate by volume
+liang (=E5=85=A9), Chinese units of 1915 before 1930, Mass and weight
+liang (=E5=B8=82=E4=B8=A4), Chinese units since 1959, Mass and weight
+liang (=E5=B8=82=E5=85=A9), Chinese units between 1930 and 1959, Mass and weight
+Liberian Dollar, (LRD), African Curriencies, Currency
+libra, Old Spanish, Historical weights
+libra (Roman pound, balance), Ancient Roman, Historical weights
+Libyan Dinar, (LYD), African Curriencies, Currency
+lichas (=CE=BB=CE=B9=CF=87=CE=AC=CF=82), Ancient Greek, Historical Lengths
+lieue commune, Old French, Historical Lengths
+lieue de post, Old French, Historical Lengths
+lieue marine, Old French, Historical Lengths
+lieue metrique, Old French, Historical Lengths
+light microsecond, Grace Hopper's units of distance, Distance and Length
+light minute, Astronomical, Distance and Length
+light nanosecond, Grace Hopper's units of distance, Distance and Length
+light picosecond, Grace Hopper's units of distance, Distance and Length
+light second, Astronomical, Distance and Length
+light year, Astronomical, Distance and Length
+ligne, Old French, Historical Lengths
+ligula (spoonful), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+line, Old Russian, Historical Lengths
+line, British Imperial Measure before 1963, Distance and Length
+line, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+linea, Old Spanish, Historical Lengths
+linha, Old Portuguese, Historical Lengths
+linie, Old Austrian, Historical Lengths
+linie, Old German (Prussian), Historical Lengths
+linje (line) after 1855, Old Swedish, Historical Lengths
+linje (line) before 1855, Old Swedish, Historical Lengths
+lispund, Old Swedish, Historical weights
+liter, (l), Metric, Historical Units of Capacity
+liter, (l), Metric, Capacity and volume
+liter-atmosphere, (l atm), Common Units, Energy and Work
+liter of liquefied natural gas, higher heating value, Liquefied Natural Gas (LNG) Energy Equivalent, Energy and Work
+liter of liquefied natural gas, lower heating value, Liquefied Natural Gas (LNG) Energy Equivalent, Energy and Work
+liter of LPG, higher heating value, Liquefied Petrolium Gas (LPG) Energy Equivalent, Energy and Work
+liter of LPG, lower heating value, Liquefied Petrolium Gas (LPG) Energy Equivalent, Energy and Work
+liter per day, (l/day), Metric, Flow rate by volume
+liter per hour, (l/hour), Metric, Flow rate by volume
+liter per minute, (l/min), Metric, Flow rate by volume
+liter per second, (l/s), Metric, Flow rate by volume
+liter per year, (l/year), Metric, Flow rate by volume
+litres per 100 km, (l/100km), Metric system, Fuel economy
+litres per 100 miles, British system, Fuel economy
+litres per 10 km, (l/10km), Metric system, Fuel economy
+litron, Old French, Historical Units of Capacity
+livre, Old French, Historical weights
+li (=E5=B8=82=E5=8E=98), Chinese units since 1959, Mass and weight
+li (=E5=B8=82=E9=87=8C), Chinese units of 1930, Distance and Length
+li (=E5=B8=82=E9=87=90), Chinese units between 1930 and 1959, Mass and weight
+li (=E9=87=8C), Chinese units of 1915, Distance and Length
+li (=E9=87=90), Chinese units of 1915 before 1930, Mass and weight
+li (=E9=87=90 or =E5=8E=98), Chinese units of 1915, Area
+li (=E9=87=90 or =E5=8E=98), Chinese units of 1930, Area
+li (=E9=87=90 or =E5=8E=98), Chinese units of 1915, Distance and Length
+li (=E9=87=90 or =E5=8E=98), Chinese units of 1930, Distance and Length
+LKR, (Sri Lankan Rupee), Asian Currencies, Currency
+lm/cm=C2=B2, (lumen per square centimeter), Luminamce per area units, Illuminance
+lm/ft=C2=B2, (lumen per square foot), Luminamce per area units, Illuminance
+l/min, (liter per minute), Metric, Flow rate by volume
+lm/in=C2=B2, (lumen per square inch), Luminamce per area units, Illuminance
+lm/m=C2=B2, (lumen per square meter), Luminamce per area units, Illuminance
+LMT=E2=81=BB=C2=B2, (Planck force), Natural units, Force
+log, Biblical and Talmudic Liquid Measure (Old Testament), Historical Units of Capacity
+log (=D7=9C=D7=92), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
+long hundredweight (UK), Avoirdupois (U.S. / British), Mass and weight
+long ton-force foot, British and U.S., Torque
+long ton (UK), Avoirdupois (U.S. / British), Mass and weight
+long ton (U.K.) per square foot, British and U.S. (Imperial system), Stress and Pressure
+long ton (U.K.) per square inch, British and U.S. (Imperial system), Stress and Pressure
+long (UK) ton per day, U.S. and British Imperial, Flow rate by mass
+long (UK) ton per hour, U.S. and British Imperial, Flow rate by mass
+long (UK) ton per minute, U.S. and British Imperial, Flow rate by mass
+long (UK) ton per second, U.S. and British Imperial, Flow rate by mass
+long (UK) ton per year, U.S. and British Imperial, Flow rate by mass
+lot, Old Russian, Historical weights
+loth, Old Austrian, Historical weights
+loth, Old German (Prussian), Historical weights
+LRD, (Liberian Dollar), African Curriencies, Currency
+l/s, (liter per second), Metric, Flow rate by volume
+LSL, (Lesotho Loti), African Curriencies, Currency
+LTE, Computer Connection Speed, Data transfer rate
+lumen per square centimeter, (lm/cm=C2=B2), Luminamce per area units, Illuminance
+lumen per square foot, (lm/ft=C2=B2), Luminamce per area units, Illuminance
+lumen per square inch, (lm/in=C2=B2), Luminamce per area units, Illuminance
+lumen per square meter, (lm/m=C2=B2), Luminamce per area units, Illuminance
+lux (lumen per square meter), (lx), International System (SI), Illuminance
+lx, (lux (lumen per square meter)), International System (SI), Illuminance
+LYD, (Libyan Dinar), African Curriencies, Currency
+l/year, (liter per year), Metric, Flow rate by volume
+
+## SECTION M 
+m, (meter), Metric, Historical Lengths
+m, (Storage length in meters), CNC Memory Capacity, Computer storage
+m, (milli), Metric Prefixes, Franctions and Percent
+m, (meter), Metric, Distance and Length
+M, (mega), Metric Prefixes, Franctions and Percent
+M, (Planck mass), Natural units, Mass and weight
+m=C2=B2, (square meter), Metric, Historical Units of Area
+m=C2=B2, (square meter), Metric, Area
+m=C2=B3, (cubic meter), Metric, Historical Units of Capacity
+m=C2=B3, (cubic meter), Metric, Capacity and volume
+m=C2=B3/day, (cubic meter per day), Metric, Flow rate by volume
+m=C2=B3/hour, (cubic meter per hour), Metric, Flow rate by volume
+m=C2=B3/min, (cubic meter per minute), Metric, Flow rate by volume
+m=C2=B3/s, (cubic meter per second), Metric, Flow rate by volume
+m=C2=B3/year, (cubic meter per year), Metric, Flow rate by volume
+Macanese Pataca, (MOP), Asian Currencies, Currency
+Macedonian Denar, (MKD), European Currencies, Currency
+mace troy, Hong Kong, Mass and weight
+mace (tsin), Hong Kong, Mass and weight
+MAD, (Moroccan Dirham), African Curriencies, Currency
+makhovaya sazhen, Old Russian, Historical Lengths
+Malagasy Ariary, (MGA), African Curriencies, Currency
+Malawian Kwacha, (MWK), African Curriencies, Currency
+Malaysian Ringgit, (MYR), Asian Currencies, Currency
+Maldivian Rufiyaa, (MVR), Asian Currencies, Currency
+male shoe size, U.S. and Canada Customary Shoe Size, Shoe Size Conversion
+Manx pound (Isle of Man), (IMP), European Currencies, Currency
+manzana of Argentina, Historical Units Still In Use Today, Area
+manzana of Belize, Historical Units Still In Use Today, Area
+manzana of Costa Rica, Historical Units Still In Use Today, Area
+manzana of Guatemala, Historical Units Still In Use Today, Area
+manzana of Honduras, Historical Units Still In Use Today, Area
+manzana of Nicaragua, Historical Units Still In Use Today, Area
+maquia, Old Portuguese Dry Measure, Historical Units of Capacity
+marco, Old Spanish, Historical weights
+mark, Old Swedish, Historical weights
+mark, Old Austrian, Historical weights
+mark, Old German (Prussian), Historical weights
+m=C4=81sh=C4=81, Indian units (Akbar system), Mass and weight
+maund, Indian units (Akbar system), Mass and weight
+Mauritanian Ouguiya, (MRU), African Curriencies, Currency
+Mauritian Rupee, (MUR), African Curriencies, Currency
+mayon/mayong (=E0=B8=A1=E0=B8=B2=E0=B8=A2=E0=B8=99/=E0=B8=A1=E0=B8=B0=E0=B8=A2=E0=B8=87), Thai units, Mass and weight
+Mbit [Mibit], (megabit [mebibit]), Data Storage and Transmission, Computer storage
+Mb [MiB], (megabyte [mebibyte]), Data Storage and Transmission, Computer storage
+Mbps, (megabit per second), Basic Units of Data Transfer Rate, Data transfer rate
+MBq, (megabecquerel), SI radioactivity units, Radioactivity
+MB/s, (megabyte per second), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+Mcal, (megacalorie), Common Units, Energy and Work
+mcf, (mil cubic feet), British and U.S. derivatives of length units, Capacity and volume
+mcg, (microgram), Metric, Mass and weight
+mCi, (millicurie), Other units, Radioactivity
+mC/kg, (millicoulomb per kilogram), Exposure to ionizing radiation, Radiation
+MDL, (Moldovan Leu), European Currencies, Currency
+mebibyte per day, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+mebibyte per hour, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+mebibyte per minute, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+mebibyte per second, (MiB/s), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+mebibyte per week, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+medimnos (=CE=BC=CE=AD=CE=B4=CE=B9=CE=BC=CE=BD=CE=BF=CF=82), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+medio, Old Spanish Dry Measure, Historical Units of Capacity
+mega, (M), Metric Prefixes, Franctions and Percent
+megabecquerel, (MBq), SI radioactivity units, Radioactivity
+megabit [mebibit], (Mbit [Mibit]), Data Storage and Transmission, Computer storage
+megabit per second, (Mbps), Basic Units of Data Transfer Rate, Data transfer rate
+megabyte [mebibyte], (Mb [MiB]), Data Storage and Transmission, Computer storage
+megabyte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+megabyte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+megabyte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+megabyte per second, (MB/s), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+megabyte per week, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+megacalorie, (Mcal), Common Units, Energy and Work
+megajoule, (MJ), International System (SI), Energy and Work
+meganewton, (MN), International System (SI), Force
+meganewton per square meter, (MN/m=C2=B2), Metric, Stress and Pressure
+megapascal, (MPa), Metric, Stress and Pressure
+megatonne of coal equivalent, (Mtce), Coal Energy Equivalent, Energy and Work
+megatonne of oil equivalent, (Mtoe), Oil Energy Equivalent, Energy and Work
+megawatt, (MW), International System (SI), Power
+meh nedjes (short cubit), Ancient Egypt, Historical Lengths
+meh niswt (royal cubit), Ancient Egypt, Historical Lengths
+meile, Old Austrian, Historical Lengths
+meile, Old German (Prussian), Historical Lengths
+meio-quartilho (half-quartilho), Old Portuguese Liquid Measure, Historical Units of Capacity
+meio-selamim (half-selamim), Old Portuguese Dry Measure, Historical Units of Capacity
+meter, (m), Metric, Historical Lengths
+meter, (m), Metric, Distance and Length
+meter-candle, Photography units, Illuminance
+meter of water, Water (at 39.2=C2=B0F, 4=C2=B0C), Stress and Pressure
+meter per hour, Metric, Speed
+meter per minute, Metric, Speed
+meter per second, (m/s), Metric, Speed
+meter per second squared, (m/s=C2=B2), Metric, Acceleration
+meter per year, Metric, Speed
+metre-kilogram, (mkg), Common Units, Energy and Work
+metr=C4=93t=C4=93s (=CE=BC=CE=B5=CF=84=CF=81=CE=B7=CF=84=CE=AE=CF=82, amphora), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+metric centner, Metric, Mass and weight
+Metric Needle Size, (mm), Knitting Needle and Crochet Hook Sizes, Wire and Needle Gauge
+metric quintal, Metric, Mass and weight
+metric refrigeration ton, (RT), Common Units, Power
+Mexican Peso, (MXN), North American Currencies, Currency
+Mexico shoe size, Mexico Shoe Size, Shoe Size Conversion
+Mexico shoe size in cm, Mexico Shoe Size, Shoe Size Conversion
+Mexico shoe size in inches, Mexico Shoe Size, Shoe Size Conversion
+mezhevaya verst, Old Russian, Historical Lengths
+mfbm, mbdft, mbf, (thousand board-feet), Lumber measure, Capacity and volume
+mg, (milligram), Metric, Mass and weight
+MGA, (Malagasy Ariary), African Curriencies, Currency
+mg/cm=C2=B3, (milligram per cubic centimeter), Metric System, Density
+mg/dm=C2=B3, (milligram per cubic decimeter), Metric System, Density
+mGf, (milligrave-force), Gravitational Metric System, Force
+mg/L, (milligram per litre), Metric System, Density
+mg/m=C2=B3, (milligram per cubic meter), Metric System, Density
+mg/mL, (milligram per millilitre), Metric System, Density
+mGy, (milligray), Absorbed radiation dose, Radiation
+mi, (mile), The American System of Measures (US Customary Units), Historical Lengths
+mi, (mile), British Imperial Measure before 1963, Distance and Length
+mi, (mile), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+mi=C2=B3, (cubic mile), British and U.S. derivatives of length units, Capacity and volume
+MiB/s, (mebibyte per second), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+micro, (=C2=B5, mc), Metric Prefixes, Franctions and Percent
+microcurie, (=C2=B5Ci), Other units, Radioactivity
+microgram, (mcg), Metric, Mass and weight
+microgray, (=C2=B5Gy), Absorbed radiation dose, Radiation
+microinch, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+microliter, (=C2=B5l), Metric, Capacity and volume
+micrometre (micron), Metric, Distance and Length
+micronewton, (=C2=B5N), International System (SI), Force
+microroentgen, (=C2=B5R), Exposure to ionizing radiation, Radiation
+microsecond, (=C2=B5s), Common units, Time
+microsievert, (=C2=B5Sv), Dose equivalent radiation, Radiation
+mil, British Imperial Measure before 1963, Distance and Length
+mil, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+mil cubic feet, (mcf), British and U.S. derivatives of length units, Capacity and volume
+mile, Old Russian, Historical Lengths
+mile, (mi), The American System of Measures (US Customary Units), Historical Lengths
+mile, (mi), British Imperial Measure before 1963, Distance and Length
+mile, (mi), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+mile per British gallon, (mpg), British system, Fuel economy
+mile per hour, (mph), British (Imperial) And U.S. System, Speed
+mile per litre, British system, Fuel economy
+mile per minute, British (Imperial) And U.S. System, Speed
+mile per second, British (Imperial) And U.S. System, Speed
+mile per second squared, British (Imperial) And U.S. System, Acceleration
+mile per year, British (Imperial) And U.S. System, Speed
+miles per gallon, (mpg), U.S. system, Fuel economy
+milion (=CE=BC=CE=AF=CE=BB=CE=B9=CE=BF=CE=BD), Ancient Greek, Historical Lengths
+milla, Old Spanish, Historical Lengths
+milla marina (nautical), Old Spanish, Historical Lengths
+mille passus (mile), Ancient Roman, Historical Lengths
+milli, (m), Metric Prefixes, Franctions and Percent
+millibar, Metric, Stress and Pressure
+millicoulomb per kilogram, (mC/kg), Exposure to ionizing radiation, Radiation
+millicurie, (mCi), Other units, Radioactivity
+milligram, (mg), Metric, Mass and weight
+milligram-force, Gravitational Metric System, Force
+milligram per cubic centimeter, (mg/cm=C2=B3), Metric System, Density
+milligram per cubic decimeter, (mg/dm=C2=B3), Metric System, Density
+milligram per cubic meter, (mg/m=C2=B3), Metric System, Density
+milligram per litre, (mg/L), Metric System, Density
+milligram per millilitre, (mg/mL), Metric System, Density
+milligrave-force, (mGf), Gravitational Metric System, Force
+milligray, (mGy), Absorbed radiation dose, Radiation
+milliliter, (ml), Metric, Historical Units of Capacity
+milliliter, (ml), Metric, Capacity and volume
+millimeter, (mm), Metric, Historical Lengths
+millimeter, (mm), Metric, Distance and Length
+millimeter of mercury (torr), Mercury, Stress and Pressure
+millimeter of water, Water (at 39.2=C2=B0F, 4=C2=B0C), Stress and Pressure
+millimeter per second squared, (mm/s=C2=B2), Metric, Acceleration
+millinewton, (mN), International System (SI), Force
+million board-feet, (mmfbm, mmbdft, mmbf), Lumber measure, Capacity and volume
+million BTU, (MMBTU), British and American, Energy and Work
+million of normal cubic meters of natural gas, Natural Gas Energy Equivalent, Energy and Work
+million of standard cubic feet of natural gas, Natural Gas Energy Equivalent, Energy and Work
+milliphot, Centimeter-Gram-Second System (CGS), Illuminance
+millirem, Dose equivalent radiation, Radiation
+milliroentgen, (mR), Exposure to ionizing radiation, Radiation
+millisecond, (ms), Common units, Time
+millisievert, (mSv), Dose equivalent radiation, Radiation
+mil (mile), Old Swedish, Historical Lengths
+min, (minute), Common units, Time
+min, (minim), British Imperial Liquid And Dry, Capacity and volume
+min, (minim), U.S. Liquid Measure, Capacity and volume
+mina, Biblical, Historical weights
+mina (=CE=BC=CE=BD=E1=BE=B6), Ancient Greek (Aeginetic standard), Historical weights
+mina (=CE=BC=CE=BD=E1=BE=B6), Ancient Greek (Attic/Eubolic standard), Historical weights
+minim, (min), British Imperial Liquid And Dry, Capacity and volume
+minim, Apothecaries, Capacity and volume
+minim, (min), U.S. Liquid Measure, Capacity and volume
+minot, Old French, Historical Units of Capacity
+minute, (min), Common units, Time
+minute, (=E2=80=B2), Common Units, Circular measure
+minute per gibibyte, Data Transfer Time (older, 1024-based), Data transfer rate
+minute per gigabyte, Data Transfer Time (current, 1000-based), Data transfer rate
+minute per mebibyte, Data Transfer Time (older, 1024-based), Data transfer rate
+minute per megabyte, Data Transfer Time (current, 1000-based), Data transfer rate
+minutes per kilometer, Pace (Various Sports), Speed
+minutes per mile, Pace (Various Sports), Speed
+mite, Troy, Mass and weight
+mithqal, Baha'i Faith Units, Historical weights
+MJ, (megajoule), International System (SI), Energy and Work
+MKD, (Macedonian Denar), European Currencies, Currency
+mkg, (metre-kilogram), Common Units, Energy and Work
+ml, (milliliter), Metric, Historical Units of Capacity
+ml, (milliliter), Metric, Capacity and volume
+mm, (Diameter in millimeters), Inner Diameter and Circumference of a Ring, Ring size
+mm, (Circumference in millimeters), Inner Diameter and Circumference of a Ring, Ring size
+mm, (Metric Needle Size), Knitting Needle and Crochet Hook Sizes, Wire and Needle Gauge
+mm, (Diameter in millimetres), Wire diameter, Wire and Needle Gauge
+mm, (millimeter), Metric, Historical Lengths
+mm, (millimeter), Metric, Distance and Length
+mm=C2=B2, (IEC 60228:2004 Standard Wire Cross-Section), Wire Gauges, Wire and Needle Gauge
+mm=C2=B2, (GOST 22483-2012 Standard Wire Cross-Section), Wire Gauges, Wire and Needle Gauge
+mm=C2=B2, (Section area in square millimetres), Wire section area, Wire and Needle Gauge
+mm=C2=B2, (square millimeter), Metric, Historical Units of Area
+mm=C2=B2, (square millimeter), Metric, Area
+mm=C2=B3, (cubic millimeter), Metric, Historical Units of Capacity
+mm=C2=B3, (cubic millimeter), Metric, Capacity and volume
+MMBTU, (million BTU), British and American, Energy and Work
+mmfbm, mmbdft, mmbf, (million board-feet), Lumber measure, Capacity and volume
+MMK, (Myanma Kyat), Asian Currencies, Currency
+mm/s=C2=B2, (millimeter per second squared), Metric, Acceleration
+mN, (millinewton), International System (SI), Force
+MN, (meganewton), International System (SI), Force
+MN/m=C2=B2, (meganewton per square meter), Metric, Stress and Pressure
+MNT, (Mongolian Tugrik), Asian Currencies, Currency
+modius castrensis (military modius), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+modius (peck), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+moio, Old Portuguese Dry Measure, Historical Units of Capacity
+Moldovan Leu, (MDL), European Currencies, Currency
+mondopoint (length), Mondopoint, Shoe Size Conversion
+Mongolian Tugrik, (MNT), Asian Currencies, Currency
+monnme (=E5=8C=81), Japanese, Mass and weight
+MOP, (Macanese Pataca), Asian Currencies, Currency
+Moroccan Dirham, (MAD), African Curriencies, Currency
+Movie theater screen, Illuminance examples, Illuminance
+moyo, Old Spanish Liquid Measure, Historical Units of Capacity
+Mozambican Metical, (MZN), African Curriencies, Currency
+mo (=E6=AF=9B, =E6=AF=AB), Japanese, Distance and Length
+MPa, (megapascal), Metric, Stress and Pressure
+mpg, (mile per British gallon), British system, Fuel economy
+mpg, (miles per gallon), U.S. system, Fuel economy
+mph, (mile per hour), British (Imperial) And U.S. System, Speed
+mR, (milliroentgen), Exposure to ionizing radiation, Radiation
+MRU, (Mauritanian Ouguiya), African Curriencies, Currency
+m/s, (meter per second), Metric, Speed
+ms, (millisecond), Common units, Time
+m/s=C2=B2, (meter per second squared), Metric, Acceleration
+mSv, (millisievert), Dose equivalent radiation, Radiation
+Mtce, (megatonne of coal equivalent), Coal Energy Equivalent, Energy and Work
+Mtoe, (megatonne of oil equivalent), Oil Energy Equivalent, Energy and Work
+MUR, (Mauritian Rupee), African Curriencies, Currency
+mu (=E7=95=9D or =E4=BA=A9), Chinese units of 1915, Area
+mu (=E7=95=9D or =E4=BA=A9), Chinese units of 1930, Area
+MVR, (Maldivian Rufiyaa), Asian Currencies, Currency
+MW, (megawatt), International System (SI), Power
+MWK, (Malawian Kwacha), African Curriencies, Currency
+MXN, (Mexican Peso), North American Currencies, Currency
+Myanma Kyat, (MMK), Asian Currencies, Currency
+MYR, (Malaysian Ringgit), Asian Currencies, Currency
+mystron (=CE=BC=CF=8D=CF=83=CF=84=CF=81=CE=BF=CE=BD), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+MZN, (Mozambican Metical), African Curriencies, Currency
+
+## SECTION N 
+n, (nano), Metric Prefixes, Franctions and Percent
+N, (newton), International System (SI), Force
+N, (newton (on Earth surface)), Metric, Mass and weight
+NAD, (Namibian Dollar), African Curriencies, Currency
+nail, British Imperial Measure before 1963, Distance and Length
+nakhud, Baha'i Faith Units, Historical weights
+Namibian Dollar, (NAD), African Curriencies, Currency
+nano, (n), Metric Prefixes, Franctions and Percent
+nanometer, (nm), Metric, Distance and Length
+nanosecond, (ns), Common units, Time
+nausea and vomiting, Acute radiation syndrome, Radiation
+nautical league, (naut.leag), International Nautical Measure, Distance and Length
+nautical mile, (naut.mi), International Nautical Measure, Distance and Length
+nautical rhumb, Nautical, Circular measure
+naut.leag, (nautical league), International Nautical Measure, Distance and Length
+naut.mi, (nautical mile), International Nautical Measure, Distance and Length
+nbiw (pole), Ancient Egypt, Historical Lengths
+Ncm, (newton centimeter), Metric, Torque
+N/cm=C2=B2, (newton per square centimeter), Metric, Stress and Pressure
+Nepalese Rupee, (NPR), Asian Currencies, Currency
+nest, hat trick, Quantity Units, Franctions and Percent
+Netherlands Antillean Guilder, (ANG), Currencies of the Caribbean, Currency
+New Taiwan Dollar, (TWD), Asian Currencies, Currency
+newton, (N), International System (SI), Force
+newton centimeter, (Ncm), Metric, Torque
+newton meter, (Nm), Metric, Torque
+newton (on Earth surface), (N), Metric, Mass and weight
+newton per square centimeter, (N/cm=C2=B2), Metric, Stress and Pressure
+newton per square meter, (N/m=C2=B2), Metric, Stress and Pressure
+newton per square millimeter, (N/mm=C2=B2), Metric, Stress and Pressure
+New Zealand Dollar, (NZD), Currencies of Australia and Oceania, Currency
+ngan (=E0=B8=87=E0=B8=B2=E0=B8=99), Thai units, Area
+NGN, (Nigerian Naira), African Curriencies, Currency
+Nicaraguan Cordoba, (NIO), Central American Currencies, Currency
+Nigerian Naira, (NGN), African Curriencies, Currency
+Night with a full moon, Illuminance examples, Illuminance
+Night withouth the moon, Illuminance examples, Illuminance
+NIO, (Nicaraguan Cordoba), Central American Currencies, Currency
+nio (=E0=B8=99=E0=B8=B4=E0=B9=89=E0=B8=A7, finger), Thai units, Distance and Length
+nit, (nt), Other units, Illuminance
+nm, (nanometer), Metric, Distance and Length
+Nm, (newton meter), Metric, Torque
+N/m=C2=B2, (newton per square meter), Metric, Stress and Pressure
+N/mm=C2=B2, (newton per square millimeter), Metric, Stress and Pressure
+NOK, (Norwegian Krone), European Currencies, Currency
+Noon on summer cloudy day, Illuminance examples, Illuminance
+Noon on summer with clear sky, Illuminance examples, Illuminance
+normal cubic meter of natural gas, Natural Gas Energy Equivalent, Energy and Work
+Northern American ring size, Ring Sizes in the United States, Canada and Mexico, Ring size
+North Korean Won, (KPW), Asian Currencies, Currency
+Norwegian Krone, (NOK), European Currencies, Currency
+nox, Other units, Illuminance
+NPR, (Nepalese Rupee), Asian Currencies, Currency
+ns, (nanosecond), Common units, Time
+nt, (nit), Other units, Illuminance
+nymil (new mile, used since 1889 till now), Old Swedish, Historical Lengths
+NZD, (New Zealand Dollar), Currencies of Australia and Oceania, Currency
+
+## SECTION O 
+obolus (1=E2=81=8448 uncia, from Greek unit =E1=BD=80=CE=B2=CE=BF=CE=BB=CF=8C=CF=82 'metal spit'), Ancient Roman, Historical weights
+obol (=E1=BD=80=CE=B2=CE=BF=CE=BB=CF=8C=CF=82), Ancient Greek (Aeginetic standard), Historical weights
+obol (=E1=BD=80=CE=B2=CE=BF=CE=BB=CF=8C=CF=82), Ancient Greek (Attic/Eubolic standard), Historical weights
+OC-12, Computer Connection Speed, Data transfer rate
+OC-1536, Computer Connection Speed, Data transfer rate
+OC-192, Computer Connection Speed, Data transfer rate
+OC-3, Computer Connection Speed, Data transfer rate
+OC-3072, Computer Connection Speed, Data transfer rate
+OC-48, Computer Connection Speed, Data transfer rate
+OC-768, Computer Connection Speed, Data transfer rate
+ochava, Old Spanish, Historical weights
+ochavo, Old Spanish Dry Measure, Historical Units of Capacity
+octal number (radix 8), Common Radix Numerals, Roman numbers, Hex, Octal and more
+octet, Number of Performers, Franctions and Percent
+oitava, Old Portuguese Dry Measure, Historical Units of Capacity
+oitava, Old Portuguese, Historical weights
+Older Brazilian ring size, Old Brazilian Ring Sizes, Ring size
+old (pre 1928) dunam (d=C3=B6n=C3=BCm, =D8=AF=D9=88=D9=86=D9=85) of Turkey, Syria, Israel, Palestine, Jordan, Lebanon, Historical Units Still In Use Today, Area
+Old U.S. Needle Size (AWG), Knitting Needle and Crochet Hook Sizes, Wire and Needle Gauge
+Omani Rial, (OMR), Middle East Currencies, Currency
+OMR, (Omani Rial), Middle East Currencies, Currency
+on=C3=A7a, Old Portuguese, Historical weights
+one eights or .125, (1/8), Fractions, Franctions and Percent
+one ninth or .(1), (1/9), Fractions, Franctions and Percent
+one seventh or .142857, (1/7), Fractions, Franctions and Percent
+one sixteenth or .0625, (1/16), Fractions, Franctions and Percent
+one sixth or .1(6), (1/6), Fractions, Franctions and Percent
+one tenth or .1, (1/10), Fractions, Franctions and Percent
+one third or .(3), (1/3), Fractions, Franctions and Percent
+one thirty-second or .03125, (1/32), Fractions, Franctions and Percent
+onza, Old Spanish, Historical weights
+orgyia (=E1=BD=84=CF=81=CE=B3=CF=85=CE=B9=CE=B1, fathom), Ancient Greek, Historical Lengths
+ort, Old Swedish, Historical weights
+orthod=C5=8Dron (=E1=BD=80=CF=81=CE=B8=CF=8C=CE=B4=CF=89=CF=81=CE=BF=CE=BD, wrist to the tip of meddle finger), Ancient Greek, Historical Lengths
+osi, oz/in=C2=B2, (ounce per square inch), British and U.S. (Imperial system), Stress and Pressure
+ounce, (oz), Avoirdupois (U.S.), Historical weights
+ounce, (=E2=84=A5), Apothecaries, Mass and weight
+ounce, (ozt), Troy, Mass and weight
+ounce, (oz), Avoirdupois (U.S. / British), Mass and weight
+ounce-force, (ozf), English Engineering and British Gravitational Units, Force
+ounce-force inch, (ozf.in), British and U.S., Torque
+ounce per British gallon, British and U.S., Density
+ounce per cubic foot, (oz/ft=C2=B3), British and U.S., Density
+ounce per cubic inch, (oz/in=C2=B3), British and U.S., Density
+ounce per cubic yard, (oz/yd=C2=B3), British and U.S., Density
+ounce per day, (oz/day), U.S. and British Imperial, Flow rate by mass
+ounce per hour, (oz/hour), U.S. and British Imperial, Flow rate by mass
+ounce per minute, (oz/min), U.S. and British Imperial, Flow rate by mass
+ounce per second, (oz/s), U.S. and British Imperial, Flow rate by mass
+ounce per square foot, British and U.S. (Imperial system), Stress and Pressure
+ounce per square inch, (osi, oz/in=C2=B2), British and U.S. (Imperial system), Stress and Pressure
+ounce per U.S. bushel, British and U.S., Density
+ounce per U.S. gallon, (oz/gal), British and U.S., Density
+ounce per year, (oz/year), U.S. and British Imperial, Flow rate by mass
+oxybathon (=E1=BD=80=CE=BE=CF=85=CE=B2=CE=B1=CE=B8=CE=BF=CE=BD), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+oxybathon (=E1=BD=80=CE=BE=CF=85=CE=B2=CE=B1=CE=B8=CE=BF=CE=BD), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+oz, (fluid ounce), U.S. Measure, Historical Units of Capacity
+oz, (ounce), Avoirdupois (U.S.), Historical weights
+oz, (fluid ounce), British Imperial Liquid And Dry, Capacity and volume
+oz, (ounce), Avoirdupois (U.S. / British), Mass and weight
+oz/day, (ounce per day), U.S. and British Imperial, Flow rate by mass
+ozf, (ounce-force), English Engineering and British Gravitational Units, Force
+ozf.in, (ounce-force inch), British and U.S., Torque
+oz/ft=C2=B3, (ounce per cubic foot), British and U.S., Density
+oz/gal, (ounce per U.S. gallon), British and U.S., Density
+oz/hour, (ounce per hour), U.S. and British Imperial, Flow rate by mass
+oz/in=C2=B3, (ounce per cubic inch), British and U.S., Density
+oz/min, (ounce per minute), U.S. and British Imperial, Flow rate by mass
+oz/s, (ounce per second), U.S. and British Imperial, Flow rate by mass
+ozt, (ounce), Troy, Mass and weight
+oz/yd=C2=B3, (ounce per cubic yard), British and U.S., Density
+oz/year, (ounce per year), U.S. and British Imperial, Flow rate by mass
+
+## SECTION P 
+p, (pico), Metric Prefixes, Franctions and Percent
+P, (peta), Metric Prefixes, Franctions and Percent
+Pa, (pascal), Metric, Stress and Pressure
+PAB, (Panamanian Balboa), Central American Currencies, Currency
+pace, British Imperial Measure before 1963, Distance and Length
+pair, brace, yoke, Quantity Units, Franctions and Percent
+Pakistani Rupee, (PKR), Asian Currencies, Currency
+palaiste (=CF=80=CE=B1=CE=BB=CE=B1=CE=B9=CF=83=CF=84=CE=AE, palm), Ancient Greek, Historical Lengths
+Palladium (troy ounce), (XPD), Other Currencies and More, Currency
+palm, (plm), British Imperial Measure before 1963, Distance and Length
+palmipes, Ancient Roman, Historical Lengths
+palmo, Old Spanish, Historical Lengths
+palmo de craveira, Old Portuguese, Historical Lengths
+palmo quadrado (square palmo), Old Portuguese, Historical Units of Area
+palmus major (palm length), Ancient Roman, Historical Lengths
+palmus (palm width), Ancient Roman, Historical Lengths
+Panama Canal Universal Measurement System (PC/UMS), Ship tonnage measurements, Capacity and volume
+Panamanian Balboa, (PAB), Central American Currencies, Currency
+panilla (for olive oil), Old Spanish Liquid Measure, Historical Units of Capacity
+Papua New Guinean Kina, (PGK), Currencies of Australia and Oceania, Currency
+Paraguayan Guarani, (PYG), South American Currencies, Currency
+parah, Indian units (Akbar system), Mass and weight
+parasanges (=CF=80=CE=B1=CF=81=CE=B1=CF=83=CE=AC=CE=B3=CE=B3=CE=B5=CF=82, league), Ancient Greek, Historical Lengths
+Paris point, European footwear unit, Distance and Length
+parsec, (pc), Astronomical, Distance and Length
+parts per billion, (ppb), Percentages and Parts, Franctions and Percent
+parts per million, (ppm), Percentages and Parts, Franctions and Percent
+pascal, (Pa), Metric, Stress and Pressure
+paso, Old Spanish, Historical Lengths
+passo geom=C3=A9trico, Old Portuguese, Historical Lengths
+passus (pace), Ancient Roman, Historical Lengths
+Pbit [Pibit], (petabit [pebibit]), Data Storage and Transmission, Computer storage
+Pb [PiB], (petabyte [pebibyte]), Data Storage and Transmission, Computer storage
+pc, (parsec), Astronomical, Distance and Length
+pc=C2=B3, (cubic parsec), Astronomical, Capacity and volume
+pdl, (poundal), English Imperial Units, Foot-Pound-Second System, Force
+p=C3=A9, Old Portuguese, Historical Lengths
+p=C4=93chys (=CF=80=E1=BF=86=CF=87=CF=85=CF=82, elbow), Ancient Greek, Historical Lengths
+peck, (pk), British Imperial Liquid And Dry, Capacity and volume
+peck, (pk), U.S. Dry Measure, Capacity and volume
+pedj-aa (large span), Ancient Egypt, Historical Lengths
+pedj-sheser (small span), Ancient Egypt, Historical Lengths
+PEN, (Peruvian Sol), South American Currencies, Currency
+pennyweight, (dwt), Troy, Mass and weight
+percent, (%), Percentages and Parts, Franctions and Percent
+perch, British (Imperial) And U.S. System, Area
+perch, British Imperial Liquid And Dry, Capacity and volume
+perch, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+perche, Old French, Historical Lengths
+permille, (=E2=80=B0), Percentages and Parts, Franctions and Percent
+pertica (perch), Ancient Roman, Historical Lengths
+Peruvian Sol, (PEN), South American Currencies, Currency
+pes (foot), Ancient Roman, Historical Lengths
+pes sestertius, Ancient Roman, Historical Lengths
+peta, (P), Metric Prefixes, Franctions and Percent
+petabit [pebibit], (Pbit [Pibit]), Data Storage and Transmission, Computer storage
+petabyte [pebibyte], (Pb [PiB]), Data Storage and Transmission, Computer storage
+pfennig, Old German (Prussian), Historical weights
+pfund, Old Austrian, Historical weights
+pfund, Old German (Prussian), Historical weights
+PGK, (Papua New Guinean Kina), Currencies of Australia and Oceania, Currency
+ph, (phot), Centimeter-Gram-Second System (CGS), Illuminance
+Philippine Peso, (PHP), Asian Currencies, Currency
+phot, (ph), Centimeter-Gram-Second System (CGS), Illuminance
+PHP, (Philippine Peso), Asian Currencies, Currency
+physical atmosphere, (atm), Atmosphere, Stress and Pressure
+pica, Typographical (British and U.S. - ATA system), Distance and Length
+pica [PostScript], Typographical (British and U.S. - ATA system), Distance and Length
+pico, (p), Metric Prefixes, Franctions and Percent
+picosecond, (ps), Common units, Time
+picul (tam), Hong Kong, Mass and weight
+pie, Old Spanish, Historical Lengths
+pie cuadrado (square pie), Old Spanish, Historical Units of Area
+pied [foot], Old French, Historical Lengths
+pim, Biblical, Historical weights
+pin, English brewery cask units, Capacity and volume
+pint, (pt), British Imperial Liquid And Dry, Capacity and volume
+pint, (pt), Apothecaries, Capacity and volume
+pint, (pt), U.S. Dry Measure, Capacity and volume
+pint, (pt), U.S. Liquid Measure, Capacity and volume
+pint (dry), (pt), U.S. Measure, Historical Units of Capacity
+pint (liquid), (pt), U.S. Measure, Historical Units of Capacity
+pipa, Old Portuguese Liquid Measure, Historical Units of Capacity
+pixel, (px), Typographical (British and U.S. - ATA system), Distance and Length
+pk, (peck), British Imperial Liquid And Dry, Capacity and volume
+pk, (peck), U.S. Dry Measure, Capacity and volume
+PKR, (Pakistani Rupee), Asian Currencies, Currency
+Planck area, (L=C2=B2), Natural units, Area
+Planck density, (L=E2=81=BB=C2=B3M), Natural units, Density
+Planck energy, (L=C2=B2MT=E2=81=BB=C2=B2), Natural units, Energy and Work
+Planck force, (LMT=E2=81=BB=C2=B2), Natural units, Force
+Planck length, (L), Natural units, Distance and Length
+Planck mass, (M), Natural units, Mass and weight
+Planck power, (L=C2=B2MT=E2=81=BB=C2=B3), Natural units, Power
+Planck pressure, (L=E2=81=BB=C2=B9MT=E2=81=BB=C2=B2), Natural units, Stress and Pressure
+Planck temperature, (=CE=98), Temperature increment conversion, Temperature increment
+Planck temperature, (=CE=98), Temperature scale conversion, Temperature
+Planck time, (T), Natural units, Time
+Planck volume, (L=C2=B3), Natural units, Capacity and volume
+Platinum (troy ounce), (XPT), Other Currencies and More, Currency
+plethron (=CF=80=CE=BB=CE=AD=CE=B8=CF=81=CE=BF=CE=BD), Ancient Greek, Historical Units of Area
+plethron (=CF=80=CE=BB=CE=AD=CE=B8=CF=81=CE=BF=CE=BD), Ancient Greek, Historical Lengths
+plm, (palm), British Imperial Measure before 1963, Distance and Length
+PLN, (Polish Zloty), European Currencies, Currency
+point, (pt), Typographical (Europe - Didot system), Distance and Length
+point, (pt), Typographical (British and U.S. - ATA system), Distance and Length
+point [PostScript], (pt), Typographical (British and U.S. - ATA system), Distance and Length
+pole, British Imperial Measure before 1963, Distance and Length
+pole, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+polegada, Old Portuguese, Historical Lengths
+polegada quadrada (square polegada), Old Portuguese, Historical Units of Area
+Polish Zloty, (PLN), European Currencies, Currency
+pollex (thumb), Ancient Roman, Historical Lengths
+ponto, Old Portuguese, Historical Lengths
+pood, Old Russian, Historical weights
+poppyseed, British Imperial Measure before 1963, Distance and Length
+pote, Old Portuguese Liquid Measure, Historical Units of Capacity
+pouce [inch], Old French, Historical Lengths
+pound, Old Russian, Historical weights
+pound, (lb), Avoirdupois (U.S.), Historical weights
+pound, (=E2=84=94, =E2=80=B3), Apothecaries, Mass and weight
+pound, Troy, Mass and weight
+pound, (lb), Avoirdupois (U.S. / British), Mass and weight
+poundal, (pdl), English Imperial Units, Foot-Pound-Second System, Force
+pound-force, (lbf), English Engineering and British Gravitational Units, Force
+pound-force foot, (lbsf.ft), British and U.S., Torque
+pound-force inch, (lbsf.in), British and U.S., Torque
+pound of liquefied natural gas, higher heating value, Liquefied Natural Gas (LNG) Energy Equivalent, Energy and Work
+pound of liquefied natural gas, lower heating value, Liquefied Natural Gas (LNG) Energy Equivalent, Energy and Work
+pound of LPG, higher heating value, Liquefied Petrolium Gas (LPG) Energy Equivalent, Energy and Work
+pound of LPG, lower heating value, Liquefied Petrolium Gas (LPG) Energy Equivalent, Energy and Work
+pound per British gallon, British and U.S., Density
+pound per cubic foot, (lb/ft=C2=B3), British and U.S., Density
+pound per cubic inch, (lb/in=C2=B3), British and U.S., Density
+pound per cubic yard, (lb/yd=C2=B3), British and U.S., Density
+pound per day, (lb/day), U.S. and British Imperial, Flow rate by mass
+pound per hour, (lb/hour), U.S. and British Imperial, Flow rate by mass
+pound per minute, (lb/min), U.S. and British Imperial, Flow rate by mass
+pound per second, (lb/s), U.S. and British Imperial, Flow rate by mass
+pound per square foot, British and U.S. (Imperial system), Stress and Pressure
+pound per square inch, (psi), British and U.S. (Imperial system), Stress and Pressure
+pound per U.S. bushel, British and U.S., Density
+pound per U.S. gallon, (lb/gal), British and U.S., Density
+pound per year, (lb/year), U.S. and British Imperial, Flow rate by mass
+pous (=CF=80=CE=BF=CF=8D=CF=82, foot), Ancient Greek, Historical Lengths
+pous (=CF=80=CE=BF=CF=8D=CF=82), square foot, Ancient Greek, Historical Units of Area
+powa, Indian units (Akbar system), Mass and weight
+ppb, (parts per billion), Percentages and Parts, Franctions and Percent
+ppm, (parts per million), Percentages and Parts, Franctions and Percent
+ps, (picosecond), Common units, Time
+psi, (pound per square inch), British and U.S. (Imperial system), Stress and Pressure
+pt, (pint (liquid)), U.S. Measure, Historical Units of Capacity
+pt, (pint (dry)), U.S. Measure, Historical Units of Capacity
+pt, (pint), British Imperial Liquid And Dry, Capacity and volume
+pt, (pint), Apothecaries, Capacity and volume
+pt, (pint), U.S. Dry Measure, Capacity and volume
+pt, (pint), U.S. Liquid Measure, Capacity and volume
+pt, (point), Typographical (Europe - Didot system), Distance and Length
+pt, (point), Typographical (British and U.S. - ATA system), Distance and Length
+pt, (point [PostScript]), Typographical (British and U.S. - ATA system), Distance and Length
+pulgada, Old Spanish, Historical Lengths
+puncheon, English wine cask units, Capacity and volume
+punkt, Old Austrian, Historical Lengths
+punto, Old Spanish, Historical Lengths
+purpoura, hemorrhage, infections, Acute radiation syndrome, Radiation
+px, (pixel), Typographical (British and U.S. - ATA system), Distance and Length
+pyad, Old Russian, Historical Lengths
+PYG, (Paraguayan Guarani), South American Currencies, Currency
+pygm=C4=93 (=CF=80=CF=85=CE=B3=CE=BC=CE=AE, forearm), Ancient Greek, Historical Lengths
+pyg=C5=8Dn (=CF=80=CF=85=CE=B3=CF=8E=CE=BD), Ancient Greek, Historical Lengths
+
+## SECTION Q 
+q, (quecto), Metric Prefixes, Franctions and Percent
+Q, (quetta), Metric Prefixes, Franctions and Percent
+QAR, (Qatari Rial), Middle East Currencies, Currency
+Qatari Rial, (QAR), Middle East Currencies, Currency
+qian (=E5=B8=82=E9=8C=A2), Chinese units between 1930 and 1959, Mass and weight
+qian (=E5=B8=82=E9=92=B1), Chinese units since 1959, Mass and weight
+qian (=E9=8C=A2), Chinese units of 1915 before 1930, Mass and weight
+qing (=E9=A0=83 or =E9=A1=B7), Chinese units of 1915, Area
+qing (=E9=A0=83 or =E9=A1=B7), Chinese units of 1930, Area
+qt, (quart), British Imperial Liquid And Dry, Capacity and volume
+qt, (quart), U.S. Dry Measure, Capacity and volume
+qt, (quart), U.S. Liquid Measure, Capacity and volume
+quad, British and American, Energy and Work
+quadrans (1=E2=81=844 libra, a fourth), Ancient Roman, Historical weights
+quart, (qt), British Imperial Liquid And Dry, Capacity and volume
+quart, (qt), U.S. Dry Measure, Capacity and volume
+quart, (qt), U.S. Liquid Measure, Capacity and volume
+quarta, Old Portuguese Dry Measure, Historical Units of Capacity
+quarta, Old Portuguese, Historical weights
+quartarius (quart, forth part), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+quartet, Number of Performers, Franctions and Percent
+quartilho, Old Portuguese Liquid Measure, Historical Units of Capacity
+quarto de quartilho (quarter of quartilho), Old Portuguese Liquid Measure, Historical Units of Capacity
+quarto de selamim (quarter of selamim), Old Portuguese Dry Measure, Historical Units of Capacity
+quart, one forth or .25, (1/4), Fractions, Franctions and Percent
+quaternary number (radix 4), Other Radix Numerals, Roman numbers, Hex, Octal and more
+quecto, (q), Metric Prefixes, Franctions and Percent
+quentchen, Old Austrian, Historical weights
+quentchen, Old German (Prussian), Historical weights
+quetta, (Q), Metric Prefixes, Franctions and Percent
+quinary number (radix 5), Other Radix Numerals, Roman numbers, Hex, Octal and more
+quincunx (5=E2=81=8412 libra, five-twelfths), Ancient Roman, Historical weights
+quint, Old German (Prussian), Historical weights
+quintal, Old French, Historical weights
+quintal, Old Portuguese, Historical weights
+quintal, Old Spanish, Historical weights
+quintet, Number of Performers, Franctions and Percent
+
+## SECTION R 
+r, (ronto), Metric Prefixes, Franctions and Percent
+R, (roentgen), Exposure to ionizing radiation, Radiation
+R, (ronna), Metric Prefixes, Franctions and Percent
+rack unit, (U), Computer Equipment, Distance and Length
+rad, Absorbed radiation dose, Radiation
+rad, (radian), Common Units, Circular measure
+radian, (rad), Common Units, Circular measure
+Radian per day, Radian, Angular velocity
+Radian per hour, Radian, Angular velocity
+Radian per minute, Radian, Angular velocity
+Radian per second, Radian, Angular velocity
+Radian per week, Radian, Angular velocity
+rai (=E0=B9=84=E0=B8=A3=E0=B9=88), Thai units, Area
+ralk, Indian units (Akbar system), Mass and weight
+Ramsden's (engineers') chain, (ch), US Surveyors' Measure, Distance and Length
+Ramsden's (engineers') link, US Surveyors' Measure, Distance and Length
+ratt=C4=AB, Indian units (Akbar system), Mass and weight
+rd, (rutherford), Other units, Radioactivity
+rd, (rod), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+red shift, (z), Astronomical, Distance and Length
+register ton, Ship tonnage measurements, Capacity and volume
+rem, Dose equivalent radiation, Radiation
+remen, Ancient Egypt, Historical Lengths
+rev after 1855, Old Swedish, Historical Lengths
+rev before 1855, Old Swedish, Historical Lengths
+Revolution per day, Revolution, Angular velocity
+Revolution per hour, Revolution, Angular velocity
+Revolution per minute, Revolution, Angular velocity
+Revolution per second, Revolution, Angular velocity
+Revolution per week, Revolution, Angular velocity
+Ring size in Italy, Spain, Switzerland, the Netherlands, Brazil, India, Ring Sizes in Italy, Spain, Switzerland, the Netherlands, Brazil, India, Ring size
+Ring size in Russia, Ukraine, Belarus, Ring Sizes in Russia, Ukraine, Belarus and Other ex-USSR Countries, Ring size
+rin (=E5=8E=98), Japanese, Distance and Length
+ri (=E9=87=8C), Japanese, Distance and Length
+rod, (rd), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+roentgen, (R), Exposure to ionizing radiation, Radiation
+Romanian Leu, (RON), European Currencies, Currency
+Roman numeral (apostrophus), Roman numerals, Roman numbers, Hex, Octal and more
+Roman numeral (vinculum), Roman numerals, Roman numbers, Hex, Octal and more
+RON, (Romanian Leu), European Currencies, Currency
+ronna, (R), Metric Prefixes, Franctions and Percent
+ronto, (r), Metric Prefixes, Franctions and Percent
+rood, British (Imperial) And U.S. System, Area
+rope, British Imperial Measure before 1963, Distance and Length
+royal square perche, Old French, Historical Units of Area
+RSD, (Serbian Dinar), European Currencies, Currency
+RT, (metric refrigeration ton), Common Units, Power
+RUB, (Russian Ruble, =E2=82=BD), Major World Currencies, Currency
+rundlet, English wine cask units, Capacity and volume
+Russian fuel equivalent unit, Coal Energy Equivalent, Energy and Work
+Russian GOST shoe size (mm), Russia and CIS (ex-USSR countries) Shoe Size, Shoe Size Conversion
+Russian Ruble, =E2=82=BD, (RUB), Major World Currencies, Currency
+Russian scale in cm, Russia and CIS (ex-USSR countries) Shoe Size, Shoe Size Conversion
+Russian thousandth, Artillery, Circular measure
+Russian traditional shoe size, Russia and CIS (ex-USSR countries) Shoe Size, Shoe Size Conversion
+ruthe, Old Austrian, Historical Lengths
+ruthe, Old German (Prussian), Historical Lengths
+rutherford, (rd), Other units, Radioactivity
+Rwandan Franc, (RWF), African Curriencies, Currency
+RWF, (Rwandan Franc), African Curriencies, Currency
+
+## SECTION S 
+s, (second), Common units, Time
+Saint Helena Pound, (SHP), African Curriencies, Currency
+sai (=E6=89=8D), Japanese, Capacity and volume
+salt, Ancient Roman, Historical Units of Area
+salueng (=E0=B8=AA=E0=B8=A5=E0=B8=B6=E0=B8=87), Thai units, Mass and weight
+Salvadoran Col=C3=B3n, (SVC), Central American Currencies, Currency
+Samoan Tala, (WST), Currencies of Australia and Oceania, Currency
+S=C3=A3o Tom=C3=A9 and Pr=C3=ADncipe Dobra (pre-2018), (STD), African Curriencies, Currency
+S=C3=A3o Tom=C3=A9 and Pr=C3=ADncipe Dobra (since 2018), (STD), African Curriencies, Currency
+SAR, (Saudi Riyal), Middle East Currencies, Currency
+sat (=E0=B8=AA=E0=B8=B1=E0=B8=94, basket), Thai units, Capacity and volume
+Saudi Riyal, (SAR), Middle East Currencies, Currency
+saum, Old Austrian, Historical weights
+sazhen, Old Russian, Historical Lengths
+sb, (stilb), Other units, Illuminance
+SBD, (Solomon Islands Dollar), Currencies of Australia and Oceania, Currency
+scc, (cubic centimeter of atmosphere, standard cubic centimeter), Common Units, Energy and Work
+scf, (cubic foot of atmosphere, standard cubic foot), British and American, Energy and Work
+schiffspfund, Old German (Prussian), Historical weights
+sch=C5=93nus (rush rope), Ancient Roman, Historical Lengths
+schoinos (=CF=83=CF=87=CE=BF=CE=B9=CE=BD=CF=8C=CF=82), Ancient Greek, Historical Lengths
+score, Quantity Units, Franctions and Percent
+SCR, (Seychellois Rupee), African Curriencies, Currency
+scruple, (=E2=84=88), Apothecaries, Mass and weight
+scrupulum (1=E2=81=8424 uncia, small pebble), Ancient Roman, Historical weights
+scy, (cubic yard of atmosphere, standard cubic yard), British and American, Energy and Work
+SDG, (Sudanese Pound), African Curriencies, Currency
+se'ah (=D7=A1=D7=90=D7=94), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
+sea mile per hour, Nautical, Speed
+second, (s), Common units, Time
+second, (=E2=80=B3), Common Units, Circular measure
+second per gibibyte, Data Transfer Time (older, 1024-based), Data transfer rate
+second per gigabyte, Data Transfer Time (current, 1000-based), Data transfer rate
+second per mebibyte, Data Transfer Time (older, 1024-based), Data transfer rate
+second per megabyte, Data Transfer Time (current, 1000-based), Data transfer rate
+seconds from 0 to 100 km/h, Car performance, Acceleration
+seconds from 0 to 100 mph, Car performance, Acceleration
+seconds from 0 to 200 mph, Car performance, Acceleration
+seconds from 0 to 60 mph, Car performance, Acceleration
+seconds per 100 metres, Pace (Various Sports), Speed
+seconds per 100 yards, Pace (Various Sports), Speed
+seconds per 500 meters (500m split in rowing), Pace (Various Sports), Speed
+seconds per kilometer, Pace (Various Sports), Speed
+seconds per mile, Pace (Various Sports), Speed
+Section area in circular mils, Wire section area, Wire and Needle Gauge
+Section area in square inches, (in=C2=B2), Wire section area, Wire and Needle Gauge
+Section area in square micrometres, (=CE=BCm=C2=B2), Wire section area, Wire and Needle Gauge
+Section area in square millimetres, (mm=C2=B2), Wire section area, Wire and Needle Gauge
+Section area in square mils, Wire section area, Wire and Needle Gauge
+Section area in thousands of circular mils, (Kcmil), Wire section area, Wire and Needle Gauge
+seek (=E0=B8=8B=E0=B8=B5=E0=B8=81), Thai units, Mass and weight
+SEK, (Swedish Krona), European Currencies, Currency
+selamim, Old Portuguese Dry Measure, Historical Units of Capacity
+semimodius (half of a modius), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+semis (6=E2=81=8412 libra, a half), Ancient Roman, Historical weights
+semisextula (1=E2=81=8412 uncia, half-little sixth), Ancient Roman, Historical weights
+semuncia (=C2=BD uncia, half-twelfth), Ancient Roman, Historical weights
+sen (=E0=B9=80=E0=B8=AA=E0=B9=89=E0=B8=99, rope), Thai units, Distance and Length
+septet, Number of Performers, Franctions and Percent
+septunx (7=E2=81=8412 libra, seven-twelfths), Ancient Roman, Historical weights
+s=C3=A8r, Indian units (Akbar system), Mass and weight
+Serbian Dinar, (RSD), European Currencies, Currency
+sescuncia (1=E2=81=848 libra, 1=C2=BD twelfths), Ancient Roman, Historical weights
+sextans (2=E2=81=8412 libra, a sixth), Ancient Roman, Historical weights
+sextans (one sixth of a sextarius), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+sextant, Common Units, Circular measure
+sextarius (a sixth), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+sextet, Number of Performers, Franctions and Percent
+sextula (1=E2=81=846 uncia, little sixth), Ancient Roman, Historical weights
+Seychellois Rupee, (SCR), African Curriencies, Currency
+se	(=E7=95=9D), Japanese, Area
+SGD, (Singapore Dollar), Asian Currencies, Currency
+shackle, British Imperial Measure before 1963, Distance and Length
+shaftment, British Imperial Measure before 1963, Distance and Length
+shaku (=E5=8B=BA), Japanese, Area
+shaku (=E5=8B=BA), Japanese, Capacity and volume
+shaku (=E5=B0=BA), Japanese, Distance and Length
+shao (=E5=8B=BA), Chinese units of 1915, Capacity and volume
+shao (=E5=8B=BA), Chinese units of 1930, Capacity and volume
+shekel, Biblical, Historical weights
+sheng (=E5=8D=87), Chinese units of 1915, Capacity and volume
+sheng (=E5=B8=82=E5=8D=87), Chinese units of 1930, Capacity and volume
+shesep (palm), Ancient Egypt, Historical Lengths
+shkalik, Old Russian Liquid Measure, Historical Units of Capacity
+shock, Quantity Units, Franctions and Percent
+short hundredweight (US), Avoirdupois (U.S. / British), Mass and weight
+short ton-force foot, British and U.S., Torque
+short ton (US), Avoirdupois (U.S.), Historical weights
+short ton (US), Avoirdupois (U.S. / British), Mass and weight
+short (US) ton per day, U.S. and British Imperial, Flow rate by mass
+short (US) ton per hour, U.S. and British Imperial, Flow rate by mass
+short (US) ton per minute, U.S. and British Imperial, Flow rate by mass
+short (US) ton per second, U.S. and British Imperial, Flow rate by mass
+short (US) ton per year, U.S. and British Imperial, Flow rate by mass
+sho (=E5=8D=87), Japanese, Capacity and volume
+SHP, (Saint Helena Pound), African Curriencies, Currency
+shtoff, Old Russian Liquid Measure, Historical Units of Capacity
+siao/pai (=E0=B9=80=E0=B8=AA=E0=B8=B5=E0=B9=89=E0=B8=A2=E0=B8=A7/=E0=B9=84=E0=B8=9E), Thai units, Mass and weight
+sicilicus (=C2=BC uncia, little sickle), Ancient Roman, Historical weights
+Sierra Leonean Leone, (SLL), African Curriencies, Currency
+sievert, (Sv), Dose equivalent radiation, Radiation
+siliqua (1=E2=81=84144 uncia, carat, carob seed), Ancient Roman, Historical weights
+Silver (troy ounce), (XAG), Other Currencies and More, Currency
+Singapore Dollar, (SGD), Asian Currencies, Currency
+si (=E4=B8=9D), Chinese units of 1915, Distance and Length
+si (=E4=B8=9D), Chinese units of 1930, Distance and Length
+si (=E7=B5=B2), Chinese units between 1930 and 1959, Mass and weight
+si (=E7=B5=B2), Chinese units since 1959, Mass and weight
+skales (=CF=83=CE=BA=CE=AC=CE=BB=CE=B5=CF=82) of Cyprus, Historical Units Still In Use Today, Area
+sk=C3=A5lpund, Old Swedish, Historical weights
+skein, British Imperial Measure before 1963, Distance and Length
+skeppspund, Old Swedish, Historical weights
+skot, Other units, Illuminance
+SLL, (Sierra Leonean Leone), African Curriencies, Currency
+slope percent, (%), Slope (grade) units, Circular measure
+slope permille, (=E2=80=B0), Slope (grade) units, Circular measure
+slug/ft=C2=B3, (slug per cubic foot), English Engineering and British Gravitational Units, Density
+slug/in=C2=B3, (slug per cubic inch), English Engineering and British Gravitational Units, Density
+slug per cubic foot, (slug/ft=C2=B3), English Engineering and British Gravitational Units, Density
+slug per cubic inch, (slug/in=C2=B3), English Engineering and British Gravitational Units, Density
+slug per cubic yard, (slug/yd=C2=B3), English Engineering and British Gravitational Units, Density
+slug/yd=C2=B3, (slug per cubic yard), English Engineering and British Gravitational Units, Density
+sn, (sthene), Metre-Tonne-Second System (MTS), Force
+sok (=E0=B8=A8=E0=B8=AD=E0=B8=81, cubit), Thai units, Distance and Length
+solo, Number of Performers, Franctions and Percent
+Solomon Islands Dollar, (SBD), Currencies of Australia and Oceania, Currency
+solos (=E0=B9=82=E0=B8=AA=E0=B8=AC=E0=B8=AA), Thai units, Mass and weight
+Somali Shilling, (SOS), African Curriencies, Currency
+SOS, (Somali Shilling), African Curriencies, Currency
+South African Rand, (ZAR), African Curriencies, Currency
+South Korean Won, (KRW), Asian Currencies, Currency
+South Sudanese Pound, (SSP), African Curriencies, Currency
+sp, (span), British Imperial Measure before 1963, Distance and Length
+span, Biblical, Historical Lengths
+span, (sp), British Imperial Measure before 1963, Distance and Length
+span, The American System (US Customary Units) and British Imperial Measures, Distance and Length
+Special Drawing Rights (International Monetary Fund), (XDR), Other Currencies and More, Currency
+speed of light in vacuum, Speed constants and examples, Speed
+speed of sound in gas (mach), Speed constants and examples, Speed
+spitham=C4=93 (=CF=83=CF=80=CE=B9=CE=B8=CE=B1=CE=BC=CE=AE, span of all fingers), Ancient Greek, Historical Lengths
+square akt, Ancient Roman, Historical Units of Area
+square akt (small), Ancient Roman, Historical Units of Area
+square arshin, Old Russian, Historical Units of Area
+square centimeter, (cm=C2=B2), Metric, Historical Units of Area
+square centimeter, (cm=C2=B2), Metric, Area
+square decimeter, (dm=C2=B2), Metric, Area
+square decimpeda, Ancient Roman, Historical Units of Area
+square foot, Old Russian, Historical Units of Area
+square foot, (ft=C2=B2), British (Imperial) And U.S. System, Historical Units of Area
+square foot, (ft=C2=B2), British (Imperial) And U.S. System, Area
+square inch, (in=C2=B2), British (Imperial) And U.S. System, Historical Units of Area
+square inch, (in=C2=B2), British (Imperial) And U.S. System, Area
+square kilometer, (km=C2=B2), Metric, Historical Units of Area
+square kilometer, (km=C2=B2), Metric, Area
+square meter, (m=C2=B2), Metric, Historical Units of Area
+square meter, (m=C2=B2), Metric, Area
+square mil, (th=C2=B2), British (Imperial) And U.S. System, Area
+square mile, British (Imperial) And U.S. System, Historical Units of Area
+square mile, British (Imperial) And U.S. System, Area
+square millimeter, (mm=C2=B2), Metric, Historical Units of Area
+square millimeter, (mm=C2=B2), Metric, Area
+square ped (legal), Ancient Roman, Historical Units of Area
+square ped (ordinary), Ancient Roman, Historical Units of Area
+square pied, Old French, Historical Units of Area
+square pouce, Old French, Historical Units of Area
+square rod, British (Imperial) And U.S. System, Area
+square toise, Old French, Historical Units of Area
+square vara of Argentina, Paraguay, Uruguay, Historical Units Still In Use Today, Area
+square vara of Brazil, Historical Units Still In Use Today, Area
+square vara of Chile, Costa Rica, Dominican Republic, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Peru, S=C3=A3o Tom=C3=A9 and Principe, Venezuela, Historical Units Still In Use Today, Area
+square vara of Cuba, Historical Units Still In Use Today, Area
+square vara of Panama and Columbia, Historical Units Still In Use Today, Area
+square verst, Old Russian, Historical Units of Area
+square yard, (yd=C2=B2), British (Imperial) And U.S. System, Historical Units of Area
+square yard, (yd=C2=B2), British (Imperial) And U.S. System, Area
+SRD, (Surinamese Dollar), South American Currencies, Currency
+Sri Lankan Rupee, (LKR), Asian Currencies, Currency
+SSP, (South Sudanese Pound), African Curriencies, Currency
+st, (stone), Avoirdupois (U.S. / British), Mass and weight
+stadium attic, Ancient Greek, Historical Lengths
+stadium olympic, Ancient Greek, Historical Lengths
+stadium ptolemey, Ancient Greek, Historical Lengths
+stadium (stade, furlong), Ancient Roman, Historical Lengths
+stain, Old Austrian, Historical weights
+stain, Old German (Prussian), Historical weights
+Standard acceleration of free fall on Earth, (g), Free Fall Acceleration (Solar System), Acceleration
+standard cubic foot of natural gas, Natural Gas Energy Equivalent, Energy and Work
+st=C3=A5ng, Old Swedish, Historical Lengths
+stater (=CF=83=CF=84=CE=B1=CF=84=CE=AE=CF=81, weight), Ancient Greek (Aeginetic standard), Historical weights
+stater (=CF=83=CF=84=CE=B1=CF=84=CE=AE=CF=81, weight), Ancient Greek (Attic/Eubolic standard), Historical weights
+STD, (S=C3=A3o Tom=C3=A9 and Pr=C3=ADncipe Dobra (pre-2018)), African Curriencies, Currency
+STD, (S=C3=A3o Tom=C3=A9 and Pr=C3=ADncipe Dobra (since 2018)), African Curriencies, Currency
+stere, Lumber measure, Capacity and volume
+sthene, (sn), Metre-Tonne-Second System (MTS), Force
+stilb, (sb), Other units, Illuminance
+stone, (st), Avoirdupois (U.S. / British), Mass and weight
+stone, pounds, and ounces, (X st Y lbs Z oz), Avoirdupois (U.S. / British), Mass and weight
+Storage length in feet, (ft), CNC Memory Capacity, Computer storage
+Storage length in meters, (m), CNC Memory Capacity, Computer storage
+stremma (=CF=83=CF=84=CF=81=CE=AD=CE=BC=CE=BC=CE=B1) of Greece, Historical Units Still In Use Today, Area
+Stubs' Steel Wire Gauge, Wire Gauges, Wire and Needle Gauge
+Sudanese Pound, (SDG), African Curriencies, Currency
+sun (=E5=AF=B8), Japanese, Distance and Length
+Surinamese Dollar, (SRD), South American Currencies, Currency
+Sv, (sievert), Dose equivalent radiation, Radiation
+SVC, (Salvadoran Col=C3=B3n), Central American Currencies, Currency
+Swazi Lilangeni, (SZL), African Curriencies, Currency
+Swedish Krona, (SEK), European Currencies, Currency
+Swiss Franc, Fr, (CHF), Major World Currencies, Currency
+syderic month, Astronomical, Time
+syderic year, Astronomical, Time
+synodic month, Astronomical, Time
+SYP, (Syrian Pound), Middle East Currencies, Currency
+Syrian Pound, (SYP), Middle East Currencies, Currency
+Syringe Needle Gauge, Medical Needle and Catheter Gauges, Wire and Needle Gauge
+SZL, (Swazi Lilangeni), African Curriencies, Currency
+
+## SECTION T 
+T, (Planck time), Natural units, Time
+T, (tera), Metric Prefixes, Franctions and Percent
+T1, Computer Connection Speed, Data transfer rate
+table spoon, Apothecaries, Capacity and volume
+tablespoon, Cooking (Australian), Capacity and volume
+tablespoon, Cooking (International), Capacity and volume
+tablespoon, Cooking (U.S.), Capacity and volume
+tael (leung), Hong Kong, Mass and weight
+tael troy, Hong Kong, Mass and weight
+Tajikistani Somoni, (TJS), Asian Currencies, Currency
+talent, Biblical, Historical weights
+talent (=CF=84=CE=AC=CE=BB=CE=B1=CE=BD=CF=84=CE=BF=CE=BD), Ancient Greek (Aeginetic standard), Historical weights
+talent (=CF=84=CE=AC=CE=BB=CE=B1=CE=BD=CF=84=CE=BF=CE=BD), Ancient Greek (Attic/Eubolic standard), Historical weights
+Tamil number (Singapour, Sri Lanka, Malaysia, South Africa), Decimal numbers, Roman numbers, Hex, Octal and more
+tamlueng (=E0=B8=95=E0=B8=B3=E0=B8=A5=E0=B8=B6=E0=B8=87), Thai units, Mass and weight
+tank, Indian units (Akbar system), Mass and weight
+Tanzanian Shilling, (TZS), African Curriencies, Currency
+tan (=E6=AE=B5, =E5=8F=8D), Japanese, Area
+tarang wah (=E0=B8=95=E0=B8=B2=E0=B8=A3=E0=B8=B2=E0=B8=87=E0=B8=A7=E0=B8=B2, square wa), Thai units, Area
+Tbit [Tibit], (terabit [tebibit]), Data Storage and Transmission, Computer storage
+Tbps, (terabit per second), Basic Units of Data Transfer Rate, Data transfer rate
+TB/s, (terabyte per second), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+Tb [TiB], (terabyte [tebibyte]), Data Storage and Transmission, Computer storage
+tce, (tonne of coal equivalent), Coal Energy Equivalent, Energy and Work
+t/day, (tonne per day), Metric, Flow rate by mass
+tea cup, Apothecaries, Capacity and volume
+tea spoon, Apothecaries, Capacity and volume
+teaspoon, Cooking (Australian), Capacity and volume
+teaspoon, Cooking (International), Capacity and volume
+teaspoon, Cooking (U.S.), Capacity and volume
+tebibyte per day, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+tebibyte per hour, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+tebibyte per minute, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+tebibyte per second, (TiB/s), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+tebibyte per week, Transfer Rate per Different Time Units  (older, 1024-based), Data transfer rate
+technical atmosphere, Atmosphere, Stress and Pressure
+tera, (T), Metric Prefixes, Franctions and Percent
+terabit per second, (Tbps), Basic Units of Data Transfer Rate, Data transfer rate
+terabit [tebibit], (Tbit [Tibit]), Data Storage and Transmission, Computer storage
+terabyte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+terabyte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+terabyte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+terabyte per second, (TB/s), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
+terabyte per week, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
+terabyte [tebibyte], (Tb [TiB]), Data Storage and Transmission, Computer storage
+ternary number (radix 3), Other Radix Numerals, Roman numbers, Hex, Octal and more
+teruncius (3=E2=81=8412 libra, triple twelfth), Ancient Roman, Historical weights
+tetartemorion (=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, =C2=BC obol), Ancient Greek (Aeginetic standard), Historical weights
+tetartemorion (=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, =C2=BC obol), Ancient Greek (Attic/Eubolic standard), Historical weights
+tetarton, h=C4=93mikotyl=C4=93 (=CF=84=CE=AD=CF=84=CE=B1=CF=81=CF=84=CE=BF=CE=BD, =E1=BC=A1=CE=BC=CE=B9=CE=BA=CE=BF=CF=84=CF=8D=CE=BB=CE=B7), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+tetradrachm (=CF=84=CE=B5=CF=84=CF=81=CE=AC=CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=BF=CE=BD, 4 drachmae), Ancient Greek (Aeginetic standard), Historical weights
+tetradrachm (=CF=84=CE=B5=CF=84=CF=81=CE=AC=CE=B4=CF=81=CE=B1=CF=87=CE=BC=CE=BF=CE=BD, 4 drachmae), Ancient Greek (Attic/Eubolic standard), Historical weights
+tetrobol (=CF=84=CE=B5=CF=84=CF=81=CF=8E=CE=B2=CE=BF=CE=BB=CE=BF=CE=BD, 4 obols), Ancient Greek (Aeginetic standard), Historical weights
+tetrobol (=CF=84=CE=B5=CF=84=CF=81=CF=8E=CE=B2=CE=BF=CE=BB=CE=BF=CE=BD, 4 obols), Ancient Greek (Attic/Eubolic standard), Historical weights
+th, (thou), British Imperial Measure before 1963, Distance and Length
+th=C2=B2, (square mil), British (Imperial) And U.S. System, Area
+Thai Baht, (THB), Asian Currencies, Currency
+Thai number, Decimal numbers, Roman numbers, Hex, Octal and more
+thanan (=E0=B8=97=E0=B8=B0=E0=B8=99=E0=B8=B2=E0=B8=99, coconut shell), Thai units, Capacity and volume
+thang (=E0=B8=96=E0=B8=B1=E0=B8=87, tank), Thai units, Capacity and volume
+THB, (Thai Baht), Asian Currencies, Currency
+therm, British and American, Energy and Work
+thou, (th), British Imperial Measure before 1963, Distance and Length
+t/hour, (tonne per hour), Metric, Flow rate by mass
+thousand, Quantity Units, Franctions and Percent
+thousand board-feet, (mfbm, mbdft, mbf), Lumber measure, Capacity and volume
+thousand of circular mils, (kcmil, MCM), Units for Measuring Wire Gauges, Area
+thousand of normal cubic meters of natural gas, Natural Gas Energy Equivalent, Energy and Work
+thousand of standard cubic feet of natural gas, Natural Gas Energy Equivalent, Energy and Work
+thousand pounds per square inch, (ksi), British and U.S. (Imperial system), Stress and Pressure
+TiB/s, (tebibyte per second), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
+tierce, English wine cask units, Capacity and volume
+time per 500 meters (500m split in rowing), (HH:MM:SS), Pace (Various Sports), Speed
+time per kilometer, (HH:MM:SS), Pace (Various Sports), Speed
+time per mile, (HH:MM:SS), Pace (Various Sports), Speed
+tithe, one fifth or .2, (1/5), Fractions, Franctions and Percent
+TJS, (Tajikistani Somoni), Asian Currencies, Currency
+t/m=C2=B3, (tonne per cubic meter), Metric System, Density
+t/min, (tonne per minute), Metric, Flow rate by mass
+TMT, (Turkmenistani Manat), Asian Currencies, Currency
+TND, (Tunisian Dinar), African Curriencies, Currency
+tnf, (ton-force), English Engineering and British Gravitational Units, Force
+toe, (tonne of oil equivalent), Oil Energy Equivalent, Energy and Work
+toesa, Old Portuguese, Historical Lengths
+toise, Old French, Historical Lengths
+tol=C3=A4, Indian units (Akbar system), Mass and weight
+tonel, Old Portuguese Liquid Measure, Historical Units of Capacity
+tonelada, Old Portuguese, Historical weights
+tonelada, Old Spanish, Historical weights
+ton-force, (tnf), English Engineering and British Gravitational Units, Force
+Tongan Pa=CA=BBanga, (TOP), Currencies of Australia and Oceania, Currency
+tonnage, Ship tonnage measurements, Capacity and volume
+tonne, Metric, Historical weights
+tonne, Metric, Mass and weight
+tonne-force, Gravitational Metric System, Force
+tonne-force centimeter, Metric, Torque
+tonne-force meter, Metric, Torque
+tonne (metric) of TNT, TNT Energy Equivalent, Energy and Work
+tonne of coal equivalent, (tce), Coal Energy Equivalent, Energy and Work
+tonne of oil equivalent, (toe), Oil Energy Equivalent, Energy and Work
+Tonne of Russian fuel equivalent unit, Coal Energy Equivalent, Energy and Work
+tonne per cubic meter, (t/m=C2=B3), Metric System, Density
+tonne per day, (t/day), Metric, Flow rate by mass
+tonne per hour, (t/hour), Metric, Flow rate by mass
+tonne per minute, (t/min), Metric, Flow rate by mass
+tonne per second, (t/s), Metric, Flow rate by mass
+tonne per square centimeter, Metric, Stress and Pressure
+tonne per square meter, Metric, Stress and Pressure
+tonne per year, (t/year), Metric, Flow rate by mass
+ton of TNT, TNT Energy Equivalent, Energy and Work
+ton (U.S.) per square foot, British and U.S. (Imperial system), Stress and Pressure
+ton (U.S.) per square inch, British and U.S. (Imperial system), Stress and Pressure
+TOP, (Tongan Pa=CA=BBanga), Currencies of Australia and Oceania, Currency
+township, British (Imperial) And U.S. System, Area
+to (=E6=96=97), Japanese, Capacity and volume
+Traditional Chinese number, Decimal numbers, Roman numbers, Hex, Octal and more
+triens (4=E2=81=8412 libra, a third), Ancient Roman, Historical weights
+triens (one third of a sextarius), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+trihemitetartemorion (=CF=84=CF=81=CE=B9=CE=B7=CE=BC=CE=B9=CF=84=CE=B5=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, 1=C2=BD tetartemorion), Ancient Greek (Aeginetic standard), Historical weights
+trihemitetartemorion (=CF=84=CF=81=CE=B9=CE=B7=CE=BC=CE=B9=CF=84=CE=B5=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, 1=C2=BD tetartemorion), Ancient Greek (Attic/Eubolic standard), Historical weights
+Trinidad and Tobago Dollar, (TTD), South American Currencies, Currency
+trio, Number of Performers, Franctions and Percent
+triobol (=CF=84=CF=81=CE=B9=CF=8E=CE=B2=CE=BF=CE=BB=CE=BF=CE=BD, 3 obols), Ancient Greek (Aeginetic standard), Historical weights
+triobol (=CF=84=CF=81=CE=B9=CF=8E=CE=B2=CE=BF=CE=BB=CE=BF=CE=BD, 3 obols), Ancient Greek (Attic/Eubolic standard), Historical weights
+tritartemorion (=CF=84=CF=81=CE=B9=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, 3 tetartemoria), Ancient Greek (Aeginetic standard), Historical weights
+tritartemorion (=CF=84=CF=81=CE=B9=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, 3 tetartemoria), Ancient Greek (Attic/Eubolic standard), Historical weights
+tropic year, Astronomical, Time
+TRY, (Turkish Lira), Middle East Currencies, Currency
+t/s, (tonne per second), Metric, Flow rate by mass
+tsubo (=E5=9D=AA), Japanese, Area
+tsun (=E5=AF=B8), Hong Kong units, Distance and Length
+TTD, (Trinidad and Tobago Dollar), South American Currencies, Currency
+tum (thumb or inch) after 1855, Old Swedish, Historical Lengths
+tum (thumb or inch) before 1855, Old Swedish, Historical Lengths
+tun, English wine cask units, Capacity and volume
+Tunisian Dinar, (TND), African Curriencies, Currency
+Turkish Lira, (TRY), Middle East Currencies, Currency
+Turkish stremma of Greece, Historical Units Still In Use Today, Area
+Turkmenistani Manat, (TMT), Asian Currencies, Currency
+tv=C3=A4rhand (hand), Old Swedish, Historical Lengths
+TWD, (New Taiwan Dollar), Asian Currencies, Currency
+twip, Typographical (British and U.S. - ATA system), Distance and Length
+t/year, (tonne per year), Metric, Flow rate by mass
+TZS, (Tanzanian Shilling), African Curriencies, Currency
+
+## SECTION U 
+U, (rack unit), Computer Equipment, Distance and Length
+UAH, (Ukrainian Hryvnia), European Currencies, Currency
+Ugandan Shilling, (UGX), African Curriencies, Currency
+uger, Ancient Roman, Historical Units of Area
+UGX, (Ugandan Shilling), African Curriencies, Currency
+U.K. Needle Size (SWG), Knitting Needle and Crochet Hook Sizes, Wire and Needle Gauge
+Ukrainian Hryvnia, (UAH), European Currencies, Currency
+UMTS HSDPA, Computer Connection Speed, Data transfer rate
+UMTS HSPA+, Computer Connection Speed, Data transfer rate
+uncia (inch), Ancient Roman, Historical Lengths
+uncia (Roman ounce, a twelfth), Ancient Roman, Historical weights
+undecimal number (radix 11), Other Radix Numerals, Roman numbers, Hex, Octal and more
+United Arab Emirates Dirham, (AED), Middle East Currencies, Currency
+United States Dollar, $, (USD), Major World Currencies, Currency
+unit, point, (1), Quantity Units, Franctions and Percent
+unze, Old Austrian, Historical weights
+unze, Old German (Prussian), Historical weights
+urna (urn), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+Uruguayan Peso, (UYU), South American Currencies, Currency
+USB 1, Computer Connection Speed, Data transfer rate
+USB 2.0, Computer Connection Speed, Data transfer rate
+USB 3.0, Computer Connection Speed, Data transfer rate
+US beer barrel, U.S. brewery cask units, Capacity and volume
+US beer half-barrel, U.S. brewery cask units, Capacity and volume
+US beer keg (typical), U.S. brewery cask units, Capacity and volume
+US beer quarter-barrel, U.S. brewery cask units, Capacity and volume
+US cable length, US Nautical Measure, Distance and Length
+U.S. Crochet Hook Size, Knitting Needle and Crochet Hook Sizes, Wire and Needle Gauge
+USD, (United States Dollar, $), Major World Currencies, Currency
+US fathom, (fath), US Nautical Measure, Distance and Length
+U.S. gallon per day, (gal/day), U.S. and British Imperial, Flow rate by volume
+U.S. gallon per hour, (gph), U.S. and British Imperial, Flow rate by volume
+U.S. gallon per minute, (gpm), U.S. and British Imperial, Flow rate by volume
+U.S. gallon per second, (gps), U.S. and British Imperial, Flow rate by volume
+U.S. gallon per year, (gal/year), U.S. and British Imperial, Flow rate by volume
+US nautical mile, US Nautical Measure, Distance and Length
+U.S. Needle Size, Knitting Needle and Crochet Hook Sizes, Wire and Needle Gauge
+U.S. refrigeration ton, (USRT), British and American, Power
+USRT, (U.S. refrigeration ton), British and American, Power
+UYU, (Uruguayan Peso), South American Currencies, Currency
+Uzbekistan Som, (UZS), Asian Currencies, Currency
+UZS, (Uzbekistan Som), Asian Currencies, Currency
+
+## SECTION V 
+V.92 dial-up modem, Computer Connection Speed, Data transfer rate
+VA, (volt-ampere), International System (SI), Power
+Vanuatu Vatu, (VUV), Currencies of Australia and Oceania, Currency
+vara, Old Portuguese, Historical Lengths
+vara, Old Spanish, Historical Lengths
+vara cuadrada (square vara), Old Spanish, Historical Units of Area
+vara of Argentina, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Brazil, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Chile, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Colombia, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Costa Rica, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Cuba, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Dominican Republic, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Ecuador, Spanish Customary Units Still In Use Today, Distance and Length
+vara of El Salvador, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Guatemala, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Honduras, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Mexico, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Nicaragua, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Panama, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Paraguay, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Peru (espa=C3=B1ola), Spanish Customary Units Still In Use Today, Distance and Length
+vara of Peru (peruana), Spanish Customary Units Still In Use Today, Distance and Length
+vara of S=C3=A3o Tom=C3=A9 and Principe, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Uruguay, Spanish Customary Units Still In Use Today, Distance and Length
+vara of Venezuela, Spanish Customary Units Still In Use Today, Distance and Length
+vara quadrada (square vara), Old Portuguese, Historical Units of Area
+vedro, Old Russian Liquid Measure, Historical Units of Capacity
+vedro, Old Russian Dry Measure, Historical Units of Capacity
+Venezuelan Bol=C3=ADvar Soberano, (VES), South American Currencies, Currency
+vershok, Old Russian, Historical Lengths
+verst, Old Russian, Historical Lengths
+VES, (Venezuelan Bol=C3=ADvar Soberano), South American Currencies, Currency
+vierding, Old Austrian, Historical weights
+Vietnamese Dong, (VND), Asian Currencies, Currency
+vine bottle, Old Russian Liquid Measure, Historical Units of Capacity
+VND, (Vietnamese Dong), Asian Currencies, Currency
+vodka bottle, Old Russian Liquid Measure, Historical Units of Capacity
+volt-ampere, (VA), International System (SI), Power
+VUV, (Vanuatu Vatu), Currencies of Australia and Oceania, Currency
+
+## SECTION W 
+W, (watt), International System (SI), Power
+Washburn &amp; Moen Steel Wire Gauge, W&amp;M, Wire Gauges, Wire and Needle Gauge
+watt, (W), International System (SI), Power
+watt hour, (W*h), Common Units, Energy and Work
+watt second, (W*s), Common Units, Energy and Work
+wa (=E0=B8=A7=E0=B8=B2, fathom), Thai units, Distance and Length
+weakness, Acute radiation syndrome, Radiation
+week, Common units, Time
+W*h, (watt hour), Common Units, Energy and Work
+Wheat Sheaf (UK, Ireland, Australia, South Africa), Ring Sizes in the United Kingdom, Ireland, Australia, New Zealand, and South Africa (Wheat Sheaf), Ring size
+WiFi 802.11ac MU-MIMO (4 antennas), Computer Connection Speed, Data transfer rate
+WiFi 802.11ac MU-MIMO (8 antennas), Computer Connection Speed, Data transfer rate
+WiFi 802.11b, Computer Connection Speed, Data transfer rate
+WiFi 802.11g, Computer Connection Speed, Data transfer rate
+WiFi 802.11n, Computer Connection Speed, Data transfer rate
+wine glass, Apothecaries, Capacity and volume
+W*s, (watt second), Common Units, Energy and Work
+WST, (Samoan Tala), Currencies of Australia and Oceania, Currency
+
+## SECTION X 
+XAF, (CFA Franc BEAC), African Curriencies, Currency
+XAG, (Silver (troy ounce)), Other Currencies and More, Currency
+XAU, (Gold (troy ounce)), Other Currencies and More, Currency
+XCD, (East Caribbean Dollar), Currencies of the Caribbean, Currency
+XDR, (Special Drawing Rights (International Monetary Fund)), Other Currencies and More, Currency
+xest=C4=93s (=CE=BE=CE=AD=CF=83=CF=84=CE=B7=CF=82, Roman sextarius), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+xest=C4=93s (=CE=BE=CE=AD=CF=83=CF=84=CE=B7=CF=82, Roman sextarius), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+XOF, (CFA Franc BCEAO), African Curriencies, Currency
+XPD, (Palladium (troy ounce)), Other Currencies and More, Currency
+XPF, (French Polynesia CFP Franc), Currencies of Australia and Oceania, Currency
+XPT, (Platinum (troy ounce)), Other Currencies and More, Currency
+X st Y lbs Z oz, (stone, pounds, and ounces), Avoirdupois (U.S. / British), Mass and weight
+x'y", (feet and inches), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+
+## SECTION Y 
+y, (yocto), Metric Prefixes, Franctions and Percent
+Y, (yotta), Metric Prefixes, Franctions and Percent
+yard, (yd), The American System of Measures (US Customary Units), Historical Lengths
+yard, (yd), British Imperial Measure before 1963, Distance and Length
+yard, (yd), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+yd, (yard), The American System of Measures (US Customary Units), Historical Lengths
+yd, (yard), British Imperial Measure before 1963, Distance and Length
+yd, (yard), The American System (US Customary Units) and British Imperial Measures, Distance and Length
+yd=C2=B2, (square yard), British (Imperial) And U.S. System, Historical Units of Area
+yd=C2=B2, (square yard), British (Imperial) And U.S. System, Area
+yd=C2=B3, (cubic yard), British and U.S. derivatives of length units, Capacity and volume
+Yemeni Rial, (YER), Middle East Currencies, Currency
+YER, (Yemeni Rial), Middle East Currencies, Currency
+yin (=E5=BC=95), Chinese units of 1915, Distance and Length
+yin (=E5=BC=95), Chinese units of 1930, Distance and Length
+yip mue (=E0=B8=AB=E0=B8=A2=E0=B8=B4=E0=B8=9A=E0=B8=A1=E0=B8=B7=E0=B8=AD, pinch), Thai units, Capacity and volume
+yocto, (y), Metric Prefixes, Franctions and Percent
+yotta, (Y), Metric Prefixes, Franctions and Percent
+yot (=E0=B9=82=E0=B8=A2=E0=B8=8A=E0=B8=99=E0=B9=8C, league), Thai units, Distance and Length
+yugada, Old Spanish, Historical Units of Area
+
+## SECTION Z 
+z, (zepto), Metric Prefixes, Franctions and Percent
+z, (red shift), Astronomical, Distance and Length
+Z, (zetta), Metric Prefixes, Franctions and Percent
+Zambian Kwacha, (ZMW), African Curriencies, Currency
+ZAR, (South African Rand), African Curriencies, Currency
+zentner, Old Austrian, Historical weights
+zentner, Old German (Prussian), Historical weights
+zepto, (z), Metric Prefixes, Franctions and Percent
+zetta, (Z), Metric Prefixes, Franctions and Percent
+zhang=C2=B2, (fang zhang (=E6=96=B9=E4=B8=88)), Chinese units of 1915, Area
+zhang=C2=B2, (fang zhang (=E6=96=B9=E4=B8=88)), Chinese units of 1930, Area
+zhang (=E4=B8=88), Chinese units of 1915, Distance and Length
+zhang (=E5=B8=82=E4=B8=88), Chinese units of 1930, Distance and Length
+Zimbabwean Dollar, (ZWL), African Curriencies, Currency
+ZMW, (Zambian Kwacha), African Curriencies, Currency
+zoll, Old Austrian, Historical Lengths
+zoll, Old German (Prussian), Historical Lengths
+zolotnik, Old Russian, Historical weights
+ZWL, (Zimbabwean Dollar), African Curriencies, Currency
+
+## SECTION START 
+

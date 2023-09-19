@@ -205,7 +205,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1172>
+    1188>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -382,7 +382,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"molar", precise::laboratory::molarity},
         {"Molar", precise::laboratory::molarity},
         {"eq", precise::mol},
-        {"equivalent", precise::mol},
+        {"Eq", precise::mol},
+        { "equivalent", {1.0,precise::one,commodities::packaging::equivalent} },
         {"EQ", precise::mol},
         {"osm", precise_unit(1.0, precise::mol, commodities::packaging::particle)},
         {"osmole", precise_unit(1.0, precise::mol, commodities::packaging::particle)},
@@ -408,6 +409,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"volt", precise::V},
         {"volt_ac", precise::V},
         {"volt_dc", precise::V},
+        {"voltAC", precise::V},
+        {"voltDC", precise::V},
         {"W", precise::W},
         {"W/m^2", precise::W / precise::m.pow(2)},
         {"watt", precise::W},
@@ -536,6 +539,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"Gal", precise::cgs::gal},
         {"Gals", precise::cgs::gal},
         {"galileos", precise::cgs::gal},
+        { "linear",{1.0,precise::one,commodities::packaging::linear} },
         {"jansky",
          precise_unit(
              1e-26,
@@ -686,6 +690,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"\xB0", precise::deg},  // latin-1 degree
         {u8"\u00B0(s)", precise::deg},  // unicode degree symbol
         {"\xB0(s)", precise::deg},  // latin-1 degree
+        {"degree[unitofangle]",precise::deg},
+        {"degree[angle]",precise::deg},
+        {"deg[angle]",precise::deg},
+        {"deg[unitofangle]",precise::deg},
         {"arcminute", precise::angle::arcmin},
         {"arcmin", precise::angle::arcmin},
         {"amin", precise::angle::arcmin},
@@ -694,6 +702,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"'", precise::angle::arcmin},
         {"`", precise::angle::arcmin},
         {u8"\u2032", precise::angle::arcmin},  // single prime
+        {"minute[unitofangle]",precise::angle::arcmin},
+         {"minute[angle]",precise::angle::arcmin},
+        {"min[angle]",precise::angle::arcmin},
+         {"min[unitofangle]",precise::angle::arcmin},
         {"arcsecond", precise::angle::arcsec},
         {"''", precise::angle::arcsec},
         {"``", precise::angle::arcsec},
@@ -702,6 +714,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"angularsecond", precise::angle::arcsec},
         {"\"", precise::angle::arcsec},
         {u8"\u2033", precise::angle::arcsec},  // double prime
+        {"second[unitofangle]",precise::angle::arcsec},
+        {"second[angle]",precise::angle::arcsec},
+        {"sec[angle]",precise::angle::arcsec},
+        {"sec[unitofangle]",precise::angle::arcsec},
         {"mas", precise_unit(0.001, precise::angle::arcsec)},  // milliarcsec
         {"uas", precise_unit(0.000001, precise::angle::arcsec)},  // microarcsec
         {"rad", precise::rad},
@@ -1056,7 +1072,6 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"FLAG", precise::iflag},
         {"EFLAG", precise::eflag},
         {"IFLAG", precise::iflag},
-        {"linear", precise::iflag},
         {"imaginary", precise::iflag},
         {"sqrt(-1)", precise::iflag},
         {"puOhm", precise::pu* precise::ohm},
@@ -1478,7 +1493,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1132>
+    1137>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
         {"candle_it", precise::lm / precise::sr},
@@ -1486,6 +1501,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"candlepower", precise::other::candle},
         {"footlambert",
          {1.0 / constants::pi, precise::cd / precise::ft.pow(2)}},
+        {"ftL",
+        {1.0 / constants::pi, precise::cd / precise::ft.pow(2)}},
         {"fl", {1.0 / constants::pi, precise::cd / precise::ft.pow(2)}},
         {"CP", precise::other::candle},
         {"footcandle", precise::lumen / precise::ft.pow(2)},
@@ -1624,6 +1641,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"CCF", precise::hundred* precise::energy::scf},  // centum cubic foot
         {"MCF", precise::kilo* precise::energy::scf},  // millum cubic foot
         {"MMCF", precise::mega* precise::energy::scf},  // million cubic foot
+        {"MMSCF", precise::mega* precise::energy::scf},  // million cubic foot
         {"BCF", precise::giga* precise::energy::scf},  // billion cubic foot
         {"TCF", precise::tera* precise::energy::scf},  // trillion cubic foot
         {"QCF", precise::exa* precise::energy::scf},  // quadrillion cubic foot
@@ -1972,6 +1990,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"KCAL", precise::energy::kcal},
         {"Kcal", precise::energy::kcal},
         {"kilocalorie", precise::energy::kcal},
+        {"kilocalorie_m", precise::kilo*precise::energy::cal_mean},
         {"btu", precise::energy::btu_it},
         {"Btu", precise::energy::btu_it},
         {"BTU", precise::energy::btu_it},
@@ -2206,7 +2225,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"waterton", precise_unit(224.0, precise::imp::gallon)},
         {"lb", precise::lb},
         {"LB", precise::lb},
-        {"kip", precise::kilo* precise::lbf},
+        {"kip", precise::kilo* precise::lb},
+        {"kipf", precise::kilo* precise::lbf},
+        {"kipforce", precise::kilo* precise::lbf},
+        {"kilopound", precise::kilo* precise::lb},
         {"lb_tr", precise::troy::pound},
         {"[LB_TR]", precise::troy::pound},
         {"pound-troy", precise::troy::pound},
@@ -2285,6 +2307,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"dr_i", precise::av::dram},
         {"dram_av", precise::av::dram},
         {"dram_i", precise::av::dram},
+        {"dram_br", precise::imp::dram},
         {"[DR_AV]", precise::av::dram},
         {"drammassunit", precise::av::dram},
         {"scwt", precise::av::hundredweight},
@@ -2304,6 +2327,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"hundredweight_br", precise::av::longhundredweight},
         {"hundredweight(short)", precise::av::hundredweight},
         {"hundredweight(long)", precise::av::longhundredweight},
+        { "quarter_br", {0.25,precise::av::longhundredweight} },
+        { "quarter(UK)",{12.70059,kg} },
         {"assayton", precise::mass::ton_assay},
         {"tonassay", precise::mass::ton_assay},
         {"ton(assayUS)", precise::mass::ton_assay},
@@ -2369,8 +2394,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"ounce_av", precise::av::ounce},
         {"ounce_i", precise::av::ounce},
         // this is probably more common than kilopoise
-        {"kipf", precise::kilo* precise::lbf},
-        {"kipforce", precise::kilo* precise::lbf},
+        
         {"tonforce(long)", precise::av::longton* constants::g0.as_unit()},
         {"tonforce(short)", precise::av::ton* constants::g0.as_unit()},
         {"tonforce_us", precise::av::ton* constants::g0.as_unit()},

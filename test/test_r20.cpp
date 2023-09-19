@@ -33,30 +33,49 @@ TEST(r20, conversions)
     auto* r20data = reinterpret_cast<const unitD*>(r20);
     int missed{0};
     int correct{0};
+    int matchWithCount{0};
+    int matchWithPU{0};
     int mismatchCommodity{ 0 };
     int commQuantity{0};
+    int commQuantity2{0};
     int skipped{0};
     int defaulted{0};
     for (size_t ii = 1; ii < unit_count; ++ii) {
         std::string ustr = std::string(std::get<1>(r20data[ii]));
         auto unit = units::measurement_from_string(ustr).as_unit();
+        auto r20unit=std::get<2>(r20data[ii]);
         if (is_valid(unit)) {
-            if (unit != std::get<2>(r20data[ii])){
-                if (units::unit_cast(unit) == units::unit_cast(std::get<2>(r20data[ii])))
+            if (unit != r20unit){
+                if (units::unit_cast(unit) == units::unit_cast(r20unit))
                 {
                     ++mismatchCommodity;
                 }
                 else
                 {
-                    if (std::get<2>(r20data[ii]).commodity() != 0)
+                    if (r20unit.commodity() != 0)
                     {
                         ++commQuantity;
-                        std::cout<< ' ' << ii << " \"" << std::get<0>(r20data[ii]) << "\" " << ustr << " conversion with commodity doesn't match " << to_string(unit) << " vs. " << to_string(std::get<2>(r20data[ii]));
+                        std::cout<< ' ' << ii << " \"" << std::get<0>(r20data[ii]) << "\" " << ustr << " conversion with commodity doesn't match " << to_string(unit) << " vs. " << to_string(r20unit)<<'\n';
+                    }
+                    else if (unit.commodity() != 0)
+                    {
+                        ++commQuantity2;
+                        std::cout<< ' ' << ii << " \"" << std::get<0>(r20data[ii]) << "\" " << ustr << " conversion with commodity doesn't match " << to_string(unit) << " vs. " << to_string(r20unit)<<'\n';
+                    }
+                    else if (r20unit.is_per_unit())
+                    {
+                        ++matchWithPU;
+                        continue;
+                    }
+                    else if (unit / units::precise::count == r20unit || unit * units::precise::count == r20unit)
+                    {
+                        ++matchWithCount;
+                        continue;
                     }
                     else
                     {
-                        EXPECT_EQ(unit, std::get<2>(r20data[ii]))
-                        << ' ' << ii << " \"" << std::get<0>(r20data[ii]) << "\" " << ustr << " conversion does not match " << to_string(unit) << " vs. " << to_string(std::get<2>(r20data[ii]));
+                        EXPECT_EQ(unit, r20unit)
+                        << ' ' << ii << " \"" << std::get<0>(r20data[ii]) << "\" " << ustr << " conversion does not match " << to_string(unit) << " vs. " << to_string(r20unit);
 
                     ++missed;
                     }
@@ -66,7 +85,7 @@ TEST(r20, conversions)
                 ++correct;
             }
         } else {
-            if (std::get<2>(r20data[ii]) == units::precise::one / units::precise::count)
+            if (r20unit == units::precise::one / units::precise::count)
             {
                 ++defaulted;
             }
@@ -79,8 +98,11 @@ TEST(r20, conversions)
     }
     std::cout << missed << " r20 units not translated properly\n";
     std::cout << mismatchCommodity << " r20 units with mismatched commodity\n";
-    std::cout<< commQuantity << " r20 units with commodities not translated correctly\n";
+    std::cout<< commQuantity << " r20 units with commodities not matching\n";
+    std::cout<< commQuantity2 << " unit translations with commodities not matching\n";
     std::cout << skipped << " r20 units skipped\n";
     std::cout << defaulted << " r20 units are still on default value\n";
+    std::cout << matchWithPU << " r20 units matched with pu modifier\n";
+    std::cout<< matchWithCount <<" r20 units match with a count modifier\n";
     std::cout << correct << " r20 units correctly translated\n";
 }
