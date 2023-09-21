@@ -205,7 +205,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1188>
+    1195>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -1493,7 +1493,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1137>
+    1155>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
         {"candle_it", precise::lm / precise::sr},
@@ -1961,21 +1961,25 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"caloriesat15C", precise::energy::cal_15},
         {"calories15C", precise::energy::cal_15},
         {"calorie15C", precise::energy::cal_15},
+        {"calorie_15", precise::energy::cal_15},
+        {"cal_15", precise::energy::cal_15},
         {"cal_[20]", precise::energy::cal_20},
         {u8"calorieat20\u00B0C", precise::energy::cal_20},
         {"caloriesat20C", precise::energy::cal_20},
         {"calorie20C", precise::energy::cal_20},
+        {"calorie_20", precise::energy::cal_20},
         {"cals20C", precise::energy::cal_20},
         {"cal20C", precise::energy::cal_20},
         {"cals15C", precise::energy::cal_15},
         {"cal15C", precise::energy::cal_15},
         {"cal15", precise::energy::cal_15},
         {"cal20", precise::energy::cal_20},
+        {"cal_20", precise::energy::cal_20},
         {u8"cal_20\u00B0C", precise::energy::cal_20},
         {"CAL_[15]", precise::energy::cal_15},
         {"CAL_[20]", precise::energy::cal_20},
         {"cal_m", precise::energy::cal_mean},
-        {"meancalorie", precise::energy::cal_mean},
+        {"calorie_m", precise::energy::cal_mean},
         {"cal_IT", precise::energy::cal_it},
         {"CAL_M", precise::energy::cal_mean},
         {"CAL_IT", precise::energy::cal_it},
@@ -2348,13 +2352,26 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"stone_br", precise::av::stone},
         {"ton", precise::ton},
         {"ton(short)", precise::ton},
+        {"ton(short)_us", precise::ton},
         {"longton", precise::av::longton},
+        {"longton_m", precise::av::longton},
+        {"longton_us", precise::av::longton},
         {"lton_av", precise::av::longton},
         {"[LTON_AV]", precise::av::longton},
         {"longton_av", precise::av::longton},
         {"ton(long)", precise::av::longton},
+        {"ton(long)_us", precise::av::longton},
+        {"ton(long)_br", precise::av::longton},
         {"longton_br", precise::av::longton},
         {"ton_br", precise::av::longton},
+
+        {"shippington_br", {42.0,ft.pow(3)} },
+        {"ton_ship_br", {42.0,ft.pow(3)} },
+        {"ton_ship", {40.0,ft.pow(3)} },
+        {"shippington_us", {40.0,ft.pow(3)} },
+        {"ton_ship_us", {40.0,ft.pow(3)} },
+        {"registerton", {100.0,ft.pow(3)} },
+
         {"oz_tr", precise::troy::oz},
         {"[OZ_TR]", precise::troy::oz},
         {"ounce_tr", precise::troy::oz},

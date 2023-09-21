@@ -35,9 +35,11 @@ TEST(r20, conversions)
     int correct{0};
     int matchWithCount{0};
     int matchWithPU{0};
+    int matchUnitBase{0};
     int mismatchCommodity{ 0 };
     int commQuantity{0};
     int commQuantity2{0};
+    int convertible{0};
     int skipped{0};
     int defaulted{0};
     for (size_t ii = 1; ii < unit_count; ++ii) {
@@ -72,6 +74,14 @@ TEST(r20, conversions)
                         ++matchWithCount;
                         continue;
                     }
+                    else if (unit.has_same_base(r20unit))
+                    {
+                        ++matchUnitBase;
+                    }
+                    else if (!std::isnan(units::convert(unit, r20unit)))
+                    {
+                        ++convertible;
+                    }
                     else
                     {
                         EXPECT_EQ(unit, r20unit)
@@ -103,6 +113,8 @@ TEST(r20, conversions)
     std::cout << skipped << " r20 units skipped\n";
     std::cout << defaulted << " r20 units are still on default value\n";
     std::cout << matchWithPU << " r20 units matched with pu modifier\n";
+    std::cout << matchUnitBase << " r20 units matched with same base but different number\n";
     std::cout<< matchWithCount <<" r20 units match with a count modifier\n";
+    std::cout<< convertible <<" r20 unit are convertible to eachother\n";
     std::cout << correct << " r20 units correctly translated\n";
 }

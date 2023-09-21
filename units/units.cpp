@@ -2555,7 +2555,7 @@ using ckpair = std::pair<const char*, const char*>;
 static precise_unit
     localityModifiers(std::string unit, std::uint64_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 54>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 55>
         internationlReplacements{{
             ckpair{"internationaltable", "IT"},
             ckpair{"internationalsteamtable", "IT"},
@@ -2569,6 +2569,7 @@ static precise_unit
             ckpair{"USstatute", "us"},
             ckpair{"statutory", "us"},
             ckpair{"statute", "i"},
+            ckpair{"shipping", "_ship"},
             ckpair{"gregorian", "g"},
             ckpair{"Gregorian", "g"},
             ckpair{"synodic", "s"},
@@ -2994,6 +2995,7 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::ucum, "B"), precise::log::bel},
     {hashGen(domains::ucum, "a"), precise::time::aj},
     {hashGen(domains::ucum, "year"), precise::time::aj},
+    {hashGen(domains::ucum, "equivalent"), precise::mol},
     {hashGen(domains::astronomy, "am"), precise::angle::arcmin},
     {hashGen(domains::astronomy, "as"), precise::angle::arcsec},
     {hashGen(domains::astronomy, "year"), precise::time::at},

@@ -1924,15 +1924,18 @@ namespace detail {
     inline double
         otherUsefulConversions(double val, const UX& start, const UX2& result)
     {
-        if (start.has_same_base(N) && result.has_same_base(kg)) {
-            // weight to mass
-            return val * start.multiplier() / constants::standard_gravity /
-                result.multiplier();
-        }
-        if (start.has_same_base(kg) && result.has_same_base(N)) {
-            // mass to weight
-            return val * start.multiplier() * constants::standard_gravity /
-                result.multiplier();
+        if (start.base_units().kg() == result.base_units().kg())
+        {
+            if ((start.base_units() / result.base_units()).has_same_base((m / s.pow(2)).base_units())) {
+                // weight to mass
+                return val * start.multiplier() / constants::standard_gravity /
+                    result.multiplier();
+            }
+            if ((result.base_units() / start.base_units()).has_same_base((m / s.pow(2)).base_units())) {
+                // mass to weight
+                return val * start.multiplier() * constants::standard_gravity /
+                    result.multiplier();
+            }
         }
         if (unit_cast(start) == kilo) {
             if (result.has_same_base(kg)) {
