@@ -85,8 +85,8 @@ unit root(const unit& un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return error;
     }
-    return unit{
-        un.base_units().root(power), numericalRoot(un.multiplier(), power)};
+    return unit{numericalRoot(un.multiplier(), power),
+        un.base_units().root(power) };
 }
 
 precise_unit root(const precise_unit& un, int power)
@@ -97,8 +97,8 @@ precise_unit root(const precise_unit& un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return precise::invalid;
     }
-    return precise_unit{
-        un.base_units().root(power), numericalRoot(un.multiplier(), power)};
+    return precise_unit{numericalRoot(un.multiplier(), power),
+        un.base_units().root(power)};
 }
 
 measurement root(const measurement& meas, int power)
@@ -1296,14 +1296,14 @@ static std::string
     switch (std::fpclassify(un.multiplier())) {
         case FP_INFINITE: {
             std::string inf = (un.multiplier() > 0.0) ? "INF" : "-INF";
-            un = precise_unit(un.base_units(), 1.0);
+            un = precise_unit(un.base_units());
             if (un == precise::one) {
                 return inf;
             }
             return inf + '*' + to_string_internal(un, match_flags);
         }
         case FP_NAN:
-            un = precise_unit(un.base_units(), 1.0);
+            un = precise_unit(un.base_units());
             if (is_error(un)) {
                 return "NaN*ERROR";
             }
@@ -1314,7 +1314,7 @@ static std::string
         case FP_SUBNORMAL:
         case FP_ZERO:
             // either denormal or 0.0 in either case close enough to 0
-            un = precise_unit(un.base_units(), 1.0);
+            un = precise_unit(un.base_units());
             if (un == precise::one) {
                 return "0";
             }
@@ -1329,7 +1329,7 @@ static std::string
     // one is
     if (std::fpclassify(llunit.multiplier_f()) != FP_NORMAL) {
         auto mstring = getMultiplierString(un.multiplier(), true);
-        un = precise_unit(un.base_units(), 1.0);
+        un = precise_unit(un.base_units());
         mstring.push_back('*');
 
         mstring.append(to_string_internal(un, match_flags));
@@ -1350,7 +1350,7 @@ static std::string
     }
     if (un.base_units().empty()) {
         auto mstring = getMultiplierString(un.multiplier(), true);
-        un = precise_unit(un.base_units(), 1.0);
+        un = precise_unit(un.base_units());
         if (un == precise::one) {
             return mstring;
         }
@@ -1430,7 +1430,7 @@ static std::string
             // so numbers must be exact
             auto mult = getMultiplierString(urem.multiplier(), false);
             if (mult.size() > 5 && isNumericalStartCharacter(mult[0])) {
-                urem = precise_unit(urem.base_units(), 1.0);
+                urem = precise_unit(urem.base_units());
                 if (!urem.base_units().empty()) {
                     return mult + '*' + to_string_internal(urem, match_flags) +
                         '*' + cxstr;
@@ -1517,7 +1517,7 @@ static std::string
             }
 
             if (!isNumericalStartCharacter(mult.front())) {
-                nu = precise_unit{nu.base_units(), 1.0};
+                nu = precise_unit{nu.base_units()};
                 std::string rstring = mult + siU.second;
                 rstring.push_back('*');
                 rstring.append(to_string_internal(nu, match_flags));
@@ -1548,7 +1548,7 @@ static std::string
             }
 
             if (!isNumericalStartCharacter(mult.front())) {
-                nu = precise_unit{nu.base_units(), 1.0};
+                nu = precise_unit{nu.base_units()};
                 std::string rstring{to_string_internal(nu, match_flags)};
                 rstring.push_back('/');
                 rstring.append(mult);
@@ -2082,6 +2082,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
     index = 0;
     double val = getNumberBlock(ustring, index);
     if (std::isnan(val)) {
+        index=0;
         return val;
     }
     while (true) {
@@ -2092,6 +2093,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
             case '.':
             case '-':
             case '+':
+                index=0;
                 return constants::invalid_conversion;
             case '/':
             case '*':
@@ -2555,7 +2557,7 @@ using ckpair = std::pair<const char*, const char*>;
 static precise_unit
     localityModifiers(std::string unit, std::uint64_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 55>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 57>
         internationlReplacements{{
             ckpair{"internationaltable", "IT"},
             ckpair{"internationalsteamtable", "IT"},
@@ -2565,11 +2567,12 @@ static precise_unit
             ckpair{"USAsurvey", "us"},
             ckpair{"USsurvey", "us"},
             ckpair{"USSurvey", "us"},
+            ckpair{"USdry", "us"},
             ckpair{"USA", "us"},
             ckpair{"USstatute", "us"},
             ckpair{"statutory", "us"},
             ckpair{"statute", "i"},
-            ckpair{"shipping", "_ship"},
+            ckpair{"shipping", "ship"},
             ckpair{"gregorian", "g"},
             ckpair{"Gregorian", "g"},
             ckpair{"synodic", "s"},
@@ -2605,13 +2608,14 @@ static precise_unit
             ckpair{"BR", "br"},
             ckpair{"UK", "br"},
             ckpair{"conventional", "90"},
-            ckpair{"AC", "_ac"},
-            ckpair{"DC", "_dc"},
-            ckpair{"0degC", "_[0]"},
-            ckpair{"20degC", "_[20]"},
-            ckpair{"59degF", "_[59]"},
-            ckpair{"60degF", "_[60]"},
-            ckpair{"39degF", "_[39]"},
+            ckpair{"AC", "ac"},
+            ckpair{"DC", "dc"},
+            ckpair{"15degC", "[15]"},
+            ckpair{"20degC", "[20]"},
+            ckpair{"59degF", "[59]"},
+            ckpair{"60degF", "[60]"},
+            ckpair{"39degF", "[39]"},
+            ckpair{"0degC", "[0]"},
         }};
     bool changed = false;
     for (const auto& irep : internationlReplacements) {
@@ -5038,9 +5042,9 @@ static precise_unit
         }
         auto res = convert(b_unit, a_unit);
         if (!std::isnan(res)) {
-            return {
-                a_unit.base_units(),
-                a_unit.multiplier() + a_unit.multiplier() * res};
+            return {a_unit.multiplier() + a_unit.multiplier() * res,
+                a_unit.base_units()
+                };
         }
     }
     return precise::invalid;

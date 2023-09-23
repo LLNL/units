@@ -1079,6 +1079,7 @@ TEST(stringToUnit, handlingOfSquared)
     auto u6=unit_from_string("degree Fahrenheit hour square foot per British thermal unit (international table) inch");
 
     EXPECT_EQ(u6,precise::degF* precise::hr*precise::ft.pow(2) / precise::energy::btu_it/precise::in);
+
 }
 
 TEST(stringToUnits, modifiedStrings)
@@ -1089,6 +1090,15 @@ TEST(stringToUnits, modifiedStrings)
 
     auto u2=unit_from_string("kilogram per millimetre");
     EXPECT_EQ(u2,precise::kg/precise::mm);
+
+    auto u3=unit_from_string("British thermal unit (59 degF)");
+        EXPECT_EQ(u3,precise::energy::btu_59);
+
+        auto u4=unit_from_string("calorie (20 degC)");
+        EXPECT_EQ(u4,precise::energy::cal_20);
+
+        auto u5=unit_from_string("nanometre");
+        EXPECT_EQ(u5,precise::nano*precise::m);
 }
 
 TEST(stringToUnits, addition)

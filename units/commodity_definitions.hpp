@@ -195,6 +195,7 @@ namespace UNITS_NAMESPACE {
                 layer=generatePackagingCode(117),
                 mat=generatePackagingCode(118),
                 side=generatePackagingCode(119),
+                    trailer=generatePackagingCode(120),
 
                 lift = generatePackagingCodeAlternate(3),
                 ration = generatePackagingCodeAlternate(4),

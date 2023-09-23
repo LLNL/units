@@ -76,7 +76,7 @@ namespace precise {
     constexpr precise_unit
         defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0));
     constexpr precise_unit
-        invalid(detail::unit_data(nullptr), constants::invalid_conversion);
+        invalid(constants::invalid_conversion, detail::unit_data(nullptr));
     constexpr precise_unit error(detail::unit_data(nullptr));
 
     /// Define some unitless numbers
@@ -89,15 +89,15 @@ namespace precise {
     constexpr precise_unit percent(0.01, one);
     constexpr precise_unit ratio = one;
 
-    constexpr precise_unit infinite(
-        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        constants::infinity);
-    constexpr precise_unit neginfinite(
-        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        -constants::infinity);
+    constexpr precise_unit infinite(constants::infinity,
+        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        );
+    constexpr precise_unit neginfinite(-constants::infinity,
+        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        );
     constexpr precise_unit
-        nan(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            constants::invalid_conversion);
+        nan(constants::invalid_conversion, detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+            );
     // SI prefixes as units
 	constexpr precise_unit deci(1e-1, one);
 	constexpr precise_unit centi(1e-2, one);
@@ -514,7 +514,7 @@ namespace precise {
         constexpr precise_unit dram{1.0 / 8.0, floz};
         constexpr precise_unit minim{1.0 / 60.0, dram};
         // weight
-        constexpr precise_unit drachm{1.7718451953125, g};
+        constexpr precise_unit drachm{3.8879346, g};
         constexpr precise_unit stone{6350.29318, g};
         constexpr precise_unit hundredweight{112.0, av::pound};
         constexpr precise_unit ton{2240.0, av::pound};
@@ -1445,7 +1445,7 @@ constexpr unit rad = unit_cast(precise::rad);
 
 constexpr unit defunit = unit_cast(precise::defunit);
 constexpr unit
-    invalid(detail::unit_data(nullptr), constants::invalid_conversion);
+    invalid(constants::invalid_conversion, detail::unit_data(nullptr));
 
 /// Check if a precise unit is a default unit
 constexpr inline bool is_default(const precise_unit& utest)

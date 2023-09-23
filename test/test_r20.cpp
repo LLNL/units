@@ -45,9 +45,10 @@ TEST(r20, conversions)
     for (size_t ii = 1; ii < unit_count; ++ii) {
         std::string ustr = std::string(std::get<1>(r20data[ii]));
         auto unit = units::measurement_from_string(ustr).as_unit();
+        auto udir=units::unit_from_string(ustr);
         auto r20unit=std::get<2>(r20data[ii]);
         if (is_valid(unit)) {
-            if (unit != r20unit){
+            if (unit != r20unit && udir!=r20unit){
                 if (units::unit_cast(unit) == units::unit_cast(r20unit))
                 {
                     ++mismatchCommodity;

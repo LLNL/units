@@ -166,9 +166,9 @@ TEST(unitOps, valid)
     EXPECT_TRUE(is_valid(V));
     EXPECT_TRUE(is_valid(unit(std::numeric_limits<double>::quiet_NaN(), m)));
     EXPECT_FALSE(is_valid(
-        unit(invalid.base_units(), std::numeric_limits<double>::quiet_NaN())));
-    EXPECT_FALSE(is_valid(unit(
-        invalid.base_units(), std::numeric_limits<double>::signaling_NaN())));
+        unit(std::numeric_limits<double>::quiet_NaN(),invalid.base_units() )));
+    EXPECT_FALSE(is_valid(unit(std::numeric_limits<double>::signaling_NaN(),
+        invalid.base_units())));
 }
 
 TEST(unitOps, normal)

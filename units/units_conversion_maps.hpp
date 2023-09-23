@@ -205,7 +205,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1195>
+    1200>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -244,25 +244,25 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"NAN", precise::nan},
         {".NAN", precise::nan},
         {"NaNQ",
-         precise_unit(
-             detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-             std::numeric_limits<double>::quiet_NaN())},
+         precise_unit(std::numeric_limits<double>::quiet_NaN(),
+             detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+             )},
         {"NaNS", precise::nan},
         {"qNaN",
-         precise_unit(
-             detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-             std::numeric_limits<double>::quiet_NaN())},
+         precise_unit(std::numeric_limits<double>::quiet_NaN(),
+             detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+             )},
         {"sNaN", precise::nan},
         {"1.#SNAN", precise::nan},
         {"#SNAN", precise::nan},
         {"1.#QNAN",
-         precise_unit(
-             detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-             std::numeric_limits<double>::quiet_NaN())},
+         precise_unit(std::numeric_limits<double>::quiet_NaN(),
+             detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+             )},
         {"#QNAN",
-         precise_unit(
-             detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-             std::numeric_limits<double>::quiet_NaN())},
+         precise_unit(std::numeric_limits<double>::quiet_NaN(),
+             detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+             )},
         {"1.#IND", precise::nan},
         {"#IND", precise::nan},
         {"0.1", precise_unit(0.1, precise::one)},
@@ -305,6 +305,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"million", precise::mega},
         {"1000000000", precise::giga},
         {"billion", precise::giga},
+        {"billion_us", precise::giga},
+        {"milliard", precise::giga},
         {"trillion", precise::tera},
         {"quadrillion", precise::peta},
         {"1e3", precise::kilo},
@@ -350,6 +352,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"m", precise::m},
         {"Sm", precise::m},  // standard meter used in oil and gas usually Sm^3
         {"meter", precise::m},
+        {"metre", precise::m},
         {"squaremeter",
          precise::m.pow(2)},  // to simplify some things later in the chain
         {"cubicmeter", precise::m.pow(3)},
@@ -624,6 +627,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          precise_unit(1.0 / 12.0, precise::time::at)},  // tropical month
         {"mo_t",
          precise_unit(1.0 / 12.0, precise::time::at)},  // tropical month
+        {"30-daymonth",{30.0,precise::day}},
         {"solaryear", precise::time::at},  // year
         {"ANN_T", precise::time::at},  // year
         {"a_j", precise::time::aj},  // year
@@ -690,8 +694,16 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"\xB0", precise::deg},  // latin-1 degree
         {u8"\u00B0(s)", precise::deg},  // unicode degree symbol
         {"\xB0(s)", precise::deg},  // latin-1 degree
-        {"degree[unitofangle]",precise::deg},
-        {"degree[angle]",precise::deg},
+        { "degAPI",   precise::special::degreeAPI },
+         {u8"\u00B0API", precise::special::degreeAPI},  // unicode degree symbol
+         {"\xB0""API", precise::special::degreeAPI},  // latin-1 degree
+        { "degBaume",   precise::special::degreeBaume },
+         {u8"\u00B0Baume", precise::special::degreeBaume},  // unicode degree symbol
+         {"\xB0""Baume", precise::special::degreeBaume},  // latin-1 degree
+            {"degBaume(USheavy)", precise::special::degreeBaume},
+            {"degBaume(USlight)", precise::special::degreeBaume},
+            {"degBalling", {1.0,precise::generate_custom_unit(109),commodities::sugar}},
+            {"degBrix", {1.0,precise::generate_custom_unit(108),commodities::sugar}},
         {"deg[angle]",precise::deg},
         {"deg[unitofangle]",precise::deg},
         {"arcminute", precise::angle::arcmin},
@@ -858,6 +870,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[planck::area]", constants::planck::length.as_unit().pow(2)},
         {"[planck::volume]", constants::planck::length.as_unit().pow(3)},
         {"[planck::energy]", precise_unit(1.9561e9, precise::J)},
+        {"dry", {1.0,precise::one,commodities::packaging::dry}},
         {"au", precise::distance::au},
         {"AU", precise::distance::au},
         {"ASU", precise::distance::au},
@@ -865,21 +878,21 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"astronomicunit", precise::distance::au},
         {"kph", precise::km / precise::hr},
         {"$", precise::currency},
-        { "dollar", {precise::currency,commodities::currencies::dollar} },
-        {"euro", {precise::currency,commodities::currencies::euro}},
-        {"yen", {precise::currency,commodities::currencies::yen}},
-        {"ruble", {precise::currency,commodities::currencies::ruble}},
+        { "dollar", {1.0,precise::currency,commodities::currencies::dollar} },
+        {"euro", {1.0,precise::currency,commodities::currencies::euro}},
+        {"yen", {1.0,precise::currency,commodities::currencies::yen}},
+        {"ruble", {1.0,precise::currency,commodities::currencies::ruble}},
         {"currency", precise::currency},
         { u8"\u00A2", {0.01, precise::currency} },  // cent symbol
         { "\xA2", {0.01, precise::currency} },  // cent symbol latin-1
-        {u8"\u00A3", {precise::currency,commodities::currencies::pound}},  // pound sign
-        {"\xA3", {precise::currency,commodities::currencies::pound}},  // pound sign latin-1
+        {u8"\u00A3", {1.0,precise::currency,commodities::currencies::pound}},  // pound sign
+        {"\xA3", {1.0,precise::currency,commodities::currencies::pound}},  // pound sign latin-1
         {u8"\u00A4", precise::currency},  // currency sign
         {"\xA4", precise::currency},  // currency sign latin-1
-        {u8"\u00A5", {precise::currency,commodities::currencies::yen}},  // Yen sign
+        {u8"\u00A5", {1.0,precise::currency,commodities::currencies::yen}},  // Yen sign
         {"\xA5", precise::currency},  // Yen sign latin-1
-        {u8"\u0080", {precise::currency,commodities::currencies::euro}},  // Euro sign
-        {"\x80", {precise::currency,commodities::currencies::euro}},  // Euro sign extended ascii
+        {u8"\u0080", {1.0,precise::currency,commodities::currencies::euro}},  // Euro sign
+        {"\x80", {1.0,precise::currency,commodities::currencies::euro}},  // Euro sign extended ascii
         {"count", precise::count},
         {"unit", precise::count},
         {"pair", precise_unit(2.0, precise::count)},
@@ -918,7 +931,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"voxel",
          precise_unit(1.0, precise::count, commodities::voxel)},  // Pixel
         {"item", precise::count},
+        {"piece", precise::count},
         {"part", precise::count},
+        { "drum", {1.0,precise::one,commodities::packaging::drum} },
+        {"bag", {1.0,precise::one,commodities::packaging::bag}},
         {"ratio", precise::ratio},
         {"rat", precise::ratio},
         {"ERR", precise::error},
@@ -1287,13 +1303,13 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"peripheralvascularresistanceunit", precise::clinical::pru},
         {"peripheralresistanceunit", precise::clinical::pru},
         {"potentialvorticityunit",
-         precise_unit(
-             detail::unit_data(2, -1, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-             1e-6)},
+         precise_unit(1e-6,
+             detail::unit_data(2, -1, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+             )},
         {"PVU",
-         precise_unit(
-             detail::unit_data(2, -1, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-             1e-6)},
+         precise_unit(1e-6,
+             detail::unit_data(2, -1, -1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+             )},
         // unit of thermal resistance used in describing the insulating value of
         // clothing; the amount of thermal resistance needed to maintain in
         // comfort a resting subject in a normally ventilated room (air movement
@@ -1493,7 +1509,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1155>
+    1170>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
         {"candle_it", precise::lm / precise::sr},
@@ -1963,11 +1979,13 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"calorie15C", precise::energy::cal_15},
         {"calorie_15", precise::energy::cal_15},
         {"cal_15", precise::energy::cal_15},
+         {"calorie_[15]", precise::energy::cal_15},
+         {"cal_[15]", precise::energy::cal_15},
         {"cal_[20]", precise::energy::cal_20},
         {u8"calorieat20\u00B0C", precise::energy::cal_20},
         {"caloriesat20C", precise::energy::cal_20},
         {"calorie20C", precise::energy::cal_20},
-        {"calorie_20", precise::energy::cal_20},
+        {"calorie_[20]", precise::energy::cal_20},
         {"cals20C", precise::energy::cal_20},
         {"cal20C", precise::energy::cal_20},
         {"cals15C", precise::energy::cal_15},
@@ -1975,6 +1993,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"cal15", precise::energy::cal_15},
         {"cal20", precise::energy::cal_20},
         {"cal_20", precise::energy::cal_20},
+        {"cal_[20]", precise::energy::cal_20},
         {u8"cal_20\u00B0C", precise::energy::cal_20},
         {"CAL_[15]", precise::energy::cal_15},
         {"CAL_[20]", precise::energy::cal_20},
@@ -1998,6 +2017,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"btu", precise::energy::btu_it},
         {"Btu", precise::energy::btu_it},
         {"BTU", precise::energy::btu_it},
+        {"bTU", precise::energy::btu_it},
         {"Mbtu", precise_unit(1000.0, precise::energy::btu_it)},
         {"MBtu", precise_unit(1000.0, precise::energy::btu_it)},
         {"MBTU", precise_unit(1000.0, precise::energy::btu_it)},
@@ -2007,10 +2027,15 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         // this is for name matching with the UCUM standard
         {"Btu_39", precise::energy::btu_39},
         {"BTU_39", precise::energy::btu_39},
+        {"bTU_39", precise::energy::btu_39},
+        {"Btu_[39]", precise::energy::btu_39},
+        {"BTU_[39]", precise::energy::btu_39},
+        {"bTU_[39]", precise::energy::btu_39},
         {"BTU39F", precise::energy::btu_39},
         {u8"BTU39\u00B0F", precise::energy::btu_39},
         {u8"btu_39\u00B0F", precise::energy::btu_39},
         {"Btu_59", precise::energy::btu_59},
+        {"bTU_[59]", precise::energy::btu_59},
         {"BTU_59", precise::energy::btu_59},
         {"BTU59F", precise::energy::btu_59},
         {u8"BTU59\u00B0F", precise::energy::btu_59},
@@ -2018,16 +2043,23 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"Btu_60", precise::energy::btu_60},
         {"BTU_60", precise::energy::btu_60},
         {"BTU60F", precise::energy::btu_60},
+        {"bTU_60", precise::energy::btu_60},
+        {"Btu_[60]", precise::energy::btu_60},
+        {"BTU_[60]", precise::energy::btu_60},
+        {"bTU_[60]", precise::energy::btu_60},
         {u8"BTU60\u00B0F", precise::energy::btu_60},
         {u8"btu_60\u00B0F", precise::energy::btu_60},
         {"Btu_m", precise::energy::btu_mean},
         {"BTU_m", precise::energy::btu_mean},
+        {"bTU_m", precise::energy::btu_mean},
         {"BTU_M", precise::energy::btu_mean},
         {"Btu_IT", precise::energy::btu_it},
         {"BTU_IT", precise::energy::btu_it},
+        {"bTU_IT", precise::energy::btu_it},
         {"Btu_th", precise::energy::btu_th},
         {"[BTU_TH]", precise::energy::btu_th},
         {"BTU_th", precise::energy::btu_th},
+        {"bTU_th", precise::energy::btu_th},
         {"CHU", precise_unit(1899.0, precise::J)},
         {"TNT", precise::energy::ton_tnt},
         {"tontnt", precise::energy::ton_tnt},
@@ -2169,6 +2201,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"wigal", precise::us::dry::gallon},
         {"[GAL_WI]", precise::us::dry::gallon},
         {"drygallon_us", precise::us::dry::gallon},
+        {"drybarrel", precise::us::dry::barrel},
+        {"drybarrel_us", precise::us::dry::barrel},
         {"gallon-historical", precise::us::dry::gallon},
         {"firkin", precise_unit(9.0, precise::us::dry::gallon)},
          {"rundlet", precise_unit{18.0, precise::imp::gallon}},
@@ -2312,6 +2346,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"dram_av", precise::av::dram},
         {"dram_i", precise::av::dram},
         {"dram_br", precise::imp::dram},
+        {"drammass_br", precise::av::dram},
         {"[DR_AV]", precise::av::dram},
         {"drammassunit", precise::av::dram},
         {"scwt", precise::av::hundredweight},
@@ -2381,7 +2416,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[PWT_TR]", precise::troy::pennyweight},
         {"pennyweight_tr", precise::troy::pennyweight},
         {"pennyweight", precise::troy::pennyweight},
-         {"dram_tr", precise_unit{0.00388793458, precise::kg}},
+         {"dram_tr", precise::apothecaries::drachm},
         {"sc_ap", precise::apothecaries::scruple},
         {"[SC_AP]", precise::apothecaries::scruple},
         {"scruple", precise::apothecaries::scruple},
@@ -2390,6 +2425,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"dr_ap", precise::apothecaries::drachm},
         {u8"\u0292", precise::apothecaries::drachm},
         {"dram_ap", precise::apothecaries::drachm},
+        {"dram_us", precise::apothecaries::drachm},
+        {"drachm_br", precise::apothecaries::drachm},
         {"[DR_AP]", precise::apothecaries::drachm},
         {"oz_ap", precise::apothecaries::ounce},
         {"[OZ_AP]", precise::apothecaries::ounce},
@@ -2517,6 +2554,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"[PK_US]", precise::us::dry::peck},
         {"peck", precise::us::dry::peck},
         {"peck_us", precise::us::dry::peck},
+        {"peckdry_us", precise::us::dry::peck},
         {"bu_us", precise::us::dry::bushel},
         {"bsh_us", precise::us::dry::bushel},
         {"[BU_US]", precise::us::dry::bushel},
@@ -2546,6 +2584,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"pk_br", precise::imp::peck},
         {"[PK_BR]", precise::imp::peck},
         {"peck_br", precise::imp::peck},
+        {"peckdry_br", precise::imp::peck},
         {"bu_br", precise::imp::bushel},
         {"bsh_br", precise::imp::bushel},
         {"[BU_BR]", precise::imp::bushel},
