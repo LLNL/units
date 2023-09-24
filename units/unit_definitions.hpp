@@ -1144,7 +1144,7 @@ namespace precise {
                     return std::exp(val / 0.5);
                 case 16: //API Gravity
                     return 141.5/(val+131.5);
-                case 17:
+                case 17: //degrees Baume
                     return (val>0.0)?(140.0/(130.0+val)):(145.0/(145.0-val));
                 case 22:  // saffir simpson hurricane wind scale
                 {

@@ -802,7 +802,7 @@ class precise_unit {
     }
 
     /// Construct from multiplier, base_unit, commodity
-    constexpr precise_unit(
+    explicit constexpr precise_unit(
         const detail::unit_data& base_unit,
         std::uint32_t commodity_code
     ) noexcept :
@@ -847,7 +847,7 @@ class precise_unit {
     explicit constexpr precise_unit(const precise_unit& other, std::uint32_t commodity_code) noexcept :
         precise_unit(other.multiplier_,
             other.base_units_,
-            commodity_code & other.commodity_
+            commodity_code | other.commodity_
             )
     {
     }
@@ -860,7 +860,7 @@ class precise_unit {
         std::uint32_t commodity_code) noexcept :
         precise_unit(mult * other.multiplier_,
             other.base_units_,
-            commodity_code&other.commodity_
+            commodity_code|other.commodity_
             )
     {
     }
@@ -883,7 +883,7 @@ class precise_unit {
             (commodity_ == 0) ?
                 other.commodity_ :
                 ((other.commodity_ == 0) ? commodity_ :
-                                           commodity_ & other.commodity_),
+                                           commodity_ | other.commodity_),
             };
     }
     /// Multiplication operator with a lower precision unit

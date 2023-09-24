@@ -591,12 +591,12 @@ TEST(preciseUnitOps, valid)
     EXPECT_TRUE(is_valid(precise::V));
     EXPECT_TRUE(is_valid(
         precise_unit(std::numeric_limits<double>::quiet_NaN(), precise::m)));
-    EXPECT_FALSE(is_valid(precise_unit(
-        precise::invalid.base_units(),
-        std::numeric_limits<double>::quiet_NaN())));
-    EXPECT_FALSE(is_valid(precise_unit(
-        precise::invalid.base_units(),
-        std::numeric_limits<double>::signaling_NaN())));
+    EXPECT_FALSE(is_valid(precise_unit(std::numeric_limits<double>::quiet_NaN(),
+        precise::invalid.base_units()
+        )));
+    EXPECT_FALSE(is_valid(precise_unit(std::numeric_limits<double>::signaling_NaN(),
+        precise::invalid.base_units()
+        )));
 }
 
 TEST(preciseUnitOps, cast)

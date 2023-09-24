@@ -254,8 +254,8 @@ TEST(unitStrings, infinite)
 
 TEST(unitString, almostInfinite)
 {
-    precise_unit almost_inf(
-        precise::s.pow(3) * precise::kg * precise::mol, 4.414e307);
+    precise_unit almost_inf(4.414e307,
+        precise::s.pow(3) * precise::kg * precise::mol );
 
     auto res = to_string(almost_inf);
     auto ai2 = unit_from_string(res);
@@ -1443,23 +1443,23 @@ TEST(userDefinedUnits, fileOp3)
                                           "/test_unit_files/other_units3.txt");
     EXPECT_TRUE(outputstr.empty());
     auto y1 = unit_from_string("bl==p");
-    EXPECT_EQ(y1, precise_unit(precise::us::cup, 18.7));
+    EXPECT_EQ(y1, precise_unit(18.7,precise::us::cup));
     EXPECT_EQ(to_string(y1), "bl==p");
 
     auto y2 = unit_from_string("y,,p");
-    EXPECT_EQ(y2, precise_unit(precise::ton, 9.0));
+    EXPECT_EQ(y2, precise_unit(9.0, precise::ton));
     EXPECT_EQ(to_string(y2), "y,,p");
 
     auto y3 = unit_from_string("'np");
-    EXPECT_EQ(y3, precise_unit(precise::kg, 14.0));
+    EXPECT_EQ(y3, precise_unit(14.0, precise::kg));
     EXPECT_EQ(to_string(y3), "'np");
 
     auto y4 = unit_from_string("j\"\"");
-    EXPECT_EQ(y4, precise_unit(precise::W, 13.5));
+    EXPECT_EQ(y4, precise_unit(13.5, precise::W));
     EXPECT_EQ(to_string(y4), "j\"\"");
 
     auto y5 = unit_from_string("q\"\"");
-    EXPECT_EQ(y5, precise_unit(precise::W, 15.5));
+    EXPECT_EQ(y5, precise_unit(15.5, precise::W));
     EXPECT_EQ(to_string(y5), "q\"\"");
     clearUserDefinedUnits();
 }

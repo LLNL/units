@@ -2052,7 +2052,7 @@ namespace precise {
         unitD{ "NH", "message hour", {1.0,hr,commodities::message} },
         unitD{ "NI", "net imperial gallon", {1.0,imp::gallon,commodities::packaging::net} },
         unitD{ "NIL", "nil", {1.0, count,commodities::blank} },
-        unitD{ "NIU", "number of international units", laboratory::IU },
+        unitD{ "NIU", "international units", laboratory::IU },
         unitD{ "NJ", "number of screens", {1.0, count,commodities::screen} },
         unitD{ "NL", "load", {1.0, count, commodities::packaging::load} },
         unitD{"NMI", "nautical mile", nautical::mile},

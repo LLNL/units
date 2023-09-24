@@ -42,9 +42,9 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    units::precise_unit prec1(units::precise::L, 1.25);
+    units::precise_unit prec1(1.25,units::precise::L);
 
-    if (prec1 != units::precise_unit(units::precise::m.pow(3), 0.00125)) {
+    if (prec1 != units::precise_unit(0.00125,units::precise::m.pow(3))) {
         return -1;
     }
 

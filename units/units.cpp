@@ -4272,10 +4272,10 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
 
         if (unit_string.find_first_of(spchar) != std::string::npos) {
             // deal with some particular string with a space in them
-            bool checkper{ false };
+            int checkper{-1};
             // clean up some "per" words
             if (unit_string.compare(0, 4, "per ") == 0) {
-                checkper=true;
+                checkper=2;
                 unit_string.replace(0, 4, "1/");
                 skipMultiply = true;
             }
@@ -4284,7 +4284,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
                 checkper = true;
             }
             if (checkper){
-                auto ploc=unit_string.find_first_of("(");
+                auto ploc=unit_string.find_first_of('(');
                 if (ploc!=std::string::npos)
                 {
                     auto fdiv=unit_string.find_first_of('/');
