@@ -2390,9 +2390,10 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 36> prefixWords{{
     utup{"hella", 1e27, 5},
 }};
 
+static const std::array<std::string, 4> Esegs{{"()", "[]", "{}", "<>"}};
+
 bool clearEmptySegments(std::string& unit)
 {
-    static const std::array<std::string, 4> Esegs{{"()", "[]", "{}", "<>"}};
     bool changed = false;
     for (const auto& seg : Esegs) {
         auto fnd = unit.find(seg);
@@ -2552,7 +2553,144 @@ static bool wordModifiers(std::string& unit)
 
     return false;
 }
+
 using ckpair = std::pair<const char*, const char*>;
+
+static const std::unordered_map<std::string,std::string> modifiers
+{
+    ckpair{"internationaltable", "IT"},
+    ckpair{"internationalsteamtable", "IT"},
+    ckpair{"international table", "IT"},
+    ckpair{"international steamtable", "IT"},
+    ckpair{"international", "i"},
+    ckpair{"USandBritish", "av"},
+    ckpair{"US and British", "av"},
+    ckpair{"US&British", "av"},
+    ckpair{"US & British", "av"},
+    ckpair{"USAsurvey", "US"},
+    ckpair{"USA survey", "US"},
+    ckpair{"USsurvey", "US"},
+    ckpair{"US survey", "US"},
+    ckpair{"USSurvey", "US"},
+    ckpair{"US Survey", "US"},
+    ckpair{"USdry", "US"},
+    ckpair{"US dry", "US"},
+    ckpair{"USA", "US"},
+    ckpair{"USstatute", "US"},
+    ckpair{"US statute", "US"},
+    ckpair{"statutory", "US"},
+    ckpair{"statute", "US"},
+    ckpair{"shipping", "ship"},
+    ckpair{"gregorian", "g"},
+    ckpair{"Gregorian", "g"},
+    ckpair{"angle", "ang"},
+    ckpair{"synodic", "s"},
+    ckpair{"sidereal", "sdr"},
+    ckpair{"julian", "j"},
+    ckpair{"Julian", "j"},
+    ckpair{"thermochemical", "th"},
+    ckpair{"Th", "th"},
+    ckpair{"th", "th"},
+    ckpair{"metric", "m"},
+    ckpair{"mean", "m"},
+    ckpair{"imperial", "br"},
+    ckpair{"Imperial", "br"},
+    ckpair{"English", "br"},
+    ckpair{"imp", "br"},
+    ckpair{"wine", "wi"},
+    ckpair{"beer", "wi"},
+    ckpair{"US", "US"},
+    ckpair{"30-day", "30"},
+    ckpair{"IT", "IT"},
+    ckpair{"troy", "tr"},
+    ckpair{"apothecary", "ap"},
+    ckpair{"apothecaries", "ap"},
+    ckpair{"avoirdupois", "av"},
+    ckpair{"Chinese", "cn"},
+    ckpair{"chinese", "cn"},
+    ckpair{"Canadian", "ca"},
+    ckpair{"canadian", "ca"},
+    ckpair{"survey", "US"},
+    ckpair{"tropical", "t"},
+    ckpair{"British", "br"},
+    ckpair{"british", "br"},
+    ckpair{"Br", "br"},
+    ckpair{"BR", "br"},
+    ckpair{"UK", "br"},
+    ckpair{"conventional", "[90]"},
+    ckpair{"AC", "ac"},
+    ckpair{"DC", "dc"},
+    ckpair{"ang", "ang"},
+    ckpair{"angle", "ang"},
+    ckpair{"unitofangle", "ang"},
+    ckpair{"unit of angle", "ang"},
+    ckpair{"H2O","H2O"},
+    ckpair{"water","H2O"},
+    ckpair{"Hg","Hg"},
+    ckpair{"HG","Hg"},
+    ckpair{"mercury","Hg"},
+    ckpair{"mechanical","mech"},
+    ckpair{"hydraulic","mech"},
+    ckpair{"air","mech"},
+    ckpair{"boiler","steam"},
+    ckpair{"steam","steam"},
+    ckpair{"refridgeration","cooling"},
+    ckpair{"cooling","cooling"},
+    ckpair{"cloth","cloth"},
+    ckpair{"clothing","cloth"},
+    ckpair{"15degC", "[15]"},
+    ckpair{"20degC", "[20]"},
+    ckpair{"59degF", "[59]"},
+    ckpair{"60degF", "[60]"},
+    ckpair{"39degF", "[39]"},
+    ckpair{"0degC", "[0]"},
+    ckpair{"39.2degF", "[39]"},
+    ckpair{"4degC", "[4]"},
+    ckpair{"15 degC", "[15]"},
+    ckpair{"20 degC", "[20]"},
+    ckpair{"59 degF", "[59]"},
+    ckpair{"60 degF", "[60]"},
+    ckpair{"39 degF", "[39]"},
+    ckpair{"0 degC", "[0]"},
+    ckpair{"39.2 degF", "[39]"},
+    ckpair{"4 degC", "[4]"},
+};
+
+bool bracketModifiers(std::string& unit_string)
+{
+    
+    bool modified{ false };
+    for (const auto& seg : Esegs) {
+        auto ploc = unit_string.find_first_of(seg[0], 1);
+        while (ploc != std::string::npos)
+        {
+            auto cloc = unit_string.find_first_of(seg[1], ploc);
+            auto tstring=unit_string.substr(ploc + 1, cloc - ploc - 1);
+            auto modloc = modifiers.find(tstring);
+            if (modloc != modifiers.end())
+            {
+                auto nextloc=unit_string.find_first_not_of(' ',cloc+1);
+                if (nextloc != std::string::npos && unit_string[nextloc] != '/' && unit_string[nextloc] != '*')
+                {
+                    unit_string.insert(nextloc,1,'*');
+                }
+
+                unit_string.replace(ploc + 1, cloc - ploc, modloc->second);
+                unit_string[ploc] = '_';
+                if (unit_string[ploc - 1] == ' ')
+                {
+                    unit_string.erase(ploc - 1,1);
+                    --ploc;
+                }
+               
+                modified = true;
+            }
+            ploc = unit_string.find_first_of(seg[0], ploc + 1);
+        }
+    }
+    return modified;
+}
+
 
 static precise_unit
     localityModifiers(std::string unit, std::uint64_t match_flags)
@@ -2564,14 +2702,14 @@ static precise_unit
             ckpair{"international", "i"},
             ckpair{"USandBritish", "av"},
             ckpair{"US&British", "av"},
-            ckpair{"USAsurvey", "us"},
-            ckpair{"USsurvey", "us"},
-            ckpair{"USSurvey", "us"},
-            ckpair{"USdry", "us"},
-            ckpair{"USA", "us"},
-            ckpair{"USstatute", "us"},
-            ckpair{"statutory", "us"},
-            ckpair{"statute", "i"},
+            ckpair{"USAsurvey", "US"},
+            ckpair{"USsurvey", "US"},
+            ckpair{"USSurvey", "US"},
+            ckpair{"USdry", "US"},
+            ckpair{"USA", "US"},
+            ckpair{"USstatute", "US"},
+            ckpair{"statutory", "US"},
+            ckpair{"statute", "US"},
             ckpair{"shipping", "ship"},
             ckpair{"gregorian", "g"},
             ckpair{"Gregorian", "g"},
@@ -2590,7 +2728,7 @@ static precise_unit
             ckpair{"imp", "br"},
             ckpair{"wine", "wi"},
             ckpair{"beer", "wi"},
-            ckpair{"US", "us"},
+            ckpair{"us", "US"},
             ckpair{"(IT)", "IT"},
             ckpair{"troy", "tr"},
             ckpair{"apothecary", "ap"},
@@ -2600,7 +2738,7 @@ static precise_unit
             ckpair{"chinese", "cn"},
             ckpair{"Canadian", "ca"},
             ckpair{"canadian", "ca"},
-            ckpair{"survey", "us"},
+            ckpair{"survey", "US"},
             ckpair{"tropical", "t"},
             ckpair{"British", "br"},
             ckpair{"british", "br"},
@@ -3325,8 +3463,12 @@ static bool isolatePriorModifier(std::string& unit_string, const std::string& mo
     auto modfind=unit_string.find(modifier);
     if (modfind != std::string::npos)
     {
-
-        auto kloc=unit_string.find_first_not_of(' ',modfind+modifier.size()+1);
+        auto offset=modfind+modifier.size();
+        if (modifier.back() != ' ')
+        {
+            ++offset;
+        }
+        auto kloc=unit_string.find_first_not_of(' ',offset);
         if (unit_string[kloc] == check1 || unit_string[kloc] == check2)
         {
             //this handles a misinterpretation of square+d to squared when in middle of a unit
@@ -4185,11 +4327,10 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             ckpair{"deg ", "deg"},
         }};
 
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 31>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 30>
         allCodeReplacements{{
             ckpair{"sq.", "square"},
             ckpair{"cu.", "cubic"},
-            ckpair{"(US)", "US"},
             ckpair{"U.S.", "US"},
             ckpair{"10^", "1e"},
             ckpair{"10-", "1e-"},
@@ -4269,7 +4410,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
                 fnd = unit_string.find(acode.first, fnd + 1);
             }
         }
-
+        
         if (unit_string.find_first_of(spchar) != std::string::npos) {
             // deal with some particular string with a space in them
             int checkper{-1};
@@ -4552,6 +4693,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
 /// cleanup phase 2 if things still aren't working
 static bool cleanUnitStringPhase2(std::string& unit_string)
 {
+    bool changed{ false };
     auto len = unit_string.length();
     // cleanup extraneous dashes
     auto dpos = unit_string.find_first_of('-');
@@ -4570,8 +4712,12 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
         std::remove(unit_string.begin(), unit_string.end(), '+'),
         unit_string.end());
 
+    if (bracketModifiers(unit_string))
+    {
+        changed=true;
+    }
     clearEmptySegments(unit_string);
-    return (len != unit_string.length());
+    return changed||(len != unit_string.length());
 }
 
 static precise_unit

@@ -787,7 +787,7 @@ class precise_unit {
     constexpr precise_unit(double mult,
         const detail::unit_data& base_unit
     ) noexcept :
-        base_units_(base_unit), multiplier_(mult)
+        multiplier_(mult),base_units_(base_unit)
     {
     }
 
@@ -796,8 +796,9 @@ class precise_unit {
         const detail::unit_data& base_unit,
         std::uint32_t commodity_code
     ) noexcept :
+        multiplier_(mult),
         base_units_(base_unit),
-        commodity_(commodity_code), multiplier_(mult)
+        commodity_(commodity_code)
     {
     }
 
@@ -813,7 +814,7 @@ class precise_unit {
 
     /// copy constructor from a less precise unit
     explicit constexpr precise_unit(const unit& other) noexcept :
-        base_units_(other.base_units_), multiplier_(other.multiplier())
+        multiplier_(other.multiplier()),base_units_(other.base_units_)
     {
     }
 
@@ -1099,9 +1100,9 @@ class precise_unit {
     }
 
   private:
+    double multiplier_{1.0};  //!< unit multiplier
     detail::unit_data base_units_{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     std::uint32_t commodity_{0};  //!< a commodity specifier
-    double multiplier_{1.0};  //!< unit multiplier
 };
 
 /// Check if a unit down cast is lossless

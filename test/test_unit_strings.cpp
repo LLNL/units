@@ -1052,9 +1052,9 @@ TEST(stringToUnits, rotSequences)
 TEST(stringToUnits, parentheticalModifier)
 {
     auto u1=unit_from_string("mile(statute)");
-    EXPECT_EQ(u1,precise::mile);
+    EXPECT_EQ(u1,precise::us::mile);
     auto u2=unit_from_string("mile (statute)");
-    EXPECT_EQ(u2,precise::mile);
+    EXPECT_EQ(u2,precise::us::mile);
     auto u3=unit_from_string("British thermal unit (thermochemical)");
     EXPECT_EQ(u3,precise::energy::btu_th);
 }
@@ -1080,6 +1080,9 @@ TEST(stringToUnit, handlingOfSquared)
 
     EXPECT_EQ(u6,precise::degF* precise::hr*precise::ft.pow(2) / precise::energy::btu_it/precise::in);
 
+    auto u7=unit_from_string("gram square decimeter");
+    EXPECT_EQ(u7,g*(deci*m).pow(2));
+
 }
 
 TEST(stringToUnits, modifiedStrings)
@@ -1099,6 +1102,9 @@ TEST(stringToUnits, modifiedStrings)
 
         auto u5=unit_from_string("nanometre");
         EXPECT_EQ(u5,precise::nano*precise::m);
+
+        auto u6=unit_from_string("ton (US) per hour");
+        EXPECT_EQ(u6,precise::ton/precise::hr);
 }
 
 TEST(stringToUnits, addition)
@@ -1427,12 +1433,12 @@ TEST(userDefinedUnits, fileOp2)
                                           "/test_unit_files/other_units2.txt");
     EXPECT_TRUE(outputstr.empty());
     auto y1 = unit_from_string("yodles");
-    EXPECT_EQ(y1, precise_unit(count, 73.0));
+    EXPECT_EQ(y1, precise_unit(73.0,count));
 
     auto y2 = unit_from_string("yeedles");
-    EXPECT_EQ(y2, precise_unit(y1, 19.0));
+    EXPECT_EQ(y2, precise_unit(19.0,y1));
     auto y3 = unit_from_string("yimdles");
-    EXPECT_EQ(y3, precise_unit(y2, 12.0));
+    EXPECT_EQ(y3, precise_unit(12.0,y2));
     EXPECT_EQ(unit_from_string("yimdles"), unit_from_string("19*yodles*12"));
     clearUserDefinedUnits();
 }

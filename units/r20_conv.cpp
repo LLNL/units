@@ -1756,7 +1756,7 @@ namespace precise {
         unitD{"M33", "millimole per litre", milli*mol/L},
         unitD{"M34", "newton metre per square metre", N*m/m.pow(2)},
         unitD{"M35", "millivolt - ampere", electrical::mV*A},
-        unitD{ "M36", "30-day month", {30.0,day} },
+        unitD{ "M36", "month(30-day)", {30.0,day} },
         unitD{ "M37", "actual/360", {360.0,day} },
         unitD{"M38", "kilometre per second squared", km/s.pow(2)},
         unitD{"M39", "centimetre per second squared", cm/s.pow(2)},
