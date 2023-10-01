@@ -1105,6 +1105,12 @@ TEST(stringToUnits, modifiedStrings)
 
         auto u6=unit_from_string("ton (US) per hour");
         EXPECT_EQ(u6,precise::ton/precise::hr);
+
+        auto u7=unit_from_string("foot of water(39.2 degF)");
+        EXPECT_EQ(u7,precise_unit(2988.98400,Pa));
+
+        auto u8=unit_from_string("[qt_us]");
+        EXPECT_EQ(u8,unit_from_string("[QT_US]"));
 }
 
 TEST(stringToUnits, addition)

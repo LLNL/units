@@ -2586,9 +2586,14 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"angle", "ang"},
     ckpair{"synodic", "s"},
     ckpair{"sidereal", "sdr"},
+    ckpair{"30-day", "[30]"},
+    ckpair{"flux", "flux"},
+    ckpair{"charge", "charge"},
     ckpair{"julian", "j"},
     ckpair{"Julian", "j"},
     ckpair{"thermochemical", "th"},
+    ckpair{"electric", "electric"},
+    ckpair{"electrical", "electric"},
     ckpair{"Th", "th"},
     ckpair{"th", "th"},
     ckpair{"metric", "m"},
@@ -3068,6 +3073,34 @@ static precise_unit
         unit_string.substr(0, static_cast<size_t>(ccindex) + 1),
         match_flags + no_commodities);
     if (!is_error(bunit)) {
+        if (bunit.has_same_base(m))
+        {
+            static const std::unordered_map<std::string,precise_unit> commUnits
+            {
+                {"mercury",precise::kilo* precise::pressure::mmHg/precise::m},
+                {"mercurycolumn",precise::kilo* precise::pressure::mmHg/precise::m},
+                {"mercuryguage",precise::kilo* precise::pressure::mmHg/precise::m},
+                {"mercury_i",precise::kilo* precise::pressure::mmHg/precise::m},
+                {"Hg",precise::kilo* precise::pressure::mmHg/precise::m},
+                {"water",precise::kilo* precise::pressure::mmH2O/precise::m},
+                {"watercolumn",precise::kilo* precise::pressure::mmH2O/precise::m},
+                {"water_i",precise::kilo* precise::pressure::mmH2O/precise::m},
+                {"waterguage",precise::kilo* precise::pressure::mmH2O/precise::m},
+                {"H20",precise::kilo* precise::pressure::mmH2O/precise::m},
+                {"mercury_[0]", precise_unit(1333.22,Pa)/precise::cm },
+                {"water_[4]", precise_unit(98.0637795,Pa)/precise::cm },
+                {"water_[39]", precise_unit(2988.98400,Pa)/precise::ft },
+                {"mercury_[32]", precise_unit(3383.93102,Pa)/precise::in},
+                {"mercury_[60]", precise_unit(3376.84789,Pa)/precise::in },
+                {"water_[60]", precise_unit(248.840000,Pa)/precise::in},
+            };
+            auto tunit=commUnits.find(cstring);
+            if (tunit != commUnits.end())
+            {
+                return bunit*tunit->second;
+            }
+
+        }
         return {1.0, bunit, getCommodity(cstring)};
     }
     return precise::invalid;
@@ -5510,6 +5543,19 @@ static precise_unit unit_from_string_internal(
             if (!is_error(retunit)) {
                 return retunit;
             }
+            std::transform(
+                ustring.begin(), ustring.end(), ustring.begin(), ::toupper);
+            
+            retunit = get_unit(ustring, match_flags);
+            if (is_valid(retunit)) {
+                return retunit;
+            }
+            ustring.insert(ustring.begin(),'[');
+            ustring.push_back(']');
+            retunit = get_unit(ustring, match_flags);
+            if (is_valid(retunit)) {
+                return retunit;
+            }
         }
     }
     auto s_location = unit_string.find("s_");
@@ -5561,6 +5607,17 @@ static precise_unit unit_from_string_internal(
             unit_string = ustring;
         }
     }
+    if (unit_string.front() == '[' && unit_string.back() == ']') {
+        ustring = unit_string.substr(1);
+        ustring.pop_back();
+        if (ustring.back() != 'U')  // this means custom unit code
+        {
+            retunit = get_unit(ustring, match_flags);
+            if (!is_error(retunit)) {
+                return retunit;
+            }
+        }
+    }
     {
         // try removing the _ and checking for a match with no partitioning
         ustring = unit_string;
@@ -5592,17 +5649,7 @@ static precise_unit unit_from_string_internal(
             }
         }
     }
-    if (unit_string.front() == '[' && unit_string.back() == ']') {
-        ustring = unit_string.substr(1);
-        ustring.pop_back();
-        if (ustring.back() != 'U')  // this means custom unit code
-        {
-            retunit = get_unit(ustring, match_flags);
-            if (!is_error(retunit)) {
-                return retunit;
-            }
-        }
-    }
+    
     // try changing out any "per" words for division sign
     if (containsPer && (match_flags & no_per_operators) == 0) {
         auto fnd = findWordOperatorSep(unit_string, "per");
@@ -5636,18 +5683,37 @@ static precise_unit unit_from_string_internal(
     }
     if ((match_flags & no_commodities) == 0 &&
         (match_flags & no_of_operator) == 0) {
-        // try changing out and words indicative of a unit commodity
+        // try changing and words indicative of a unit commodity
         auto fnd = findWordOperatorSep(unit_string, "of");
         if (fnd < unit_string.size() - 2 && fnd != 0) {
+            if (unit_string[fnd + 2] == 'w' || unit_string[fnd + 2] == 'm')
+            {
+                //this could indicate pressure
+
+            }
             ustring = unit_string;
             ustring.replace(fnd, 2, "{");
 
             auto sloc = ustring.find_first_of("{[(", fnd + 3);
-            if (sloc == std::string::npos) {
-                ustring.push_back('}');
-            } else {
-                ustring.insert(sloc, 1, '}');
-            }
+                if (sloc == std::string::npos) {
+                    ustring.push_back('}');
+                } else if (ustring[sloc-1]!='_') {
+                    ustring.insert(sloc, 1, '}');
+                }
+                else
+                {
+                    sloc=ustring.find_first_of(getMatchCharacter(ustring[sloc]),sloc);
+                    if (sloc == std::string::npos)
+                    {
+                        ustring.push_back('}');
+                    }
+                    else
+                    {
+                        ustring.insert(sloc+1, 1, '}');
+                    }
+                }
+                
+            
             auto cunit =
                 commoditizedUnit(ustring, match_flags + commodity_check1);
             if (is_valid(cunit)) {
