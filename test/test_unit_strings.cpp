@@ -794,6 +794,7 @@ TEST(stringToUnits, equivalents2)
 {
     EXPECT_EQ(unit_from_string("in us"), unit_from_string("in_us"));
     EXPECT_EQ(unit_from_string("us in"), unit_from_string("in_us"));
+    EXPECT_EQ(unit_from_string("[in_us]"), unit_from_string("inch - US"));
     EXPECT_EQ(unit_from_string("CXCUN[1]^-1"), unit_from_string("/[arb'U]"));
     EXPECT_EQ(
         unit_from_string("[CCID_50]"), unit_from_string("CCID<sub>50</sub> "));
@@ -843,6 +844,12 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(unit_from_string("\t\t\t\t \r\n\n"), precise::defunit);
     auto u3 = unit_from_string("2^345");
     EXPECT_EQ(u3.multiplier(), std::pow(2.0, 345.0));
+}
+
+TEST(stringToUnits, equivalents4)
+{
+    EXPECT_EQ(unit_from_string("[CAR_AU]"), unit_from_string("[car_Au]"));
+    EXPECT_EQ(unit_from_string("[bu_us]"), unit_from_string("bushel - US"));
 }
 
 TEST(stringToUnits, electronVolt)

@@ -2700,7 +2700,7 @@ bool bracketModifiers(std::string& unit_string)
 static precise_unit
     localityModifiers(std::string unit, std::uint64_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 57>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 58>
         internationlReplacements{{
             ckpair{"internationaltable", "IT"},
             ckpair{"internationalsteamtable", "IT"},
@@ -2733,6 +2733,7 @@ static precise_unit
             ckpair{"imp", "br"},
             ckpair{"wine", "wi"},
             ckpair{"beer", "wi"},
+            ckpair{"US", "US"},
             ckpair{"us", "US"},
             ckpair{"(IT)", "IT"},
             ckpair{"troy", "tr"},

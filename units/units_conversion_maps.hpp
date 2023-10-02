@@ -2399,13 +2399,14 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"carau", precise_unit{1.0 / 24.0, precise::one, commodities::gold}},
          {"CAR_AU",
           precise_unit{1.0 / 24.0, precise::one, commodities::gold}},
+            // U at the end leads to custom unit unless this is here
+        {"[CAR_AU]",
+            precise_unit{1.0 / 24.0, precise::one, commodities::gold}},
         {"caratofgoldalloys",
          precise_unit{1.0 / 24.0, precise::one, commodities::gold}},
         {"ounce", precise::oz},
         {"ounce_av", precise::av::ounce},
         {"ounce_i", precise::av::ounce},
-        // this is probably more common than kilopoise
-        
         {"tonforce(long)", precise::av::longton* constants::g0.as_unit()},
         {"tonforce(short)", precise::av::ton* constants::g0.as_unit()},
         {"tonforce_US", precise::av::ton* constants::g0.as_unit()},
