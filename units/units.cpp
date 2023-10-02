@@ -2659,6 +2659,8 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"0 degC", "[0]"},
     ckpair{"39.2 degF", "[39]"},
     ckpair{"4 degC", "[4]"},
+        ckpair{"1/20milliliter","[20]"},
+        ckpair{"1/20mL","[20]"},
 };
 
 bool bracketModifiers(std::string& unit_string)
@@ -2691,6 +2693,22 @@ bool bracketModifiers(std::string& unit_string)
                 modified = true;
             }
             ploc = unit_string.find_first_of(seg[0], ploc + 1);
+        }
+    }
+    if (!modified)
+    {
+        auto ploc = unit_string.find_first_of('-', 1);
+        if (ploc != std::string::npos)
+        {
+            auto cloc = unit_string.find_first_of("-[({", ploc+1);
+            auto tstring=(cloc!=std::string::npos)?unit_string.substr(ploc + 1, cloc - ploc - 1):unit_string.substr(ploc+1);
+            auto modloc = modifiers.find(tstring);
+            if (modloc != modifiers.end())
+            {
+                unit_string.replace(ploc + 1, cloc - ploc-1, modloc->second);
+                unit_string[ploc] = '_';
+                modified = true;
+            }
         }
     }
     return modified;
@@ -2734,7 +2752,6 @@ static precise_unit
             ckpair{"wine", "wi"},
             ckpair{"beer", "wi"},
             ckpair{"US", "US"},
-            ckpair{"us", "US"},
             ckpair{"(IT)", "IT"},
             ckpair{"troy", "tr"},
             ckpair{"apothecary", "ap"},
@@ -2760,6 +2777,8 @@ static precise_unit
             ckpair{"60degF", "[60]"},
             ckpair{"39degF", "[39]"},
             ckpair{"0degC", "[0]"},
+            //this should be last
+            ckpair{"us", "US"},
         }};
     bool changed = false;
     for (const auto& irep : internationlReplacements) {
@@ -3078,11 +3097,11 @@ static precise_unit
         {
             static const std::unordered_map<std::string,precise_unit> commUnits
             {
-                {"mercury",precise::kilo* precise::pressure::mmHg/precise::m},
-                {"mercurycolumn",precise::kilo* precise::pressure::mmHg/precise::m},
-                {"mercuryguage",precise::kilo* precise::pressure::mmHg/precise::m},
-                {"mercury_i",precise::kilo* precise::pressure::mmHg/precise::m},
-                {"Hg",precise::kilo* precise::pressure::mmHg/precise::m},
+                {"mercury",precise::pressure::inHg/precise::m},
+                {"mercurycolumn",precise::pressure::inHg/precise::in},
+                {"mercuryguage",precise::pressure::inHg/precise::in},
+                {"mercury_i",precise::kilo* precise::pressure::inHg/precise::in},
+                {"Hg",precise::pressure::inHg/precise::in},
                 {"water",precise::kilo* precise::pressure::mmH2O/precise::m},
                 {"watercolumn",precise::kilo* precise::pressure::mmH2O/precise::m},
                 {"water_i",precise::kilo* precise::pressure::mmH2O/precise::m},
@@ -4456,9 +4475,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             }
             if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
                 skipMultiply = true;
-                checkper = true;
+                checkper = 1;
             }
-            if (checkper){
+            if (checkper>0){
                 auto ploc=unit_string.find_first_of('(');
                 if (ploc!=std::string::npos)
                 {

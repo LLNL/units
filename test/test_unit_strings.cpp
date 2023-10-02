@@ -850,6 +850,8 @@ TEST(stringToUnits, equivalents4)
 {
     EXPECT_EQ(unit_from_string("[CAR_AU]"), unit_from_string("[car_Au]"));
     EXPECT_EQ(unit_from_string("[bu_us]"), unit_from_string("bushel - US"));
+    EXPECT_EQ(unit_from_string("[drp]"),unit_from_string("drop - metric (1/20 mL)"));
+    EXPECT_EQ(unit_from_string("[in_i'Hg]"),unit_from_string("inch of mercury column"));
 }
 
 TEST(stringToUnits, electronVolt)
