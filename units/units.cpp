@@ -307,14 +307,20 @@ static bool ReplaceStringInPlace(
     const char* search,
     int searchSize,
     const char* replace,
-    int replaceSize)
+    int replaceSize,
+    std::size_t &firstReplacementIndex)
 {
     bool changed{false};
-    size_t pos = 0;
+    std::size_t pos{ 0 };
     while ((pos = subject.find(search, pos)) != std::string::npos) {
         subject.replace(pos, searchSize, replace);
+        if (!changed)
+        {
+            changed = true;
+            firstReplacementIndex=pos;
+        }
         pos += replaceSize;
-        changed = true;
+        
     }
     return changed;
 }
@@ -2432,7 +2438,7 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 32> modifiers{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 37> modifiers{{
         modSeq{"squaremeter", "m^2", 11, modifier::anywhere_tail},
         modSeq{"cubicmeter", "m^3", 10, modifier::anywhere_tail},
         modSeq{"cubic", "^3", 5, modifier::start_tail},
@@ -2444,10 +2450,15 @@ static bool wordModifiers(std::string& unit)
         modSeq{"cu", "^3", 2, modifier::start_tail},
         modSeq{"sq", "^2", 2, modifier::start_tail},
         modSeq{"tenthousand", "10000", 11, modifier::anywhere_replace},
+        modSeq{"tenths", "0.1", 5, modifier::anywhere_replace},
         modSeq{"tenth", "0.1", 5, modifier::anywhere_replace},
         modSeq{"ten", "10", 3, modifier::anywhere_replace},
         modSeq{"one", "", 3, modifier::start_replace},
         modSeq{"quarter", "0.25", 7, modifier::anywhere_replace},
+        modSeq{"eighth", "0.125", 6, modifier::anywhere_replace},
+        modSeq{"sixteenth", "0.0625", 9, modifier::anywhere_replace},
+        modSeq{"thirtyseconds", "0.03125", 13, modifier::anywhere_replace},
+        modSeq{"sixtyfourths", "0.015625", 11, modifier::anywhere_replace},
         modSeq{"half", "0.5", 4, modifier::anywhere_replace},
         modSeq{"hundred", "100", 7, modifier::anywhere_replace},
         modSeq{"million", "1e6", 7, modifier::anywhere_replace},
@@ -2573,6 +2584,8 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"US survey", "US"},
     ckpair{"USSurvey", "US"},
     ckpair{"US Survey", "US"},
+    ckpair{"USPetroleum", "US"},
+    ckpair{"oil", "US"},
     ckpair{"USdry", "US"},
     ckpair{"US dry", "US"},
     ckpair{"USA", "US"},
@@ -2594,6 +2607,9 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"thermochemical", "th"},
     ckpair{"electric", "electric"},
     ckpair{"electrical", "electric"},
+    ckpair{"time", "time"},
+    ckpair{"unitoftime", "time"},
+    ckpair{"unit of time", "time"},
     ckpair{"Th", "th"},
     ckpair{"th", "th"},
     ckpair{"metric", "m"},
@@ -2601,6 +2617,8 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"imperial", "br"},
     ckpair{"Imperial", "br"},
     ckpair{"English", "br"},
+    ckpair{"EUR", "br"},
+    ckpair{"UKPetroleum", "brl"},
     ckpair{"imp", "br"},
     ckpair{"wine", "wi"},
     ckpair{"beer", "wi"},
@@ -2622,6 +2640,7 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"Br", "br"},
     ckpair{"BR", "br"},
     ckpair{"UK", "br"},
+    ckpair{"EUR", "br"},
     ckpair{"conventional", "[90]"},
     ckpair{"AC", "ac"},
     ckpair{"DC", "dc"},
@@ -2639,7 +2658,7 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"air","mech"},
     ckpair{"boiler","steam"},
     ckpair{"steam","steam"},
-    ckpair{"refridgeration","cooling"},
+    ckpair{"refrigeration","cooling"},
     ckpair{"cooling","cooling"},
     ckpair{"cloth","cloth"},
     ckpair{"clothing","cloth"},
@@ -2718,7 +2737,7 @@ bool bracketModifiers(std::string& unit_string)
 static precise_unit
     localityModifiers(std::string unit, std::uint64_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 58>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 59>
         internationlReplacements{{
             ckpair{"internationaltable", "IT"},
             ckpair{"internationalsteamtable", "IT"},
@@ -2741,6 +2760,7 @@ static precise_unit
             ckpair{"julian", "j"},
             ckpair{"Julian", "j"},
             ckpair{"thermochemical", "th"},
+            ckpair{"hydraulic","mech"},
             ckpair{"Th", "th"},
             ckpair{"(th)", "th"},
             ckpair{"metric", "m"},
@@ -3097,16 +3117,16 @@ static precise_unit
         {
             static const std::unordered_map<std::string,precise_unit> commUnits
             {
-                {"mercury",precise::pressure::inHg/precise::m},
-                {"mercurycolumn",precise::pressure::inHg/precise::in},
-                {"mercuryguage",precise::pressure::inHg/precise::in},
-                {"mercury_i",precise::kilo* precise::pressure::inHg/precise::in},
-                {"Hg",precise::pressure::inHg/precise::in},
+                {"mercury",precise::pressure::mmHg/precise::mm},
+                {"mercurycolumn",precise::pressure::mmHg/precise::mm},
+                {"mercuryguage",precise::pressure::mmHg/precise::mm},
+                {"mercury_i",precise::pressure::mmHg/precise::mm},
+                {"Hg",precise::pressure::mmHg/precise::mm},
                 {"water",precise::kilo* precise::pressure::mmH2O/precise::m},
                 {"watercolumn",precise::kilo* precise::pressure::mmH2O/precise::m},
                 {"water_i",precise::kilo* precise::pressure::mmH2O/precise::m},
                 {"waterguage",precise::kilo* precise::pressure::mmH2O/precise::m},
-                {"H20",precise::kilo* precise::pressure::mmH2O/precise::m},
+                {"H2O",precise::kilo* precise::pressure::mmH2O/precise::m},
                 {"mercury_[0]", precise_unit(1333.22,Pa)/precise::cm },
                 {"water_[4]", precise_unit(98.0637795,Pa)/precise::cm },
                 {"water_[39]", precise_unit(2988.98400,Pa)/precise::ft },
@@ -3117,6 +3137,10 @@ static precise_unit
             auto tunit=commUnits.find(cstring);
             if (tunit != commUnits.end())
             {
+                if ((floor(bunit.multiplier()/precise::in.multiplier())==ceil(bunit.multiplier()/precise::in.multiplier())) && (tunit->second == precise::pressure::mmHg / precise::mm))
+                { //the default temp for inHg is different then mmHg which is annoying to deal with
+                    return bunit*precise::pressure::inHg/precise::in;
+                }
                 return bunit*tunit->second;
             }
 
@@ -3583,8 +3607,8 @@ static bool isolatePostModifier(std::string& unit_string, const std::string& mod
     {
         auto kloc=unit_string.find_last_not_of(' ',modfind-1);
         
-        auto nspace=unit_string.find_last_of(' ',kloc);
-        auto skip=(nspace==0||(nspace >=unit_string.size()));
+        auto nspace=unit_string.find_last_of(" */",kloc);
+        auto skip=(nspace==0||(nspace >=unit_string.size())||unit_string[nspace]!=' ');
         if (!skip)
         {
             skip |= skip||isOperator(unit_string[nspace + 1]);
@@ -4380,7 +4404,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             ckpair{"deg ", "deg"},
         }};
 
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 30>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 31>
         allCodeReplacements{{
             ckpair{"sq.", "square"},
             ckpair{"cu.", "cubic"},
@@ -4388,6 +4412,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             ckpair{"10^", "1e"},
             ckpair{"10-", "1e-"},
             ckpair{"^+", "^"},
+            ckpair{"'s", "s"},
             ckpair{"ampere", "amp"},
             ckpair{"Ampere", "amp"},
             ckpair{"metre", "meter"},
@@ -4466,22 +4491,21 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
         
         if (unit_string.find_first_of(spchar) != std::string::npos) {
             // deal with some particular string with a space in them
-            int checkper{-1};
+            std::size_t reploc{0};
             // clean up some "per" words
             if (unit_string.compare(0, 4, "per ") == 0) {
-                checkper=2;
+                reploc=2;
                 unit_string.replace(0, 4, "1/");
                 skipMultiply = true;
             }
-            if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1)) {
+            if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1,reploc)) {
                 skipMultiply = true;
-                checkper = 1;
             }
-            if (checkper>0){
-                auto ploc=unit_string.find_first_of('(');
+            if (reploc>0){
+                auto ploc=unit_string.find_first_of('(',reploc);
                 if (ploc!=std::string::npos)
                 {
-                    auto fdiv=unit_string.find_first_of('/');
+                    auto fdiv=unit_string.find_first_of('/',reploc);
                     auto ndiv=fdiv;
                     do
                     {
@@ -4544,7 +4568,8 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
 
     if (!skipcodereplacement) {
         // ** means power in some environments
-        if (ReplaceStringInPlace(unit_string, "**", 2, "^", 1)) {
+        std::size_t loc{0};
+        if (ReplaceStringInPlace(unit_string, "**", 2, "^", 1,loc)) {
             changed = true;
         }
     }
@@ -4813,19 +4838,13 @@ static inline std::uint64_t getMinPartitionSize(std::uint64_t match_flags)
         detail::minPartionSizeShift;
 }
 
-/** Under the assumption units were mashed together to for some new work or
-spaces were used as multiplies this function will progressively try to split
-apart units and combine them.
-*/
-static precise_unit tryUnitPartitioning(
-    const std::string& unit_string,
-    std::uint64_t match_flags)
+static precise_unit checkSpecialUnits(const std::string& unit_string, std::uint64_t match_flags)
 {
-    std::string ustring = unit_string;
     // lets try checking for meter next which is one of the most common
     // reasons for getting here
     auto fnd = findWordOperatorSep(unit_string, "meter");
     if (fnd != std::string::npos) {
+        std::string ustring=unit_string;
         ustring.erase(fnd, 5);
         auto bunit = unit_from_string_internal(ustring, match_flags);
         if (is_valid(bunit)) {
@@ -4840,6 +4859,57 @@ static precise_unit tryUnitPartitioning(
             return precise::A * bunit;
         }
     }
+    if (unit_string.compare(0, 7, "percent")==0)
+    {
+        auto bunit = unit_from_string_internal(
+            unit_string.substr(7), match_flags | minimum_partition_size3);
+        if (is_valid(bunit)) {
+            return precise::percent * pu*bunit;
+        }
+        bunit = default_unit(unit_string.substr(7));
+        if (is_valid(bunit))
+        {
+            return precise::percent * pu*bunit;
+        }
+    }
+    if (unit_string.front()=='%')
+    {
+        auto bunit = unit_from_string_internal(
+            unit_string.substr(1), match_flags | minimum_partition_size3);
+        if (is_valid(bunit)) {
+            return precise::percent * precise::pu*bunit;
+        }
+        bunit = default_unit(unit_string.substr(1));
+        if (is_valid(bunit))
+        {
+            return precise::percent * precise::pu*bunit;
+        }
+    }
+    if (unit_string.compare(0, 7, "perunit")==0)
+    {
+        auto bunit = unit_from_string_internal(
+            unit_string.substr(7), match_flags | minimum_partition_size3);
+        if (is_valid(bunit)) {
+            return precise::pu*bunit;
+        }
+        bunit = default_unit(unit_string.substr(7));
+        if (is_valid(bunit))
+        {
+            return precise::pu*bunit;
+        }
+    }
+    return precise::invalid;
+}
+/** Under the assumption units were mashed together to for some new work or
+spaces were used as multiplies this function will progressively try to split
+apart units and combine them.
+*/
+static precise_unit tryUnitPartitioning(
+    const std::string& unit_string,
+    std::uint64_t match_flags)
+{
+    std::string ustring = unit_string;
+   
     auto mret = getPrefixMultiplierWord(unit_string);
     if (mret.first != 0.0) {
         ustring = unit_string.substr(mret.second);
@@ -5776,6 +5846,11 @@ static precise_unit unit_from_string_internal(
     }
 
     if ((match_flags & skip_partition_check) == 0) {
+        // check for some special partitioned units
+        retunit=checkSpecialUnits(unit_string, match_flags);
+        if (!is_error(retunit)) {
+            return retunit;
+        }
         // maybe some things got merged together so lets try splitting them up
         // in various ways but only allow 3 layers deep
         retunit =
@@ -5847,6 +5922,12 @@ precise_measurement measurement_from_string(
         }
     }
     */
+    auto unit=unit_from_string_internal(
+        std::move(measurement_string), match_flags | skip_code_replacements);
+    if (is_valid(unit))
+    {
+        return {1.0,unit};
+    }
     return {val, precise::invalid};
 }
 

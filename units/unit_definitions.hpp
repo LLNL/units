@@ -500,6 +500,7 @@ namespace precise {
         constexpr precise_unit rood{1011.7141056, m* m};
         // volume
         constexpr precise_unit gallon{4546.09, mL};
+        constexpr precise_unit winegallon{231.0,in.pow(3)};
         constexpr precise_unit quart{0.25, gallon};
         constexpr precise_unit pint{0.5, quart};
         constexpr precise_unit gill{0.25, pint};
@@ -509,6 +510,7 @@ namespace precise {
         constexpr precise_unit tsp{1.0 / 3.0, tbsp};
 
         constexpr precise_unit barrel{36.0, gallon};
+        constexpr precise_unit bbl{0.15911315,m.pow(3),commodities::oil};
         constexpr precise_unit peck{2.0, gallon};
         constexpr precise_unit bushel{4.0, peck};
         constexpr precise_unit dram{1.0 / 8.0, floz};

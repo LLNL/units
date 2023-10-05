@@ -41,6 +41,7 @@ TEST(r20, conversions)
     int commQuantity2{0};
     int convertible{0};
     int skipped{0};
+    int failedConversion{0};
     int defaulted{0};
     for (size_t ii = 1; ii < unit_count; ++ii) {
         std::string ustr = std::string(std::get<1>(r20data[ii]));
@@ -100,8 +101,14 @@ TEST(r20, conversions)
             {
                 ++defaulted;
             }
+            else if (r20unit.commodity()==0)
+            {
+                std::cout<< "FAILED CONVERSION " << ii << " \"" << std::get<0>(r20data[ii]) << "\" " << ustr << " not convertible to " << to_string(r20unit)<<'\n';
+                ++failedConversion;
+            }
             else
             {
+                std::cout<< "SKIPPED " << ii << " \"" << std::get<0>(r20data[ii]) << "\" " << ustr << " not convertible to " << to_string(r20unit)<<'\n';
                 ++skipped;
             }
             
@@ -112,6 +119,7 @@ TEST(r20, conversions)
     std::cout<< commQuantity << " r20 units with commodities not matching\n";
     std::cout<< commQuantity2 << " unit translations with commodities not matching\n";
     std::cout << skipped << " r20 units skipped\n";
+    std::cout << failedConversion << " r20 units with failed conversion\n";
     std::cout << defaulted << " r20 units are still on default value\n";
     std::cout << matchWithPU << " r20 units matched with pu modifier\n";
     std::cout << matchUnitBase << " r20 units matched with same base but different number\n";

@@ -697,6 +697,8 @@ TEST(stringToUnits, words)
     EXPECT_EQ(
         precise::lm * precise::m.pow(2),
         unit_from_string("lumen square meter"));
+
+    EXPECT_EQ(unit_from_string("ampere per square metre kelvin squared"),precise::A/(m.pow(2)*K.pow(2)));
 }
 
 TEST(stringToUnits, exponentForms)
@@ -759,6 +761,9 @@ TEST(stringToUnits, interestingUnits)
 
     unit = unit_from_string("m per s2 per Hz^1/2");
     EXPECT_EQ(unit, precise::special::ASD);
+
+    unit = unit_from_string("tenth minute");
+    EXPECT_EQ(unit, precise_unit(6.0,precise::s));
 }
 
 TEST(stringToUnits, customUnitforms)
@@ -852,6 +857,8 @@ TEST(stringToUnits, equivalents4)
     EXPECT_EQ(unit_from_string("[bu_us]"), unit_from_string("bushel - US"));
     EXPECT_EQ(unit_from_string("[drp]"),unit_from_string("drop - metric (1/20 mL)"));
     EXPECT_EQ(unit_from_string("[in_i'Hg]"),unit_from_string("inch of mercury column"));
+
+    EXPECT_EQ(unit_cast(unit_from_string("nmol/mg{prot}")), unit_cast(unit_from_string("nanomole of (1/2) cystine per milligram of protein")));
 }
 
 TEST(stringToUnits, electronVolt)
