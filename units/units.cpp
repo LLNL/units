@@ -85,8 +85,8 @@ unit root(const unit& un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return error;
     }
-    return unit{numericalRoot(un.multiplier(), power),
-        un.base_units().root(power) };
+    return unit{
+        numericalRoot(un.multiplier(), power), un.base_units().root(power)};
 }
 
 precise_unit root(const precise_unit& un, int power)
@@ -97,8 +97,8 @@ precise_unit root(const precise_unit& un, int power)
     if (un.multiplier() < 0.0 && power % 2 == 0) {
         return precise::invalid;
     }
-    return precise_unit{numericalRoot(un.multiplier(), power),
-        un.base_units().root(power)};
+    return precise_unit{
+        numericalRoot(un.multiplier(), power), un.base_units().root(power)};
 }
 
 measurement root(const measurement& meas, int power)
@@ -308,19 +308,17 @@ static bool ReplaceStringInPlace(
     int searchSize,
     const char* replace,
     int replaceSize,
-    std::size_t &firstReplacementIndex)
+    std::size_t& firstReplacementIndex)
 {
     bool changed{false};
-    std::size_t pos{ 0 };
+    std::size_t pos{0};
     while ((pos = subject.find(search, pos)) != std::string::npos) {
         subject.replace(pos, searchSize, replace);
-        if (!changed)
-        {
+        if (!changed) {
             changed = true;
-            firstReplacementIndex=pos;
+            firstReplacementIndex = pos;
         }
         pos += replaceSize;
-        
     }
     return changed;
 }
@@ -1764,12 +1762,12 @@ std::string to_string(const measurement& measure, std::uint64_t match_flags)
 
     auto str = to_string(measure.units(), match_flags);
     if (!str.empty()) {
-    ss << ' ';
-    if (isNumericalStartCharacter(str.front())) {
-        str.insert(str.begin(), '(');
-        str.push_back(')');
-    }
-    ss << str;
+        ss << ' ';
+        if (isNumericalStartCharacter(str.front())) {
+            str.insert(str.begin(), '(');
+            str.push_back(')');
+        }
+        ss << str;
     }
     return ss.str();
 }
@@ -2088,7 +2086,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
     index = 0;
     double val = getNumberBlock(ustring, index);
     if (std::isnan(val)) {
-        index=0;
+        index = 0;
         return val;
     }
     while (true) {
@@ -2099,7 +2097,7 @@ double generateLeadingNumber(const std::string& ustring, size_t& index) noexcept
             case '.':
             case '-':
             case '+':
-                index=0;
+                index = 0;
                 return constants::invalid_conversion;
             case '/':
             case '*':
@@ -2569,8 +2567,7 @@ static bool wordModifiers(std::string& unit)
 
 using ckpair = std::pair<const char*, const char*>;
 
-static const std::unordered_map<std::string,std::string> modifiers
-{
+static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"internationaltable", "IT"},
     ckpair{"internationalsteamtable", "IT"},
     ckpair{"international table", "IT"},
@@ -2650,20 +2647,20 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"angle", "ang"},
     ckpair{"unitofangle", "ang"},
     ckpair{"unit of angle", "ang"},
-    ckpair{"H2O","H2O"},
-    ckpair{"water","H2O"},
-    ckpair{"Hg","Hg"},
-    ckpair{"HG","Hg"},
-    ckpair{"mercury","Hg"},
-    ckpair{"mechanical","mech"},
-    ckpair{"hydraulic","mech"},
-    ckpair{"air","mech"},
-    ckpair{"boiler","steam"},
-    ckpair{"steam","steam"},
-    ckpair{"refrigeration","cooling"},
-    ckpair{"cooling","cooling"},
-    ckpair{"cloth","cloth"},
-    ckpair{"clothing","cloth"},
+    ckpair{"H2O", "H2O"},
+    ckpair{"water", "H2O"},
+    ckpair{"Hg", "Hg"},
+    ckpair{"HG", "Hg"},
+    ckpair{"mercury", "Hg"},
+    ckpair{"mechanical", "mech"},
+    ckpair{"hydraulic", "mech"},
+    ckpair{"air", "mech"},
+    ckpair{"boiler", "steam"},
+    ckpair{"steam", "steam"},
+    ckpair{"refrigeration", "cooling"},
+    ckpair{"cooling", "cooling"},
+    ckpair{"cloth", "cloth"},
+    ckpair{"clothing", "cloth"},
     ckpair{"15degC", "[15]"},
     ckpair{"20degC", "[20]"},
     ckpair{"59degF", "[59]"},
@@ -2680,53 +2677,49 @@ static const std::unordered_map<std::string,std::string> modifiers
     ckpair{"0 degC", "[0]"},
     ckpair{"39.2 degF", "[39]"},
     ckpair{"4 degC", "[4]"},
-        ckpair{"1/20milliliter","[20]"},
-        ckpair{"1/20mL","[20]"},
+    ckpair{"1/20milliliter", "[20]"},
+    ckpair{"1/20mL", "[20]"},
 };
 
 bool bracketModifiers(std::string& unit_string)
 {
-    
-    bool modified{ false };
+    bool modified{false};
     for (const auto& seg : Esegs) {
         auto ploc = unit_string.find_first_of(seg[0], 1);
-        while (ploc != std::string::npos)
-        {
+        while (ploc != std::string::npos) {
             auto cloc = unit_string.find_first_of(seg[1], ploc);
-            auto tstring=unit_string.substr(ploc + 1, cloc - ploc - 1);
+            auto tstring = unit_string.substr(ploc + 1, cloc - ploc - 1);
             auto modloc = modifiers.find(tstring);
-            if (modloc != modifiers.end())
-            {
-                auto nextloc=unit_string.find_first_not_of(' ',cloc+1);
-                if (nextloc != std::string::npos && unit_string[nextloc] != '/' && unit_string[nextloc] != '*')
-                {
-                    unit_string.insert(nextloc,1,'*');
+            if (modloc != modifiers.end()) {
+                auto nextloc = unit_string.find_first_not_of(' ', cloc + 1);
+                if (nextloc != std::string::npos &&
+                    unit_string[nextloc] != '/' &&
+                    unit_string[nextloc] != '*') {
+                    unit_string.insert(nextloc, 1, '*');
                 }
 
                 unit_string.replace(ploc + 1, cloc - ploc, modloc->second);
                 unit_string[ploc] = '_';
-                if (unit_string[ploc - 1] == ' ')
-                {
-                    unit_string.erase(ploc - 1,1);
+                if (unit_string[ploc - 1] == ' ') {
+                    unit_string.erase(ploc - 1, 1);
                     --ploc;
                 }
-               
+
                 modified = true;
             }
             ploc = unit_string.find_first_of(seg[0], ploc + 1);
         }
     }
-    if (!modified)
-    {
+    if (!modified) {
         auto ploc = unit_string.find_first_of('-', 1);
-        if (ploc != std::string::npos)
-        {
-            auto cloc = unit_string.find_first_of("-[({", ploc+1);
-            auto tstring=(cloc!=std::string::npos)?unit_string.substr(ploc + 1, cloc - ploc - 1):unit_string.substr(ploc+1);
+        if (ploc != std::string::npos) {
+            auto cloc = unit_string.find_first_of("-[({", ploc + 1);
+            auto tstring = (cloc != std::string::npos) ?
+                unit_string.substr(ploc + 1, cloc - ploc - 1) :
+                unit_string.substr(ploc + 1);
             auto modloc = modifiers.find(tstring);
-            if (modloc != modifiers.end())
-            {
-                unit_string.replace(ploc + 1, cloc - ploc-1, modloc->second);
+            if (modloc != modifiers.end()) {
+                unit_string.replace(ploc + 1, cloc - ploc - 1, modloc->second);
                 unit_string[ploc] = '_';
                 modified = true;
             }
@@ -2734,7 +2727,6 @@ bool bracketModifiers(std::string& unit_string)
     }
     return modified;
 }
-
 
 static precise_unit
     localityModifiers(std::string unit, std::uint64_t match_flags)
@@ -2762,7 +2754,7 @@ static precise_unit
             ckpair{"julian", "j"},
             ckpair{"Julian", "j"},
             ckpair{"thermochemical", "th"},
-            ckpair{"hydraulic","mech"},
+            ckpair{"hydraulic", "mech"},
             ckpair{"Th", "th"},
             ckpair{"(th)", "th"},
             ckpair{"metric", "m"},
@@ -2799,7 +2791,7 @@ static precise_unit
             ckpair{"60degF", "[60]"},
             ckpair{"39degF", "[39]"},
             ckpair{"0degC", "[0]"},
-            //this should be last
+            // this should be last
             ckpair{"us", "US"},
         }};
     bool changed = false;
@@ -3115,37 +3107,46 @@ static precise_unit
         unit_string.substr(0, static_cast<size_t>(ccindex) + 1),
         match_flags + no_commodities);
     if (!is_error(bunit)) {
-        if (bunit.has_same_base(m))
-        {
-            static const std::unordered_map<std::string,precise_unit> commUnits
-            {
-                {"mercury",precise::pressure::mmHg/precise::mm},
-                {"mercurycolumn",precise::pressure::mmHg/precise::mm},
-                {"mercuryguage",precise::pressure::mmHg/precise::mm},
-                {"mercury_i",precise::pressure::mmHg/precise::mm},
-                {"Hg",precise::pressure::mmHg/precise::mm},
-                {"water",precise::kilo* precise::pressure::mmH2O/precise::m},
-                {"watercolumn",precise::kilo* precise::pressure::mmH2O/precise::m},
-                {"water_i",precise::kilo* precise::pressure::mmH2O/precise::m},
-                {"waterguage",precise::kilo* precise::pressure::mmH2O/precise::m},
-                {"H2O",precise::kilo* precise::pressure::mmH2O/precise::m},
-                {"mercury_[0]", precise_unit(1333.22,Pa)/precise::cm },
-                {"water_[4]", precise_unit(98.0637795,Pa)/precise::cm },
-                {"water_[39]", precise_unit(2988.98400,Pa)/precise::ft },
-                {"mercury_[32]", precise_unit(3383.93102,Pa)/precise::in},
-                {"mercury_[60]", precise_unit(3376.84789,Pa)/precise::in },
-                {"water_[60]", precise_unit(248.840000,Pa)/precise::in},
-            };
-            auto tunit=commUnits.find(cstring);
-            if (tunit != commUnits.end())
-            {
-                if ((floor(bunit.multiplier()/precise::in.multiplier())==ceil(bunit.multiplier()/precise::in.multiplier())) && (tunit->second == precise::pressure::mmHg / precise::mm))
-                { //the default temp for inHg is different then mmHg which is annoying to deal with
-                    return bunit*precise::pressure::inHg/precise::in;
+        if (bunit.has_same_base(m)) {
+            static const std::unordered_map<std::string, precise_unit>
+                commUnits{
+                    {"mercury", precise::pressure::mmHg / precise::mm},
+                    {"mercurycolumn", precise::pressure::mmHg / precise::mm},
+                    {"mercuryguage", precise::pressure::mmHg / precise::mm},
+                    {"mercury_i", precise::pressure::mmHg / precise::mm},
+                    {"Hg", precise::pressure::mmHg / precise::mm},
+                    {"water",
+                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    {"watercolumn",
+                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    {"water_i",
+                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    {"waterguage",
+                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    {"H2O",
+                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    {"mercury_[0]", precise_unit(1333.22, Pa) / precise::cm},
+                    {"water_[4]", precise_unit(98.0637795, Pa) / precise::cm},
+                    {"water_[39]", precise_unit(2988.98400, Pa) / precise::ft},
+                    {"mercury_[32]",
+                     precise_unit(3383.93102, Pa) / precise::in},
+                    {"mercury_[60]",
+                     precise_unit(3376.84789, Pa) / precise::in},
+                    {"water_[60]", precise_unit(248.840000, Pa) / precise::in},
+                };
+            auto tunit = commUnits.find(cstring);
+            if (tunit != commUnits.end()) {
+                if ((floor(bunit.multiplier() / precise::in.multiplier()) ==
+                     ceil(bunit.multiplier() / precise::in.multiplier())) &&
+                    (tunit->second ==
+                     precise::pressure::mmHg /
+                         precise::mm)) {  // the default temp for inHg is
+                                          // different then mmHg which is
+                                          // annoying to deal with
+                    return bunit * precise::pressure::inHg / precise::in;
                 }
-                return bunit*tunit->second;
+                return bunit * tunit->second;
             }
-
         }
         return {1.0, bunit, getCommodity(cstring)};
     }
@@ -3533,117 +3534,112 @@ static size_t
 
 static inline bool isOperator(char X)
 {
-    return (X=='*')||(X=='/');
+    return (X == '*') || (X == '/');
 }
 
-static bool isolatePriorModifier(std::string& unit_string, const std::string& modifier,char check1,char check2)
+static bool isolatePriorModifier(
+    std::string& unit_string,
+    const std::string& modifier,
+    char check1,
+    char check2)
 {
     bool modified{false};
-    auto modfind=unit_string.find(modifier);
-    if (modfind != std::string::npos)
-    {
-        auto offset=modfind+modifier.size();
-        if (modifier.back() != ' ')
-        {
+    auto modfind = unit_string.find(modifier);
+    if (modfind != std::string::npos) {
+        auto offset = modfind + modifier.size();
+        if (modifier.back() != ' ') {
             ++offset;
         }
-        auto kloc=unit_string.find_first_not_of(' ',offset);
-        if (unit_string[kloc] == check1 || unit_string[kloc] == check2)
-        {
-            //this handles a misinterpretation of square+d to squared when in middle of a unit
+        auto kloc = unit_string.find_first_not_of(' ', offset);
+        if (unit_string[kloc] == check1 || unit_string[kloc] == check2) {
+            // this handles a misinterpretation of square+d to squared when in
+            // middle of a unit
             unit_string[kloc - 1] = '_';
-            modified=true;
+            modified = true;
         }
-        auto nspace=unit_string.find_first_of(' ',kloc);
-        auto skip=(nspace >=unit_string.size());
-        if (!skip)
-        {
-            skip = isOperator(unit_string[nspace + 1])||isOperator(unit_string[nspace - 1]);
+        auto nspace = unit_string.find_first_of(' ', kloc);
+        auto skip = (nspace >= unit_string.size());
+        if (!skip) {
+            skip = isOperator(unit_string[nspace + 1]) ||
+                isOperator(unit_string[nspace - 1]);
         }
         if (!skip) {
-            skip = unit_string[nspace + 1] == '('||unit_string[nspace - 1] == '(';
-            skip |= (skip||unit_string[nspace + 1] == '-'||unit_string[nspace - 1] == '-');
-            skip |= skip||(unit_string.compare(nspace + 1, 2, "of") == 0);
-            skip|=skip||unit_string[nspace + 1] == 'U'; //handle distance units with UK or US modifier
+            skip = unit_string[nspace + 1] == '(' ||
+                unit_string[nspace - 1] == '(';
+            skip |=
+                (skip || unit_string[nspace + 1] == '-' ||
+                 unit_string[nspace - 1] == '-');
+            skip |= skip || (unit_string.compare(nspace + 1, 2, "of") == 0);
+            skip |= skip ||
+                unit_string[nspace + 1] ==
+                    'U';  // handle distance units with UK or US modifier
         }
-        if (!skip)
-        {
+        if (!skip) {
             auto divloc = unit_string.find_last_of('/', modfind);
             auto divloc2 = unit_string.find_first_of('/', modfind + 1);
-            if (divloc < modfind)
-            {
+            if (divloc < modfind) {
                 unit_string.insert(divloc + 1, 1, '(');
                 ++nspace;
-                if (divloc2 != std::string::npos)
-                {
-                    unit_string.insert(divloc2+1, 1, ')');
-                    //don't worry about nspace increment here as it will be skipped or the insertion after the space
-                }
-                else
-                {
+                if (divloc2 != std::string::npos) {
+                    unit_string.insert(divloc2 + 1, 1, ')');
+                    // don't worry about nspace increment here as it will be
+                    // skipped or the insertion after the space
+                } else {
                     unit_string.push_back(')');
                 }
-                
+
                 skip |= (divloc2 < nspace);
-                modified=true;
-            }
-            else if (divloc2 < nspace)
-            {
+                modified = true;
+            } else if (divloc2 < nspace) {
                 skip = true;
             }
         }
-        if (!skip)
-        {
+        if (!skip) {
             unit_string[nspace] = '*';
-            modified=true;
+            modified = true;
         }
     }
     return modified;
 }
 
-static bool isolatePostModifier(std::string& unit_string, const std::string& modifier)
+static bool
+    isolatePostModifier(std::string& unit_string, const std::string& modifier)
 {
-    bool modified{ false };
-    auto modfind=unit_string.find(modifier);
-    if (modfind != std::string::npos)
-    {
-        auto kloc=unit_string.find_last_not_of(' ',modfind-1);
-        
-        auto nspace=unit_string.find_last_of(" */",kloc);
-        auto skip=(nspace==0||(nspace >=unit_string.size())||unit_string[nspace]!=' ');
-        if (!skip)
-        {
-            skip |= skip||isOperator(unit_string[nspace + 1]);
-            skip |= skip||isOperator(unit_string[nspace - 1]);
-            skip |= skip||unit_string[nspace + 1] == ')';
-            skip |= skip||unit_string[nspace + 1] == '-';
-            skip |= skip||unit_string[nspace - 1] == ')';
-            skip |= skip||unit_string[nspace - 1] == '-';
+    bool modified{false};
+    auto modfind = unit_string.find(modifier);
+    if (modfind != std::string::npos) {
+        auto kloc = unit_string.find_last_not_of(' ', modfind - 1);
+
+        auto nspace = unit_string.find_last_of(" */", kloc);
+        auto skip =
+            (nspace == 0 || (nspace >= unit_string.size()) ||
+             unit_string[nspace] != ' ');
+        if (!skip) {
+            skip |= skip || isOperator(unit_string[nspace + 1]);
+            skip |= skip || isOperator(unit_string[nspace - 1]);
+            skip |= skip || unit_string[nspace + 1] == ')';
+            skip |= skip || unit_string[nspace + 1] == '-';
+            skip |= skip || unit_string[nspace - 1] == ')';
+            skip |= skip || unit_string[nspace - 1] == '-';
         }
-        if (!skip)
-        {
+        if (!skip) {
             auto divloc = unit_string.find_last_of('/', modfind);
-            if (divloc < modfind)
-            {
+            if (divloc < modfind) {
                 unit_string.insert(divloc + 1, 1, '(');
                 auto divloc2 = unit_string.find_first_of('/', modfind + 1);
-                if (divloc2 != std::string::npos)
-                {
+                if (divloc2 != std::string::npos) {
                     unit_string.insert(divloc2, 1, ')');
-                }
-                else
-                {
+                } else {
                     unit_string.push_back(')');
                 }
-                modified=true;
+                modified = true;
                 ++nspace;
                 skip |= (divloc2 < nspace);
             }
         }
-        if (!skip)
-        {
+        if (!skip) {
             unit_string[nspace] = '*';
-            modified=true;
+            modified = true;
         }
     }
     return modified;
@@ -3653,10 +3649,10 @@ static bool isolatePostModifier(std::string& unit_string, const std::string& mod
 static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
 {
     static const std::string spaceChars = std::string(" \t\n\r") + '\0';
-    
-    bool spacesRemoved = isolatePriorModifier(unit_string,"square ",'d','D');
-    spacesRemoved|=isolatePriorModifier(unit_string,"cubic ",'_','-');
-    spacesRemoved|=isolatePostModifier(unit_string," squared");
+
+    bool spacesRemoved = isolatePriorModifier(unit_string, "square ", 'd', 'D');
+    spacesRemoved |= isolatePriorModifier(unit_string, "cubic ", '_', '-');
+    spacesRemoved |= isolatePostModifier(unit_string, " squared");
     auto fnd = unit_string.find_first_of(spaceChars);
     while (fnd != std::string::npos) {
         spacesRemoved = true;
@@ -3668,8 +3664,8 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
             }
             if (fnd == 1) {  // if the second character is a space it almost
                              // always means multiply
-                if (isOperator(unit_string[nloc]) ||
-                    unit_string[nloc] == '^' || unit_string[nloc] == '@') {
+                if (isOperator(unit_string[nloc]) || unit_string[nloc] == '^' ||
+                    unit_string[nloc] == '@') {
                     unit_string.erase(fnd, 1);
                     fnd = unit_string.find_first_of(spaceChars, fnd);
                     continue;
@@ -3701,8 +3697,7 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
                 fnd = unit_string.find_first_of(spaceChars, fnd + 1);
                 continue;
             }
-            if (unit_string.size() > nloc &&
-                isOperator(unit_string[nloc])) {
+            if (unit_string.size() > nloc && isOperator(unit_string[nloc])) {
                 unit_string.erase(fnd, 1);
                 fnd = unit_string.find_first_of(spaceChars, fnd);
                 continue;
@@ -3741,10 +3736,10 @@ static bool cleanSpaces(std::string& unit_string, bool skipMultiply)
             // this now gets dealt with in the dotMultiply code
             ++fnd;
         } else {
-        unit_string.erase(fnd, 1);
-        if (fnd > 0) {
-            skipMultiply = true;
-        }
+            unit_string.erase(fnd, 1);
+            if (fnd > 0) {
+                skipMultiply = true;
+            }
         }
 
         fnd = unit_string.find_first_of(spaceChars, fnd);
@@ -3912,7 +3907,7 @@ static void ciConversion(std::string& unit_string)
             if ((unit_string.length() == 2 &&
                  getPrefixMultiplier(unit_string.front()) != 0.0) ||
                 (unit_string.length() == 3 &&
-                getPrefixMultiplier2Char(unit_string[0], unit_string[1]) !=
+                 getPrefixMultiplier2Char(unit_string[0], unit_string[1]) !=
                      0.0)) {
                 unit_string.back() = 'm';
             }
@@ -4490,48 +4485,39 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
                 fnd = unit_string.find(acode.first, fnd + 1);
             }
         }
-        
+
         if (unit_string.find_first_of(spchar) != std::string::npos) {
             // deal with some particular string with a space in them
             std::size_t reploc{0};
             // clean up some "per" words
             if (unit_string.compare(0, 4, "per ") == 0) {
-                reploc=2;
+                reploc = 2;
                 unit_string.replace(0, 4, "1/");
                 skipMultiply = true;
             }
-            if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1,reploc)) {
+            if (ReplaceStringInPlace(unit_string, " per ", 5, "/", 1, reploc)) {
                 skipMultiply = true;
             }
-            if (reploc>0){
-                auto ploc=unit_string.find_first_of('(',reploc);
-                if (ploc!=std::string::npos)
-                {
-                    auto fdiv=unit_string.find_first_of('/',reploc);
-                    auto ndiv=fdiv;
-                    do
-                    {
-                        ndiv=unit_string.find_first_of('/',fdiv+1);
-                        if (ploc < ndiv)
-                        {
-                            if (ndiv != std::string::npos)
-                            {
-                                unit_string.insert(ndiv,1,')');
-                            }
-                            else
-                            {
+            if (reploc > 0) {
+                auto ploc = unit_string.find_first_of('(', reploc);
+                if (ploc != std::string::npos) {
+                    auto fdiv = unit_string.find_first_of('/', reploc);
+                    auto ndiv = fdiv;
+                    do {
+                        ndiv = unit_string.find_first_of('/', fdiv + 1);
+                        if (ploc < ndiv) {
+                            if (ndiv != std::string::npos) {
+                                unit_string.insert(ndiv, 1, ')');
+                            } else {
                                 unit_string.push_back(')');
                             }
-                            unit_string.insert(fdiv+1,1,'(');
-                            fdiv=ndiv+2;
-                        }
-                        else
-                        {
+                            unit_string.insert(fdiv + 1, 1, '(');
+                            fdiv = ndiv + 2;
+                        } else {
                             fdiv = ndiv;
                         }
-                    }while (ndiv!=std::string::npos);
+                    } while (ndiv != std::string::npos);
                 }
-                
             }
             checkShortUnits(unit_string, match_flags);
             auto fndP = unit_string.find(" of ");
@@ -4571,7 +4557,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
     if (!skipcodereplacement) {
         // ** means power in some environments
         std::size_t loc{0};
-        if (ReplaceStringInPlace(unit_string, "**", 2, "^", 1,loc)) {
+        if (ReplaceStringInPlace(unit_string, "**", 2, "^", 1, loc)) {
             changed = true;
         }
     }
@@ -4773,7 +4759,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
 /// cleanup phase 2 if things still aren't working
 static bool cleanUnitStringPhase2(std::string& unit_string)
 {
-    bool changed{ false };
+    bool changed{false};
     auto len = unit_string.length();
     // cleanup extraneous dashes
     auto dpos = unit_string.find_first_of('-');
@@ -4792,12 +4778,11 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
         std::remove(unit_string.begin(), unit_string.end(), '+'),
         unit_string.end());
 
-    if (bracketModifiers(unit_string))
-    {
-        changed=true;
+    if (bracketModifiers(unit_string)) {
+        changed = true;
     }
     clearEmptySegments(unit_string);
-    return changed||(len != unit_string.length());
+    return changed || (len != unit_string.length());
 }
 
 static precise_unit
@@ -4840,13 +4825,14 @@ static inline std::uint64_t getMinPartitionSize(std::uint64_t match_flags)
         detail::minPartionSizeShift;
 }
 
-static precise_unit checkSpecialUnits(const std::string& unit_string, std::uint64_t match_flags)
+static precise_unit
+    checkSpecialUnits(const std::string& unit_string, std::uint64_t match_flags)
 {
     // lets try checking for meter next which is one of the most common
     // reasons for getting here
     auto fnd = findWordOperatorSep(unit_string, "meter");
     if (fnd != std::string::npos) {
-        std::string ustring=unit_string;
+        std::string ustring = unit_string;
         ustring.erase(fnd, 5);
         auto bunit = unit_from_string_internal(ustring, match_flags);
         if (is_valid(bunit)) {
@@ -4861,43 +4847,37 @@ static precise_unit checkSpecialUnits(const std::string& unit_string, std::uint6
             return precise::A * bunit;
         }
     }
-    if (unit_string.compare(0, 7, "percent")==0)
-    {
+    if (unit_string.compare(0, 7, "percent") == 0) {
         auto bunit = unit_from_string_internal(
             unit_string.substr(7), match_flags | minimum_partition_size3);
         if (is_valid(bunit)) {
-            return precise::percent * pu*bunit;
+            return precise::percent * pu * bunit;
         }
         bunit = default_unit(unit_string.substr(7));
-        if (is_valid(bunit))
-        {
-            return precise::percent * pu*bunit;
+        if (is_valid(bunit)) {
+            return precise::percent * pu * bunit;
         }
     }
-    if (unit_string.front()=='%')
-    {
+    if (unit_string.front() == '%') {
         auto bunit = unit_from_string_internal(
             unit_string.substr(1), match_flags | minimum_partition_size3);
         if (is_valid(bunit)) {
-            return precise::percent * precise::pu*bunit;
+            return precise::percent * precise::pu * bunit;
         }
         bunit = default_unit(unit_string.substr(1));
-        if (is_valid(bunit))
-        {
-            return precise::percent * precise::pu*bunit;
+        if (is_valid(bunit)) {
+            return precise::percent * precise::pu * bunit;
         }
     }
-    if (unit_string.compare(0, 7, "perunit")==0)
-    {
+    if (unit_string.compare(0, 7, "perunit") == 0) {
         auto bunit = unit_from_string_internal(
             unit_string.substr(7), match_flags | minimum_partition_size3);
         if (is_valid(bunit)) {
-            return precise::pu*bunit;
+            return precise::pu * bunit;
         }
         bunit = default_unit(unit_string.substr(7));
-        if (is_valid(bunit))
-        {
-            return precise::pu*bunit;
+        if (is_valid(bunit)) {
+            return precise::pu * bunit;
         }
     }
     return precise::invalid;
@@ -4911,14 +4891,14 @@ static precise_unit tryUnitPartitioning(
     std::uint64_t match_flags)
 {
     std::string ustring = unit_string;
-   
+
     auto mret = getPrefixMultiplierWord(unit_string);
     if (mret.first != 0.0) {
         ustring = unit_string.substr(mret.second);
 
         auto retunit = unit_from_string_internal(ustring, match_flags);
         if (is_valid(retunit)) {
-            return { mret.first, retunit };
+            return {mret.first, retunit};
         }
         return precise::invalid;
     }
@@ -4935,7 +4915,7 @@ static precise_unit tryUnitPartitioning(
     auto minPartitionSize = getMinPartitionSize(match_flags);
     std::vector<std::string> valid;
     precise_unit possible = precise::invalid;
-    bool hasSep{ false };
+    bool hasSep{false};
     while (part < unit_string.size() - 1) {
         if (unit_string.size() - part < minPartitionSize) {
             break;
@@ -4956,19 +4936,15 @@ static precise_unit tryUnitPartitioning(
                     unit_string.substr(part),
                     match_flags | skip_partition_check);
                 if (is_valid(bunit)) {
-                    if (!is_valid(possible))
-                    {
+                    if (!is_valid(possible)) {
                         possible = res * bunit;
-                    }
-                    else
-                    {
-                        auto temp=res*bunit;
-                        if (std::abs(log10(temp.multiplier())) < std::abs(log10(possible.multiplier())))
-                        {
-                            possible=temp;
+                    } else {
+                        auto temp = res * bunit;
+                        if (std::abs(log10(temp.multiplier())) <
+                            std::abs(log10(possible.multiplier()))) {
+                            possible = temp;
                         }
                     }
-
                 }
                 valid.push_back(ustring);
             }
@@ -4990,22 +4966,21 @@ static precise_unit tryUnitPartitioning(
             ustring = unit_string.substr(0, part);
         }
         while ((ustring.back() == '_' || ustring.back() == '-') &&
-            (part < unit_string.size() - 1)) {
+               (part < unit_string.size() - 1)) {
             hasSep = true;
             ustring.push_back(unit_string[part]);
             ++part;
         }
         if (isDigitCharacter(ustring.back())) {
             while ((part < unit_string.size() - 1) &&
-                (unit_string[part] == '.' ||
+                   (unit_string[part] == '.' ||
                     isDigitCharacter(unit_string[part]))) {
                 ustring.push_back(unit_string[part]);
                 ++part;
             }
         }
     }
-    if (is_valid(possible))
-    {
+    if (is_valid(possible)) {
         return possible;
     }
     if (minPartitionSize <= 1) {
@@ -5018,11 +4993,11 @@ static precise_unit tryUnitPartitioning(
         }
     }
     if (minPartitionSize <= 2 && !hasSep) {
-    // now do a quick check with a 2 character string since we skipped that
-    // earlier
-    auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
-    if (is_valid(qm2)) {
-        valid.insert(valid.begin(), unit_string.substr(0, 2));
+        // now do a quick check with a 2 character string since we skipped that
+        // earlier
+        auto qm2 = unit_quick_match(unit_string.substr(0, 2), match_flags);
+        if (is_valid(qm2)) {
+            valid.insert(valid.begin(), unit_string.substr(0, 2));
         } else if (unit_string.size() == 4) {  // length of 4 is a bit odd so
                                                // check the back two characters
                                                // for a quick match
@@ -5031,14 +5006,14 @@ static precise_unit tryUnitPartitioning(
                 unit_string.substr(0, 2), match_flags);
             if (is_valid(bunit)) {
                 return qm2 * bunit;
-    }
+            }
         }
     }
     if (minPartitionSize <= 1) {
-    // now pick off a couple 1 character units
-    if (unit_string.front() == 'V' || unit_string.front() == 'A') {
-        valid.insert(valid.begin(), unit_string.substr(0, 1));
-    }
+        // now pick off a couple 1 character units
+        if (unit_string.front() == 'V' || unit_string.front() == 'A') {
+            valid.insert(valid.begin(), unit_string.substr(0, 1));
+        }
     }
     // start with the biggest
     std::reverse(valid.begin(), valid.end());
@@ -5202,21 +5177,19 @@ static precise_unit
             auto mux = getPrefixMultiplier2Char(unit_string[0], unit_string[1]);
             if (mux != 0.0) {
                 auto ustring = unit_string.substr(2);
-                if (ustring.size() == 1)
-                {
-                    switch (ustring.front())
-                    {
-                    case 'B':
-                        return { mux, precise::data::byte };
-                    case 'b':
-                        return { mux, precise::data::bit };
-                    case 'k':
-                        return precise::invalid;
-                    default:
-                        break;
+                if (ustring.size() == 1) {
+                    switch (ustring.front()) {
+                        case 'B':
+                            return {mux, precise::data::byte};
+                        case 'b':
+                            return {mux, precise::data::bit};
+                        case 'k':
+                            return precise::invalid;
+                        default:
+                            break;
                     }
                 }
-                
+
                 auto retunit = unit_quick_match(ustring, match_flags);
                 if (is_valid(retunit)) {
                     return {mux, retunit};
@@ -5234,19 +5207,16 @@ static precise_unit
             getStrictSIPrefixMultiplier(c);
         if (mux != 0.0) {
             auto ustring = unit_string.substr(1);
-            if (ustring.size() == 1)
-            {
-                switch (ustring.front())
-                {
-                case 'B':
-                    return { mux, precise::data::byte };
-                case 'b':
-                    return { mux, precise::data::bit };
-                case 'k':
-                    return precise::invalid;
-                default:
-                    break;
-
+            if (ustring.size() == 1) {
+                switch (ustring.front()) {
+                    case 'B':
+                        return {mux, precise::data::byte};
+                    case 'b':
+                        return {mux, precise::data::bit};
+                    case 'k':
+                        return precise::invalid;
+                    default:
+                        break;
                 }
             }
             auto retunit = unit_quick_match(ustring, match_flags);
@@ -5313,9 +5283,9 @@ static precise_unit
         }
         auto res = convert(b_unit, a_unit);
         if (!std::isnan(res)) {
-            return {a_unit.multiplier() + a_unit.multiplier() * res,
-                a_unit.base_units()
-                };
+            return {
+                a_unit.multiplier() + a_unit.multiplier() * res,
+                a_unit.base_units()};
         }
     }
     return precise::invalid;
@@ -5637,12 +5607,12 @@ static precise_unit unit_from_string_internal(
             }
             std::transform(
                 ustring.begin(), ustring.end(), ustring.begin(), ::toupper);
-            
+
             retunit = get_unit(ustring, match_flags);
             if (is_valid(retunit)) {
                 return retunit;
             }
-            ustring.insert(ustring.begin(),'[');
+            ustring.insert(ustring.begin(), '[');
             ustring.push_back(']');
             retunit = get_unit(ustring, match_flags);
             if (is_valid(retunit)) {
@@ -5662,15 +5632,15 @@ static precise_unit unit_from_string_internal(
 
     if (!containsPer) {
         retunit = checkMultiplierCharacter(unit_string, match_flags, '-');
-                if (!is_error(retunit)) {
-                    return retunit;
-                }
+        if (!is_error(retunit)) {
+            return retunit;
+        }
 
         retunit = checkMultiplierCharacter(unit_string, match_flags, '_');
-                if (!is_error(retunit)) {
-                    return retunit;
-                }
-            }
+        if (!is_error(retunit)) {
+            return retunit;
+        }
+    }
     // try some other cleaning steps
     ustring = unit_string;
     if (cleanUnitStringPhase2(unit_string)) {
@@ -5741,7 +5711,7 @@ static precise_unit unit_from_string_internal(
             }
         }
     }
-    
+
     // try changing out any "per" words for division sign
     if (containsPer && (match_flags & no_per_operators) == 0) {
         auto fnd = findWordOperatorSep(unit_string, "per");
@@ -5778,34 +5748,27 @@ static precise_unit unit_from_string_internal(
         // try changing and words indicative of a unit commodity
         auto fnd = findWordOperatorSep(unit_string, "of");
         if (fnd < unit_string.size() - 2 && fnd != 0) {
-            if (unit_string[fnd + 2] == 'w' || unit_string[fnd + 2] == 'm')
-            {
-                //this could indicate pressure
-
+            if (unit_string[fnd + 2] == 'w' || unit_string[fnd + 2] == 'm') {
+                // this could indicate pressure
             }
             ustring = unit_string;
             ustring.replace(fnd, 2, "{");
 
             auto sloc = ustring.find_first_of("{[(", fnd + 3);
+            if (sloc == std::string::npos) {
+                ustring.push_back('}');
+            } else if (ustring[sloc - 1] != '_') {
+                ustring.insert(sloc, 1, '}');
+            } else {
+                sloc = ustring.find_first_of(
+                    getMatchCharacter(ustring[sloc]), sloc);
                 if (sloc == std::string::npos) {
                     ustring.push_back('}');
-                } else if (ustring[sloc-1]!='_') {
-                    ustring.insert(sloc, 1, '}');
+                } else {
+                    ustring.insert(sloc + 1, 1, '}');
                 }
-                else
-                {
-                    sloc=ustring.find_first_of(getMatchCharacter(ustring[sloc]),sloc);
-                    if (sloc == std::string::npos)
-                    {
-                        ustring.push_back('}');
-                    }
-                    else
-                    {
-                        ustring.insert(sloc+1, 1, '}');
-                    }
-                }
-                
-            
+            }
+
             auto cunit =
                 commoditizedUnit(ustring, match_flags + commodity_check1);
             if (is_valid(cunit)) {
@@ -5813,12 +5776,10 @@ static precise_unit unit_from_string_internal(
             }
         }
     }
-    // deal with string like sixty-fourths of an inch, so this part catch 
-    //of a(n) and removes it getting the following unit
-    if (unit_string.size()>3 && unit_string.compare(0, 3, "ofa")==0)
-    {
-        if (unit_string.size()>4 && unit_string[3] == 'n')
-        {
+    // deal with string like sixty-fourths of an inch, so this part catch
+    // of a(n) and removes it getting the following unit
+    if (unit_string.size() > 3 && unit_string.compare(0, 3, "ofa") == 0) {
+        if (unit_string.size() > 4 && unit_string[3] == 'n') {
             retunit = get_unit(unit_string.substr(4), match_flags);
             if (!is_error(retunit)) {
                 return retunit;
@@ -5865,7 +5826,7 @@ static precise_unit unit_from_string_internal(
 
     if ((match_flags & skip_partition_check) == 0) {
         // check for some special partitioned units
-        retunit=checkSpecialUnits(unit_string, match_flags);
+        retunit = checkSpecialUnits(unit_string, match_flags);
         if (!is_error(retunit)) {
             return retunit;
         }
@@ -5940,11 +5901,10 @@ precise_measurement measurement_from_string(
         }
     }
     */
-    auto unit=unit_from_string_internal(
+    auto unit = unit_from_string_internal(
         std::move(measurement_string), match_flags | skip_code_replacements);
-    if (is_valid(unit))
-    {
-        return {1.0,unit};
+    if (is_valid(unit)) {
+        return {1.0, unit};
     }
     return {val, precise::invalid};
 }

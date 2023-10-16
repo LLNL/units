@@ -77,7 +77,7 @@ double convert(double val, const UX& start, const UX2& result)
         double converted_val = detail::convertFlaggedUnits(val, start, result);
         if (!std::isnan(converted_val)) {
             return converted_val;
-    }
+        }
     }
     if (start.is_equation() || result.is_equation()) {
         if (!start.base_units().equivalent_non_counting(result.base_units())) {
@@ -2270,8 +2270,8 @@ namespace detail {
             int power,
             std::uint64_t flags);
 #ifdef EXTRA_UNIT_STANDARDS
-		// get the raw array for testing the r20 database
-		const void *r20rawData(size_t &array_size);
+        // get the raw array for testing the r20 database
+        const void* r20rawData(size_t& array_size);
 #endif
     }  // namespace testing
 }  // namespace detail

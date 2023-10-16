@@ -62,8 +62,7 @@ TEST(MeasurementStrings, currency)
 TEST(MeasurementStrings, interesting)
 {
     auto pm = measurement_from_string("nanometre");
-    EXPECT_EQ(pm.as_unit(), precise::nano*precise::m);
-
+    EXPECT_EQ(pm.as_unit(), precise::nano * precise::m);
 }
 
 TEST(MeasurementToString, simple)

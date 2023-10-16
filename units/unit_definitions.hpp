@@ -6,8 +6,8 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #pragma once
 
-#include "units_decl.hpp"
 #include "commodity_definitions.hpp"
+#include "units_decl.hpp"
 
 #include <algorithm>
 #include <array>
@@ -32,8 +32,6 @@ namespace constants {
     constexpr double standard_gravity = 9.80665;  // in m/s/s
     constexpr double speed_of_light = 299792458.0;  // speed of light in m/s
 }  // namespace constants
-
-
 
 namespace precise {
     // base units
@@ -89,18 +87,18 @@ namespace precise {
     constexpr precise_unit percent(0.01, one);
     constexpr precise_unit ratio = one;
 
-    constexpr precise_unit infinite(constants::infinity,
-        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        );
-    constexpr precise_unit neginfinite(-constants::infinity,
-        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        );
+    constexpr precise_unit infinite(
+        constants::infinity,
+        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    constexpr precise_unit neginfinite(
+        -constants::infinity,
+        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit
-        nan(constants::invalid_conversion, detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-            );
+        nan(constants::invalid_conversion,
+            detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     // SI prefixes as units
-	constexpr precise_unit deci(1e-1, one);
-	constexpr precise_unit centi(1e-2, one);
+    constexpr precise_unit deci(1e-1, one);
+    constexpr precise_unit centi(1e-2, one);
     constexpr precise_unit milli(1e-3, one);
     constexpr precise_unit micro(1e-6, one);
     constexpr precise_unit nano(1e-9, one);
@@ -500,7 +498,7 @@ namespace precise {
         constexpr precise_unit rood{1011.7141056, m* m};
         // volume
         constexpr precise_unit gallon{4546.09, mL};
-        constexpr precise_unit winegallon{231.0,in.pow(3)};
+        constexpr precise_unit winegallon{231.0, in.pow(3)};
         constexpr precise_unit quart{0.25, gallon};
         constexpr precise_unit pint{0.5, quart};
         constexpr precise_unit gill{0.25, pint};
@@ -510,7 +508,7 @@ namespace precise {
         constexpr precise_unit tsp{1.0 / 3.0, tbsp};
 
         constexpr precise_unit barrel{36.0, gallon};
-        constexpr precise_unit bbl{0.15911315,m.pow(3),commodities::oil};
+        constexpr precise_unit bbl{0.15911315, m.pow(3), commodities::oil};
         constexpr precise_unit peck{2.0, gallon};
         constexpr precise_unit bushel{4.0, peck};
         constexpr precise_unit dram{1.0 / 8.0, floz};
@@ -719,7 +717,7 @@ namespace precise {
         constexpr precise_unit psi{6894.757293168, Pa};
         constexpr precise_unit psig = psi * eflag;
         constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
-        constexpr precise_unit mmHg{133.322387415, Pa}; //at 0 deg C
+        constexpr precise_unit mmHg{133.322387415, Pa};  // at 0 deg C
         constexpr precise_unit torr{
             1.0 / 760.0,
             atm* iflag};  // this is really
@@ -1144,10 +1142,11 @@ namespace precise {
                     return std::pow(3.0, val);
                 case 15:
                     return std::exp(val / 0.5);
-                case 16: //API Gravity
-                    return 141.5/(val+131.5);
-                case 17: //degrees Baume
-                    return (val>0.0)?(140.0/(130.0+val)):(145.0/(145.0-val));
+                case 16:  // API Gravity
+                    return 141.5 / (val + 131.5);
+                case 17:  // degrees Baume
+                    return (val > 0.0) ? (140.0 / (130.0 + val)) :
+                                         (145.0 / (145.0 - val));
                 case 22:  // saffir simpson hurricane wind scale
                 {
                     double out = -0.17613636364;
@@ -1223,10 +1222,11 @@ namespace precise {
                     return std::log10(val) / std::log10(3);
                 case 15:
                     return 0.5 * (std::log)(val);
-                case 16: //API Gravity
-                    return 141.5/(val)-131.5;
-                case 17: //degree Baume
-                    return (val>1.0)?(145.0*(1.0-1/val)):(140.0/val-130);
+                case 16:  // API Gravity
+                    return 141.5 / (val)-131.5;
+                case 17:  // degree Baume
+                    return (val > 1.0) ? (145.0 * (1.0 - 1 / val)) :
+                                         (140.0 / val - 130);
                 case 22:  // saffir simpson hurricane scale from wind speed
                 {  // using horners method on polynomial approximation of
                    // saffir-simpson wind speed scale
@@ -1284,7 +1284,7 @@ namespace precise {
         constexpr precise_unit met =
             precise_unit{3.5, mL / min / kg};  //!< metabolic equivalent
         constexpr precise_unit hounsfield = generate_custom_unit(37);
-        constexpr precise_unit AHF = generate_custom_unit(38); 
+        constexpr precise_unit AHF = generate_custom_unit(38);
     }  // namespace clinical
 
     /// Units used in chemical and biological laboratories
@@ -1389,11 +1389,13 @@ namespace precise {
         constexpr precise_unit rootMeter = precise_unit(
             detail::unit_data(-5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
-        // custom defined unit of loudness 
+        // custom defined unit of loudness
         constexpr precise_unit sone = generate_custom_unit(40);
-        //for measuring density in liquids(mainly petroleum products)
-        constexpr precise_unit degreeAPI = precise_unit(custom::equation_unit(16))*g/mL;
-        constexpr precise_unit degreeBaume = precise_unit(custom::equation_unit(17))*g/mL;
+        // for measuring density in liquids(mainly petroleum products)
+        constexpr precise_unit degreeAPI =
+            precise_unit(custom::equation_unit(16)) * g / mL;
+        constexpr precise_unit degreeBaume =
+            precise_unit(custom::equation_unit(17)) * g / mL;
     }  // namespace special
 
     namespace other {
@@ -1418,7 +1420,7 @@ namespace precise {
         // global temperature change potential
         constexpr precise_unit gtp = generate_custom_unit(78);
         // ozone depletion unit
-        constexpr precise_unit odp=generate_custom_unit(79);
+        constexpr precise_unit odp = generate_custom_unit(79);
     }  // namespace climate
     constexpr precise_unit rpm = other::rpm;
 }  // namespace precise
@@ -1622,8 +1624,8 @@ namespace detail {
                     val = val * start.multiplier() +
                         biasTable[static_cast<int>(start.multiplier())];
                 } else {
-                val = val * start.multiplier();
-            }
+                    val = val * start.multiplier();
+                }
             }
             val += 273.15;
             // convert to K
@@ -1641,8 +1643,8 @@ namespace detail {
                            biasTable[static_cast<int>(start.multiplier())]) /
                         result.multiplier();
                 } else {
-                val = val / result.multiplier();
-            }
+                    val = val / result.multiplier();
+                }
             }
             return val;
         }
@@ -1926,14 +1928,15 @@ namespace detail {
     inline double
         otherUsefulConversions(double val, const UX& start, const UX2& result)
     {
-        if (start.base_units().kg() == result.base_units().kg())
-        {
-            if ((start.base_units() / result.base_units()).has_same_base((m / s.pow(2)).base_units())) {
+        if (start.base_units().kg() == result.base_units().kg()) {
+            if ((start.base_units() / result.base_units())
+                    .has_same_base((m / s.pow(2)).base_units())) {
                 // weight to mass
                 return val * start.multiplier() / constants::standard_gravity /
                     result.multiplier();
             }
-            if ((result.base_units() / start.base_units()).has_same_base((m / s.pow(2)).base_units())) {
+            if ((result.base_units() / start.base_units())
+                    .has_same_base((m / s.pow(2)).base_units())) {
                 // mass to weight
                 return val * start.multiplier() * constants::standard_gravity /
                     result.multiplier();

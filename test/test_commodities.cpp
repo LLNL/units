@@ -184,7 +184,4 @@ TEST(commodities, unusualFromString)
     EXPECT_TRUE(precise::custom::is_custom_unit(punit.base_units()));
 }
 
-TEST(commodities, packaging)
-{
-
-}
+TEST(commodities, packaging) {}

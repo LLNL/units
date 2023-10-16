@@ -604,7 +604,7 @@ TEST(otherUnits, unknownEQ)
 
 TEST(otherUnits, strings)
 {
-    precise_unit eq18(1.36,precise::custom::equation_unit(18));
+    precise_unit eq18(1.36, precise::custom::equation_unit(18));
 
     auto str = units::to_string(eq18);
     EXPECT_EQ(str, "1.36*EQXUN[18]");

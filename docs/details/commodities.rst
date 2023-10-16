@@ -49,7 +49,7 @@ For the upper case set, setting the `U` bit to 1 indicates a stock symbol.
 
 For short alpha/numeric codes of 3 bytes or fewer the byte code can be captured in the lower 24 bits of the commodity code.
 The bits for this kind of commodity definition are 010001[UU][AAAAAAAA][BBBBBBBB][CCCCCCCC], with A,B, C representing the bits of the code letters.
-The codes UU, define a set of types of code 
+The codes UU, define a set of types of code
 
 `00`  user defined
 `01`  UNDEFINED
