@@ -2438,7 +2438,9 @@ enum class modifier : int {
 using modSeq = std::tuple<const char*, const char*, size_t, modifier>;
 static bool wordModifiers(std::string& unit)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 37> modifiers{{
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<modSeq, 39> modifiers{{
+        modSeq{"reciprocalsquare", "^-2", 16, modifier::start_tail},
+        modSeq{"reciprocalcubic", "^-3", 15, modifier::start_tail},
         modSeq{"squaremeter", "m^2", 11, modifier::anywhere_tail},
         modSeq{"cubicmeter", "m^3", 10, modifier::anywhere_tail},
         modSeq{"cubic", "^3", 5, modifier::start_tail},
@@ -2458,7 +2460,7 @@ static bool wordModifiers(std::string& unit)
         modSeq{"eighth", "0.125", 6, modifier::anywhere_replace},
         modSeq{"sixteenth", "0.0625", 9, modifier::anywhere_replace},
         modSeq{"thirtyseconds", "0.03125", 13, modifier::anywhere_replace},
-        modSeq{"sixtyfourths", "0.015625", 11, modifier::anywhere_replace},
+        modSeq{"sixtyfourths", "0.015625", 12, modifier::anywhere_replace},
         modSeq{"half", "0.5", 4, modifier::anywhere_replace},
         modSeq{"hundred", "100", 7, modifier::anywhere_replace},
         modSeq{"million", "1e6", 7, modifier::anywhere_replace},
@@ -5809,6 +5811,22 @@ static precise_unit unit_from_string_internal(
             if (is_valid(cunit)) {
                 return cunit;
             }
+        }
+    }
+    // deal with string like sixty-fourths of an inch, so this part catch 
+    //of a(n) and removes it getting the following unit
+    if (unit_string.size()>3 && unit_string.compare(0, 3, "ofa")==0)
+    {
+        if (unit_string.size()>4 && unit_string[3] == 'n')
+        {
+            retunit = get_unit(unit_string.substr(4), match_flags);
+            if (!is_error(retunit)) {
+                return retunit;
+            }
+        }
+        retunit = get_unit(unit_string.substr(3), match_flags);
+        if (!is_error(retunit)) {
+            return retunit;
         }
     }
     // make lower case

@@ -699,6 +699,9 @@ TEST(stringToUnits, words)
         unit_from_string("lumen square meter"));
 
     EXPECT_EQ(unit_from_string("ampere per square metre kelvin squared"),precise::A/(m.pow(2)*K.pow(2)));
+
+    EXPECT_EQ(unit_from_string("reciprocal cubic meter"),precise::m.pow(-3));
+    EXPECT_EQ(unit_from_string("sixty fourths of an inch"),precise_unit(1.0/64.0,precise::in));
 }
 
 TEST(stringToUnits, exponentForms)

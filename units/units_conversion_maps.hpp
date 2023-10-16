@@ -1368,6 +1368,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"NEP", precise::log::neper},
         {"nepers", precise::log::neper},
         {"neper", precise::log::neper},
+        { "octave", precise::log::logbase2 },
         {"erlang", precise::generate_custom_unit(49)},
         {"Sh", precise::data::shannon},
         {"shannon", precise::data::shannon},
@@ -1650,6 +1651,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"sft_i", precise::ft* precise::ft},
         {"SFT_I", precise::ft* precise::ft},
         {"SCF", precise::energy::scf},  // standard cubic foot
+        {"standardcubicfoot", precise::energy::scf},  // standard cubic foot
         {"CCF", precise::hundred* precise::energy::scf},  // centum cubic foot
         {"MCF", precise::kilo* precise::energy::scf},  // millum cubic foot
         {"MMCF", precise::mega* precise::energy::scf},  // million cubic foot
@@ -2361,6 +2363,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"ston_av", precise::av::ton},
         {"STON_AV", precise::av::ton},
         {"shortton", precise::av::ton},
+        {"tonshort", precise::av::ton},
         {"shortton_US", precise::av::ton},
         {"ton_US", precise::av::ton},
         {"ton_av", precise::av::ton},
@@ -2370,6 +2373,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"ton(short)", precise::ton},
         {"ton(short)_US", precise::ton},
         {"longton", precise::av::longton},
+        {"tonlong", precise::av::longton},
         {"longton_m", precise::av::longton},
         {"longton_US", precise::av::longton},
         {"lton_av", precise::av::longton},

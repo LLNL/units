@@ -326,7 +326,7 @@ namespace precise {
         unitD{"AMP", "ampere", A},
         unitD{"ANN", "year", yr},
         unitD{ "AP", "aluminium pound only", {1.0, lb,commodities::aluminum} },
-        unitD{"APZ", "troy ounce or apothecary ounce", troy::oz},
+        unitD{"APZ", "troy ounce", troy::oz},
         unitD{"AQ", "anti-hemophilic factor (AHF) unit", clinical::AHF},
         unitD{"AR", "suppository", {1.0, count,commodities::packaging::suppository}},
         unitD{"ARE", "are", area::are},

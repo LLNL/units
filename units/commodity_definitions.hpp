@@ -57,17 +57,17 @@ namespace UNITS_NAMESPACE {
         }
         constexpr std::uint32_t generateKnownCode(std::uint32_t code)
         {
-            return 0x9C000000U + (code & 0x03FFFFFF);
+            return 0x5C000000U + (code & 0x03FFFFFF);
         }
 
         constexpr std::uint32_t generatePackagingCode(std::uint32_t code)
         {
-            return 0x9C000000U + ((code & 0xFFU) << 21U);
+            return 0x20000000U + ((code & 0xFFU) << 21U);
         }
 
         constexpr std::uint32_t generatePackagingCodeAlternate(std::uint32_t code)
         {
-            return 0x9C000000U + (((code & 0x7FU)+0x80U) << 21U);
+            return 0x20000000U + (((code & 0x7FU)+0x80U) << 21U);
         }
 
         constexpr std::uint32_t generateCurrencyCode(const char code[3])
