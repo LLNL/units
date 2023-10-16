@@ -1662,19 +1662,23 @@ namespace precise {
         unitD{"J39", "British thermal unit (mean)", energy::btu_mean},
         unitD{
             "J40",
-            "British thermal unit (international table) foot per hour square foot degree Fahrenheit",
+            "British thermal unit (international table) foot "
+            "per hour square foot degree Fahrenheit",
             energy::btu_it* ft / (hr * ft.pow(2) * degF)},
         unitD{
             "J41",
-            "British thermal unit (international table) inch per hour square foot degree Fahrenheit",
+            "British thermal unit (international table) inch "
+            "per hour square foot degree Fahrenheit",
             energy::btu_it* in / (hr * ft.pow(2) * degF)},
         unitD{
             "J42",
-            "British thermal unit (international table) inch per second square foot degree Fahrenheit",
+            "British thermal unit (international table) inch "
+            "per second square foot degree Fahrenheit",
             energy::btu_it* in / (s * ft.pow(2) * degF)},
         unitD{
             "J43",
-            "British thermal unit (international table) per pound degree Fahrenheit",
+            "British thermal unit (international table) per "
+            "pound degree Fahrenheit",
             energy::btu_it / (lb * degF)},
         unitD{
             "J44",
@@ -2536,7 +2540,8 @@ namespace precise {
             degF* s / energy::btu_th},
         unitD{
             "N88",
-            "degree Fahrenheit hour square foot per British thermal unit (international table) inch",
+            "degree Fahrenheit hour square foot per British thermal unit "
+            "(international table) inch",
             degF* hr* ft.pow(2) / energy::btu_it / in},
         unitD{
             "N89",

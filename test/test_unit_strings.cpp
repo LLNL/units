@@ -1108,7 +1108,8 @@ TEST(stringToUnit, handlingOfSquared)
     EXPECT_EQ(u5, precise::special::ASD);
 
     auto u6 = unit_from_string(
-        "degree Fahrenheit hour square foot per British thermal unit (international table) inch");
+        "degree Fahrenheit hour square foot per British "
+        "thermal unit (international table) inch");
 
     EXPECT_EQ(
         u6,
