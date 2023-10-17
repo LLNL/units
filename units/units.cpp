@@ -2619,8 +2619,8 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"EUR", "br"},
     ckpair{"UKPetroleum", "brl"},
     ckpair{"imp", "br"},
-    ckpair{"wine", "wi"},
-    ckpair{"beer", "wi"},
+    ckpair{"wine", "wine"},
+    ckpair{"beer", "wine"},
     ckpair{"US", "US"},
     ckpair{"30-day", "30"},
     ckpair{"IT", "IT"},
@@ -2763,8 +2763,8 @@ static precise_unit
             ckpair{"Imperial", "br"},
             ckpair{"English", "br"},
             ckpair{"imp", "br"},
-            ckpair{"wine", "wi"},
-            ckpair{"beer", "wi"},
+            ckpair{"wine", "wine"},
+            ckpair{"beer", "wine"},
             ckpair{"US", "US"},
             ckpair{"(IT)", "IT"},
             ckpair{"troy", "tr"},
@@ -4761,6 +4761,11 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
 {
     bool changed{false};
     auto len = unit_string.length();
+
+    if (bracketModifiers(unit_string)) {
+        changed = true;
+    }
+
     // cleanup extraneous dashes
     auto dpos = unit_string.find_first_of('-');
     while (dpos != std::string::npos) {
@@ -4778,9 +4783,7 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
         std::remove(unit_string.begin(), unit_string.end(), '+'),
         unit_string.end());
 
-    if (bracketModifiers(unit_string)) {
-        changed = true;
-    }
+    
     clearEmptySegments(unit_string);
     return changed || (len != unit_string.length());
 }
@@ -5903,7 +5906,7 @@ precise_measurement measurement_from_string(
     */
     auto unit = unit_from_string_internal(
         std::move(measurement_string), match_flags | skip_code_replacements);
-    if (is_valid(unit)) {
+    if (is_valid(unit) && !unit.has_same_base(one.base_units())) {
         return {1.0, unit};
     }
     return {val, precise::invalid};

@@ -514,7 +514,7 @@ namespace precise {
             "B39",
             "kilogram-force metre per second",
             kg* constants::g0.as_unit() * m / s},
-        unitD{"B4", "barrel, imperial", imp::barrel},
+        unitD{"B4", "barrel, imperial", imp::winebarrel},
         unitD{
             "B40",
             "kilogram-force per square metre",

@@ -22,8 +22,8 @@ namespace commodities {
         std::int32_t section,
         std::int32_t subsection)
     {
-        return ((chapter % 100) << 14) + ((section % 100) << 7) +
-            ((subsection % 100));
+        return ((chapter % 100U) << 14U) + ((section % 100U) << 7U) +
+            ((subsection % 100U));
     }
 
     constexpr std::uint32_t generateHarmonizedCode(
@@ -33,8 +33,8 @@ namespace commodities {
         std::int32_t code1,
         bool digit = false)
     {
-        return ((chapter % 100) << 14) + ((section % 100) << 7) +
-            ((subsection % 100)) + ((code1 % 100) << 21) +
+        return ((chapter % 100U) << 14U) + ((section % 100U) << 7U) +
+            ((subsection % 100U)) + ((code1 % 100U) << 21U) +
             ((digit) ? 0x1000000U : 0U);
     }
     constexpr std::uint32_t generateStringCode(const char code[5])
@@ -55,7 +55,7 @@ namespace commodities {
 
     constexpr std::uint32_t generateShareCode(const char code[5])
     {
-        return generateStringCodeUpper(code) + (1U << 25);
+        return generateStringCodeUpper(code) + (1U << 25U);
     }
     constexpr std::uint32_t generateKnownCode(std::uint32_t code)
     {
@@ -74,7 +74,7 @@ namespace commodities {
 
     constexpr std::uint32_t generateCurrencyCode(const char code[3])
     {
-        return 0x46000000U + (code[0] << 16U) + (code[1] << 8) + code[2];
+        return 0x46000000U + (code[0] << 16U) + (code[1] << 8U) + code[2];
     }
 
     constexpr std::uint32_t generateChemCode(const char code[4])
