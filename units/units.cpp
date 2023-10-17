@@ -4783,7 +4783,6 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
         std::remove(unit_string.begin(), unit_string.end(), '+'),
         unit_string.end());
 
-    
     clearEmptySegments(unit_string);
     return changed || (len != unit_string.length());
 }

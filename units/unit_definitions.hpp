@@ -421,7 +421,7 @@ namespace precise {
         constexpr precise_unit hogshead{63.0, gallon};
         constexpr precise_unit cord{128.0, i::foot.pow(3)};
         constexpr precise_unit fifth{0.2, gallon};
-        constexpr precise_unit ale_gallon{282.0,i::inch.pow(3)};
+        constexpr precise_unit ale_gallon{282.0, i::inch.pow(3)};
 
         /// Us customary dry measurements
         namespace dry {
@@ -433,7 +433,7 @@ namespace precise {
             constexpr precise_unit barrel{7056, i::inch.pow(3)};
             constexpr precise_unit sack{3.0, bushel};
             constexpr precise_unit strike{2.0, bushel};
-            constexpr precise_unit winchester_gallon{268.8,precise::in.pow(3)};
+            constexpr precise_unit winchester_gallon{268.8, precise::in.pow(3)};
         }  // namespace dry
         namespace grain {
             constexpr precise_unit bushel_corn{56.0, av::pound};

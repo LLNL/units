@@ -2207,9 +2207,11 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"GAL_US", precise::us::gallon},
          {"gallon_US", precise::us::gallon},
          {"liquidgallon_US", precise::us::gallon},
-         {"gal_wi", precise::us::dry::winchester_gallon}, //winchester gallon
-         {"winchestergallon", precise::us::dry::winchester_gallon}, //winchester gallon
-         {"corngallon", precise::us::dry::winchester_gallon}, //winchester gallon
+         {"gal_wi", precise::us::dry::winchester_gallon},  // winchester gallon
+         {"winchestergallon",
+          precise::us::dry::winchester_gallon},  // winchester gallon
+         {"corngallon",
+          precise::us::dry::winchester_gallon},  // winchester gallon
          {"alegallon", precise::us::ale_gallon},
          {"wigal", precise::imp::winegallon},
          {"GAL_WI", precise::us::dry::winchester_gallon},
