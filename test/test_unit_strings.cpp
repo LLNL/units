@@ -1107,9 +1107,8 @@ TEST(stringToUnit, handlingOfSquared)
         unit_from_string("meter per square seconds per square root of hertz");
     EXPECT_EQ(u5, precise::special::ASD);
 
-    auto u6 = unit_from_string(
-        "degree Fahrenheit hour square foot per British "
-        "thermal unit (international table) inch");
+    auto u6 = unit_from_string("degree Fahrenheit hour square foot per British "
+                               "thermal unit (international table) inch");
 
     EXPECT_EQ(
         u6,
