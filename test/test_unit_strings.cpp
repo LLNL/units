@@ -771,6 +771,9 @@ TEST(stringToUnits, interestingUnits)
 
     unit = unit_from_string("tenth minute");
     EXPECT_EQ(unit, precise_unit(6.0, precise::s));
+
+    unit = unit_from_string("fluid ounce(UK)");
+    EXPECT_EQ(unit, precise::imp::floz);
 }
 
 TEST(stringToUnits, customUnitforms)

@@ -2710,10 +2710,10 @@ bool bracketModifiers(std::string& unit_string)
             ploc = unit_string.find_first_of(seg[0], ploc + 1);
         }
     }
-    if (!modified) {
+   // if (!modified) {
         auto ploc = unit_string.find_first_of('-', 1);
         if (ploc != std::string::npos) {
-            auto cloc = unit_string.find_first_of("-[({", ploc + 1);
+            auto cloc = unit_string.find_first_of("-[({_", ploc + 1);
             auto tstring = (cloc != std::string::npos) ?
                 unit_string.substr(ploc + 1, cloc - ploc - 1) :
                 unit_string.substr(ploc + 1);
@@ -2724,14 +2724,14 @@ bool bracketModifiers(std::string& unit_string)
                 modified = true;
             }
         }
-    }
+    //}
     return modified;
 }
 
 static precise_unit
     localityModifiers(std::string unit, std::uint64_t match_flags)
 {
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 59>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 62>
         internationlReplacements{{
             ckpair{"internationaltable", "IT"},
             ckpair{"internationalsteamtable", "IT"},
@@ -2785,6 +2785,9 @@ static precise_unit
             ckpair{"conventional", "90"},
             ckpair{"AC", "ac"},
             ckpair{"DC", "dc"},
+            ckpair{"fluid", "FL"},
+            ckpair{"liquid", "FL"},
+            ckpair{"fl", "FL"},
             ckpair{"15degC", "[15]"},
             ckpair{"20degC", "[20]"},
             ckpair{"59degF", "[59]"},
@@ -2819,8 +2822,13 @@ static precise_unit
     }
     changed |= clearEmptySegments(unit);
     if (changed) {
-        return unit_from_string_internal(
+        auto retunit=unit_from_string_internal(
             unit, match_flags | no_locality_modifiers | no_of_operator);
+        if (is_error(retunit) && ((match_flags&no_locality_modifiers)==0))
+        {
+            return localityModifiers(unit,match_flags|no_locality_modifiers);
+        }
+        return retunit;
     }
     if (unit.size() < 4) {
         return precise::invalid;
@@ -5646,32 +5654,34 @@ static precise_unit unit_from_string_internal(
     }
     // try some other cleaning steps
     ustring = unit_string;
-    if (cleanUnitStringPhase2(unit_string)) {
-        if (!unit_string.empty()) {
-            retunit = get_unit(unit_string, match_flags);
-            if (!is_error(retunit)) {
-                return retunit;
-            }
-            if (looksLikeNumber(unit_string)) {
-                size_t loc{0};
-                auto number = getDoubleFromString(unit_string, &loc);
-                if (loc >= unit_string.length()) {
-                    return {number, one};
-                }
-                unit_string = unit_string.substr(loc);
-                retunit = unit_from_string_internal(unit_string, match_flags);
+
+        if (cleanUnitStringPhase2(unit_string)) {
+            if (!unit_string.empty()) {
+                retunit = get_unit(unit_string, match_flags);
                 if (!is_error(retunit)) {
-                    return {number, retunit};
+                    return retunit;
                 }
-                unit_string.insert(unit_string.begin(), '{');
-                unit_string.push_back('}');
-                return {number, commoditizedUnit(unit_string, match_flags)};
+                if (looksLikeNumber(unit_string)) {
+                    size_t loc{ 0 };
+                    auto number = getDoubleFromString(unit_string, &loc);
+                    if (loc >= unit_string.length()) {
+                        return { number, one };
+                    }
+                    unit_string = unit_string.substr(loc);
+                    retunit = unit_from_string_internal(unit_string, match_flags);
+                    if (!is_error(retunit)) {
+                        return { number, retunit };
+                    }
+                    unit_string.insert(unit_string.begin(), '{');
+                    unit_string.push_back('}');
+                    return { number, commoditizedUnit(unit_string, match_flags) };
+                }
             }
-        } else {  // if we erased everything this could lead to strange units so
-                  // just go back to the original
-            unit_string = ustring;
+            else {  // if we erased everything this could lead to strange units so
+                   // just go back to the original
+                unit_string = ustring;
+            }
         }
-    }
     if (unit_string.front() == '[' && unit_string.back() == ']') {
         ustring = unit_string.substr(1);
         ustring.pop_back();
