@@ -2666,17 +2666,19 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"59degF", "[59]"},
     ckpair{"60degF", "[60]"},
     ckpair{"39degF", "[39]"},
-    ckpair{"0degC", "[0]"},
+    ckpair{"23degC", "[23]"},
+    ckpair{"23 degC", "[23]"},
+    ckpair{"0degC", "[00]"},
     ckpair{"39.2degF", "[39]"},
-    ckpair{"4degC", "[4]"},
+    ckpair{"4degC", "[04]"},
     ckpair{"15 degC", "[15]"},
     ckpair{"20 degC", "[20]"},
     ckpair{"59 degF", "[59]"},
     ckpair{"60 degF", "[60]"},
     ckpair{"39 degF", "[39]"},
-    ckpair{"0 degC", "[0]"},
+    ckpair{"0 degC", "[00]"},
     ckpair{"39.2 degF", "[39]"},
-    ckpair{"4 degC", "[4]"},
+    ckpair{"4 degC", "[04]"},
     ckpair{"1/20milliliter", "[20]"},
     ckpair{"1/20mL", "[20]"},
 };
@@ -2793,7 +2795,7 @@ static precise_unit
             ckpair{"59degF", "[59]"},
             ckpair{"60degF", "[60]"},
             ckpair{"39degF", "[39]"},
-            ckpair{"0degC", "[0]"},
+            ckpair{"0degC", "[00]"},
             // this should be last
             ckpair{"us", "US"},
         }};
@@ -3118,41 +3120,32 @@ static precise_unit
         if (bunit.has_same_base(m)) {
             static const std::unordered_map<std::string, precise_unit>
                 commUnits{
-                    {"mercury", precise::pressure::mmHg / precise::mm},
-                    {"mercurycolumn", precise::pressure::mmHg / precise::mm},
-                    {"mercuryguage", precise::pressure::mmHg / precise::mm},
-                    {"mercury_i", precise::pressure::mmHg / precise::mm},
-                    {"Hg", precise::pressure::mmHg / precise::mm},
+                    {"mercury", precise::pressure::bases::Hg},
+                    {"mercurycolumn", precise::pressure::bases::Hg},
+                    {"mercuryguage", precise::pressure::bases::Hg},
+                    {"mercury_i", precise::pressure::bases::Hg},
+                    {"Hg", precise::pressure::bases::Hg},
                     {"water",
-                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    precise::pressure::bases::water},
                     {"watercolumn",
-                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    precise::pressure::bases::water},
                     {"water_i",
-                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    precise::pressure::bases::water},
                     {"waterguage",
-                     precise::kilo * precise::pressure::mmH2O / precise::m},
+                    precise::pressure::bases::water},
                     {"H2O",
-                     precise::kilo * precise::pressure::mmH2O / precise::m},
-                    {"mercury_[0]", precise_unit(1333.22, Pa) / precise::cm},
-                    {"water_[4]", precise_unit(98.0637795, Pa) / precise::cm},
-                    {"water_[39]", precise_unit(2988.98400, Pa) / precise::ft},
+                    precise::pressure::bases::water},
+                    {"mercury_[00]", precise::pressure::bases::Hg_0},
+                    {"water_[04]", precise::pressure::bases::water_4},
+                    {"water_[39]", precise::pressure::bases::water_39},
                     {"mercury_[32]",
-                     precise_unit(3383.93102, Pa) / precise::in},
+                    precise::pressure::bases::Hg_32},
                     {"mercury_[60]",
-                     precise_unit(3376.84789, Pa) / precise::in},
-                    {"water_[60]", precise_unit(248.840000, Pa) / precise::in},
+                    precise::pressure::bases::Hg_60},
+                    {"water_[60]", precise::pressure::bases::water_60},
                 };
             auto tunit = commUnits.find(cstring);
             if (tunit != commUnits.end()) {
-                if ((floor(bunit.multiplier() / precise::in.multiplier()) ==
-                     ceil(bunit.multiplier() / precise::in.multiplier())) &&
-                    (tunit->second ==
-                     precise::pressure::mmHg /
-                         precise::mm)) {  // the default temp for inHg is
-                                          // different then mmHg which is
-                                          // annoying to deal with
-                    return bunit * precise::pressure::inHg / precise::in;
-                }
                 return bunit * tunit->second;
             }
         }
@@ -4793,6 +4786,33 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
 
     
     clearEmptySegments(unit_string);
+    if (!unit_string.empty() && (unit_string.back() == 'F' || unit_string.back() == 'C'))
+    {
+        static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 8>
+            trailTempCodeReplacements{{
+                    ckpair{"at39F", "[39]"},
+                    ckpair{"at60F", "[60]"},
+                    ckpair{"39F", "[39]"},
+                    ckpair{"60F", "[60]"},
+                    ckpair{"at0C", "[00]"},
+                    ckpair{"0C", "[00]"},
+                    ckpair{"at23C", "[23]"},
+                    ckpair{"23C", "[23]"},
+                }};
+
+        for (const auto& endTemp : trailTempCodeReplacements)
+        {
+            if (ends_with(unit_string, endTemp.first))
+            {
+                auto sz=strlen(endTemp.first);
+                unit_string.replace(unit_string.end()-sz,unit_string.end(),endTemp.second);
+                if (unit_string[unit_string.size() - 5] != '_')
+                {
+                    unit_string.insert(unit_string.size() - 4,1,'_');
+                }
+            }
+        }
+    }
     return changed || (len != unit_string.length());
 }
 

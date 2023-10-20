@@ -718,8 +718,8 @@ namespace precise {
         constexpr precise_unit atm(101325.0, Pa);
         constexpr precise_unit psi{6894.757293168, Pa};
         constexpr precise_unit psig = psi * eflag;
-        constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
         constexpr precise_unit mmHg{133.322387415, Pa};  // at 0 deg C
+        constexpr precise_unit inHg{ 25.4, mmHg };  // at 32 degF
         constexpr precise_unit torr{
             1.0 / 760.0,
             atm* iflag};  // this is really
@@ -730,6 +730,20 @@ namespace precise {
 
         constexpr precise_unit att = gm::at;  //!< technical atmosphere same as
                                               //!< gravitational metric system
+                                              
+        namespace bases
+        {
+            constexpr precise_unit water{inH2O / in };
+            constexpr precise_unit Hg{mmHg/mm};
+            constexpr precise_unit Hg_0=Hg;
+            constexpr precise_unit Hg_4=precise_unit(98.0637795, Pa) / precise::cm;
+            constexpr precise_unit water_39=precise_unit(2988.98400, Pa) / precise::ft;
+            constexpr precise_unit water_4=water_39;
+            constexpr precise_unit Hg_32=precise_unit(3383.93102, Pa) / precise::in;
+            constexpr precise_unit Hg_60=
+                precise_unit(3376.84789, Pa) / precise::in;
+            constexpr precise_unit water_60=water;
+        }
     }  // namespace pressure
 
     // Power system units

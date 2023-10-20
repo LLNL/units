@@ -480,6 +480,11 @@ TEST(stringToUnits, Simple)
     EXPECT_EQ(precise::m, unit_from_string("meter"));
 }
 
+TEST(stringToUnits, pressure)
+{
+    EXPECT_EQ(unit_from_string("M[HG]"),unit_from_string("meter of mercury column"));
+}
+
 TEST(stringToUnits, withSpace)
 {
     EXPECT_EQ(precise::m.inv(), unit_from_string("1 /m"));
