@@ -2748,6 +2748,7 @@ static precise_unit
             ckpair{"USstatute", "US"},
             ckpair{"statutory", "US"},
             ckpair{"statute", "US"},
+            ckpair{"US", "US"},
             ckpair{"shipping", "ship"},
             ckpair{"gregorian", "g"},
             ckpair{"Gregorian", "g"},
@@ -2767,7 +2768,6 @@ static precise_unit
             ckpair{"imp", "br"},
             ckpair{"wine", "wine"},
             ckpair{"beer", "wine"},
-            ckpair{"US", "US"},
             ckpair{"(IT)", "IT"},
             ckpair{"troy", "tr"},
             ckpair{"apothecary", "ap"},
@@ -2797,10 +2797,33 @@ static precise_unit
             ckpair{"39degF", "[39]"},
             ckpair{"0degC", "[00]"},
             // this should be last
+            
             ckpair{"us", "US"},
         }};
+    if (unit.size() < 3)
+    {
+        return precise::invalid;
+    }
+    if (unit.front() == 'u' && (unit[1] == 'S' || unit[1] == 'K'))
+    {
+        unit.front()='U';
+    }
     bool changed = false;
     for (const auto& irep : internationlReplacements) {
+        if (strlen(irep.first) == 2)
+        {
+            if (strncmp(irep.first, irep.second, 2)==0)
+            {
+                if (ends_with(unit, std::string(1,'_')+irep.second))
+                {
+                    continue;
+                }
+            }
+            if (std::isupper(unit[1]) && (std::toupper(unit[0]) == irep.first[0]) && (unit[1] == irep.first[1]))
+            {
+                unit[0]=std::toupper(unit[0]);
+            }
+        }
         auto fnd = unit.find(irep.first);
         if (fnd != std::string::npos) {
             auto len = strlen(irep.first);
@@ -2835,8 +2858,8 @@ static precise_unit
     if (unit.size() < 4) {
         return precise::invalid;
     }
-    static constexpr std::array<const char*, 8> rotSequences{
-        {"us", "br", "av", "ch", "IT", "th", "ap", "tr"}};
+    static constexpr std::array<const char*, 7> rotSequences{
+        {"br", "av", "ch", "IT", "th", "ap", "tr"}};
     for (const auto& seq : rotSequences) {
         if (unit.compare(0, 2, seq) == 0) {
             auto nunit = unit.substr((unit[3] == '_') ? 3 : 2);
@@ -2852,7 +2875,7 @@ static precise_unit
             return get_unit(unit, match_flags);
         }
     }
-
+    
     return precise::invalid;
 }
 
