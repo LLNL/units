@@ -4784,7 +4784,6 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
         std::remove(unit_string.begin(), unit_string.end(), '+'),
         unit_string.end());
 
-    
     clearEmptySegments(unit_string);
     if (!unit_string.empty() && (unit_string.back() == 'F' || unit_string.back() == 'C'))
     {
