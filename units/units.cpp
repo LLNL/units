@@ -2712,20 +2712,20 @@ bool bracketModifiers(std::string& unit_string)
             ploc = unit_string.find_first_of(seg[0], ploc + 1);
         }
     }
-   // if (!modified) {
-        auto ploc = unit_string.find_first_of('-', 1);
-        if (ploc != std::string::npos) {
-            auto cloc = unit_string.find_first_of("-[({_", ploc + 1);
-            auto tstring = (cloc != std::string::npos) ?
-                unit_string.substr(ploc + 1, cloc - ploc - 1) :
-                unit_string.substr(ploc + 1);
-            auto modloc = modifiers.find(tstring);
-            if (modloc != modifiers.end()) {
-                unit_string.replace(ploc + 1, cloc - ploc - 1, modloc->second);
-                unit_string[ploc] = '_';
-                modified = true;
-            }
+    // if (!modified) {
+    auto ploc = unit_string.find_first_of('-', 1);
+    if (ploc != std::string::npos) {
+        auto cloc = unit_string.find_first_of("-[({_", ploc + 1);
+        auto tstring = (cloc != std::string::npos) ?
+            unit_string.substr(ploc + 1, cloc - ploc - 1) :
+            unit_string.substr(ploc + 1);
+        auto modloc = modifiers.find(tstring);
+        if (modloc != modifiers.end()) {
+            unit_string.replace(ploc + 1, cloc - ploc - 1, modloc->second);
+            unit_string[ploc] = '_';
+            modified = true;
         }
+    }
     //}
     return modified;
 }
@@ -2824,11 +2824,10 @@ static precise_unit
     }
     changed |= clearEmptySegments(unit);
     if (changed) {
-        auto retunit=unit_from_string_internal(
+        auto retunit = unit_from_string_internal(
             unit, match_flags | no_locality_modifiers | no_of_operator);
-        if (is_error(retunit) && ((match_flags&no_locality_modifiers)==0))
-        {
-            return localityModifiers(unit,match_flags|no_locality_modifiers);
+        if (is_error(retunit) && ((match_flags & no_locality_modifiers) == 0)) {
+            return localityModifiers(unit, match_flags | no_locality_modifiers);
         }
         return retunit;
     }
@@ -3125,23 +3124,16 @@ static precise_unit
                     {"mercuryguage", precise::pressure::bases::Hg},
                     {"mercury_i", precise::pressure::bases::Hg},
                     {"Hg", precise::pressure::bases::Hg},
-                    {"water",
-                    precise::pressure::bases::water},
-                    {"watercolumn",
-                    precise::pressure::bases::water},
-                    {"water_i",
-                    precise::pressure::bases::water},
-                    {"waterguage",
-                    precise::pressure::bases::water},
-                    {"H2O",
-                    precise::pressure::bases::water},
+                    {"water", precise::pressure::bases::water},
+                    {"watercolumn", precise::pressure::bases::water},
+                    {"water_i", precise::pressure::bases::water},
+                    {"waterguage", precise::pressure::bases::water},
+                    {"H2O", precise::pressure::bases::water},
                     {"mercury_[00]", precise::pressure::bases::Hg_0},
                     {"water_[04]", precise::pressure::bases::water_4},
                     {"water_[39]", precise::pressure::bases::water_39},
-                    {"mercury_[32]",
-                    precise::pressure::bases::Hg_32},
-                    {"mercury_[60]",
-                    precise::pressure::bases::Hg_60},
+                    {"mercury_[32]", precise::pressure::bases::Hg_32},
+                    {"mercury_[60]", precise::pressure::bases::Hg_60},
                     {"water_[60]", precise::pressure::bases::water_60},
                 };
             auto tunit = commUnits.find(cstring);
@@ -4785,29 +4777,27 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
         unit_string.end());
 
     clearEmptySegments(unit_string);
-    if (!unit_string.empty() && (unit_string.back() == 'F' || unit_string.back() == 'C'))
-    {
+    if (!unit_string.empty() &&
+        (unit_string.back() == 'F' || unit_string.back() == 'C')) {
         static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 8>
             trailTempCodeReplacements{{
-                    ckpair{"at39F", "[39]"},
-                    ckpair{"at60F", "[60]"},
-                    ckpair{"39F", "[39]"},
-                    ckpair{"60F", "[60]"},
-                    ckpair{"at0C", "[00]"},
-                    ckpair{"0C", "[00]"},
-                    ckpair{"at23C", "[23]"},
-                    ckpair{"23C", "[23]"},
-                }};
+                ckpair{"at39F", "[39]"},
+                ckpair{"at60F", "[60]"},
+                ckpair{"39F", "[39]"},
+                ckpair{"60F", "[60]"},
+                ckpair{"at0C", "[00]"},
+                ckpair{"0C", "[00]"},
+                ckpair{"at23C", "[23]"},
+                ckpair{"23C", "[23]"},
+            }};
 
-        for (const auto& endTemp : trailTempCodeReplacements)
-        {
-            if (ends_with(unit_string, endTemp.first))
-            {
-                auto sz=strlen(endTemp.first);
-                unit_string.replace(unit_string.end()-sz,unit_string.end(),endTemp.second);
-                if (unit_string[unit_string.size() - 5] != '_')
-                {
-                    unit_string.insert(unit_string.size() - 4,1,'_');
+        for (const auto& endTemp : trailTempCodeReplacements) {
+            if (ends_with(unit_string, endTemp.first)) {
+                auto sz = strlen(endTemp.first);
+                unit_string.replace(
+                    unit_string.end() - sz, unit_string.end(), endTemp.second);
+                if (unit_string[unit_string.size() - 5] != '_') {
+                    unit_string.insert(unit_string.size() - 4, 1, '_');
                 }
             }
         }
@@ -5674,33 +5664,32 @@ static precise_unit unit_from_string_internal(
     // try some other cleaning steps
     ustring = unit_string;
 
-        if (cleanUnitStringPhase2(unit_string)) {
-            if (!unit_string.empty()) {
-                retunit = get_unit(unit_string, match_flags);
+    if (cleanUnitStringPhase2(unit_string)) {
+        if (!unit_string.empty()) {
+            retunit = get_unit(unit_string, match_flags);
+            if (!is_error(retunit)) {
+                return retunit;
+            }
+            if (looksLikeNumber(unit_string)) {
+                size_t loc{0};
+                auto number = getDoubleFromString(unit_string, &loc);
+                if (loc >= unit_string.length()) {
+                    return {number, one};
+                }
+                unit_string = unit_string.substr(loc);
+                retunit = unit_from_string_internal(unit_string, match_flags);
                 if (!is_error(retunit)) {
-                    return retunit;
+                    return {number, retunit};
                 }
-                if (looksLikeNumber(unit_string)) {
-                    size_t loc{ 0 };
-                    auto number = getDoubleFromString(unit_string, &loc);
-                    if (loc >= unit_string.length()) {
-                        return { number, one };
-                    }
-                    unit_string = unit_string.substr(loc);
-                    retunit = unit_from_string_internal(unit_string, match_flags);
-                    if (!is_error(retunit)) {
-                        return { number, retunit };
-                    }
-                    unit_string.insert(unit_string.begin(), '{');
-                    unit_string.push_back('}');
-                    return { number, commoditizedUnit(unit_string, match_flags) };
-                }
+                unit_string.insert(unit_string.begin(), '{');
+                unit_string.push_back('}');
+                return {number, commoditizedUnit(unit_string, match_flags)};
             }
-            else {  // if we erased everything this could lead to strange units so
-                   // just go back to the original
-                unit_string = ustring;
-            }
+        } else {  // if we erased everything this could lead to strange units so
+                  // just go back to the original
+            unit_string = ustring;
         }
+    }
     if (unit_string.front() == '[' && unit_string.back() == ']') {
         ustring = unit_string.substr(1);
         ustring.pop_back();

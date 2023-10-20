@@ -482,7 +482,8 @@ TEST(stringToUnits, Simple)
 
 TEST(stringToUnits, pressure)
 {
-    EXPECT_EQ(unit_from_string("M[HG]"),unit_from_string("meter of mercury column"));
+    EXPECT_EQ(
+        unit_from_string("M[HG]"), unit_from_string("meter of mercury column"));
 }
 
 TEST(stringToUnits, withSpace)
