@@ -2584,6 +2584,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"USSurvey", "US"},
     ckpair{"US Survey", "US"},
     ckpair{"USPetroleum", "US"},
+    ckpair{"USshipping", "ship"},
     ckpair{"oil", "US"},
     ckpair{"USdry", "US"},
     ckpair{"US dry", "US"},
@@ -2819,7 +2820,7 @@ static precise_unit
                     continue;
                 }
             }
-            if (std::isupper(unit[1]) && (std::toupper(unit[0]) == irep.first[0]) && (unit[1] == irep.first[1]))
+            if (unit[1]>0 && std::isupper(unit[1]) && (std::toupper(unit[0]) == irep.first[0]) && (unit[1] == irep.first[1]))
             {
                 unit[0]=std::toupper(unit[0]);
             }
@@ -3204,10 +3205,11 @@ static precise_unit checkMultiplierCharacter(
                     ustring.insert(fd, 1, '^');
                     fd += 1;
                 }
-            } else if (ustring[fd + 1] == mchar) {
+            }
+            else if (ustring[fd + 1] == mchar) {
                 // repeated characters,  cannot mean separator
                 return precise::invalid;
-            } else {
+            }else if (ustring[fd+1]!='[' && ustring[fd+1]!='(') {
                 ustring[fd] = '*';
             }
             // ignore adjacent ones
@@ -4780,6 +4782,39 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
     return (changed || unit_string.size() != slen);
 }
 
+static void modifyTailCodes(std::string& unit_string)
+{
+    if (!unit_string.empty() && (unit_string.back() == 'F' || unit_string.back() == 'C'))
+    {
+        static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 10>
+            trailTempCodeReplacements{{
+                    ckpair{"at39F", "[39]"},
+                    ckpair{"39F", "[39]"},
+                    ckpair{"at60F", "[60]"},
+                    ckpair{"60F", "[60]"},
+                    ckpair{"at0C", "[00]"},
+                    ckpair{"0C", "[00]"},
+                    ckpair{"at23C", "[23]"},
+                    ckpair{"23C", "[23]"},
+                    ckpair{"at4C", "[04]"},
+                    ckpair{"4C", "[04]"},
+                }};
+
+        for (const auto& endTemp : trailTempCodeReplacements)
+        {
+            if (ends_with(unit_string, endTemp.first))
+            {
+                auto sz=strlen(endTemp.first);
+                unit_string.replace(unit_string.end()-sz,unit_string.end(),endTemp.second);
+                if (unit_string[unit_string.size() - 5] != '_')
+                {
+                    unit_string.insert(unit_string.size() - 4,1,'_');
+                }
+            }
+        }
+    }
+}
+
 /// cleanup phase 2 if things still aren't working
 static bool cleanUnitStringPhase2(std::string& unit_string)
 {
@@ -4808,33 +4843,7 @@ static bool cleanUnitStringPhase2(std::string& unit_string)
         unit_string.end());
 
     clearEmptySegments(unit_string);
-    if (!unit_string.empty() && (unit_string.back() == 'F' || unit_string.back() == 'C'))
-    {
-        static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 8>
-            trailTempCodeReplacements{{
-                    ckpair{"at39F", "[39]"},
-                    ckpair{"at60F", "[60]"},
-                    ckpair{"39F", "[39]"},
-                    ckpair{"60F", "[60]"},
-                    ckpair{"at0C", "[00]"},
-                    ckpair{"0C", "[00]"},
-                    ckpair{"at23C", "[23]"},
-                    ckpair{"23C", "[23]"},
-                }};
-
-        for (const auto& endTemp : trailTempCodeReplacements)
-        {
-            if (ends_with(unit_string, endTemp.first))
-            {
-                auto sz=strlen(endTemp.first);
-                unit_string.replace(unit_string.end()-sz,unit_string.end(),endTemp.second);
-                if (unit_string[unit_string.size() - 5] != '_')
-                {
-                    unit_string.insert(unit_string.size() - 4,1,'_');
-                }
-            }
-        }
-    }
+    
     return changed || (len != unit_string.length());
 }
 
@@ -5536,7 +5545,7 @@ static precise_unit unit_from_string_internal(
             ++sep;
         }
         char c1 = unit_string[sep + 1];
-        int power{+1};
+        int power{ +1 };
         if (c1 == '-' || c1 == '+') {
             ++sep;
             if (unit_string.length() < sep + 2) {
@@ -5555,29 +5564,33 @@ static precise_unit unit_from_string_internal(
 #endif
                 size_t end = sep + 2;
                 for (; end < unit_string.size() &&
-                     isDigitCharacter(unit_string[end]);
-                     ++end) {
+                    isDigitCharacter(unit_string[end]);
+                    ++end) {
                 }
                 auto powerStringLength = end - sep - 1;
                 if (powerStringLength > 1) {
                     auto pstring =
                         unit_string.substr(sep + 1, powerStringLength);
-                    char* eptr{nullptr};
+                    char* eptr{ nullptr };
                     auto mpower = strtoul(pstring.c_str(), &eptr, 10);
                     if (eptr - pstring.c_str() ==
                         static_cast<std::ptrdiff_t>(powerStringLength)) {
                         power *= mpower;
-                    } else {
+                    }
+                    else {
                         return precise::invalid;  // LCOV_EXCL_LINE
                     }
-                } else {
+                }
+                else {
                     power *= (unit_string[sep + 1] - '0');
                 }
 
-            } else {
+            }
+            else {
                 power *= (unit_string[sep + 1] - '0');
             }
-        } else {
+            }
+        else {
             // the check functions should catch this but it would be
             // problematic if not caught
             return precise::invalid;  // LCOV_EXCL_LINE
@@ -5589,7 +5602,7 @@ static precise_unit unit_from_string_internal(
         if (retunit != precise::defunit) {
             return retunit;
         }
-    }
+        }
     if ((match_flags & no_commodities) == 0 && unit_string.back() == '}' &&
         unit_string.find('{') != std::string::npos) {
         return commoditizedUnit(unit_string, match_flags);
@@ -5620,7 +5633,7 @@ static precise_unit unit_from_string_internal(
                     retunit = unit_from_string_internal(
                         ustring,
                         (match_flags & (~case_insensitive)) |
-                            skip_partition_check);
+                        skip_partition_check);
                     if (!is_error(retunit)) {
                         return retunit;
                     }
@@ -5635,7 +5648,7 @@ static precise_unit unit_from_string_internal(
 
         retunit = unit_quick_match(ustring, match_flags);
         if (!is_error(retunit)) {
-            return {mret.first, retunit};
+            return { mret.first, retunit };
         }
         if (ustring[0] >= 'A' && ustring[0] <= 'Z') {
             if (ustring.size() > 4 || ustring[0] != 'N') {
@@ -5643,7 +5656,7 @@ static precise_unit unit_from_string_internal(
                     ustring[0] += 32;
                     retunit = unit_quick_match(ustring, match_flags);
                     if (!is_error(retunit)) {
-                        return {mret.first, retunit};
+                        return { mret.first, retunit };
                     }
                 }
             }
@@ -5683,6 +5696,8 @@ static precise_unit unit_from_string_internal(
         }
     }
 
+    modifyTailCodes(unit_string);
+    
     if (!containsPer) {
         retunit = checkMultiplierCharacter(unit_string, match_flags, '-');
         if (!is_error(retunit)) {
@@ -5717,6 +5732,10 @@ static precise_unit unit_from_string_internal(
                     unit_string.insert(unit_string.begin(), '{');
                     unit_string.push_back('}');
                     return { number, commoditizedUnit(unit_string, match_flags) };
+                }
+                retunit=checkSIprefix(unit_string, match_flags);
+                if (!is_error(retunit)) {
+                    return retunit;
                 }
             }
             else {  // if we erased everything this could lead to strange units so

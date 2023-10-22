@@ -482,8 +482,11 @@ TEST(stringToUnits, Simple)
 
 TEST(stringToUnits, pressure)
 {
+    
     EXPECT_EQ(unit_from_string("M[HG]"),unit_from_string("meter of mercury column"));
+    EXPECT_EQ(unit_from_string("M[HG]",units::case_insensitive),unit_from_string("meter of mercury column"));
     EXPECT_EQ(unit_from_string("millimeter_Hg_0C"),precise::pressure::mmHg);
+    EXPECT_EQ(unit_from_string("MM[HG]",units::case_insensitive),unit_from_string("millimeter of mercury column"));
 }
 
 TEST(stringToUnit, fluid)
@@ -586,6 +589,10 @@ TEST(stringToUnits, specificCombinations)
     EXPECT_EQ(precise::kg * precise::L, unit_from_string("kg l"));
 }
 
+TEST(stringToUnits, barrels)
+{
+    EXPECT_EQ(precise::kilo*precise::us::barrel/precise::day, unit_from_string("kbbl (US)/d"));
+}
 TEST(stringToUnits, gasConstant)
 {
     auto rval = unit_from_string("J mol^-1 K^-1");
