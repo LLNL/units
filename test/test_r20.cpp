@@ -11,12 +11,12 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <tuple>
 
 using unitD = std::tuple<const char*, const char*, units::precise_unit>;
-
+#ifdef ENABLE_UNIT_MAP_ACCESS
 // Check the order of the array make sure it is order for searching
 TEST(r20, order)
 {
     std::size_t unit_count{0};
-    const void* r20 = units::detail::testing::r20rawData(unit_count);
+    const void* r20 = units::detail::r20rawData(unit_count);
     auto* r20data = reinterpret_cast<const unitD*>(r20);
     for (size_t ii = 1; ii < unit_count; ++ii) {
         EXPECT_LT(
@@ -29,7 +29,7 @@ TEST(r20, order)
 TEST(r20, conversions)
 {
     std::size_t unit_count{0};
-    const void* r20 = units::detail::testing::r20rawData(unit_count);
+    const void* r20 = units::detail::r20rawData(unit_count);
     auto* r20data = reinterpret_cast<const unitD*>(r20);
     int missed{0};
     int correct{0};
@@ -124,3 +124,5 @@ TEST(r20, conversions)
     std::cout << convertible << " r20 unit are convertible to eachother\n";
     std::cout << correct << " r20 units correctly translated\n";
 }
+
+#endif

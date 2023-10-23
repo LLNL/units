@@ -3138,13 +3138,16 @@ precise_unit r20_unit(const std::string& r20_string)
     }
     return precise::error;
 }
+
+#ifdef ENABLE_UNIT_MAP_ACCESS
 namespace detail {
-    namespace testing {
         const void* r20rawData(size_t& array_size)
         {
             array_size = precise::r20_units.size();
             return precise::r20_units.data();
         }
-    }  // namespace testing
 }  // namespace detail
+
+#endif
+
 }  // namespace units
