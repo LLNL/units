@@ -1788,7 +1788,7 @@ namespace precise {
         unitD{"JPS", "hundred metre", hundred* m},
         unitD{"JR", "jar", {1.0, count, commodities::packaging::jar}},
         unitD{"JWL", "number of jewels", {1.0, count, commodities::jewel}},
-        unitD{"K1", "kilowatt demand", kW},
+        unitD{"K1", "kilowatt demand", electrical::kW},
         unitD{"K10", "ounce (US fluid) per hour", us::floz / hr},
         unitD{"K11", "ounce (US fluid) per minute", us::floz / min},
         unitD{"K12", "ounce (US fluid) per second", us::floz / s},

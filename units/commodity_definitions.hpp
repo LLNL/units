@@ -18,45 +18,52 @@ namespace commodities {
     /// international harmonized code for international trade
 
     constexpr std::uint32_t generateHarmonizedCode(
-        std::int32_t chapter,
-        std::int32_t section,
-        std::int32_t subsection)
+        std::uint32_t chapter,
+        std::uint32_t section,
+        std::uint32_t subsection)
     {
         return ((chapter % 100U) << 14U) + ((section % 100U) << 7U) +
             ((subsection % 100U));
     }
 
     constexpr std::uint32_t generateHarmonizedCode(
-        std::int32_t chapter,
-        std::int32_t section,
-        std::int32_t subsection,
-        std::int32_t code1,
+        std::uint32_t chapter,
+        std::uint32_t section,
+        std::uint32_t subsection,
+        std::uint32_t code1,
         bool digit = false)
     {
         return ((chapter % 100U) << 14U) + ((section % 100U) << 7U) +
             ((subsection % 100U)) + ((code1 % 100U) << 21U) +
             ((digit) ? 0x1000000U : 0U);
     }
-    constexpr std::uint32_t generateStringCode(const char code[5])
+
+    template <size_t N>
+    constexpr std::uint32_t generateStringCode(const char (&code)[N])
     {
+        static_assert(N == 6, "invalid string code");
         return 0x60000000U + (((code[0] - '_') & 0X1FU) << 20U) +
             (((code[1] - '_') & 0X1FU) << 15U) +
             (((code[2] - '_') & 0X1FU) << 10U) +
             (((code[3] - '_') & 0X1FU) << 5U) + ((code[4] - '_') & 0X1FU);
     }
 
-    constexpr std::uint32_t generateStringCodeUpper(const char code[5])
+    template <size_t N>
+    constexpr std::uint32_t generateStringCodeUpper(const char (&code)[N])
     {
+        static_assert(N == 6, "invalid string code");
         return 0x70000000U + (((code[0] - '@') & 0X1FU) << 20U) +
             (((code[1] - '@') & 0X1FU) << 15U) +
             (((code[2] - '@') & 0X1FU) << 10U) +
             (((code[3] - '@') & 0X1FU) << 5U) + ((code[4] - '@') & 0X1FU);
     }
 
-    constexpr std::uint32_t generateShareCode(const char code[5])
+    template <size_t N>
+    constexpr std::uint32_t generateShareCode(const char (&code)[N])
     {
         return generateStringCodeUpper(code) + (1U << 25U);
     }
+
     constexpr std::uint32_t generateKnownCode(std::uint32_t code)
     {
         return 0x5C000000U + (code & 0x03FFFFFF);
@@ -72,13 +79,17 @@ namespace commodities {
         return 0x20000000U + (((code & 0x7FU) + 0x80U) << 21U);
     }
 
-    constexpr std::uint32_t generateCurrencyCode(const char code[3])
+    template <size_t N>
+    constexpr std::uint32_t generateCurrencyCode(const char (& code)[N])
     {
+        static_assert(N == 4, "invalid string code");
         return 0x46000000U + (code[0] << 16U) + (code[1] << 8U) + code[2];
     }
 
-    constexpr std::uint32_t generateChemCode(const char code[4])
+    template <size_t N>
+    constexpr std::uint32_t generateChemCode(const char (& code)[N])
     {
+        static_assert(N == 5, "invalid string code");
         return 0x4D000000U + (((code[0] - ' ') & 0X3FU) << 18U) +
             (((code[1] - ' ') & 0X3FU) << 12U) +
             (((code[2] - ' ') & 0X3FU) << 6U) + ((code[3] - ' ') & 0X3FU);
