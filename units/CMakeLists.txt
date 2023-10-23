@@ -5,12 +5,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-if (UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
-    set(units_source_files units.cpp  commodities.cpp)
+if(UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+    set(units_source_files units.cpp commodities.cpp)
 else()
     set(units_source_files units.cpp commodities.cpp x12_conv.cpp r20_conv.cpp)
-endif() 
+endif()
 
 set(units_header_files
     units.hpp
@@ -66,7 +65,7 @@ if(UNITS_BUILD_SHARED_LIBRARY)
     if(UNITS_DISABLE_NON_ENGLISH_UNITS)
         target_compile_definitions(units PUBLIC -DUNITS_DISABLE_NON_ENGLISH_UNITS=1)
     endif()
-    if (UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+    if(UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
         target_compile_definitions(units PUBLIC -DUNITS_DISABLE_EXTRA_UNIT_STANDARDS=1)
     endif()
     if(UNITS_DEFAULT_DOMAIN)
@@ -115,7 +114,7 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
     if(UNITS_DISABLE_NON_ENGLISH_UNITS)
         target_compile_definitions(units PUBLIC -DUNITS_DISABLE_NON_ENGLISH_UNITS=1)
     endif()
-    if (UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+    if(UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
         target_compile_definitions(units PUBLIC -DUNITS_DISABLE_EXTRA_UNIT_STANDARDS=1)
     endif()
     if(${CMAKE_CXX_STANDARD} GREATER 16)
@@ -142,7 +141,7 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
     if(UNITS_BASE_TYPE)
         target_compile_definitions(units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE})
     endif()
-    if (UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+    if(UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
         target_compile_definitions(units PUBLIC -DUNITS_DISABLE_EXTRA_UNIT_STANDARDS=1)
     endif()
     if(UNITS_DEFAULT_DOMAIN)
