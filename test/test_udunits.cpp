@@ -292,12 +292,14 @@ TEST(UDUNITS, commonAlias)
                     1.0) {
                     if (definitionUnit.has_same_base(nameUnit)) {
                         std::cout
-                            << "singular name and unit multiplier do not match "
+                            << "singular name and unit" 
+                            <<" multiplier do not match "
                             << sname << " and " << def << "\n";
                         ++mismatchVal;
                     } else {
                         std::cout
-                            << "singular name and unit do not have the same base units "
+                            << "singular name and unit do not have the "
+                            << "same base units "
                             << sname << " and " << def << "\n";
                         ++mismatchUnit;
                     }
@@ -317,12 +319,14 @@ TEST(UDUNITS, commonAlias)
                         1.0) {
                         if (definitionUnit.has_same_base(nameUnit)) {
                             std::cout
-                                << "plural name and unit multiplier do not match "
+                                << "plural name and unit multiplier "
+                                <<"do not match "
                                 << sname << " and " << def << "\n";
                             ++mismatchVal;
                         } else {
                             std::cout
-                                << "plural name and unit do not have the same base units "
+                                << "plural name and unit "
+                                <<"do not have the same base units "
                                 << sname << " and " << def << "\n";
                             ++mismatchUnit;
                         }
@@ -350,7 +354,8 @@ TEST(UDUNITS, commonAlias)
                         ++mismatchVal;
                     } else {
                         std::cout
-                            << "symbol and unit do not have the same base units "
+                            << "symbol and unit do not have"
+                            <<" the same base units "
                             << symString << " and " << def << "\n";
                         ++mismatchUnit;
                     }
