@@ -50,7 +50,7 @@ TEST_P(crashProblems, crashFiles)
     EXPECT_NO_THROW(unit_from_string(cdata));
 }
 
-INSTANTIATE_TEST_SUITE_P(crashFiles, crashProblems, ::testing::Range(1, 28));
+INSTANTIATE_TEST_SUITE_P(crashFiles, crashProblems, ::testing::Range(1, 29));
 
 TEST(fuzzFailures, timeouts)
 {  // testing string that have caused a timeout from fuzz testing

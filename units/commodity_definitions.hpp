@@ -38,6 +38,7 @@ namespace commodities {
             ((digit) ? 0x1000000U : 0U);
     }
 
+    // NOLINTBEGIN(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
     template<size_t N>
     constexpr std::uint32_t generateStringCode(const char (&code)[N])
     {
@@ -58,6 +59,7 @@ namespace commodities {
             (((code[3] - '@') & 0X1FU) << 5U) + ((code[4] - '@') & 0X1FU);
     }
 
+    // NOLINTEND(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
     template<size_t N>
     constexpr std::uint32_t generateShareCode(const char (&code)[N])
     {
@@ -79,6 +81,8 @@ namespace commodities {
         return 0x20000000U + (((code & 0x7FU) + 0x80U) << 21U);
     }
 
+    // NOLINTBEGIN(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
+
     template<size_t N>
     constexpr std::uint32_t generateCurrencyCode(const char (&code)[N])
     {
@@ -94,6 +98,7 @@ namespace commodities {
             (((code[1] - ' ') & 0X3FU) << 12U) +
             (((code[2] - ' ') & 0X3FU) << 6U) + ((code[3] - ' ') & 0X3FU);
     }
+    // NOLINTEND(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
 
     namespace packaging {
         /** Enumeration of potential packaging/form factor modifiers
