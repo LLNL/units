@@ -24,12 +24,12 @@ repos:
     hooks:
       - id: remove-tabs
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
+    rev: v2.2.6
     hooks:
       - id: codespell
         exclude: ^(test/|units/|docs/reference/)
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: mixed-line-ending
       - id: trailing-whitespace
@@ -40,7 +40,7 @@ repos:
       - id: end-of-file-fixer
       - id: check-shebang-scripts-are-executable
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v16.0.6
+    rev: v17.0.3
     hooks:
       - id: clang-format
         types:
