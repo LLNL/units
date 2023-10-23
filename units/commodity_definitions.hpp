@@ -38,7 +38,7 @@ namespace commodities {
             ((digit) ? 0x1000000U : 0U);
     }
 
-    template <size_t N>
+    template<size_t N>
     constexpr std::uint32_t generateStringCode(const char (&code)[N])
     {
         static_assert(N == 6, "invalid string code");
@@ -48,7 +48,7 @@ namespace commodities {
             (((code[3] - '_') & 0X1FU) << 5U) + ((code[4] - '_') & 0X1FU);
     }
 
-    template <size_t N>
+    template<size_t N>
     constexpr std::uint32_t generateStringCodeUpper(const char (&code)[N])
     {
         static_assert(N == 6, "invalid string code");
@@ -58,7 +58,7 @@ namespace commodities {
             (((code[3] - '@') & 0X1FU) << 5U) + ((code[4] - '@') & 0X1FU);
     }
 
-    template <size_t N>
+    template<size_t N>
     constexpr std::uint32_t generateShareCode(const char (&code)[N])
     {
         return generateStringCodeUpper(code) + (1U << 25U);
@@ -79,15 +79,15 @@ namespace commodities {
         return 0x20000000U + (((code & 0x7FU) + 0x80U) << 21U);
     }
 
-    template <size_t N>
-    constexpr std::uint32_t generateCurrencyCode(const char (& code)[N])
+    template<size_t N>
+    constexpr std::uint32_t generateCurrencyCode(const char (&code)[N])
     {
         static_assert(N == 4, "invalid string code");
         return 0x46000000U + (code[0] << 16U) + (code[1] << 8U) + code[2];
     }
 
-    template <size_t N>
-    constexpr std::uint32_t generateChemCode(const char (& code)[N])
+    template<size_t N>
+    constexpr std::uint32_t generateChemCode(const char (&code)[N])
     {
         static_assert(N == 5, "invalid string code");
         return 0x4D000000U + (((code[0] - ' ') & 0X3FU) << 18U) +
