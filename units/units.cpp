@@ -3564,7 +3564,8 @@ static bool isolatePriorModifier(
             ++offset;
         }
         auto kloc = unit_string.find_first_not_of(' ', offset);
-        if(kloc!=std::string::npos && (unit_string[kloc] == check1 || unit_string[kloc] == check2)) {
+        if (kloc != std::string::npos &&
+            (unit_string[kloc] == check1 || unit_string[kloc] == check2)) {
             // this handles a misinterpretation of square+d to squared when in
             // middle of a unit
             unit_string[kloc - 1] = '_';

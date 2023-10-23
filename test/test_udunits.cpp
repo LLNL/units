@@ -291,16 +291,14 @@ TEST(UDUNITS, commonAlias)
                 if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) !=
                     1.0) {
                     if (definitionUnit.has_same_base(nameUnit)) {
-                        std::cout
-                            << "singular name and unit" 
-                            <<" multiplier do not match "
-                            << sname << " and " << def << "\n";
+                        std::cout << "singular name and unit"
+                                  << " multiplier do not match " << sname
+                                  << " and " << def << "\n";
                         ++mismatchVal;
                     } else {
-                        std::cout
-                            << "singular name and unit do not have the "
-                            << "same base units "
-                            << sname << " and " << def << "\n";
+                        std::cout << "singular name and unit do not have the "
+                                  << "same base units " << sname << " and "
+                                  << def << "\n";
                         ++mismatchUnit;
                     }
                 }
@@ -318,16 +316,14 @@ TEST(UDUNITS, commonAlias)
                             unit_cast(nameUnit), unit_cast(definitionUnit)) !=
                         1.0) {
                         if (definitionUnit.has_same_base(nameUnit)) {
-                            std::cout
-                                << "plural name and unit multiplier "
-                                <<"do not match "
-                                << sname << " and " << def << "\n";
+                            std::cout << "plural name and unit multiplier "
+                                      << "do not match " << sname << " and "
+                                      << def << "\n";
                             ++mismatchVal;
                         } else {
-                            std::cout
-                                << "plural name and unit "
-                                <<"do not have the same base units "
-                                << sname << " and " << def << "\n";
+                            std::cout << "plural name and unit "
+                                      << "do not have the same base units "
+                                      << sname << " and " << def << "\n";
                             ++mismatchUnit;
                         }
                     }
@@ -353,10 +349,9 @@ TEST(UDUNITS, commonAlias)
                             << symString << " and " << def << "\n";
                         ++mismatchVal;
                     } else {
-                        std::cout
-                            << "symbol and unit do not have"
-                            <<" the same base units "
-                            << symString << " and " << def << "\n";
+                        std::cout << "symbol and unit do not have"
+                                  << " the same base units " << symString
+                                  << " and " << def << "\n";
                         ++mismatchUnit;
                     }
                     std::cout << "symbol and unit do not match " << symString
