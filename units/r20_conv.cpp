@@ -3133,8 +3133,7 @@ precise_unit r20_unit(const std::string& r20_string)
         [](const precise::unitD& u_set, const std::string& val) {
             return (strcmp(std::get<0>(u_set), val.c_str()) < 0);
         });
-    if (ind == precise::r20_units.end())
-    {
+    if (ind == precise::r20_units.end()) {
         return precise::invalid;
     }
     if (strcmp(std::get<0>(*ind), r20_string.c_str()) == 0) {

@@ -2815,7 +2815,7 @@ static precise_unit
                     continue;
                 }
             }
-            if (unit[1] > 0 && (std::isupper(unit[1])!=0) &&
+            if (unit[1] > 0 && (std::isupper(unit[1]) != 0) &&
                 (std::toupper(unit[0]) == irep.first[0]) &&
                 (unit[1] == irep.first[1])) {
                 unit[0] = std::toupper(unit[0]);
@@ -4516,7 +4516,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
                 auto ploc = unit_string.find_first_of('(', reploc);
                 if (ploc != std::string::npos) {
                     auto fdiv = unit_string.find_first_of('/', reploc);
-                    std::size_t ndiv{ 0 };
+                    std::size_t ndiv{0};
                     do {
                         ndiv = unit_string.find_first_of('/', fdiv + 1);
                         if (ploc < ndiv) {

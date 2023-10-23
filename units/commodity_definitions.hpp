@@ -43,20 +43,24 @@ namespace commodities {
     constexpr std::uint32_t generateStringCode(const char (&code)[N])
     {
         static_assert(N == 6, "invalid string code");
-        return 0x60000000U + ((static_cast<std::uint32_t>(code[0] - '_') & 0X1FU) << 20U) +
+        return 0x60000000U +
+            ((static_cast<std::uint32_t>(code[0] - '_') & 0X1FU) << 20U) +
             ((static_cast<std::uint32_t>(code[1] - '_') & 0X1FU) << 15U) +
             ((static_cast<std::uint32_t>(code[2] - '_') & 0X1FU) << 10U) +
-            ((static_cast<std::uint32_t>(code[3] - '_') & 0X1FU) << 5U) + (static_cast<std::uint32_t>(code[4] - '_') & 0X1FU);
+            ((static_cast<std::uint32_t>(code[3] - '_') & 0X1FU) << 5U) +
+            (static_cast<std::uint32_t>(code[4] - '_') & 0X1FU);
     }
 
     template<size_t N>
     constexpr std::uint32_t generateStringCodeUpper(const char (&code)[N])
     {
         static_assert(N == 6, "invalid string code");
-        return 0x70000000U + ((static_cast<std::uint32_t>(code[0] - '@') & 0X1FU) << 20U) +
+        return 0x70000000U +
+            ((static_cast<std::uint32_t>(code[0] - '@') & 0X1FU) << 20U) +
             ((static_cast<std::uint32_t>(code[1] - '@') & 0X1FU) << 15U) +
             ((static_cast<std::uint32_t>(code[2] - '@') & 0X1FU) << 10U) +
-            ((static_cast<std::uint32_t>(code[3] - '@') & 0X1FU) << 5U) + (static_cast<std::uint32_t>(code[4] - '@') & 0X1FU);
+            ((static_cast<std::uint32_t>(code[3] - '@') & 0X1FU) << 5U) +
+            (static_cast<std::uint32_t>(code[4] - '@') & 0X1FU);
     }
 
     // NOLINTEND(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
@@ -87,16 +91,20 @@ namespace commodities {
     constexpr std::uint32_t generateCurrencyCode(const char (&code)[N])
     {
         static_assert(N == 4, "invalid string code");
-        return 0x46000000U + static_cast<std::uint32_t>(code[0] << 16U) + static_cast<std::uint32_t>(code[1] << 8U) + static_cast<std::uint32_t>(code[2]);
+        return 0x46000000U + static_cast<std::uint32_t>(code[0] << 16U) +
+            static_cast<std::uint32_t>(code[1] << 8U) +
+            static_cast<std::uint32_t>(code[2]);
     }
 
     template<size_t N>
     constexpr std::uint32_t generateChemCode(const char (&code)[N])
     {
         static_assert(N == 5, "invalid string code");
-        return 0x4D000000U + ((static_cast<std::uint32_t>(code[0] - ' ') & 0X3FU) << 18U) +
+        return 0x4D000000U +
+            ((static_cast<std::uint32_t>(code[0] - ' ') & 0X3FU) << 18U) +
             ((static_cast<std::uint32_t>(code[1] - ' ') & 0X3FU) << 12U) +
-            ((static_cast<std::uint32_t>(code[2] - ' ') & 0X3FU) << 6U) + (static_cast<std::uint32_t>(code[3] - ' ') & 0X3FU);
+            ((static_cast<std::uint32_t>(code[2] - ' ') & 0X3FU) << 6U) +
+            (static_cast<std::uint32_t>(code[3] - ' ') & 0X3FU);
     }
     // NOLINTEND(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
 

@@ -127,13 +127,15 @@ TEST(r20, conversions)
 
 #endif
 
-
 TEST(r20, units)
 {
     using namespace units::precise;
-    EXPECT_EQ(units::r20_unit("A65"),cgs::erg / (cm.pow(2) * s));
+    EXPECT_EQ(units::r20_unit("A65"), cgs::erg / (cm.pow(2) * s));
 
-    EXPECT_EQ(units::r20_unit("54"),units::precise_unit(1.0, mass::tonne, units::commodities::packaging::theoretical));
+    EXPECT_EQ(
+        units::r20_unit("54"),
+        units::precise_unit(
+            1.0, mass::tonne, units::commodities::packaging::theoretical));
 
     EXPECT_FALSE(is_valid(units::r20_unit("chaos")));
 }
