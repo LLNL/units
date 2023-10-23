@@ -27,7 +27,7 @@ set(UNITS_TESTS
     test_google_units
 )
 
-if (NOT UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+if(NOT UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
     list(APPEND UNITS_TESTS test_r20)
 endif()
 
@@ -72,10 +72,8 @@ else()
         target_compile_definitions(
             test_unit_strings PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
         )
-        if (NOT UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
-        target_compile_definitions (
-            test_r20 PUBLIC -DENABLE_UNIT_MAP_ACCESS=1
-        )
+        if(NOT UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+            target_compile_definitions(test_r20 PUBLIC -DENABLE_UNIT_MAP_ACCESS=1)
         endif()
 
         add_unit_test(test_leadingNumbers.cpp)
@@ -90,7 +88,6 @@ else()
             target_compile_options(test_leadingNumbers PRIVATE /wd4459)
         endif()
     endif()
-
 
     target_compile_definitions(
         test_conversions2 PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"

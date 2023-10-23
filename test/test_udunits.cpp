@@ -76,7 +76,7 @@ TEST(UDUNITS, acceptedAlias)
     auto err = doc.LoadFile(TEST_FILE_FOLDER "/UDUNITS2/udunits2-accepted.xml");
     ASSERT_FALSE(err) << err << std::endl;
     auto cs = doc.FirstChildElement("unit-system")->FirstChildElement("unit");
-    int failConvert{ 0 };
+    int failConvert{0};
     while (cs != nullptr) {
         std::string def = cs->FirstChildElement("def")->FirstChild()->Value();
 
@@ -265,7 +265,7 @@ TEST(UDUNITS, commonAlias)
     auto err = doc.LoadFile(TEST_FILE_FOLDER "/UDUNITS2/udunits2-common.xml");
     ASSERT_FALSE(err) << err << std::endl;
     auto cs = doc.FirstChildElement("unit-system")->FirstChildElement("unit");
-    int failConvert{ 0 };
+    int failConvert{0};
     int mismatchUnit{0};
     int mismatchVal{0};
     while (cs != nullptr) {
@@ -290,16 +290,15 @@ TEST(UDUNITS, commonAlias)
             } else {
                 if (convert(unit_cast(nameUnit), unit_cast(definitionUnit)) !=
                     1.0) {
-                    if (definitionUnit.has_same_base(nameUnit))
-                    {
-                        std::cout << "singular name and unit multiplier do not match " << sname
-                            << " and " << def << "\n";
+                    if (definitionUnit.has_same_base(nameUnit)) {
+                        std::cout
+                            << "singular name and unit multiplier do not match "
+                            << sname << " and " << def << "\n";
                         ++mismatchVal;
-                    }
-                    else
-                    {
-                        std::cout << "singular name and unit do not have the same base units " << sname
-                            << " and " << def << "\n";
+                    } else {
+                        std::cout
+                            << "singular name and unit do not have the same base units "
+                            << sname << " and " << def << "\n";
                         ++mismatchUnit;
                     }
                 }
@@ -316,16 +315,15 @@ TEST(UDUNITS, commonAlias)
                     if (convert(
                             unit_cast(nameUnit), unit_cast(definitionUnit)) !=
                         1.0) {
-                        if (definitionUnit.has_same_base(nameUnit))
-                        {
-                            std::cout << "plural name and unit multiplier do not match " << sname
-                                << " and " << def << "\n";
+                        if (definitionUnit.has_same_base(nameUnit)) {
+                            std::cout
+                                << "plural name and unit multiplier do not match "
+                                << sname << " and " << def << "\n";
                             ++mismatchVal;
-                        }
-                        else
-                        {
-                            std::cout << "plural name and unit do not have the same base units " << sname
-                                << " and " << def << "\n";
+                        } else {
+                            std::cout
+                                << "plural name and unit do not have the same base units "
+                                << sname << " and " << def << "\n";
                             ++mismatchUnit;
                         }
                     }
@@ -345,16 +343,15 @@ TEST(UDUNITS, commonAlias)
             } else {
                 if (convert(unit_cast(symUnit), unit_cast(definitionUnit)) !=
                     1.0) {
-                    if (definitionUnit.has_same_base(symUnit))
-                    {
-                        std::cout << "symbol and unit multiplier do not mismatch" << symString
-                            << " and " << def << "\n";
+                    if (definitionUnit.has_same_base(symUnit)) {
+                        std::cout
+                            << "symbol and unit multiplier do not mismatch"
+                            << symString << " and " << def << "\n";
                         ++mismatchVal;
-                    }
-                    else
-                    {
-                        std::cout << "symbol and unit do not have the same base units " << symString
-                            << " and " << def << "\n";
+                    } else {
+                        std::cout
+                            << "symbol and unit do not have the same base units "
+                            << symString << " and " << def << "\n";
                         ++mismatchUnit;
                     }
                     std::cout << "symbol and unit do not match " << symString
@@ -368,13 +365,14 @@ TEST(UDUNITS, commonAlias)
         cs = cs->NextSiblingElement("unit");
     }
     if (failConvert > 0) {
-        std::cout <<failConvert<< " units were unable to convert at all\n";
+        std::cout << failConvert << " units were unable to convert at all\n";
     }
     if (mismatchUnit > 0) {
-        std::cout << mismatchUnit<< " units converted but had different base units\n";
+        std::cout << mismatchUnit
+                  << " units converted but had different base units\n";
     }
     if (mismatchVal > 0) {
-        std::cout << mismatchVal<< " units had different multipliers\n";
+        std::cout << mismatchVal << " units had different multipliers\n";
     }
     // EXPECT_EQ(failConvert, 0);
 }
