@@ -63,7 +63,6 @@ namespace commodities {
             (static_cast<std::uint32_t>(code[4] - '@') & 0X1FU);
     }
 
-   
     template<size_t N>
     constexpr std::uint32_t generateShareCode(const char (&code)[N])
     {
