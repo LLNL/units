@@ -5302,6 +5302,14 @@ static precise_unit
             unit_string[sep + 1] == '+') {
             return precise::invalid;
         }
+        if (unit_string[sep - 1] == 'e' || unit_string[sep - 1] == 'E')
+        {
+            //this is scientific notation not addition
+            if (isDigitCharacter(unit_string[sep + 1]) && (sep > 1 && isDigitCharacter(unit_string[sep - 2])))
+            {
+                return precise::invalid;
+            }
+        }
         precise_unit a_unit;
         precise_unit b_unit;
         if (sep + 1 > unit_string.size() / 2) {
