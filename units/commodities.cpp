@@ -340,7 +340,7 @@ uint32_t getCommodity(std::string comm)
     }
 
     if (comm.compare(0, 7, "cxcomm[") == 0) {
-        return static_cast<int32_t>(atoi(comm.c_str() + 7));
+        return strtoul(comm.c_str() + 7,nullptr,0);
     }
     if ((comm.size() < 6) && std::all_of(comm.begin(), comm.end(), [](char x) {
             return (x == ' ' || (x >= '_' && x <= '}'));
