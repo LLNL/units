@@ -776,7 +776,7 @@ namespace precise {
             "cartridge",
             {1.0, count, commodities::packaging::cartridge}},
         unitD{"CR", "crate", {1.0, count, commodities::packaging::crate}},
-        unitD{"CS", "case", {1.0, count, commodities::packaging::case_}},
+        unitD{"CS", "case", {1.0, count, commodities::packaging::small_case}},
         unitD{"CT", "carton", {1.0, count, commodities::packaging::carton}},
         unitD{"CTG", "content gram", g},
         unitD{"CTM", "metric carat", metric::carat},

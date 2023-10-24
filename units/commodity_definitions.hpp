@@ -63,16 +63,18 @@ namespace commodities {
             (static_cast<std::uint32_t>(code[4] - '@') & 0X1FU);
     }
 
-    // NOLINTEND(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
+   
     template<size_t N>
     constexpr std::uint32_t generateShareCode(const char (&code)[N])
     {
         return generateStringCodeUpper(code) + (1U << 25U);
     }
 
+    // NOLINTEND(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
+
     constexpr std::uint32_t generateKnownCode(std::uint32_t code)
     {
-        return 0x5C000000U + (code & 0x03FFFFFF);
+        return 0x5C000000U + (code & 0x03FFFFFFU);
     }
 
     constexpr std::uint32_t generatePackagingCode(std::uint32_t code)
@@ -91,8 +93,8 @@ namespace commodities {
     constexpr std::uint32_t generateCurrencyCode(const char (&code)[N])
     {
         static_assert(N == 4, "invalid string code");
-        return 0x46000000U + static_cast<std::uint32_t>(code[0] << 16U) +
-            static_cast<std::uint32_t>(code[1] << 8U) +
+        return 0x46000000U + (static_cast<std::uint32_t>(code[0]) << 16U) +
+            (static_cast<std::uint32_t>(code[1]) << 8U) +
             static_cast<std::uint32_t>(code[2]);
     }
 
@@ -351,7 +353,7 @@ namespace commodities {
             stage = generatePackagingCodeAlternate(121),
             coil_group = generatePackagingCodeAlternate(121),
             cartridge = generatePackagingCodeAlternate(122),
-            case_ = generatePackagingCodeAlternate(123),
+            small_case = generatePackagingCodeAlternate(123),
             leave = generatePackagingCodeAlternate(124),
             cover = generatePackagingCodeAlternate(125),
             syphon = generatePackagingCodeAlternate(125),
