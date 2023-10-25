@@ -357,7 +357,7 @@ TEST(logUnits, error)
         20.0, precise::log::dBA * precise::m / precise::s, precise::m)));
 }
 
-TEST(otherUnits, prismDiopter)
+TEST(otherEqUnits, prismDiopter)
 {
     EXPECT_NEAR(
         convert(1, precise::deg, precise::clinical::prism_diopter),
@@ -369,7 +369,7 @@ TEST(otherUnits, prismDiopter)
         0.005);
 }
 
-TEST(otherUnits, saffirSimpson)
+TEST(otherEqUnits, saffirSimpson)
 {
     EXPECT_EQ(
         std::floor(
@@ -395,7 +395,7 @@ TEST(otherUnits, saffirSimpson)
         3.0);
 }
 
-TEST(otherUnits, saffirSimpson2Speed)
+TEST(otherEqUnits, saffirSimpson2Speed)
 {
     EXPECT_NEAR(
         convert(3.0, precise::special::sshws, precise::m / precise::s),
@@ -453,7 +453,7 @@ INSTANTIATE_TEST_SUITE_P(
     beaufort,
     ::testing::ValuesIn(testBValues));
 
-TEST(otherUnits, saffirSimpson2Sbeaufort)
+TEST(otherEqUnits, saffirSimpson2Sbeaufort)
 {
     EXPECT_NEAR(
         convert(12.1, precise::special::beaufort, precise::special::sshws),
@@ -494,7 +494,7 @@ INSTANTIATE_TEST_SUITE_P(
     fujita,
     ::testing::ValuesIn(testFValues));
 
-TEST(otherUnits, saffirSimpson2Sfujita)
+TEST(otherEqUnits, saffirSimpson2Sfujita)
 {
     EXPECT_NEAR(
         convert(1.0, precise::special::fujita, precise::special::sshws),
@@ -506,7 +506,7 @@ TEST(otherUnits, saffirSimpson2Sfujita)
         0.05);
 }
 
-TEST(otherUnits, trits)
+TEST(otherEqUnits, trits)
 {
     EXPECT_NEAR(
         convert(1.0, precise::data::trit, precise::data::bit_s),
@@ -531,7 +531,7 @@ TEST(otherUnits, trits)
         convert(9, precise::data::digits, precise::data::trit), 18.86, 0.01);
 }
 
-TEST(otherUnits, digits)
+TEST(otherEqUnits, digits)
 {
     EXPECT_NEAR(
         convert(12.0, precise::data::digits, precise::data::bit_s),
@@ -542,7 +542,7 @@ TEST(otherUnits, digits)
     EXPECT_NEAR(convert(1.0, precise::data::digits, precise::one), 10.0, 0.01);
 }
 
-TEST(otherUnits, Richter)
+TEST(otherEqUnits, Richter)
 {
     auto conv5 = convert(
         5.0, precise::special::moment_magnitude, precise::N * precise::m);
@@ -567,7 +567,7 @@ TEST(otherUnits, Richter)
     EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
 }
 
-TEST(otherUnits, momentEnergy)
+TEST(otherEqUnits, momentEnergy)
 {
     auto conv5 = convert(5.0, precise::special::moment_energy, precise::J);
     EXPECT_FALSE(std::isnan(conv5));
@@ -588,21 +588,52 @@ TEST(otherUnits, momentEnergy)
     EXPECT_NEAR(conv7 / conv5, 1000.0, 10.0);
 }
 
-TEST(otherUnits, unknownEQ)
+TEST(otherEqUnits, unknownEQ)
 {
-    auto eq18 = precise_unit(precise::custom::equation_unit(18));
-    auto eq19 = precise_unit(precise::custom::equation_unit(19));
-    EXPECT_EQ(convert(1.92, eq18, precise::one), 1.92);
+    auto eq20 = precise_unit(precise::custom::equation_unit(21));
+    auto eq21 = precise_unit(precise::custom::equation_unit(22));
+    EXPECT_EQ(convert(1.92, eq20, precise::one), 1.92);
 
-    auto conv7 = convert(7.0, eq18, eq19 * precise::W);
+    auto conv7 = convert(7.0, eq21, eq20 * precise::W);
     EXPECT_TRUE(std::isnan(conv7));
 
-    EXPECT_EQ(convert(1.927, eq18 * precise::W, eq19 * precise::W), 1.927);
+    EXPECT_EQ(convert(1.927, eq20 * precise::W, eq20 * precise::W), 1.927);
+}
+
+
+TEST(otherEqUnits, APIgravity)
+{
+    auto apiG=precise::special::degreeAPI;
+    //gasoline
+    EXPECT_NEAR(convert(56.98,apiG,precise::g / precise::mL),0.7508,0.0001);
+    EXPECT_NEAR(convert(0.750743, precise::g / precise::mL,apiG),56.98,0.001);
+    //kerosene
+    EXPECT_NEAR(convert(50.9,apiG,precise::g / precise::mL),0.775768,0.0001);
+    EXPECT_NEAR(convert(0.775768,precise::g / precise::mL,apiG),50.9,0.001);
+}
+
+TEST(otherEqUnits, degreeBaume)
+{
+    auto degBL=precise::special::degreeBaumeLight;
+    EXPECT_NEAR(convert(10,degBL,precise::g / precise::mL),1.0000,0.0001);
+    EXPECT_NEAR(convert(1.0000, precise::g / precise::mL,degBL),10.0,0.001);
+    EXPECT_NEAR(convert(26.075, degBL,precise::g / precise::mL),0.897,0.001);
+    EXPECT_NEAR(convert(0.897, precise::g / precise::mL,degBL),26.075,0.001);
+    EXPECT_NEAR(convert(43.91, degBL,precise::g / precise::mL),0.805,0.001);
+    EXPECT_NEAR(convert(0.805, precise::g / precise::mL,degBL),43.91,0.01);
+    
+    auto degBH=precise::special::degreeBaumeHeavy;
+    EXPECT_NEAR(convert(0,degBH,precise::g / precise::mL),1.0000,0.0001);
+    EXPECT_NEAR(convert(1.0000, precise::g / precise::mL,degBH),0.0,0.001);
+    EXPECT_NEAR(convert(15.0, degBH,precise::g / precise::mL),1.115,0.001);
+    EXPECT_NEAR(convert(1.115, precise::g / precise::mL,degBH),14.955,0.001);
+    EXPECT_NEAR(convert(69.0, degBH,precise::g / precise::mL),1.908,0.001);
+    EXPECT_NEAR(convert(1.908, precise::g / precise::mL,degBH),69.0,0.005);
 }
 
 #ifndef UNITS_HEADER_ONLY
 
-TEST(otherUnits, strings)
+TEST(otherEqUnits, strings)
 {
     precise_unit eq18(1.36, precise::custom::equation_unit(18));
 

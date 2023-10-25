@@ -1162,9 +1162,10 @@ namespace precise {
                     return std::exp(val / 0.5);
                 case 16:  // API Gravity
                     return 141.5 / (val + 131.5);
-                case 17:  // degrees Baume
-                    return (val > 0.0) ? (140.0 / (130.0 + val)) :
-                                         (145.0 / (145.0 - val));
+                case 17:  // degrees Baume Light
+                    return 140.0 / (130.0 + val);
+                case 18:  // degrees Baume Heavy
+                    return 145.0 / (145.0 - val);
                 case 22:  // saffir simpson hurricane wind scale
                 {
                     double out = -0.17613636364;
@@ -1242,9 +1243,10 @@ namespace precise {
                     return 0.5 * (std::log)(val);
                 case 16:  // API Gravity
                     return 141.5 / (val)-131.5;
-                case 17:  // degree Baume
-                    return (val > 1.0) ? (145.0 * (1.0 - 1 / val)) :
-                                         (140.0 / val - 130);
+                case 17:  // degree Baume Light
+                    return 140.0 / val - 130;
+                case 18:  // degree Baume Heavy
+                    return 145.0 * (1.0 - 1.0 / val);
                 case 22:  // saffir simpson hurricane scale from wind speed
                 {  // using horners method on polynomial approximation of
                    // saffir-simpson wind speed scale
@@ -1412,8 +1414,10 @@ namespace precise {
         // for measuring density in liquids(mainly petroleum products)
         constexpr precise_unit degreeAPI =
             precise_unit(custom::equation_unit(16)) * g / mL;
-        constexpr precise_unit degreeBaume =
+        constexpr precise_unit degreeBaumeLight =
             precise_unit(custom::equation_unit(17)) * g / mL;
+        constexpr precise_unit degreeBaumeHeavy =
+            precise_unit(custom::equation_unit(18)) * g / mL;
     }  // namespace special
 
     namespace other {

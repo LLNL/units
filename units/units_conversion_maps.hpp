@@ -722,14 +722,14 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"\xB0"
          "API",
          precise::special::degreeAPI},  // latin-1 degree
-        {"degBaume", precise::special::degreeBaume},
+        {"degBaume", precise::special::degreeBaumeLight},
         {u8"\u00B0Baume",
-         precise::special::degreeBaume},  // unicode degree symbol
+         precise::special::degreeBaumeLight},  // unicode degree symbol
         {"\xB0"
          "Baume",
-         precise::special::degreeBaume},  // latin-1 degree
-        {"degBaume(USheavy)", precise::special::degreeBaume},
-        {"degBaume(USlight)", precise::special::degreeBaume},
+         precise::special::degreeBaumeLight},  // latin-1 degree
+        {"degBaume_heavy", precise::special::degreeBaumeHeavy},
+        {"degBaume_light", precise::special::degreeBaumeLight},
         {"degBalling",
          {1.0, precise::generate_custom_unit(109), commodities::sugar}},
         {"degBrix",
