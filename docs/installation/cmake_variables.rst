@@ -25,6 +25,7 @@ CMake variables
 -  `UNITS_DOMAIN`:  Specify a default domain to use for string conversions.  Can be either a name from the domains namespace such as `domains::surveying` or one of 'COOKING', 'ASTRONOMY', 'NUCLEAR', 'SURVEYING', 'USE_CUSTOMARY', 'CLIMATE', or 'UCUM'.
 -  `UNITS_DEFAULT_MATCH_FLAGS`: Specify an integer value for the default match flags to be used for conversion
 -  `UNITS_DISABLE_NON_ENGLISH_UNITS`: the library includes a number of non-english units that can be converted from strings, these can be disabled by setting `UNITS_DISABLE_NON_ENGLISH_UNITS` to ON or setting the definition in the C++ code.
+-  `UNITS_DISABLE_EXTRA_UNIT_STANDARDS`: If set to `ON` disables UN recommendation 12, X12(not implemented yet), DOD(not implemented yet), from being included in the compilation and generated from strings.
 
 -  `UNITS_NAMESPACE`:  The top level namespace of the library, defaults to `units`.
    When compiling with C++17 (or higher), this can be set to, e.g., `mynamespace::units` to avoid name clashes with other libraries defining `units`.

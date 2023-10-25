@@ -27,6 +27,10 @@ set(UNITS_TESTS
     test_google_units
 )
 
+if(NOT UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+    list(APPEND UNITS_TESTS test_r20)
+endif()
+
 set(TEST_FILE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/files)
 
 # /wd4459 is for a warning of a global m in google test. They won't interfere so ignore
@@ -68,6 +72,9 @@ else()
         target_compile_definitions(
             test_unit_strings PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
         )
+        if(NOT UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+            target_compile_definitions(test_r20 PUBLIC -DENABLE_UNIT_MAP_ACCESS=1)
+        endif()
 
         add_unit_test(test_leadingNumbers.cpp)
         target_link_libraries(

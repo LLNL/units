@@ -27,7 +27,8 @@ there are a few custom count units in use for specific clinical units Many of th
 So there is no translation to other units and cannot be converted except to multiple of the same unit.  There are often well established tests for these units but no good way to convert them to other units.  Many of these units come from `UCUM <https://unitsofmeasure.org/ucum.html>`_.
 
 -   custom_unit(37):  is `hounsfield units <https://radiopaedia.org/articles/hounsfield-unit?lang=us>`_ used it CT and radiology
--   many units in UCUM are defined like `[MPL'U]` or `[mclg'U]`  for this context they define some unit which doesn't interact with other units in any known fashion.  The notion used in the units library for string translations is that these define custom units.  Rather than individually define the library takes a hash of the part of the unit coming before the `'U]'` and generates a 10 bit hash.  That 10 bit hash is used as the custom code for the units.
+-   custom_unit(49):  is `erlang` used in telephone carrying capacity <https://en.wikipedia.org/wiki/Erlang_(unit)>`_
+-   many units in UCUM are defined like `[MPL'U]` or `[mclg'U]`  for this context they define some unit which doesn't interact with other units in any known fashion.  The notion used in the units library for string translations is that these define custom units.  Rather than individually defining them, the library takes a hash of the part of the unit coming before the `'U]'` and generates a 10 bit hash.  That 10 bit hash is used as the custom code for the units.
 -   custom_unit(77):  is global warming potential related to climate operations
 -   custom_unit(78):  is global temperature change potential
 

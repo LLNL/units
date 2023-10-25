@@ -183,3 +183,5 @@ TEST(commodities, unusualFromString)
     EXPECT_EQ(punit.commodity(), 0U);
     EXPECT_TRUE(precise::custom::is_custom_unit(punit.base_units()));
 }
+
+TEST(commodities, packaging) {}

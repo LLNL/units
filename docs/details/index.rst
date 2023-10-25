@@ -7,3 +7,4 @@ The Low Level Details of the Units library
 
    unit_base
    commodities
+   string_parsing_squared
