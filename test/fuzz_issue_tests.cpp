@@ -257,7 +257,7 @@ INSTANTIATE_TEST_SUITE_P(rtripFiles, rtripProblems, ::testing::Range(1, 37));
 
 TEST(fuzzFailures, rtripSingleProblems)
 {
-    auto cdata = loadFailureFile("rtrip_fail", 36);
+    auto cdata = loadFailureFile("rtrip_fail", 37);
     auto u1 = unit_from_string(cdata);
     if (!is_error(u1)) {
         auto str = to_string(u1);

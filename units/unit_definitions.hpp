@@ -1656,9 +1656,9 @@ namespace detail {
                 val *= 9.0 / 5.0;
                 val += 32.0;
             } else if (result.multiplier() != 1.0) {
-                if (result.multiplier() < 25.5 && result.multiplier() >= 0.0) {
+                if (result.multiplier() < 29.5 && result.multiplier() >= 0.0) {
                     val = (val -
-                           biasTable[static_cast<int>(start.multiplier())]) /
+                           biasTable[static_cast<int>(result.multiplier())]) /
                         result.multiplier();
                 } else {
                     val = val / result.multiplier();
