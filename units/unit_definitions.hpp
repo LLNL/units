@@ -6,6 +6,7 @@ SPDX-License-Identifier: BSD-3-Clause
 */
 #pragma once
 
+#include "commodity_definitions.hpp"
 #include "units_decl.hpp"
 
 #include <algorithm>
@@ -21,7 +22,7 @@ static_assert(
     "nan is used to signify invalid values");
 static_assert(
     std::numeric_limits<double>::has_infinity,
-    "nan is used to signify invalid values");
+    "infinity value is required for some constructs");
 namespace constants {
     constexpr double pi = 3.14159265358979323846;
     constexpr double tau = 2.0 * pi;
@@ -31,98 +32,6 @@ namespace constants {
     constexpr double standard_gravity = 9.80665;  // in m/s/s
     constexpr double speed_of_light = 299792458.0;  // speed of light in m/s
 }  // namespace constants
-
-/// basic commodity definitions
-namespace commodities {
-    // https://en.wikipedia.org/wiki/List_of_traded_commodities
-    enum commodity : std::uint32_t {
-        water = 1,
-        // metals
-        gold = 2,
-        copper = 4,
-        silver = 6,
-        platinum = 7,
-        palladium = 8,
-        zinc = 9,
-        tin = 10,
-        lead = 11,
-        aluminum = 12,
-        alluminum_alloy = 13,
-        nickel = 14,
-        cobolt = 15,
-        molybdenum = 16,
-        carbon = 17,
-
-        // energy
-        oil = 101,
-        heat_oil = 102,
-        nat_gas = 103,
-        brent_crude = 104,
-        ethanol = 105,
-        propane = 107,
-        // grains
-        wheat = 404,
-        corn = 405,
-        soybeans = 406,
-        soybean_meal = 407,
-        soybean_oil = 408,
-        oats = 409,
-        rice = 410,
-        red_wheat = 411,
-        spring_wheat = 412,
-        canola = 413,
-        rough_rice = 414,
-        rapeseed = 415,
-        adzuci = 418,
-        barley = 420,
-        // meats
-        live_cattle = 601,
-        feeder_cattle = 602,
-        lean_hogs = 603,
-        milk = 604,
-
-        // soft
-        cotton = 945,
-        orange_juice = 947,
-        sugar = 948,
-        sugar_11 = 949,
-        sugar_14 = 950,
-        coffee = 952,
-        cocoa = 961,
-        palm_oil = 971,
-        rubber = 999,
-        wool = 946,
-        lumber = 5007,
-
-        // other common unit blocks
-        people = 115125,
-        passenger = 115126,
-        particles = 117463,
-        vehicle = 43567,
-        freight = 56226,
-
-        // clinical
-        tissue = 4622626,
-        cell = 45236884,
-        embryo = 52632253,
-        Hahnemann = 2352622,
-        Korsakov = 262626562,
-        protein = 325255,
-        creatinine = 2566225,
-
-        // computer
-        pixel = 516115414,
-        voxel = 516115415,
-        errors = 516115418,
-        flop = 215262,
-        instruction = 452255,
-
-        // emmissions
-
-        // food
-        capsaicin = 623452,
-    };
-}  // namespace commodities
 
 namespace precise {
     // base units
@@ -165,25 +74,28 @@ namespace precise {
     constexpr precise_unit
         defunit(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0));
     constexpr precise_unit
-        invalid(detail::unit_data(nullptr), constants::invalid_conversion);
+        invalid(constants::invalid_conversion, detail::unit_data(nullptr));
     constexpr precise_unit error(detail::unit_data(nullptr));
 
     /// Define some unitless numbers
     constexpr precise_unit one;
     constexpr precise_unit hundred = precise_unit(100.0, one);
+    constexpr precise_unit thousand = precise_unit(1000.0, one);
     constexpr precise_unit ten = precise_unit(10.0, one);
+    constexpr precise_unit half = precise_unit(0.5, one);
+    constexpr precise_unit quarter = precise_unit(0.25, one);
     constexpr precise_unit percent(0.01, one);
     constexpr precise_unit ratio = one;
 
     constexpr precise_unit infinite(
-        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        constants::infinity);
+        constants::infinity,
+        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit neginfinite(
-        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        -constants::infinity);
+        -constants::infinity,
+        detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     constexpr precise_unit
-        nan(detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            constants::invalid_conversion);
+        nan(constants::invalid_conversion,
+            detail::unit_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     // SI prefixes as units
     constexpr precise_unit deci(1e-1, one);
     constexpr precise_unit centi(1e-2, one);
@@ -199,6 +111,7 @@ namespace precise {
     constexpr precise_unit quecto(1e-30, one);
 
     constexpr precise_unit deka(10, one);
+    constexpr precise_unit deca(10, one);
     constexpr precise_unit hecto(1e2, one);
     constexpr precise_unit kilo(1e3, one);
     constexpr precise_unit mega(1e6, one);
@@ -508,6 +421,7 @@ namespace precise {
         constexpr precise_unit hogshead{63.0, gallon};
         constexpr precise_unit cord{128.0, i::foot.pow(3)};
         constexpr precise_unit fifth{0.2, gallon};
+        constexpr precise_unit ale_gallon{282.0, i::inch.pow(3)};
 
         /// Us customary dry measurements
         namespace dry {
@@ -519,6 +433,7 @@ namespace precise {
             constexpr precise_unit barrel{7056, i::inch.pow(3)};
             constexpr precise_unit sack{3.0, bushel};
             constexpr precise_unit strike{2.0, bushel};
+            constexpr precise_unit winchester_gallon{268.8, precise::in.pow(3)};
         }  // namespace dry
         namespace grain {
             constexpr precise_unit bushel_corn{56.0, av::pound};
@@ -585,6 +500,7 @@ namespace precise {
         constexpr precise_unit rood{1011.7141056, m* m};
         // volume
         constexpr precise_unit gallon{4546.09, mL};
+        constexpr precise_unit winegallon{231.0, in.pow(3)};
         constexpr precise_unit quart{0.25, gallon};
         constexpr precise_unit pint{0.5, quart};
         constexpr precise_unit gill{0.25, pint};
@@ -593,13 +509,14 @@ namespace precise {
         constexpr precise_unit tbsp{0.5, floz};
         constexpr precise_unit tsp{1.0 / 3.0, tbsp};
 
-        constexpr precise_unit barrel{36.0, gallon};
+        constexpr precise_unit winebarrel{36.0, gallon};
+        constexpr precise_unit bbl{35.0, gallon, commodities::oil};
         constexpr precise_unit peck{2.0, gallon};
         constexpr precise_unit bushel{4.0, peck};
         constexpr precise_unit dram{1.0 / 8.0, floz};
         constexpr precise_unit minim{1.0 / 60.0, dram};
         // weight
-        constexpr precise_unit drachm{1.7718451953125, g};
+        constexpr precise_unit drachm{3.8879346, g};
         constexpr precise_unit stone{6350.29318, g};
         constexpr precise_unit hundredweight{112.0, av::pound};
         constexpr precise_unit ton{2240.0, av::pound};
@@ -801,8 +718,8 @@ namespace precise {
         constexpr precise_unit atm(101325.0, Pa);
         constexpr precise_unit psi{6894.757293168, Pa};
         constexpr precise_unit psig = psi * eflag;
-        constexpr precise_unit inHg{3376.849669, Pa};  // at 60 degF
-        constexpr precise_unit mmHg{133.322387415, Pa};
+        constexpr precise_unit mmHg{133.322387415, Pa};  // at 0 deg C
+        constexpr precise_unit inHg{25.4, mmHg};  // at 32 degF
         constexpr precise_unit torr{
             1.0 / 760.0,
             atm* iflag};  // this is really
@@ -813,6 +730,22 @@ namespace precise {
 
         constexpr precise_unit att = gm::at;  //!< technical atmosphere same as
                                               //!< gravitational metric system
+
+        namespace bases {
+            constexpr precise_unit water{inH2O / in};
+            constexpr precise_unit Hg{mmHg / mm};
+            constexpr precise_unit Hg_0 = Hg;
+            constexpr precise_unit Hg_4 =
+                precise_unit(98.0637795, Pa) / precise::cm;
+            constexpr precise_unit water_39 =
+                precise_unit(2988.98400, Pa) / precise::ft;
+            constexpr precise_unit water_4 = water_39;
+            constexpr precise_unit Hg_32 =
+                precise_unit(3383.93102, Pa) / precise::in;
+            constexpr precise_unit Hg_60 =
+                precise_unit(3376.84789, Pa) / precise::in;
+            constexpr precise_unit water_60 = water;
+        }  // namespace bases
     }  // namespace pressure
 
     // Power system units
@@ -843,7 +776,7 @@ namespace precise {
         constexpr precise_unit
             hpI(745.69987158227022, W);  // mechanical horsepower
         constexpr precise_unit hpS(9812.5, W);  // Boiler(steam) horsepower
-        constexpr precise_unit hpM(735.49875, W);  // Mechanical horsepower
+        constexpr precise_unit hpM(735.49875, W);  // metric horsepower
 
     }  // namespace power
 
@@ -1227,6 +1160,11 @@ namespace precise {
                     return std::pow(3.0, val);
                 case 15:
                     return std::exp(val / 0.5);
+                case 16:  // API Gravity
+                    return 141.5 / (val + 131.5);
+                case 17:  // degrees Baume
+                    return (val > 0.0) ? (140.0 / (130.0 + val)) :
+                                         (145.0 / (145.0 - val));
                 case 22:  // saffir simpson hurricane wind scale
                 {
                     double out = -0.17613636364;
@@ -1302,6 +1240,11 @@ namespace precise {
                     return std::log10(val) / std::log10(3);
                 case 15:
                     return 0.5 * (std::log)(val);
+                case 16:  // API Gravity
+                    return 141.5 / (val)-131.5;
+                case 17:  // degree Baume
+                    return (val > 1.0) ? (145.0 * (1.0 - 1 / val)) :
+                                         (140.0 / val - 130);
                 case 22:  // saffir simpson hurricane scale from wind speed
                 {  // using horners method on polynomial approximation of
                    // saffir-simpson wind speed scale
@@ -1359,7 +1302,7 @@ namespace precise {
         constexpr precise_unit met =
             precise_unit{3.5, mL / min / kg};  //!< metabolic equivalent
         constexpr precise_unit hounsfield = generate_custom_unit(37);
-
+        constexpr precise_unit AHF = generate_custom_unit(38);
     }  // namespace clinical
 
     /// Units used in chemical and biological laboratories
@@ -1464,6 +1407,13 @@ namespace precise {
         constexpr precise_unit rootMeter = precise_unit(
             detail::unit_data(-5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0));
 
+        // custom defined unit of loudness
+        constexpr precise_unit sone = generate_custom_unit(40);
+        // for measuring density in liquids(mainly petroleum products)
+        constexpr precise_unit degreeAPI =
+            precise_unit(custom::equation_unit(16)) * g / mL;
+        constexpr precise_unit degreeBaume =
+            precise_unit(custom::equation_unit(17)) * g / mL;
     }  // namespace special
 
     namespace other {
@@ -1471,7 +1421,7 @@ namespace precise {
         constexpr precise_unit ppm(1e-6, count);
         constexpr precise_unit ppb(1e-9, count);
 
-        constexpr precise_unit candle{0.981, cd};
+        constexpr precise_unit candle{0.98135426889107, cd};
         // 2019 redefinition
         constexpr precise_unit faraday{96485.3321233100184, C};
         // others
@@ -1487,6 +1437,8 @@ namespace precise {
         constexpr precise_unit gwp = generate_custom_unit(77);
         // global temperature change potential
         constexpr precise_unit gtp = generate_custom_unit(78);
+        // ozone depletion unit
+        constexpr precise_unit odp = generate_custom_unit(79);
     }  // namespace climate
     constexpr precise_unit rpm = other::rpm;
 }  // namespace precise
@@ -1515,7 +1467,7 @@ constexpr unit rad = unit_cast(precise::rad);
 
 constexpr unit defunit = unit_cast(precise::defunit);
 constexpr unit
-    invalid(detail::unit_data(nullptr), constants::invalid_conversion);
+    invalid(constants::invalid_conversion, detail::unit_data(nullptr));
 
 /// Check if a precise unit is a default unit
 constexpr inline bool is_default(const precise_unit& utest)
@@ -1569,6 +1521,8 @@ constexpr inline bool is_valid(const unit& utest)
 }
 
 // SI prefixes as units
+constexpr unit deci(0.1, one);
+constexpr unit centi(1e-2, one);
 constexpr unit milli(1e-3, one);
 constexpr unit micro(1e-6, one);
 constexpr unit nano(1e-9, one);
@@ -1702,9 +1656,9 @@ namespace detail {
                 val *= 9.0 / 5.0;
                 val += 32.0;
             } else if (result.multiplier() != 1.0) {
-                if (result.multiplier() < 25.5 && result.multiplier() >= 0.0) {
+                if (result.multiplier() < 29.5 && result.multiplier() >= 0.0) {
                     val = (val -
-                           biasTable[static_cast<int>(start.multiplier())]) /
+                           biasTable[static_cast<int>(result.multiplier())]) /
                         result.multiplier();
                 } else {
                     val = val / result.multiplier();
@@ -1992,15 +1946,19 @@ namespace detail {
     inline double
         otherUsefulConversions(double val, const UX& start, const UX2& result)
     {
-        if (start.has_same_base(N) && result.has_same_base(kg)) {
-            // weight to mass
-            return val * start.multiplier() / constants::standard_gravity /
-                result.multiplier();
-        }
-        if (start.has_same_base(kg) && result.has_same_base(N)) {
-            // mass to weight
-            return val * start.multiplier() * constants::standard_gravity /
-                result.multiplier();
+        if (start.base_units().kg() == result.base_units().kg()) {
+            if ((start.base_units() / result.base_units())
+                    .has_same_base((m / s.pow(2)).base_units())) {
+                // weight to mass
+                return val * start.multiplier() / constants::standard_gravity /
+                    result.multiplier();
+            }
+            if ((result.base_units() / start.base_units())
+                    .has_same_base((m / s.pow(2)).base_units())) {
+                // mass to weight
+                return val * start.multiplier() * constants::standard_gravity /
+                    result.multiplier();
+            }
         }
         if (unit_cast(start) == kilo) {
             if (result.has_same_base(kg)) {

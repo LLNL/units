@@ -4,10 +4,21 @@
 # See the top-level NOTICE for additional details. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-set(units_source_files units.cpp x12_conv.cpp r20_conv.cpp commodities.cpp)
 
-set(units_header_files units.hpp units_decl.hpp unit_definitions.hpp units_util.hpp
-                       units_conversion_maps.hpp units_math.hpp
+if(UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+    set(units_source_files units.cpp commodities.cpp)
+else()
+    set(units_source_files units.cpp commodities.cpp x12_conv.cpp r20_conv.cpp)
+endif()
+
+set(units_header_files
+    units.hpp
+    units_decl.hpp
+    unit_definitions.hpp
+    units_util.hpp
+    units_conversion_maps.hpp
+    units_math.hpp
+    commodity_definitions.hpp
 )
 
 include(GenerateExportHeader)
@@ -53,6 +64,9 @@ if(UNITS_BUILD_SHARED_LIBRARY)
     endif()
     if(UNITS_DISABLE_NON_ENGLISH_UNITS)
         target_compile_definitions(units PUBLIC -DUNITS_DISABLE_NON_ENGLISH_UNITS=1)
+    endif()
+    if(UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+        target_compile_definitions(units PUBLIC -DUNITS_DISABLE_EXTRA_UNIT_STANDARDS=1)
     endif()
     if(UNITS_DEFAULT_DOMAIN)
         target_compile_definitions(
@@ -100,6 +114,9 @@ elseif(UNITS_BUILD_OBJECT_LIBRARY)
     if(UNITS_DISABLE_NON_ENGLISH_UNITS)
         target_compile_definitions(units PUBLIC -DUNITS_DISABLE_NON_ENGLISH_UNITS=1)
     endif()
+    if(UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+        target_compile_definitions(units PUBLIC -DUNITS_DISABLE_EXTRA_UNIT_STANDARDS=1)
+    endif()
     if(${CMAKE_CXX_STANDARD} GREATER 16)
         target_compile_definitions(units PRIVATE -DUNITS_CONSTEXPR_IF_SUPPORTED=1)
     endif()
@@ -123,6 +140,9 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
     endif()
     if(UNITS_BASE_TYPE)
         target_compile_definitions(units PUBLIC -DUNITS_BASE_TYPE=${UNITS_BASE_TYPE})
+    endif()
+    if(UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
+        target_compile_definitions(units PUBLIC -DUNITS_DISABLE_EXTRA_UNIT_STANDARDS=1)
     endif()
     if(UNITS_DEFAULT_DOMAIN)
         target_compile_definitions(

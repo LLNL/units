@@ -111,7 +111,7 @@ namespace commodities {
         {aluminum, "aluminum"},
         {alluminum_alloy, "alluminum_alloy"},
         {nickel, "nickel"},
-        {cobolt, "cobolt"},
+        {cobalt, "cobalt"},
         {molybdenum, "molybdenum"},
 
         // energy
@@ -129,12 +129,11 @@ namespace commodities {
         {soybean_oil, "soybean_oil"},
         {oats, "oats"},
         {rice, "rice"},
-        {red_wheat, "red_wheat"},
-        {spring_wheat, "spring_wheat"},
+        {durum_wheat, "durum_wheat"},
         {canola, "canola"},
         {rough_rice, "rough_rice"},
         {rapeseed, "rapeseed"},
-        {adzuci, "adzuci"},
+        {adzuki, "adzuki"},
         {barley, "barley"},
         // meats
         {live_cattle, "live_cattle"},
@@ -147,7 +146,6 @@ namespace commodities {
         {orange_juice, "orange_juice"},
         {sugar, "sugar"},
         {sugar_11, "sugar_11"},
-        {sugar_14, "sugar_14"},
         {coffee, "coffee"},
         {cocoa, "cocoa"},
         {palm_oil, "palm_oil"},
@@ -157,7 +155,6 @@ namespace commodities {
 
         // other common unit blocks
         {people, "people"},
-        {particles, "particles"},
         {vehicle, "vehicle"},
 
         // clinical
@@ -201,7 +198,7 @@ namespace commodities {
         {"aluminum", aluminum},
         {"alluminum_alloy", alluminum_alloy},
         {"nickel", nickel},
-        {"cobolt", cobolt},
+        {"cobalt", cobalt},
         {"molybdenum", molybdenum},
         {"carbon", carbon},
 
@@ -220,12 +217,12 @@ namespace commodities {
         {"soybean_oil", soybean_oil},
         {"oats", oats},
         {"rice", rice},
-        {"red_wheat", red_wheat},
-        {"spring_wheat", spring_wheat},
+        {"durum_wheat", durum_wheat},
         {"canola", canola},
         {"rough_rice", rough_rice},
         {"rapeseed", rapeseed},
-        {"adzuci", adzuci},
+        {"adzuci", adzuki},
+        {"adzuki", adzuki},
         {"barley", barley},
         // meats
         {"live_cattle", live_cattle},
@@ -238,7 +235,6 @@ namespace commodities {
         {"orange_juice", orange_juice},
         {"sugar", sugar},
         {"sugar_11", sugar_11},
-        {"sugar_14", sugar_14},
         {"coffee", coffee},
         {"cocoa", cocoa},
         {"palm_oil", palm_oil},
@@ -248,7 +244,6 @@ namespace commodities {
 
         // other common unit blocks
         {"people", people},
-        {"particles", particles},
         {"cars", vehicle},
         {"vehicle", vehicle},
         // clinical
@@ -345,7 +340,7 @@ uint32_t getCommodity(std::string comm)
     }
 
     if (comm.compare(0, 7, "cxcomm[") == 0) {
-        return static_cast<int32_t>(atoi(comm.c_str() + 7));
+        return strtoul(comm.c_str() + 7, nullptr, 0);
     }
     if ((comm.size() < 6) && std::all_of(comm.begin(), comm.end(), [](char x) {
             return (x == ' ' || (x >= '_' && x <= '}'));
@@ -387,7 +382,7 @@ std::string getCommodityName(std::uint32_t commodity)
         return fnd->second;
     }
 
-    if ((commodity & 0x60000000U) == 0x40000000U) {
+    if ((commodity & 0x7C000000U) == 0x40000000U) {
         std::string ret;
         ret.push_back((commodity & 0X1FU) + '_');
         ret.push_back(((commodity >> 5U) & 0X1FU) + '_');

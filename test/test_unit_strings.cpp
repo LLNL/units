@@ -255,7 +255,7 @@ TEST(unitStrings, infinite)
 TEST(unitString, almostInfinite)
 {
     precise_unit almost_inf(
-        precise::s.pow(3) * precise::kg * precise::mol, 4.414e307);
+        4.414e307, precise::s.pow(3) * precise::kg * precise::mol);
 
     auto res = to_string(almost_inf);
     auto ai2 = unit_from_string(res);
@@ -480,6 +480,24 @@ TEST(stringToUnits, Simple)
     EXPECT_EQ(precise::m, unit_from_string("meter"));
 }
 
+TEST(stringToUnits, pressure)
+{
+    EXPECT_EQ(
+        unit_from_string("M[HG]"), unit_from_string("meter of mercury column"));
+    EXPECT_EQ(
+        unit_from_string("M[HG]", units::case_insensitive),
+        unit_from_string("meter of mercury column"));
+    EXPECT_EQ(unit_from_string("millimeter_Hg_0C"), precise::pressure::mmHg);
+    EXPECT_EQ(
+        unit_from_string("MM[HG]", units::case_insensitive),
+        unit_from_string("millimeter of mercury column"));
+}
+
+TEST(stringToUnit, fluid)
+{
+    EXPECT_EQ(unit_from_string("US_fluid_ounce"), precise::us::floz);
+}
+
 TEST(stringToUnits, withSpace)
 {
     EXPECT_EQ(precise::m.inv(), unit_from_string("1 /m"));
@@ -575,6 +593,12 @@ TEST(stringToUnits, specificCombinations)
     EXPECT_EQ(precise::kg * precise::L, unit_from_string("kg l"));
 }
 
+TEST(stringToUnits, barrels)
+{
+    EXPECT_EQ(
+        precise::kilo * precise::us::barrel / precise::day,
+        unit_from_string("kbbl (US)/d"));
+}
 TEST(stringToUnits, gasConstant)
 {
     auto rval = unit_from_string("J mol^-1 K^-1");
@@ -697,6 +721,15 @@ TEST(stringToUnits, words)
     EXPECT_EQ(
         precise::lm * precise::m.pow(2),
         unit_from_string("lumen square meter"));
+
+    EXPECT_EQ(
+        unit_from_string("ampere per square metre kelvin squared"),
+        precise::A / (m.pow(2) * K.pow(2)));
+
+    EXPECT_EQ(unit_from_string("reciprocal cubic meter"), precise::m.pow(-3));
+    EXPECT_EQ(
+        unit_from_string("sixty fourths of an inch"),
+        precise_unit(1.0 / 64.0, precise::in));
 }
 
 TEST(stringToUnits, exponentForms)
@@ -759,6 +792,12 @@ TEST(stringToUnits, interestingUnits)
 
     unit = unit_from_string("m per s2 per Hz^1/2");
     EXPECT_EQ(unit, precise::special::ASD);
+
+    unit = unit_from_string("tenth minute");
+    EXPECT_EQ(unit, precise_unit(6.0, precise::s));
+
+    unit = unit_from_string("fluid ounce(UK)");
+    EXPECT_EQ(unit, precise::imp::floz);
 }
 
 TEST(stringToUnits, customUnitforms)
@@ -794,6 +833,7 @@ TEST(stringToUnits, equivalents2)
 {
     EXPECT_EQ(unit_from_string("in us"), unit_from_string("in_us"));
     EXPECT_EQ(unit_from_string("us in"), unit_from_string("in_us"));
+    EXPECT_EQ(unit_from_string("[in_us]"), unit_from_string("inch - US"));
     EXPECT_EQ(unit_from_string("CXCUN[1]^-1"), unit_from_string("/[arb'U]"));
     EXPECT_EQ(
         unit_from_string("[CCID_50]"), unit_from_string("CCID<sub>50</sub> "));
@@ -821,8 +861,8 @@ TEST(stringToUnits, equivalents2)
     EXPECT_EQ(unit_from_string("per mins"), unit_from_string("/min"));
     EXPECT_EQ(unit_from_string("/100 WBCs"), unit_from_string("/100{WBCs}"));
 
-    //   EXPECT_EQ(unit_from_string("lumen meters squared"),
-    //   unit_from_string("lm.m2"));
+    EXPECT_EQ(
+        unit_from_string("lumen meters squared"), unit_from_string("lm.m2"));
 }
 
 TEST(stringToUnits, equivalents3)
@@ -844,6 +884,22 @@ TEST(stringToUnits, equivalents3)
     EXPECT_EQ(unit_from_string("\t\t\t\t \r\n\n"), precise::defunit);
     auto u3 = unit_from_string("2^345");
     EXPECT_EQ(u3.multiplier(), std::pow(2.0, 345.0));
+}
+
+TEST(stringToUnits, equivalents4)
+{
+    EXPECT_EQ(unit_from_string("[CAR_AU]"), unit_from_string("[car_Au]"));
+    EXPECT_EQ(unit_from_string("[bu_us]"), unit_from_string("bushel - US"));
+    EXPECT_EQ(
+        unit_from_string("[drp]"), unit_from_string("drop - metric (1/20 mL)"));
+    EXPECT_EQ(
+        unit_from_string("[in_i'Hg]"),
+        unit_from_string("inch of mercury column"));
+
+    EXPECT_EQ(
+        unit_cast(unit_from_string("nmol/mg{prot}")),
+        unit_cast(unit_from_string(
+            "nanomole of (1/2) cystine per milligram of protein")));
 }
 
 TEST(stringToUnits, electronVolt)
@@ -1048,6 +1104,74 @@ TEST(stringToUnits, rotSequences)
     auto u1 = unit_from_string("BTU_IT");
     EXPECT_EQ(u1, unit_from_string("BtuIT"));
     EXPECT_EQ(u1, unit_from_string("BTU-IT"));
+}
+
+TEST(stringToUnits, parentheticalModifier)
+{
+    auto u1 = unit_from_string("mile(statute)");
+    EXPECT_EQ(u1, precise::us::mile);
+    auto u2 = unit_from_string("mile (statute)");
+    EXPECT_EQ(u2, precise::us::mile);
+    auto u3 = unit_from_string("British thermal unit (thermochemical)");
+    EXPECT_EQ(u3, precise::energy::btu_th);
+}
+
+TEST(stringToUnit, handlingOfSquared)
+{
+    auto u1 = unit_from_string("square foot second");
+    EXPECT_EQ(u1, precise::ft.pow(2) * precise::s);
+
+    auto u2 = unit_from_string("pascal squared second");
+    EXPECT_EQ(u2, precise::Pa.pow(2) * precise::s);
+
+    auto u3 = unit_from_string("coulomb metre squared per volt");
+    EXPECT_EQ(u3, precise::C * precise::m.pow(2) / precise::V);
+
+    auto u4 = unit_from_string("ampere square metre per joule second");
+    EXPECT_EQ(u4, precise::A * precise::m.pow(2) / (precise::J * precise::s));
+
+    auto u5 =
+        unit_from_string("meter per square seconds per square root of hertz");
+    EXPECT_EQ(u5, precise::special::ASD);
+
+    auto u6 = unit_from_string("degree Fahrenheit hour square foot per British "
+                               "thermal unit (international table) inch");
+
+    EXPECT_EQ(
+        u6,
+        precise::degF * precise::hr * precise::ft.pow(2) /
+            precise::energy::btu_it / precise::in);
+
+    auto u7 = unit_from_string("gram square decimeter");
+    EXPECT_EQ(u7, g * (deci * m).pow(2));
+}
+
+TEST(stringToUnits, modifiedStrings)
+{
+    auto u1 = unit_from_string("linear yard");
+    u1.commodity(0);
+    EXPECT_EQ(u1, precise::yd);
+
+    auto u2 = unit_from_string("kilogram per millimetre");
+    EXPECT_EQ(u2, precise::kg / precise::mm);
+
+    auto u3 = unit_from_string("British thermal unit (59 degF)");
+    EXPECT_EQ(u3, precise::energy::btu_59);
+
+    auto u4 = unit_from_string("calorie (20 degC)");
+    EXPECT_EQ(u4, precise::energy::cal_20);
+
+    auto u5 = unit_from_string("nanometre");
+    EXPECT_EQ(u5, precise::nano * precise::m);
+
+    auto u6 = unit_from_string("ton (US) per hour");
+    EXPECT_EQ(u6, precise::ton / precise::hr);
+
+    auto u7 = unit_from_string("foot of water(39.2 degF)");
+    EXPECT_EQ(u7, precise_unit(2988.98400, Pa));
+
+    auto u8 = unit_from_string("[qt_us]");
+    EXPECT_EQ(u8, unit_from_string("[QT_US]"));
 }
 
 TEST(stringToUnits, addition)
@@ -1376,12 +1500,12 @@ TEST(userDefinedUnits, fileOp2)
                                           "/test_unit_files/other_units2.txt");
     EXPECT_TRUE(outputstr.empty());
     auto y1 = unit_from_string("yodles");
-    EXPECT_EQ(y1, precise_unit(count, 73.0));
+    EXPECT_EQ(y1, precise_unit(73.0, count));
 
     auto y2 = unit_from_string("yeedles");
-    EXPECT_EQ(y2, precise_unit(y1, 19.0));
+    EXPECT_EQ(y2, precise_unit(19.0, y1));
     auto y3 = unit_from_string("yimdles");
-    EXPECT_EQ(y3, precise_unit(y2, 12.0));
+    EXPECT_EQ(y3, precise_unit(12.0, y2));
     EXPECT_EQ(unit_from_string("yimdles"), unit_from_string("19*yodles*12"));
     clearUserDefinedUnits();
 }
@@ -1392,23 +1516,23 @@ TEST(userDefinedUnits, fileOp3)
                                           "/test_unit_files/other_units3.txt");
     EXPECT_TRUE(outputstr.empty());
     auto y1 = unit_from_string("bl==p");
-    EXPECT_EQ(y1, precise_unit(precise::us::cup, 18.7));
+    EXPECT_EQ(y1, precise_unit(18.7, precise::us::cup));
     EXPECT_EQ(to_string(y1), "bl==p");
 
     auto y2 = unit_from_string("y,,p");
-    EXPECT_EQ(y2, precise_unit(precise::ton, 9.0));
+    EXPECT_EQ(y2, precise_unit(9.0, precise::ton));
     EXPECT_EQ(to_string(y2), "y,,p");
 
     auto y3 = unit_from_string("'np");
-    EXPECT_EQ(y3, precise_unit(precise::kg, 14.0));
+    EXPECT_EQ(y3, precise_unit(14.0, precise::kg));
     EXPECT_EQ(to_string(y3), "'np");
 
     auto y4 = unit_from_string("j\"\"");
-    EXPECT_EQ(y4, precise_unit(precise::W, 13.5));
+    EXPECT_EQ(y4, precise_unit(13.5, precise::W));
     EXPECT_EQ(to_string(y4), "j\"\"");
 
     auto y5 = unit_from_string("q\"\"");
-    EXPECT_EQ(y5, precise_unit(precise::W, 15.5));
+    EXPECT_EQ(y5, precise_unit(15.5, precise::W));
     EXPECT_EQ(to_string(y5), "q\"\"");
     clearUserDefinedUnits();
 }

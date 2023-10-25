@@ -2278,6 +2278,11 @@ namespace detail {
     UNITS_EXPORT const std::unordered_map<std::string, precise_unit>&
         getUnitStringMap();
     UNITS_EXPORT const std::unordered_map<unit, const char*>& getUnitNameMap();
+
+#ifdef EXTRA_UNIT_STANDARDS
+    // get the raw array for testing the r20 database
+    const void* r20rawData(size_t& array_size);
+#endif
 }  // namespace detail
 #endif
 

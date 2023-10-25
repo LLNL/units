@@ -612,42 +612,43 @@ class unit {
     {
     }
     /// Construct unit from base unit and a multiplier
-    constexpr unit(const detail::unit_data& base_unit, double mult) :
-        base_units_(base_unit), multiplier_(static_cast<float>(mult))
+    constexpr unit(double mult, const detail::unit_data& base_unit) :
+        multiplier_(static_cast<float>(mult)), base_units_(base_unit)
     {
     }
     /// Construct unit from base unit and a multiplier
-    constexpr explicit unit(const detail::unit_data& base_unit, float mult) :
-        base_units_(base_unit), multiplier_(mult)
+    constexpr explicit unit(float mult, const detail::unit_data& base_unit) :
+        multiplier_(mult), base_units_(base_unit)
     {
     }
     /// Take the double and unit in either order for simplicity
     constexpr unit(double mult, const unit& other) :
-        unit(other.base_units_, mult * other.multiplier())
+        unit(mult * other.multiplier(), other.base_units_)
     {
     }
+
     /// Unit multiplication
     constexpr unit operator*(const unit& other) const
     {
         return {
-            base_units_ * other.base_units_, multiplier() * other.multiplier()};
+            multiplier() * other.multiplier(), base_units_ * other.base_units_};
     }
     /// Division operator
     constexpr unit operator/(const unit& other) const
     {
         return {
-            base_units_ / other.base_units_, multiplier() / other.multiplier()};
+            multiplier() / other.multiplier(), base_units_ / other.base_units_};
     }
     /// Invert the unit (take 1/unit)
     constexpr unit inv() const
     {
-        return {base_units_.inv(), 1.0 / multiplier()};
+        return {1.0 / multiplier(), base_units_.inv()};
     }
     /// take a unit to an integral power
     constexpr unit pow(int power) const
     {
         return unit{
-            base_units_.pow(power), detail::power_const(multiplier_, power)};
+            detail::power_const(multiplier_, power), base_units_.pow(power)};
     }
     /// Test for unit equivalence to within nominal numerical tolerance (6
     /// decimal digits)
@@ -732,38 +733,41 @@ class unit {
     /// generate a new unit but with per_unit flag
     constexpr unit add_per_unit() const
     {
-        return unit{base_units_.add_per_unit(), multiplier_};
+        return unit{multiplier_, base_units_.add_per_unit()};
     }
     /// generate a new unit but with i flag
     constexpr unit add_i_flag() const
     {
-        return unit{base_units_.add_i_flag(), multiplier_};
+        return unit{multiplier_, base_units_.add_i_flag()};
     }
     /// generate a new unit but with e flag
     constexpr unit add_e_flag() const
     {
-        return unit{base_units_.add_e_flag(), multiplier_};
+        return unit{multiplier_, base_units_.add_e_flag()};
     }
     /// generate a new unit but with per_unit flag set to 0
     constexpr unit clear_per_unit() const
     {
-        return unit{base_units_.clear_per_unit(), multiplier_};
+        return unit{multiplier_, base_units_.clear_per_unit()};
     }
     /// generate a new unit but with i flag set to 0
     constexpr unit clear_i_flag() const
     {
-        return unit{base_units_.clear_i_flag(), multiplier_};
+        return unit{multiplier_, base_units_.clear_i_flag()};
     }
     /// generate a new unit but with e flag set to 0
     constexpr unit clear_e_flag() const
     {
-        return unit{base_units_.clear_e_flag(), multiplier_};
+        return unit{
+            multiplier_,
+            base_units_.clear_e_flag(),
+        };
     }
 
   private:
     friend class precise_unit;
-    detail::unit_data base_units_{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     float multiplier_{1.0};
+    detail::unit_data base_units_{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 };
 
 /**Class defining a basic unit module with double precision on the multiplier.
@@ -780,117 +784,155 @@ class precise_unit {
         base_units_(base_unit)
     {
     }
+
+    /// Construct from multiplier, base_unit
+    constexpr precise_unit(
+        double mult,
+        const detail::unit_data& base_unit) noexcept :
+        multiplier_(mult),
+        base_units_(base_unit)
+    {
+    }
+
+    /// Construct from multiplier, base_unit, commodity
+    constexpr precise_unit(
+        double mult,
+        const detail::unit_data& base_unit,
+        std::uint32_t commodity_code) noexcept :
+        multiplier_(mult),
+        base_units_(base_unit), commodity_(commodity_code)
+    {
+    }
+
+    /// Construct from multiplier, base_unit, commodity
+    explicit constexpr precise_unit(
+        const detail::unit_data& base_unit,
+        std::uint32_t commodity_code) noexcept :
+        base_units_(base_unit),
+        commodity_(commodity_code)
+    {
+    }
+
     /// copy constructor from a less precise unit
     explicit constexpr precise_unit(const unit& other) noexcept :
-        base_units_(other.base_units_), multiplier_(other.multiplier())
+        multiplier_(other.multiplier()), base_units_(other.base_units_)
     {
     }
-    /// Construct from base_unit and multiplier
-    constexpr precise_unit(
-        const detail::unit_data& base_unit,
-        double mult) noexcept :
-        base_units_(base_unit),
-        multiplier_(mult)
-    {
-    }
-    /// Construct from base_unit, commodity and multiplier
-    constexpr precise_unit(
-        const detail::unit_data& base_unit,
-        std::uint32_t commodity_code,
-        double mult) noexcept :
-        base_units_(base_unit),
-        commodity_(commodity_code), multiplier_(mult)
-    {
-    }
-    /// Copy constructor with a multiplier
-    constexpr precise_unit(const precise_unit& other, double mult) noexcept :
-        precise_unit(
-            other.base_units_,
-            other.commodity_,
-            mult * other.multiplier_)
-    {
-    }
+
     /// Constructor for a double and other unit
-    constexpr precise_unit(const unit& other, double mult) noexcept :
-        precise_unit(other.base_units(), mult * other.multiplier())
+    constexpr precise_unit(double mult, const unit& other) noexcept :
+        precise_unit(mult * other.multiplier(), other.base_units())
     {
     }
+
+    /// Constructor for a double and other unit and commodity_code
+    constexpr precise_unit(
+        double mult,
+        const unit& other,
+        std::uint32_t commodity_code) noexcept :
+        precise_unit(
+            mult * other.multiplier(),
+            other.base_units(),
+            commodity_code)
+    {
+    }
+
+    /// Constructor for a double and other unit and commodity_code
+    explicit constexpr precise_unit(
+        const unit& other,
+        std::uint32_t commodity_code) noexcept :
+        precise_unit(other.multiplier(), other.base_units(), commodity_code)
+    {
+    }
+
     constexpr precise_unit(double mult, const precise_unit& other) noexcept :
         precise_unit(
+            mult * other.multiplier_,
             other.base_units_,
-            other.commodity_,
-            mult * other.multiplier_)
+            other.commodity_)
     {
     }
+
+    /// Copy constructor with a commodity
+    explicit constexpr precise_unit(
+        const precise_unit& other,
+        std::uint32_t commodity_code) noexcept :
+        precise_unit(
+            other.multiplier_,
+            other.base_units_,
+            commodity_code | other.commodity_)
+    {
+    }
+
     /// Build a unit from another with a multiplier and commodity
     constexpr precise_unit(
         double mult,
         const precise_unit& other,
         std::uint32_t commodity_code) noexcept :
         precise_unit(
+            mult * other.multiplier_,
             other.base_units_,
-            commodity_code,
-            mult * other.multiplier_)
+            commodity_code | other.commodity_)
     {
     }
-    /// Constructor for a double and other unit
-    constexpr precise_unit(double mult, const unit& other) noexcept :
-        precise_unit(other.base_units(), mult * other.multiplier())
-    {
-    }
+
     /// take the reciprocal of a unit
     constexpr precise_unit inv() const
     {
         return {
+            1.0 / multiplier(),
             base_units_.inv(),
             (commodity_ == 0) ? 0 : ~commodity_,
-            1.0 / multiplier()};
+        };
     }
     /// Multiply with another unit
     constexpr precise_unit operator*(const precise_unit& other) const
     {
         return {
+            multiplier() * other.multiplier(),
             base_units_ * other.base_units_,
             (commodity_ == 0) ?
                 other.commodity_ :
                 ((other.commodity_ == 0) ? commodity_ :
-                                           commodity_ & other.commodity_),
-            multiplier() * other.multiplier()};
+                                           commodity_ | other.commodity_),
+        };
     }
     /// Multiplication operator with a lower precision unit
     constexpr precise_unit operator*(const unit& other) const
     {
         return {
+            multiplier() * other.multiplier(),
             base_units_ * other.base_units_,
             commodity_,
-            multiplier() * other.multiplier()};
+        };
     }
     /// Division operator
     constexpr precise_unit operator/(const precise_unit& other) const
     {
         return {
+            multiplier() / other.multiplier(),
             base_units_ / other.base_units_,
             (commodity_ == 0) ?
                 ((other.commodity_ == 0) ? 0 : ~other.commodity_) :
                 ((other.commodity_ == 0) ? commodity_ :
                                            commodity_ & (~other.commodity_)),
-            multiplier() / other.multiplier()};
+        };
     }
     /// Divide by a less precise unit
     constexpr precise_unit operator/(const unit& other) const
     {
         return {
+            multiplier() / other.multiplier(),
             base_units_ / other.base_units_,
-            commodity_,
-            multiplier() / other.multiplier()};
+            commodity_};
     }
     /// take a unit to a power
     constexpr precise_unit pow(int power) const
     {
         return {
+            detail::power_const(multiplier_, power),
             base_units_.pow(power),
-            commodity_,
-            detail::power_const(multiplier_, power)};
+            commodity_};
     }
     /// Overloaded equality operator
     bool operator==(const precise_unit& other) const
@@ -1031,32 +1073,32 @@ class precise_unit {
     /// generate a new unit but with per_unit flag
     constexpr precise_unit add_per_unit() const
     {
-        return {base_units_.add_per_unit(), commodity_, multiplier_};
+        return {multiplier_, base_units_.add_per_unit(), commodity_};
     }
     /// generate a new unit but with i flag
     constexpr precise_unit add_i_flag() const
     {
-        return {base_units_.add_i_flag(), commodity_, multiplier_};
+        return {multiplier_, base_units_.add_i_flag(), commodity_};
     }
     /// generate a new unit but with e flag
     constexpr precise_unit add_e_flag() const
     {
-        return {base_units_.add_e_flag(), commodity_, multiplier_};
+        return {multiplier_, base_units_.add_e_flag(), commodity_};
     }
     /// generate a new unit but with per_unit flag set to 0
     constexpr precise_unit clear_per_unit() const
     {
-        return {base_units_.clear_per_unit(), commodity_, multiplier_};
+        return {multiplier_, base_units_.clear_per_unit(), commodity_};
     }
     /// generate a new unit but with i flag set to 0
     constexpr precise_unit clear_i_flag() const
     {
-        return {base_units_.clear_i_flag(), commodity_, multiplier_};
+        return {multiplier_, base_units_.clear_i_flag(), commodity_};
     }
     /// generate a new unit but with e flag set to 0
     constexpr precise_unit clear_e_flag() const
     {
-        return {base_units_.clear_e_flag(), commodity_, multiplier_};
+        return {multiplier_, base_units_.clear_e_flag(), commodity_};
     }
     /// Set the commodity
     precise_unit& commodity(std::uint32_t newCommodity)
@@ -1066,9 +1108,9 @@ class precise_unit {
     }
 
   private:
+    double multiplier_{1.0};  //!< unit multiplier
     detail::unit_data base_units_{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     std::uint32_t commodity_{0};  //!< a commodity specifier
-    double multiplier_{1.0};  //!< unit multiplier
 };
 
 /// Check if a unit down cast is lossless
@@ -1080,7 +1122,7 @@ inline constexpr bool is_unit_cast_lossless(const precise_unit& val)
 /// Downcast a precise unit to the less precise version
 constexpr unit unit_cast(const precise_unit& val)
 {
-    return {val.base_units(), val.multiplier()};
+    return {val.multiplier(), val.base_units()};
 }
 constexpr unit unit_cast(const unit& val)
 {

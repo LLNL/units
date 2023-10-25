@@ -64,7 +64,7 @@
 66666.66667
 33. fluid ounce (UK) [fl oz (UK)]:
 35195.07973
-34. barrel (UK) [bbl (UK)]:
+34. barrel (UK):
 6.110257
 35. gallon (UK) [gal (UK)]:
 219.969248
@@ -138,3 +138,5 @@
 0.0129794
 73. 1000 cubic feet [mcf]:
 0.03531467
+74. barrel oil (UK) [bbl (UK)]:
+6.28483
