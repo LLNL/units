@@ -1719,7 +1719,7 @@ namespace precise {
         unitD{"J53", "coulomb square metre per kilogram", C* m.pow(2) / kg},
         unitD{"J54", "megabaud", mega* bit / s},
         unitD{"J55", "watt second", W* s},
-        unitD{"J56", "bar per bar", pu*bar},
+        unitD{"J56", "bar per bar", pu* bar},
         unitD{"J57", "barrel (UK petroleum)", imp::bbl},
         unitD{"J58", "barrel (UK petroleum) per minute", imp::bbl / min},
         unitD{"J59", "barrel (UK petroleum) per day", imp::bbl / day},
