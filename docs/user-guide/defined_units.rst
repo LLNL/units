@@ -787,7 +787,7 @@ Some special units that were not otherwise characterized in namespace `units::pr
 - rootHertz - square root of Hertz, this is a special handling unit that triggers some specific behavior to handle it.
 - rootMeter - square root of meter, this is a special handling unit that triggers some specific behavior to handle it.
 - degreeAPI - API scale for measuring liquid density typically petroleum based products
-- degreeBaumeLight - scale for measuring liquid density for liquids lighter than water 
+- degreeBaumeLight - scale for measuring liquid density for liquids lighter than water
 - debreeBaumeHeavy - scale for measuring liquid density for liquids heavier than water
 
 

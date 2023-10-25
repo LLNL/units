@@ -600,35 +600,36 @@ TEST(otherEqUnits, unknownEQ)
     EXPECT_EQ(convert(1.927, eq20 * precise::W, eq20 * precise::W), 1.927);
 }
 
-
 TEST(otherEqUnits, APIgravity)
 {
-    auto apiG=precise::special::degreeAPI;
-    //gasoline
-    EXPECT_NEAR(convert(56.98,apiG,precise::g / precise::mL),0.7508,0.0001);
-    EXPECT_NEAR(convert(0.750743, precise::g / precise::mL,apiG),56.98,0.001);
-    //kerosene
-    EXPECT_NEAR(convert(50.9,apiG,precise::g / precise::mL),0.775768,0.0001);
-    EXPECT_NEAR(convert(0.775768,precise::g / precise::mL,apiG),50.9,0.001);
+    auto apiG = precise::special::degreeAPI;
+    // gasoline
+    EXPECT_NEAR(convert(56.98, apiG, precise::g / precise::mL), 0.7508, 0.0001);
+    EXPECT_NEAR(
+        convert(0.750743, precise::g / precise::mL, apiG), 56.98, 0.001);
+    // kerosene
+    EXPECT_NEAR(
+        convert(50.9, apiG, precise::g / precise::mL), 0.775768, 0.0001);
+    EXPECT_NEAR(convert(0.775768, precise::g / precise::mL, apiG), 50.9, 0.001);
 }
 
 TEST(otherEqUnits, degreeBaume)
 {
-    auto degBL=precise::special::degreeBaumeLight;
-    EXPECT_NEAR(convert(10,degBL,precise::g / precise::mL),1.0000,0.0001);
-    EXPECT_NEAR(convert(1.0000, precise::g / precise::mL,degBL),10.0,0.001);
-    EXPECT_NEAR(convert(26.075, degBL,precise::g / precise::mL),0.897,0.001);
-    EXPECT_NEAR(convert(0.897, precise::g / precise::mL,degBL),26.075,0.001);
-    EXPECT_NEAR(convert(43.91, degBL,precise::g / precise::mL),0.805,0.001);
-    EXPECT_NEAR(convert(0.805, precise::g / precise::mL,degBL),43.91,0.01);
-    
-    auto degBH=precise::special::degreeBaumeHeavy;
-    EXPECT_NEAR(convert(0,degBH,precise::g / precise::mL),1.0000,0.0001);
-    EXPECT_NEAR(convert(1.0000, precise::g / precise::mL,degBH),0.0,0.001);
-    EXPECT_NEAR(convert(15.0, degBH,precise::g / precise::mL),1.115,0.001);
-    EXPECT_NEAR(convert(1.115, precise::g / precise::mL,degBH),14.955,0.001);
-    EXPECT_NEAR(convert(69.0, degBH,precise::g / precise::mL),1.908,0.001);
-    EXPECT_NEAR(convert(1.908, precise::g / precise::mL,degBH),69.0,0.005);
+    auto degBL = precise::special::degreeBaumeLight;
+    EXPECT_NEAR(convert(10, degBL, precise::g / precise::mL), 1.0000, 0.0001);
+    EXPECT_NEAR(convert(1.0000, precise::g / precise::mL, degBL), 10.0, 0.001);
+    EXPECT_NEAR(convert(26.075, degBL, precise::g / precise::mL), 0.897, 0.001);
+    EXPECT_NEAR(convert(0.897, precise::g / precise::mL, degBL), 26.075, 0.001);
+    EXPECT_NEAR(convert(43.91, degBL, precise::g / precise::mL), 0.805, 0.001);
+    EXPECT_NEAR(convert(0.805, precise::g / precise::mL, degBL), 43.91, 0.01);
+
+    auto degBH = precise::special::degreeBaumeHeavy;
+    EXPECT_NEAR(convert(0, degBH, precise::g / precise::mL), 1.0000, 0.0001);
+    EXPECT_NEAR(convert(1.0000, precise::g / precise::mL, degBH), 0.0, 0.001);
+    EXPECT_NEAR(convert(15.0, degBH, precise::g / precise::mL), 1.115, 0.001);
+    EXPECT_NEAR(convert(1.115, precise::g / precise::mL, degBH), 14.955, 0.001);
+    EXPECT_NEAR(convert(69.0, degBH, precise::g / precise::mL), 1.908, 0.001);
+    EXPECT_NEAR(convert(1.908, precise::g / precise::mL, degBH), 69.0, 0.005);
 }
 
 #ifndef UNITS_HEADER_ONLY
