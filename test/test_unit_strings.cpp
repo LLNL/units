@@ -543,6 +543,25 @@ TEST(stringToUnits, Power)
     }
 }
 
+
+TEST(stringToUnits, morePower)
+{
+    EXPECT_EQ(precise::us::mile.pow(2), unit_from_string("mi(USA)^(2)"));
+}
+
+TEST(stringToUnits, specialUnits)
+{
+    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("percentkg"));
+    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("percentkilogram"));
+    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("percentmass"));
+    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("%kg"));
+    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("%kilogram"));
+    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("%mass"));
+
+    EXPECT_EQ(precise::pu*precise::kg, unit_from_string("perunitkilogram"));
+    EXPECT_EQ(precise::pu*precise::kg, unit_from_string("perunitkg"));
+}
+
 TEST(stringToUnits, mult)
 {
     EXPECT_EQ(precise::m.pow(2), unit_from_string("m*m"));
@@ -730,6 +749,14 @@ TEST(stringToUnits, words)
     EXPECT_EQ(
         unit_from_string("sixty fourths of an inch"),
         precise_unit(1.0 / 64.0, precise::in));
+
+    EXPECT_EQ(
+        unit_from_string("sixty fourths of a   mile"),
+        precise_unit(1.0 / 64.0, precise::mile));
+
+    EXPECT_EQ(
+        unit_from_string("thirty-seconds of a yard"),
+        precise_unit(1.0 / 32.0, precise::yd));
 }
 
 TEST(stringToUnits, exponentForms)
@@ -753,6 +780,11 @@ TEST(stringToUnits, exponentForms)
     EXPECT_EQ(precise::cm.pow(5), unit_from_string("cm5"));
     EXPECT_EQ(
         unit_from_string("CM2", case_insensitive), unit_from_string("cm2"));
+}
+
+TEST(stringToUnits, invalidStrings)
+{
+    EXPECT_FALSE(is_valid(unit_from_string("Mik")));
 }
 
 TEST(stringToUnits, complex)

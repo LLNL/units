@@ -4845,6 +4845,53 @@ static inline std::uint64_t getMinPartitionSize(std::uint64_t match_flags)
     return (match_flags & minimum_partition_size7) >>
         detail::minPartionSizeShift;
 }
+static precise_unit checkPerModifications(std::string unit_string, std::uint64_t match_flags)
+{
+    if (unit_string.compare(0, 7, "percent") == 0)
+    {
+        auto bunit = default_unit(unit_string.substr(7));
+        if (is_valid(bunit)) {
+            return precise::percent * precise::pu * bunit;
+        }
+        bunit = unit_from_string_internal(
+            unit_string.substr(7), match_flags | minimum_partition_size3);
+        if (is_valid(bunit)) {
+            return precise::percent * precise::pu * bunit;
+        }
+
+    }
+    if (unit_string.compare(0, 7, "perunit") == 0)
+    {
+        auto bunit = default_unit(unit_string.substr(7));
+        if (is_valid(bunit)) {
+            return  precise::pu * bunit;
+        }
+        bunit = unit_from_string_internal(
+            unit_string.substr(7), match_flags | minimum_partition_size3);
+        if (is_valid(bunit)) {
+            return precise::pu * bunit;
+        }
+
+    }
+    // try changing out any "per" words for division sign
+    if ((match_flags & no_per_operators) == 0) {
+
+            auto fnd = findWordOperatorSep(unit_string, "per");
+            if (fnd != std::string::npos) {
+                if (fnd == 0) {
+                    unit_string.replace(fnd, 3, "1/");
+                } else {
+                    unit_string.replace(fnd, 3, "/");
+                }
+                auto retunit =
+                    unit_from_string_internal(unit_string, match_flags + per_operator1);
+                if (!is_error(retunit)) {
+                    return retunit;
+                }
+            }
+    }
+    return precise::invalid;
+}
 
 static precise_unit
     checkSpecialUnits(const std::string& unit_string, std::uint64_t match_flags)
@@ -4868,38 +4915,29 @@ static precise_unit
             return precise::A * bunit;
         }
     }
-    if (unit_string.compare(0, 7, "percent") == 0) {
-        auto bunit = unit_from_string_internal(
-            unit_string.substr(7), match_flags | minimum_partition_size3);
-        if (is_valid(bunit)) {
-            return precise::percent * pu * bunit;
-        }
-        bunit = default_unit(unit_string.substr(7));
-        if (is_valid(bunit)) {
-            return precise::percent * pu * bunit;
-        }
-    }
     if (unit_string.front() == '%') {
-        auto bunit = unit_from_string_internal(
+        auto bunit = default_unit(unit_string.substr(1));
+        if (is_valid(bunit)) {
+            return precise::percent * precise::pu * bunit;
+        }
+        bunit = unit_from_string_internal(
             unit_string.substr(1), match_flags | minimum_partition_size3);
         if (is_valid(bunit)) {
             return precise::percent * precise::pu * bunit;
         }
-        bunit = default_unit(unit_string.substr(1));
-        if (is_valid(bunit)) {
-            return precise::percent * precise::pu * bunit;
-        }
+        
     }
     if (unit_string.compare(0, 7, "perunit") == 0) {
-        auto bunit = unit_from_string_internal(
+        auto bunit = default_unit(unit_string.substr(7));
+        if (is_valid(bunit)) {
+            return precise::pu * bunit;
+        }
+        bunit = unit_from_string_internal(
             unit_string.substr(7), match_flags | minimum_partition_size3);
         if (is_valid(bunit)) {
             return precise::pu * bunit;
         }
-        bunit = default_unit(unit_string.substr(7));
-        if (is_valid(bunit)) {
-            return precise::pu * bunit;
-        }
+        
     }
     return precise::invalid;
 }
@@ -5746,24 +5784,15 @@ static precise_unit unit_from_string_internal(
             }
         }
     }
-
-    // try changing out any "per" words for division sign
-    if (containsPer && (match_flags & no_per_operators) == 0) {
-        auto fnd = findWordOperatorSep(unit_string, "per");
-        if (fnd != std::string::npos) {
-            ustring = unit_string;
-            if (fnd == 0) {
-                ustring.replace(fnd, 3, "1/");
-            } else {
-                ustring.replace(fnd, 3, "/");
-            }
-            retunit =
-                unit_from_string_internal(ustring, match_flags + per_operator1);
-            if (!is_error(retunit)) {
-                return retunit;
-            }
+    if (containsPer)
+    {
+        retunit=checkPerModifications(unit_string,match_flags);
+        if (is_valid(retunit))
+        {
+            return retunit;
         }
     }
+    
 
     // remove trailing 's'
     if (unit_string.back() == 's') {
@@ -5797,11 +5826,7 @@ static precise_unit unit_from_string_internal(
             } else {
                 sloc = ustring.find_first_of(
                     getMatchCharacter(ustring[sloc]), sloc);
-                if (sloc == std::string::npos) {
-                    ustring.push_back('}');
-                } else {
-                    ustring.insert(sloc + 1, 1, '}');
-                }
+                ustring.insert((sloc == std::string::npos)?ustring.size():sloc + 1, 1, '}');
             }
 
             auto cunit =
