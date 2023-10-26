@@ -2881,39 +2881,6 @@ static precise_unit
     return precise::invalid;
 }
 
-// just ignore some modifiers that might be assumed in particular units
-static precise_unit ignoreModifiers(std::string unit, std::uint64_t match_flags)
-{
-    using igpair = std::pair<const char*, int>;
-
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<igpair, 1> ignore_word{{
-        igpair{"liquid", 6},
-    }};
-    bool changed = false;
-    for (const auto& irep : ignore_word) {
-        auto fnd = unit.find(irep.first);
-        if (fnd != std::string::npos) {
-            if (irep.second == static_cast<int>(unit.size())) {
-                // this is a modifier if we are checking the entire unit this is
-                // automatically false
-                return precise::invalid;
-            }
-            unit.erase(fnd, irep.second);
-            changed = true;
-            break;
-        }
-    }
-    if (changed) {
-        auto retunit = localityModifiers(unit, match_flags);
-        if (!is_error(retunit)) {
-            return retunit;
-        }
-        return unit_from_string_internal(
-            unit, match_flags | no_locality_modifiers | no_of_operator);
-    }
-    return precise::invalid;
-}
-
 /// detect some known SI prefixes
 static std::pair<double, size_t>
     getPrefixMultiplierWord(const std::string& unit)
@@ -5879,14 +5846,6 @@ static precise_unit unit_from_string_internal(
     if ((match_flags & no_locality_modifiers) == 0) {
         retunit =
             localityModifiers(unit_string, match_flags | skip_partition_check);
-        if (!is_error(retunit)) {
-            return retunit;
-        }
-    }
-
-    if ((match_flags & no_locality_modifiers) == 0) {
-        retunit =
-            ignoreModifiers(unit_string, match_flags | skip_partition_check);
         if (!is_error(retunit)) {
             return retunit;
         }
