@@ -594,6 +594,7 @@ TEST(otherEqUnits, unknownEQ)
     auto eq21 = precise_unit(precise::custom::equation_unit(22));
     EXPECT_EQ(convert(1.92, eq20, precise::one), 1.92);
 
+    EXPECT_EQ(convert(1.92, precise::one, eq20), 1.92);
     auto conv7 = convert(7.0, eq21, eq20 * precise::W);
     EXPECT_TRUE(std::isnan(conv7));
 
