@@ -543,7 +543,6 @@ TEST(stringToUnits, Power)
     }
 }
 
-
 TEST(stringToUnits, morePower)
 {
     EXPECT_EQ(precise::us::mile.pow(2), unit_from_string("mi(USA)^(2)"));
@@ -551,15 +550,26 @@ TEST(stringToUnits, morePower)
 
 TEST(stringToUnits, specialUnits)
 {
-    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("percentkg"));
-    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("percentkilogram"));
-    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("percentmass"));
-    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("%kg"));
-    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("%kilogram"));
-    EXPECT_EQ(precise::percent*precise::pu*precise::kg, unit_from_string("%mass"));
+    EXPECT_EQ(
+        precise::percent * precise::pu * precise::kg,
+        unit_from_string("percentkg"));
+    EXPECT_EQ(
+        precise::percent * precise::pu * precise::kg,
+        unit_from_string("percentkilogram"));
+    EXPECT_EQ(
+        precise::percent * precise::pu * precise::kg,
+        unit_from_string("percentmass"));
+    EXPECT_EQ(
+        precise::percent * precise::pu * precise::kg, unit_from_string("%kg"));
+    EXPECT_EQ(
+        precise::percent * precise::pu * precise::kg,
+        unit_from_string("%kilogram"));
+    EXPECT_EQ(
+        precise::percent * precise::pu * precise::kg,
+        unit_from_string("%mass"));
 
-    EXPECT_EQ(precise::pu*precise::kg, unit_from_string("perunitkilogram"));
-    EXPECT_EQ(precise::pu*precise::kg, unit_from_string("perunitkg"));
+    EXPECT_EQ(precise::pu * precise::kg, unit_from_string("perunitkilogram"));
+    EXPECT_EQ(precise::pu * precise::kg, unit_from_string("perunitkg"));
 }
 
 TEST(stringToUnits, mult)
