@@ -786,6 +786,9 @@ Some special units that were not otherwise characterized in namespace `units::pr
 - mach - mach number(multiplier of the speed of sound)
 - rootHertz - square root of Hertz, this is a special handling unit that triggers some specific behavior to handle it.
 - rootMeter - square root of meter, this is a special handling unit that triggers some specific behavior to handle it.
+- degreeAPI - API scale for measuring liquid density typically petroleum based products
+- degreeBaumeLight - scale for measuring liquid density for liquids lighter than water
+- debreeBaumeHeavy - scale for measuring liquid density for liquids heavier than water
 
 
 Other Units
@@ -807,6 +810,7 @@ Units related to climate in namespace `units::precise::climate`
 
 - gwp - global warming potential
 - gtp - global temperature potential
+- odp - ozone depletion unit
 
 Speed Units
 ============================

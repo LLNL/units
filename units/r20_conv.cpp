@@ -1613,9 +1613,9 @@ namespace precise {
         unitD{"J10", "percent per millimetre", percent / mm},
         unitD{"J12", "per mille per psi", {0.001, pressure::psi.inv()}},
         unitD{"J13", "degree API", special::degreeAPI},
-        unitD{"J14", "degree Baume", special::degreeBaume},
-        unitD{"J15", "degree Baume (US heavy)", special::degreeBaume},
-        unitD{"J16", "degree Baume (US light)", special::degreeBaume},
+        unitD{"J14", "degree Baume", special::degreeBaumeLight},
+        unitD{"J15", "degree Baume (US heavy)", special::degreeBaumeLight},
+        unitD{"J16", "degree Baume (US light)", special::degreeBaumeHeavy},
         unitD{
             "J17",
             "degree Balling",
