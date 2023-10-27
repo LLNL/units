@@ -570,6 +570,9 @@ TEST(stringToUnits, specialUnits)
 
     EXPECT_EQ(precise::pu * precise::kg, unit_from_string("perunitkilogram"));
     EXPECT_EQ(precise::pu * precise::kg, unit_from_string("perunitkg"));
+    EXPECT_EQ(precise::pu * precise::kg, unit_from_string("pukilogram"));
+    EXPECT_EQ(precise::pu * precise::kg, unit_from_string("pukg"));
+    EXPECT_EQ(precise::pu * precise::kg, unit_from_string("pumass"));
 }
 
 TEST(stringToUnits, mult)
@@ -1216,6 +1219,11 @@ TEST(stringToUnit, handlingOfSquared)
 
     auto u7 = unit_from_string("gram square decimeter");
     EXPECT_EQ(u7, g * (deci * m).pow(2));
+}
+
+TEST(stringToUnits, bracketExpansion)
+{
+    EXPECT_EQ(unit_from_string("B(SPL)"), unit_from_string("B[SPL]"));
 }
 
 TEST(stringToUnits, modifiedStrings)

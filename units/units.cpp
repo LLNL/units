@@ -2654,6 +2654,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"angle", "ang"},
     ckpair{"unitofangle", "ang"},
     ckpair{"unit of angle", "ang"},
+    ckpair{"planeangle", "ang"},
     ckpair{"H2O", "H2O"},
     ckpair{"water", "H2O"},
     ckpair{"Hg", "Hg"},
@@ -2668,11 +2669,18 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"cooling", "cooling"},
     ckpair{"cloth", "cloth"},
     ckpair{"clothing", "cloth"},
+    ckpair{"SPL", "SPL"},
+    ckpair{"10.nV", "tnv"},
+    ckpair{"10nV", "tnv"},
+    ckpair{"10*nV", "tnv"},
+    ckpair{"10*NV", "tnv"},
     ckpair{"15degC", "[15]"},
     ckpair{"20degC", "[20]"},
     ckpair{"59degF", "[59]"},
     ckpair{"60degF", "[60]"},
     ckpair{"39degF", "[39]"},
+    ckpair{"20degC", "[20]"},
+    ckpair{"20C", "[20]"},
     ckpair{"23degC", "[23]"},
     ckpair{"23 degC", "[23]"},
     ckpair{"0degC", "[00]"},
@@ -4387,7 +4395,7 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             ckpair{"deg ", "deg"},
         }};
 
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 31>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 33>
         allCodeReplacements{{
             ckpair{"sq.", "square"},
             ckpair{"cu.", "cubic"},
@@ -4417,7 +4425,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             // \\ is always considered a segment terminator so it won't be
             // misinterpreted as a known escape sequence
             ckpair{"perunit", "pu"},
+            ckpair{"percent", "%"},
             ckpair{"per-unit", "pu"},
+            ckpair{"per unit ", "pu"},
             ckpair{"/square*", "/square"},
             ckpair{"/cubic*", "/cubic"},
             ckpair{"Hz^0.5", "rootHertz"},
@@ -4852,28 +4862,6 @@ static inline std::uint64_t getMinPartitionSize(std::uint64_t match_flags)
 static precise_unit
     checkPerModifications(std::string unit_string, std::uint64_t match_flags)
 {
-    if (unit_string.compare(0, 7, "percent") == 0) {
-        auto bunit = default_unit(unit_string.substr(7));
-        if (is_valid(bunit)) {
-            return precise::percent * precise::pu * bunit;
-        }
-        bunit = unit_from_string_internal(
-            unit_string.substr(7), match_flags | minimum_partition_size3);
-        if (is_valid(bunit)) {
-            return precise::percent * precise::pu * bunit;
-        }
-    }
-    if (unit_string.compare(0, 7, "perunit") == 0) {
-        auto bunit = default_unit(unit_string.substr(7));
-        if (is_valid(bunit)) {
-            return precise::pu * bunit;
-        }
-        bunit = unit_from_string_internal(
-            unit_string.substr(7), match_flags | minimum_partition_size3);
-        if (is_valid(bunit)) {
-            return precise::pu * bunit;
-        }
-    }
     // try changing out any "per" words for division sign
     if ((match_flags & no_per_operators) == 0) {
         auto fnd = findWordOperatorSep(unit_string, "per");
@@ -4926,13 +4914,13 @@ static precise_unit
             return precise::percent * precise::pu * bunit;
         }
     }
-    if (unit_string.compare(0, 7, "perunit") == 0) {
-        auto bunit = default_unit(unit_string.substr(7));
+    if (unit_string.compare(0, 2, "pu") == 0) {
+        auto bunit = default_unit(unit_string.substr(2));
         if (is_valid(bunit)) {
             return precise::pu * bunit;
         }
         bunit = unit_from_string_internal(
-            unit_string.substr(7), match_flags | minimum_partition_size3);
+            unit_string.substr(2), match_flags | minimum_partition_size3);
         if (is_valid(bunit)) {
             return precise::pu * bunit;
         }
@@ -5530,6 +5518,13 @@ static precise_unit unit_from_string_internal(
             b_unit = unit_from_string_internal(
                 unit_string.substr(sep + 1), match_flags - recursion_modifier);
             if (!is_valid(b_unit)) {
+                if ((unit_string[sep] == '*') &&
+                    (a_unit == precise::pu || a_unit == precise::percent)) {
+                    b_unit = default_unit(unit_string.substr(sep + 1));
+                    if (is_valid(b_unit)) {
+                        return a_unit * b_unit;
+                    }
+                }
                 return precise::invalid;
             }
         }
