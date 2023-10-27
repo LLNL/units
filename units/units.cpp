@@ -3529,7 +3529,8 @@ static bool isolatePriorModifier(
     if (modfind != std::string::npos) {
         auto offset = modfind + modifier.size();
         // LCOV_EXCL_START
-        //this condition is not used in current use cases but it is dangerous to make assumptions that will always be the case
+        // this condition is not used in current use cases but it is dangerous
+        // to make assumptions that will always be the case
         if (modifier.back() != ' ') {
             ++offset;
         }
@@ -4759,7 +4760,7 @@ static bool modifyTailCodes(std::string& unit_string)
                 ckpair{"4C", "[04]"},
                 ckpair{"at0C", "[00]"},
                 ckpair{"0C", "[00]"},
-                
+
             }};
 
         for (const auto& endTemp : trailTempCodeReplacements) {
@@ -5693,8 +5694,7 @@ static precise_unit unit_from_string_internal(
         }
     }
 
-    if (modifyTailCodes(unit_string))
-    {
+    if (modifyTailCodes(unit_string)) {
         retunit = get_unit(unit_string, match_flags);
         if (!is_error(retunit)) {
             return retunit;
