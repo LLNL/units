@@ -2709,11 +2709,6 @@ bool bracketModifiers(std::string& unit_string)
 
                 unit_string.replace(ploc + 1, cloc - ploc, modloc->second);
                 unit_string[ploc] = '_';
-                if (unit_string[ploc - 1] == ' ') {
-                    unit_string.erase(ploc - 1, 1);
-                    --ploc;
-                }
-
                 modified = true;
             }
             ploc = unit_string.find_first_of(seg[0], ploc + 1);
@@ -3533,9 +3528,13 @@ static bool isolatePriorModifier(
     auto modfind = unit_string.find(modifier);
     if (modfind != std::string::npos) {
         auto offset = modfind + modifier.size();
+        // LCOV_EXCL_START
+        // this condition is not used in current use cases but it is dangerous
+        // to make assumptions that will always be the case
         if (modifier.back() != ' ') {
             ++offset;
         }
+        // LCOV_EXCL_STOP
         auto kloc = unit_string.find_first_not_of(' ', offset);
         if (kloc != std::string::npos &&
             (unit_string[kloc] == check1 || unit_string[kloc] == check2)) {
@@ -4743,22 +4742,25 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
     return (changed || unit_string.size() != slen);
 }
 
-static void modifyTailCodes(std::string& unit_string)
+static bool modifyTailCodes(std::string& unit_string)
 {
     if (!unit_string.empty() &&
         (unit_string.back() == 'F' || unit_string.back() == 'C')) {
-        static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 10>
+        static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 12>
             trailTempCodeReplacements{{
                 ckpair{"at39F", "[39]"},
                 ckpair{"39F", "[39]"},
                 ckpair{"at60F", "[60]"},
                 ckpair{"60F", "[60]"},
-                ckpair{"at0C", "[00]"},
-                ckpair{"0C", "[00]"},
+                ckpair{"at20C", "[20]"},
+                ckpair{"20C", "[20]"},
                 ckpair{"at23C", "[23]"},
                 ckpair{"23C", "[23]"},
                 ckpair{"at4C", "[04]"},
                 ckpair{"4C", "[04]"},
+                ckpair{"at0C", "[00]"},
+                ckpair{"0C", "[00]"},
+
             }};
 
         for (const auto& endTemp : trailTempCodeReplacements) {
@@ -4769,9 +4771,11 @@ static void modifyTailCodes(std::string& unit_string)
                 if (unit_string[unit_string.size() - 5] != '_') {
                     unit_string.insert(unit_string.size() - 4, 1, '_');
                 }
+                return true;
             }
         }
     }
+    return false;
 }
 
 /// cleanup phase 2 if things still aren't working
@@ -5690,7 +5694,12 @@ static precise_unit unit_from_string_internal(
         }
     }
 
-    modifyTailCodes(unit_string);
+    if (modifyTailCodes(unit_string)) {
+        retunit = get_unit(unit_string, match_flags);
+        if (!is_error(retunit)) {
+            return retunit;
+        }
+    }
 
     if (!containsPer) {
         retunit = checkMultiplierCharacter(unit_string, match_flags, '-');

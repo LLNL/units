@@ -944,6 +944,11 @@ TEST(stringToUnits, equivalents4)
             "nanomole of (1/2) cystine per milligram of protein")));
 }
 
+TEST(stringToUnits, commodityConsiderations)
+{
+    auto ut = unit_from_string("mile(USA){\\{}");
+    EXPECT_NE(ut.commodity(), 0U);
+}
 TEST(stringToUnits, electronVolt)
 {
     EXPECT_EQ(unit_from_string("eV"), precise::energy::eV);
@@ -1166,8 +1171,33 @@ TEST(stringToUnit, handlingOfSquared)
     auto u2 = unit_from_string("pascal squared second");
     EXPECT_EQ(u2, precise::Pa.pow(2) * precise::s);
 
+    auto u2b = unit_from_string("pascal squared per second squared");
+    EXPECT_EQ(u2b, precise::Pa.pow(2) / precise::s.pow(2));
+
+    auto u2c = unit_from_string("pascal squared per second squared per kg");
+    EXPECT_EQ(u2c, precise::Pa.pow(2) / precise::s.pow(2) / precise::kg);
+
+    auto u2d = unit_from_string("pascal cubed second");
+    EXPECT_EQ(u2d, precise::Pa.pow(3) * precise::s);
+
+    auto u2e = unit_from_string("pascal cubed per second cubed");
+    EXPECT_EQ(u2e, precise::Pa.pow(3) / precise::s.pow(3));
+
+    auto u2f = unit_from_string("pascal squared per second squared per kg");
+    EXPECT_EQ(u2f, precise::Pa.pow(2) / precise::s.pow(2) / precise::kg);
+
+    auto u2g = unit_from_string("pascal squared / second squared / kg");
+    EXPECT_EQ(u2g, precise::Pa.pow(2) / precise::s.pow(2) / precise::kg);
+
     auto u3 = unit_from_string("coulomb metre squared per volt");
     EXPECT_EQ(u3, precise::C * precise::m.pow(2) / precise::V);
+
+    auto u3v = unit_from_string(
+        "kg per coulomb metre squared per second squared per volt");
+    EXPECT_EQ(
+        u3v,
+        precise::kg / (precise::C * precise::m.pow(2)) / precise::V /
+            precise::s.pow(2));
 
     auto u4 = unit_from_string("ampere square metre per joule second");
     EXPECT_EQ(u4, precise::A * precise::m.pow(2) / (precise::J * precise::s));
@@ -1214,6 +1244,21 @@ TEST(stringToUnits, modifiedStrings)
 
     auto u8 = unit_from_string("[qt_us]");
     EXPECT_EQ(u8, unit_from_string("[QT_US]"));
+}
+
+TEST(stringToUnits, tempString)
+{
+    auto u4 = unit_from_string("calorie (20 degC)");
+    EXPECT_EQ(u4, precise::energy::cal_20);
+
+    u4 = unit_from_string("calorie 20C");
+    EXPECT_EQ(u4, precise::energy::cal_20);
+
+    u4 = unit_from_string("calorie at 20C");
+    EXPECT_EQ(u4, precise::energy::cal_20);
+
+    u4 = unit_from_string("calorie_20C");
+    EXPECT_EQ(u4, precise::energy::cal_20);
 }
 
 TEST(stringToUnits, addition)
