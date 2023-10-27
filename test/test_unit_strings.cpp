@@ -1223,7 +1223,7 @@ TEST(stringToUnit, handlingOfSquared)
 
 TEST(stringToUnits, bracketExpansion)
 {
-    EXPECT_EQ(unit_from_string("B(SPL)"),unit_from_string("B[SPL]"));
+    EXPECT_EQ(unit_from_string("B(SPL)"), unit_from_string("B[SPL]"));
 }
 
 TEST(stringToUnits, modifiedStrings)

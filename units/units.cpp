@@ -2669,11 +2669,11 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"cooling", "cooling"},
     ckpair{"cloth", "cloth"},
     ckpair{"clothing", "cloth"},
-    ckpair{"SPL","SPL"},
-        ckpair{"10.nV","tnv"},
-        ckpair{"10nV","tnv"},
-        ckpair{"10*nV","tnv"},
-        ckpair{"10*NV","tnv"},
+    ckpair{"SPL", "SPL"},
+    ckpair{"10.nV", "tnv"},
+    ckpair{"10nV", "tnv"},
+    ckpair{"10*nV", "tnv"},
+    ckpair{"10*NV", "tnv"},
     ckpair{"15degC", "[15]"},
     ckpair{"20degC", "[20]"},
     ckpair{"59degF", "[59]"},
@@ -5518,11 +5518,10 @@ static precise_unit unit_from_string_internal(
             b_unit = unit_from_string_internal(
                 unit_string.substr(sep + 1), match_flags - recursion_modifier);
             if (!is_valid(b_unit)) {
-                if ((unit_string[sep] == '*')&&(a_unit == precise::pu || a_unit==precise::percent))
-                {
-                    b_unit=default_unit(unit_string.substr(sep + 1));
-                    if (is_valid(b_unit))
-                    {
+                if ((unit_string[sep] == '*') &&
+                    (a_unit == precise::pu || a_unit == precise::percent)) {
+                    b_unit = default_unit(unit_string.substr(sep + 1));
+                    if (is_valid(b_unit)) {
                         return a_unit * b_unit;
                     }
                 }
