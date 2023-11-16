@@ -35,46 +35,47 @@ namespace constants {
 
 namespace precise {
     // base units
-    constexpr precise_unit
-        meter{detail::unit_data{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
+    constexpr precise_unit meter{
+        detail::unit_data{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     constexpr precise_unit m = meter;
-    constexpr precise_unit
-        kilogram{detail::unit_data{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit kilogram{
+        detail::unit_data{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     constexpr precise_unit kg = kilogram;
-    constexpr precise_unit
-        second{detail::unit_data{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit second{
+        detail::unit_data{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     constexpr precise_unit s = second;
 
-    constexpr precise_unit
-        Ampere{detail::unit_data{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit Ampere{
+        detail::unit_data{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     constexpr precise_unit A = Ampere;
 
-    constexpr precise_unit
-        Kelvin{detail::unit_data{0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit Kelvin{
+        detail::unit_data{0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     constexpr precise_unit K = Kelvin;
-    constexpr precise_unit
-        mol{detail::unit_data{0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        candela{detail::unit_data{0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit mol{
+        detail::unit_data{0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit candela{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}};
     constexpr precise_unit cd = candela;
-    constexpr precise_unit
-        currency{detail::unit_data{0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        count{detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        pu{detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}};
-    constexpr precise_unit
-        iflag{detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}};
-    constexpr precise_unit
-        eflag{detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}};
-    constexpr precise_unit
-        radian{detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}};
+    constexpr precise_unit currency{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit count{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}};
+    constexpr precise_unit pu{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}};
+    constexpr precise_unit iflag{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}};
+    constexpr precise_unit eflag{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}};
+    constexpr precise_unit radian{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}};
     constexpr precise_unit rad = radian;
     // define some specialized units
-    constexpr precise_unit
-        defunit{detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0}};
-    constexpr precise_unit
-        invalid{constants::invalid_conversion, detail::unit_data{nullptr}};
+    constexpr precise_unit defunit{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0}};
+    constexpr precise_unit invalid{
+        constants::invalid_conversion,
+        detail::unit_data{nullptr}};
     constexpr precise_unit error{detail::unit_data{nullptr}};
 
     /// Define some unitless numbers
@@ -93,9 +94,9 @@ namespace precise {
     constexpr precise_unit neginfinite{
         -constants::infinity,
         detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        nan{constants::invalid_conversion,
-            detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit nan{
+        constants::invalid_conversion,
+        detail::unit_data{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     // SI prefixes as units
     constexpr precise_unit deci{1e-1, one};
     constexpr precise_unit centi{1e-2, one};
@@ -136,48 +137,48 @@ namespace precise {
     constexpr precise_unit qubi = robi * kibi;
 
     // Derived SI units:
-    constexpr precise_unit
-        hertz{detail::unit_data{0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit hertz{
+        detail::unit_data{0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-    constexpr precise_unit
-        volt{detail::unit_data{2, 1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit volt{
+        detail::unit_data{2, 1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-    constexpr precise_unit
-        newton{detail::unit_data{1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        Pa{detail::unit_data{-1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        joule{detail::unit_data{2, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        watt{detail::unit_data{2, 1, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        coulomb{detail::unit_data{0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        farad{detail::unit_data{-2, -1, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        ohm{detail::unit_data{2, 1, -3, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        siemens{detail::unit_data{-2, -1, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        weber{detail::unit_data{2, 1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        tesla{detail::unit_data{0, 1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        henry{detail::unit_data{2, 1, -2, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        lumen{detail::unit_data{0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0}};
-    constexpr precise_unit
-        lux{detail::unit_data{-2, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0}};
-    constexpr precise_unit
-        becquerel{detail::unit_data{0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}};
-    constexpr precise_unit
-        gray{detail::unit_data{2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit newton{
+        detail::unit_data{1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit Pa{
+        detail::unit_data{-1, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit joule{
+        detail::unit_data{2, 1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit watt{
+        detail::unit_data{2, 1, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit coulomb{
+        detail::unit_data{0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit farad{
+        detail::unit_data{-2, -1, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit ohm{
+        detail::unit_data{2, 1, -3, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit siemens{
+        detail::unit_data{-2, -1, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit weber{
+        detail::unit_data{2, 1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit tesla{
+        detail::unit_data{0, 1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit henry{
+        detail::unit_data{2, 1, -2, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit lumen{
+        detail::unit_data{0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0}};
+    constexpr precise_unit lux{
+        detail::unit_data{-2, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0}};
+    constexpr precise_unit becquerel{
+        detail::unit_data{0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}};
+    constexpr precise_unit gray{
+        detail::unit_data{2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     // seivert includes relative biological factor so it marked by the eflag to
     // discriminate from gray
-    constexpr precise_unit
-        sievert{detail::unit_data{2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}};
-    constexpr precise_unit
-        katal{detail::unit_data{0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
+    constexpr precise_unit sievert{
+        detail::unit_data{2, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}};
+    constexpr precise_unit katal{
+        detail::unit_data{0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
 
     constexpr precise_unit Hz = hertz;
     constexpr precise_unit V = volt;
@@ -296,8 +297,8 @@ namespace precise {
     /// Units of time
     namespace time {
         // Time unit
-        constexpr precise_unit min{ 60.0, s };
-        constexpr precise_unit ms{ 0.001, s };
+        constexpr precise_unit min{60.0, s};
+        constexpr precise_unit ms{0.001, s};
         constexpr precise_unit ns{1e-9, s};
         constexpr precise_unit hr{60.0, min};
         constexpr precise_unit h{60.0, min};
@@ -329,10 +330,10 @@ namespace precise {
     namespace i {
         constexpr precise_unit grain{64.79891, mg};
 
-        constexpr precise_unit point{ 127.0 / 360.0, mm };
-        constexpr precise_unit pica{ 127.0 / 30.0, mm };
-        constexpr precise_unit inch{ 0.0254, m };
-        constexpr precise_unit foot{ 0.3048, m };
+        constexpr precise_unit point{127.0 / 360.0, mm};
+        constexpr precise_unit pica{127.0 / 30.0, mm};
+        constexpr precise_unit inch{0.0254, m};
+        constexpr precise_unit foot{0.3048, m};
 
         constexpr precise_unit yard{0.9144, m};
         constexpr precise_unit mile{1609.344, m};
@@ -671,9 +672,9 @@ namespace precise {
         constexpr precise_unit quintal{100.0, kg};
         constexpr precise_unit ton_assay{29.0 + 1. / 6.0, g};
         constexpr precise_unit longton_assay{32.0 + 2.0 / 3.0, g};
-        constexpr precise_unit Da{ 1.6605388628e-27, kg };
+        constexpr precise_unit Da{1.6605388628e-27, kg};
         constexpr precise_unit u = Da;
-        constexpr precise_unit tonne{ 1000.0, kg };
+        constexpr precise_unit tonne{1000.0, kg};
     }  // namespace mass
 
     constexpr precise_unit t = mass::tonne;
@@ -1069,19 +1070,19 @@ namespace precise {
         // base 10 logarithm of Power levels (assume power always)
         constexpr precise_unit belA = precise_unit(custom::equation_unit(12));
         // base 10 logarithm of Power levels (assume power always)
-        constexpr precise_unit dBA{ custom::equation_unit(13) };
+        constexpr precise_unit dBA{custom::equation_unit(13)};
         // base 2 logarithm
-        constexpr precise_unit logbase2{ custom::equation_unit(8) };
+        constexpr precise_unit logbase2{custom::equation_unit(8)};
         // 10*base10 logarithm
-        constexpr precise_unit dB{ custom::equation_unit(3) };
+        constexpr precise_unit dB{custom::equation_unit(3)};
         // -base10 logarithm
-        constexpr precise_unit neglog10{ custom::equation_unit(4) };
+        constexpr precise_unit neglog10{custom::equation_unit(4)};
         // -base100 logarithm
-        constexpr precise_unit neglog100{ custom::equation_unit(5) };
+        constexpr precise_unit neglog100{custom::equation_unit(5)};
         // -base1000 logarithm
-        constexpr precise_unit neglog1000{ custom::equation_unit(6) };
+        constexpr precise_unit neglog1000{custom::equation_unit(6)};
         // -base50000 logarithm
-        constexpr precise_unit neglog50000{ custom::equation_unit(7) };
+        constexpr precise_unit neglog50000{custom::equation_unit(7)};
 
         constexpr precise_unit B_SPL{2 * 1e-5, precise::Pa* bel};
         constexpr precise_unit B_V = bel * V;
@@ -1292,7 +1293,7 @@ namespace precise {
         constexpr precise_unit woodu =
             precise::pressure::mmHg * precise::min / precise::L;  //!< wood unit
         constexpr precise_unit diopter = m.inv();
-        constexpr precise_unit prism_diopter{ custom::equation_unit(27) };
+        constexpr precise_unit prism_diopter{custom::equation_unit(27)};
         constexpr precise_unit mesh = i::inch.inv();
         constexpr precise_unit charriere{1.0 / 3.0, mm};
         constexpr precise_unit drop{0.05, mL};
@@ -1305,20 +1306,20 @@ namespace precise {
     /// Units used in chemical and biological laboratories
     namespace laboratory {
         constexpr precise_unit svedberg{1e-13, precise::s};
-        constexpr precise_unit HPF{ custom::custom_count_unit(5) };
+        constexpr precise_unit HPF{custom::custom_count_unit(5)};
         constexpr precise_unit LPF{100.0, HPF};
         constexpr precise_unit enzyme_unit =
             precise::micro * precise::mol / precise::min;
         // International Unit
-        constexpr precise_unit IU{ custom::custom_count_unit(2) };
+        constexpr precise_unit IU{custom::custom_count_unit(2)};
         // Arbitrary Unit
-        constexpr precise_unit arbU{ custom::custom_count_unit(1) };
+        constexpr precise_unit arbU{custom::custom_count_unit(1)};
         // index of reactivity
-        constexpr precise_unit IR{ custom::custom_count_unit(3) };
+        constexpr precise_unit IR{custom::custom_count_unit(3)};
         // limit of flocculation
-        constexpr precise_unit Lf{ custom::custom_count_unit(4) };
+        constexpr precise_unit Lf{custom::custom_count_unit(4)};
 
-        constexpr precise_unit PFU{ 1.0, precise::count, commodities::tissue };
+        constexpr precise_unit PFU{1.0, precise::count, commodities::tissue};
         constexpr precise_unit pH =
             precise::mol / precise::L * precise::log::neglog10;
         constexpr precise_unit molarity = precise::mol / precise::L;
@@ -1329,17 +1330,17 @@ namespace precise {
     /// Units related to quantities of data
     namespace data {
         constexpr precise_unit bit = count;
-        constexpr precise_unit nibble{ 4, count };
-        constexpr precise_unit byte{ 8, count };
+        constexpr precise_unit nibble{4, count};
+        constexpr precise_unit byte{8, count};
 
         // https://physics.nist.gov/cuu/Units/binary.html
-        constexpr precise_unit kB{ 1000.0, byte };
-        constexpr precise_unit MB{ 1000.0, kB };
-        constexpr precise_unit GB{ 1000.0, MB };
+        constexpr precise_unit kB{1000.0, byte};
+        constexpr precise_unit MB{1000.0, kB};
+        constexpr precise_unit GB{1000.0, MB};
 
-        constexpr precise_unit KiB{ 1024.0, byte };
-        constexpr precise_unit MiB{ 1024.0, KiB };
-        constexpr precise_unit GiB{ 1024.0, MiB };
+        constexpr precise_unit KiB{1024.0, byte};
+        constexpr precise_unit MiB{1024.0, KiB};
+        constexpr precise_unit GiB{1024.0, MiB};
 
         constexpr precise_unit bit_s = log::logbase2;
         constexpr precise_unit shannon = bit_s;
@@ -1349,9 +1350,9 @@ namespace precise {
         constexpr precise_unit deciban = precise::log::dB * precise::count;
         constexpr precise_unit nat = precise::log::neper * precise::count;
 
-        constexpr precise_unit trit{ precise::custom::equation_unit(14) };
+        constexpr precise_unit trit{precise::custom::equation_unit(14)};
         // compute the number of digits
-        constexpr precise_unit digits{ custom::equation_unit(10) };
+        constexpr precise_unit digits{custom::equation_unit(10)};
     }  // namespace data
 
     constexpr precise_unit bit = data::bit;
@@ -1362,18 +1363,17 @@ namespace precise {
 
     /// Units related to computer computations
     namespace computation {
-        constexpr precise_unit flop{ 1.0, precise::count, commodities::flop };
+        constexpr precise_unit flop{1.0, precise::count, commodities::flop};
         constexpr precise_unit flops{flop / s};
-        constexpr precise_unit mips{
-            1.0,
-            precise::count / precise::s,
-            commodities::instruction };
+        constexpr precise_unit
+            mips{1.0, precise::count / precise::s, commodities::instruction};
     }  // namespace computation
 
     /// other special units
     namespace special {
         // Amplitude spectral density
-        constexpr precise_unit ASD{detail::unit_data{ 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 }};
+        constexpr precise_unit ASD{
+            detail::unit_data{1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0}};
         // Moment magnitude scale for earthquakes
         constexpr precise_unit moment_magnitude =
             precise_unit(custom::equation_unit(29)) * precise::cgs::dyn *
@@ -1393,9 +1393,11 @@ namespace precise {
         // mach number
         constexpr precise_unit mach = m / s * pu;
         // square root of Hertz
-        constexpr precise_unit rootHertz{ detail::unit_data{0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0} };
+        constexpr precise_unit rootHertz{
+            detail::unit_data{0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0}};
         // square root of meter
-        constexpr precise_unit rootMeter{ detail::unit_data{-5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0} };
+        constexpr precise_unit rootMeter{
+            detail::unit_data{-5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0}};
 
         // custom defined unit of loudness
         constexpr precise_unit sone = generate_custom_unit(40);
@@ -1410,8 +1412,8 @@ namespace precise {
 
     namespace other {
         // concentrations
-        constexpr precise_unit ppm{ 1e-6, count };
-        constexpr precise_unit ppb{ 1e-9, count };
+        constexpr precise_unit ppm{1e-6, count};
+        constexpr precise_unit ppb{1e-9, count};
 
         constexpr precise_unit candle{0.98135426889107, cd};
         // 2019 redefinition
@@ -1420,8 +1422,8 @@ namespace precise {
         constexpr precise_unit rpm{constants::pi / 30.0, rad* Hz};
         constexpr precise_unit CFM(ft* ft* ft / min);
 
-        constexpr precise_unit MegaBuck{ 1000000.0, currency };
-        constexpr precise_unit GigaBuck{ 1000.0, MegaBuck };
+        constexpr precise_unit MegaBuck{1000000.0, currency};
+        constexpr precise_unit GigaBuck{1000.0, MegaBuck};
     }  // namespace other
 
     namespace climate {
@@ -1458,8 +1460,9 @@ constexpr unit eflag = unit_cast(precise::eflag);
 constexpr unit rad = unit_cast(precise::rad);
 
 constexpr unit defunit = unit_cast(precise::defunit);
-constexpr unit
-invalid{constants::invalid_conversion, detail::unit_data{ nullptr }};
+constexpr unit invalid{
+    constants::invalid_conversion,
+    detail::unit_data{nullptr}};
 
 /// Check if a precise unit is a default unit
 constexpr inline bool is_default(const precise_unit& utest)
