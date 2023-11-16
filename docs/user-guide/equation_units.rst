@@ -27,9 +27,9 @@ Current equation definitions
 -   13: 20*log10(x)
 -   14: log10(x)/log10(3)
 -   15: 0.5*ln(x)
--   16: UNDEFINED
--   17: UNDEFINED
--   18: UNDEFINED
+-   16: API Gravity
+-   17: Degree Baume Light
+-   18: Degree Baume Heavy
 -   19: UNDEFINED
 -   20: UNDEFINED
 -   21: UNDEFINED
@@ -46,7 +46,7 @@ Current equation definitions
 
 
 The wind scales are not very accurate since they match up a slightly fuzzier notion to actual wind speed.  There are general charts and the equations in use utilize a polynomial to approximate them to a continuous scale.  So the units when used are generally convertible to a velocity unit such as m/s.  There are currently 10 undefined equation units available if needed.
-
+The density scales (API Gravity, Degree Baume Heavy and Light ) are based on handbook definitions at typical temperature scales.  A few more like this might be added in the near future.
 Equation Value conversions
 -----------------------------
 The actual definitions of the equations are found in the `unit::precise::equation` namespace.  Two functions are provided that convert values from equation values to units and vice versa.
