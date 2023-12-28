@@ -1,9 +1,9 @@
 steps:
   - script: ctest --output-on-failure -C $(units.build_type) -T test
-    displayName: 'Test'
+    displayName: "Test"
     workingDirectory: build
 
   - task: PublishTestResults@2
     inputs:
-      testResultsFormat: 'cTest'
-      testResultsFiles: '**/Test.xml'
+      testResultsFormat: "cTest"
+      testResultsFiles: "**/Test.xml"

@@ -7,8 +7,8 @@ steps:
 
   - task: ExtractFiles@1
     inputs:
-      archiveFilePatterns: 'cmake*.tar.gz'
-      destinationFolder: 'cmake_program'
+      archiveFilePatterns: "cmake*.tar.gz"
+      destinationFolder: "cmake_program"
       displayName: Extract CMake
 
   - bash: echo "##vso[task.prependpath]$(Build.SourcesDirectory)/cmake_program/cmake-3.14.3-Linux-x86_64/bin"
