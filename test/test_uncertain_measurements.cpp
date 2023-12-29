@@ -114,6 +114,18 @@ TEST(uncertainOps, addsubtract)
     EXPECT_NEAR(zs.uncertainty(), 0.6, 0.05);
 }
 
+TEST(uncertainOps, unaryOps)
+{
+    uncertain_measurement x(2.0, 0.2, cm);
+
+    auto z = -x;
+    auto y = +x;
+    EXPECT_EQ(y, x);
+    EXPECT_EQ(z.value(), -x.value());
+    EXPECT_EQ(z.uncertainty(), x.uncertainty());
+    EXPECT_EQ(z.units(), x.units());
+}
+
 TEST(uncertainOps, multConst)
 {
     uncertain_measurement x(3.0, 0.2, cm);

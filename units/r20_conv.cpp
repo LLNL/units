@@ -725,7 +725,7 @@ namespace precise {
         unitD{"C90", "reciprocal joule per cubic metre", J.inv() / m.pow(3)},
         unitD{
             "C91",
-            "reciprocal kelvin or kelvin to the power minus one",
+            "reciprocal kelvin",
             K.inv()},
         unitD{"C92", "reciprocal metre", m.inv()},
         unitD{"C93", "reciprocal square metre", m.pow(-2)},
@@ -733,7 +733,7 @@ namespace precise {
         unitD{"C95", "reciprocal mole", mol.inv()},
         unitD{
             "C96",
-            "reciprocal pascal or pascal to the power minus one",
+            "reciprocal pascal",
             Pa.inv()},
         unitD{"C97", "reciprocal second", s.inv()},
         unitD{"C98", "reciprocal second per cubic metre", s.inv() / m.pow(3)},
@@ -1284,7 +1284,7 @@ namespace precise {
         unitD{"G19", "newton metre per kilogram", N* m / kg},
         unitD{"G2", "US gallon per minute", us::gallon / min},
         unitD{"G20", "pound-force foot per pound", lbf* ft / lb},
-        unitD{"G21", "cup [unit of volume]", us::cup},
+        unitD{"G21", "cup", us::cup},
         unitD{"G23", "peck", us::dry::peck},
         unitD{"G24", "tablespoon (US)", us::tbsp},
         unitD{"G25", "teaspoon (US)", us::tsp},

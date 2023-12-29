@@ -25,6 +25,7 @@ set(UNITS_TESTS
     test_defined_units
     test_math
     test_google_units
+    test_complete_unit_list
 )
 
 if(NOT UNITS_DISABLE_EXTRA_UNIT_STANDARDS)
@@ -120,6 +121,10 @@ else()
 
     target_compile_definitions(
         test_google_units PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
+    )
+
+    target_compile_definitions(
+        test_complete_unit_list PUBLIC -DTEST_FILE_FOLDER="${TEST_FILE_FOLDER}"
     )
     if(NOT MSVC)
         target_compile_options(test_ucum PRIVATE -Wno-double-promotion)

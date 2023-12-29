@@ -1,8 +1,8 @@
 ## SECTION # 
 %, (slope percent), Slope (grade) units, Circular measure
-%, (percent), Percentages and Parts, Franctions and Percent
+%, (percent), Percentages and Parts, Fractions and Percent
 =E2=80=B0, (slope permille), Slope (grade) units, Circular measure
-=E2=80=B0, (permille), Percentages and Parts, Franctions and Percent
+=E2=80=B0, (permille), Percentages and Parts, Fractions and Percent
 =E2=80=B2, (minute), Common Units, Circular measure
 =E2=80=B3, (second), Common Units, Circular measure
 =E2=84=88, (scruple), Apothecaries, Mass and weight
@@ -64,7 +64,7 @@ Acceleration of free fall on Saturn, Free Fall Acceleration (Solar System), Acce
 Acceleration of free fall on Sun, Free Fall Acceleration (Solar System), Acceleration
 Acceleration of free fall on Uranus, Free Fall Acceleration (Solar System), Acceleration
 Acceleration of free fall on Venus, Free Fall Acceleration (Solar System), Acceleration
-acetabulum (small cup), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+acetabulum, (small cup), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
 acre, British (Imperial) And U.S. System, Historical Units of Area
 acre, British (Imperial) And U.S. System, Area
 acre foot, U.S. Liquid Measure, Capacity and volume
