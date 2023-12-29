@@ -327,14 +327,8 @@ class measurement {
         return {value_ - other.value_as(units_), units_};
     }
     // add unary operators
-    constexpr measurement operator+() const
-    {
-        return { value_,units_ };
-    }
-    constexpr measurement operator-() const
-    {
-        return { -value_,units_ };
-    }
+    constexpr measurement operator+() const { return {value_, units_}; }
+    constexpr measurement operator-() const { return {-value_, units_}; }
     // double multiplier
     friend constexpr inline measurement
         operator*(double val, const measurement& meas)
@@ -557,14 +551,8 @@ class fixed_measurement {
         return {value_ - val, units_};
     }
     // add unary operators
-    constexpr fixed_measurement operator+() const
-    {
-        return { value_,units_ };
-    }
-    constexpr fixed_measurement operator-() const
-    {
-        return { -value_,units_ };
-    }
+    constexpr fixed_measurement operator+() const { return {value_, units_}; }
+    constexpr fixed_measurement operator-() const { return {-value_, units_}; }
     /// take the measurement to some power
     constexpr friend fixed_measurement
         pow(const fixed_measurement& meas, int power)
@@ -999,11 +987,11 @@ class uncertain_measurement {
     // add unary operators
     constexpr uncertain_measurement operator+() const
     {
-        return { value_, uncertainty_,units_ };
+        return {value_, uncertainty_, units_};
     }
     constexpr uncertain_measurement operator-() const
     {
-        return { -value_, uncertainty_, units_ };
+        return {-value_, uncertainty_, units_};
     }
     /// take the measurement to some power
     friend UNITS_CPP14_CONSTEXPR_METHOD uncertain_measurement
@@ -1293,13 +1281,10 @@ class precise_measurement {
         return {value_ - other.value_as(units_), units_};
     }
     // add unary operators
-    constexpr precise_measurement operator+() const
-    {
-        return { value_,units_ };
-    }
+    constexpr precise_measurement operator+() const { return {value_, units_}; }
     constexpr precise_measurement operator-() const
     {
-        return { -value_,units_ };
+        return {-value_, units_};
     }
 
     /// take the measurement to some power
@@ -1551,11 +1536,11 @@ class fixed_precise_measurement {
     // add unary operators
     constexpr fixed_precise_measurement operator+() const
     {
-        return { value_,units_ };
+        return {value_, units_};
     }
     constexpr fixed_precise_measurement operator-() const
     {
-        return { -value_,units_ };
+        return {-value_, units_};
     }
     fixed_precise_measurement& operator+=(double val)
     {

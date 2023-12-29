@@ -57,7 +57,6 @@ TEST(Measurement, unaryOps)
     EXPECT_EQ(z.units(), x.units());
 }
 
-
 TEST(Measurement, assignment)
 {
     measurement m1;

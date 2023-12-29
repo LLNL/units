@@ -4245,10 +4245,11 @@ static bool unicodeReplacement(std::string& unit_string)
     for (const auto& ucode : ucodeReplacements) {
         auto fnd = unit_string.find(ucode.first);
         while (fnd != std::string::npos) {
-            std::size_t codelength=strlen(ucode.first);
-            if (codelength == 1 && fnd > 0 && static_cast<unsigned char>(unit_string[fnd - 1]) > 0xC0)
-            {
-                //skip the conversion in this case as it is likely a unicode sequence
+            std::size_t codelength = strlen(ucode.first);
+            if (codelength == 1 && fnd > 0 &&
+                static_cast<unsigned char>(unit_string[fnd - 1]) > 0xC0) {
+                // skip the conversion in this case as it is likely a unicode
+                // sequence
                 fnd = unit_string.find(ucode.first, fnd + 1);
                 continue;
             }
