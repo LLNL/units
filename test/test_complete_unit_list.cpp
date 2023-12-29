@@ -20,7 +20,7 @@ static std::string hexConvert(const std::string& str)
     outstring.reserve(str.size());
     std::size_t loc{0};
     while (loc < str.size()) {
-        if ( loc < str.size() - 2 && str[loc] == '=') {
+        if (loc < str.size() - 2 && str[loc] == '=') {
             auto c1 = str[loc + 1];
             auto c2 = str[loc + 2];
             int res{0};
