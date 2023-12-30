@@ -46,6 +46,17 @@ TEST(Measurement, ops)
     EXPECT_TRUE(is_valid(d1));
 }
 
+TEST(Measurement, unaryOps)
+{
+    measurement x(2.0, cm);
+
+    auto z = -x;
+    auto y = +x;
+    EXPECT_EQ(y, x);
+    EXPECT_EQ(z.value(), -x.value());
+    EXPECT_EQ(z.units(), x.units());
+}
+
 TEST(Measurement, assignment)
 {
     measurement m1;
@@ -276,6 +287,17 @@ TEST(fixedMeasurement, opsV2)
     EXPECT_EQ(v.value(), 2.0);
 }
 
+TEST(fixedMeasurement, unaryOps)
+{
+    fixed_measurement x(2.0, cm);
+
+    auto z = -x;
+    auto y = +x;
+    EXPECT_EQ(y, x);
+    EXPECT_EQ(z.value(), -x.value());
+    EXPECT_EQ(z.units(), x.units());
+}
+
 TEST(fixedMeasurement, methods)
 {
     fixed_measurement size(1.2, m);
@@ -464,6 +486,17 @@ TEST(PreciseMeasurement, ops)
     EXPECT_EQ(rat.value(), 45.0 / 79);
     EXPECT_TRUE(rat.units() == ratio);
     EXPECT_TRUE(is_valid(d1));
+}
+
+TEST(PreciseMeasurement, unaryOps)
+{
+    precise_measurement x(2.0, precise::cm);
+
+    auto z = -x;
+    auto y = +x;
+    EXPECT_EQ(y, x);
+    EXPECT_EQ(z.value(), -x.value());
+    EXPECT_EQ(z.units(), x.units());
 }
 
 TEST(PreciseMeasurement, doubleOps)
@@ -718,6 +751,17 @@ TEST(fixedPreciseMeasurement, opsV2)
 
     auto v = fm3 *= 2.0;
     EXPECT_EQ(v.value(), 2.0);
+}
+
+TEST(fixedPreciseMeasurement, unaryOps)
+{
+    fixed_precise_measurement x(2.0, precise::cm);
+
+    auto z = -x;
+    auto y = +x;
+    EXPECT_EQ(y, x);
+    EXPECT_EQ(z.value(), -x.value());
+    EXPECT_EQ(z.units(), x.units());
 }
 
 TEST(fixedPreciseMeasurement, methods)

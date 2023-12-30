@@ -1546,7 +1546,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1168>
+    1169>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candle_it", precise::lm / precise::sr},
@@ -2333,6 +2333,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"[LB_TR]", precise::troy::pound},
          {"pound-troy", precise::troy::pound},
          {"pound", precise::lb},
+         {u8"\u2114", precise::lb},
          {"solarmass", constants::planetary::mass::solar.as_unit()},
          {"solarmasses", constants::planetary::mass::solar.as_unit()},
          {"jupitermass", constants::planetary::mass::jupiter.as_unit()},
@@ -2803,7 +2804,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
 #if !defined(UNITS_DISABLE_NON_ENGLISH_UNITS) ||                               \
     UNITS_DISABLE_NON_ENGLISH_UNITS == 0
 UNITS_CPP14_CONSTEXPR_OBJECT
-std::array<std::pair<const char*, precise_unit>, 65>
+std::array<std::pair<const char*, precise_unit>, 66>
     defined_unit_strings_non_english{{
         {"ken", precise::japan::ken},
         {"cun", precise::chinese::cun},
@@ -2842,6 +2843,8 @@ std::array<std::pair<const char*, precise_unit>, 65>
         {"pes", {296.0, precise::mm}},
         {"stadium", {220, precise::yd}},
         {"stadion", {157.0, precise::m}},
+        {"\xCF\x83\xCF\x84\xCE\xAC\xCE\xB4\xCE\xB9\xCE\xBF\xCE\xBD",
+         {157.0, precise::m}},
         {"itinerarystadion", {157.0, precise::m}},
         {"olympicstadion", {157.0, precise::m}},
         {"leuga", {2.22, precise::km}},

@@ -709,6 +709,7 @@ namespace precise {
         constexpr precise_unit degR = rankine;
 
         constexpr precise_unit reaumur{5.0 / 4.0, celsius};
+        constexpr precise_unit romer{40.0 / 21.0, celsius};
     }  // namespace temperature
 
     constexpr precise_unit degC = temperature::celsius;

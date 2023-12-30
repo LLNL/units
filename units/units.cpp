@@ -2639,6 +2639,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"chinese", "cn"},
     ckpair{"Canadian", "ca"},
     ckpair{"canadian", "ca"},
+    ckpair{"reactive", "react"},
     ckpair{"survey", "US"},
     ckpair{"tropical", "t"},
     ckpair{"British", "br"},
@@ -2647,7 +2648,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"BR", "br"},
     ckpair{"UK", "br"},
     ckpair{"EUR", "br"},
-    ckpair{"conventional", "[90]"},
+    ckpair{"conventional", "90"},
     ckpair{"AC", "ac"},
     ckpair{"DC", "dc"},
     ckpair{"ang", "ang"},
@@ -4244,8 +4245,16 @@ static bool unicodeReplacement(std::string& unit_string)
     for (const auto& ucode : ucodeReplacements) {
         auto fnd = unit_string.find(ucode.first);
         while (fnd != std::string::npos) {
+            std::size_t codelength = strlen(ucode.first);
+            if (codelength == 1 && fnd > 0 &&
+                static_cast<unsigned char>(unit_string[fnd - 1]) > 0xC0) {
+                // skip the conversion in this case as it is likely a unicode
+                // sequence
+                fnd = unit_string.find(ucode.first, fnd + 1);
+                continue;
+            }
             changed = true;
-            unit_string.replace(fnd, strlen(ucode.first), ucode.second);
+            unit_string.replace(fnd, codelength, ucode.second);
             if (fnd > 0 && unit_string[fnd - 1] == '\\') {
                 unit_string.erase(fnd - 1, 1);
                 --fnd;
