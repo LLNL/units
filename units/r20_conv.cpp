@@ -2481,7 +2481,7 @@ namespace precise {
         unitD{"N67", "British thermal unit (59 degF)", energy::btu_59},
         unitD{"N68", "British thermal unit (60 degF)", energy::btu_60},
         unitD{"N69", "calorie (20 degC)", energy::cal_20},
-        unitD{ "N70", "quad", {1e15, energy::btu_it} },
+        unitD{"N70", "quad", {1e15, energy::btu_it}},
         unitD{"N71", "therm (EC)", energy::therm_ec},
         unitD{"N72", "therm (US)", energy::therm_us},
         unitD{
