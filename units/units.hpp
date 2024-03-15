@@ -742,17 +742,14 @@ class uncertain_measurement {
         float val,
         float uncertainty_val,
         const unit& base) noexcept :
-        value_(val),
-        uncertainty_(uncertainty_val), units_(base)
+        value_(val), uncertainty_(uncertainty_val), units_(base)
     {
     }
     /// construct from a single precision value, and unit assume uncertainty is
     /// 0
     explicit constexpr uncertain_measurement(
         float val,
-        const unit& base) noexcept :
-        value_(val),
-        units_(base)
+        const unit& base) noexcept : value_(val), units_(base)
     {
     }
 
@@ -761,16 +758,15 @@ class uncertain_measurement {
     explicit constexpr uncertain_measurement(
         double val,
         const unit& base) noexcept :
-        value_(static_cast<float>(val)),
-        units_(base)
+        value_(static_cast<float>(val)), units_(base)
     {
     }
     /// construct from a regular measurement and uncertainty value
     explicit constexpr uncertain_measurement(
         const measurement& val,
         float uncertainty_val) noexcept :
-        value_(static_cast<float>(val.value())),
-        uncertainty_(uncertainty_val), units_(val.units())
+        value_(static_cast<float>(val.value())), uncertainty_(uncertainty_val),
+        units_(val.units())
     {
     }
     /// construct from a regular measurement and an uncertainty measurement
@@ -1417,22 +1413,19 @@ class fixed_precise_measurement {
 
     explicit constexpr fixed_precise_measurement(
         const precise_measurement& val) :
-        value_(val.value()),
-        units_(val.units())
+        value_(val.value()), units_(val.units())
     {
     }
 
     constexpr fixed_precise_measurement(
         const fixed_precise_measurement& val) noexcept :
-        value_(val.value()),
-        units_(val.units())
+        value_(val.value()), units_(val.units())
     {
     }
 
     constexpr fixed_precise_measurement(
         fixed_precise_measurement&& val) noexcept :
-        value_(val.value()),
-        units_(val.units())
+        value_(val.value()), units_(val.units())
     {
     }
 

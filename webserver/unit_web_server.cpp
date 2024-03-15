@@ -244,26 +244,28 @@ void handle_request(
     };
 
     // generate a conversion response
-    auto const html_response = [&req](
-                                   const std::string& html_page,
-                                   const std::vector<
-                                       std::pair<std::string, std::string>>&
-                                       substitutions) {
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
-        res.set(http::field::content_type, "text/html");
-        res.keep_alive(req.keep_alive());
-        auto resp = html_page;
-        string_substitution(resp, substitutions);
+    auto const html_response =
+        [&req](
+            const std::string& html_page,
+            const std::vector<std::pair<std::string, std::string>>&
+                substitutions) {
+            http::response<http::string_body> res{
+                http::status::ok, req.version()};
+            res.set(
+                http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
+            res.set(http::field::content_type, "text/html");
+            res.keep_alive(req.keep_alive());
+            auto resp = html_page;
+            string_substitution(resp, substitutions);
 
-        if (req.method() != http::verb::head) {
-            res.body() = resp;
-            res.prepare_payload();
-        } else {
-            res.content_length(resp.size());
-        }
-        return res;
-    };
+            if (req.method() != http::verb::head) {
+                res.body() = resp;
+                res.prepare_payload();
+            } else {
+                res.content_length(resp.size());
+            }
+            return res;
+        };
     // generate a conversion response
     auto const trivial_response = [&req](const std::string& value) {
         http::response<http::string_body> res{http::status::ok, req.version()};
@@ -280,27 +282,29 @@ void handle_request(
     };
 
     // generate a conversion response
-    auto const json_response = [&req](
-                                   const std::string& json_string,
-                                   const std::vector<
-                                       std::pair<std::string, std::string>>&
-                                       substitutions) {
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
-        res.set(http::field::content_type, "application/json");
-        res.keep_alive(req.keep_alive());
-        auto resp = json_string;
-        string_substitution(resp, substitutions);
+    auto const json_response =
+        [&req](
+            const std::string& json_string,
+            const std::vector<std::pair<std::string, std::string>>&
+                substitutions) {
+            http::response<http::string_body> res{
+                http::status::ok, req.version()};
+            res.set(
+                http::field::server, "UNITS WEB SERVER" UNITS_VERSION_STRING);
+            res.set(http::field::content_type, "application/json");
+            res.keep_alive(req.keep_alive());
+            auto resp = json_string;
+            string_substitution(resp, substitutions);
 
-        if (req.method() != http::verb::head) {
-            res.body() = resp;
-            res.prepare_payload();
-        } else {
-            res.content_length(resp.size());
-        }
+            if (req.method() != http::verb::head) {
+                res.body() = resp;
+                res.prepare_payload();
+            } else {
+                res.content_length(resp.size());
+            }
 
-        return res;
-    };
+            return res;
+        };
     ++request_count;
 
     switch (req.method()) {
