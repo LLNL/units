@@ -142,7 +142,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 113>
          {unit_cast(precise::other::ppm), "ppm"},
          {unit_cast(precise::other::ppb), "ppb"}}};
 
-UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
+UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 55>
     defined_unit_names_customary{{
         {in, "in"},
         {unit_cast(precise::in.pow(2)), "in^2"},
@@ -187,7 +187,6 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 56>
         {unit_cast(precise::pressure::inH2O), "inH2O"},
         {unit_cast(precise::pressure::torr), "torr"},
         {unit_cast(precise::energy::EER), "EER"},
-        {unit_cast(precise::energy::quad), "quad"},
         {gal, "gal"},
         {unit_cast(precise::us::barrel), "bbl"},
         {lb, "lb"},
@@ -2236,7 +2235,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"buckingham",
           {1e-26, precise::cgs::statC_charge* precise::cm.pow(2)}},
          {"landauer", {0.0175, precise::energy::eV / precise::data::bit}},
-         {"quad", precise::energy::quad},
+         {"quad", {1e15, precise::energy::btu_it}},
          {"therm", precise::energy::therm_ec},
          {"thm", precise::energy::therm_ec},
          {"therm(EC)", precise::energy::therm_ec},
