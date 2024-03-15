@@ -812,7 +812,6 @@ namespace precise {
         constexpr precise_unit btu_it{1055.05585262, J};  // international table
                                                           // btu
         constexpr precise_unit btu_iso{1055.06, J};  // rounded btu_it
-        constexpr precise_unit quad{1e15, btu_it};
         constexpr precise_unit tonc{12000.0, btu_th / h};
 
         constexpr precise_unit therm_us{100000.0, btu_59};
