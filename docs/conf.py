@@ -107,7 +107,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Units"
-copyright = "2019-2023,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n"
+copyright = "2019-2024,\nLawrence Livermore National Security, LLC;See the top-level NOTICE for additional details.\nAll rights reserved.\nSPDX-License-Identifier: BSD-3-Clause\n"
 author = "Philip Top, Ryan Mast"
 
 # The version info for the project you're documenting, acts as replacement for
