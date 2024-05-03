@@ -50,6 +50,7 @@ repos:
     rev: v18.1.4
     hooks:
       - id: clang-format
+        types_or: [c++, c]
   - repo: local
     hooks:
       - id: disallow-caps
