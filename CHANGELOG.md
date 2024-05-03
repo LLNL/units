@@ -5,6 +5,14 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.2][] - 2024-05-10
+
+update some dependencies and other minor fixes
+
+### Fixed
+
+### Added
+
 ## [0.9.1][] - 2023-09-01
 
 Fix some string output issues related to units with various prefixes of meters and seconds
