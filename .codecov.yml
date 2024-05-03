@@ -3,6 +3,7 @@ codecov:
     require_ci_to_pass: no
     after_n_builds: 4
   branch: main
+  token: 34b7a345-5b37-4d94-a714-6aa232195447
 
 coverage:
   precision: 2
