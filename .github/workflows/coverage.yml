@@ -59,6 +59,8 @@ jobs:
           files: build/coverage.info
           fail_ci_if_error: true
           functionalities: fixes
+          token: ${{ secrets.CODECOV_TOKEN }} # required
+
 
 
 
