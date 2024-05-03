@@ -13,7 +13,6 @@ update some dependencies and other minor fixes
 
 ### Added
 
-
 ## [0.9.1][] - 2023-09-01
 
 Fix some string output issues related to units with various prefixes of meters and seconds
