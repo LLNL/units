@@ -5830,10 +5830,11 @@ static precise_unit unit_from_string_internal(
             } else {
                 sloc = ustring.find_first_of(
                     getMatchCharacter(ustring[sloc]), sloc);
-                ustring.insert(
-                    (sloc == std::string::npos) ? ustring.size() : sloc + 1,
-                    1,
-                    '}');
+                if (sloc != std::string::npos)
+                {
+                    ustring.insert(sloc + 1,1,'}');
+                }
+               
             }
 
             auto cunit =
