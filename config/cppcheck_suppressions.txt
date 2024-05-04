@@ -3,3 +3,13 @@ unusedFunction:units/x12_conv.cpp:1009
 passedByValue:units/units.cpp:224
 passedByValue:units/units.cpp:1160
 passedByValue:units/units.cpp:1177
+passedByValue:units/units.cpp:3062
+passedByValue:units/units.hpp:413
+passedByValue:units/units.hpp:583
+passedByValue:units/units.hpp:1013
+passedByValue:units/units.hpp:1025
+returnByReference:units/units.hpp:363
+returnByReference:units/units.hpp:569
+returnByReference:units/units.hpp:1010
+returnByReference:units/units.hpp:1239
+returnByReference:units/units.hpp:1471

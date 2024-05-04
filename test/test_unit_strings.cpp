@@ -523,6 +523,12 @@ TEST(stringToUnits, toDefaultUnit)
     EXPECT_EQ(precise::defunit, unit_from_string("*******"));
 }
 
+TEST(stringToUnits, measurementTypes)
+{
+    EXPECT_EQ(pu * m.pow(2), unit_from_string("pu*area"));
+    EXPECT_EQ(percent * m.pow(2), unit_from_string("percent*Area"));
+}
+
 TEST(stringToUnits, Power)
 {
     EXPECT_EQ(precise::m.pow(2), unit_from_string("m^2"));
@@ -945,6 +951,12 @@ TEST(stringToUnits, equivalents4)
         unit_cast(unit_from_string("nmol/mg{prot}")),
         unit_cast(unit_from_string(
             "nanomole of (1/2) cystine per milligram of protein")));
+}
+
+TEST(stringToUnits, ofCommodities)
+{
+    EXPECT_EQ(m, unit_cast(unit_from_string("meter of gold")));
+    EXPECT_EQ(m, unit_cast(unit_from_string("meter of gold_(95%)")));
 }
 
 TEST(stringToUnits, commodityConsiderations)
