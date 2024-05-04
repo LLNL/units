@@ -525,8 +525,8 @@ TEST(stringToUnits, toDefaultUnit)
 
 TEST(stringToUnits, measurementTypes)
 {
-    EXPECT_EQ(pu*m.pow(2), unit_from_string("pu*area"));
-    EXPECT_EQ(percent*m.pow(2), unit_from_string("percent*Area"));
+    EXPECT_EQ(pu * m.pow(2), unit_from_string("pu*area"));
+    EXPECT_EQ(percent * m.pow(2), unit_from_string("percent*Area"));
 }
 
 TEST(stringToUnits, Power)
