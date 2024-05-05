@@ -517,9 +517,10 @@ namespace commodities {
         choline_chloride = generateHarmonizedCode(29, 23, 10),
     };
 
-    constexpr std::uint32_t package(std::uint32_t packaging, std::uint32_t commodity)
+    constexpr std::uint32_t
+        package(std::uint32_t packaging, std::uint32_t commodity)
     {
-        return packaging|commodity;
+        return packaging | commodity;
     }
 }  // namespace commodities
 
