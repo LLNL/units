@@ -167,3 +167,9 @@ jobs:
       with:
         cmake-version: "3.27"
       if: success() || failure()
+   
+    - name: Check CMake 3.28 
+      uses: ./.github/actions/quick_cmake
+      with:
+        cmake-version: "3.28"
+      if: success() || failure()
