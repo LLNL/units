@@ -1973,7 +1973,11 @@ namespace precise {
         unitD{
             "KLK",
             "lactic dry material percentage",
-            {1.0, percent, commodities::packaging::dry + commodities::milk}},
+            {1.0,
+             percent,
+             commodities::package(
+                 commodities::packaging::dry,
+                 commodities::milk)}},
         unitD{"KLX", "kilolux", kilo* lux},
         unitD{
             "KMA",
@@ -1991,7 +1995,9 @@ namespace precise {
             "milliequivalence caustic potash per gram of product",
             {1.0,
              milli / g,
-             commodities::packaging::equivalent + commodities::chemicals::KOH}},
+             commodities::package(
+                 commodities::packaging::equivalent,
+                 commodities::chemicals::KOH)}},
         unitD{"KPA", "kilopascal", kilo* Pa},
         unitD{
             "KPH",
@@ -2146,7 +2152,9 @@ namespace precise {
             "lactose excess percentage",
             {1.0,
              percent,
-             commodities::packaging::excess + commodities::lactose}},
+             commodities::package(
+                 commodities::packaging::excess,
+                 commodities::lactose)}},
         unitD{"LBR", "pound", lb},
         unitD{"LBT", "troy pound (US)", troy::pound},
         unitD{
@@ -2764,16 +2772,18 @@ namespace precise {
             "proof litre",
             {1.0,
              L,
-             commodities::packaging::equivalent +
-                 commodities::chemicals::alcohol}},
+             commodities::package(
+                 commodities::packaging::equivalent,
+                 commodities::chemicals::alcohol)}},
         unitD{"PG", "plate", {1.0, count, commodities::packaging::plate}},
         unitD{
             "PGL",
             "proof gallon",
             {1.0,
              gal,
-             commodities::packaging::equivalent +
-                 commodities::chemicals::alcohol}},
+             commodities::package(
+                 commodities::packaging::equivalent,
+                 commodities::chemicals::alcohol)}},
         unitD{"PI", "pitch", {1.0, count / in, commodities::character}},
         unitD{"PK", "pack", {1.0, count, commodities::packaging::pack}},
         unitD{"PL", "pail", {1.0, count, commodities::packaging::pail}},
@@ -2836,14 +2846,22 @@ namespace precise {
         unitD{
             "QB",
             "page - hardcopy",
-            {1.0, count, commodities::packaging::page + commodities::paper}},
+            {1.0,
+             count,
+             commodities::package(
+                 commodities::packaging::page,
+                 commodities::paper)}},
         unitD{"QD", "quarter dozen", {3, one}},
         unitD{"QH", "quarter hour", {0.25, hr}},
         unitD{"QK", "quarter kilogram", {0.25, kg}},
         unitD{
             "QR",
             "quire",
-            {25.0, count, commodities::packaging::sheet + commodities::paper}},
+            {25.0,
+             count,
+             commodities::package(
+                 commodities::packaging::sheet,
+                 commodities::paper)}},
         unitD{"QT", "quart (US)", us::quart},
         unitD{"QTD", "dry quart (US)", us::dry::quart},
         unitD{"QTI", "quart (UK)", imp::quart},
@@ -2934,7 +2952,9 @@ namespace precise {
             "stick, cigarette",
             {1.0,
              count,
-             commodities::packaging::stick + commodities::cigarette}},
+             commodities::package(
+                 commodities::packaging::stick,
+                 commodities::cigarette)}},
         unitD{"STL", "standard litre", L},
         unitD{"STN", "ton (US)", av::ton},
         unitD{"STW", "straw", {1.0, count, commodities::packaging::straw}},

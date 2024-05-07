@@ -42,7 +42,7 @@ namespace commodities {
     template<size_t N>
     constexpr std::uint32_t generateStringCode(const char (&code)[N])
     {
-        static_assert(N == 6, "invalid string code");
+        static_assert(N == 6, "invalid string code, must be 5 characters");
         return 0x60000000U +
             ((static_cast<std::uint32_t>(code[0] - '_') & 0X1FU) << 20U) +
             ((static_cast<std::uint32_t>(code[1] - '_') & 0X1FU) << 15U) +
@@ -54,7 +54,7 @@ namespace commodities {
     template<size_t N>
     constexpr std::uint32_t generateStringCodeUpper(const char (&code)[N])
     {
-        static_assert(N == 6, "invalid string code");
+        static_assert(N == 6, "invalid string code, must be 5 characters");
         return 0x70000000U +
             ((static_cast<std::uint32_t>(code[0] - '@') & 0X1FU) << 20U) +
             ((static_cast<std::uint32_t>(code[1] - '@') & 0X1FU) << 15U) +
@@ -91,7 +91,7 @@ namespace commodities {
     template<size_t N>
     constexpr std::uint32_t generateCurrencyCode(const char (&code)[N])
     {
-        static_assert(N == 4, "invalid string code");
+        static_assert(N == 4, "invalid currency code, must be 3 characters");
         return 0x46000000U + (static_cast<std::uint32_t>(code[0]) << 16U) +
             (static_cast<std::uint32_t>(code[1]) << 8U) +
             static_cast<std::uint32_t>(code[2]);
@@ -100,7 +100,7 @@ namespace commodities {
     template<size_t N>
     constexpr std::uint32_t generateChemCode(const char (&code)[N])
     {
-        static_assert(N == 5, "invalid string code");
+        static_assert(N == 5, "invalid chem code must be 4 characters");
         return 0x4D000000U +
             ((static_cast<std::uint32_t>(code[0] - ' ') & 0X3FU) << 18U) +
             ((static_cast<std::uint32_t>(code[1] - ' ') & 0X3FU) << 12U) +
@@ -516,6 +516,12 @@ namespace commodities {
         alcohol = generateHarmonizedCode(22, 07, 10),
         choline_chloride = generateHarmonizedCode(29, 23, 10),
     };
+
+    constexpr std::uint32_t
+        package(std::uint32_t packaging, std::uint32_t commodity)
+    {
+        return packaging | commodity;
+    }
 }  // namespace commodities
 
 }  // namespace UNITS_NAMESPACE

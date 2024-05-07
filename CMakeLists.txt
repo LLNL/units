@@ -5,15 +5,14 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-cmake_minimum_required(VERSION 3.0)
-
 # Make sure users don't get warnings on a tested (3.0 to 3.27) version of CMake. For
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
-if(${CMAKE_VERSION} VERSION_LESS 3.27)
-    cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+if(${CMAKE_VERSION} VERSION_GREATER 3.20)
+    cmake_minimum_required(VERSION 3.20...3.28)
 else()
-    cmake_policy(VERSION 3.27)
+    cmake_minimum_required(VERSION 3.0)
+    cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
 
 if(NOT UNITS_CMAKE_PROJECT_NAME)
