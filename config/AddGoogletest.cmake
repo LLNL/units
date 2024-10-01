@@ -11,7 +11,8 @@
 # Add make check, as well, which gives output on failed tests without having to set an environment
 # variable.
 #
-
+include(extraMacros)
+set(CMAKE_WARN_DEPRECATED OFF CACHE INTERNAL "" FORCE)
 set(gtest_force_shared_crt ON CACHE INTERNAL "")
 
 set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "")
@@ -31,15 +32,41 @@ if(NOT MSVC)
 endif()
 
 if(GOOGLE_TEST_INDIVIDUAL)
-    include(GoogleTest)
+    if(NOT CMAKE_VERSION VERSION_LESS 3.9)
+        include(GoogleTest)
+    else()
+        set(GOOGLE_TEST_INDIVIDUAL OFF)
+    endif()
 endif()
+
+function(add_unit_test test_source_file)
+    get_filename_component(test_name "${test_source_file}" NAME_WE)
+    add_executable("${test_name}" "${test_source_file}")
+    target_link_libraries("${test_name}" gtest gmock gtest_main)
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}>)
+    set_target_properties(${test_name} PROPERTIES FOLDER "Tests")
+endfunction()
 
 # Target must already exist
 macro(add_gtest TESTNAME)
     target_link_libraries(${TESTNAME} PUBLIC gtest gmock gtest_main)
 
     if(GOOGLE_TEST_INDIVIDUAL)
-        gtest_discover_tests(${TESTNAME} TEST_PREFIX "${TESTNAME}." PROPERTIES FOLDER "Tests")
+        if(CMAKE_VERSION VERSION_LESS 3.10)
+            gtest_add_tests(
+                TARGET ${TESTNAME}
+                TEST_PREFIX "${TESTNAME}."
+                TEST_LIST TmpTestList
+            )
+            set_tests_properties(${TmpTestList} PROPERTIES FOLDER "Tests")
+        else()
+            gtest_discover_tests(
+                ${TESTNAME}
+                TEST_PREFIX "${TESTNAME}."
+                PROPERTIES FOLDER "Tests"
+            )
+
+        endif()
     else()
         add_test(${TESTNAME} ${TESTNAME})
         set_target_properties(${TESTNAME} PROPERTIES FOLDER "Tests")
@@ -61,8 +88,18 @@ set_target_properties(gtest gtest_main gmock gmock_main PROPERTIES FOLDER "Exter
 
 if(MSVC)
     # add_compile_options( /wd4459)
-    target_compile_definitions(gtest PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING)
-    target_compile_definitions(gtest_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING)
-    target_compile_definitions(gmock PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING)
-    target_compile_definitions(gmock_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING)
+    if(MSVC_VERSION GREATER_EQUAL 1900)
+        target_compile_definitions(
+            gtest PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+        )
+        target_compile_definitions(
+            gtest_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+        )
+        target_compile_definitions(
+            gmock PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+        )
+        target_compile_definitions(
+            gmock_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+        )
+    endif()
 endif()
