@@ -8,17 +8,32 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #
-# Add make check, as well, which gives output on failed tests without having to set an environment
-# variable.
+# Add make check, as well, which gives output on failed tests without having to set an
+# environment variable.
 #
 include(extraMacros)
-set(CMAKE_WARN_DEPRECATED OFF CACHE INTERNAL "" FORCE)
-set(gtest_force_shared_crt ON CACHE INTERNAL "")
+set(CMAKE_WARN_DEPRECATED
+    OFF
+    CACHE INTERNAL "" FORCE
+)
+set(gtest_force_shared_crt
+    ON
+    CACHE INTERNAL ""
+)
 
-set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "")
-set(HAVE_STD_REGEX ON CACHE INTERNAL "")
+set(BUILD_SHARED_LIBS
+    OFF
+    CACHE INTERNAL ""
+)
+set(HAVE_STD_REGEX
+    ON
+    CACHE INTERNAL ""
+)
 
-set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "")
+set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
+    1
+    CACHE INTERNAL ""
+)
 
 add_subdirectory(
     ${CMAKE_SOURCE_DIR}/ThirdParty/googletest ${CMAKE_BINARY_DIR}/ThirdParty/googletest
@@ -26,8 +41,8 @@ add_subdirectory(
 )
 
 if(NOT MSVC)
-    # target_Compile_options(gtest PRIVATE "-Wno-undef") target_Compile_options(gmock PRIVATE
-    # "-Wno-undef") target_Compile_options(gtest_main PRIVATE "-Wno-undef")
+    # target_Compile_options(gtest PRIVATE "-Wno-undef") target_Compile_options(gmock
+    # PRIVATE "-Wno-undef") target_Compile_options(gtest_main PRIVATE "-Wno-undef")
     # target_Compile_options(gmock_main PRIVATE "-Wno-undef")
 endif()
 

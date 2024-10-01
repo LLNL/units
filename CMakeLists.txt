@@ -87,10 +87,14 @@ set(UNITS_NAMESPACE
     CACHE STRING "Top-level namespace name. Default is `units`."
 )
 
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT UNITS_BINARY_ONLY_INSTALL)
-    option(UNITS_INSTALL "Generate and install cmake package files and shared library if built" ON)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT UNITS_BINARY_ONLY_INSTALL)
+    option(UNITS_INSTALL
+           "Generate and install cmake package files and shared library if built" ON
+    )
 else()
-    option(UNITS_INSTALL "Generate and install cmake package files and shared library if built" OFF)
+    option(UNITS_INSTALL
+           "Generate and install cmake package files and shared library if built" OFF
+    )
 endif()
 
 mark_as_advanced(UNITS_INSTALL)
