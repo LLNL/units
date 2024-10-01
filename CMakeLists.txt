@@ -214,12 +214,12 @@ elseif(UNITS_ENABLE_TESTS)
     if(BUILD_TESTING)
         add_subdirectory(test)
     endif()
-    
+
 endif()
 
 if(NOT UNITS_HEADER_ONLY)
-   add_subdirectory(webserver)
-   add_subdirectory(converter)
+    add_subdirectory(webserver)
+    add_subdirectory(converter)
 endif()
 
 if(UNITS_INSTALL)
