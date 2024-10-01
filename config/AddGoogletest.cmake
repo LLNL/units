@@ -63,11 +63,11 @@ macro(add_gtest TESTNAME)
     target_link_libraries(${TESTNAME} PUBLIC gtest gmock gtest_main)
 
     if(GOOGLE_TEST_INDIVIDUAL)
-            gtest_discover_tests(
-                ${TESTNAME}
-                TEST_PREFIX "${TESTNAME}."
-                PROPERTIES FOLDER "Tests"
-            )
+        gtest_discover_tests(
+            ${TESTNAME}
+            TEST_PREFIX "${TESTNAME}."
+            PROPERTIES FOLDER "Tests"
+        )
     else()
         add_test(${TESTNAME} ${TESTNAME})
         set_target_properties(${TESTNAME} PROPERTIES FOLDER "Tests")
