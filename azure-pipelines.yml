@@ -89,6 +89,7 @@ jobs:
         clang3.4:
           containerImage: silkeh/clang:3.4
           units.std: 11
+          units.options: -DUNITS_ENABLE_TESTS=OFF"
         clang3.5:
           containerImage: silkeh/clang:3.5
           units.std: 11

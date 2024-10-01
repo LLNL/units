@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Copyright (c) 2019-2023,
+# Copyright (c) 2019-2024,
 # Lawrence Livermore National Security, LLC;
 # See the top-level NOTICE for additional details. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
@@ -9,7 +9,7 @@
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
 if(${CMAKE_VERSION} VERSION_GREATER 3.20)
-    cmake_minimum_required(VERSION 3.20...3.28)
+    cmake_minimum_required(VERSION 3.20...3.30)
 else()
     cmake_minimum_required(VERSION 3.0)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
@@ -23,7 +23,7 @@ endif()
 project(
     ${UNITS_CMAKE_PROJECT_NAME}
     LANGUAGES C CXX
-    VERSION 0.9.1
+    VERSION 0.9.2
 )
 include(CMakeDependentOption)
 include(CTest)
@@ -87,10 +87,15 @@ set(UNITS_NAMESPACE
     CACHE STRING "Top-level namespace name. Default is `units`."
 )
 
-cmake_dependent_option(
-    UNITS_INSTALL "Generate and install cmake package files" ON
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT UNITS_BINARY_ONLY_INSTALL" OFF
-)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT UNITS_BINARY_ONLY_INSTALL)
+    option(UNITS_INSTALL
+           "Generate and install cmake package files and shared library if built" ON
+    )
+else()
+    option(UNITS_INSTALL
+           "Generate and install cmake package files and shared library if built" OFF
+    )
+endif()
 
 mark_as_advanced(UNITS_INSTALL)
 
@@ -200,15 +205,23 @@ add_subdirectory(units)
 
 if(UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(FuzzTargets)
-elseif(UNITS_ENABLE_TESTS)
+elseif(UNITS_ENABLE_TESTS AND NOT CMAKE_VERSION VERSION_LESS 3.13)
+    include(updateGitSubmodules)
     enable_testing()
+    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/ThirdParty/googletest/CMakeLists.txt")
+        submod_update(ThirdParty/googletest)
+    endif()
     if(BUILD_TESTING)
         add_subdirectory(test)
     endif()
-    if(NOT UNITS_HEADER_ONLY)
-        add_subdirectory(webserver)
-        add_subdirectory(converter)
-    endif()
+
+elseif(UNITS_ENABLE_TESTS)
+    message(WARNING "UNITS unit tests only supported under cmake 3.13 or greater")
+endif()
+
+if(NOT UNITS_HEADER_ONLY AND NOT UNITS_BUILD_FUZZ_TARGETS)
+    add_subdirectory(webserver)
+    add_subdirectory(converter)
 endif()
 
 if(UNITS_INSTALL)
