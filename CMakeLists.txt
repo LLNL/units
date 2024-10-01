@@ -9,7 +9,7 @@
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
 if(${CMAKE_VERSION} VERSION_GREATER 3.20)
-    cmake_minimum_required(VERSION 3.20...3.28)
+    cmake_minimum_required(VERSION 3.20...3.30)
 else()
     cmake_minimum_required(VERSION 3.0)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
@@ -23,7 +23,7 @@ endif()
 project(
     ${UNITS_CMAKE_PROJECT_NAME}
     LANGUAGES C CXX
-    VERSION 0.9.1
+    VERSION 0.9.2
 )
 include(CMakeDependentOption)
 include(CTest)
@@ -87,10 +87,11 @@ set(UNITS_NAMESPACE
     CACHE STRING "Top-level namespace name. Default is `units`."
 )
 
-cmake_dependent_option(
-    UNITS_INSTALL "Generate and install cmake package files" ON
-    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT UNITS_BINARY_ONLY_INSTALL" OFF
-)
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT UNITS_BINARY_ONLY_INSTALL)
+    option(UNITS_INSTALL "Generate and install cmake package files and shared library if built" ON)
+else()
+    option(UNITS_INSTALL "Generate and install cmake package files and shared library if built" OFF)
+endif()
 
 mark_as_advanced(UNITS_INSTALL)
 
