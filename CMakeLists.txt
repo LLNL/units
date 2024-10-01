@@ -205,7 +205,7 @@ add_subdirectory(units)
 
 if(UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(FuzzTargets)
-elseif(UNITS_ENABLE_TESTS)
+elseif(UNITS_ENABLE_TESTS AND NOT CMAKE_VERSION VERSION_LESS 3.13)
     include(updateGitSubmodules)
     enable_testing()
     if(NOT EXISTS "${PROJECT_SOURCE_DIR}/ThirdParty/googletest/CMakeLists.txt")
@@ -215,6 +215,8 @@ elseif(UNITS_ENABLE_TESTS)
         add_subdirectory(test)
     endif()
 
+elseif(UNITS_ENABLE_TESTS)
+    message(WARNING "UNITS unit tests only supported under cmake 3.13 or greater")
 endif()
 
 if(NOT UNITS_HEADER_ONLY)
