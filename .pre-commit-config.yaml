@@ -24,7 +24,7 @@ repos:
     hooks:
       - id: remove-tabs
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell
         exclude: ^(test/|units/|docs/reference/)
@@ -47,7 +47,7 @@ repos:
       - id: end-of-file-fixer
       - id: check-shebang-scripts-are-executable
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v18.1.5
+    rev: v19.1.0
     hooks:
       - id: clang-format
         types_or: [c++, c]
