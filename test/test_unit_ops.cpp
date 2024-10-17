@@ -10,8 +10,8 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units_decl.hpp"
 #include "units/units_util.hpp"
 
-#include <memory>
 #include <limits>
+#include <memory>
 
 using namespace units;
 

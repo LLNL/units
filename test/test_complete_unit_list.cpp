@@ -10,10 +10,10 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <cmath>
 #include <fstream>
+#include <iostream>
 #include <ostream>
 #include <sstream>
 #include <string>
-#include <iostream>
 
 static std::string hexConvert(const std::string& str)
 {
