@@ -4,8 +4,8 @@ Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
-#include <Windows.h>
 #include "units/units_decl.hpp"
+#include <Windows.h>
 
 #include "units/units.hpp"
 #include "units/units_conversion_maps.hpp"

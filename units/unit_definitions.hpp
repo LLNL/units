@@ -1287,8 +1287,8 @@ namespace precise {
     namespace clinical {
         constexpr precise_unit pru = precise::pressure::mmHg * precise::s /
             precise::mL;  //!< peripheral vascular resistance unit
-        constexpr precise_unit woodu =
-            precise::pressure::mmHg * precise::minute / precise::L;  //!< wood unit
+        constexpr precise_unit woodu = precise::pressure::mmHg *
+            precise::minute / precise::L;  //!< wood unit
         constexpr precise_unit diopter = m.inv();
         constexpr precise_unit prism_diopter{custom::equation_unit(27)};
         constexpr precise_unit mesh = i::inch.inv();

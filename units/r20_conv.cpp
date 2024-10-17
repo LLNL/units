@@ -1638,7 +1638,10 @@ namespace precise {
             "degree Oechsle",
             {1.0, generate_custom_unit(110), commodities::sugar}},
         unitD{"J28", "degree Rankine per hour", temperature::rankine / hr},
-        unitD{"J29", "degree Rankine per minute", temperature::rankine / minute},
+        unitD{
+            "J29",
+            "degree Rankine per minute",
+            temperature::rankine / minute},
         unitD{"J30", "degree Rankine per second", temperature::rankine / s},
         unitD{"J31", "degree Twaddell", generate_custom_unit(111)},
         unitD{"J32", "micropoise", micro* cgs::poise},
