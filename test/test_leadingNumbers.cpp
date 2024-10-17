@@ -8,6 +8,8 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units.hpp"
 
 #include <cmath>
+#include <vector>
+#include <string>
 
 using namespace units::detail::testing;
 
