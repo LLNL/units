@@ -9,8 +9,8 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <algorithm>
 #include <array>
 #include <cstring>
-#include <tuple>
 #include <string>
+#include <tuple>
 
 namespace UNITS_NAMESPACE {
 using unitD = std::tuple<const char*, const char*, precise_unit>;
