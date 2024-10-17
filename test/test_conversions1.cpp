@@ -391,8 +391,8 @@ TEST(TimeConversions, Correctness)
     double one_week_in_day = 7.0;
     double one_day_in_sec = 86400.0;
 
-    EXPECT_NEAR(convert(min, s), one_min_in_sec, test::tolerance);
-    EXPECT_NEAR(convert(hr, min), one_hour_in_min, test::tolerance);
+    EXPECT_NEAR(convert(minute, s), one_min_in_sec, test::tolerance);
+    EXPECT_NEAR(convert(hr, minute), one_hour_in_min, test::tolerance);
     EXPECT_NEAR(
         convert(unit_cast(precise::time::day), hr),
         one_day_in_hour,
@@ -421,10 +421,10 @@ TEST(TimeConversionsPrecise, Correctness)
     double one_day_in_sec = 86400.0;
 
     EXPECT_NEAR(
-        convert(min, units::precise::s),
+        convert(minute, units::precise::s),
         one_min_in_sec,
         test::precise_tolerance);
-    EXPECT_NEAR(convert(hr, min), one_hour_in_min, test::precise_tolerance);
+    EXPECT_NEAR(convert(hr, minute), one_hour_in_min, test::precise_tolerance);
     EXPECT_NEAR(convert(day, hr), one_day_in_hour, test::precise_tolerance);
     EXPECT_NEAR(convert(week, day), one_week_in_day, test::precise_tolerance);
     EXPECT_NEAR(

@@ -178,7 +178,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ustr, 30> testUnits{
      ustr{precise::Ampere, "A"},
      ustr{precise::Kelvin, "K"},
      ustr{precise::ms, "ms"},
-     ustr{precise::min, "min"},
+     ustr{precise::minute, "min"},
      ustr{precise::hr, "hr"},
      ustr{precise::time::day, "day"},
      ustr{precise::lb, "lb"},

@@ -183,11 +183,7 @@ namespace precise {
     constexpr precise_unit Hz = hertz;
     constexpr precise_unit V = volt;
     constexpr precise_unit N = newton;
-#ifndef pascal
-    // in some windows networking applications  pascal is a #define that will
-    // cause all sorts of issues
-    constexpr precise_unit pascal = Pa;
-#endif
+
     constexpr precise_unit J = joule;
     constexpr precise_unit W = watt;
     constexpr precise_unit C = coulomb;
@@ -297,11 +293,11 @@ namespace precise {
     /// Units of time
     namespace time {
         // Time unit
-        constexpr precise_unit min{60.0, s};
+        constexpr precise_unit minute{60.0, s};
         constexpr precise_unit ms{0.001, s};
         constexpr precise_unit ns{1e-9, s};
-        constexpr precise_unit hr{60.0, min};
-        constexpr precise_unit h{60.0, min};
+        constexpr precise_unit hr{60.0, minute};
+        constexpr precise_unit h{60.0, minute};
         constexpr precise_unit day{24.0, hr};
         constexpr precise_unit week{7.0, day};
         constexpr precise_unit yr{8760.0, hr};  // median calendar year;
@@ -316,9 +312,10 @@ namespace precise {
         constexpr precise_unit mos{29.53059, day};  // synodal month
         constexpr precise_unit moj{1.0 / 12.0, aj};  // mean julian month
         constexpr precise_unit mog{1.0 / 12.0, ag};  // mean gregorian month
+
     }  // namespace time
 
-    constexpr precise_unit min = time::min;
+    constexpr precise_unit minute = time::minute;
     constexpr precise_unit ms = time::ms;
     constexpr precise_unit ns = time::ns;
     constexpr precise_unit hr = time::hr;
@@ -604,11 +601,11 @@ namespace precise {
 
         }  // namespace metric
 
-        namespace IN {
-            // l'Imprimerie nationale, IN
+        namespace ING {
+            // l'Imprimerie nationale, ING
             constexpr precise_unit point{0.4, mm};
             constexpr precise_unit pica{12.0, point};
-        }  // namespace IN
+        }  // namespace ING
 
         namespace tex {
             constexpr precise_unit point{1.0 / 72.27, i::inch};
@@ -1291,14 +1288,14 @@ namespace precise {
         constexpr precise_unit pru = precise::pressure::mmHg * precise::s /
             precise::mL;  //!< peripheral vascular resistance unit
         constexpr precise_unit woodu =
-            precise::pressure::mmHg * precise::min / precise::L;  //!< wood unit
+            precise::pressure::mmHg * precise::minute / precise::L;  //!< wood unit
         constexpr precise_unit diopter = m.inv();
         constexpr precise_unit prism_diopter{custom::equation_unit(27)};
         constexpr precise_unit mesh = i::inch.inv();
         constexpr precise_unit charriere{1.0 / 3.0, mm};
         constexpr precise_unit drop{0.05, mL};
         constexpr precise_unit met =
-            precise_unit{3.5, mL / min / kg};  //!< metabolic equivalent
+            precise_unit{3.5, mL / minute / kg};  //!< metabolic equivalent
         constexpr precise_unit hounsfield = generate_custom_unit(37);
         constexpr precise_unit AHF = generate_custom_unit(38);
     }  // namespace clinical
@@ -1309,7 +1306,7 @@ namespace precise {
         constexpr precise_unit HPF{custom::custom_count_unit(5)};
         constexpr precise_unit LPF{100.0, HPF};
         constexpr precise_unit enzyme_unit =
-            precise::micro * precise::mol / precise::min;
+            precise::micro * precise::mol / precise::minute;
         // International Unit
         constexpr precise_unit IU{custom::custom_count_unit(2)};
         // Arbitrary Unit
@@ -1420,7 +1417,7 @@ namespace precise {
         constexpr precise_unit faraday{96485.3321233100184, C};
         // others
         constexpr precise_unit rpm{constants::pi / 30.0, rad* Hz};
-        constexpr precise_unit CFM(ft* ft* ft / min);
+        constexpr precise_unit CFM(ft* ft* ft / minute);
 
         constexpr precise_unit MegaBuck{1000000.0, currency};
         constexpr precise_unit GigaBuck{1000.0, MegaBuck};
@@ -1555,10 +1552,6 @@ constexpr unit sievert = unit_cast(precise::sievert);
 constexpr unit katal = unit_cast(precise::katal);
 
 constexpr unit N = newton;
-// this is something in some Windows libraries that needs to be worked around
-#ifndef pascal
-constexpr unit pascal = Pa;
-#endif
 constexpr unit J = joule;
 constexpr unit W = watt;
 constexpr unit C = coulomb;
@@ -1595,7 +1588,7 @@ constexpr unit nm = unit_cast(precise::nm);
 //  Area units
 constexpr unit acre = unit_cast(precise::acre);
 // Time unit
-constexpr unit min = unit_cast(precise::min);
+constexpr unit minute = unit_cast(precise::minute);
 constexpr unit ms = unit_cast(precise::ms);
 constexpr unit ns = unit_cast(precise::ns);
 constexpr unit hr = unit_cast(precise::hr);

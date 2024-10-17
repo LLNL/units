@@ -1513,7 +1513,7 @@ TEST(userDefinedUnits, definitionStrings)
     addUserDefinedUnit("idgit", idgit);
 
     auto ipm = unit_from_string("idgit/min");
-    EXPECT_EQ(ipm, idgit / min);
+    EXPECT_EQ(ipm, idgit / minute);
 
     auto str = to_string(ipm);
     EXPECT_EQ(str, "idgit/min");
@@ -1529,7 +1529,7 @@ TEST(userDefinedUnits, definitionStringsInputOnly)
     addUserDefinedInputUnit("idgit", idgit);
 
     auto ipm = unit_from_string("idgit/min");
-    EXPECT_EQ(ipm, idgit / min);
+    EXPECT_EQ(ipm, idgit / minute);
 
     auto str = to_string(ipm);
     /** input only should not result in any string result with the user defined
@@ -1544,9 +1544,9 @@ TEST(userDefinedUnits, definitionStringsOutputOnly)
     addUserDefinedOutputUnit("idgit", idgit);
 
     auto ipm = unit_from_string("idgit/min");
-    EXPECT_NE(ipm, idgit / min);
+    EXPECT_NE(ipm, idgit / minute);
 
-    auto str = to_string(idgit / min);
+    auto str = to_string(idgit / minute);
     /** output only should make this work*/
     EXPECT_EQ(str, "idgit/min");
     clearUserDefinedUnits();
