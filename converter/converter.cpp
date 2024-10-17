@@ -43,8 +43,9 @@ int main(int argc, char* argv[])
            newUnits,
            "the units to convert the measurement to, '*' to convert to base units")
         ->required();
-    app.set_version_flag("--version,-v","Units conversion " UNITS_VERSION_STRING);
-    
+    app.set_version_flag(
+        "--version,-v", "Units conversion " UNITS_VERSION_STRING);
+
     app.positionals_at_end();
 
     CLI11_PARSE(app, argc, argv);

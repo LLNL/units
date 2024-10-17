@@ -9,9 +9,9 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <algorithm>
 #include <array>
 #include <cstring>
+#include <string>
 #include <tuple>
 #include <unordered_map>
-#include <string>
 
 namespace units {
 namespace precise {
