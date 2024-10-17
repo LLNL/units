@@ -9,6 +9,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units.hpp"
 
 #include <memory>
+#include <string>
 
 using namespace units;
 TEST(uncertainOps, construction)

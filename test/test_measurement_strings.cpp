@@ -9,6 +9,8 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <iostream>
 #include <type_traits>
+#include <vector>
+#include <string>
 
 using namespace units;
 TEST(MeasurementStrings, basic)

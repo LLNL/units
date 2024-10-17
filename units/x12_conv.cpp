@@ -10,6 +10,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <array>
 #include <cstring>
 #include <tuple>
+#include <string>
 
 namespace UNITS_NAMESPACE {
 using unitD = std::tuple<const char*, const char*, precise_unit>;

@@ -602,7 +602,7 @@ namespace precise {
         }  // namespace metric
 
         namespace ING {
-            // l'Imprimerie nationale, ING
+            // l'Imprimerie nationale, IN Group
             constexpr precise_unit point{0.4, mm};
             constexpr precise_unit pica{12.0, point};
         }  // namespace ING

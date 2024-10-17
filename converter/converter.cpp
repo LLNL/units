@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "CLI11.hpp"
 #include "units/units.hpp"
 #include <cstdio>
+#include <string>
 
 int main(int argc, char* argv[])
 {
@@ -42,10 +43,8 @@ int main(int argc, char* argv[])
            newUnits,
            "the units to convert the measurement to, '*' to convert to base units")
         ->required();
-    app.add_flag_callback("--version,-v", []() {
-        std::cout << "Units conversion " UNITS_VERSION_STRING << '\n';
-        throw CLI::Success();
-    });
+    app.set_version_flag("--version,-v","Units conversion " UNITS_VERSION_STRING);
+    
     app.positionals_at_end();
 
     CLI11_PARSE(app, argc, argv);

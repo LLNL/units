@@ -10,6 +10,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <algorithm>
 #include <fstream>
 #include <vector>
+#include <string>
 
 // structure containing information on a single conversion
 struct convValue {

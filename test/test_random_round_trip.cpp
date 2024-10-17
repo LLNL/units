@@ -11,6 +11,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <chrono>
 #include <limits>
 #include <random>
+#include <vector>
 
 using namespace units;
 

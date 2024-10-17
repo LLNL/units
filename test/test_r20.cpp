@@ -9,6 +9,8 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units.hpp"
 
 #include <tuple>
+#include <string>
+#include <iostream>
 
 using unitD = std::tuple<const char*, const char*, units::precise_unit>;
 #ifdef ENABLE_UNIT_MAP_ACCESS

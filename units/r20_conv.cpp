@@ -11,6 +11,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <cstring>
 #include <tuple>
 #include <unordered_map>
+#include <string>
 
 namespace units {
 namespace precise {

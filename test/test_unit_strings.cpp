@@ -8,6 +8,9 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "test.hpp"
 #include <algorithm>
+#include <limits>
+#include <string>
+#include <vector>
 
 #if (__cplusplus >= 201703L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703)
 #ifndef UNITS_CONSTEXPR_IF_SUPPORTED

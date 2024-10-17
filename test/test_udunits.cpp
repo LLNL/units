@@ -13,6 +13,8 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <fstream>
 #include <ostream>
 #include <sstream>
+#include <string>
+#include <iostream>
 
 TEST(UDUNITS, acceptedNameSymbols)
 {

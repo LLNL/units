@@ -12,6 +12,9 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <fstream>
 #include <ostream>
 #include <sstream>
+#include <vector>
+#include <string>
+#include <utility>
 
 static std::vector<std::vector<std::string>>
     loadCsvFile(const std::string& file)
