@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "test.hpp"
 #include "units/units_conversion_maps.hpp"
 #include <map>
+#include <string>
 #include <unordered_map>
 
 TEST(unitStringDefinitions, siVectorLength)

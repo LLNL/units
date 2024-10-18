@@ -8,6 +8,9 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "test.hpp"
 #include <algorithm>
+#include <limits>
+#include <string>
+#include <vector>
 
 #if (__cplusplus >= 201703L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703)
 #ifndef UNITS_CONSTEXPR_IF_SUPPORTED
@@ -1513,7 +1516,7 @@ TEST(userDefinedUnits, definitionStrings)
     addUserDefinedUnit("idgit", idgit);
 
     auto ipm = unit_from_string("idgit/min");
-    EXPECT_EQ(ipm, idgit / min);
+    EXPECT_EQ(ipm, idgit / minute);
 
     auto str = to_string(ipm);
     EXPECT_EQ(str, "idgit/min");
@@ -1529,7 +1532,7 @@ TEST(userDefinedUnits, definitionStringsInputOnly)
     addUserDefinedInputUnit("idgit", idgit);
 
     auto ipm = unit_from_string("idgit/min");
-    EXPECT_EQ(ipm, idgit / min);
+    EXPECT_EQ(ipm, idgit / minute);
 
     auto str = to_string(ipm);
     /** input only should not result in any string result with the user defined
@@ -1544,9 +1547,9 @@ TEST(userDefinedUnits, definitionStringsOutputOnly)
     addUserDefinedOutputUnit("idgit", idgit);
 
     auto ipm = unit_from_string("idgit/min");
-    EXPECT_NE(ipm, idgit / min);
+    EXPECT_NE(ipm, idgit / minute);
 
-    auto str = to_string(idgit / min);
+    auto str = to_string(idgit / minute);
     /** output only should make this work*/
     EXPECT_EQ(str, "idgit/min");
     clearUserDefinedUnits();

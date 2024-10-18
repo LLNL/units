@@ -11,6 +11,8 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <vector>
 
 using namespace units;
 TEST(fuzzFailures, convFailures)

@@ -60,7 +60,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 113>
          {(mega * m).pow(3),
           "ZL"},  // another one of those units that can be confused
          {bar, "bar"},
-         {min, "min"},
+         {minute, "min"},
          {ms, "ms"},
          {h, "h"},
          {unit_cast(precise::time::day), "day"},
@@ -572,12 +572,12 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"ode", precise::climate::odp},  // ozone depletion equivalent
         {"ozonedepletionequivalent",
          precise::climate::odp},  // ozone depletion equivalent
-        {"min", precise::min},
-        {"min_time", precise::min},
-        {"mins", precise::min},
-        {"mIN", precise::min},
-        {"minute", precise::min},
-        {"minute_time", precise::min},
+        {"min", precise::minute},
+        {"min_time", precise::minute},
+        {"mins", precise::minute},
+        {"mIN", precise::minute},
+        {"minute", precise::minute},
+        {"minute_time", precise::minute},
         {"ms", precise::ms},
         {"millisecond", precise::ms},
         {"hr", precise::hr},
@@ -1218,7 +1218,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"litre", precise::L},
         {"mL", precise::mL},  // preferred US notation
         {"ml", precise::mL},
-        {"LPM", precise::L / precise::min},
+        {"LPM", precise::L / precise::minute},
         {"LPS", precise::L / precise::s},
         {"t", precise::mass::tonne},  // metric tonne
         {"mt", precise::mass::tonne},  // metric tonne
@@ -1418,9 +1418,9 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"shannon", precise::data::shannon},
         {"Hart", precise::data::hartley},
         {"hartley", precise::data::hartley},
-        {"SPL", precise_unit(2 * 1e-5, precise::pascal)},
-        {"soundpressurelevel", precise_unit(2 * 1e-5, precise::pascal)},
-        {"soundpressure", precise_unit(2 * 1e-5, precise::pascal)},
+        {"SPL", precise_unit(2 * 1e-5, precise::Pa)},
+        {"soundpressurelevel", precise_unit(2 * 1e-5, precise::Pa)},
+        {"soundpressure", precise_unit(2 * 1e-5, precise::Pa)},
         {"sone", precise::special::sone},
         {"phon", precise::generate_custom_unit(41)},
         {"BSPL", precise::log::B_SPL},
@@ -2037,7 +2037,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"knots", precise::nautical::knot},
          {"kts", precise::nautical::knot},
          {"fps", precise::ft / precise::s},
-         {"fpm", precise::ft / precise::min},
+         {"fpm", precise::ft / precise::minute},
          {"fph", precise::ft / precise::hr},
          {"cal", precise::cal},
          {"smallcalorie", precise::cal},
@@ -2199,7 +2199,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"cfs", precise::ft.pow(3) / precise::s},
          {"cubicfeetperminute", precise::other::CFM},
          {"gps", precise::gal / precise::s},
-         {"gpm", precise::gal / precise::min},
+         {"gpm", precise::gal / precise::minute},
          {"gph", precise::gal / precise::hr},
          {"att", precise::pressure::att},
          {"at", precise::pressure::att},
@@ -2717,10 +2717,10 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"pca_pr", precise::typographic::printers::pica},
          {"pcapr", precise::typographic::printers::pica},
          {"PCA_PR", precise::typographic::printers::pica},
-         {"INpoint", precise::typographic::IN::point},
-         {"INpica", precise::typographic::IN::pica},
-         {"INPoint", precise::typographic::IN::point},
-         {"INPica", precise::typographic::IN::pica},
+         {"INpoint", precise::typographic::ING::point},
+         {"INpica", precise::typographic::ING::pica},
+         {"INPoint", precise::typographic::ING::point},
+         {"INPica", precise::typographic::ING::pica},
          {"pied", precise::typographic::french::pied},
          {"PIED", precise::typographic::french::pied},
          {"pouce", precise::typographic::french::pouce},
@@ -2824,8 +2824,8 @@ std::array<std::pair<const char*, precise_unit>, 66>
         {"funt", precise_unit(409.51718, precise::g)},  // Russian
         {"pood", precise_unit(40.0 * 409.51718, precise::g)},  // Russian
         {"zolotnik", precise_unit(409.51718 / 96.0, precise::g)},  // Russian
-        {"halakim", precise_unit(1.0 / 18.0, precise::time::min)},  // Jewish
-        {"halek", precise_unit(1.0 / 18.0, precise::time::min)},  // Jewish
+        {"halakim", precise_unit(1.0 / 18.0, precise::time::minute)},  // Jewish
+        {"halek", precise_unit(1.0 / 18.0, precise::time::minute)},  // Jewish
         {"lustrum", precise_unit(5.0, precise::time::aj)},  // Roman
         {"lustra", precise_unit(5.0, precise::time::aj)},  // Roman
         // turkey, UAE, levant unit of area

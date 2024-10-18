@@ -10,8 +10,10 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <cmath>
 #include <fstream>
+#include <iostream>
 #include <ostream>
 #include <sstream>
+#include <string>
 
 TEST(googleUnits, unitTypes)
 {

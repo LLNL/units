@@ -140,10 +140,25 @@ else()
     endif()
 
     add_executable(examples_test examples_test.cpp)
-    target_link_libraries(examples_test PRIVATE ${UNITS_LC_PROJECT_NAME}::units)
+    target_link_libraries(
+        examples_test PRIVATE ${UNITS_LC_PROJECT_NAME}::units compile_flags_target
+    )
     target_compile_definitions(examples_test PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS})
     set_target_properties(examples_test PROPERTIES FOLDER "Tests")
     add_test(examples_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/examples_test)
+
+    if(WIN32)
+        add_executable(examples_test_windows examples_test_windows.cpp)
+        target_link_libraries(
+            examples_test_windows PRIVATE ${UNITS_LC_PROJECT_NAME}::units
+                                          compile_flags_target
+        )
+        target_compile_definitions(
+            examples_test_windows PRIVATE ${TARGET_SPECIAL_COMPILER_FLAGS}
+        )
+        set_target_properties(examples_test_windows PROPERTIES FOLDER "Tests")
+        add_test(examples_test_windows ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/examples_test)
+    endif()
 
     add_executable(test_all_unit_base test_all_unit_base.cpp)
     if(MSVC)

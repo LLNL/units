@@ -11,9 +11,12 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <cmath>
 #include <fstream>
+#include <iostream>
 #include <json.hpp>
 #include <ostream>
+#include <set>
 #include <sstream>
+#include <string>
 
 TEST(UCUM, domain_exclusion)
 {

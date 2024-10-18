@@ -9,6 +9,7 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include <algorithm>
 #include <fstream>
+#include <string>
 #include <vector>
 
 // structure containing information on a single conversion

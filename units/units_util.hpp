@@ -15,22 +15,26 @@ namespace detail {
      * would overflow */
     template<int Bits>
     struct bitfield {
-        static constexpr int32_t min = -(static_cast<int32_t>(1U << Bits) / 2);
-        static constexpr int32_t max = static_cast<int32_t>(1U << Bits) / 2 - 1;
+        static constexpr int32_t min_val =
+            -(static_cast<int32_t>(1U << Bits) / 2);
+        static constexpr int32_t max_val =
+            static_cast<int32_t>(1U << Bits) / 2 - 1;
         template<class T>
         static constexpr bool plus_overflows(const T& a, const T& b)
         {
-            return ((b > 0) && (a > max - b)) || ((b < 0) && (a < min - b));
+            return ((b > 0) && (a > max_val - b)) ||
+                ((b < 0) && (a < min_val - b));
         }
         template<class T>
         static constexpr bool minus_overflows(const T& a, const T& b)
         {
-            return ((b < 0) && (a > max + b)) || ((b > 0) && (a < min + b));
+            return ((b < 0) && (a > max_val + b)) ||
+                ((b > 0) && (a < min_val + b));
         }
         template<class T>
         static constexpr bool times_overflows(const T& a, const T& b)
         {
-            return (a * b < min) || (a * b > max);
+            return (a * b < min_val) || (a * b > max_val);
         }
     };
 

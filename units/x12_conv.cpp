@@ -9,6 +9,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <algorithm>
 #include <array>
 #include <cstring>
+#include <string>
 #include <tuple>
 
 namespace UNITS_NAMESPACE {
@@ -224,7 +225,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> x12_units{{
     unitD{"FO", "FLUID OUNCE", precise::us::floz},
     unitD{"FT", "FOOT", precise::ft},
     unitD{"FU", "FURLONG", precise::one},
-    unitD{"G2", "GALLONS PER MINUTE", precise::gal / precise::min},
+    unitD{"G2", "GALLONS PER MINUTE", precise::gal / precise::minute},
     unitD{"G5", "GILL (IMPERIAL)", precise::imp::gill},
     unitD{"GA", "GALLON", precise::gal},
     unitD{"GG", "GREAT GROSS", precise::one},
@@ -301,7 +302,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 486> x12_units{{
     unitD{"ME", "MILLIGRAM", precise::mg},
     unitD{"MG", "METRIC GROSS TON", precise::one},
     unitD{"MI", "METRIC", precise::one},
-    unitD{"MJ", "MINUTE", precise::min},
+    unitD{"MJ", "MINUTE", precise::minute},
     unitD{"ML", "MILLILITER", precise::milli* precise::L},
     unitD{"MM", "MILLIMETER", precise::mm},
     unitD{"MN", "METRIC NET TON", precise::one},
