@@ -25,11 +25,11 @@ jobs:
 
       - name: Get LCov
         run: |
-          sudo apt-get install ca-certificates
-          wget https://github.com/linux-test-project/lcov/releases/download/v2.2/lcov-2.2.tar.gz
-          tar -xzf lcov-2.2.tar.gz
-          cd lcov-2.2
-          sudo make install
+          sudo apt-get install ca-certificates lcov
+          #wget https://github.com/linux-test-project/lcov/releases/download/v2.2/lcov-2.2.tar.gz
+          #tar -xzf lcov-2.2.tar.gz
+          #cd lcov-2.2
+          #sudo make install
 
       - name: Configure
         run: |
@@ -59,7 +59,7 @@ jobs:
           files: build/coverage.info
           fail_ci_if_error: true
           functionalities: fixes
-          #token: ${{ secrets.CODECOV_TOKEN }} # required
+          token: ${{ secrets.CODECOV_TOKEN }} # required
 
 
 
