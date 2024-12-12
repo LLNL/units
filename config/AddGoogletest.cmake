@@ -42,9 +42,13 @@ add_subdirectory(
 
 if(NOT MSVC)
     target_compile_options(gtest PRIVATE "-Wno-undef -Wno-c++17-attribute-extensions")
-    target_compile_options(gmock PRIVATE "-Wno-undef -Wno-c++17-attribute-extensions") 
-    target_compile_options(gtest_main PRIVATE "-Wno-undef -Wno-c++17-attribute-extensions")
-    target_compile_options(gmock_main PRIVATE "-Wno-undef -Wno-c++17-attribute-extensions")
+    target_compile_options(gmock PRIVATE "-Wno-undef -Wno-c++17-attribute-extensions")
+    target_compile_options(
+        gtest_main PRIVATE "-Wno-undef -Wno-c++17-attribute-extensions"
+    )
+    target_compile_options(
+        gmock_main PRIVATE "-Wno-undef -Wno-c++17-attribute-extensions"
+    )
 endif()
 
 if(GOOGLE_TEST_INDIVIDUAL)
