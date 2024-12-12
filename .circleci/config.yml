@@ -67,7 +67,7 @@ jobs:
 
   unitsMSan:
     machine:
-      image: ubuntu-2204:2024.01.2
+      image: ubuntu-2204:2022.10.2
     docker:
       - image: helics/buildenv:sanitizers-14
     environment:
