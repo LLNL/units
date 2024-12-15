@@ -30,13 +30,16 @@ NB_MODULE(units_llnl, mod)
             [](const units::precise_unit& type1) {
                 return units::getCommodityName(type1.commodity());
             })
-        .def("set_commodity",[](units::precise_unit* unit,
-            const char *commodity) {
-                return units::precise_unit(*unit,units::getCommodity(std::string(commodity)));
+        .def(
+            "set_commodity",
+            [](units::precise_unit* unit, const char* commodity) {
+                return units::precise_unit(
+                    *unit, units::getCommodity(std::string(commodity)));
             })
-        .def("set_multiplier",[](units::precise_unit* unit,
-            double mult) {
-                return units::precise_unit(mult,*unit);
+        .def(
+            "set_multiplier",
+            [](units::precise_unit* unit, double mult) {
+                return units::precise_unit(mult, *unit);
             })
         .def("inv", &units::precise_unit::inv)
         .def(nb::self * nb::self)
@@ -145,13 +148,19 @@ NB_MODULE(units_llnl, mod)
                 new (measurement) units::precise_measurement(value, unit);
             })
         .def("value", &units::precise_measurement::value)
-        .def("set_value",[](units::precise_measurement* measurement,
-            double value) {
+        .def(
+            "set_value",
+            [](units::precise_measurement* measurement, double value) {
                 return units::precise_measurement(value, measurement->units());
             })
-        .def("set_commodity",[](units::precise_measurement* measurement,
-            const char *commodity) {
-                return units::precise_measurement(measurement->value(), units::precise_unit(measurement->units(),units::getCommodity(std::string(commodity))));
+        .def(
+            "set_commodity",
+            [](units::precise_measurement* measurement, const char* commodity) {
+                return units::precise_measurement(
+                    measurement->value(),
+                    units::precise_unit(
+                        measurement->units(),
+                        units::getCommodity(std::string(commodity))));
             })
         .def("units", &units::precise_measurement::units)
         .def(
@@ -241,14 +250,21 @@ NB_MODULE(units_llnl, mod)
     mod.def(
         "convert_pu",
         [](double val,
-            const units::precise_unit& unitIn,
-            const units::precise_unit& unitOut,double base_value) {
-                return units::convert(val, unitIn, unitOut,base_value);
+           const units::precise_unit& unitIn,
+           const units::precise_unit& unitOut,
+           double base_value) {
+            return units::convert(val, unitIn, unitOut, base_value);
         });
-    mod.def("convert_pu", [](double val, const char* unitIn, const char* unitOut,double base_value) {
-        return units::convert(
-            val,
-            units::unit_from_string(std::string(unitIn)),
-            units::unit_from_string(std::string(unitOut)),base_value);
+    mod.def(
+        "convert_pu",
+        [](double val,
+           const char* unitIn,
+           const char* unitOut,
+           double base_value) {
+            return units::convert(
+                val,
+                units::unit_from_string(std::string(unitIn)),
+                units::unit_from_string(std::string(unitOut)),
+                base_value);
         });
 }

@@ -156,7 +156,6 @@ if(NOT UNITS_HEADER_ONLY)
                "enable Construction of the units shared library" OFF
         )
     endif(BUILD_SHARED_LIBS)
-    
 
 else()
     option(UNITS_BUILD_STATIC_LIBRARY "enable Construction of the units static library"
@@ -230,7 +229,7 @@ if(NOT UNITS_HEADER_ONLY AND NOT UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(converter)
 endif()
 
-if (NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
+if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
     add_subdirectory(python)
 endif()
 
