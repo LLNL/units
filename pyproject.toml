@@ -1,5 +1,5 @@
 [build-system]
-requires = ["scikit-build-core >=0.10", "nanobind >=2.4.0"]
+requires = ["scikit-build-core >=0.10", "nanobind >=2.4.0","cmake>=3.22"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -7,12 +7,14 @@ name = "units-llnl"
 version = "0.10.0"
 description = "Python bindings for the llnl units library"
 readme = "../README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
-    { name = "Philip Top", email = "top1@llnl.gov" },
+    { name = "phlptp22", email = "top1@llnl.gov" },
 ]
 classifiers = [
-    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD-3-Clause",
+    "Operating System :: OS Independent",
 ]
 
 [project.urls]
@@ -29,16 +31,16 @@ build-dir = "build/{wheel_tag}"
 # Build stable ABI wheels for CPython 3.12+
 wheel.py-api = "cp312"
 
+# ensure the python extension gets built
+cmake.define = {"-DUNITS_BUILD_PYTHON_LIBRARY=ON"}
+
 [tool.cibuildwheel]
 # Necessary to see build output from the actual compilation
 build-verbosity = 1
 
 # Run pytest to ensure that the package was correctly built
-test-command = "pytest {project}/tests"
+test-command = "pytest {project}/python/tests"
 test-requires = "pytest"
-
-# Don't test Python 3.11 wheels on macOS/arm64
-test-skip="cp38-macosx_*:arm64"
 
 # Needed for full C++17 support
 [tool.cibuildwheel.macos.environment]
