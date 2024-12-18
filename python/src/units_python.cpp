@@ -83,7 +83,7 @@ NB_MODULE(units_llnl, mod)
                const units::precise_unit& type2) {
                 return type1.has_same_base(type2);
             },
-            "check if two units have the same base units as eachother")
+            "check if two units have the same base units as each other")
         .def(
             "equivalent_non_counting",
             [](const units::precise_unit& type1,
@@ -97,7 +97,7 @@ NB_MODULE(units_llnl, mod)
                const units::precise_unit& type2) {
                 return type1.is_convertible(type2);
             },
-            "check if two units are convertible to eachother")
+            "check if two units are convertible to each other")
         .def(
             "is_convertible_to",
             [](const units::precise_unit& type1, const char* desired_units) {
