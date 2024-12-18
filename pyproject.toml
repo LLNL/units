@@ -6,7 +6,7 @@ build-backend = "scikit_build_core.build"
 name = "units-llnl"
 version = "0.10.0"
 description = "Python bindings for the llnl units library"
-readme = "../README.md"
+readme = "./README.md"
 requires-python = ">=3.10"
 authors = [
     { name = "phlptp22", email = "top1@llnl.gov" },
