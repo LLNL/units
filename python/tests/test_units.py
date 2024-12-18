@@ -11,7 +11,7 @@ def test_basic_unit():
     u3=u1/u2
     u4=u.unit('mph')
     assert(u3.is_convertible(u4))
-    
+
 def test_conditions():
     u1=u.unit('m')
     u2=u.unit('error')
@@ -20,10 +20,10 @@ def test_conditions():
     assert(u2.is_error())
     assert(u1.is_normal())
     assert(not u2.is_normal())
-    
+
     assert(not u2.is_default())
-    
+
     assert(u1.is_valid())
-    
+
     assert(u1.is_finite())
     assert(not u3.is_finite())

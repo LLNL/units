@@ -100,9 +100,9 @@ NB_MODULE(units_llnl, mod)
             "check if two units are convertible to eachother")
         .def(
             "is_convertible_to",
-            [](const units::precise_unit& type1,
-                const char *desired_units) {
-                    return type1.is_convertible( units::unit_from_string(std::string(desired_units)));
+            [](const units::precise_unit& type1, const char* desired_units) {
+                return type1.is_convertible(
+                    units::unit_from_string(std::string(desired_units)));
             },
             "check if the unit can be converted to the desired unit")
         .def(
@@ -280,13 +280,23 @@ NB_MODULE(units_llnl, mod)
            const units::precise_unit& unitIn,
            const units::precise_unit& unitOut) {
             return units::convert(val, unitIn, unitOut);
-        },"value"_a,"unit_in"_a,"unit_out"_a, "value represented by one unit in terms of another");
-    mod.def("convert", [](double val, const char* unitIn, const char* unitOut) {
-        return units::convert(
-            val,
-            units::unit_from_string(std::string(unitIn)),
-            units::unit_from_string(std::string(unitOut)));
-    },"value"_a,"unit_in"_a,"unit_out"_a,"generate a value represented by one unit in terms of another");
+        },
+        "value"_a,
+        "unit_in"_a,
+        "unit_out"_a,
+        "value represented by one unit in terms of another");
+    mod.def(
+        "convert",
+        [](double val, const char* unitIn, const char* unitOut) {
+            return units::convert(
+                val,
+                units::unit_from_string(std::string(unitIn)),
+                units::unit_from_string(std::string(unitOut)));
+        },
+        "value"_a,
+        "unit_in"_a,
+        "unit_out"_a,
+        "generate a value represented by one unit in terms of another");
     mod.def(
         "convert_pu",
         [](double val,
@@ -294,7 +304,12 @@ NB_MODULE(units_llnl, mod)
            const units::precise_unit& unitOut,
            double base_value) {
             return units::convert(val, unitIn, unitOut, base_value);
-        },"value"_a,"unit_in"_a,"unit_out"_a,"base_value"_a, "generate a value represented by one unit in terms of another if one of the units is in per-unit, the base_value is used in part of the conversion");
+        },
+        "value"_a,
+        "unit_in"_a,
+        "unit_out"_a,
+        "base_value"_a,
+        "generate a value represented by one unit in terms of another if one of the units is in per-unit, the base_value is used in part of the conversion");
     mod.def(
         "convert_pu",
         [](double val,
@@ -306,6 +321,14 @@ NB_MODULE(units_llnl, mod)
                 units::unit_from_string(std::string(unitIn)),
                 units::unit_from_string(std::string(unitOut)),
                 base_value);
-        },"value"_a,"unit_in"_a,"unit_out"_a,"base_value"_a,"generate a value represented by one unit in terms of another if one of the units is in per-unit, the base_value is used in part of the conversion");
-    mod.def("default_unit",&units::default_unit,"get the default unit to use for a particular type of measurement");
+        },
+        "value"_a,
+        "unit_in"_a,
+        "unit_out"_a,
+        "base_value"_a,
+        "generate a value represented by one unit in terms of another if one of the units is in per-unit, the base_value is used in part of the conversion");
+    mod.def(
+        "default_unit",
+        &units::default_unit,
+        "get the default unit to use for a particular type of measurement");
 }
