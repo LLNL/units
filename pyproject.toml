@@ -3,7 +3,7 @@ requires = ["scikit-build-core >=0.10", "nanobind >=2.4.0","cmake>=3.22"]
 build-backend = "scikit_build_core.build"
 
 [project]
-name = "units-llnl"
+name = "units_llnl"
 version = "0.10.0"
 description = "Python bindings for the llnl units library"
 readme = "./README.md"
