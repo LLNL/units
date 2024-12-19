@@ -32,7 +32,7 @@ jobs:
     - name: Build and install
       run: |
         python -m pip install pytest
-        pip install --verbose .
+        pip install -vv .
 
     - name: Test
       run: python -m pytest ./python/tests
