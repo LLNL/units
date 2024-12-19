@@ -230,6 +230,7 @@ if(NOT UNITS_HEADER_ONLY AND NOT UNITS_BUILD_FUZZ_TARGETS)
 endif()
 
 if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
+    message(STATUS "building the python library")
     add_subdirectory(python)
 endif()
 
