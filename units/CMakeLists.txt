@@ -130,6 +130,7 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
     )
     target_link_libraries(units PRIVATE compile_flags_target)
 
+    set_target_properties(units PROPERTIES POSITION_INDEPENDENT_CODE ON)
     if(UNITS_ENABLE_TESTS)
         target_compile_definitions(
             units PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
