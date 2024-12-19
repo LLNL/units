@@ -5,11 +5,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Make sure users don't get warnings on a tested (3.0 to 3.27) version of CMake. For
+# Make sure users don't get warnings on a tested (3.0 to 3.31) version of CMake. For
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
-if(${CMAKE_VERSION} VERSION_GREATER 3.20)
-    cmake_minimum_required(VERSION 3.20...3.30)
+if(${CMAKE_VERSION} VERSION_GREATER 3.22)
+    cmake_minimum_required(VERSION 3.22...3.31)
 else()
     cmake_minimum_required(VERSION 3.0)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
@@ -23,7 +23,7 @@ endif()
 project(
     ${UNITS_CMAKE_PROJECT_NAME}
     LANGUAGES C CXX
-    VERSION 0.9.2
+    VERSION 0.10.0
 )
 include(CMakeDependentOption)
 include(CTest)
@@ -107,6 +107,11 @@ cmake_dependent_option(
 cmake_dependent_option(
     UNITS_CLANG_TIDY "Look for and use Clang-Tidy" OFF
     "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME;NOT CMAKE_VERSION VERSION_LESS 3.6" OFF
+)
+
+cmake_dependent_option(
+    UNITS_BUILD_PYTHON_LIBRARY "Build the simplified python library" OFF
+    "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
 set(UNITS_CLANG_TIDY_OPTIONS
     ""
@@ -222,6 +227,11 @@ endif()
 if(NOT UNITS_HEADER_ONLY AND NOT UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(webserver)
     add_subdirectory(converter)
+endif()
+
+if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
+    message(STATUS "building the python library")
+    add_subdirectory(python)
 endif()
 
 if(UNITS_INSTALL)
