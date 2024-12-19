@@ -28,7 +28,7 @@ find_package(nanobind CONFIG REQUIRED)
 
 nanobind_add_module(units_llnl NB_STATIC STABLE_ABI src/units_python.cpp)
 
-target_link_libraries(units_llnl PUBLIC units::units)
+target_link_libraries(units_llnl PRIVATE units::units)
 
 # Install directive for scikit-build-core
 install(TARGETS units_llnl LIBRARY DESTINATION units_llnl)
