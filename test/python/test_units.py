@@ -11,6 +11,12 @@ def test_basic_unit():
     u3=u1/u2
     u4=u.unit('mph')
     assert(u3.is_convertible(u4))
+    
+def test_basic_multiplication():
+    u1=u.unit('m')
+    u2=u.unit('s')
+    u3=u1/(u2*u2)
+    assert(u3==u.unit('m/s^2'))
 
 def test_conditions():
     u1=u.unit('m')
@@ -26,4 +32,13 @@ def test_conditions():
     assert(u1.is_valid())
 
     assert(u1.is_finite())
+    assert(u3.is_valid())
     assert(not u3.is_finite())
+    
+def test_root():
+    u1=u.unit('m^6 per second squared')
+    u2=u1.root(2)
+    u3=u1.sqrt()
+    u4=u.unit('m*m*m/s')
+    assert(u2==u3)
+    assert(u3==u4)
