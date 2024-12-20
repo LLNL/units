@@ -30,10 +30,10 @@ build-dir = "build/{wheel_tag}"
 
 # The build targets to use when building the project. Empty builds the default
 # target.
-build.targets = ["units_llnl"]
+build.targets = ["units_llnl_ext"]
 
 # The components to install. If empty, all default components are installed.
-install.components = ["units_llnl"]
+install.components = []
 
 # Build stable ABI wheels for CPython 3.12+
 wheel.py-api = "cp312"

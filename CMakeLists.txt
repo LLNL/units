@@ -257,12 +257,12 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
     )
     find_package(nanobind CONFIG REQUIRED)
 
-    nanobind_add_module(units_llnl NB_STATIC STABLE_ABI python/units_python.cpp)
+    nanobind_add_module(units_llnl_ext NB_STATIC STABLE_ABI python/units_python.cpp)
 
-    target_link_libraries(units_llnl PRIVATE units::units)
+    target_link_libraries(units_llnl_ext PRIVATE units::units)
 
     # Install directive for scikit-build-core
-    install(TARGETS units_llnl LIBRARY DESTINATION units_llnl)
+    install(TARGETS units_llnl_ext LIBRARY DESTINATION units_llnl)
 
 endif()
 
