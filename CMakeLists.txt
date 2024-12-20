@@ -224,7 +224,7 @@ elseif(UNITS_ENABLE_TESTS)
     message(WARNING "UNITS unit tests only supported under cmake 3.13 or greater")
 endif()
 
-if(NOT UNITS_HEADER_ONLY AND NOT UNITS_BUILD_FUZZ_TARGETS)
+if(NOT UNITS_HEADER_ONLY AND NOT UNITS_BUILD_FUZZ_TARGETS AND NOT SKBUILD)
     add_subdirectory(webserver)
     add_subdirectory(converter)
 endif()
@@ -266,7 +266,7 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
 
 endif()
 
-if(UNITS_INSTALL)
+if(UNITS_INSTALL AND NOT SKBUILD)
     if(UNITS_BUILD_STATIC_LIBRARY)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
