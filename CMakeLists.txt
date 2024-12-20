@@ -231,38 +231,38 @@ endif()
 
 if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
     message(STATUS "building the python library")
-    
-find_package(
-    Python 3.10 REQUIRED
-    COMPONENTS Interpreter Development.Module
-    OPTIONAL_COMPONENTS Development.SABIModule
-)
 
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_BUILD_TYPE
-        Release
-        CACHE STRING "Choose the type of build." FORCE
+    find_package(
+        Python 3.10 REQUIRED
+        COMPONENTS Interpreter Development.Module
+        OPTIONAL_COMPONENTS Development.SABIModule
     )
-    set_property(
-        CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel"
-                                        "RelWithDebInfo"
+
+    if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+        set(CMAKE_BUILD_TYPE
+            Release
+            CACHE STRING "Choose the type of build." FORCE
+        )
+        set_property(
+            CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel"
+                                            "RelWithDebInfo"
+        )
+    endif()
+
+    # Detect the installed nanobind package and import it into CMake
+    execute_process(
+        COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        OUTPUT_VARIABLE nanobind_ROOT
     )
-endif()
+    find_package(nanobind CONFIG REQUIRED)
 
-# Detect the installed nanobind package and import it into CMake
-execute_process(
-    COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE nanobind_ROOT
-)
-find_package(nanobind CONFIG REQUIRED)
+    nanobind_add_module(units_llnl NB_STATIC STABLE_ABI python/units_python.cpp)
 
-nanobind_add_module(units_llnl NB_STATIC STABLE_ABI python/units_python.cpp)
+    target_link_libraries(units_llnl PRIVATE units::units)
 
-target_link_libraries(units_llnl PRIVATE units::units)
-
-# Install directive for scikit-build-core
-install(TARGETS units_llnl LIBRARY DESTINATION units_llnl)
+    # Install directive for scikit-build-core
+    install(TARGETS units_llnl LIBRARY DESTINATION units_llnl)
 
 endif()
 
