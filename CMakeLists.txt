@@ -224,7 +224,10 @@ elseif(UNITS_ENABLE_TESTS)
     message(WARNING "UNITS unit tests only supported under cmake 3.13 or greater")
 endif()
 
-if(NOT UNITS_HEADER_ONLY AND NOT UNITS_BUILD_FUZZ_TARGETS AND NOT SKBUILD)
+if(NOT UNITS_HEADER_ONLY
+   AND NOT UNITS_BUILD_FUZZ_TARGETS
+   AND NOT SKBUILD
+)
     add_subdirectory(webserver)
     add_subdirectory(converter)
 endif()
