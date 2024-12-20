@@ -13,7 +13,7 @@ namespace nb = nanobind;
 
 using namespace nb::literals;
 
-NB_MODULE(units_llnl, mod)
+NB_MODULE(units_llnl_ext, mod)
 {
     mod.doc() =
         "A minimal Python extension for the llnl/units C++ library.\n"
