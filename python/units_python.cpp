@@ -35,11 +35,11 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__init__",
             [](units::precise_unit* type,
-                const char* arg0,
-                const char* commodity) {
-                    new (type) units::precise_unit{
-                        units::unit_from_string(std::string(arg0)),
-                        units::getCommodity(std::string(commodity))};
+               const char* arg0,
+               const char* commodity) {
+                new (type) units::precise_unit{
+                    units::unit_from_string(std::string(arg0)),
+                    units::getCommodity(std::string(commodity))};
             })
         .def("multiplier", &units::precise_unit::multiplier)
         .def(
@@ -74,28 +74,28 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "is_exactly_the_same",
             [](const units::precise_unit& type1,
-                const units::precise_unit& type2) {
-                    return type1.is_exactly_the_same(type2);
+               const units::precise_unit& type2) {
+                return type1.is_exactly_the_same(type2);
             })
         .def(
             "has_same_base",
             [](const units::precise_unit& type1,
-                const units::precise_unit& type2) {
-                    return type1.has_same_base(type2);
+               const units::precise_unit& type2) {
+                return type1.has_same_base(type2);
             },
             "check if two units have the same base units as each other")
         .def(
             "equivalent_non_counting",
             [](const units::precise_unit& type1,
-                const units::precise_unit& type2) {
-                    return type1.equivalent_non_counting(type2);
+               const units::precise_unit& type2) {
+                return type1.equivalent_non_counting(type2);
             },
             "check if two units are equivalent in the non-counting units portion of the units (moles|radians|count)")
         .def(
             "is_convertible",
             [](const units::precise_unit& type1,
-                const units::precise_unit& type2) {
-                    return type1.is_convertible(type2);
+               const units::precise_unit& type2) {
+                return type1.is_convertible(type2);
             },
             "check if two units are convertible to each other")
         .def(
@@ -158,8 +158,8 @@ NB_MODULE(units_llnl_ext, mod)
                 return units::to_string(type);
             })
         .def("to_string", [](const units::precise_unit& type) {
-        return units::to_string(type);
-            });
+            return units::to_string(type);
+        });
 
     nb::class_<units::precise_measurement>(
         mod,
@@ -175,17 +175,17 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__init__",
             [](units::precise_measurement* measurement,
-                double value,
-                const char* arg0) {
-                    new (measurement) units::precise_measurement(
-                        value, units::unit_from_string(std::string(arg0)));
+               double value,
+               const char* arg0) {
+                new (measurement) units::precise_measurement(
+                    value, units::unit_from_string(std::string(arg0)));
             })
         .def(
             "__init__",
             [](units::precise_measurement* measurement,
-                double value,
-                const units::precise_unit& unit) {
-                    new (measurement) units::precise_measurement(value, unit);
+               double value,
+               const units::precise_unit& unit) {
+                new (measurement) units::precise_measurement(value, unit);
             })
         .def("value", &units::precise_measurement::value)
         .def(
@@ -203,28 +203,28 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "value_as",
             [](const units::precise_measurement& measurement,
-                const units::precise_unit& unit) {
-                    return measurement.value_as(unit);
+               const units::precise_unit& unit) {
+                return measurement.value_as(unit);
             })
         .def(
             "value_as",
             [](const units::precise_measurement& measurement,
-                const char* units) {
-                    return measurement.value_as(
-                        units::unit_from_string(std::string(units)));
+               const char* units) {
+                return measurement.value_as(
+                    units::unit_from_string(std::string(units)));
             })
         .def(
             "convert_to",
             [](const units::precise_measurement& measurement,
-                const units::precise_unit& unit) {
-                    return measurement.convert_to(unit);
+               const units::precise_unit& unit) {
+                return measurement.convert_to(unit);
             })
         .def(
             "convert_to",
             [](const units::precise_measurement& measurement,
-                const char* units) {
-                    return measurement.convert_to(
-                        units::unit_from_string(std::string(units)));
+               const char* units) {
+                return measurement.convert_to(
+                    units::unit_from_string(std::string(units)));
             })
         .def("convert_to_base", &units::precise_measurement::convert_to_base,"convert a measurement to a measurement using the base si units")
         .def("as_unit", &units::precise_measurement::as_unit)
@@ -244,7 +244,9 @@ NB_MODULE(units_llnl_ext, mod)
         .def(nb::self < nb::self)
         .def(
             "__pow__",
-            [](const units::precise_measurement& measurement, int power) { return pow(measurement,power); },
+            [](const units::precise_measurement& measurement, int power) {
+                return pow(measurement, power);
+            },
             nb::is_operator())
         .def(
             "is_valid",
@@ -272,15 +274,15 @@ NB_MODULE(units_llnl_ext, mod)
                 return units::to_string(measurement);
             })
         .def("to_string", [](const units::precise_measurement& measurement) {
-        return units::to_string(measurement);
-            });
+            return units::to_string(measurement);
+        });
 
     mod.def(
         "convert",
         [](double val,
-            const units::precise_unit& unitIn,
-            const units::precise_unit& unitOut) {
-                return units::convert(val, unitIn, unitOut);
+           const units::precise_unit& unitIn,
+           const units::precise_unit& unitOut) {
+            return units::convert(val, unitIn, unitOut);
         },
         "value"_a,
         "unit_in"_a,
@@ -301,10 +303,10 @@ NB_MODULE(units_llnl_ext, mod)
     mod.def(
         "convert_pu",
         [](double val,
-            const units::precise_unit& unitIn,
-            const units::precise_unit& unitOut,
-            double base_value) {
-                return units::convert(val, unitIn, unitOut, base_value);
+           const units::precise_unit& unitIn,
+           const units::precise_unit& unitOut,
+           double base_value) {
+            return units::convert(val, unitIn, unitOut, base_value);
         },
         "value"_a,
         "unit_in"_a,
@@ -314,14 +316,14 @@ NB_MODULE(units_llnl_ext, mod)
     mod.def(
         "convert_pu",
         [](double val,
-            const char* unitIn,
-            const char* unitOut,
-            double base_value) {
-                return units::convert(
-                    val,
-                    units::unit_from_string(std::string(unitIn)),
-                    units::unit_from_string(std::string(unitOut)),
-                    base_value);
+           const char* unitIn,
+           const char* unitOut,
+           double base_value) {
+            return units::convert(
+                val,
+                units::unit_from_string(std::string(unitIn)),
+                units::unit_from_string(std::string(unitOut)),
+                base_value);
         },
         "value"_a,
         "unit_in"_a,

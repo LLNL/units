@@ -11,7 +11,7 @@ def test_basic_unit():
     u3=u1/u2
     u4=u.unit('mph')
     assert(u3.is_convertible(u4))
-    
+
 def test_basic_multiplication():
     u1=u.unit('m')
     u2=u.unit('s')
