@@ -8,12 +8,16 @@ version = "0.10.0"
 description = "Python bindings for the llnl units library"
 readme = "./README.md"
 requires-python = ">=3.10"
+license = "BSD-3-Clause"
+license-files = [
+    "LICENSE",
+    "NOTICE"
+]
 authors = [
     { name = "phlptp22", email = "top1@llnl.gov" },
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: BSD-3-Clause",
     "Operating System :: OS Independent",
 ]
 
