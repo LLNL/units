@@ -4,9 +4,9 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "units_llnl"
-version = "0.10.0.post1"
-description = "Python bindings for the llnl units library"
-readme = "README.md"
+version = "0.10.2"
+description = "Python bindings for the LLNL units library"
+readme = "python/README.md"
 requires-python = ">=3.10"
 license = {text="BSD-3-Clause"}
 license-files = [
@@ -19,8 +19,18 @@ authors = [
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+    "Development Status :: 4 - Beta",
 ]
-
+keywords = [
+    "units",
+    "measurement",
+    "power systems",
+    "co-simulation",
+    "commodities",
+    "science",
+    "python",
+]
 [project.urls]
 Homepage = "https://github.com/llnl/units"
 Documentation = "https://units.readthedocs.io/en/latest/"

@@ -95,7 +95,7 @@ NB_MODULE(units_llnl_ext, mod)
             },
             "check if two units are equivalent in the non-counting units portion of the units (moles|radians|count)")
         .def(
-            "is_convertible",
+            "is_convertible_to",
             [](const units::precise_unit& type1,
                const units::precise_unit& type2) {
                 return type1.is_convertible(type2);
@@ -108,6 +108,29 @@ NB_MODULE(units_llnl_ext, mod)
                     units::unit_from_string(std::string(desired_units)));
             },
             "check if the unit can be converted to the desired unit")
+        .def(
+            "convert",
+            [](units::precise_unit* unit,
+               double value,
+               const units::precise_unit& convert_to_units) {
+                return units::convert(value, *unit, convert_to_units);
+            },
+            "value"_a,
+            "unit_out"_a,
+            "value represented by one unit in terms of another")
+        .def(
+            "convert",
+            [](units::precise_unit* unit,
+               double value,
+               const char* convert_to_units) {
+                return units::convert(
+                    value,
+                    *unit,
+                    units::unit_from_string(std::string(convert_to_units)));
+            },
+            "value"_a,
+            "unit_out"_a,
+            "value represented by one unit in terms of another")
         .def(
             "is_default",
             &units::precise_unit::is_default,
