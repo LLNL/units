@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "units_llnl"
-version = "0.10.0"
+version = "0.10.0.post1"
 description = "Python bindings for the llnl units library"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -44,6 +44,8 @@ install.components = []
 
 # Build stable ABI wheels for CPython 3.12+
 wheel.py-api = "cp312"
+# require a recent version of cmake
+cmake.version = ">=3.26.1"
 
 # ensure the python extension gets built
 cmake.args = ["-DUNITS_BUILD_PYTHON_LIBRARY=ON", "-DUNITS_ENABLE_TESTS=OFF"]
