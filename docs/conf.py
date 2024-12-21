@@ -38,11 +38,7 @@ current_directory = os.path.dirname(os.path.realpath(__file__))
 
 def which(program):
     def is_exe(fpath):
-        return (
-            os.path.exists(fpath)
-            and os.access(fpath, os.X_OK)
-            and os.path.isfile(fpath)
-        )
+        return os.path.exists(fpath) and os.access(fpath, os.X_OK) and os.path.isfile(fpath)
 
     def ext_candidates(fpath):
         yield fpath
@@ -79,7 +75,7 @@ extensions = [
     #    'sphinx.ext.intersphinx',
     #    'sphinx.ext.coverage',
     "sphinx.ext.mathjax",
-    "sphinx.ext.autosectionlabel"
+    "sphinx.ext.autosectionlabel",
     #    'sphinx.ext.viewcode',
     #    'sphinx.ext.githubpages',
     #    'sphinx.ext.napoleon',
@@ -204,9 +200,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (master_doc, "units.tex", "Units Library Documentation", "Philip Top", "manual")
-]
+latex_documents = [(master_doc, "units.tex", "Units Library Documentation", "Philip Top", "manual")]
 
 # -- Options for manual page output ---------------------------------------
 
