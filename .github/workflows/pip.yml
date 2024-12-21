@@ -27,7 +27,7 @@ jobs:
     - name: Set min macOS version
       if: runner.os == 'macOS'
       run: |
-        echo "MACOSX_DEPLOYMENT_TARGET=10.14" >> $GITHUB_ENV
+        echo "MACOSX_DEPLOYMENT_TARGET=11.0" >> $GITHUB_ENV
 
     - name: Build and install
       run: |
