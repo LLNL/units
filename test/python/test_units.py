@@ -36,7 +36,7 @@ def test_conditions():
     assert(u3.is_valid())
     assert(not u3.is_finite())
     assert(u3.isinf())
-    
+
 def test_root():
     u1=u.unit('m^6 per second squared')
     u2=u1.root(2)
@@ -44,7 +44,7 @@ def test_root():
     u4=u.unit('m*m*m/s')
     assert(u2==u3)
     assert(u3==u4)
-    
+
 def test_base():
     u1=u.unit('3 ft')
     u2 = u.unit('yd')
@@ -53,7 +53,7 @@ def test_base():
     assert(u1==u2)
     assert(u1.has_same_base(u2))
     assert(u2.has_same_base(u3))
-    
+
 def test_multiplier():
     u1=u.unit('nm')
     assert(u1.multiplier()==1e-9)
@@ -68,25 +68,25 @@ def test_commodity():
     assert(u1.commodity()=='gold')
     u2 = u1.set_commodity('silver')
     assert(u2.commodity()=='silver')
-    
+
 def test_string():
     u1=u.unit('lb')
     assert(u1.to_string()=='lb')
     s3=f"the unit is {u1}"
     assert(s3=="the unit is lb")
-    
+
 def test_inv():
     u1=u.unit('s')
     assert(u1.inv()==u.unit('Hz'))
     u3=u1.inv().inv()
     assert(u3==u1)
-    
+
 def test_float_mult():
     u1=u.unit('m')
     m3=10*u1
     assert(type(m3).__name__=='measurement')
     assert(m3.value()==10)
-    
+
     m4=u1*12
     assert(type(m4).__name__=='measurement')
     assert(m4.value()==12)
