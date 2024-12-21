@@ -1,2 +1,11 @@
 build*/
-~$.xlsx
+~$*.xlsx
+nanobind_test.egg-info
+_skbuild
+/dist
+__pycache__
+build
+*.pyd
+*.egg-info
+.vscode
+.vs
