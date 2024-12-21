@@ -11,8 +11,7 @@
 
 [Documentation](https://units.readthedocs.io/en/latest/)
 
-The Units library provides a means of working with units of measurement at runtime, including conversion to and from strings. It provides a small number of types for working with units and measurements and operations necessary for user input and output with units.  For additional description and discussion see [Readme](https://github.com/LLNL/units/blob/main/README.md)
-
+The Units library provides a means of working with units of measurement at runtime, including conversion to and from strings. It provides a small number of types for working with units and measurements and operations necessary for user input and output with units. For additional description and discussion see [Readme](https://github.com/LLNL/units/blob/main/README.md)
 
 ## Table of contents
 
@@ -39,34 +38,33 @@ A units library was needed to be able to represent units from a wide range of di
 4. The library has its origins in power systems so support for per-unit operations was also lacking in the alternatives.
 5. Capture uncertainty and uncertainty calculations directly with a measurement
 
-The python wrapper around the library is mainly intended to be able to handle various string representations and easily handle conversions, along with some support for commodities and packaging.  
+The python wrapper around the library is mainly intended to be able to handle various string representations and easily handle conversions, along with some support for commodities and packaging.
 
 ### Basic use case
 
 The primary use case for the library is string operations and conversion. For example if you have a library that does some computations with physical units. In the library code itself the units are standardized and well defined. For example take a velocity, internally everything is in meters per second, but there is a configuration file that takes in the initial data and you would like to broadly support different units on the input
 
 ```python
-    from units_llnl import unit
-    u1 = unit("m")
-    u2 = unit("cm")
-    v1 = u1.convert(10, u2)
-    assert v1 == 10 * 100
+from units_llnl import unit
 
-    v2 = u1.convert(unit_out=u2, value=20)
-    assert v2 == 2000
+u1 = unit("m")
+u2 = unit("cm")
+v1 = u1.convert(10, u2)
+assert v1 == 10 * 100
 
+v2 = u1.convert(unit_out=u2, value=20)
+assert v2 == 2000
 ```
 
 ```python
-    from units_llnl import measurement
-    m1 = measurement("10 m")
-    m2 = measurement("2.5 s")
-    m3 = m1 / m2
-    m4 = measurement("4.0 m/s")
-    assert m3 == m4
+from units_llnl import measurement
 
+m1 = measurement("10 m")
+m2 = measurement("2.5 s")
+m3 = m1 / m2
+m4 = measurement("4.0 m/s")
+assert m3 == m4
 ```
-
 
 ## Try it out
 
@@ -75,7 +73,6 @@ If you want to try out the string conversion components. There is server running
 [Unit String Conversions](https://units.readthedocs.io/en/latest/_static/convert.html)
 
 For more details see the [documentation](https://units.readthedocs.io/en/latest/web/index.html)
-
 
 ### Unit methods
 
