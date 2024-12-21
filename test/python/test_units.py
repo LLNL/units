@@ -10,7 +10,7 @@ def test_basic_unit():
     u2=u.unit('s')
     u3=u1/u2
     u4=u.unit('mph')
-    assert(u3.is_convertible(u4))
+    assert(u3.is_convertible_to(u4))
 
 def test_basic_multiplication():
     u1=u.unit('m')
@@ -90,3 +90,22 @@ def test_float_mult():
     m4=u1*12
     assert(type(m4).__name__=='measurement')
     assert(m4.value()==12)
+
+
+
+def test_convert_units():
+    u1=u.unit('m')
+    u2=u.unit('cm')
+    v1=u1.convert(10,u2)
+    assert(v1==10*100)
+
+    v2=u1.convert(unit_out=u2,value=20)
+    assert(v2==2000)
+
+def test_convert_string():
+    u1=u.unit('m')
+    v1=u1.convert(10,'mm')
+    assert(v1==10*1000)
+
+    v2=u1.convert(unit_out='mm',value=20)
+    assert(v2==20000)
