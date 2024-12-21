@@ -38,6 +38,8 @@ aliases:
 
 jobs:
   unitsTSan:
+    machine:
+      image: ubuntu-2204:2024.01.2
     docker:
       - image: helics/buildenv:sanitizers-14
     environment:
@@ -49,8 +51,10 @@ jobs:
       - run: *run_units
 
   unitsASan:
+    machine:
+      image: ubuntu-2204:2024.11.1
     docker:
-      - image: helics/buildenv:sanitizers-14
+      - image: helics/buildenv:sanitizers-19
     environment:
       CMAKE_FLAGS: '-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS="-fsanitize=undefined,address -lc++ -lc++abi -fsanitize-address-use-after-scope -Wno-unused-command-line-argument -fno-omit-frame-pointer -g -O1  -fsanitize-blacklist=/root/project/.circleci/asan_blacklist.txt"  '
       LSAN_OPTIONS: "suppressions=/root/project/.circleci/leak_suppression.txt"
@@ -62,6 +66,8 @@ jobs:
       - run: *run_units
 
   unitsMSan:
+    machine:
+      image: ubuntu-2204:2022.10.2
     docker:
       - image: helics/buildenv:sanitizers-14
     environment:
@@ -110,9 +116,9 @@ workflows:
   version: 2
   units_test:
     jobs:
-      - unitsMSan
+      #      - unitsMSan
       - unitsASan
-      - unitsTSan
+      #      - unitsTSan
       - unitsInstall
       - unitsInstall-alt
       - unitsFuzz

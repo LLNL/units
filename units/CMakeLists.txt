@@ -83,7 +83,7 @@ if(UNITS_BUILD_SHARED_LIBRARY)
     if(CMAKE_CXX_STANDARD GREATER 16)
         target_compile_definitions(units PRIVATE -DUNITS_CONSTEXPR_IF_SUPPORTED=1)
     endif()
-    if(UNITS_INSTALL)
+    if(UNITS_INSTALL AND NOT SKBUILD)
         install(
             TARGETS units ${UNITS_LIBRARY_EXPORT_COMMAND}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -130,6 +130,7 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
     )
     target_link_libraries(units PRIVATE compile_flags_target)
 
+    set_target_properties(units PROPERTIES POSITION_INDEPENDENT_CODE ON)
     if(UNITS_ENABLE_TESTS)
         target_compile_definitions(
             units PUBLIC -DENABLE_UNIT_TESTING=1 -DENABLE_UNIT_MAP_ACCESS=1
@@ -155,7 +156,10 @@ elseif(UNITS_BUILD_STATIC_LIBRARY)
     if(CMAKE_CXX_STANDARD GREATER 16)
         target_compile_definitions(units PRIVATE -DUNITS_CONSTEXPR_IF_SUPPORTED=1)
     endif()
-    if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
+    if(UNITS_INSTALL
+       AND NOT UNITS_BINARY_ONLY_INSTALL
+       AND NOT SKBUILD
+    )
         install(TARGETS units ${UNITS_LIBRARY_EXPORT_COMMAND}
                 DESTINATION ${CMAKE_INSTALL_LIBDIR} # INCLUDES DESTINATION
                                                     # include/${PROJECT_NAME}
@@ -178,7 +182,10 @@ target_include_directories(
                           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 target_compile_definitions(header_only INTERFACE UNITS_HEADER_ONLY)
-if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
+if(UNITS_INSTALL
+   AND NOT UNITS_BINARY_ONLY_
+   AND NOT SKBUILD
+)
     install(TARGETS header_only ${UNITS_LIBRARY_EXPORT_COMMAND})
 endif()
 if(UNITS_NAMESPACE)
@@ -193,7 +200,10 @@ if(UNITS_BASE_TYPE)
 endif()
 add_library(${UNITS_LC_PROJECT_NAME}::header_only ALIAS header_only)
 
-if(UNITS_INSTALL AND NOT UNITS_BINARY_ONLY_INSTALL)
+if(UNITS_INSTALL
+   AND NOT UNITS_BINARY_ONLY_INSTALL
+   AND NOT SKBUILD
+)
     install(FILES ${units_header_files}
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${UNITS_LC_PROJECT_NAME}
     )
