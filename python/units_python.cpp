@@ -110,18 +110,27 @@ NB_MODULE(units_llnl_ext, mod)
             "check if the unit can be converted to the desired unit")
         .def(
             "convert",
-            [](units::precise_unit* unit, double value, const units::precise_unit& convert_to_units) {
-                return units::convert(value,*unit,convert_to_units);
-            }, "value"_a,
-                "unit_out"_a,
-                "value represented by one unit in terms of another")
+            [](units::precise_unit* unit,
+               double value,
+               const units::precise_unit& convert_to_units) {
+                return units::convert(value, *unit, convert_to_units);
+            },
+            "value"_a,
+            "unit_out"_a,
+            "value represented by one unit in terms of another")
         .def(
             "convert",
-            [](units::precise_unit* unit, double value, const char *convert_to_units) {
-                return units::convert(value,*unit,units::unit_from_string(std::string(convert_to_units)));
-            }, "value"_a,
+            [](units::precise_unit* unit,
+               double value,
+               const char* convert_to_units) {
+                return units::convert(
+                    value,
+                    *unit,
+                    units::unit_from_string(std::string(convert_to_units)));
+            },
+            "value"_a,
             "unit_out"_a,
-                "value represented by one unit in terms of another")
+            "value represented by one unit in terms of another")
         .def(
             "is_default",
             &units::precise_unit::is_default,
