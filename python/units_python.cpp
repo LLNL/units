@@ -23,8 +23,8 @@ NB_MODULE(units_llnl_ext, mod)
 
     nb::class_<units::precise_unit>(
         mod,
-        "unit",
-        "a unit is a basic building block for unit conversion this library operates mainly on strings and can interpret those strings as units or measurements")
+        "Unit",
+        "a Unit is a basic building block for unit conversion this library operates mainly on strings and can interpret those strings as units or measurements")
         .def(nb::init<>())
         .def(
             "__init__",
@@ -189,8 +189,8 @@ NB_MODULE(units_llnl_ext, mod)
 
     nb::class_<units::precise_measurement>(
         mod,
-        "measurement",
-        "a measurement object consists of a measurement(value) and a unit and allows conversion to other units")
+        "Measurement",
+        "a Measurement object consists of a measurement(value) and a unit and allows conversion to other units")
         .def(nb::init<>())
         .def(
             "__init__",
@@ -370,4 +370,7 @@ NB_MODULE(units_llnl_ext, mod)
         "default_unit",
         &units::default_unit,
         "get the default unit to use for a particular type of measurement");
+    mod.def("add_user_defined_unit",&units::addUserDefinedUnit,"add a custom string to represent a user defined unit");
+    mod.def("add_user_defined_unit", [](const char *unit_name,const char *unit_definition){units::addUserDefinedUnit(std::string(unit_name),units::unit_from_string(std::string(unit_definition)));}, "add a custom string to represent a user defined unit");
+    mod.def("defined_units_from_file",&units::definedUnitsFromFile,"inject a list of user defined units from a file");
 }

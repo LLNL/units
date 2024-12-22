@@ -7,8 +7,8 @@ import units_llnl as u
 
 
 def test_convert_units():
-    u1 = u.unit("m")
-    u2 = u.unit("cm")
+    u1 = u.Unit("m")
+    u2 = u.Unit("cm")
     v1 = u.convert(10, u1, u2)
     assert v1 == 10 * 100
 
@@ -25,8 +25,8 @@ def test_convert_string():
 
 
 def test_convert_units_pu():
-    u1 = u.unit("puMW")
-    u2 = u.unit("kW")
+    u1 = u.Unit("puMW")
+    u2 = u.Unit("kW")
     v1 = u.convert_pu(0.5, u1, u2, 100)
     assert v1 == 50000
 
