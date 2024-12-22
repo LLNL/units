@@ -7,7 +7,7 @@
 // Official repository: https://github.com/boostorg/beast
 //
 /*
-Copyright (c) 2019-2023,
+Copyright (c) 2019-2024,
 Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
