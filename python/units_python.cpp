@@ -370,7 +370,20 @@ NB_MODULE(units_llnl_ext, mod)
         "default_unit",
         &units::default_unit,
         "get the default unit to use for a particular type of measurement");
-    mod.def("add_user_defined_unit",&units::addUserDefinedUnit,"add a custom string to represent a user defined unit");
-    mod.def("add_user_defined_unit", [](const char *unit_name,const char *unit_definition){units::addUserDefinedUnit(std::string(unit_name),units::unit_from_string(std::string(unit_definition)));}, "add a custom string to represent a user defined unit");
-    mod.def("defined_units_from_file",&units::definedUnitsFromFile,"inject a list of user defined units from a file");
+    mod.def(
+        "add_user_defined_unit",
+        &units::addUserDefinedUnit,
+        "add a custom string to represent a user defined unit");
+    mod.def(
+        "add_user_defined_unit",
+        [](const char* unit_name, const char* unit_definition) {
+            units::addUserDefinedUnit(
+                std::string(unit_name),
+                units::unit_from_string(std::string(unit_definition)));
+        },
+        "add a custom string to represent a user defined unit");
+    mod.def(
+        "defined_units_from_file",
+        &units::definedUnitsFromFile,
+        "inject a list of user defined units from a file");
 }
