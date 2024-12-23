@@ -9,3 +9,4 @@ build
 *.egg-info
 .vscode
 .vs
+*/*/_version.py
