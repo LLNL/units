@@ -23,8 +23,8 @@ NB_MODULE(units_llnl_ext, mod)
 
     nb::class_<units::precise_unit>(
         mod,
-        "unit",
-        "a unit is a basic building block for unit conversion this library operates mainly on strings and can interpret those strings as units or measurements")
+        "Unit",
+        "a Unit is a basic building block for unit conversion this library operates mainly on strings and can interpret those strings as units or measurements")
         .def(nb::init<>())
         .def(
             "__init__",
@@ -131,19 +131,7 @@ NB_MODULE(units_llnl_ext, mod)
             "value"_a,
             "unit_out"_a,
             "value represented by one unit in terms of another")
-        .def(
-            "is_default",
-            &units::precise_unit::is_default,
-            "check whether a unit is the default unit definition")
         .def("is_per_unit", &units::precise_unit::is_per_unit)
-        .def(
-            "has_i_flag",
-            &units::precise_unit::has_i_flag,
-            "check whether a unit is setting the i(imaginary) flag")
-        .def(
-            "has_e_flag",
-            &units::precise_unit::has_e_flag,
-            "check whether a unit is setting the e(extra) flag")
         .def(
             "is_valid",
             [](const units::precise_unit& type) {
@@ -161,7 +149,7 @@ NB_MODULE(units_llnl_ext, mod)
             },
             "return true if the unit has the error flags set or is infinite")
         .def(
-            "is_finite",
+            "isfinite",
             [](const units::precise_unit& type) {
                 return units::isfinite(type);
             })
@@ -189,8 +177,8 @@ NB_MODULE(units_llnl_ext, mod)
 
     nb::class_<units::precise_measurement>(
         mod,
-        "measurement",
-        "a measurement object consists of a measurement(value) and a unit and allows conversion to other units")
+        "Measurement",
+        "a Measurement object consists of a measurement(value) and a unit and allows conversion to other units")
         .def(nb::init<>())
         .def(
             "__init__",
@@ -305,6 +293,13 @@ NB_MODULE(units_llnl_ext, mod)
                 return units::root(measurement, 2);
             })
         .def(
+            "isclose",
+            [](const units::precise_measurement& measurement1,
+               const units::precise_measurement& measurement2) {
+                return units::measurement_cast(measurement1) ==
+                    units::measurement_cast(measurement2);
+            })
+        .def(
             "__repr__",
             [](const units::precise_measurement& measurement) {
                 return units::to_string(measurement);
@@ -370,4 +365,20 @@ NB_MODULE(units_llnl_ext, mod)
         "default_unit",
         &units::default_unit,
         "get the default unit to use for a particular type of measurement");
+    mod.def(
+        "add_user_defined_unit",
+        &units::addUserDefinedUnit,
+        "add a custom string to represent a user defined unit");
+    mod.def(
+        "add_user_defined_unit",
+        [](const char* unit_name, const char* unit_definition) {
+            units::addUserDefinedUnit(
+                std::string(unit_name),
+                units::unit_from_string(std::string(unit_definition)));
+        },
+        "add a custom string to represent a user defined unit");
+    mod.def(
+        "defined_units_from_file",
+        &units::definedUnitsFromFile,
+        "inject a list of user defined units from a file");
 }
