@@ -292,8 +292,12 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_measurement& measurement) {
                 return units::root(measurement, 2);
             })
-        .def("isclose",[](const units::precise_measurement& measurement1,const units::precise_measurement& measurement2) {
-            return units::measurement_cast(measurement1)==units::measurement_cast(measurement2);
+        .def(
+            "isclose",
+            [](const units::precise_measurement& measurement1,
+               const units::precise_measurement& measurement2) {
+                return units::measurement_cast(measurement1) ==
+                    units::measurement_cast(measurement2);
             })
         .def(
             "__repr__",

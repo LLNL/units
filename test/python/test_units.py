@@ -37,9 +37,9 @@ def test_conditions():
     assert u3.is_valid()
     assert not u3.isfinite()
     assert u3.isinf()
-    
+
     u4 = u.Unit("puMW")
-    assert(u4.is_per_unit())
+    assert u4.is_per_unit()
     assert not u3.is_per_unit()
 
 
@@ -83,8 +83,8 @@ def test_string():
     assert u1.to_string() == "lb"
     s3 = f"the unit is {u1}"
     assert s3 == "the unit is lb"
-    u3=u.Unit()
-    assert u3.to_string() == ''
+    u3 = u.Unit()
+    assert u3.to_string() == ""
 
 
 def test_inv():

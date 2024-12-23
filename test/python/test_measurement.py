@@ -162,9 +162,10 @@ def test_string():
     assert m1.to_string() == "10 lb"
     s3 = f"the measurement is {m1}"
     assert s3 == "the measurement is 10 lb"
-    
+
+
 def test_close():
     m1 = u.Measurement("10 lb")
     m2 = u.Measurement("10.0000000001 lb")
-    assert m1!=m2
+    assert m1 != m2
     assert m1.isclose(m2)
