@@ -30,15 +30,17 @@ def test_conditions():
     assert u1.is_normal()
     assert not u2.is_normal()
 
-    assert not u2.is_default()
-
     assert u1.is_valid()
 
-    assert u1.is_finite()
+    assert u1.isfinite()
     assert not u1.isinf()
     assert u3.is_valid()
-    assert not u3.is_finite()
+    assert not u3.isfinite()
     assert u3.isinf()
+    
+    u4 = u.Unit("puMW")
+    assert(u4.is_per_unit())
+    assert not u3.is_per_unit()
 
 
 def test_root():
@@ -81,6 +83,8 @@ def test_string():
     assert u1.to_string() == "lb"
     s3 = f"the unit is {u1}"
     assert s3 == "the unit is lb"
+    u3=u.Unit()
+    assert u3.to_string() == ''
 
 
 def test_inv():

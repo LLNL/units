@@ -131,19 +131,7 @@ NB_MODULE(units_llnl_ext, mod)
             "value"_a,
             "unit_out"_a,
             "value represented by one unit in terms of another")
-        .def(
-            "is_default",
-            &units::precise_unit::is_default,
-            "check whether a unit is the default unit definition")
         .def("is_per_unit", &units::precise_unit::is_per_unit)
-        .def(
-            "has_i_flag",
-            &units::precise_unit::has_i_flag,
-            "check whether a unit is setting the i(imaginary) flag")
-        .def(
-            "has_e_flag",
-            &units::precise_unit::has_e_flag,
-            "check whether a unit is setting the e(extra) flag")
         .def(
             "is_valid",
             [](const units::precise_unit& type) {
@@ -161,7 +149,7 @@ NB_MODULE(units_llnl_ext, mod)
             },
             "return true if the unit has the error flags set or is infinite")
         .def(
-            "is_finite",
+            "isfinite",
             [](const units::precise_unit& type) {
                 return units::isfinite(type);
             })
@@ -303,6 +291,9 @@ NB_MODULE(units_llnl_ext, mod)
             "sqrt",
             [](const units::precise_measurement& measurement) {
                 return units::root(measurement, 2);
+            })
+        .def("isclose",[](const units::precise_measurement& measurement1,const units::precise_measurement& measurement2) {
+            return units::measurement_cast(measurement1)==units::measurement_cast(measurement2);
             })
         .def(
             "__repr__",
