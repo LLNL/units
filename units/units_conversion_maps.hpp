@@ -204,7 +204,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<std::pair<unit, const char*>, 55>
 /// definitions for the default units for specific types of measurmeents
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1211>
+    1212>
     defined_unit_strings_si{{
         {"", precise::defunit},
         {"[]", precise::defunit},
@@ -1541,11 +1541,12 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
         {"pH", precise::laboratory::pH},
         {"pHscale", precise::laboratory::pH},
         {"[PH]", precise::laboratory::pH},
+        {"jollies",precise::generate_custom_unit(404)}
     }};
 
 UNITS_CPP14_CONSTEXPR_OBJECT std::array<
     std::pair<const char*, precise_unit>,
-    1169>
+    1181>
     defined_unit_strings_customary{
         {{"candle", precise::other::candle},
          {"candle_it", precise::lm / precise::sr},
@@ -1771,8 +1772,11 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"nmi_br", precise::imp::nautical_mile},
          {"[NMI_BR]", precise::imp::nautical_mile},
          {"nauticalmile_br", precise::imp::nautical_mile},
+         {"admiraltymile", precise::imp::nautical_mile},
+         {"seamile_br", precise::imp::nautical_mile},
          {"cable_br", precise_unit(0.1, precise::imp::nautical_mile)},
          {"nauticalleague_br", precise_unit(3.0, precise::imp::nautical_mile)},
+         {"sealeague_br", precise_unit(3.0, precise::imp::nautical_mile)},
          {"kn_br", precise::imp::nautical_mile / precise::hr},
          {"KN_BR", precise::imp::nautical_mile / precise::hr},
          {"knot_br", precise::imp::nautical_mile / precise::hr},
@@ -1809,6 +1813,8 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"yearleap", precise_unit(366.0, precise::time::day)},  // year
          {"draconicyear", precise_unit(346.620075883, precise::time::day)},
          {"lunaryear", precise_unit(12.0, precise::time::mos)},
+         {"anomalisticmonth", precise_unit(27.554550, precise::time::day)},
+         {"anomalisticyear", precise_unit(365.2596423611, precise::time::day)},
          {"gon", precise::angle::gon},
          {"gon(grade)", precise::angle::gon},
          {"GON", precise::angle::gon},
@@ -2009,6 +2015,11 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"nauticalleague", precise::nautical::league},
          {"nauticalleage_i", precise::nautical::league},
          {"nauticalleague_i", precise::nautical::league},
+         {"seamile", precise::nautical::mile},
+         {"seamile_i", precise::nautical::mile},
+         {"sealeague", precise::nautical::league},
+         {"sealeage_i", precise::nautical::league},
+         {"sealeague_i", precise::nautical::league},
          // this prevents some other issues with the string "br"
          {"br", precise::invalid},
          {"nmi", precise::nautical::mile},
@@ -2444,6 +2455,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"ton", precise::ton},
          {"ton(short)", precise::ton},
          {"ton(short)_US", precise::ton},
+         {"short_us",precise::one}, //in a few cases this preceeds some units in which case it is the default
          {"longton", precise::av::longton},
          {"tonlong", precise::av::longton},
          {"longton_m", precise::av::longton},
@@ -2563,6 +2575,7 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"coffeespoon", precise_unit(1.0 / 2.0, precise::us::tsp)},
          {"csp", precise_unit(1.0 / 2.0, precise::us::tsp)},
          {"dessertspoon", precise_unit(2.0, precise::us::tsp)},
+         {"dessertteaspoon", precise_unit(2.0, precise::us::tsp)},
          {"dsp", precise_unit(2.0, precise::us::tsp)},
          {"dssp", precise_unit(2.0, precise::us::tsp)},
          {"dstspn", precise_unit(2.0, precise::us::tsp)},

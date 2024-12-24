@@ -2586,6 +2586,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"USPetroleum", "US"},
     ckpair{"USshipping", "ship"},
     ckpair{"oil", "US"},
+    ckpair{"petroleum", "US"},
     ckpair{"USdry", "US"},
     ckpair{"US dry", "US"},
     ckpair{"USA", "US"},
@@ -2642,6 +2643,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"reactive", "react"},
     ckpair{"survey", "US"},
     ckpair{"tropical", "t"},
+    ckpair{"tropic", "t"},
     ckpair{"British", "br"},
     ckpair{"british", "br"},
     ckpair{"Br", "br"},
@@ -4404,10 +4406,11 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             ckpair{"deg ", "deg"},
         }};
 
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 33>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 37>
         allCodeReplacements{{
             ckpair{"sq.", "square"},
             ckpair{"cu.", "cubic"},
+            ckpair{"U.S.A.", "US"},
             ckpair{"U.S.", "US"},
             ckpair{"10^", "1e"},
             ckpair{"10-", "1e-"},
@@ -4424,6 +4427,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             ckpair{"Britishthermalunits", "BTU"},
             ckpair{"Britishthermalunitat", "BTU"},
             ckpair{"Britishthermalunit", "BTU"},
+            ckpair{"BritishThermalUnits", "BTU"},
+            ckpair{"BritishThermalUnitAt", "BTU"},
+            ckpair{"BritishThermalUnit", "BTU"},
             ckpair{"BThU", "BTU"},
             ckpair{"-US", "US"},
             ckpair{"--", "*"},

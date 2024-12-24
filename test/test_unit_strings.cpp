@@ -1162,6 +1162,9 @@ TEST(stringToUnits, ParseIssues)
 
     u1 = unit_from_string("wattm");
     EXPECT_EQ(u1, precise::W * precise::m);
+
+    u1 = unit_from_string("British Thermal Unit");
+    EXPECT_EQ(u1, precise::btu);
 }
 
 TEST(stringToUnits, rotSequences)
@@ -1179,6 +1182,8 @@ TEST(stringToUnits, parentheticalModifier)
     EXPECT_EQ(u2, precise::us::mile);
     auto u3 = unit_from_string("British thermal unit (thermochemical)");
     EXPECT_EQ(u3, precise::energy::btu_th);
+    auto u4 = unit_from_string("short(US) ton per day");
+    EXPECT_EQ(u4,precise::av::ton/precise::day);
 }
 
 TEST(stringToUnit, handlingOfSquared)
