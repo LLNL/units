@@ -2584,6 +2584,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"USSurvey", "US"},
     ckpair{"US Survey", "US"},
     ckpair{"USPetroleum", "US"},
+    ckpair{"USpetroleum", "US"},
     ckpair{"USshipping", "ship"},
     ckpair{"oil", "US"},
     ckpair{"USdry", "US"},
@@ -2625,6 +2626,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"English", "br"},
     ckpair{"EUR", "br"},
     ckpair{"UKPetroleum", "brl"},
+    ckpair{"UKpetroleum", "brl"},
     ckpair{"imp", "br"},
     ckpair{"wine", "wine"},
     ckpair{"beer", "wine"},
@@ -2642,6 +2644,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"reactive", "react"},
     ckpair{"survey", "US"},
     ckpair{"tropical", "t"},
+    ckpair{"tropic", "t"},
     ckpair{"British", "br"},
     ckpair{"british", "br"},
     ckpair{"Br", "br"},
@@ -2667,6 +2670,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"boiler", "steam"},
     ckpair{"steam", "steam"},
     ckpair{"refrigeration", "cooling"},
+    ckpair{"petroleum", "US"},
     ckpair{"cooling", "cooling"},
     ckpair{"cloth", "cloth"},
     ckpair{"clothing", "cloth"},
@@ -4404,10 +4408,11 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             ckpair{"deg ", "deg"},
         }};
 
-    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 33>
+    static UNITS_CPP14_CONSTEXPR_OBJECT std::array<ckpair, 37>
         allCodeReplacements{{
             ckpair{"sq.", "square"},
             ckpair{"cu.", "cubic"},
+            ckpair{"U.S.A.", "US"},
             ckpair{"U.S.", "US"},
             ckpair{"10^", "1e"},
             ckpair{"10-", "1e-"},
@@ -4424,6 +4429,9 @@ static bool cleanUnitString(std::string& unit_string, std::uint64_t match_flags)
             ckpair{"Britishthermalunits", "BTU"},
             ckpair{"Britishthermalunitat", "BTU"},
             ckpair{"Britishthermalunit", "BTU"},
+            ckpair{"BritishThermalUnits", "BTU"},
+            ckpair{"BritishThermalUnitAt", "BTU"},
+            ckpair{"BritishThermalUnit", "BTU"},
             ckpair{"BThU", "BTU"},
             ckpair{"-US", "US"},
             ckpair{"--", "*"},

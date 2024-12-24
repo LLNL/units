@@ -9,17 +9,17 @@
 =E2=84=94, =E2=80=B3, (pound), Apothecaries, Mass and weight
 =E2=84=A5, (ounce), Apothecaries, Mass and weight
 1, (unit, point), Quantity Units, Franctions and Percent
-1/10, (one tenth or .1), Fractions, Franctions and Percent
-1/16, (one sixteenth or .0625), Fractions, Franctions and Percent
-1/2, (half or .5), Fractions, Franctions and Percent
-1/3, (one third or .(3)), Fractions, Franctions and Percent
-1/32, (one thirty-second or .03125), Fractions, Franctions and Percent
-1/4, (quart, one forth or .25), Fractions, Franctions and Percent
-1/5, (tithe, one fifth or .2), Fractions, Franctions and Percent
-1/6, (one sixth or .1(6)), Fractions, Franctions and Percent
-1/7, (one seventh or .142857), Fractions, Franctions and Percent
-1/8, (one eights or .125), Fractions, Franctions and Percent
-1/9, (one ninth or .(1)), Fractions, Franctions and Percent
+1/10, (one tenth), Fractions, Franctions and Percent
+1/16, (one sixteenth), Fractions, Franctions and Percent
+1/2, (half), Fractions, Franctions and Percent
+1/3, (one third), Fractions, Franctions and Percent
+1/32, (one thirty-second), Fractions, Franctions and Percent
+1/4, (quart, one forth ), Fractions, Franctions and Percent
+1/5, (tithe, one fifth), Fractions, Franctions and Percent
+1/6, (one sixth ), Fractions, Franctions and Percent
+1/7, (one seventh ), Fractions, Franctions and Percent
+1/8, (one eights ), Fractions, Franctions and Percent
+1/9, (one ninth ), Fractions, Franctions and Percent
 =C3=A5ngstr=C3=B6m, Metric, Distance and Length
 =C2=B0C, (degrees Celsius), Temperature increment conversion, Temperature increment
 =C2=B0C, (degrees Celsius), Temperature scale conversion, Temperature
@@ -173,7 +173,8 @@ becquerel, (Bq), SI radioactivity units, Radioactivity
 beka, Biblical, Historical weights
 Belarusian Ruble, (BYN), European Currencies, Currency
 Belize Dollar, (BZD), Central American Currencies, Currency
-bema or diploum (=CE=B2=E1=BF=86=CE=BC=CE=B1, =E1=BC=80=CF=80=CE=BB=CE=BF=E1=BF=A6=CE=BD), Ancient Greek, Historical Units of Area
+bema(=CE=B2=E1=BF=86=CE=BC=CE=B1, =E1=BC=80=CF=80=CE=BB=CE=BF=E1=BF=A6=CE=BD), Ancient Greek, Historical Units of Area
+diploum (=CE=B2=E1=BF=86=CE=BC=CE=B1, =E1=BC=80=CF=80=CE=BB=CE=BF=E1=BF=A6=CE=BD), Ancient Greek, Historical Units of Area
 berkovets, Old Russian, Historical weights
 Bermudan Dollar, (BMD), North American Currencies, Currency
 bes (8=E2=81=8412 libra, two of an as), Ancient Roman, Historical weights
@@ -185,7 +186,8 @@ bia (=E0=B9=80=E0=B8=9A=E0=B8=B5=E0=B9=89=E0=B8=A2), Thai units, Mass and weight
 BIF, (Burundian Franc), African Curriencies, Currency
 billion barrel of oil equivalent, (BBOE), Oil Energy Equivalent, Energy and Work
 binary number (radix 2), Common Radix Numerals, Roman numbers, Hex, Octal and more
-Birmingham or Stubs' Iron Wire Gauge, B.W.G., Wire Gauges, Wire and Needle Gauge
+Birmingham, B.W.G., Wire Gauges, Wire and Needle Gauge
+Stubs' Iron Wire Gauge, B.W.G., Wire Gauges, Wire and Needle Gauge
 bismerpund, Old Swedish, Historical weights
 bit, Data Storage and Transmission, Computer storage
 Bitcoin, (BTC), Other Currencies and More, Currency
@@ -469,7 +471,7 @@ cup, Cooking (U.S.), Capacity and volume
 CUP, (Cuban Peso), Currencies of the Caribbean, Currency
 curie, (Ci), Other units, Radioactivity
 CVE, (Cape Verdean Escudo), African Curriencies, Currency
-cyathus (shot or dose), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
+cyathus (shot), Ancient Roman Measure (Liquid and Dry), Historical Units of Capacity
 Czech Republic Koruna, (CZK), European Currencies, Currency
 CZK, (Czech Republic Koruna), European Currencies, Currency
 
@@ -608,7 +610,8 @@ dyn, (dyne), Centimeter-Gram-Second System (CGS), Force
 dyne, (dyn), Centimeter-Gram-Second System (CGS), Force
 dyne centimeter, Metric, Torque
 dyne meter, Metric, Torque
-dynym or dylym of Albania, Historical Units Still In Use Today, Area
+dynym of Albania, Historical Units Still In Use Today, Area
+dylym of Albania, Historical Units Still In Use Today, Area
 DZD, (Algerian Dinar), African Curriencies, Currency
 
 ## SECTION E 
@@ -616,8 +619,10 @@ E, (exa), Metric Prefixes, Franctions and Percent
 E1, Computer Connection Speed, Data transfer rate
 East Caribbean Dollar, (XCD), Currencies of the Caribbean, Currency
 Eastern Arabic number (Middle East), Decimal numbers, Roman numbers, Hex, Octal and more
-Eb [EiB], (exabyte  [exbibyte]), Data Storage and Transmission, Computer storage
-Ebit [Eibit], (exabit [exbibit]), Data Storage and Transmission, Computer storage
+Eb, (exabyte), Data Storage and Transmission, Computer storage
+EiB, (exbibyte), Data Storage and Transmission, Computer storage
+Ebit, (exabit), Data Storage and Transmission, Computer storage
+Eibit, ( exbibit), Data Storage and Transmission, Computer storage
 EDGE, Computer Connection Speed, Data transfer rate
 EGP, (Egyptian Pound), African Curriencies, Currency
 Egyptian Pound, (EGP), African Curriencies, Currency
@@ -648,9 +653,10 @@ European ring size (ISO), European Standard Sizes (ISO 8653:2016, most European 
 European shoe size, Continental Europe and Middle East Shoe Size, Shoe Size Conversion
 eV, (electronvolt), Common Units, Energy and Work
 exa, (E), Metric Prefixes, Franctions and Percent
-exabit [exbibit], (Ebit [Eibit]), Data Storage and Transmission, Computer storage
-exabyte  [exbibyte], (Eb [EiB]), Data Storage and Transmission, Computer storage
-
+exabit, (Ebit), Data Storage and Transmission, Computer storage
+exabyte , (Eb), Data Storage and Transmission, Computer storage
+exbibit, (Eibit), Data Storage and Transmission, Computer storage
+exbibyte, (EiB), Data Storage and Transmission, Computer storage
 ## SECTION F 
 f, (femto), Metric Prefixes, Franctions and Percent
 fai mue (=E0=B8=9F=E0=B8=B2=E0=B8=A2=E0=B8=A1=E0=B8=B7=E0=B8=AD, palm of grain), Thai units, Capacity and volume
@@ -727,7 +733,7 @@ foot per year, British (Imperial) And U.S. System, Speed
 foot-pound, (ft*lbs), British and American, Energy and Work
 foot pound-force per second, (ft*lbf/s), British and American, Power
 fot (foot), Old Swedish, Historical Lengths
-French Catheter Scale (FG or Ch), Medical Needle and Catheter Gauges, Wire and Needle Gauge
+French Catheter Scale (Ch), Medical Needle and Catheter Gauges, Wire and Needle Gauge
 French Polynesia CFP Franc, (XPF), Currencies of Australia and Oceania, Currency
 frigoria, (fg), Common Units, Energy and Work
 frigoria per hour, (fg/h), Common Units, Power
@@ -784,8 +790,10 @@ gal/year, (U.S. gallon per year), U.S. and British Imperial, Flow rate by volume
 Gambian Dalasi, (GMD), African Curriencies, Currency
 garnetz, Old Russian Dry Measure, Historical Units of Capacity
 Gastrointestinal X-ray investigation, Radiation dose examples, Radiation
-Gb [GiB], (gigabyte [gibibyte]), Data Storage and Transmission, Computer storage
-Gbit [Gibit], (gigabit [gibibit]), Data Storage and Transmission, Computer storage
+Gb, (gigabyte ), Data Storage and Transmission, Computer storage
+GiB, (gibibyte), Data Storage and Transmission, Computer storage
+Gbit , (gigabit ), Data Storage and Transmission, Computer storage
+Gibit, (gibibit), Data Storage and Transmission, Computer storage
 GBP, (British Pound Sterling, =C2=A3), Major World Currencies, Currency
 Gbps, (gigabit per second), Basic Units of Data Transfer Rate, Data transfer rate
 GBq, (gigabecquerel), SI radioactivity units, Radioactivity
@@ -817,9 +825,11 @@ Gibraltar Pound, (GIP), European Currencies, Currency
 GiB/s, (gibibyte per second), Byte-based Transfer Rate Units (older, 1024-based), Data transfer rate
 giga, (G), Metric Prefixes, Franctions and Percent
 gigabecquerel, (GBq), SI radioactivity units, Radioactivity
-gigabit [gibibit], (Gbit [Gibit]), Data Storage and Transmission, Computer storage
+gigabit, (Gbit ), Data Storage and Transmission, Computer storage
+gibibit, (Gibit), Data Storage and Transmission, Computer storage
 gigabit per second, (Gbps), Basic Units of Data Transfer Rate, Data transfer rate
-gigabyte [gibibyte], (Gb [GiB]), Data Storage and Transmission, Computer storage
+gigabyte , (Gb), Data Storage and Transmission, Computer storage
+gibibyte, (GiB), Data Storage and Transmission, Computer storage
 gigabyte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 gigabyte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 gigabyte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
@@ -907,7 +917,7 @@ g/year, (gram per year), Metric, Flow rate by mass
 h, (hecto), Metric Prefixes, Franctions and Percent
 Haitian Gourde, (HTG), Currencies of the Caribbean, Currency
 half-dozen, Quantity Units, Franctions and Percent
-half or .5, (1/2), Fractions, Franctions and Percent
+half, (1/2), Fractions, Franctions and Percent
 hamma (=E1=BC=85=CE=BC=CE=BC=CE=B1), Ancient Greek, Historical Lengths
 hand, (hd), British Imperial Measure before 1963, Distance and Length
 hand, The American System (US Customary Units) and British Imperial Measures, Distance and Length
@@ -939,7 +949,8 @@ hemipodion (=E1=BC=A1=CE=BC=CE=B9=CF=80=CF=8C=CE=B4=CE=B9=CE=BF=CE=BD), Ancient 
 hemitetartemorion (=E1=BC=A1=CE=BC=CE=B9=CF=84=CE=B5=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, =C2=BD tetartemorion), Ancient Greek (Aeginetic standard), Historical weights
 hemitetartemorion (=E1=BC=A1=CE=BC=CE=B9=CF=84=CE=B5=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, =C2=BD tetartemorion), Ancient Greek (Attic/Eubolic standard), Historical weights
 hexadecimal number (radix 16), Common Radix Numerals, Roman numbers, Hex, Octal and more
-hexapod=C4=93s or orgya (=E1=BC=91=CE=BE=CE=B1=CF=80=CF=8C=CE=B4=CE=B7=CF=82, =E1=BD=80=CF=81=CE=B3=CF=85=CE=B9=CE=AC), Ancient Greek, Historical Units of Area
+hexapod=C4=93s (=E1=BC=91=CE=BE=CE=B1=CF=80=CF=8C=CE=B4=CE=B7=CF=82, =E1=BD=80=CF=81=CE=B3=CF=85=CE=B9=CE=AC), Ancient Greek, Historical Units of Area
+orgya (=E1=BC=91=CE=BE=CE=B1=CF=80=CF=8C=CE=B4=CE=B7=CF=82, =E1=BD=80=CF=81=CE=B3=CF=85=CE=B9=CE=AC), Ancient Greek, Historical Units of Area
 h ft, (hoppus foot, hoppus cube), Lumber measure, Capacity and volume
 HH:MM:SS, (time per kilometer), Pace (Various Sports), Speed
 HH:MM:SS, (time per mile), Pace (Various Sports), Speed
@@ -1066,8 +1077,10 @@ kan, kanme (=E8=B2=AB, =E8=B2=AB=E7=9B=AE), Japanese, Mass and weight
 karch, Old Austrian, Historical weights
 kav (=D7=A7=D7=91), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
 Kazakhstani Tenge, (KZT), Asian Currencies, Currency
-Kbit [Kibit], (kilobit [kibibit]), Data Storage and Transmission, Computer storage
-Kb [KiB], (kilobyte [kibybyte]), Data Storage and Transmission, Computer storage
+Kbit , (kilobit ), Data Storage and Transmission, Computer storage
+Kibit, (kibibit), Data Storage and Transmission, Computer storage
+Kb, (kilobyte), Data Storage and Transmission, Computer storage
+KiB, (kibybyte), Data Storage and Transmission, Computer storage
 kBOE, (kilobarrel of oil equivalent), Oil Energy Equivalent, Energy and Work
 Kbps, (kilobit per second), Basic Units of Data Transfer Rate, Data transfer rate
 kBq, (kilobecquerel), SI radioactivity units, Radioactivity
@@ -1113,9 +1126,11 @@ kilderkin, English brewery cask units, Capacity and volume
 kilo, (k), Metric Prefixes, Franctions and Percent
 kilobarrel of oil equivalent, (kBOE), Oil Energy Equivalent, Energy and Work
 kilobecquerel, (kBq), SI radioactivity units, Radioactivity
-kilobit [kibibit], (Kbit [Kibit]), Data Storage and Transmission, Computer storage
+kilobit , (Kbit ), Data Storage and Transmission, Computer storage
+kibibit, (Kibit), Data Storage and Transmission, Computer storage
 kilobit per second, (Kbps), Basic Units of Data Transfer Rate, Data transfer rate
-kilobyte [kibybyte], (Kb [KiB]), Data Storage and Transmission, Computer storage
+kilobyte, (Kb), Data Storage and Transmission, Computer storage
+kibybyte, (KiB), Data Storage and Transmission, Computer storage
 kilobyte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 kilobyte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 kilobyte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
@@ -1196,8 +1211,9 @@ konch=C4=93 (=CE=BA=CF=8C=CE=B3=CF=87=CE=B7), Ancient Greek (Attic) Liquid Measu
 kondylos (=CE=BA=CF=8C=CE=BD=CE=B4=CF=85=CE=BB=CE=BF=CF=82, two fingers), Ancient Greek, Historical Lengths
 kor (=D7=9B=D7=95=D7=A8), Biblical and Talmudic Dry Measure (Old Testament), Historical Units of Capacity
 kosaya sazhen, Old Russian, Historical Lengths
-kotyl=C4=93 or h=C4=93mina (=CE=BA=CE=BF=CF=84=CF=8D=CE=BB=CE=B7, =E1=BC=A1=CE=BC=CE=AF=CE=BD=CE=B1), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
-kotyl=C4=93, tryblion or h=C4=93mina (=CE=BA=CE=BF=CF=84=CF=8D=CE=BB=CE=B7, =CF=84=CF=81=CF=8D=CE=B2=CE=BB=CE=B9=CE=BF=CE=BD, =E1=BC=A1=CE=BC=CE=AF=CE=BD=CE=B1), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
+kotyl=C4=93 (=CE=BA=CE=BF=CF=84=CF=8D=CE=BB=CE=B7, =E1=BC=A1=CE=BC=CE=AF=CE=BD=CE=B1), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+h=C4=93mina (=CE=BA=CE=BF=CF=84=CF=8D=CE=BB=CE=B7, =E1=BC=A1=CE=BC=CE=AF=CE=BD=CE=B1), Ancient Greeek (Attic) Dry Measure, Historical Units of Capacity
+kotyl=C4=93, tryblion (=CE=BA=CE=BF=CF=84=CF=8D=CE=BB=CE=B7, =CF=84=CF=81=CF=8D=CE=B2=CE=BB=CE=B9=CE=BF=CE=BD, =E1=BC=A1=CE=BC=CE=AF=CE=BD=CE=B1), Ancient Greek (Attic) Liquid Measure, Historical Units of Capacity
 kp, (kilopond), Gravitational Metric System, Force
 kPa, (kilopascal), Metric, Stress and Pressure
 KPW, (North Korean Won), Asian Currencies, Currency
@@ -1317,10 +1333,11 @@ li (=E5=B8=82=E9=87=8C), Chinese units of 1930, Distance and Length
 li (=E5=B8=82=E9=87=90), Chinese units between 1930 and 1959, Mass and weight
 li (=E9=87=8C), Chinese units of 1915, Distance and Length
 li (=E9=87=90), Chinese units of 1915 before 1930, Mass and weight
-li (=E9=87=90 or =E5=8E=98), Chinese units of 1915, Area
-li (=E9=87=90 or =E5=8E=98), Chinese units of 1930, Area
-li (=E9=87=90 or =E5=8E=98), Chinese units of 1915, Distance and Length
-li (=E9=87=90 or =E5=8E=98), Chinese units of 1930, Distance and Length
+li (=E9=87=90), Chinese units of 1915, Area
+li (=E5=8E=98), Chinese units of 1915, Area
+li (=E9=87=90), Chinese units of 1930, Area
+li (=E9=87=90), Chinese units of 1915, Distance and Length
+li (=E9=87=90), Chinese units of 1930, Distance and Length
 LKR, (Sri Lankan Rupee), Asian Currencies, Currency
 lm/cm=C2=B2, (lumen per square centimeter), Luminamce per area units, Illuminance
 lm/ft=C2=B2, (lumen per square foot), Luminamce per area units, Illuminance
@@ -1400,8 +1417,10 @@ maund, Indian units (Akbar system), Mass and weight
 Mauritanian Ouguiya, (MRU), African Curriencies, Currency
 Mauritian Rupee, (MUR), African Curriencies, Currency
 mayon/mayong (=E0=B8=A1=E0=B8=B2=E0=B8=A2=E0=B8=99/=E0=B8=A1=E0=B8=B0=E0=B8=A2=E0=B8=87), Thai units, Mass and weight
-Mbit [Mibit], (megabit [mebibit]), Data Storage and Transmission, Computer storage
-Mb [MiB], (megabyte [mebibyte]), Data Storage and Transmission, Computer storage
+Mbit , (megabit), Data Storage and Transmission, Computer storage
+Mibit, (mebibit), Data Storage and Transmission, Computer storage
+Mb, (megabyte), Data Storage and Transmission, Computer storage
+MiB, (mebibyte), Data Storage and Transmission, Computer storage
 Mbps, (megabit per second), Basic Units of Data Transfer Rate, Data transfer rate
 MBq, (megabecquerel), SI radioactivity units, Radioactivity
 MB/s, (megabyte per second), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
@@ -1420,9 +1439,11 @@ medimnos (=CE=BC=CE=AD=CE=B4=CE=B9=CE=BC=CE=BD=CE=BF=CF=82), Ancient Greeek (Att
 medio, Old Spanish Dry Measure, Historical Units of Capacity
 mega, (M), Metric Prefixes, Franctions and Percent
 megabecquerel, (MBq), SI radioactivity units, Radioactivity
-megabit [mebibit], (Mbit [Mibit]), Data Storage and Transmission, Computer storage
+megabit, (Mbit), Data Storage and Transmission, Computer storage
+mebibit, (Mibit), Data Storage and Transmission, Computer storage
 megabit per second, (Mbps), Basic Units of Data Transfer Rate, Data transfer rate
-megabyte [mebibyte], (Mb [MiB]), Data Storage and Transmission, Computer storage
+megabyte, (Mb), Data Storage and Transmission, Computer storage
+mebibyte, (MiB), Data Storage and Transmission, Computer storage
 megabyte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 megabyte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 megabyte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
@@ -1610,8 +1631,9 @@ mSv, (millisievert), Dose equivalent radiation, Radiation
 Mtce, (megatonne of coal equivalent), Coal Energy Equivalent, Energy and Work
 Mtoe, (megatonne of oil equivalent), Oil Energy Equivalent, Energy and Work
 MUR, (Mauritian Rupee), African Curriencies, Currency
-mu (=E7=95=9D or =E4=BA=A9), Chinese units of 1915, Area
-mu (=E7=95=9D or =E4=BA=A9), Chinese units of 1930, Area
+mu (=E7=95=9D), Chinese units of 1915, Area
+mu (=E4=BA=A9), Chinese units of 1915, Area
+mu (=E7=95=9D), Chinese units of 1930, Area
 MVR, (Maldivian Rufiyaa), Asian Currencies, Currency
 MW, (megawatt), International System (SI), Power
 MWK, (Malawian Kwacha), African Curriencies, Currency
@@ -1703,14 +1725,14 @@ Old U.S. Needle Size (AWG), Knitting Needle and Crochet Hook Sizes, Wire and Nee
 Omani Rial, (OMR), Middle East Currencies, Currency
 OMR, (Omani Rial), Middle East Currencies, Currency
 on=C3=A7a, Old Portuguese, Historical weights
-one eights or .125, (1/8), Fractions, Franctions and Percent
-one ninth or .(1), (1/9), Fractions, Franctions and Percent
-one seventh or .142857, (1/7), Fractions, Franctions and Percent
-one sixteenth or .0625, (1/16), Fractions, Franctions and Percent
-one sixth or .1(6), (1/6), Fractions, Franctions and Percent
-one tenth or .1, (1/10), Fractions, Franctions and Percent
-one third or .(3), (1/3), Fractions, Franctions and Percent
-one thirty-second or .03125, (1/32), Fractions, Franctions and Percent
+one eights, (1/8), Fractions, Franctions and Percent
+one ninth, (1/9), Fractions, Franctions and Percent
+one seventh, (1/7), Fractions, Franctions and Percent
+one sixteenth, (1/16), Fractions, Franctions and Percent
+one sixth, (1/6), Fractions, Franctions and Percent
+one tenth, (1/10), Fractions, Franctions and Percent
+one third, (1/3), Fractions, Franctions and Percent
+one thirty-second, (1/32), Fractions, Franctions and Percent
 onza, Old Spanish, Historical weights
 orgyia (=E1=BD=84=CF=81=CE=B3=CF=85=CE=B9=CE=B1, fathom), Ancient Greek, Historical Lengths
 ort, Old Swedish, Historical weights
@@ -1786,8 +1808,10 @@ pascal, (Pa), Metric, Stress and Pressure
 paso, Old Spanish, Historical Lengths
 passo geom=C3=A9trico, Old Portuguese, Historical Lengths
 passus (pace), Ancient Roman, Historical Lengths
-Pbit [Pibit], (petabit [pebibit]), Data Storage and Transmission, Computer storage
-Pb [PiB], (petabyte [pebibyte]), Data Storage and Transmission, Computer storage
+Pbit, (petabit), Data Storage and Transmission, Computer storage
+Pibit, (pebibit), Data Storage and Transmission, Computer storage
+Pb, (petabyte), Data Storage and Transmission, Computer storage
+PiB, (pebibyte), Data Storage and Transmission, Computer storage
 pc, (parsec), Astronomical, Distance and Length
 pc=C2=B3, (cubic parsec), Astronomical, Capacity and volume
 pdl, (poundal), English Imperial Units, Foot-Pound-Second System, Force
@@ -1810,8 +1834,10 @@ Peruvian Sol, (PEN), South American Currencies, Currency
 pes (foot), Ancient Roman, Historical Lengths
 pes sestertius, Ancient Roman, Historical Lengths
 peta, (P), Metric Prefixes, Franctions and Percent
-petabit [pebibit], (Pbit [Pibit]), Data Storage and Transmission, Computer storage
-petabyte [pebibyte], (Pb [PiB]), Data Storage and Transmission, Computer storage
+petabit, (Pbit), Data Storage and Transmission, Computer storage
+pebibit, (Pibit), Data Storage and Transmission, Computer storage
+petabyte , (Pb ), Data Storage and Transmission, Computer storage
+pebibyte, (PiB), Data Storage and Transmission, Computer storage
 pfennig, Old German (Prussian), Historical weights
 pfund, Old Austrian, Historical weights
 pfund, Old German (Prussian), Historical weights
@@ -1934,8 +1960,9 @@ Qatari Rial, (QAR), Middle East Currencies, Currency
 qian (=E5=B8=82=E9=8C=A2), Chinese units between 1930 and 1959, Mass and weight
 qian (=E5=B8=82=E9=92=B1), Chinese units since 1959, Mass and weight
 qian (=E9=8C=A2), Chinese units of 1915 before 1930, Mass and weight
-qing (=E9=A0=83 or =E9=A1=B7), Chinese units of 1915, Area
-qing (=E9=A0=83 or =E9=A1=B7), Chinese units of 1930, Area
+qing (=E9=A0=83), Chinese units of 1915, Area
+qing (=E9=A1=B7), Chinese units of 1915, Area
+qing (=E9=A0=83), Chinese units of 1930, Area
 qt, (quart), British Imperial Liquid And Dry, Capacity and volume
 qt, (quart), U.S. Dry Measure, Capacity and volume
 qt, (quart), U.S. Liquid Measure, Capacity and volume
@@ -1951,7 +1978,7 @@ quartet, Number of Performers, Franctions and Percent
 quartilho, Old Portuguese Liquid Measure, Historical Units of Capacity
 quarto de quartilho (quarter of quartilho), Old Portuguese Liquid Measure, Historical Units of Capacity
 quarto de selamim (quarter of selamim), Old Portuguese Dry Measure, Historical Units of Capacity
-quart, one forth or .25, (1/4), Fractions, Franctions and Percent
+quart, one forth, (1/4), Fractions, Franctions and Percent
 quaternary number (radix 4), Other Radix Numerals, Roman numbers, Hex, Octal and more
 quecto, (q), Metric Prefixes, Franctions and Percent
 quentchen, Old Austrian, Historical weights
@@ -2265,10 +2292,12 @@ tank, Indian units (Akbar system), Mass and weight
 Tanzanian Shilling, (TZS), African Curriencies, Currency
 tan (=E6=AE=B5, =E5=8F=8D), Japanese, Area
 tarang wah (=E0=B8=95=E0=B8=B2=E0=B8=A3=E0=B8=B2=E0=B8=87=E0=B8=A7=E0=B8=B2, square wa), Thai units, Area
-Tbit [Tibit], (terabit [tebibit]), Data Storage and Transmission, Computer storage
+Tbit, (terabit), Data Storage and Transmission, Computer storage
+Tibit, (tebibit), Data Storage and Transmission, Computer storage
 Tbps, (terabit per second), Basic Units of Data Transfer Rate, Data transfer rate
 TB/s, (terabyte per second), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
-Tb [TiB], (terabyte [tebibyte]), Data Storage and Transmission, Computer storage
+Tb, (terabyte), Data Storage and Transmission, Computer storage
+TiB, (tebibyte), Data Storage and Transmission, Computer storage
 tce, (tonne of coal equivalent), Coal Energy Equivalent, Energy and Work
 t/day, (tonne per day), Metric, Flow rate by mass
 tea cup, Apothecaries, Capacity and volume
@@ -2284,13 +2313,15 @@ tebibyte per week, Transfer Rate per Different Time Units  (older, 1024-based), 
 technical atmosphere, Atmosphere, Stress and Pressure
 tera, (T), Metric Prefixes, Franctions and Percent
 terabit per second, (Tbps), Basic Units of Data Transfer Rate, Data transfer rate
-terabit [tebibit], (Tbit [Tibit]), Data Storage and Transmission, Computer storage
+terabit, (Tbit), Data Storage and Transmission, Computer storage
+tebibit, (Tibit), Data Storage and Transmission, Computer storage
 terabyte per day, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 terabyte per hour, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 terabyte per minute, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
 terabyte per second, (TB/s), Byte-based Transfer Rate Units (current, 1000-based), Data transfer rate
 terabyte per week, Transfer Rate per Different Time Units (current, 1000-based), Data transfer rate
-terabyte [tebibyte], (Tb [TiB]), Data Storage and Transmission, Computer storage
+terabyte, (Tb), Data Storage and Transmission, Computer storage
+tebibyte, (TiB), Data Storage and Transmission, Computer storage
 ternary number (radix 3), Other Radix Numerals, Roman numbers, Hex, Octal and more
 teruncius (3=E2=81=8412 libra, triple twelfth), Ancient Roman, Historical weights
 tetartemorion (=CF=84=CE=B1=CF=81=CF=84=CE=B7=CE=BC=CF=8C=CF=81=CE=B9=CE=BF=CE=BD, =C2=BC obol), Ancient Greek (Aeginetic standard), Historical weights
@@ -2321,7 +2352,7 @@ tierce, English wine cask units, Capacity and volume
 time per 500 meters (500m split in rowing), (HH:MM:SS), Pace (Various Sports), Speed
 time per kilometer, (HH:MM:SS), Pace (Various Sports), Speed
 time per mile, (HH:MM:SS), Pace (Various Sports), Speed
-tithe, one fifth or .2, (1/5), Fractions, Franctions and Percent
+tithe, one fifth, (1/5), Fractions, Franctions and Percent
 TJS, (Tajikistani Somoni), Asian Currencies, Currency
 t/m=C2=B3, (tonne per cubic meter), Metric System, Density
 t/min, (tonne per minute), Metric, Flow rate by mass
@@ -2378,8 +2409,8 @@ t/s, (tonne per second), Metric, Flow rate by mass
 tsubo (=E5=9D=AA), Japanese, Area
 tsun (=E5=AF=B8), Hong Kong units, Distance and Length
 TTD, (Trinidad and Tobago Dollar), South American Currencies, Currency
-tum (thumb or inch) after 1855, Old Swedish, Historical Lengths
-tum (thumb or inch) before 1855, Old Swedish, Historical Lengths
+tum (thumb) after 1855, Old Swedish, Historical Lengths
+tum (inch) before 1855, Old Swedish, Historical Lengths
 tun, English wine cask units, Capacity and volume
 Tunisian Dinar, (TND), African Curriencies, Currency
 Turkish Lira, (TRY), Middle East Currencies, Currency
