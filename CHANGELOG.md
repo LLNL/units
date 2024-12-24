@@ -28,7 +28,7 @@ Python package release, and other updates and fixes
 - Added some additional equation units and tests [#315][]
 - Added a number of additional units string [#322][],[#331][]
 - added unary operation to measurement classes [#327][]
-  
+
 [#314]: https://github.com/LLNL/units/pull/314
 [#315]: https://github.com/LLNL/units/pull/315
 [#316]: https://github.com/LLNL/units/pull/316
@@ -125,8 +125,6 @@ A few user suggested tweaks, and support additional unit string conversions supp
 [#298]: https://github.com/LLNL/units/pull/298
 [#299]: https://github.com/LLNL/units/pull/299
 [#303]: https://github.com/LLNL/units/pull/303
-
-
 [0.9.0]: https://github.com/LLNL/units/releases/tag/v0.9.0
 [0.9.1]: https://github.com/LLNL/units/releases/tag/v0.9.1
 [0.9.2]: https://github.com/LLNL/units/releases/tag/v0.9.2

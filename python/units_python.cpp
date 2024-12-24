@@ -240,14 +240,16 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_measurement& measurement,
                const units::precise_unit& unit) {
                 return measurement.convert_to(unit);
-            },"create a new `Measurement` with the new units and the value converted to those units")
+            },
+            "create a new `Measurement` with the new units and the value converted to those units")
         .def(
             "convert_to",
             [](const units::precise_measurement& measurement,
                const char* units) {
                 return measurement.convert_to(
                     units::unit_from_string(std::string(units)));
-            },"create a new `Measurement` with the new units and the value converted to those units")
+            },
+            "create a new `Measurement` with the new units and the value converted to those units")
         .def(
             "convert_to_base",
             &units::precise_measurement::convert_to_base,
@@ -277,12 +279,14 @@ NB_MODULE(units_llnl_ext, mod)
             "is_valid",
             [](const units::precise_measurement& measurement) {
                 return units::is_valid(measurement);
-            },"true if the `Measurement` is a valid Measurement (not error)")
+            },
+            "true if the `Measurement` is a valid Measurement (not error)")
         .def(
             "is_normal",
             [](const units::precise_measurement& measurement) {
                 return units::isnormal(measurement);
-            },"true if the unit is a normal unit(not error, nan, or subnormal)")
+            },
+            "true if the unit is a normal unit(not error, nan, or subnormal)")
         .def(
             "root",
             [](const units::precise_measurement& measurement, int root) {
@@ -299,7 +303,8 @@ NB_MODULE(units_llnl_ext, mod)
                const units::precise_measurement& measurement2) {
                 return units::measurement_cast(measurement1) ==
                     units::measurement_cast(measurement2);
-            },"return true if the two measurements are close (both converted to non precise measurement and compared)")
+            },
+            "return true if the two measurements are close (both converted to non precise measurement and compared)")
         .def(
             "__repr__",
             [](const units::precise_measurement& measurement) {
@@ -368,11 +373,10 @@ NB_MODULE(units_llnl_ext, mod)
         "get the default unit to use for a particular type of measurement");
     mod.def(
         "add_user_defined_unit",
-        [](const char* unit_name, const units::precise_unit &unit_definition) {
-            units::addUserDefinedUnit(
-                std::string(unit_name),
-                unit_definition);
-        }, "unit_name"_a,
+        [](const char* unit_name, const units::precise_unit& unit_definition) {
+            units::addUserDefinedUnit(std::string(unit_name), unit_definition);
+        },
+        "unit_name"_a,
         "unit_definition"_a,
         "add a custom string to represent a user defined unit");
     mod.def(
@@ -381,7 +385,8 @@ NB_MODULE(units_llnl_ext, mod)
             units::addUserDefinedUnit(
                 std::string(unit_name),
                 units::unit_from_string(std::string(unit_definition)));
-        }, "unit_name"_a,
+        },
+        "unit_name"_a,
         "unit_definition"_a,
         "add a custom string to represent a user defined unit");
     mod.def(
