@@ -1183,7 +1183,7 @@ TEST(stringToUnits, parentheticalModifier)
     auto u3 = unit_from_string("British thermal unit (thermochemical)");
     EXPECT_EQ(u3, precise::energy::btu_th);
     auto u4 = unit_from_string("short(US) ton per day");
-    EXPECT_EQ(u4,precise::av::ton/precise::day);
+    EXPECT_EQ(u4, precise::av::ton / precise::day);
 }
 
 TEST(stringToUnit, handlingOfSquared)
