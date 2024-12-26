@@ -2396,7 +2396,7 @@ static UNITS_CPP14_CONSTEXPR_OBJECT std::array<utup, 36> prefixWords{{
 
 static const std::array<std::string, 4> Esegs{{"()", "[]", "{}", "<>"}};
 
-bool clearEmptySegments(std::string& unit)
+static bool clearEmptySegments(std::string& unit)
 {
     bool changed = false;
     for (const auto& seg : Esegs) {
@@ -2417,7 +2417,7 @@ bool clearEmptySegments(std::string& unit)
 static precise_unit
     get_unit(const std::string& unit_string, std::uint64_t match_flags);
 
-inline bool ends_with(std::string const& value, std::string const& ending)
+static inline bool ends_with(std::string const& value, std::string const& ending)
 {
     auto esize = ending.size();
     auto vsize = value.size();
@@ -2703,7 +2703,7 @@ static const std::unordered_map<std::string, std::string> modifiers{
     ckpair{"1/20mL", "[20]"},
 };
 
-bool bracketModifiers(std::string& unit_string)
+static bool bracketModifiers(std::string& unit_string)
 {
     bool modified{false};
     for (const auto& seg : Esegs) {
@@ -2731,7 +2731,7 @@ bool bracketModifiers(std::string& unit_string)
     auto ploc = unit_string.find_first_of('-', 1);
     if (ploc != std::string::npos) {
         auto cloc = unit_string.find_first_of("-[({_", ploc + 1);
-        auto tstring = (cloc != std::string::npos) ?
+        std::string tstring = (cloc != std::string::npos) ?
             unit_string.substr(ploc + 1, cloc - ploc - 1) :
             unit_string.substr(ploc + 1);
         auto modloc = modifiers.find(tstring);
@@ -5432,7 +5432,7 @@ static precise_unit unit_from_string_internal(
             return commoditizedUnit(unit_string, precise::one, index);
         }
     }
-    auto ustring = unit_string;
+    std::string ustring = unit_string;
     // catch a preceding number on the unit
     if (looksLikeNumber(unit_string)) {
         if (unit_string.front() != '1' ||
@@ -6021,7 +6021,7 @@ uncertain_measurement uncertain_measurement_from_string(
             auto lc = eloc - 1;
             char c = measurement_string[cloc];
             if (c >= '0' && c <= '9') {
-                auto ustring = measurement_string;
+                std::string ustring = measurement_string;
                 while (cloc >= 0) {
                     c = measurement_string[cloc];
                     if (c >= '0' && c <= '9') {
@@ -6034,7 +6034,7 @@ uncertain_measurement uncertain_measurement_from_string(
                     }
                     --cloc;
                 }
-                auto p = measurement_string;
+                std::string p = measurement_string;
                 p.erase(loc, diff + 1);
                 auto m1 = measurement_cast_from_string(p, match_flags);
                 ustring.erase(loc, diff + 1);
