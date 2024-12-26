@@ -9,20 +9,20 @@ The units library is available through a pypi_ package
 
     pip install units-llnl
 
-Usage 
+Usage
 -----------
 
 .. code-block:: python
 
     from units_llnl import Unit
 
-    u1 = Unit('m')
-    u2 = Unit('s')
-    u3=u1/u2
-    speed=20
-    desired='mph'
+    u1 = Unit("m")
+    u2 = Unit("s")
+    u3 = u1 / u2
+    speed = 20
+    desired = "mph"
     # convert the unit to miles per hour
-    result = u3.convert(speed,desired)
+    result = u3.convert(speed, desired)
     print(f"{20} {u3} = {result} {desired}")
 
 This will print a result `20 m/s = 44.73872584108805 mph`
@@ -31,10 +31,10 @@ This will print a result `20 m/s = 44.73872584108805 mph`
 
     from units_llnl import Measurement
 
-    m1 = Measurement('220 m')
-    m2 = Measurement('11 s')
-    m3=m1/m2
-    desired='mph'
+    m1 = Measurement("220 m")
+    m2 = Measurement("11 s")
+    m3 = m1 / m2
+    desired = "mph"
     # convert the unit to miles per hour
     result = m3.convert_to(desired)
     print(f"{m3} = {result}")
@@ -46,4 +46,3 @@ See the pypi_ landing page for a complete description of all methods and functio
 .. _pypi: https://pypi.org/project/units-llnl/
 
 Future expansions will include uncertain units and some additional math operations on measurements
-
