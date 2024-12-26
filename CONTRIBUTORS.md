@@ -16,7 +16,7 @@
 - [Peter Steneteg](https://github.com/petersteneteg)
 - [Jan-Lukas Wynen](https://github.com/jl-wynen) - Support for multi-digit power strings
 - [Jiahao Wen](https://github.com/wkindling) - Fixes for cmake standard condition
-  
+
 ## Used Libraries or Code
 
 ### [GridDyn](https://github.com/LLNL/GridDyn)
@@ -37,7 +37,7 @@ The converter app uses CLI11 as part of the command line processing for the conv
 
 ### [nanobind](https://github.com/wjakob/nanobind)
 
-Nanobind is a small binding library that exposes C++ types in Python and vice versa.  It is used for creating the python bindings for the library.   Nanobind is released with a BSD-3-Clause license.   
+Nanobind is a small binding library that exposes C++ types in Python and vice versa. It is used for creating the python bindings for the library. Nanobind is released with a BSD-3-Clause license.
 
 ## References for Unit definitions
 
@@ -45,11 +45,11 @@ Nanobind is a small binding library that exposes C++ types in Python and vice ve
 - [ucum-lhc](https://github.com/lhncbc/ucum-lhc) This is the LHC implementation of validation and conversion services based on the [Unified Code for Units of Measure](http://unitsofmeasure.org/) (UCUM) code system created by the Regenstrief Institute, Inc. The repository is licensed under a [BSD](https://github.com/lhncbc/ucum-lhc/blob/master/LICENSE.md) license. No code is used in units, but the unit definition files are used for testing purposes and some of the JSON files are included in the repository.
 - [google unit conversions](https://support.google.com/websearch/answer/3284611?hl=en#unitconverter) Google unit conversion support was examined to provide additional unit strings and some conversion values.
 - [convert me](https://www.convert-me.com/en/) unit converter web site used as test and check for various conversions
-  
+
 ### cmake scripts
 
 Several CMake scripts came from other sources and were either used or modified for use in HELICS.
 
 - Lars Bilke [CodeCoverage.cmake](https://github.com/bilke/cmake-modules/blob/master/CodeCoverage.cmake)
 - [HELICS](https://github.com/GMLC-TDC/HELICS) Some of the code CMake and build scripts and a few of the docker images used for testing are maintained through the HELICS library. HELICS also uses the units library for unit translations.
-- [Nanobind example](https://github.com/wjakob/nanobind_example) much of the scripts for the the Python binding and CI jobs was copied and modified from the nanobind example repo. 
+- [Nanobind example](https://github.com/wjakob/nanobind_example) much of the scripts for the the Python binding and CI jobs was copied and modified from the nanobind example repo.

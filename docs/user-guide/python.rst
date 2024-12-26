@@ -3,7 +3,7 @@ Python
 ==================
 The Python wrapper for the units library is a simplified version of the library.  It is focused on the string operations of the library and conversions between units and measurements.
 
-The units library is available through a pypi_ package 
+The units library is available through a pypi_ package
 
 .. code-block:: sh
 
