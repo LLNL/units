@@ -59,7 +59,7 @@ jobs:
           units.std: 11
         Windowslatest:
           vmImage: 'windows-2022'
-          units.std: 20
+          units.std: 23
           units.options: -DCMAKE_CXX_FLAGS="/std:c++latest"
     pool:
       vmImage: $(vmImage)

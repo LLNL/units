@@ -19,6 +19,15 @@ Standalone Library
 -------------------
 The units library can be built as a standalone library with either the static or shared library and installed like a typical package.
 
+Python Library
+-----------------
+
+As of version 0.11.0 the library is also available as a python package through pypi.  The name of the Python library is `units-llnl`
+
+.. code-block:: sh
+
+    pip install units-llnl
+
 
 .. toctree::
    :maxdepth: 1

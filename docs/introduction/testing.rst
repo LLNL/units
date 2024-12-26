@@ -31,6 +31,9 @@ The units library has a series of units tests that are executed as part of the C
 19.  `test_google_units` run some checks to ensure support for many units supported by google unit translation
 20.  `test_math` run some tests on the extra mathematical operations found in `units_math.hpp`
 21.  `test_siunits` run some tests of SI specific units and prefixes
+22.  `examples_test_windows` test interference or conflicts with any windows headers of MACROS, *only runs on windows*
+23.  `test_r20`  test the recommendation 20 library for conversions and consistency
+24.  `test_complete_unit_list` run test on a full listing of units
 
 
 
@@ -45,27 +48,34 @@ Azure
 1.  AppleClang 11.0 (Xcode 11.3) C++11
 1.  MSVC 2019 C++17
 1.  MSVC 2019 C++11
+1.  MSVC 2019 C++14 32-bit
 1.  MSVC 2022 C++20
 1.  GCC 4.8 C++11
 1.  GCC 7 C++11
 1.  GCC 7 C++14
+1.  GCC 7 C++17
 1.  GCC 8 C++17
 1.  GCC 9 C++17
 1.  GCC 12 C++20
+1.  GCC 13 C++20
 1.  Clang 3.4 C++11
 1.  Clang 3.5 C++11
 1.  Clang 8 C++14
 1.  Clang 9 C++17
 1.  Clang 14 C++20
+1.  Clang 16 C++20
+1.  Clang 18 C++23
 1.  Clang-tidy (both main library and tests)
 
 
 Circle-CI
 -----------
-1.  Clang 14,  Thread Sanitizer
-2.  Clang 14,  Address, undefined behavior sanitizer
-3.  Clang 14,  Memory Sanitizer
-4.  Clang 8,  Fuzzing library -- run a couple of defined fuzzing tests from scratch to check for any anomalous situations. There are currently two fuzzers, the first test the units_from_string, and the second tests the measurement_from string.  It first converts the fuzzing sequence, then if it is a valid sequence, converts it to a string, then converts that string back to a measurement or unit and makes sure the two measurements or units are identical.  Any string sequence which doesn't work is captured and tested.
+1.  Clang 19,  Thread Sanitizer [currently disabled due to changes in linux core operations that cannot be changed on CI systems]
+1.  Clang 19,  Address, undefined behavior sanitizer
+1.  Clang 19,  Memory Sanitizer [currently disabled due to changes in linux core operations that cannot be changed on CI systems]
+1.  Clang 8,  Fuzzing library -- run a couple of defined fuzzing tests from scratch to check for any anomalous situations. There are currently two fuzzers, the first test the units_from_string, and the second tests the measurement_from string.  It first converts the fuzzing sequence, then if it is a valid sequence, converts it to a string, then converts that string back to a measurement or unit and makes sure the two measurements or units are identical.  Any string sequence which doesn't work is captured and tested.
+1.  Install test
+1.  Install test with alternate project name
 
 GitHub Actions
 ----------------
@@ -74,6 +84,10 @@ GitHub Actions
 1.  Coverage (ubuntu 22.04 image C++11, C++14, C++17, C++20, 32 and 64 bit unit base)
 1.  CPPLINT
 1.  Quick CMAKE checks for all supported versions of cmake
+1.  Pip install test for python along with pytest scripts
+1.  Wheel builder to test different wheels for python packaging
+
+
 
 Codecov
 ----------

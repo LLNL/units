@@ -11,7 +11,7 @@
 
 [Documentation](https://units.readthedocs.io/en/latest/)
 
-The Units library provides a means of working with units of measurement at runtime, including conversion to and from strings. It provides a small number of types for working with units and measurements and operations necessary for user input and output with units. For additional description and discussion see [Readme](https://github.com/LLNL/units/blob/main/README.md)
+The Units library provides a means of working with units of measurement at runtime, including conversion to and from strings. It provides a small number of types for working with units and measurements and operations necessary for user input and output with units. For additional description and discussion see [Readme](https://github.com/LLNL/units/blob/main/README.md). The Python library is a wrapper around the C++ library using [nanobind](https://github.com/wjakob/nanobind).
 
 ## Table of contents
 
@@ -21,9 +21,15 @@ The Units library provides a means of working with units of measurement at runti
     - [Basic use case](#basic-use-case)
   - [Try it out](#try-it-out)
     - [Unit methods](#unit-methods)
-      - [Unit Operators](#unit-operators)
-    - [Measurement Operations](#measurement-operations)
-      - [Measurement operators](#measurement-operators)
+      - [Constructors](#constructors)
+      - [Methods](#methods)
+      - [Operators](#operators)
+    - [Measurements](#measurements)
+      - [Constructors](#constructors-1)
+      - [Methods](#methods-1)
+      - [Operators](#operators-1)
+    - [Other library methods](#other-library-methods)
+    - [Future plans](#future-plans)
   - [Contributions](#contributions)
   - [Project Using the Units Library](#project-using-the-units-library)
   - [Release](#release)
@@ -36,7 +42,6 @@ A units library was needed to be able to represent units from a wide range of di
 2. Being able to use the unit as a singular type that could contain any unit, and not introduce a huge number of types to represent all possible units.
 3. Being able to associate a completely arbitrary unit given by users with a generic interface and support conversions between those user defined units and other units.
 4. The library has its origins in power systems so support for per-unit operations was also lacking in the alternatives.
-5. Capture uncertainty and uncertainty calculations directly with a measurement
 
 The python wrapper around the library is mainly intended to be able to handle various string representations and easily handle conversions, along with some support for commodities and packaging.
 
@@ -45,10 +50,10 @@ The python wrapper around the library is mainly intended to be able to handle va
 The primary use case for the library is string operations and conversion. For example if you have a library that does some computations with physical units. In the library code itself the units are standardized and well defined. For example take a velocity, internally everything is in meters per second, but there is a configuration file that takes in the initial data and you would like to broadly support different units on the input
 
 ```python
-from units_llnl import unit
+from units_llnl import Unit
 
-u1 = unit("m")
-u2 = unit("cm")
+u1 = Unit("m")
+u2 = Unit("cm")
 v1 = u1.convert(10, u2)
 assert v1 == 10 * 100
 
@@ -57,12 +62,12 @@ assert v2 == 2000
 ```
 
 ```python
-from units_llnl import measurement
+from units_llnl import Measurement
 
-m1 = measurement("10 m")
-m2 = measurement("2.5 s")
+m1 = Measurement("10 m")
+m2 = Measurement("2.5 s")
 m3 = m1 / m2
-m4 = measurement("4.0 m/s")
+m4 = Measurement("4.0 m/s")
 assert m3 == m4
 ```
 
@@ -76,65 +81,90 @@ For more details see the [documentation](https://units.readthedocs.io/en/latest/
 
 ### Unit methods
 
-These operations apply to units and precise_units
+These operations apply the `Units` object in Python. It maps to a `precise_unit` in C++. The Unit object is immutable like a python string so a new one is created for methods that modify the unit in some way.
 
-- `<unit>(<unit_data>)` construct from a base unit_data
-- `<unit>(<unit_data>, double multiplier)` construct a unit from a base data and a multiplier
-- `<unit>(double multiplier, <unit>)` construct from a multiplier and another unit
-- also available are copy constructor and copy assignments
-- `<unit> inv()` generate a new unit containing the inverse unit `m.inv()= 1/m`
-- `<unit> pow(int power)` take a unit to power(NOTE: beware of limits on power representations of some units, things will always wrap so it is defined but may not produce what you expect). `power` can be negative.
-- `bool is_exactly_the_same(<unit>)` compare two units and check for exact equivalence in both the unit_data and the multiplier, NOTE: this uses double equality
-- `bool has_same_base(<unit>|<unit_data>)` check if the <unit_data> is the same
-- `equivalent_non_counting(<unit>|<unit_data>)` check if the units are equivalent ignoring the counting bases
-- `bool is_convertible(<unit>)` check if the units are convertible to each other, currently checks `equivalent_non_counting()`, but some additional conditions might be allowed in the future to better match convert.
-- `int unit_type_count()` count the number of unit bases used, (does not take into consideration powers, just if the dimension is used or not.
-- `bool is_per_unit()` true if the unit has the per_unit flag active
-- `bool is_equation()` true if the unit has the equation flag active
-- `bool has_i_flag()` true if the i_flag is marked active
-- `bool has_e_flag()` true if the e_flag is marked active
-- `double multiplier()` return the unit multiplier as a double
+#### Constructors
 
-- `commodity()` get the commodity of the unit
-- `commodity(int commodity)` assign a commodity to the precise_unit.
+- `Unit(unit_str:str)` construct from a string
+- `Unit(unit_str:str,commodity_str:str)` construct a unit from a unit string and commodity string
 
-#### Unit Operators
+#### Methods
 
-There are also several operator overloads that apply to units and precise_units.
+- `inv()->Unit` generate a new unit containing the inverse unit `Unit('m').inv()== Unit('1/m')`
+- `pow(int power)->Unit` take a unit to power(NOTE: beware of limits on power representations of some units, things will always wrap so it is defined but may not produce what you expect). `power` can be negative.
+- `is_exactly_the_same(other:Unit)->bool` compare two units and check for exact equivalence in both the unit_data and the multiplier
+- `has_same_base(other:Unit)->bool` check if the units have the same base units
+- `equivalent_non_counting(other:Unit)->bool` check if the units are equivalent ignoring the counting bases
+- `is_convertible_to(other:Unit)->bool` check if the units are convertible to each other, currently checks `equivalent_non_counting()`, but some additional conditions might be allowed in the future to better match convert.
+- `convert(value:float,unit_out:Unit|str)->float` convert a value from the existing unit to another, can also be a string
+- `is_per_unit()->bool` true if the unit has the per_unit flag active
+- `is_equation()->bool` true if the unit has the equation flag active
+- `is_valid()->bool` true if the unit is a valid unit
+- `is_normal()->bool` true if the unit is a normal unit (not error, nan, or subnormal)
+- `is_error()->bool` true if the unit is an error unit (e.g invalid conversion)
+- `isfinite()->bool` true if the unit does not have an infinite multiplier
+- `isinf()->bool` true if the unit does have an infinite multiplier
+- `root(power:int)->Unit` return a new unit taken to the root power
+- `sqrt()->Unit` returns a new unit which is the square root of the current unit
+- `to_string()->str` returns the string representation of the unit. This string is guaranteed to produce the same unit as the current unit, but may not be the same string as was used to create it.
+- `multiplier()->float` return the unit multiplier as a floating point number
+- `set_multiplier(mult:float)->Unit` generate a new Unit with the set multiplier
+- `commodity()->str` get the commodity of the unit
+- `set_commodity(int commodity)` generate a new unit with the assigned commodity.
 
-- `<unit>=<unit>*<unit>` generate a new unit with the units multiplied ie `m*m` does what you might expect and produces a new unit with `m^2`
-- `<unit>=<unit>/<unit>` generate a new unit with the units divided ie `m/s` does what you might expect and produces a new unit with meters per second. NOTE: `m/m` will produce `1` it will not automatically produce a `pu` though we are looking at how to make a 'pu_m\*m=m' so units like strain might work smoothly.
+#### Operators
 
-- `bool <unit>==<unit>` compare two units. this does a rounding compare so there is some tolerance to roughly 7 significant digits for \<unit> and 13 significant digits for <precise_unit>.
-- `bool <unit>!=<unit>` the opposite of `==`
+- `*`,`/` with other units produces a new unit
+- `**` is an exponentiation operator and produces a new unit
+- `*`, `/` with a floating point generates a `Measurement`
+- `==` and `!=` produce the appropriate comparison operators
+- f string formatting also works with units
 
-precise_units can usually operate with a `precise_unit` or `unit`, `unit` usually can't operate on `precise_unit`.
+### Measurements
 
-### Measurement Operations
+#### Constructors
 
-- `<measurement>(val, <unit>)` construct a unit from a value and unit object.
-- `double value() const` get the measurement value as a double.
-- `<measurement> convert_to(<unit>) const` convert the value in the measurement to another unit base
-- `<measurement> convert_to_base() const` convert to a base unit, i.e. a unit whose multiplier is 1.0
-- `<unit> units() const` get the units used as a basis for the measurement
-- `<unit> as_unit() const` take the measurement as is and convert it into a single unit. For Examples say a was 10 m. calling as_unit() on that measurement would produce a unit with a multiplier of 10 and a base of meters.
-- `double value_as(<unit>)` get the value of a measurement as if it were measured in \<unit\>
+- `Measurement(measurement_str:str)` construct from a string
+- `Measurement(value:float, unit:Unit|str)` construct a `Measurement` from a value and a `Unit` or string representing a `Unit`
 
-#### Measurement operators
+#### Methods
 
-There are several operator overloads which work on measurements or units to produce measurements.
+- `inv()->Unit` generate a new unit containing the inverse unit `Unit('m').inv()== Unit('1/m')`
+- `pow(int power)->Unit` take a unit to power(NOTE: beware of limits on power representations of some units, things will always wrap so it is defined but may not produce what you expect). `power` can be negative.
+- `is_normal()->bool` true if the unit is a normal unit (not error, nan, or subnormal)
+- `is_valid()->bool` true if the `Measurement` is a valid Measurement (not error)
+- `root(power:int)->Measurement` return a new unit taken to the root power
+- `sqrt()->Unit` returns a new unit which is the square root of the current unit
+- `to_string()->str` returns the string representation of the `Measurement`. This string is guaranteed to produce the equivalent `Measurement` as the current `Measurement`, but may not be the same string as was used to create it.
+- `value()->float` return the numerical portion of a `Measurement`
+- `set_value(value:float)->Measurement` generate a new `Measurement` with the new Value
+- `units()->Unit` get the `Unit` associated with a `Measurement`
+- `set_units(unit:Unit|str)` generate a new `Measurement` with the new units
+- `value_as(unit:Unit|str)->float` convert the value of the `Measurement` to a new `Unit`
+- `convert_to(unit:Unit|str)->Measurement` create a new `Measurement` with the new units and the value converted to those units
+- `convert_to_base()->Measurement` create a new `Measurement` with the units as the base measurement units
+- `is_close(other:Measurement)->bool` return true if the two measurements are close (both converted to non precise measurement and compared)
 
-- `'*', '/', '+','-'` are all defined for mathematical operations on a measurement and produce another measurement.
-- `%` `*`, and `/` are defined for \<measurement>\<op>\<double>
-- `*`, and `/` are defined for \<double>\<op>\<measurement>
+#### Operators
 
-Notes: for regular measurements, `+` and `-` are not defined for doubles due to ambiguity of what that operation means. For `fixed_measurement` types this is defined as the units are known at construction and cannot change. For `fixed_measurement` types if the operator would produce a new measurement with the same units it will be a fixed measurement, if not it reverts to a regular measurement.
+- `*`,`/` with other `Measurements` produces a new Measurement
+- `+`,`-` with other `Measurements` ensures the units are in the same base unit and performs the appropriate action
+- `**` is an exponentiation operator and produces a new `Measurement`
+- `*`, `/` with a floating point generates a `Measurement`
+- `==`,`!=`,`>`,`<`,`>=`,`<=` produce the appropriate comparison operators
+- f string formatting also works with units
 
-- `==`, `!=`, `>`, `<`, `>=`, `<=` are defined for all measurement comparisons
-- `<measurement>=<double>*<unit>`
-- `<measurement>=<unit>*<double>`
-- `<measurement>=<unit>/<double>`
-- `<measurement>=<double>/<unit>` basically calling a number multiplied or divided by a `<unit>` produces a measurement, specifically `unit` produces a measurement and `precise_unit` produces a precise_measurement.
+### Other library methods
+
+- `convert(value:float,unit_in:Unit|str,unit_out:Unit|str)->float` generate a value represented by one unit in terms of another
+- `convert_pu(value:float,unit_in:Unit|str,unit_out:Unit|str, base:float)->float` "generate a value represented by one unit in terms of another if one of the units is in per-unit, the base_value is used in part of the conversion"
+- `default_unit(unit_type:str)->Unit` generate a unit used for a particular type of measurement
+- `add_user_defined_unit(unit_name|str,unit_definition:str|Unit)` add a custom string representing a particular unit to use in future string translations
+- `add_units_from_file(file|str)` inject a list of user defined units from a file
+
+### Future plans
+
+Uncertain measurements will likely be added, along with some math operations on measurements (floor, ceil, round, etc). Also some more commodity operations, and x12 and r20 unit types.
 
 ## Contributions
 

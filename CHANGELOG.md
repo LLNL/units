@@ -5,6 +5,49 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0][] -2024-12-26
+
+Python package release, documentation update, continued addition of new units and other updates and fixes
+
+### Changed
+
+- Updated cmake and other dependencies [#342][]
+- Updated copyright date to 2024 [#351][]
+- updated the r20 units to be mostly operational [#314][]
+- Updated third party libraries, and some new CI builders [#335][],[#336][]
+
+### Fixed
+
+- fixed some issues with windows.h header conflicts [#345][]
+- fixed an issue using CMAKE_CXX_STANDARD [#339][]
+- fixed some missing test coverage to 100% [#316][],[#317][],[#318][]
+
+### Added
+
+- Added Python Library [#349][],[#350][]
+- Added some additional equation units and tests [#315][]
+- Added a number of additional units string [#322][],[#331][]
+- added unary operation to measurement classes [#327][]
+
+[#314]: https://github.com/LLNL/units/pull/314
+[#315]: https://github.com/LLNL/units/pull/315
+[#316]: https://github.com/LLNL/units/pull/316
+[#317]: https://github.com/LLNL/units/pull/317
+[#318]: https://github.com/LLNL/units/pull/318
+[#322]: https://github.com/LLNL/units/pull/322
+[#331]: https://github.com/LLNL/units/pull/331
+[#335]: https://github.com/LLNL/units/pull/335
+[#336]: https://github.com/LLNL/units/pull/336
+[#339]: https://github.com/LLNL/units/pull/339
+[#342]: https://github.com/LLNL/units/pull/342
+[#349]: https://github.com/LLNL/units/pull/349
+[#350]: https://github.com/LLNL/units/pull/350
+[#351]: https://github.com/LLNL/units/pull/351
+
+## [0.10.2][] -2024-12-22
+
+Prototype release for python see all changes in 0.11.0
+
 ## [0.9.2][] - 2024-05-10
 
 update some dependencies and other minor fixes
@@ -82,6 +125,11 @@ A few user suggested tweaks, and support additional unit string conversions supp
 [#298]: https://github.com/LLNL/units/pull/298
 [#299]: https://github.com/LLNL/units/pull/299
 [#303]: https://github.com/LLNL/units/pull/303
+[0.9.0]: https://github.com/LLNL/units/releases/tag/v0.9.0
+[0.9.1]: https://github.com/LLNL/units/releases/tag/v0.9.1
+[0.9.2]: https://github.com/LLNL/units/releases/tag/v0.9.2
+[0.10.2]: https://github.com/LLNL/units/releases/tag/v0.10.2
+[0.11.0]: https://github.com/LLNL/units/releases/tag/v0.11.0
 
 ## [0.7.0][] - 2022-12-17
 
