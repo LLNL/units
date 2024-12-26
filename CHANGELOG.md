@@ -5,9 +5,9 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.11.0][] -2024-12-25
+## [0.11.0][] -2024-12-26
 
-Python package release, and other updates and fixes
+Python package release, documentation update, continued addition of new units and other updates and fixes
 
 ### Changed
 

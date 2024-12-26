@@ -3,7 +3,7 @@ Python
 ==================
 The Python wrapper for the units library is a simplified version of the library.  It is focused on the string operations of the library and conversions between units and measurements.
 
-The units library is available through a pypi package 
+The units library is available through a pypi_ package 
 
 .. code-block:: sh
 
@@ -41,7 +41,7 @@ This will print a result `20 m/s = 44.73872584108805 mph`
 
 This will produce `20 m/s = 44.7387258411 mph`
 
-See the pypi_ for a complete description of all methods and functions
+See the pypi_ landing page for a complete description of all methods and functions.
 
 .. _pypi: https://pypi.org/project/units-llnl/
 
