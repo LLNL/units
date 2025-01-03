@@ -2417,7 +2417,8 @@ static bool clearEmptySegments(std::string& unit)
 static precise_unit
     get_unit(const std::string& unit_string, std::uint64_t match_flags);
 
-static inline bool ends_with(std::string const& value, std::string const& ending)
+static inline bool
+    ends_with(std::string const& value, std::string const& ending)
 {
     auto esize = ending.size();
     auto vsize = value.size();
