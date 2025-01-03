@@ -720,6 +720,7 @@ Units related to clinical medicine in namespace `units::precise::clinical`.
 - drop
 - met
 - hounsfield
+- AHF
 
 
 Laboratory Units
@@ -789,6 +790,7 @@ Some special units that were not otherwise characterized in namespace `units::pr
 - degreeAPI - API scale for measuring liquid density typically petroleum based products
 - degreeBaumeLight - scale for measuring liquid density for liquids lighter than water
 - debreeBaumeHeavy - scale for measuring liquid density for liquids heavier than water
+- sone - unit of loudness
 
 
 Other Units
