@@ -19,6 +19,7 @@ set(units_header_files
     units_conversion_maps.hpp
     units_math.hpp
     commodity_definitions.hpp
+    commodity_conversion_maps.hpp
 )
 
 include(GenerateExportHeader)
