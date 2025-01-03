@@ -39,7 +39,7 @@ aliases:
 jobs:
   unitsTSan:
     machine:
-      image: ubuntu-2204:2024.01.2
+      image: ubuntu-2204:2025.01.2
     docker:
       - image: helics/buildenv:sanitizers-14
     environment:
@@ -52,7 +52,7 @@ jobs:
 
   unitsASan:
     machine:
-      image: ubuntu-2204:2024.11.1
+      image: ubuntu-2204:2025.11.1
     docker:
       - image: helics/buildenv:sanitizers-19
     environment:
