@@ -5,9 +5,8 @@ on:
   push:
     branches:
      - main
-  release:
-    types:
-      - published
+    tags:
+     - v*.*.*
 
 jobs:
   build_sdist:
