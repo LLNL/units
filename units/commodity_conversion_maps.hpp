@@ -470,5 +470,5 @@ namespace commodities {
                 {"961", generateCurrencyCode("XAG")},
             };
 
-}
+} // namespace commodities
 }  // namespace UNITS_NAMESPACE
