@@ -15,7 +15,7 @@
 
 The Units library provides a means of working with units of measurement at runtime, including conversion to and from strings. It provides a small number of types for working with units and measurements and operations necessary for user input and output with units.
 
-This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and [HELICS](https://github.com/GMLC-TDC/HELICS) and is currently a work in progress (though getting close). Namespaces, function names, and code organization is subject to change though is fairly stable at this point, input is welcome. A set of [documentation](https://units.readthedocs.io/en/latest/) is available.  A Python wrapper is also available through [Pypi](https://pypi.org/project/units-llnl/) that wraps a limited subset of the library for most common purposes.
+This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and [HELICS](https://github.com/GMLC-TDC/HELICS) and is currently a work in progress (though getting close). Namespaces, function names, and code organization is subject to change though is fairly stable at this point, input is welcome. A set of [documentation](https://units.readthedocs.io/en/latest/) is available. A Python wrapper is also available through [Pypi](https://pypi.org/project/units-llnl/) that wraps a limited subset of the library for most common purposes.
 
 ## Table of contents
 
