@@ -297,11 +297,11 @@ NB_MODULE(units_llnl_ext, mod)
             nb::is_operator())
         .def(
             "__floordiv__",
-            [](const units::precise_measurement& measurement, const units::precise_measurement & other) {
-                auto res1=measurement/other;
-                if (res1.units().unit_type_count() == 0)
-                {
-                    res1=res1.convert_to_base();
+            [](const units::precise_measurement& measurement,
+               const units::precise_measurement& other) {
+                auto res1 = measurement / other;
+                if (res1.units().unit_type_count() == 0) {
+                    res1 = res1.convert_to_base();
                 }
                 return floor(res1);
             },
@@ -309,7 +309,7 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__floordiv__",
             [](const units::precise_measurement& measurement, double divisor) {
-                return floor(measurement/divisor);
+                return floor(measurement / divisor);
             },
             nb::is_operator())
         .def(

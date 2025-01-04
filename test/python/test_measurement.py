@@ -147,15 +147,16 @@ def test_mod():
     assert math.floor(m3.value) == 6
     m4 = m1 % 5
     assert m4.value == 3
-    
+
+
 def test_floor_div():
     m1 = u.Measurement("18 seconds")
     m2 = u.Measurement("1 min")
-    m3 = m2//m1
+    m3 = m2 // m1
     assert m3.value == 3
-    m4= m1//4
+    m4 = m1 // 4
     assert m4.value == 4
-    assert m4.units == u.Unit('s')
+    assert m4.units == u.Unit("s")
 
 
 def test_math_func():
