@@ -4,6 +4,8 @@
 [![Build Status](https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=main)](https://dev.azure.com/phlptp/units/_build/latest?definitionId=1&branchName=main)
 [![CircleCI](https://circleci.com/gh/LLNL/units.svg?style=svg)](https://circleci.com/gh/LLNL/units)
 [![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/main/LICENSE)
+[![](https://img.shields.io/pypi/pyversions/units-llnl)](https://pypi.org/project/units-llnl/)
+[![](https://img.shields.io/pypi/v/units-llnl)](https://pypi.org/project/units-llnl/)
 [![Documentation Status](https://readthedocs.org/projects/units/badge/?version=latest)](https://units.readthedocs.io/en/latest/?badge=latest)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LLNL/units/main.svg)](https://results.pre-commit.ci/latest/github/LLNL/units/main)
 
@@ -23,10 +25,12 @@ The Units library provides a means of working with units of measurement at runti
     - [Unit methods](#unit-methods)
       - [Constructors](#constructors)
       - [Methods](#methods)
+      - [Properties](#properties)
       - [Operators](#operators)
     - [Measurements](#measurements)
       - [Constructors](#constructors-1)
       - [Methods](#methods-1)
+      - [Properties](#properties-1)
       - [Operators](#operators-1)
     - [Other library methods](#other-library-methods)
     - [Future plans](#future-plans)
@@ -90,35 +94,37 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 
 #### Methods
 
-- `inv()->Unit` generate a new unit containing the inverse unit `Unit('m').inv()== Unit('1/m')`
-- `pow(int power)->Unit` take a unit to power(NOTE: beware of limits on power representations of some units, things will always wrap so it is defined but may not produce what you expect). `power` can be negative.
-- `is_exactly_the_same(other:Unit)->bool` compare two units and check for exact equivalence in both the unit_data and the multiplier
-- `has_same_base(other:Unit)->bool` check if the units have the same base units
-- `equivalent_non_counting(other:Unit)->bool` check if the units are equivalent ignoring the counting bases
+- `is_exactly_the_same(other:Unit)->bool` compare two units and check for exact equivalence in both the unit_data and the multiplier.
+- `has_same_base(other:Unit)->bool` check if the units have the same base units.
+- `equivalent_non_counting(other:Unit)->bool` check if the units are equivalent ignoring the counting bases.
 - `is_convertible_to(other:Unit)->bool` check if the units are convertible to each other, currently checks `equivalent_non_counting()`, but some additional conditions might be allowed in the future to better match convert.
-- `convert(value:float,unit_out:Unit|str)->float` convert a value from the existing unit to another, can also be a string
-- `is_per_unit()->bool` true if the unit has the per_unit flag active
-- `is_equation()->bool` true if the unit has the equation flag active
-- `is_valid()->bool` true if the unit is a valid unit
-- `is_normal()->bool` true if the unit is a normal unit (not error, nan, or subnormal)
-- `is_error()->bool` true if the unit is an error unit (e.g invalid conversion)
-- `isfinite()->bool` true if the unit does not have an infinite multiplier
-- `isinf()->bool` true if the unit does have an infinite multiplier
-- `root(power:int)->Unit` return a new unit taken to the root power
-- `sqrt()->Unit` returns a new unit which is the square root of the current unit
-- `to_string()->str` returns the string representation of the unit. This string is guaranteed to produce the same unit as the current unit, but may not be the same string as was used to create it.
-- `multiplier()->float` return the unit multiplier as a floating point number
-- `set_multiplier(mult:float)->Unit` generate a new Unit with the set multiplier
-- `commodity()->str` get the commodity of the unit
+- `convert(value:float,unit_out:Unit|str)->float` convert a value from the existing unit to another, can also be a string.
+- `is_per_unit()->bool` true if the unit has the per_unit flag active.
+- `is_equation()->bool` true if the unit has the equation flag active.
+- `is_valid()->bool` true if the unit is a valid unit.
+- `is_normal()->bool` true if the unit is a normal unit (not error, nan, or subnormal).
+- `is_error()->bool` true if the unit is an error unit (e.g invalid conversion).
+- `isfinite()->bool` true if the unit does not have an infinite multiplier.
+- `isinf()->bool` true if the unit does have an infinite multiplier.
+- `root(power:int)->Unit` return a new unit taken to the root power.
+- `sqrt()->Unit` returns a new unit which is the square root of the current unit.
+- `set_multiplier(mult:float)->Unit` generate a new Unit with the set multiplier.
 - `set_commodity(int commodity)` generate a new unit with the assigned commodity.
 
+#### Properties
+
+- `multiplier->float` return the unit multiplier as a floating point number
+- `commodity->str` get the commodity of the unit
+- `base_units`->Unit gets the base units (no multiplier) associated with a unit
+  
 #### Operators
 
 - `*`,`/` with other units produces a new unit
+- `~` produces the inverse of the unit
 - `**` is an exponentiation operator and produces a new unit
 - `*`, `/` with a floating point generates a `Measurement`
 - `==` and `!=` produce the appropriate comparison operators
-- f string formatting also works with units
+- f string formatting also works with units and returns the string representation of the unit. This string is guaranteed to produce the same unit as the current unit, but may not be the same string as was used to create it.
 
 ### Measurements
 
@@ -129,30 +135,34 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 
 #### Methods
 
-- `inv()->Unit` generate a new unit containing the inverse unit `Unit('m').inv()== Unit('1/m')`
-- `pow(int power)->Unit` take a unit to power(NOTE: beware of limits on power representations of some units, things will always wrap so it is defined but may not produce what you expect). `power` can be negative.
 - `is_normal()->bool` true if the unit is a normal unit (not error, nan, or subnormal)
 - `is_valid()->bool` true if the `Measurement` is a valid Measurement (not error)
 - `root(power:int)->Measurement` return a new unit taken to the root power
 - `sqrt()->Unit` returns a new unit which is the square root of the current unit
-- `to_string()->str` returns the string representation of the `Measurement`. This string is guaranteed to produce the equivalent `Measurement` as the current `Measurement`, but may not be the same string as was used to create it.
-- `value()->float` return the numerical portion of a `Measurement`
 - `set_value(value:float)->Measurement` generate a new `Measurement` with the new Value
-- `units()->Unit` get the `Unit` associated with a `Measurement`
 - `set_units(unit:Unit|str)` generate a new `Measurement` with the new units
 - `value_as(unit:Unit|str)->float` convert the value of the `Measurement` to a new `Unit`
 - `convert_to(unit:Unit|str)->Measurement` create a new `Measurement` with the new units and the value converted to those units
 - `convert_to_base()->Measurement` create a new `Measurement` with the units as the base measurement units
 - `is_close(other:Measurement)->bool` return true if the two measurements are close (both converted to non precise measurement and compared)
 
+#### Properties
+
+- `value->float` return the numerical portion of a `Measurement`
+- `units->Unit` get the `Unit` associated with a `Measurement`
+  
 #### Operators
 
 - `*`,`/` with other `Measurements` produces a new Measurement
+- `~` inverts the measurement equivalent to `1/measurement`
 - `+`,`-` with other `Measurements` ensures the units are in the same base unit and performs the appropriate action
-- `**` is an exponentiation operator and produces a new `Measurement`
-- `*`, `/` with a floating point generates a `Measurement`
+- `**` is an exponentiation operator and produces a new `Measurement` (NOTE: beware of limits on power representations of some units, things will always wrap so it is defined but may not produce what you expect). Can be negative.
+- `*`, `/`,`%` with a floating point generates a `Measurement`
+- `//` produces the floor of the resulting unit of division
 - `==`,`!=`,`>`,`<`,`>=`,`<=` produce the appropriate comparison operators
-- f string formatting also works with units
+- `str`,`float`,`bool` are defined
+- `round`, `math.ceil`,`math.floor`, and `math.trunc` work as epected
+- f string formatting also works with measurement.  Some special formatters are availble  `f"{m1:-}"` will remove the unit and just display the value.  `f"{m1:new_unit}"` will convert to a new unit before displaying.  `f"{m1:-new_unit}"` will do the conversion but just display the numerical value after the conversion.  
 
 ### Other library methods
 
@@ -164,7 +174,7 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 
 ### Future plans
 
-Uncertain measurements will likely be added, along with some math operations on measurements (floor, ceil, round, etc). Also some more commodity operations, and x12 and r20 unit types.
+Uncertain measurements will likely be added, potentially some trig functions on measurements. Also some more commodity operations, and x12 and r20 unit types.
 
 ## Contributions
 
