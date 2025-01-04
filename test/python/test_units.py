@@ -93,29 +93,31 @@ def test_inv():
     u3 = ~(~u1)
     assert u3 == u1
 
+
 def test_hash():
-    u1=u.Unit("25.6 in")
-    u2=u1
-    u3=u.Unit("11.3 m")
-    h1=hash(u1)
-    h2=hash(u2)
-    h3=hash(u3)
+    u1 = u.Unit("25.6 in")
+    u2 = u1
+    u3 = u.Unit("11.3 m")
+    h1 = hash(u1)
+    h2 = hash(u2)
+    h3 = hash(u3)
     assert h1 == h2
     assert h1 != h3
-    
+
 
 def test_dictionary():
-    d1={}
-    
-    u1=u.Unit("25.6 in")
-    u2=u1
-    u3=u.Unit("11.3 m")
-    d1[u1]="in"
+    d1 = {}
+
+    u1 = u.Unit("25.6 in")
+    u2 = u1
+    u3 = u.Unit("11.3 m")
+    d1[u1] = "in"
     d1[u3] = "m"
-    
+
     assert d1[u2] == "in"
     assert d1[u3] == "m"
-    
+
+
 def test_float_mult():
     u1 = u.Unit("m")
     m3 = 10 * u1

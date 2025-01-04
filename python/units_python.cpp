@@ -77,7 +77,9 @@ NB_MODULE(units_llnl_ext, mod)
         .def(nb::self != nb::self)
         .def(
             "__pow__",
-            [](const units::precise_unit& unit, int pow) { return unit.pow(pow); },
+            [](const units::precise_unit& unit, int pow) {
+                return unit.pow(pow);
+            },
             nb::is_operator())
         .def(
             "is_exactly_the_same",
@@ -172,15 +174,15 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_unit& unit) {
                 return units::root(unit, 2);
             })
-        .def("__invert__",[](const units::precise_unit & unit){
-            return unit.inv();
-        })
+        .def(
+            "__invert__",
+            [](const units::precise_unit& unit) { return unit.inv(); })
         .def(
             "__repr__",
             [](const units::precise_unit& unit) {
                 return units::to_string(unit);
             })
-        .def("__hash__",[](const units::precise_unit& unit){
+        .def("__hash__", [](const units::precise_unit& unit) {
             return std::hash<units::precise_unit>()(unit);
         });
 
@@ -210,13 +212,21 @@ NB_MODULE(units_llnl_ext, mod)
                const units::precise_unit& unit) {
                 new (measurement) units::precise_measurement(value, unit);
             })
-        .def_prop_ro("value", [](const units::precise_measurement& measurement){return measurement.value();})
+        .def_prop_ro(
+            "value",
+            [](const units::precise_measurement& measurement) {
+                return measurement.value();
+            })
         .def(
             "set_value",
             [](const units::precise_measurement* measurement, double value) {
                 return units::precise_measurement(value, measurement->units());
             })
-        .def_prop_ro("units", [](const units::precise_measurement& measurement){return measurement.units();})
+        .def_prop_ro(
+            "units",
+            [](const units::precise_measurement& measurement) {
+                return measurement.units();
+            })
         .def(
             "set_units",
             [](const units::precise_measurement* measurement,
@@ -322,47 +332,69 @@ NB_MODULE(units_llnl_ext, mod)
             })
         .def(
             "__format__",
-            [](const units::precise_measurement& measurement,std::string fmt_string) {
-                if (fmt_string.empty())
-                {
+            [](const units::precise_measurement& measurement,
+               std::string fmt_string) {
+                if (fmt_string.empty()) {
                     return units::to_string(measurement);
                 }
-                if (fmt_string == "-")
-                {
-                    return units::to_string(units::precise_measurement(measurement.value(),units::precise::one));
+                if (fmt_string == "-") {
+                    return units::to_string(units::precise_measurement(
+                        measurement.value(), units::precise::one));
                 }
-                if (fmt_string.front() == '-')
-                {
-                    return units::to_string(units::precise_measurement(measurement.value_as(units::unit_from_string(fmt_string.substr(1))),units::precise::one));
+                if (fmt_string.front() == '-') {
+                    return units::to_string(units::precise_measurement(
+                        measurement.value_as(
+                            units::unit_from_string(fmt_string.substr(1))),
+                        units::precise::one));
+                } else {
+                    return units::to_string(measurement.convert_to(
+                        units::unit_from_string(fmt_string)));
                 }
-                else {
-                    return units::to_string(measurement.convert_to(units::unit_from_string(fmt_string)));
-                }
-                
             })
-        .def("__neg__",[](const units::precise_measurement & measurement){
-            return -measurement;
-        })
-        .def("__invert__",[](const units::precise_measurement & measurement){
-            return 1.0/measurement;
-        })
-        .def("__trunc__",[](const units::precise_measurement & measurement){
-            return trunc(measurement);
-        })
-        .def("__ceil__",[](const units::precise_measurement & measurement){
-            return ceil(measurement);
-        })
-        .def("__floor__",[](const units::precise_measurement & measurement){
-            return floor(measurement);
-        })
-        .def("__round__",[](const units::precise_measurement & measurement){
-            return round(measurement);
-        })
-        .def("__floordiv__",[](const units::precise_measurement & measurement,const units::precise_measurement &other){
-            return floor(measurement/other).value();
-        })
-        .def("__float__",[](const units::precise_measurement &measurement){return measurement.value();})
-        .def("__bool__",[](const units::precise_measurement &measurement){return (measurement.value()>=0.0);});
+        .def(
+            "__neg__",
+            [](const units::precise_measurement& measurement) {
+                return -measurement;
+            })
+        .def(
+            "__invert__",
+            [](const units::precise_measurement& measurement) {
+                return 1.0 / measurement;
+            })
+        .def(
+            "__trunc__",
+            [](const units::precise_measurement& measurement) {
+                return trunc(measurement);
+            })
+        .def(
+            "__ceil__",
+            [](const units::precise_measurement& measurement) {
+                return ceil(measurement);
+            })
+        .def(
+            "__floor__",
+            [](const units::precise_measurement& measurement) {
+                return floor(measurement);
+            })
+        .def(
+            "__round__",
+            [](const units::precise_measurement& measurement) {
+                return round(measurement);
+            })
+        .def(
+            "__floordiv__",
+            [](const units::precise_measurement& measurement,
+               const units::precise_measurement& other) {
+                return floor(measurement / other).value();
+            })
+        .def(
+            "__float__",
+            [](const units::precise_measurement& measurement) {
+                return measurement.value();
+            })
+        .def("__bool__", [](const units::precise_measurement& measurement) {
+            return (measurement.value() >= 0.0);
+        });
 
     mod.def(
         "convert",

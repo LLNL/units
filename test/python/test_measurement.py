@@ -6,6 +6,7 @@
 import units_llnl as u
 import math
 
+
 def test_basic_measurement():
     m1 = u.Measurement("10 m")
     m2 = u.Measurement("2.5 s")
@@ -119,7 +120,7 @@ def test_as_unit():
 
     assert m2.value == 4
     assert m2.value_as("s") == 60
-    assert float(m1)==15
+    assert float(m1) == 15
     assert m1
 
 
@@ -132,20 +133,22 @@ def test_add_sub():
     m4 = m3 + m2 + m1
     assert m4 == u.Measurement(120, "second")
 
+
 def test_negation():
     m1 = u.Measurement("15 seconds")
     m3 = -m1
     assert m3.value == -15.0
 
-    
+
 def test_mod():
     m1 = u.Measurement("18 seconds")
     m2 = u.Measurement("1 min")
-    m3 = (m2%m1).convert_to('s')
+    m3 = (m2 % m1).convert_to("s")
     assert math.floor(m3.value) == 6
-    m4= m1%5
+    m4 = m1 % 5
     assert m4.value == 3
-    
+
+
 def test_math_func():
     m1 = u.Measurement("15.78 seconds")
     m2 = u.Measurement("15.48 seconds")
@@ -158,7 +161,7 @@ def test_math_func():
     assert math.trunc(m1).value == 15
     assert math.trunc(m2).value == 15
 
-    
+
 def test_mult():
     m1 = u.Measurement("2 meters")
     m2 = u.Measurement(3, "meters")
@@ -190,15 +193,16 @@ def test_string():
     assert str(m1) == "10 lb"
     s3 = f"the measurement is {m1}"
     assert s3 == "the measurement is 10 lb"
-    
+
+
 def test_format():
     m1 = u.Measurement("9.7552 lb")
     s1 = f"the measurement is {m1:kg}"
     assert "kg" in s1
-    
+
     s2 = f"the measurement is {m1:-}"
-    assert s2== "the measurement is 9.7552 "
-    
+    assert s2 == "the measurement is 9.7552 "
+
     s3 = f"the measurement is {m1:-kg}"
     assert "kg" not in s3
 
