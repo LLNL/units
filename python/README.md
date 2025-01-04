@@ -116,7 +116,7 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 - `multiplier->float` return the unit multiplier as a floating point number
 - `commodity->str` get the commodity of the unit
 - `base_units`->Unit gets the base units (no multiplier) associated with a unit
-  
+
 #### Operators
 
 - `*`,`/` with other units produces a new unit
@@ -150,7 +150,7 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 
 - `value->float` return the numerical portion of a `Measurement`
 - `units->Unit` get the `Unit` associated with a `Measurement`
-  
+
 #### Operators
 
 - `*`,`/` with other `Measurements` produces a new Measurement
@@ -162,7 +162,7 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 - `==`,`!=`,`>`,`<`,`>=`,`<=` produce the appropriate comparison operators
 - `str`,`float`,`bool` are defined
 - `round`, `math.ceil`,`math.floor`, and `math.trunc` work as epected
-- f string formatting also works with measurement.  Some special formatters are availble  `f"{m1:-}"` will remove the unit and just display the value.  `f"{m1:new_unit}"` will convert to a new unit before displaying.  `f"{m1:-new_unit}"` will do the conversion but just display the numerical value after the conversion.  
+- f string formatting also works with measurement. Some special formatters are available `f"{m1:-}"` will remove the unit and just display the value. `f"{m1:new_unit}"` will convert to a new unit before displaying. `f"{m1:-new_unit}"` will do the conversion but just display the numerical value after the conversion.
 
 ### Other library methods
 
