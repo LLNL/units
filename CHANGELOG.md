@@ -24,14 +24,14 @@ Python package release, documentation update, continued addition of new units an
 - Added commodity_conversion_map file containing some additional commoditity strings [#355][]
 - In python library added dunder methods for floor, ceil, round, hash, floordiv [#357][]
 - Added format specifiers for measurement to allow conversion in the format string and removal of the unit string [#357][]
-- Added operators for `float` and `bool` in python  [#357][]
-- Added mod (`%`) and `//` operator in python for both other `Measurement` and `float`  [#357][]
+- Added operators for `float` and `bool` in python [#357][]
+- Added mod (`%`) and `//` operator in python for both other `Measurement` and `float` [#357][]
 - Added negation operator `-` in python [#357][]
 
 ### Removed
 
 - removed specific python method `inv` - now just use inversion operator `~` [#357][]
-- remove isolated `to_string` method on Unit and Measurement python classes, use `str()`  [#357][]
+- remove isolated `to_string` method on Unit and Measurement python classes, use `str()` [#357][]
 
 [#355]: https://github.com/LLNL/units/pull/355
 [#356]: https://github.com/LLNL/units/pull/356
@@ -47,7 +47,6 @@ Python package release, documentation update, continued addition of new units an
 - Updated copyright date to 2024 [#351][]
 - updated the r20 units to be mostly operational [#314][]
 - Updated third party libraries, and some new CI builders [#335][],[#336][]
-
 
 ### Fixed
 

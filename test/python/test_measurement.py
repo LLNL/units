@@ -139,16 +139,18 @@ def test_negation():
     m3 = -m1
     assert m3.value == -15.0
 
+
 def test_conditions():
-    m1=u.Measurement(34.5,"fq2te1tg1fe")
+    m1 = u.Measurement(34.5, "fq2te1tg1fe")
     assert not m1
     assert not bool(m1)
-    
-    m2=u.Measurement(0,"m")
+
+    m2 = u.Measurement(0, "m")
     assert not m2
     assert not bool(m2)
     assert m2.is_normal()
-    
+
+
 def test_mod():
     m1 = u.Measurement("18 seconds")
     m2 = u.Measurement("1 min")

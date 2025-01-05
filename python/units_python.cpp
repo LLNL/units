@@ -35,9 +35,10 @@ NB_MODULE(units_llnl_ext, mod)
             })
         .def(
             "__init__",
-            [](units::precise_unit* type, double multiplier, const units::precise_unit &base) {
-                new (type) units::precise_unit(
-                    multiplier,base);
+            [](units::precise_unit* type,
+               double multiplier,
+               const units::precise_unit& base) {
+                new (type) units::precise_unit(multiplier, base);
             })
         .def(
             "__init__",
@@ -188,9 +189,13 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_unit& unit) {
                 return units::to_string(unit);
             })
-        .def("__bool__", [](const units::precise_unit& unit) {
-                return (is_valid(unit) && !is_error(unit) && unit.multiplier() != 0);
-        })
+        .def(
+            "__bool__",
+            [](const units::precise_unit& unit) {
+                return (
+                    is_valid(unit) && !is_error(unit) &&
+                    unit.multiplier() != 0);
+            })
         .def("__hash__", [](const units::precise_unit& unit) {
             return std::hash<units::precise_unit>()(unit);
         });
@@ -413,7 +418,10 @@ NB_MODULE(units_llnl_ext, mod)
                 return measurement.value();
             })
         .def("__bool__", [](const units::precise_measurement& measurement) {
-            return (is_valid(measurement.units())&&(measurement.value() != 0.0)&&(measurement.units().multiplier()!=0.0) && !is_error(measurement.units()));
+            return (
+                is_valid(measurement.units()) && (measurement.value() != 0.0) &&
+                (measurement.units().multiplier() != 0.0) &&
+                !is_error(measurement.units()));
         });
 
     mod.def(
