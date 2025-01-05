@@ -13,7 +13,13 @@ def test_basic_unit():
     u4 = u.Unit("mph")
     assert u3.is_convertible_to(u4)
 
-
+def test_unit_constructor():
+    u1 = u.Unit("cm")
+    u2 = u.Unit(100,u1)
+    
+    assert u2==u.Unit('m')
+    assert u2
+    
 def test_basic_multiplication():
     u1 = u.Unit("m")
     u2 = u.Unit("s")
@@ -26,10 +32,11 @@ def test_conditions():
     u2 = u.Unit("error")
     u3 = u.Unit("infinity")
     assert not u1.is_error()
+    assert bool(u1)
     assert u2.is_error()
     assert u1.is_normal()
     assert not u2.is_normal()
-
+    assert not bool(u2)
     assert u1.is_valid()
 
     assert u1.isfinite()
@@ -41,7 +48,25 @@ def test_conditions():
     u4 = u.Unit("puMW")
     assert u4.is_per_unit()
     assert not u3.is_per_unit()
+    
+def test_bad_unit():
+    ue=u.Unit("qdfgqtegqgqg")
+    assert not ue
+    assert ue.is_error()
 
+def test_zero():
+    u1=u.Unit("0")
+    u2=u.Unit("nan")
+    u3=u.Unit("m/s")
+    u4=u.Unit(0,u3)
+    assert not bool(u1)
+    assert not u1
+    assert not bool(u2)
+    assert not u2
+    assert u3
+    assert bool(u3)
+    assert not bool(u4)
+    assert not u4
 
 def test_root():
     u1 = u.Unit("m^6 per second squared")

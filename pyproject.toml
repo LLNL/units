@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "units_llnl"
-version = "0.11.1"
+version = "0.12.0"
 description = "Python bindings for the LLNL units library"
 readme = "python/README.md"
 requires-python = ">=3.10"
@@ -37,6 +37,10 @@ Documentation = "https://units.readthedocs.io/en/latest/"
 Repository = "https://github.com/llnl/units"
 Issues = "https://github.com/LLNL/units/issues"
 Changelog = "https://github.com/LLNL/units/blob/main/CHANGELOG.md"
+
+
+[project.optional-dependencies]
+test = ["pytest"]
 
 [tool.scikit-build]
 # Protect the configuration against future changes in scikit-build-core

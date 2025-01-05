@@ -91,7 +91,8 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 
 - `Unit(unit_str:str)` construct from a string
 - `Unit(unit_str:str,commodity_str:str)` construct a unit from a unit string and commodity string
-
+- `Unit(float multiplier, unit:Unit)` construct a unit using another unit as a base along with a multiplier
+  
 #### Methods
 
 - `is_exactly_the_same(other:Unit)->bool` compare two units and check for exact equivalence in both the unit_data and the multiplier.
@@ -125,6 +126,8 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 - `*`, `/` with a floating point generates a `Measurement`
 - `==` and `!=` produce the appropriate comparison operators
 - f string formatting also works with units and returns the string representation of the unit. This string is guaranteed to produce the same unit as the current unit, but may not be the same string as was used to create it.
+- `str`,`bool` are defined,  `bool` indicates that the unit is valid, and non-zero
+- `Units` may also be used as the indexing element in a dictionary
 
 ### Measurements
 
@@ -160,7 +163,7 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 - `*`, `/`,`%` with a floating point generates a `Measurement`
 - `//` produces the floor of the resulting unit of division
 - `==`,`!=`,`>`,`<`,`>=`,`<=` produce the appropriate comparison operators
-- `str`,`float`,`bool` are defined
+- `str`,`float`,`bool` are defined,  `bool` indicates that the measurement is non zero and is valid
 - `round`, `math.ceil`,`math.floor`, and `math.trunc` work as expected
 - f string formatting also works with measurement. Some special formatters are available `f"{m1:-}"` will remove the unit and just display the value. `f"{m1:new_unit}"` will convert to a new unit before displaying. `f"{m1:-new_unit}"` will do the conversion but just display the numerical value after the conversion.
 

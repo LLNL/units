@@ -5,6 +5,38 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0][] - 2025-01-05
+
+Python package release, documentation update, continued addition of new units and other updates and fixes
+
+### Changed
+
+- Updated copyright dates for 2025 [#356][]
+- Python getters `value()` and `commodity()`, `multiplier()`, and `units()` are now properties and do not use the parenthesis any more. (these are read only, the classes are immutable) [#357][]
+
+### Fixed
+
+- fixed some code analyzer warnings [#355][]
+
+### Added
+
+- Added currency conversion from around the world [#355][]
+- Added commodity_conversion_map file containing some additional commoditity strings [#355][]
+- In python library added dunder methods for floor, ceil, round, hash, floordiv [#357][]
+- Added format specifiers for measurement to allow conversion in the format string and removal of the unit string [#357][]
+- Added operators for `float` and `bool` in python  [#357][]
+- Added mod (`%`) and `//` operator in python for both other `Measurement` and `float`  [#357][]
+- Added negation operator `-` in python [#357][]
+
+### Removed
+
+- removed specific python method `inv` - now just use inversion operator `~` [#357][]
+- remove isolated `to_string` method on Unit and Measurement python classes, use `str()`  [#357][]
+
+[#355]: https://github.com/LLNL/units/pull/355
+[#356]: https://github.com/LLNL/units/pull/356
+[#357]: https://github.com/LLNL/units/pull/357
+
 ## [0.11.0][] -2024-12-26
 
 Python package release, documentation update, continued addition of new units and other updates and fixes
@@ -15,6 +47,7 @@ Python package release, documentation update, continued addition of new units an
 - Updated copyright date to 2024 [#351][]
 - updated the r20 units to be mostly operational [#314][]
 - Updated third party libraries, and some new CI builders [#335][],[#336][]
+
 
 ### Fixed
 
@@ -130,6 +163,7 @@ A few user suggested tweaks, and support additional unit string conversions supp
 [0.9.2]: https://github.com/LLNL/units/releases/tag/v0.9.2
 [0.10.2]: https://github.com/LLNL/units/releases/tag/v0.10.2
 [0.11.0]: https://github.com/LLNL/units/releases/tag/v0.11.0
+[0.12.0]: https://github.com/LLNL/units/releases/tag/v0.12.0
 
 ## [0.7.0][] - 2022-12-17
 
