@@ -161,7 +161,7 @@ These operations apply the `Units` object in Python. It maps to a `precise_unit`
 - `//` produces the floor of the resulting unit of division
 - `==`,`!=`,`>`,`<`,`>=`,`<=` produce the appropriate comparison operators
 - `str`,`float`,`bool` are defined
-- `round`, `math.ceil`,`math.floor`, and `math.trunc` work as epected
+- `round`, `math.ceil`,`math.floor`, and `math.trunc` work as expected
 - f string formatting also works with measurement. Some special formatters are available `f"{m1:-}"` will remove the unit and just display the value. `f"{m1:new_unit}"` will convert to a new unit before displaying. `f"{m1:-new_unit}"` will do the conversion but just display the numerical value after the conversion.
 
 ### Other library methods
