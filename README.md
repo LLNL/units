@@ -3,6 +3,8 @@
 [![codecov](https://codecov.io/gh/LLNL/units/branch/main/graph/badge.svg)](https://codecov.io/gh/LLNL/units)
 [![Build Status](https://dev.azure.com/phlptp/units/_apis/build/status/LLNL.units?branchName=main)](https://dev.azure.com/phlptp/units/_build/latest?definitionId=1&branchName=main)
 [![CircleCI](https://circleci.com/gh/LLNL/units.svg?style=svg)](https://circleci.com/gh/LLNL/units)
+[![](https://img.shields.io/pypi/pyversions/units-llnl)](https://pypi.org/project/units-llnl/)
+[![](https://img.shields.io/pypi/v/units-llnl)](https://pypi.org/project/units-llnl/)
 [![](https://img.shields.io/badge/License-BSD-blue.svg)](https://github.com/GMLC-TDC/HELICS-src/blob/main/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/units/badge/?version=latest)](https://units.readthedocs.io/en/latest/?badge=latest)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LLNL/units/main.svg)](https://results.pre-commit.ci/latest/github/LLNL/units/main)
@@ -13,7 +15,7 @@
 
 The Units library provides a means of working with units of measurement at runtime, including conversion to and from strings. It provides a small number of types for working with units and measurements and operations necessary for user input and output with units.
 
-This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and [HELICS](https://github.com/GMLC-TDC/HELICS) and is currently a work in progress (though getting close). Namespaces, function names, and code organization is subject to change though is fairly stable at this point, input is welcome. A set of [documentation](https://units.readthedocs.io/en/latest/) is available.
+This software was developed for use in [LLNL/GridDyn](https://github.com/LLNL/GridDyn), and [HELICS](https://github.com/GMLC-TDC/HELICS) and is currently a work in progress (though getting close). Namespaces, function names, and code organization is subject to change though is fairly stable at this point, input is welcome. A set of [documentation](https://units.readthedocs.io/en/latest/) is available. A Python wrapper is also available through [Pypi](https://pypi.org/project/units-llnl/) that wraps a limited subset of the library for most common purposes.
 
 ## Table of contents
 

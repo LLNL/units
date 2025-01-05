@@ -15,12 +15,12 @@ def test_user_defined_unit():
     assert Unit("clucks/A") == Unit("19.3 m")
     assert Unit("sclucks/$") == Unit("23 m*mol")
 
-    assert clucks.to_string() == "clucks"
-    assert clucks.inv().to_string() == "1/clucks"
+    assert str(clucks) == "clucks"
+    assert str(~clucks) == "1/clucks"
 
     sclucks = Unit("sclucks")
     assert not sclucks.is_error()
-    assert (Unit("ug") / sclucks**3).to_string() == "ug/sclucks^3"
+    assert str(Unit("ug") / sclucks**3) == "ug/sclucks^3"
 
 
 def test_user_defined_unit_from_file():

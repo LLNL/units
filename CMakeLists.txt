@@ -23,7 +23,7 @@ endif()
 project(
     ${UNITS_CMAKE_PROJECT_NAME}
     LANGUAGES C CXX
-    VERSION 0.11.0
+    VERSION 0.12.0
 )
 include(CMakeDependentOption)
 include(CTest)

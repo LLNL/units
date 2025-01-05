@@ -532,7 +532,14 @@ class fixed_measurement {
     {
         return {value_ / val, units_};
     }
-
+    fixed_measurement operator%(const fixed_measurement& other) const
+    {
+        return {fmod(value_, other.value_as(units_)), units_};
+    }
+    fixed_measurement operator%(double val) const
+    {
+        return {fmod(value_, val), units_};
+    }
     fixed_measurement operator+(const measurement& other) const
     {
         return {value_ + other.value_as(units_), units_};
@@ -1267,7 +1274,14 @@ class precise_measurement {
     {
         return {value_ / val, units_};
     }
-
+    precise_measurement operator%(const precise_measurement& other) const
+    {
+        return {fmod(value_, other.value_as(units_)), units_};
+    }
+    precise_measurement operator%(double val) const
+    {
+        return {fmod(value_, val), units_};
+    }
     precise_measurement operator+(const precise_measurement& other) const
     {
         return {value_ + other.value_as(units_), units_};
@@ -1506,6 +1520,14 @@ class fixed_precise_measurement {
     constexpr fixed_precise_measurement operator/(double val) const
     {
         return {value_ / val, units_};
+    }
+    fixed_precise_measurement operator%(const precise_measurement& other) const
+    {
+        return {fmod(value_, other.value_as(units_)), units_};
+    }
+    fixed_precise_measurement operator%(double val) const
+    {
+        return {fmod(value_, val), units_};
     }
 
     fixed_precise_measurement operator+(const precise_measurement& other) const

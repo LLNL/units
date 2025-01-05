@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 import units_llnl as u
+import math
 
 
 def test_basic_measurement():
@@ -32,7 +33,7 @@ def test_basic_measurement3():
 
     m4 = u.Measurement(4.0, u1 / u2)
     assert m1 / m2 == m4
-    assert m4.units() == u1 / u2
+    assert m4.units == u1 / u2
 
 
 def test_conditions():
@@ -80,16 +81,16 @@ def test_comparisons():
 
 def test_set_value():
     m1 = u.Measurement("100 months")
-    assert m1.value() == 100
+    assert m1.value == 100
     m2 = m1.set_value(14)
-    assert m2.value() == 14
+    assert m2.value == 14
 
 
 def test_set_units():
     m1 = u.Measurement("100 months")
-    assert m1.units() == u.Unit("month")
+    assert m1.units == u.Unit("month")
     m2 = m1.set_units(u.Unit("day"))
-    assert m2.units() == u.Unit("day")
+    assert m2.units == u.Unit("day")
 
 
 def test_value_as():
@@ -102,40 +103,91 @@ def test_value_as():
 def test_convert_to():
     m1 = u.Measurement("20 weeks")
     m2 = m1.convert_to("day")
-    assert m2.value() == 20 * 7
+    assert m2.value == 20 * 7
     u1 = u.Unit("hr")
     m3 = m1.convert_to("hr")
-    assert m3.value() == 20 * 7 * 24
+    assert m3.value == 20 * 7 * 24
 
     m4 = m1.convert_to_base()
-    assert m4.units() == u.Unit("s")
-    assert m4.units().multiplier() == 1.0
-    assert m4.value() == 20 * 7 * 24 * 3600
+    assert m4.units == u.Unit("s")
+    assert m4.units.multiplier == 1.0
+    assert m4.value == 20 * 7 * 24 * 3600
 
 
 def test_as_unit():
     m1 = u.Measurement("15 seconds")
     m2 = u.Measurement(4, m1.as_unit())
 
-    assert m2.value() == 4
+    assert m2.value == 4
     assert m2.value_as("s") == 60
+    assert float(m1) == 15
+    assert m1
 
 
 def test_add_sub():
     m1 = u.Measurement("15 seconds")
     m2 = u.Measurement(1, "minute")
     m3 = m2 - m1
-    assert m3.value() == 0.75
+    assert m3.value == 0.75
 
     m4 = m3 + m2 + m1
     assert m4 == u.Measurement(120, "second")
+
+
+def test_negation():
+    m1 = u.Measurement("15 seconds")
+    m3 = -m1
+    assert m3.value == -15.0
+
+
+def test_conditions():
+    m1 = u.Measurement(34.5, "fq2te1tg1fe")
+    assert not m1
+    assert not bool(m1)
+
+    m2 = u.Measurement(0, "m")
+    assert not m2
+    assert not bool(m2)
+    assert m2.is_normal()
+
+
+def test_mod():
+    m1 = u.Measurement("18 seconds")
+    m2 = u.Measurement("1 min")
+    m3 = (m2 % m1).convert_to("s")
+    assert math.floor(m3.value) == 6
+    m4 = m1 % 5
+    assert m4.value == 3
+
+
+def test_floor_div():
+    m1 = u.Measurement("18 seconds")
+    m2 = u.Measurement("1 min")
+    m3 = m2 // m1
+    assert m3.value == 3
+    m4 = m1 // 4
+    assert m4.value == 4
+    assert m4.units == u.Unit("s")
+
+
+def test_math_func():
+    m1 = u.Measurement("15.78 seconds")
+    m2 = u.Measurement("15.48 seconds")
+    assert math.floor(m1).value == 15
+    assert math.floor(m2).value == 15
+    assert math.ceil(m1).value == 16
+    assert math.ceil(m2).value == 16
+    assert round(m1).value == 16
+    assert round(m2).value == 15
+    assert math.trunc(m1).value == 15
+    assert math.trunc(m2).value == 15
 
 
 def test_mult():
     m1 = u.Measurement("2 meters")
     m2 = u.Measurement(3, "meters")
     m3 = m2 * m1
-    assert m3.value() == 6
+    assert m3.value == 6
 
     m4 = 3 * m3
     assert m4 == u.Measurement(18, "meters squared")
@@ -148,7 +200,7 @@ def test_div():
     m1 = u.Measurement("10 meters")
     m2 = u.Measurement(2, "seconds")
     m3 = m1 / m2
-    assert m3.value() == 5
+    assert m3.value == 5
 
     m4 = 10 / m3
     assert m4 == u.Measurement(2, "s/m")
@@ -159,9 +211,21 @@ def test_div():
 
 def test_string():
     m1 = u.Measurement("10 lb")
-    assert m1.to_string() == "10 lb"
+    assert str(m1) == "10 lb"
     s3 = f"the measurement is {m1}"
     assert s3 == "the measurement is 10 lb"
+
+
+def test_format():
+    m1 = u.Measurement("9.7552 lb")
+    s1 = f"the measurement is {m1:kg}"
+    assert "kg" in s1
+
+    s2 = f"the measurement is {m1:-}"
+    assert s2 == "the measurement is 9.7552 "
+
+    s3 = f"the measurement is {m1:-kg}"
+    assert "kg" not in s3
 
 
 def test_close():

@@ -5,7 +5,7 @@ User Guide
 The Units library user guide is an in depth look at how to use the C++ library and its functionality, covering the basic types in the library and operations with them.
 The guide covers the basic types and what operations are available on them, as well as a lot of details on how to use the library.
 
-The python package is a simplified wrapper around the C++ library and is discussed in
+The python package is a simplified wrapper around the C++ library and is discussed in :ref:`python`
 
 .. toctree::
    :maxdepth: 1

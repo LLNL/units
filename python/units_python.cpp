@@ -9,6 +9,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <nanobind/stl/string.h>
 
 #include "units/units.hpp"
+#include "units/units_math.hpp"
 namespace nb = nanobind;
 
 using namespace nb::literals;
@@ -35,21 +36,33 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__init__",
             [](units::precise_unit* type,
+               double multiplier,
+               const units::precise_unit& base) {
+                new (type) units::precise_unit(multiplier, base);
+            })
+        .def(
+            "__init__",
+            [](units::precise_unit* type,
                const char* arg0,
                const char* commodity) {
                 new (type) units::precise_unit{
                     units::unit_from_string(std::string(arg0)),
                     units::getCommodity(std::string(commodity))};
             })
-        .def("multiplier", &units::precise_unit::multiplier)
-        .def(
+        .def_prop_ro("multiplier", &units::precise_unit::multiplier)
+        .def_prop_ro(
             "commodity",
+            [](const units::precise_unit& unit) {
+                return units::getCommodityName(unit.commodity());
+            })
+        .def_prop_ro(
+            "base_units",
             [](const units::precise_unit& type1) {
-                return units::getCommodityName(type1.commodity());
+                return units::precise_unit(type1.base_units());
             })
         .def(
             "set_commodity",
-            [](units::precise_unit* unit, const char* commodity) {
+            [](const units::precise_unit* unit, const char* commodity) {
                 return units::precise_unit(
                     unit->multiplier(),
                     unit->base_units(),
@@ -57,11 +70,10 @@ NB_MODULE(units_llnl_ext, mod)
             })
         .def(
             "set_multiplier",
-            [](units::precise_unit* unit, double mult) {
+            [](const units::precise_unit* unit, double mult) {
                 return units::precise_unit(
                     mult, unit->base_units(), unit->commodity());
             })
-        .def("inv", &units::precise_unit::inv)
         .def(nb::self * nb::self)
         .def(nb::self / nb::self)
         .def(float() * nb::self)
@@ -72,7 +84,9 @@ NB_MODULE(units_llnl_ext, mod)
         .def(nb::self != nb::self)
         .def(
             "__pow__",
-            [](const units::precise_unit& a, int pow) { return a.pow(pow); },
+            [](const units::precise_unit& unit, int pow) {
+                return unit.pow(pow);
+            },
             nb::is_operator())
         .def(
             "is_exactly_the_same",
@@ -135,45 +149,55 @@ NB_MODULE(units_llnl_ext, mod)
         .def("is_equation", &units::precise_unit::is_equation)
         .def(
             "is_valid",
-            [](const units::precise_unit& type) {
-                return units::is_valid(type);
+            [](const units::precise_unit& unit) {
+                return units::is_valid(unit);
             })
         .def(
             "is_normal",
-            [](const units::precise_unit& type) {
-                return units::isnormal(type);
+            [](const units::precise_unit& unit) {
+                return units::isnormal(unit);
             })
         .def(
             "is_error",
-            [](const units::precise_unit& type) {
-                return units::is_error(type);
+            [](const units::precise_unit& unit) {
+                return units::is_error(unit);
             },
             "return true if the unit has the error flags set or is infinite")
         .def(
             "isfinite",
-            [](const units::precise_unit& type) {
-                return units::isfinite(type);
+            [](const units::precise_unit& unit) {
+                return units::isfinite(unit);
             })
         .def(
             "isinf",
-            [](const units::precise_unit& type) { return units::isinf(type); })
+            [](const units::precise_unit& unit) { return units::isinf(unit); })
         .def(
             "root",
-            [](const units::precise_unit& type, int root) {
-                return units::root(type, root);
+            [](const units::precise_unit& unit, int root) {
+                return units::root(unit, root);
             })
         .def(
             "sqrt",
-            [](const units::precise_unit& type) {
-                return units::root(type, 2);
+            [](const units::precise_unit& unit) {
+                return units::root(unit, 2);
             })
         .def(
+            "__invert__",
+            [](const units::precise_unit& unit) { return unit.inv(); })
+        .def(
             "__repr__",
-            [](const units::precise_unit& type) {
-                return units::to_string(type);
+            [](const units::precise_unit& unit) {
+                return units::to_string(unit);
             })
-        .def("to_string", [](const units::precise_unit& type) {
-            return units::to_string(type);
+        .def(
+            "__bool__",
+            [](const units::precise_unit& unit) {
+                return (
+                    is_valid(unit) && !is_error(unit) &&
+                    unit.multiplier() != 0);
+            })
+        .def("__hash__", [](const units::precise_unit& unit) {
+            return std::hash<units::precise_unit>()(unit);
         });
 
     nb::class_<units::precise_measurement>(
@@ -202,16 +226,24 @@ NB_MODULE(units_llnl_ext, mod)
                const units::precise_unit& unit) {
                 new (measurement) units::precise_measurement(value, unit);
             })
-        .def("value", &units::precise_measurement::value)
+        .def_prop_ro(
+            "value",
+            [](const units::precise_measurement& measurement) {
+                return measurement.value();
+            })
         .def(
             "set_value",
-            [](units::precise_measurement* measurement, double value) {
+            [](const units::precise_measurement* measurement, double value) {
                 return units::precise_measurement(value, measurement->units());
             })
-        .def("units", &units::precise_measurement::units)
+        .def_prop_ro(
+            "units",
+            [](const units::precise_measurement& measurement) {
+                return measurement.units();
+            })
         .def(
             "set_units",
-            [](units::precise_measurement* measurement,
+            [](const units::precise_measurement* measurement,
                const units::precise_unit& unit) {
                 return units::precise_measurement(measurement->value(), unit);
             })
@@ -257,12 +289,14 @@ NB_MODULE(units_llnl_ext, mod)
         .def("as_unit", &units::precise_measurement::as_unit)
         .def(nb::self * nb::self)
         .def(nb::self / nb::self)
+        .def(nb::self % nb::self)
         .def(nb::self + nb::self)
         .def(nb::self - nb::self)
         .def(float() * nb::self)
         .def(nb::self * float())
         .def(float() / nb::self)
         .def(nb::self / float())
+        .def(nb::self % float())
         .def(nb::self == nb::self)
         .def(nb::self != nb::self)
         .def(nb::self > nb::self)
@@ -273,6 +307,23 @@ NB_MODULE(units_llnl_ext, mod)
             "__pow__",
             [](const units::precise_measurement& measurement, int power) {
                 return pow(measurement, power);
+            },
+            nb::is_operator())
+        .def(
+            "__floordiv__",
+            [](const units::precise_measurement& measurement,
+               const units::precise_measurement& other) {
+                auto res1 = measurement / other;
+                if (res1.units().unit_type_count() == 0) {
+                    res1 = res1.convert_to_base();
+                }
+                return floor(res1);
+            },
+            nb::is_operator())
+        .def(
+            "__floordiv__",
+            [](const units::precise_measurement& measurement, double divisor) {
+                return floor(measurement / divisor);
             },
             nb::is_operator())
         .def(
@@ -310,8 +361,67 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_measurement& measurement) {
                 return units::to_string(measurement);
             })
-        .def("to_string", [](const units::precise_measurement& measurement) {
-            return units::to_string(measurement);
+        .def(
+            "__format__",
+            [](const units::precise_measurement& measurement,
+               std::string fmt_string) {
+                if (fmt_string.empty()) {
+                    return units::to_string(measurement);
+                }
+                if (fmt_string == "-") {
+                    return units::to_string(units::precise_measurement(
+                        measurement.value(), units::precise::one));
+                }
+                if (fmt_string.front() == '-') {
+                    return units::to_string(units::precise_measurement(
+                        measurement.value_as(
+                            units::unit_from_string(fmt_string.substr(1))),
+                        units::precise::one));
+                } else {
+                    return units::to_string(measurement.convert_to(
+                        units::unit_from_string(fmt_string)));
+                }
+            })
+        .def(
+            "__neg__",
+            [](const units::precise_measurement& measurement) {
+                return -measurement;
+            })
+        .def(
+            "__invert__",
+            [](const units::precise_measurement& measurement) {
+                return 1.0 / measurement;
+            })
+        .def(
+            "__trunc__",
+            [](const units::precise_measurement& measurement) {
+                return trunc(measurement);
+            })
+        .def(
+            "__ceil__",
+            [](const units::precise_measurement& measurement) {
+                return ceil(measurement);
+            })
+        .def(
+            "__floor__",
+            [](const units::precise_measurement& measurement) {
+                return floor(measurement);
+            })
+        .def(
+            "__round__",
+            [](const units::precise_measurement& measurement) {
+                return round(measurement);
+            })
+        .def(
+            "__float__",
+            [](const units::precise_measurement& measurement) {
+                return measurement.value();
+            })
+        .def("__bool__", [](const units::precise_measurement& measurement) {
+            return (
+                is_valid(measurement.units()) && (measurement.value() != 0.0) &&
+                (measurement.units().multiplier() != 0.0) &&
+                !is_error(measurement.units()));
         });
 
     mod.def(

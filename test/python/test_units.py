@@ -14,6 +14,14 @@ def test_basic_unit():
     assert u3.is_convertible_to(u4)
 
 
+def test_unit_constructor():
+    u1 = u.Unit("cm")
+    u2 = u.Unit(100, u1)
+
+    assert u2 == u.Unit("m")
+    assert u2
+
+
 def test_basic_multiplication():
     u1 = u.Unit("m")
     u2 = u.Unit("s")
@@ -26,10 +34,11 @@ def test_conditions():
     u2 = u.Unit("error")
     u3 = u.Unit("infinity")
     assert not u1.is_error()
+    assert bool(u1)
     assert u2.is_error()
     assert u1.is_normal()
     assert not u2.is_normal()
-
+    assert not bool(u2)
     assert u1.is_valid()
 
     assert u1.isfinite()
@@ -41,6 +50,27 @@ def test_conditions():
     u4 = u.Unit("puMW")
     assert u4.is_per_unit()
     assert not u3.is_per_unit()
+
+
+def test_bad_unit():
+    ue = u.Unit("qdfgqtegqgqg")
+    assert not ue
+    assert ue.is_error()
+
+
+def test_zero():
+    u1 = u.Unit("0")
+    u2 = u.Unit("nan")
+    u3 = u.Unit("m/s")
+    u4 = u.Unit(0, u3)
+    assert not bool(u1)
+    assert not u1
+    assert not bool(u2)
+    assert not u2
+    assert u3
+    assert bool(u3)
+    assert not bool(u4)
+    assert not u4
 
 
 def test_root():
@@ -64,45 +94,69 @@ def test_base():
 
 def test_multiplier():
     u1 = u.Unit("nm")
-    assert u1.multiplier() == 1e-9
+    assert u1.multiplier == 1e-9
     u2 = u1.set_multiplier(1e-6)
     assert u2 == u.Unit("um")
-    assert u2.multiplier() == 1e-6
+    assert u2.multiplier == 1e-6
     assert u1 != u2
 
 
 def test_commodity():
     u1 = u.Unit("lb", "gold")
-    assert u1.commodity() == "gold"
+    assert u1.commodity == "gold"
     u2 = u1.set_commodity("silver")
-    assert u2.commodity() == "silver"
+    assert u2.commodity == "silver"
 
 
 def test_string():
     u1 = u.Unit("lb")
-    assert u1.to_string() == "lb"
+    assert str(u1) == "lb"
     s3 = f"the unit is {u1}"
     assert s3 == "the unit is lb"
     u3 = u.Unit()
-    assert u3.to_string() == ""
+    assert str(u3) == ""
 
 
 def test_inv():
     u1 = u.Unit("s")
-    assert u1.inv() == u.Unit("Hz")
-    u3 = u1.inv().inv()
+    assert ~u1 == u.Unit("Hz")
+    u3 = ~(~u1)
     assert u3 == u1
+
+
+def test_hash():
+    u1 = u.Unit("25.6 in")
+    u2 = u1
+    u3 = u.Unit("11.3 m")
+    h1 = hash(u1)
+    h2 = hash(u2)
+    h3 = hash(u3)
+    assert h1 == h2
+    assert h1 != h3
+
+
+def test_dictionary():
+    d1 = {}
+
+    u1 = u.Unit("25.6 in")
+    u2 = u1
+    u3 = u.Unit("11.3 m")
+    d1[u1] = "in"
+    d1[u3] = "m"
+
+    assert d1[u2] == "in"
+    assert d1[u3] == "m"
 
 
 def test_float_mult():
     u1 = u.Unit("m")
     m3 = 10 * u1
     assert type(m3).__name__ == "Measurement"
-    assert m3.value() == 10
+    assert m3.value == 10
 
     m4 = u1 * 12
     assert type(m4).__name__ == "Measurement"
-    assert m4.value() == 12
+    assert m4.value == 12
 
 
 def test_convert_units():

@@ -2,7 +2,7 @@
 Python
 ==================
 The Python wrapper for the units library is a simplified version of the library.  It is focused on the string operations of the library and conversions between units and measurements.
-
+The two key classes are `Unit` which encapsulates a specific unit of measure and optional commodity if desired, and `Measurement` which captures a value + `Unit`.  Math operations are supported on the types.
 The units library is available through a pypi_ package
 
 .. code-block:: sh
