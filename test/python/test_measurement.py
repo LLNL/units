@@ -34,7 +34,7 @@ def test_basic_measurement3():
     m4 = u.Measurement(4.0, u1 / u2)
     assert m1 / m2 == m4
     assert m4.units == u1 / u2
-    
+
 
 def test_basic_measurement3():
 
@@ -42,7 +42,7 @@ def test_basic_measurement3():
     u2 = u.Unit("s")
 
     m1 = u.Measurement(value=10, unit=u1)
-    m2 = u.Measurement(unit=u2,value=2.5)
+    m2 = u.Measurement(unit=u2, value=2.5)
 
     m4 = u.Measurement(4.0, u1 / u2)
     assert m1 / m2 == m4
@@ -120,7 +120,6 @@ def test_convert_to():
     u1 = u.Unit("hr")
     m3 = m1.convert_to("hr")
     assert m3.value == 20 * 7 * 24
-
 
     m2 = m1.to("day")
     assert m2.value == 20 * 7
@@ -253,8 +252,9 @@ def test_close():
     assert m1 != m2
     assert m1.isclose(m2)
 
+
 def test_to_dict():
-    m1= u.Measurement(value=25,unit="lb")
-    dv=m1.to_dict()
-    assert dv["value"]==25
-    assert dv["unit"]=="lb"
+    m1 = u.Measurement(value=25, unit="lb")
+    dv = m1.to_dict()
+    assert dv["value"] == 25
+    assert dv["unit"] == "lb"

@@ -20,7 +20,8 @@ def test_unit_constructor():
 
     assert u2 == u.Unit("m")
     assert u2
-    
+
+
 def test_unit_constructor2():
     u1 = u.Unit(unit="cm")
     u2 = u.Unit(100, u1)
@@ -28,12 +29,14 @@ def test_unit_constructor2():
     assert u2 == u.Unit(unit="m")
     assert u2
 
-def test_unit_constructor3():
-    u1 = u.Unit(unit="kg",multiplier=10,commodity="gold")
 
-    assert u1.multiplier==10.0
-    assert u1.commodity=="gold"
-    assert u1.base_units==u.Unit("kg")
+def test_unit_constructor3():
+    u1 = u.Unit(unit="kg", multiplier=10, commodity="gold")
+
+    assert u1.multiplier == 10.0
+    assert u1.commodity == "gold"
+    assert u1.base_units == u.Unit("kg")
+
 
 def test_basic_multiplication():
     u1 = u.Unit("m")
@@ -160,11 +163,13 @@ def test_dictionary():
     assert d1[u2] == "in"
     assert d1[u3] == "m"
 
+
 def test_to_dict():
-    u1=u.Unit(10.0,"m")
-    v1=u1.to_dict()
-    assert v1["unit"]=="10m"
-    
+    u1 = u.Unit(10.0, "m")
+    v1 = u1.to_dict()
+    assert v1["unit"] == "10m"
+
+
 def test_float_mult():
     u1 = u.Unit("m")
     m3 = 10 * u1
@@ -184,7 +189,7 @@ def test_convert_units():
 
     v2 = u1.convert(unit_out=u2, value=20)
     assert v2 == 2000
-    
+
     v1 = u1.to(10, u2)
     assert v1 == 10 * 100
 
@@ -199,7 +204,7 @@ def test_convert_string():
 
     v2 = u1.convert(unit_out="mm", value=20)
     assert v2 == 20000
-    
+
     v1 = u1.to(10, "mm")
     assert v1 == 10 * 1000
 
