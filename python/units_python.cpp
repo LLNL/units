@@ -282,8 +282,8 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__init__",
             [](units::precise_measurement* measurement,
-               const std::string &value,
-               const std::string &unit) {
+               const std::string& value,
+               const std::string& unit) {
                 new (measurement) units::precise_measurement(
                     units::measurement_from_string(value + " " + unit));
             },
