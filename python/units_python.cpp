@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <nanobind/operators.h>
 #include <nanobind/stl/bind_map.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
 
 #include "units/units.hpp"
 #include "units/units_math.hpp"
@@ -115,6 +116,47 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_unit& unit, int pow) {
                 return unit.pow(pow);
             },
+            nb::is_operator())
+        .def(
+            "__pow__",
+            [](const units::precise_unit& unit, float pow) {
+                if (pow<1.0 && pow>0.0)
+                {
+                    if (pow==0.5)
+                    {
+                        return units::root(unit, 2);
+                    }
+                    else{
+                        return units::root(unit,static_cast<int>(1.0/pow));
+                    }
+                    
+                }
+                else{
+                    return unit.pow(int(pow));
+                }
+            },
+            nb::is_operator())
+        .def("__mul__",[](const units::precise_unit &unit,const std::vector<double> &mult)
+        {
+            std::vector<units::precise_measurement> results;
+            results.resize(mult.size());
+            for (std::size_t ii=0;ii<mult.size();++ii)
+            {
+                results[ii]=mult[ii]*unit;
+            }
+            return results;
+        },
+            nb::is_operator())
+        .def("__rmul__",[](const units::precise_unit &unit,const std::vector<double> &mult)
+        {
+            std::vector<units::precise_measurement> results;
+            results.resize(mult.size());
+            for (std::size_t ii=0;ii<mult.size();++ii)
+            {
+                results[ii]=mult[ii]*unit;
+            }
+            return results;
+        },
             nb::is_operator())
         .def(
             "is_exactly_the_same",
@@ -417,6 +459,29 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_measurement& measurement, double divisor) {
                 return floor(measurement / divisor);
             },
+            nb::is_operator())
+
+            .def("__mul__",[](const units::precise_measurement& measurement,const std::vector<double> &mult)
+        {
+            std::vector<units::precise_measurement> results;
+            results.resize(mult.size());
+            for (std::size_t ii=0;ii<mult.size();++ii)
+            {
+                results[ii]=measurement*mult[ii];
+            }
+            return results;
+        },
+            nb::is_operator())
+        .def("__rmul__",[](const units::precise_measurement& measurement,const std::vector<double> &mult)
+        {
+            std::vector<units::precise_measurement> results;
+            results.resize(mult.size());
+            for (std::size_t ii=0;ii<mult.size();++ii)
+            {
+                results[ii]=mult[ii]*measurement;
+            }
+            return results;
+        },
             nb::is_operator())
         .def(
             "is_valid",

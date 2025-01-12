@@ -179,8 +179,22 @@ def test_float_mult():
     m4 = u1 * 12
     assert type(m4).__name__ == "Measurement"
     assert m4.value == 12
-
-
+    
+def test_mult_vect():
+    u1=u.Unit('m')
+    
+    v1=[10,20,40]
+    mv=v1*u1
+    assert type(mv[0]).__name__ == "Measurement"
+    print(mv)
+    assert mv[1].value == 20
+    
+    mv=u1*v1
+    assert type(mv[2]).__name__ == "Measurement"
+    print(mv)
+    assert mv[2].value == 40
+    
+    
 def test_convert_units():
     u1 = u.Unit("m")
     u2 = u.Unit("cm")
