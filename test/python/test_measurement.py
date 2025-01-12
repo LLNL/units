@@ -213,15 +213,17 @@ def test_mult():
     m5 = m3 * 3
     assert m5 == u.Measurement(18, "meters squared")
 
+
 def test_vector_mult():
     m1 = u.Measurement("2 meters")
     m2 = u.Measurement(3, "meters")
-    v1 = [5,10,15,20,25]
-    mv3=v1*m1
-    mv4=m2*v1
+    v1 = [5, 10, 15, 20, 25]
+    mv3 = v1 * m1
+    mv4 = m2 * v1
 
-    assert mv3[2].value==30
-    assert mv4[3].value==60
+    assert mv3[2].value == 30
+    assert mv4[3].value == 60
+
 
 def test_div():
     m1 = u.Measurement("10 meters")
