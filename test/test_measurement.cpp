@@ -499,6 +499,16 @@ TEST(PreciseMeasurement, unaryOps)
     EXPECT_EQ(z.units(), x.units());
 }
 
+TEST(PreciseMeasurement, countAddition)
+{
+    auto m1=1.0*precise::Hz;
+    auto m2=1.0*unit_from_string("baud");
+    auto m3 = 1.0*precise::Bq;
+
+    auto m4=m1+m2+m3;
+    auto str=to_string(m4);
+}
+
 TEST(PreciseMeasurement, doubleOps)
 {
     auto freq = 9.0 / precise::s;

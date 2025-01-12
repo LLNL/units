@@ -7,6 +7,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <nanobind/nanobind.h>
 #include <nanobind/operators.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/bind_map.h>
 
 #include "units/units.hpp"
 #include "units/units_math.hpp"
@@ -32,14 +33,21 @@ NB_MODULE(units_llnl_ext, mod)
             [](units::precise_unit* type, const char* arg0) {
                 new (type) units::precise_unit(
                     units::unit_from_string(std::string(arg0)));
-            })
+            },"unit"_a)
         .def(
             "__init__",
             [](units::precise_unit* type,
                double multiplier,
                const units::precise_unit& base) {
                 new (type) units::precise_unit(multiplier, base);
-            })
+            },"multiplier"_a,"unit"_a)
+        .def(
+            "__init__",
+            [](units::precise_unit* type,
+               double multiplier,
+               const char *base) {
+                new (type) units::precise_unit(multiplier, units::unit_from_string(base));
+            },"multiplier"_a,"unit"_a)
         .def(
             "__init__",
             [](units::precise_unit* type,
@@ -48,7 +56,17 @@ NB_MODULE(units_llnl_ext, mod)
                 new (type) units::precise_unit{
                     units::unit_from_string(std::string(arg0)),
                     units::getCommodity(std::string(commodity))};
-            })
+            },"unit"_a,"commodity"_a)
+        .def(
+            "__init__",
+            [](units::precise_unit* type,
+                double multiplier,
+               const char* arg0,
+               const char* commodity) {
+                new (type) units::precise_unit{multiplier,
+                    units::unit_from_string(std::string(arg0)),
+                    units::getCommodity(std::string(commodity))};
+            },"multiplier"_a,"unit"_a,"commodity"_a)
         .def_prop_ro("multiplier", &units::precise_unit::multiplier)
         .def_prop_ro(
             "commodity",
@@ -145,6 +163,29 @@ NB_MODULE(units_llnl_ext, mod)
             "value"_a,
             "unit_out"_a,
             "value represented by one unit in terms of another")
+        .def(
+            "to",
+            [](units::precise_unit* unit,
+               double value,
+               const units::precise_unit& convert_to_units) {
+                return units::convert(value, *unit, convert_to_units);
+            },
+            "value"_a,
+            "unit_out"_a,
+            "value represented by one unit in terms of another")
+        .def(
+            "to",
+            [](units::precise_unit* unit,
+               double value,
+               const char* convert_to_units) {
+                return units::convert(
+                    value,
+                    *unit,
+                    units::unit_from_string(std::string(convert_to_units)));
+            },
+            "value"_a,
+            "unit_out"_a,
+            "value represented by one unit in terms of another")
         .def("is_per_unit", &units::precise_unit::is_per_unit)
         .def("is_equation", &units::precise_unit::is_equation)
         .def(
@@ -196,6 +237,13 @@ NB_MODULE(units_llnl_ext, mod)
                     is_valid(unit) && !is_error(unit) &&
                     unit.multiplier() != 0);
             })
+        .def(
+            "to_dict",
+            [](const units::precise_unit& unit) {
+                nb::dict dictionary;
+                dictionary["unit"]=units::to_string(unit);
+                return dictionary;
+            })
         .def("__hash__", [](const units::precise_unit& unit) {
             return std::hash<units::precise_unit>()(unit);
         });
@@ -218,14 +266,25 @@ NB_MODULE(units_llnl_ext, mod)
                const char* arg0) {
                 new (measurement) units::precise_measurement(
                     value, units::unit_from_string(std::string(arg0)));
-            })
+            },"value"_a,
+        "unit"_a)
+         .def(
+            "__init__",
+            [](units::precise_measurement* measurement,
+               std::string value,
+               std::string unit) {
+                new (measurement) units::precise_measurement(
+                    units::measurement_from_string(value + " "+unit));
+            },"value"_a,
+        "unit"_a)
         .def(
             "__init__",
             [](units::precise_measurement* measurement,
                double value,
                const units::precise_unit& unit) {
                 new (measurement) units::precise_measurement(value, unit);
-            })
+            },"value"_a,
+        "unit"_a)
         .def_prop_ro(
             "value",
             [](const units::precise_measurement& measurement) {
@@ -238,6 +297,11 @@ NB_MODULE(units_llnl_ext, mod)
             })
         .def_prop_ro(
             "units",
+            [](const units::precise_measurement& measurement) {
+                return measurement.units();
+            })
+       .def_prop_ro(
+            "unit",
             [](const units::precise_measurement& measurement) {
                 return measurement.units();
             })
@@ -276,6 +340,21 @@ NB_MODULE(units_llnl_ext, mod)
             "create a new `Measurement` with the new units and the value converted to those units")
         .def(
             "convert_to",
+            [](const units::precise_measurement& measurement,
+               const char* units) {
+                return measurement.convert_to(
+                    units::unit_from_string(std::string(units)));
+            },
+            "create a new `Measurement` with the new units and the value converted to those units")
+        .def(
+            "to",
+            [](const units::precise_measurement& measurement,
+               const units::precise_unit& unit) {
+                return measurement.convert_to(unit);
+            },
+            "create a new `Measurement` with the new units and the value converted to those units")
+        .def(
+            "to",
             [](const units::precise_measurement& measurement,
                const char* units) {
                 return measurement.convert_to(
@@ -381,6 +460,14 @@ NB_MODULE(units_llnl_ext, mod)
                     return units::to_string(measurement.convert_to(
                         units::unit_from_string(fmt_string)));
                 }
+            })
+        .def(
+            "to_dict",
+            [](const units::precise_measurement& measurement) {
+                nb::dict dictionary;
+                dictionary["unit"]=units::to_string(measurement.units());
+                dictionary["value"]=measurement.value();
+                return dictionary;
             })
         .def(
             "__neg__",

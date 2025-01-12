@@ -34,6 +34,19 @@ def test_basic_measurement3():
     m4 = u.Measurement(4.0, u1 / u2)
     assert m1 / m2 == m4
     assert m4.units == u1 / u2
+    
+
+def test_basic_measurement3():
+
+    u1 = u.Unit("m")
+    u2 = u.Unit("s")
+
+    m1 = u.Measurement(value=10, unit=u1)
+    m2 = u.Measurement(unit=u2,value=2.5)
+
+    m4 = u.Measurement(4.0, u1 / u2)
+    assert m1 / m2 == m4
+    assert m4.units == u1 / u2
 
 
 def test_conditions():
@@ -108,6 +121,12 @@ def test_convert_to():
     m3 = m1.convert_to("hr")
     assert m3.value == 20 * 7 * 24
 
+
+    m2 = m1.to("day")
+    assert m2.value == 20 * 7
+    u1 = u.Unit("hr")
+    m3 = m1.to("hr")
+    assert m3.value == 20 * 7 * 24
     m4 = m1.convert_to_base()
     assert m4.units == u.Unit("s")
     assert m4.units.multiplier == 1.0
@@ -154,7 +173,7 @@ def test_conditions():
 def test_mod():
     m1 = u.Measurement("18 seconds")
     m2 = u.Measurement("1 min")
-    m3 = (m2 % m1).convert_to("s")
+    m3 = (m2 % m1).to("s")
     assert math.floor(m3.value) == 6
     m4 = m1 % 5
     assert m4.value == 3
@@ -233,3 +252,9 @@ def test_close():
     m2 = u.Measurement("10.0000000001 lb")
     assert m1 != m2
     assert m1.isclose(m2)
+
+def test_to_dict():
+    m1= u.Measurement(value=25,unit="lb")
+    dv=m1.to_dict()
+    assert dv["value"]==25
+    assert dv["unit"]=="lb"
