@@ -14,12 +14,14 @@ def test_basic_measurement():
     m4 = u.Measurement("4.0 m/s")
     assert m3 == m4
 
+
 def test_Quantity_alias():
     m1 = u.Quantity("10 m")
     m2 = u.Quantity("2.5 s")
     m3 = m1 / m2
     m4 = u.Quantity("4.0 m/s")
     assert m3 == m4
+
 
 def test_basic_measurement2():
     m1 = u.Measurement(10, "m")
