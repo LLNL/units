@@ -1,3 +1,4 @@
+from typing import TypeAlias
 from .units_llnl_ext import (
     Unit,
     Measurement,
@@ -8,3 +9,5 @@ from .units_llnl_ext import (
     defined_units_from_file,
     __doc__,
 )
+
+Quantity: TypeAlias = Measurement
