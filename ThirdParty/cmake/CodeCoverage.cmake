@@ -364,7 +364,7 @@ function(setup_target_for_coverage_lcov)
         COMMENT "SonarQube code coverage info report saved in ${Coverage_NAME}_sonarqube.xml.")
   endif()
 
-  if(CODE_COVERAGE_VERBOSE OR 1)
+  if(CODE_COVERAGE_VERBOSE)
     message(STATUS "Executed command report")
     message(STATUS "Command to clean up lcov: ")
     string(REPLACE ";" " " LCOV_CLEAN_CMD_SPACED "${LCOV_CLEAN_CMD}")
