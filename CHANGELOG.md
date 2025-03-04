@@ -5,6 +5,26 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.3][] - 2025-03-04
+
+Tweaks to python packaging, add beta dimension output, and start moving some commodities to the constexpr mappings
+
+### Changed
+
+- updated nanobind versions [#365][]
+- Moved commodity maps to a constexpr structure like the units [#366][]
+
+### Added
+
+- Add aarch64 wheels [#360][]
+- Added dimension output string and python class [#366][]
+- Added additional operators and tests for python classes [#359][]
+
+[#366]: https://github.com/LLNL/units/pull/366
+[#365]: https://github.com/LLNL/units/pull/365
+[#360]: https://github.com/LLNL/units/pull/360
+[#359]: https://github.com/LLNL/units/pull/359
+
 ## [0.12.0][] - 2025-01-05
 
 Python package release, documentation update, continued addition of new units and other updates and fixes
