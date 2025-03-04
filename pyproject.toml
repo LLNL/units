@@ -1,10 +1,11 @@
 [build-system]
-requires = ["scikit-build-core >=0.11", "nanobind >=2.5.0"]
+requires = ["scikit-build-core >=0.10", "nanobind >=2.5.0"]
+
 build-backend = "scikit_build_core.build"
 
 [project]
 name = "units_llnl"
-version = "0.12.2"
+version = "0.12.3"
 description = "Python bindings for the LLNL units library"
 readme = "python/README.md"
 requires-python = ">=3.10"
@@ -67,6 +68,7 @@ cmake.args = ["-DUNITS_BUILD_PYTHON_LIBRARY=ON", "-DUNITS_ENABLE_TESTS=OFF"]
 [tool.cibuildwheel]
 # Necessary to see build output from the actual compilation
 build-verbosity = 1
+skip = "pp311-macosx_arm64"
 
 # Run pytest to ensure that the package was correctly built
 test-command = "pytest {project}/test/python"

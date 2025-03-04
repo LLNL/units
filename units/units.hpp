@@ -1995,6 +1995,20 @@ inline unit unit_cast_from_string(
     return unit_cast(unit_from_string(std::move(unit_string), match_flags));
 }
 
+/** generate a string containing the dimensions of a unit
+* @details the dimensions of a unit are the type of measurement it represents
+@param units the units to get the dimensions for
+*/
+UNITS_EXPORT std::string dimensions(const precise_unit& units);
+
+/** generate a string containing the dimensions of a unit
+@param units the units to get the dimensions for
+*/
+inline std::string dimensions(const unit& units)
+{
+    return dimensions(precise_unit(units));
+}
+
 /** Generate a unit object from the string definition of a type of measurement
 @param unit_type  string representing the type of measurement
 @return a precise unit corresponding to the SI unit for the measurement

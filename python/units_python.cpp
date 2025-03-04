@@ -589,6 +589,30 @@ NB_MODULE(units_llnl_ext, mod)
                 !is_error(measurement.units()));
         });
 
+    struct Dimension {
+        units::precise_unit base;
+    };
+
+    nb::class_<Dimension>(
+        mod, "Dimension", "a dimensional representation of a unit")
+        .def(nb::init<>())
+        .def(
+            "__init__",
+            [](Dimension* dim, const units::precise_unit& type) {
+                new (dim)
+                    Dimension{units::precise_unit(1.0, type.base_units())};
+            },
+            "unit"_a)
+        .def(
+            "__init__",
+            [](Dimension* dim, const char* arg0) {
+                new (dim) Dimension{units::default_unit(arg0)};
+            },
+            "dimension"_a)
+        .def("default_unit", [](const Dimension& dim) { return (dim.base); })
+        .def("__repr__", [](const Dimension& dim) {
+            return units::dimensions(dim.base);
+        });
     mod.def(
         "convert",
         [](double val,

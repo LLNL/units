@@ -4,8 +4,8 @@ Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
+#include "commodity_conversion_maps.hpp"
 #include "units.hpp"
-
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -97,6 +97,19 @@ enum commodity : std::uint32_t
 namespace UNITS_NAMESPACE {
 namespace commodities {
     using commodityMap = std::unordered_map<std::uint32_t, const char*>;
+    using commodityNameMap = std::unordered_map<std::string, std::uint32_t>;
+
+    static commodityNameMap loadDefinedCommodities()
+    {
+        commodityNameMap knownCommodities{};
+        for (const auto& ccode : defined_commodity_codes) {
+            if (ccode.first != nullptr) {
+                knownCommodities.emplace(ccode.first, ccode.second);
+            }
+        }
+        return knownCommodities;
+    }
+    static const commodityNameMap commodity_codes = loadDefinedCommodities();
     static const commodityMap commodity_names{
         {water, "water"},
         // metals
@@ -173,99 +186,6 @@ namespace commodities {
                                              // that might somehow get generated
     };
 
-    using commodityNameMap = std::unordered_map<std::string, std::uint32_t>;
-    static const commodityNameMap commodity_codes{
-        {"_", 0},  // null commodity code, would cause some screwy things with
-                   // the strings
-        {"__", 0},  // null commodity code, would cause some screwy things with
-                    // the strings
-        {"___", 0},  // null commodity code, would cause some screwy things with
-                     // the strings
-        {"____", 0},  // null commodity code, would cause some screwy things
-                      // with the strings
-        {"_____", 0},  // null commodity code, would cause some screwy things
-                       // with the strings
-        {"water", water},
-        // metals
-        {"gold", gold},
-        {"copper", copper},
-        {"silver", silver},
-        {"platinum", platinum},
-        {"palladium", palladium},
-        {"zinc", zinc},
-        {"tin", tin},
-        {"lead", lead},
-        {"aluminum", aluminum},
-        {"alluminum_alloy", alluminum_alloy},
-        {"nickel", nickel},
-        {"cobalt", cobalt},
-        {"molybdenum", molybdenum},
-        {"carbon", carbon},
-
-        // energy
-        {"oil", oil},
-        {"heat_oil", heat_oil},
-        {"nat_gas", nat_gas},
-        {"brent_crude", brent_crude},
-        {"ethanol", ethanol},
-        {"propane", propane},
-        // grains
-        {"wheat", wheat},
-        {"corn", corn},
-        {"soybeans", soybeans},
-        {"soybean_meal", soybean_meal},
-        {"soybean_oil", soybean_oil},
-        {"oats", oats},
-        {"rice", rice},
-        {"durum_wheat", durum_wheat},
-        {"canola", canola},
-        {"rough_rice", rough_rice},
-        {"rapeseed", rapeseed},
-        {"adzuci", adzuki},
-        {"adzuki", adzuki},
-        {"barley", barley},
-        // meats
-        {"live_cattle", live_cattle},
-        {"feeder_cattle", feeder_cattle},
-        {"lean_hogs", lean_hogs},
-        {"milk", milk},
-
-        // soft
-        {"cotton", cotton},
-        {"orange_juice", orange_juice},
-        {"sugar", sugar},
-        {"sugar_11", sugar_11},
-        {"coffee", coffee},
-        {"cocoa", cocoa},
-        {"palm_oil", palm_oil},
-        {"rubber", rubber},
-        {"wool", wool},
-        {"lumber", lumber},
-
-        // other common unit blocks
-        {"people", people},
-        {"cars", vehicle},
-        {"vehicle", vehicle},
-        // clinical
-        {"tissue", tissue},
-        {"cell", cell},
-        {"cells", cell},
-        {"embryo", embryo},
-        {"hahnemann", Hahnemann},
-        {"korsakov", Korsakov},
-        {"protein", protein},
-        {"creatinine", creatinine},
-        {"prot", protein},
-        {"creat", creatinine},
-        // computer
-        {"voxel", voxel},
-        {"pixel", pixel},
-        {"vox", voxel},
-        {"pix", pixel},
-        {"dot", pixel},
-        {"error", errors},
-        {"errors", errors},
-    };
 }  // namespace commodities
 
 namespace hashcodes {

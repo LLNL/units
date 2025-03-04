@@ -3237,6 +3237,10 @@ static const std::unordered_map<std::uint64_t, precise_unit> domainSpecificUnit{
     {hashGen(domains::nuclear, "rad"), precise::cgs::RAD},
     {hashGen(domains::nuclear, "rd"), precise::cgs::RAD},
     {hashGen(domains::climate, "kt"), precise::kilo* precise::t},
+    {
+        hashGen(domains::climate, "Sv"),
+        {1e6, precise::m.pow(3) / precise::s},
+    },
     {hashGen(domains::us_customary, "C"), precise::us::cup},
     {hashGen(domains::us_customary, "T"), precise::us::tbsp},
     {hashGen(domains::us_customary, "c"), precise::us::cup},
@@ -6059,6 +6063,22 @@ static smap loadDefinedMeasurementTypes()
     return knownMeasurementTypes;
 }
 
+std::string dimensions(const precise_unit& units)
+{
+    if (units.is_per_unit() || units.unit_type_count() == 0) {
+        return "dimensionless";
+    }
+
+    precise_unit base(1.0, units.base_units());
+    for (const auto& mt : defined_measurement_types) {
+        if (base == mt.second) {
+            return mt.first;
+        }
+    }
+    // Now it isn't something common so lets just build a sequence TODO(PT):
+    return "unknown";
+}
+
 precise_unit default_unit(std::string unit_type)
 {
     static const smap measurement_types = loadDefinedMeasurementTypes();
@@ -6079,6 +6099,8 @@ precise_unit default_unit(std::string unit_type)
                 return precise::mol;
             case 'J':
                 return precise::cd;
+            case 'l':
+                return precise::one;
         }
     }
     std::transform(
