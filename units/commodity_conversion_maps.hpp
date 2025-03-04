@@ -17,16 +17,21 @@ namespace UNITS_NAMESPACE {
 namespace commodities {
     UNITS_CPP14_CONSTEXPR_OBJECT
     std::array<std::pair<const char*, std::uint32_t>, 1213>
-        defined_commodity_codes{
-            {{"_", 0U},  // null commodity code, would cause some screwy things with
+        defined_commodity_codes{{
+            {"_",
+             0U},  // null commodity code, would cause some screwy things with
             // the strings
-            {"__", 0U},  // null commodity code, would cause some screwy things with
+            {"__",
+             0U},  // null commodity code, would cause some screwy things with
             // the strings
-            {"___", 0U},  // null commodity code, would cause some screwy things with
+            {"___",
+             0U},  // null commodity code, would cause some screwy things with
             // the strings
-            {"____", 0U},  // null commodity code, would cause some screwy things
+            {"____",
+             0U},  // null commodity code, would cause some screwy things
             // with the strings
-            {"_____", 0U},  // null commodity code, would cause some screwy things
+            {"_____",
+             0U},  // null commodity code, would cause some screwy things
             // with the strings
             {"water", water},
             // metals
@@ -557,8 +562,8 @@ namespace commodities {
             {"XPT", generateCurrencyCode("XPT")},
             {"962", generateCurrencyCode("XPT")},
             {"XAG", generateCurrencyCode("XAG")},
-            {"961", generateCurrencyCode("XAG")},}
-        };
+            {"961", generateCurrencyCode("XAG")},
+        }};
 
 }  // namespace commodities
 }  // namespace UNITS_NAMESPACE

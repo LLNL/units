@@ -6060,19 +6060,15 @@ static smap loadDefinedMeasurementTypes()
     return knownMeasurementTypes;
 }
 
-
 std::string dimensions(const precise_unit& units)
 {
-    if (units.is_per_unit() || units.unit_type_count()==0)
-    {
+    if (units.is_per_unit() || units.unit_type_count() == 0) {
         return "dimensionless";
     }
-   
-    precise_unit base(1.0,units.base_units());
-    for (auto& mt : defined_measurement_types)
-    {
-        if (base == mt.second)
-        {
+
+    precise_unit base(1.0, units.base_units());
+    for (auto& mt : defined_measurement_types) {
+        if (base == mt.second) {
             return mt.first;
         }
     }

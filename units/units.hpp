@@ -2004,12 +2004,10 @@ UNITS_EXPORT std::string dimensions(const precise_unit& units);
 /** generate a string containing the dimensions of a unit
 @param units the units to get the dimensions for
 */
-inline std::string
-dimensions(const unit& units)
+inline std::string dimensions(const unit& units)
 {
     return dimensions(precise_unit(units));
 }
-
 
 /** Generate a unit object from the string definition of a type of measurement
 @param unit_type  string representing the type of measurement
