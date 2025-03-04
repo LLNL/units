@@ -10,7 +10,7 @@ on:
 
 jobs:
   cmake-config-2004:
-    name: CMake config check 3.4-3.11
+    name: CMake config check 3.7-3.11
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
@@ -18,23 +18,6 @@ jobs:
     - name: update certificates
       run: |
         sudo apt-get install ca-certificates
-
-    - name: Check CMake 3.4
-      with:
-        cmake-version: "3.4"
-      uses: ./.github/actions/quick_cmake
-
-    - name: Check CMake 3.5
-      uses: ./.github/actions/quick_cmake
-      with:
-        cmake-version: "3.5"
-      if: success() || failure()
-
-    - name: Check CMake 3.6
-      uses: ./.github/actions/quick_cmake
-      with:
-        cmake-version: "3.6"
-      if: success() || failure()
 
     - name: Check CMake 3.7
       uses: ./.github/actions/quick_cmake

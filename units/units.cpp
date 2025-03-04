@@ -6070,7 +6070,7 @@ std::string dimensions(const precise_unit& units)
     }
 
     precise_unit base(1.0, units.base_units());
-    for (auto& mt : defined_measurement_types) {
+    for (const auto& mt : defined_measurement_types) {
         if (base == mt.second) {
             return mt.first;
         }
