@@ -4,8 +4,8 @@ Lawrence Livermore National Security, LLC;
 See the top-level NOTICE for additional details. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause
 */
-#include "units.hpp"
 #include "commodity_conversion_maps.hpp"
+#include "units.hpp"
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -186,7 +186,6 @@ namespace commodities {
                                              // that might somehow get generated
     };
 
-    
 }  // namespace commodities
 
 namespace hashcodes {
