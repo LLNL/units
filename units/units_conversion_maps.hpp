@@ -2792,7 +2792,6 @@ UNITS_CPP14_CONSTEXPR_OBJECT std::array<
          {"furshlugginer", precise_unit(1000.0, precise::one)},
          {"farshimmelt", precise_unit(0.000001, precise::one)},
          {"clarke", precise::day},
-
          {"[hp_X]", {1.0, precise::log::neglog10, commodities::Hahnemann}},
          {"[HP_X]", {1.0, precise::log::neglog10, commodities::Hahnemann}},
          {"[hp_C]", {1.0, precise::log::neglog100, commodities::Hahnemann}},

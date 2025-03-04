@@ -18,6 +18,96 @@ namespace commodities {
     UNITS_CPP14_CONSTEXPR_OBJECT
     std::array<std::pair<const char*, std::uint32_t>, 1213>
         defined_commodity_codes{
+            {{"_", 0U},  // null commodity code, would cause some screwy things with
+            // the strings
+            {"__", 0U},  // null commodity code, would cause some screwy things with
+            // the strings
+            {"___", 0U},  // null commodity code, would cause some screwy things with
+            // the strings
+            {"____", 0U},  // null commodity code, would cause some screwy things
+            // with the strings
+            {"_____", 0U},  // null commodity code, would cause some screwy things
+            // with the strings
+            {"water", water},
+            // metals
+            {"gold", gold},
+            {"copper", copper},
+            {"silver", silver},
+            {"platinum", platinum},
+            {"palladium", palladium},
+            {"zinc", zinc},
+            {"tin", tin},
+            {"lead", lead},
+            {"aluminum", aluminum},
+            {"alluminum_alloy", alluminum_alloy},
+            {"nickel", nickel},
+            {"cobalt", cobalt},
+            {"molybdenum", molybdenum},
+            {"carbon", carbon},
+
+            // energy
+            {"oil", oil},
+            {"heat_oil", heat_oil},
+            {"nat_gas", nat_gas},
+            {"brent_crude", brent_crude},
+            {"ethanol", ethanol},
+            {"propane", propane},
+            // grains
+            {"wheat", wheat},
+            {"corn", corn},
+            {"soybeans", soybeans},
+            {"soybean_meal", soybean_meal},
+            {"soybean_oil", soybean_oil},
+            {"oats", oats},
+            {"rice", rice},
+            {"durum_wheat", durum_wheat},
+            {"canola", canola},
+            {"rough_rice", rough_rice},
+            {"rapeseed", rapeseed},
+            {"adzuci", adzuki},
+            {"adzuki", adzuki},
+            {"barley", barley},
+            // meats
+            {"live_cattle", live_cattle},
+            {"feeder_cattle", feeder_cattle},
+            {"lean_hogs", lean_hogs},
+            {"milk", milk},
+
+            // soft
+            {"cotton", cotton},
+            {"orange_juice", orange_juice},
+            {"sugar", sugar},
+            {"sugar_11", sugar_11},
+            {"coffee", coffee},
+            {"cocoa", cocoa},
+            {"palm_oil", palm_oil},
+            {"rubber", rubber},
+            {"wool", wool},
+            {"lumber", lumber},
+
+            // other common unit blocks
+            {"people", people},
+            {"cars", vehicle},
+            {"vehicle", vehicle},
+            // clinical
+            {"tissue", tissue},
+            {"cell", cell},
+            {"cells", cell},
+            {"embryo", embryo},
+            {"hahnemann", Hahnemann},
+            {"korsakov", Korsakov},
+            {"protein", protein},
+            {"creatinine", creatinine},
+            {"prot", protein},
+            {"creat", creatinine},
+            // computer
+            {"voxel", voxel},
+            {"pixel", pixel},
+            {"vox", voxel},
+            {"pix", pixel},
+            {"dot", pixel},
+            {"error", errors},
+            {"errors", errors},
             {"AFN", generateCurrencyCode("AFN")},
             {"971", generateCurrencyCode("AFN")},
             {"ALL", generateCurrencyCode("ALL")},
@@ -467,7 +557,7 @@ namespace commodities {
             {"XPT", generateCurrencyCode("XPT")},
             {"962", generateCurrencyCode("XPT")},
             {"XAG", generateCurrencyCode("XAG")},
-            {"961", generateCurrencyCode("XAG")},
+            {"961", generateCurrencyCode("XAG")},}
         };
 
 }  // namespace commodities
