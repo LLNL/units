@@ -526,14 +526,16 @@ NB_MODULE(units_llnl_ext, mod)
                     return units::to_string(measurement);
                 }
                 if (fmt_string == "-") {
-                    return units::to_string(units::precise_measurement(
-                        measurement.value(), units::precise::one));
+                    return units::to_string(
+                        units::precise_measurement(
+                            measurement.value(), units::precise::one));
                 }
                 if (fmt_string.front() == '-') {
-                    return units::to_string(units::precise_measurement(
-                        measurement.value_as(
-                            units::unit_from_string(fmt_string.substr(1))),
-                        units::precise::one));
+                    return units::to_string(
+                        units::precise_measurement(
+                            measurement.value_as(
+                                units::unit_from_string(fmt_string.substr(1))),
+                            units::precise::one));
                 } else {
                     return units::to_string(measurement.convert_to(
                         units::unit_from_string(fmt_string)));

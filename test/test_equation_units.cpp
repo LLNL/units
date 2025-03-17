@@ -355,8 +355,9 @@ TEST(logUnits, general)
 TEST(logUnits, error)
 {
     EXPECT_TRUE(std::isnan(convert(-20.0, precise::one, precise::log::bel)));
-    EXPECT_TRUE(std::isnan(convert(
-        20.0, precise::log::dBA * precise::m / precise::s, precise::m)));
+    EXPECT_TRUE(
+        std::isnan(convert(
+            20.0, precise::log::dBA * precise::m / precise::s, precise::m)));
 }
 
 TEST(otherEqUnits, prismDiopter)
