@@ -6072,7 +6072,7 @@ std::string dimensions(const precise_unit& units)
     precise_unit base(1.0, units.base_units());
     for (const auto& mt : defined_measurement_types) {
         if (base == mt.second) {
-            return std::string("[")+mt.first+"]";
+            return std::string("[") + mt.first + "]";
         }
     }
     // Now it isn't something common so lets just build a sequence TODO(PT):
@@ -6111,8 +6111,8 @@ precise_unit default_unit(std::string unit_type)
     if (fnd != measurement_types.end()) {
         return fnd->second;
     }
-    if ((unit_type.front() == '[' && unit_type.back() == ']') || (unit_type.front() == '{' && unit_type.back() == '}'))
-    {
+    if ((unit_type.front() == '[' && unit_type.back() == ']') ||
+        (unit_type.front() == '{' && unit_type.back() == '}')) {
         unit_type.pop_back();
         return default_unit(unit_type.substr(1));
     }

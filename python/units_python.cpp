@@ -163,7 +163,7 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__rlshift__",
             [](const units::precise_unit& unit,
-            const std::vector<double>& mult) {
+               const std::vector<double>& mult) {
                 std::vector<units::precise_measurement> results;
                 results.resize(mult.size());
                 for (std::size_t ii = 0; ii < mult.size(); ++ii) {
@@ -172,10 +172,9 @@ NB_MODULE(units_llnl_ext, mod)
                 return results;
             },
             nb::is_operator())
-         .def(
+        .def(
             "__rlshift__",
-            [](const units::precise_unit& unit,
-            double val) {
+            [](const units::precise_unit& unit, double val) {
                 return val * unit;
             },
             nb::is_operator())
@@ -320,7 +319,7 @@ NB_MODULE(units_llnl_ext, mod)
         .def_prop_ro(
             "dimension",
             [](const units::precise_unit& type) {
-                return  Dimension{units::precise_unit(1.0, type.base_units())};
+                return Dimension{units::precise_unit(1.0, type.base_units())};
             },
             "return an object representing the dimensionality of the unit")
         .def("__hash__", [](const units::precise_unit& unit) {
@@ -568,10 +567,11 @@ NB_MODULE(units_llnl_ext, mod)
                         units::unit_from_string(fmt_string)));
                 }
             })
-         .def_prop_ro(
+        .def_prop_ro(
             "dimension",
             [](const units::precise_measurement& measurement) {
-                return  Dimension{units::precise_unit(1.0, measurement.units().base_units())};
+                return Dimension{
+                    units::precise_unit(1.0, measurement.units().base_units())};
             },
             "return an object representing the dimensionality of the quantity")
         .def(
@@ -624,8 +624,6 @@ NB_MODULE(units_llnl_ext, mod)
                 !is_error(measurement.units()));
         });
 
-    
-
     nb::class_<Dimension>(
         mod, "Dimension", "a dimensional representation of a unit")
         .def(nb::init<>())
@@ -639,84 +637,86 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__init__",
             [](Dimension* dim, const units::precise_measurement& measurement) {
-                new (dim)
-                    Dimension{units::precise_unit(1.0, measurement.units().base_units())};
+                new (dim) Dimension{
+                    units::precise_unit(1.0, measurement.units().base_units())};
             },
             "measurement"_a)
         .def(
             "__init__",
             [](Dimension* dim, const char* arg0) {
-                units::precise_unit def=units::default_unit(arg0);
-                if (!units::is_valid(def))
-                {
-                    units::precise_measurement meas=units::measurement_from_string(arg0);
-                    def=units::precise_unit(1.0, meas.units().base_units());
+                units::precise_unit def = units::default_unit(arg0);
+                if (!units::is_valid(def)) {
+                    units::precise_measurement meas =
+                        units::measurement_from_string(arg0);
+                    def = units::precise_unit(1.0, meas.units().base_units());
                 }
                 new (dim) Dimension{def};
             },
             "dimension"_a)
-        .def_prop_ro("default_unit", [](const Dimension& dim) { return (dim.base); },
+        .def_prop_ro(
+            "default_unit",
+            [](const Dimension& dim) { return (dim.base); },
             "return the default unit for a given dimension or measurement type, usually SI units")
-        .def("__repr__", [](const Dimension& dim) {
-            return units::dimensions(dim.base);
-        })
+        .def(
+            "__repr__",
+            [](const Dimension& dim) { return units::dimensions(dim.base); })
         .def(
             "__eq__",
-            [](const Dimension &dim1, const Dimension &dim2) {
-                return dim1.base==dim2.base;
+            [](const Dimension& dim1, const Dimension& dim2) {
+                return dim1.base == dim2.base;
             },
             nb::is_operator())
         .def(
             "__ne__",
-            [](const Dimension &dim1, const Dimension &dim2) {
-                return dim1.base!=dim2.base;
+            [](const Dimension& dim1, const Dimension& dim2) {
+                return dim1.base != dim2.base;
             },
             nb::is_operator())
         .def(
             "__mul__",
-            [](const Dimension &dim1, const Dimension &dim2) {
-                return Dimension{ dim1.base*dim2.base };
+            [](const Dimension& dim1, const Dimension& dim2) {
+                return Dimension{dim1.base * dim2.base};
             },
             nb::is_operator())
         .def(
             "__mul__",
-            [](const Dimension &dim1, double val) {
-                return Dimension{ dim1.base};
+            [](const Dimension& dim1, double val) {
+                return Dimension{dim1.base};
             },
             nb::is_operator())
         .def(
             "__rmul__",
-            [](const Dimension &dim1, double val) {
-                return Dimension{ dim1.base};
+            [](const Dimension& dim1, double val) {
+                return Dimension{dim1.base};
             },
             nb::is_operator())
         .def(
             "__truediv__",
-            [](const Dimension &dim1, const Dimension &dim2) {
-                return Dimension{ dim1.base/dim2.base };
+            [](const Dimension& dim1, const Dimension& dim2) {
+                return Dimension{dim1.base / dim2.base};
             },
             nb::is_operator())
         .def(
             "__truediv__",
-            [](const Dimension &dim1, double val) {
-                return Dimension{ dim1.base};
+            [](const Dimension& dim1, double val) {
+                return Dimension{dim1.base};
             },
             nb::is_operator())
         .def(
             "__rtruediv__",
-            [](const Dimension &dim1, double val) {
-                return Dimension{ units::precise::one / dim1.base };
+            [](const Dimension& dim1, double val) {
+                return Dimension{units::precise::one / dim1.base};
             },
             nb::is_operator())
         .def(
             "__invert__",
             [](const Dimension& dim) {
-                return Dimension{ units::precise::one / dim.base };
+                return Dimension{units::precise::one / dim.base};
             })
         .def(
             "__pow__",
-            [](const Dimension &dim, int power) {
-                return Dimension{ dim.base.pow(power) };
+            [](const Dimension& dim, int power) {
+                return Dimension{dim.base.pow(power)};
             },
             nb::is_operator());
     mod.def(

@@ -13,11 +13,14 @@ from .units_llnl_ext import (
 
 Quantity: TypeAlias = Measurement
 
-def asdimension(arg)->Dimension:
+
+def asdimension(arg) -> Dimension:
     return Dimension(arg)
 
-def asunit(*args)->Unit:
+
+def asunit(*args) -> Unit:
     return Unit(*args)
 
-def asquantity(*args)->Quantity:
+
+def asquantity(*args) -> Quantity:
     return Measurement(*args)
