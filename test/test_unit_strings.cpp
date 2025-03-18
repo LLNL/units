@@ -1229,8 +1229,9 @@ TEST(stringToUnit, handlingOfSquared)
         unit_from_string("meter per square seconds per square root of hertz");
     EXPECT_EQ(u5, precise::special::ASD);
 
-    auto u6 = unit_from_string("degree Fahrenheit hour square foot per British "
-                               "thermal unit (international table) inch");
+    auto u6 = unit_from_string(
+        "degree Fahrenheit hour square foot per British "
+        "thermal unit (international table) inch");
 
     EXPECT_EQ(
         u6,
@@ -1595,8 +1596,8 @@ TEST(userDefinedUnits, clearDefs)
 
 TEST(userDefinedUnits, fileOp1)
 {
-    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
-                                          "/test_unit_files/other_units.txt");
+    auto outputstr = definedUnitsFromFile(
+        TEST_FILE_FOLDER "/test_unit_files/other_units.txt");
     EXPECT_TRUE(outputstr.empty());
     auto res = unit_from_string("meeter");
     EXPECT_EQ(res, precise::m);
@@ -1611,8 +1612,8 @@ TEST(userDefinedUnits, fileOp1)
 
 TEST(userDefinedUnits, fileOp2)
 {
-    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
-                                          "/test_unit_files/other_units2.txt");
+    auto outputstr = definedUnitsFromFile(
+        TEST_FILE_FOLDER "/test_unit_files/other_units2.txt");
     EXPECT_TRUE(outputstr.empty());
     auto y1 = unit_from_string("yodles");
     EXPECT_EQ(y1, precise_unit(73.0, count));
@@ -1627,8 +1628,8 @@ TEST(userDefinedUnits, fileOp2)
 
 TEST(userDefinedUnits, fileOp3)
 {
-    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
-                                          "/test_unit_files/other_units3.txt");
+    auto outputstr = definedUnitsFromFile(
+        TEST_FILE_FOLDER "/test_unit_files/other_units3.txt");
     EXPECT_TRUE(outputstr.empty());
     auto y1 = unit_from_string("bl==p");
     EXPECT_EQ(y1, precise_unit(18.7, precise::us::cup));
@@ -1654,8 +1655,8 @@ TEST(userDefinedUnits, fileOp3)
 
 TEST(userDefinedUnits, fileOp4)
 {
-    auto outputstr = definedUnitsFromFile(TEST_FILE_FOLDER
-                                          "/test_unit_files/other_units4.txt");
+    auto outputstr = definedUnitsFromFile(
+        TEST_FILE_FOLDER "/test_unit_files/other_units4.txt");
     EXPECT_TRUE(outputstr.empty());
 
     constexpr precise_unit agV(12.2, precise::V);

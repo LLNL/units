@@ -1108,19 +1108,22 @@ TEST(customCountUnits, testAllInv)
     for (std::uint16_t ii = 0; ii < 16; ++ii) {
         auto cunit1 = precise::generate_custom_count_unit(ii);
         EXPECT_TRUE(precise::custom::is_custom_count_unit(cunit1.base_units()));
-        EXPECT_FALSE(precise::custom::is_custom_count_unit_inverted(
-            cunit1.base_units()));
+        EXPECT_FALSE(
+            precise::custom::is_custom_count_unit_inverted(
+                cunit1.base_units()));
 
         EXPECT_FALSE(precise::custom::is_custom_unit(cunit1.base_units()));
         auto cunit2 = cunit1.inv();
         EXPECT_TRUE(precise::custom::is_custom_count_unit(cunit2.base_units()));
-        EXPECT_TRUE(precise::custom::is_custom_count_unit_inverted(
-            cunit2.base_units()));
+        EXPECT_TRUE(
+            precise::custom::is_custom_count_unit_inverted(
+                cunit2.base_units()));
         EXPECT_FALSE(precise::custom::is_custom_unit(cunit2.base_units()));
         auto cunit3 = cunit2.inv();
         EXPECT_TRUE(precise::custom::is_custom_count_unit(cunit3.base_units()));
-        EXPECT_FALSE(precise::custom::is_custom_count_unit_inverted(
-            cunit3.base_units()));
+        EXPECT_FALSE(
+            precise::custom::is_custom_count_unit_inverted(
+                cunit3.base_units()));
 
         EXPECT_FALSE(cunit1 == cunit2)
             << "Error with false comparison 1 index " << ii;
