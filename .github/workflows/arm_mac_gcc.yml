@@ -1,0 +1,27 @@
+name: ARM MAC GCC
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  arm64_gcc_mac:
+    name: MACOS ARM64 GCC
+    runs-on: macos-14-arm64
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Configure
+      run: |
+        cmake -S . -B build \
+          -DCMAKE_CXX_STANDARD=20 \
+          -DUNITS_ENABLE_TESTS=ON \
+          -DUNITS_DISABLE_EXTRA_UNIT_STANDARDS=ON
+
+    - name: Build
+      run: cmake --build build -j4
+
+    - name: Test
+      run: |
+        cd build
+        ctest --output-on-failure
