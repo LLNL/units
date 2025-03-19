@@ -419,7 +419,7 @@ TEST(otherEqUnits, saffirSimpson2Speed)
     EXPECT_NEAR(convert(0.0, precise::special::sshws, precise::mph), 39.0, 1.0);
 }
 
-class beaufort : public ::testing::TestWithParam<std::pair<double, double>> {};
+class beaufort : public ::testing::TestWithParam<std::pair<double, float>> {};
 
 TEST_P(beaufort, beaufortTests)
 {
@@ -431,23 +431,23 @@ TEST_P(beaufort, beaufortTests)
 
     EXPECT_EQ(std::round(conv), std::floor(bnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::beaufort, precise::mph), wspeed, 0.5);
+        convert(conv, precise::special::beaufort, precise::mph), double(wspeed), 0.5);
 }
 
-static const std::vector<std::pair<double, double>> testBValues{
-    {0.0, 0.0},
-    {1.5, 2.0},
-    {2.0, 4.0},
-    {3.0, 8.0},
-    {4.0, 13.0},
-    {5.0, 19.0},
-    {6.0, 25.0},
-    {7.0, 32.0},
-    {8.0, 39.0},
-    {9.0, 47.0},
-    {10.0, 55.0},
-    {11.0, 64.0},
-    {12.0, 73.0},
+static const std::vector<std::pair<double, float>> testBValues{
+    {0.0, 0.0f},
+    {1.5, 2.0f},
+    {2.0, 4.0f},
+    {3.0, 8.0f},
+    {4.0, 13.0f},
+    {5.0, 19.0f},
+    {6.0, 25.0f},
+    {7.0, 32.0f},
+    {8.0, 39.0f},
+    {9.0, 47.0f},
+    {10.0, 55.0f},
+    {11.0, 64.0f},
+    {12.0, 73.0f},
 };
 
 INSTANTIATE_TEST_SUITE_P(
