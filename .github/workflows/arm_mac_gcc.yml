@@ -1,13 +1,13 @@
-name: ARM MAC GCC
+name: ARM GCC
 on:
   pull_request:
     branches:
       - main
 
 jobs:
-  arm64_gcc_mac:
-    name: MACOS ARM64 GCC
-    runs-on: macos-14-arm64
+  arm64_gcc:
+    name: ARM64 GCC
+    runs-on: ubuntu-24.04-arm
     steps:
     - uses: actions/checkout@v4
 
