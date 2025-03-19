@@ -481,7 +481,9 @@ TEST_P(fujita, fujitaTests)
 
     EXPECT_EQ(std::round(conv), std::floor(fnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::fujita, precise::mph), static_cast<double>(wspeed), 0.5);
+        convert(conv, precise::special::fujita, precise::mph),
+        static_cast<double>(wspeed),
+        0.5);
 }
 
 static const std::vector<std::pair<double, float>> testFValues{
