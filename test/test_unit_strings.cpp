@@ -2188,7 +2188,7 @@ TEST(stream, testOutstream)
     EXPECT_EQ(res, "m");
 }
 
-#ifdef EXTRA_UNIT_STANDARDS
+#ifndef UNITS_DISABLE_EXTRA_UNIT_STANDARDS
 
 TEST(extra, r20)
 {

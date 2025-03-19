@@ -2129,9 +2129,8 @@ UNITS_EXPORT void disableCustomCommodities();
 /// Enable the ability to add custom commodities for later access
 UNITS_EXPORT void enableCustomCommodities();
 
-#define EXTRA_UNIT_STANDARDS
 // Some specific unit code standards
-#ifdef EXTRA_UNIT_STANDARDS
+#ifndef UNITS_DISABLE_EXTRA_UNIT_STANDARDS
 /// generate a unit from a string as defined by the X12 standard
 UNITS_EXPORT precise_unit x12_unit(const std::string& x12_string);
 /// generate a unit from a string as defined by the US DOD
@@ -2334,7 +2333,7 @@ namespace detail {
         getUnitStringMap();
     UNITS_EXPORT const std::unordered_map<unit, const char*>& getUnitNameMap();
 
-#ifdef EXTRA_UNIT_STANDARDS
+#ifndef UNITS_DISABLE_EXTRA_UNIT_STANDARDS
     // get the raw array for testing the r20 database
     const void* r20rawData(size_t& array_size);
 #endif
