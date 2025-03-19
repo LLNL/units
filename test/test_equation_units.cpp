@@ -432,7 +432,7 @@ TEST_P(beaufort, beaufortTests)
     EXPECT_EQ(std::round(conv), std::floor(bnumber));
     EXPECT_NEAR(
         convert(conv, precise::special::beaufort, precise::mph),
-        double(wspeed),
+        static_cast<double>(wspeed),
         0.5);
 }
 
@@ -469,7 +469,7 @@ TEST(otherEqUnits, saffirSimpson2Sbeaufort)
         0.05);  // tropical storm
 }
 
-class fujita : public ::testing::TestWithParam<std::pair<double, double>> {};
+class fujita : public ::testing::TestWithParam<std::pair<double, float>> {};
 
 TEST_P(fujita, fujitaTests)
 {
@@ -481,16 +481,16 @@ TEST_P(fujita, fujitaTests)
 
     EXPECT_EQ(std::round(conv), std::floor(fnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::fujita, precise::mph), wspeed, 0.5);
+        convert(conv, precise::special::fujita, precise::mph), static_cast<double>(wspeed), 0.5);
 }
 
-static const std::vector<std::pair<double, double>> testFValues{
-    {0.0, 40.0},
-    {1.0, 73.0},
-    {2.0, 113},
-    {3.0, 158.0},
-    {4.0, 207.0},
-    {5.0, 261},
+static const std::vector<std::pair<double, float>> testFValues{
+    {0.0, 40.0f},
+    {1.0, 73.0f},
+    {2.0, 110.0f},
+    {3.0, 158.0f},
+    {4.0, 207.0f},
+    {5.0, 261.0f},
 };
 
 INSTANTIATE_TEST_SUITE_P(
