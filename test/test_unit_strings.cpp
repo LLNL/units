@@ -1714,11 +1714,11 @@ TEST(defaultUnits, rate)
 
 TEST(defaultUnits, dimensions)
 {
-    EXPECT_EQ(dimensions(default_unit("length")), "length");
-    EXPECT_EQ(dimensions(default_unit("area")), "area");
-    EXPECT_EQ(dimensions(ft), "length");
-    EXPECT_EQ(dimensions(precise::pu * precise::MW), "dimensionless");
-    EXPECT_EQ(dimensions(precise::MW.pow(2)), "unknown");
+    EXPECT_EQ(dimensions(default_unit("length")), "[length]");
+    EXPECT_EQ(dimensions(default_unit("area")), "[area]");
+    EXPECT_EQ(dimensions(ft), "[length]");
+    EXPECT_EQ(dimensions(precise::pu * precise::MW), "[dimensionless]");
+    EXPECT_EQ(dimensions(precise::MW.pow(2)), "[unknown]");
 }
 
 TEST(commoditizedUnits, basic)

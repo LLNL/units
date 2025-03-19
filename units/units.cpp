@@ -6076,7 +6076,7 @@ std::string dimensions(const precise_unit& units)
         }
     }
     // Now it isn't something common so lets just build a sequence TODO(PT):
-    return "unknown";
+    return "[unknown]";
 }
 
 precise_unit default_unit(std::string unit_type)
