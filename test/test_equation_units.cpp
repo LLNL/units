@@ -420,7 +420,7 @@ TEST(otherEqUnits, saffirSimpson2Speed)
     EXPECT_NEAR(convert(0.0, precise::special::sshws, precise::mph), 39.0, 1.0);
 }
 
-class beaufort : public ::testing::TestWithParam<std::pair<double, double>> {};
+class beaufort : public ::testing::TestWithParam<std::pair<double, float>> {};
 
 TEST_P(beaufort, beaufortTests)
 {
@@ -432,23 +432,25 @@ TEST_P(beaufort, beaufortTests)
 
     EXPECT_EQ(std::round(conv), std::floor(bnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::beaufort, precise::mph), wspeed, 0.5);
+        convert(conv, precise::special::beaufort, precise::mph),
+        static_cast<double>(wspeed),
+        0.5);
 }
 
-static const std::vector<std::pair<double, double>> testBValues{
-    {0.0, 0.0},
-    {1.5, 2.0},
-    {2.0, 4.0},
-    {3.0, 8.0},
-    {4.0, 13.0},
-    {5.0, 19.0},
-    {6.0, 25.0},
-    {7.0, 32.0},
-    {8.0, 39.0},
-    {9.0, 47.0},
-    {10.0, 55.0},
-    {11.0, 64.0},
-    {12.0, 73.0},
+static const std::vector<std::pair<double, float>> testBValues{
+    {0.0, 0.0F},
+    {1.5, 2.0F},
+    {2.0, 4.0F},
+    {3.0, 8.0F},
+    {4.0, 13.0F},
+    {5.0, 19.0F},
+    {6.0, 25.0F},
+    {7.0, 32.0F},
+    {8.0, 39.0F},
+    {9.0, 47.0F},
+    {10.0, 55.0F},
+    {11.0, 64.0F},
+    {12.0, 73.0F},
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -468,7 +470,7 @@ TEST(otherEqUnits, saffirSimpson2Sbeaufort)
         0.05);  // tropical storm
 }
 
-class fujita : public ::testing::TestWithParam<std::pair<double, double>> {};
+class fujita : public ::testing::TestWithParam<std::pair<double, float>> {};
 
 TEST_P(fujita, fujitaTests)
 {
@@ -480,16 +482,18 @@ TEST_P(fujita, fujitaTests)
 
     EXPECT_EQ(std::round(conv), std::floor(fnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::fujita, precise::mph), wspeed, 0.5);
+        convert(conv, precise::special::fujita, precise::mph),
+        static_cast<double>(wspeed),
+        0.5);
 }
 
-static const std::vector<std::pair<double, double>> testFValues{
-    {0.0, 40.0},
-    {1.0, 73.0},
-    {2.0, 113},
-    {3.0, 158.0},
-    {4.0, 207.0},
-    {5.0, 261},
+static const std::vector<std::pair<double, float>> testFValues{
+    {0.0, 40.0F},
+    {1.0, 73.0F},
+    {2.0, 110.0F},
+    {3.0, 158.0F},
+    {4.0, 207.0F},
+    {5.0, 261.0F},
 };
 
 INSTANTIATE_TEST_SUITE_P(

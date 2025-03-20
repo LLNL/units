@@ -12,6 +12,8 @@ SPDX-License-Identifier: BSD-3-Clause
 #define UNITS_EXPORT
 #endif
 
+#include <cstddef>
+
 #include <cmath>
 #include <cstdint>  // for std::uint32_t
 #include <cstring>  // for std::memcpy
