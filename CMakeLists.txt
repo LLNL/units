@@ -266,7 +266,9 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
 
     # Install directive for scikit-build-core
     install(TARGETS units_llnl_ext LIBRARY DESTINATION units_llnl)
-
+    if (UNITS_BUILD_SHARED_LIBRARY)
+        install(TARGETS units LIBRARY DESTINATION units_llnl)
+    endif()
 endif()
 
 if(UNITS_INSTALL AND NOT SKBUILD)
