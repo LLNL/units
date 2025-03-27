@@ -270,7 +270,8 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
         if (NOT MSVC)
             target_link_options(units_llnl_ext PRIVATE "-Wl,-rpath='$ORIGIN'")
         endif()
-        install(TARGETS units RUNTIME DESTINATION units_llnl
+        install(TARGETS units 
+        RUNTIME DESTINATION units_llnl
         ARCHIVE DESTINATION units_llnl
         LIBRARY DESTINATION units_llnl
         )
