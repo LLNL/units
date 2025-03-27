@@ -267,13 +267,14 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
     # Install directive for scikit-build-core
     install(TARGETS units_llnl_ext LIBRARY DESTINATION units_llnl)
     if(UNITS_BUILD_SHARED_LIBRARY)
-        if (NOT MSVC)
+        if(NOT MSVC)
             target_link_options(units_llnl_ext PRIVATE "-Wl,-rpath='$ORIGIN'")
         endif()
-        install(TARGETS units 
-        RUNTIME DESTINATION units_llnl
-        ARCHIVE DESTINATION units_llnl
-        LIBRARY DESTINATION units_llnl
+        install(
+            TARGETS units
+            RUNTIME DESTINATION units_llnl
+            ARCHIVE DESTINATION units_llnl
+            LIBRARY DESTINATION units_llnl
         )
     endif()
 endif()
