@@ -267,29 +267,27 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
     # Install directive for scikit-build-core
     install(TARGETS units_llnl_ext LIBRARY DESTINATION units_llnl)
     if(UNITS_BUILD_SHARED_LIBRARY)
-        
 
-# -------------------------------------------------------------
-# setting the RPATH
-# -------------------------------------------------------------
-if(NOT DEFINED CMAKE_MACOSX_RPATH)
-set(CMAKE_MACOSX_RPATH ON)
-endif()
+        # -------------------------------------------------------------
+        # setting the RPATH
+        # -------------------------------------------------------------
+        if(NOT DEFINED CMAKE_MACOSX_RPATH)
+            set(CMAKE_MACOSX_RPATH ON)
+        endif()
 
-# add the automatically determined parts of the RPATH which point to directories outside the build
-# tree to the install RPATH
-if(NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-endif()
+        # add the automatically determined parts of the RPATH which point to directories
+        # outside the build tree to the install RPATH
+        if(NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
+            set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+        endif()
 
-# Add the local directory to the rpath
-if(NOT APPLE)
-list(APPEND CMAKE_INSTALL_RPATH $ORIGIN)
-else()
-list(APPEND CMAKE_INSTALL_RPATH "@loader_path")
-list(APPEND CMAKE_INSTALL_RPATH "@executable_path")
-endif()
-
+        # Add the local directory to the rpath
+        if(NOT APPLE)
+            list(APPEND CMAKE_INSTALL_RPATH $ORIGIN)
+        else()
+            list(APPEND CMAKE_INSTALL_RPATH "@loader_path")
+            list(APPEND CMAKE_INSTALL_RPATH "@executable_path")
+        endif()
 
         install(
             TARGETS units
