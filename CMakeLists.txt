@@ -269,6 +269,7 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
     if(UNITS_BUILD_SHARED_LIBRARY)
         if (NOT MSVC)
             target_link_options(units_llnl_ext PRIVATE "-Wl,-rpath='$ORIGIN'")
+            set_target_properties(units_llnl_ext PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
         endif()
         install(TARGETS units 
         RUNTIME DESTINATION units_llnl
