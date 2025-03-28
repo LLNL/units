@@ -64,6 +64,7 @@ jobs:
         sudo make install
         cd ..
         python -m pip install pytest
+        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
         pip install -vv -C cmake.define.UNITS_BUILD_SHARED_LIBRARY:BOOL=ON -C cmake.define.UNITS_BUILD_STATIC_LIBRARY:BOOL=OFF .
 
     - name: Test
