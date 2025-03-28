@@ -266,7 +266,7 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
 
     # Install directive for scikit-build-core
     install(TARGETS units_llnl_ext LIBRARY DESTINATION units_llnl)
-    if(UNITS_BUILD_SHARED_LIBRARY)
+    if(UNITS_BUILD_SHARED_LIBRARY AND UNITS_PYTHON_INSTALL_SHARED_LIBRARY)
 
         # -------------------------------------------------------------
         # setting the RPATH
@@ -283,7 +283,7 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
 
         # Add the local directory to the rpath
         if(NOT APPLE)
-            list(APPEND CMAKE_INSTALL_RPATH $ORIGIN)
+            list(APPEND CMAKE_INSTALL_RPATH "$ORIGIN")
         else()
             list(APPEND CMAKE_INSTALL_RPATH "@loader_path")
             list(APPEND CMAKE_INSTALL_RPATH "@executable_path")

@@ -35,7 +35,7 @@ jobs:
       run: python -m pytest ./test/python
 
   build_shared:
-    name: Build with Pip
+    name: Build with Pip shared lib
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
@@ -57,8 +57,42 @@ jobs:
 
     - name: Build and install
       run: |
+        mkdir -p build
+        cd build
+        cmake .. -DUNITS_BUILD_SHARED_LIBRARY=ON -DUNITS_BUILD_STATIC_LIBRARY=OFF -DUNITS_INSTALL=ON
+        make -j 4
+        make install
         python -m pip install pytest
-        pip install -vv -C cmake.define.UNITS_BUILD_SHARED_LIBRARY:BOOL=ON .
+        pip install -vv -C cmake.define.UNITS_BUILD_SHARED_LIBRARY:BOOL=ON -C cmake.define.UNITS_BUILD_STATIC_LIBRARY:BOOL=OFF .
+
+    - name: Test
+      run: python -m pytest ./test/python
+
+  build_shared_windows:
+    name: Build with Pip shared lib
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest]
+        python-version: ["3.11", "3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set min macOS version
+      if: runner.os == 'macOS'
+      run: |
+        echo "MACOSX_DEPLOYMENT_TARGET=11.0" >> $GITHUB_ENV
+
+    - name: Build and install
+      run: |
+        python -m pip install pytest
+        pip install -vv -C cmake.define.UNITS_BUILD_SHARED_LIBRARY:BOOL=ON -C cmake.define.UNITS_BUILD_STATIC_LIBRARY:BOOL=OFF -C cmake.define.UNITS_PYTHON_INSTALL_SHARED_LIBRARY:BOOL=ON .
 
     - name: Test
       run: python -m pytest ./test/python
