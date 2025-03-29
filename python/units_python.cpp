@@ -550,24 +550,26 @@ NB_MODULE(units_llnl_ext, mod)
             "__format__",
             [](const units::precise_measurement& measurement,
                std::string fmt_string) {
+                std::string result;
                 if (fmt_string.empty()) {
-                    return units::to_string(measurement);
+                    result=units::to_string(measurement);
                 }
-                if (fmt_string == "-") {
-                    return units::to_string(
+                else if (fmt_string == "-") {
+                    result= units::to_string(
                         units::precise_measurement(
                             measurement.value(), units::precise::one));
                 }
-                if (fmt_string.front() == '-') {
-                    return units::to_string(
+                else if (fmt_string.front() == '-') {
+                    result= units::to_string(
                         units::precise_measurement(
                             measurement.value_as(
                                 units::unit_from_string(fmt_string.substr(1))),
                             units::precise::one));
                 } else {
-                    return units::to_string(measurement.convert_to(
+                    result=units::to_string(measurement.convert_to(
                         units::unit_from_string(fmt_string)));
                 }
+                return result;
             })
         .def_prop_ro(
             "dimension",
