@@ -557,40 +557,41 @@ NB_MODULE(units_llnl_ext, mod)
                std::string fmt_string) {
                 std::string result;
                 if (fmt_string.empty()) {
-                    result=units::to_string(measurement);
-                }
-                else if (fmt_string == "-") {
-                    result= units::to_string(
+                    result = units::to_string(measurement);
+                } else if (fmt_string == "-") {
+                    result = units::to_string(
                         units::precise_measurement(
                             measurement.value(), units::precise::one));
-                }
-                else if (fmt_string.front() == '-') {
-                    auto target_unit=units::unit_from_string(fmt_string.substr(1));
-                    if (!units::is_valid(target_unit))
-                    {
-                        throw std::invalid_argument("Invalid unit in format string "+fmt_string.substr(1));
+                } else if (fmt_string.front() == '-') {
+                    auto target_unit =
+                        units::unit_from_string(fmt_string.substr(1));
+                    if (!units::is_valid(target_unit)) {
+                        throw std::invalid_argument(
+                            "Invalid unit in format string " +
+                            fmt_string.substr(1));
                     }
-                    auto new_value=measurement.value_as(target_unit);
-                    if (std::isnan(new_value))
-                    {
-                        throw std::invalid_argument("Units are not compatible with given measurement "+fmt_string.substr(1));
+                    auto new_value = measurement.value_as(target_unit);
+                    if (std::isnan(new_value)) {
+                        throw std::invalid_argument(
+                            "Units are not compatible with given measurement " +
+                            fmt_string.substr(1));
                     }
-                    result= units::to_string(
+                    result = units::to_string(
                         units::precise_measurement(
-                            new_value,
-                            units::precise::one));
+                            new_value, units::precise::one));
                 } else {
-                    auto target_unit=units::unit_from_string(fmt_string);
-                    if (!units::is_valid(target_unit))
-                    {
-                        throw std::invalid_argument("Invalid unit in format string "+fmt_string);
+                    auto target_unit = units::unit_from_string(fmt_string);
+                    if (!units::is_valid(target_unit)) {
+                        throw std::invalid_argument(
+                            "Invalid unit in format string " + fmt_string);
                     }
-                    auto new_meas=measurement.convert_to(target_unit);
-                    if (!units::is_valid(new_meas))
-                    {
-                        throw std::invalid_argument("Units are not compatible with given measurement "+fmt_string);
+                    auto new_meas = measurement.convert_to(target_unit);
+                    if (!units::is_valid(new_meas)) {
+                        throw std::invalid_argument(
+                            "Units are not compatible with given measurement " +
+                            fmt_string);
                     }
-                    result=units::to_string(new_meas);
+                    result = units::to_string(new_meas);
                 }
                 return result;
             })
