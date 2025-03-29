@@ -265,10 +265,15 @@ def test_format():
     assert "kg" in s1
 
     s2 = f"the measurement is {m1:-}"
-    assert s2 == "the measurement is 9.7552 "
+    assert s2 == "the measurement is 9.755200"
 
     s3 = f"the measurement is {m1:-kg}"
     assert "kg" not in s3
+
+    m3=u.Measurement("3.4")
+
+    s4 = f"the measurement is {m3:-}"
+    assert "3.4" in s4
 
 
 def test_format_error():

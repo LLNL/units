@@ -554,14 +554,12 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__format__",
             [](const units::precise_measurement& measurement,
-               std::string fmt_string) {
+               std::string fmt_string)->std::string {
                 std::string result;
                 if (fmt_string.empty()) {
                     result = units::to_string(measurement);
                 } else if (fmt_string == "-") {
-                    result = units::to_string(
-                        units::precise_measurement(
-                            measurement.value(), units::precise::one));
+                    result = std::to_string(measurement.value());
                 } else if (fmt_string.front() == '-') {
                     auto target_unit =
                         units::unit_from_string(fmt_string.substr(1));
@@ -576,9 +574,7 @@ NB_MODULE(units_llnl_ext, mod)
                             "Units are not compatible with given measurement " +
                             fmt_string.substr(1));
                     }
-                    result = units::to_string(
-                        units::precise_measurement(
-                            new_value, units::precise::one));
+                    result = std::to_string(new_value);
                 } else {
                     auto target_unit = units::unit_from_string(fmt_string);
                     if (!units::is_valid(target_unit)) {
