@@ -12,6 +12,8 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "units/units.hpp"
 #include "units/units_math.hpp"
+#include <algorithm>
+
 namespace nb = nanobind;
 
 using namespace nb::literals;
@@ -140,11 +142,11 @@ NB_MODULE(units_llnl_ext, mod)
             "__mul__",
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
-                std::vector<units::precise_measurement> results;
-                results.resize(mult.size());
-                for (std::size_t ii = 0; ii < mult.size(); ++ii) {
-                    results[ii] = mult[ii] * unit;
-                }
+                std::vector<units::precise_measurement> results(mult.size());
+                std::transform(mult.begin(), mult.end(), results.begin(),
+                    [&unit](double value) {
+                        return value * unit;
+                    });
                 return results;
             },
             nb::is_operator())
@@ -152,11 +154,11 @@ NB_MODULE(units_llnl_ext, mod)
             "__rmul__",
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
-                std::vector<units::precise_measurement> results;
-                results.resize(mult.size());
-                for (std::size_t ii = 0; ii < mult.size(); ++ii) {
-                    results[ii] = mult[ii] * unit;
-                }
+                std::vector<units::precise_measurement> results(mult.size());
+                std::transform(mult.begin(), mult.end(), results.begin(),
+                    [&unit](double value) {
+                        return value * unit;
+                    });
                 return results;
             },
             nb::is_operator())
@@ -164,11 +166,11 @@ NB_MODULE(units_llnl_ext, mod)
             "__rlshift__",
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
-                std::vector<units::precise_measurement> results;
-                results.resize(mult.size());
-                for (std::size_t ii = 0; ii < mult.size(); ++ii) {
-                    results[ii] = mult[ii] * unit;
-                }
+                std::vector<units::precise_measurement> results(mult.size());
+                std::transform(mult.begin(), mult.end(), results.begin(),
+                    [&unit](double value) {
+                        return value * unit;
+                    });
                 return results;
             },
             nb::is_operator())
@@ -589,6 +591,12 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_measurement& measurement) {
                 return -measurement;
             })
+        .def(
+                "__pos__",
+                [](const units::precise_measurement& measurement) {
+                    return measurement;
+                }
+            )
         .def(
             "__invert__",
             [](const units::precise_measurement& measurement) {
