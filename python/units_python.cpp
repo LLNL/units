@@ -143,10 +143,11 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
                 std::vector<units::precise_measurement> results(mult.size());
-                std::transform(mult.begin(), mult.end(), results.begin(),
-                    [&unit](double value) {
-                        return value * unit;
-                    });
+                std::transform(
+                    mult.begin(),
+                    mult.end(),
+                    results.begin(),
+                    [&unit](double value) { return value * unit; });
                 return results;
             },
             nb::is_operator())
@@ -155,10 +156,11 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
                 std::vector<units::precise_measurement> results(mult.size());
-                std::transform(mult.begin(), mult.end(), results.begin(),
-                    [&unit](double value) {
-                        return value * unit;
-                    });
+                std::transform(
+                    mult.begin(),
+                    mult.end(),
+                    results.begin(),
+                    [&unit](double value) { return value * unit; });
                 return results;
             },
             nb::is_operator())
@@ -167,10 +169,11 @@ NB_MODULE(units_llnl_ext, mod)
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
                 std::vector<units::precise_measurement> results(mult.size());
-                std::transform(mult.begin(), mult.end(), results.begin(),
-                    [&unit](double value) {
-                        return value * unit;
-                    });
+                std::transform(
+                    mult.begin(),
+                    mult.end(),
+                    results.begin(),
+                    [&unit](double value) { return value * unit; });
                 return results;
             },
             nb::is_operator())
@@ -592,11 +595,10 @@ NB_MODULE(units_llnl_ext, mod)
                 return -measurement;
             })
         .def(
-                "__pos__",
-                [](const units::precise_measurement& measurement) {
-                    return measurement;
-                }
-            )
+            "__pos__",
+            [](const units::precise_measurement& measurement) {
+                return measurement;
+            })
         .def(
             "__invert__",
             [](const units::precise_measurement& measurement) {
