@@ -164,6 +164,11 @@ def test_negation():
     m1 = u.Measurement("15 seconds")
     m3 = -m1
     assert m3.value == -15.0
+    
+def test_pos():
+    m1 = u.Measurement("15 seconds")
+    m3 = +m1
+    assert m1==m3
 
 
 def test_conditions():
@@ -263,6 +268,32 @@ def test_format():
 
     s3 = f"the measurement is {m1:-kg}"
     assert "kg" not in s3
+    
+def test_format_error():
+    m1 = u.Measurement("9.7552 lb")
+    try:
+        s1 = f"the measurement is {m1:A}"
+        assert False
+    except ValueError:
+        assert True
+
+    try:
+        s1 = f"the measurement is {m1:sgsg2362yqbvwsdddddqwadsa}"
+        assert False
+    except ValueError:
+        assert True
+
+    try:
+        s1 = f"the measurement is {m1:-A}"
+        assert False
+    except ValueError:
+        assert True
+
+    try:
+        s1 = f"the measurement is {m1:-sgsg2362yqbvwsdddddqwadsa}"
+        assert False
+    except ValueError:
+        assert True
 
 
 def test_close():
