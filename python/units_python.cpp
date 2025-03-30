@@ -13,6 +13,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include "units/units.hpp"
 #include "units/units_math.hpp"
 #include <algorithm>
+#include <sstream>
 
 namespace nb = nanobind;
 
@@ -559,7 +560,10 @@ NB_MODULE(units_llnl_ext, mod)
                 if (fmt_string.empty()) {
                     result = units::to_string(measurement);
                 } else if (fmt_string == "-") {
-                    result = std::to_string(measurement.value());
+                    std::stringstream ss;
+                    ss.precision(12);
+                    ss << measurement.value();
+                    result= ss.str();
                 } else if (fmt_string.front() == '-') {
                     auto target_unit =
                         units::unit_from_string(fmt_string.substr(1));
@@ -574,7 +578,10 @@ NB_MODULE(units_llnl_ext, mod)
                             "Units are not compatible with given measurement " +
                             fmt_string.substr(1));
                     }
-                    result = std::to_string(new_value);
+                    std::stringstream ss;
+                    ss.precision(12);
+                    ss << new_value;
+                    result= ss.str();
                 } else {
                     auto target_unit = units::unit_from_string(fmt_string);
                     if (!units::is_valid(target_unit)) {
@@ -734,13 +741,13 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__rtruediv__",
             [](const Dimension& dim1, double val) {
-                return Dimension{units::precise::one / dim1.base};
+                return Dimension{dim1.base.inv()};
             },
             nb::is_operator())
         .def(
             "__invert__",
             [](const Dimension& dim) {
-                return Dimension{units::precise::one / dim.base};
+                return Dimension{dim.base.inv()};
             })
         .def(
             "__pow__",
