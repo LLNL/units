@@ -563,7 +563,7 @@ NB_MODULE(units_llnl_ext, mod)
                     std::stringstream ss;
                     ss.precision(12);
                     ss << measurement.value();
-                    result= ss.str();
+                    result = ss.str();
                 } else if (fmt_string.front() == '-') {
                     auto target_unit =
                         units::unit_from_string(fmt_string.substr(1));
@@ -581,7 +581,7 @@ NB_MODULE(units_llnl_ext, mod)
                     std::stringstream ss;
                     ss.precision(12);
                     ss << new_value;
-                    result= ss.str();
+                    result = ss.str();
                 } else {
                     auto target_unit = units::unit_from_string(fmt_string);
                     if (!units::is_valid(target_unit)) {
@@ -746,9 +746,7 @@ NB_MODULE(units_llnl_ext, mod)
             nb::is_operator())
         .def(
             "__invert__",
-            [](const Dimension& dim) {
-                return Dimension{dim.base.inv()};
-            })
+            [](const Dimension& dim) { return Dimension{dim.base.inv()}; })
         .def(
             "__pow__",
             [](const Dimension& dim, int power) {
