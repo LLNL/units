@@ -265,7 +265,7 @@ def test_format():
     assert "kg" in s1
 
     s2 = f"the measurement is {m1:-}"
-    assert s2 == "the measurement is 9.755200"
+    assert s2 == "the measurement is 9.7552"
 
     s3 = f"the measurement is {m1:-kg}"
     assert "kg" not in s3
