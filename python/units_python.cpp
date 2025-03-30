@@ -554,7 +554,7 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__format__",
             [](const units::precise_measurement& measurement,
-               std::string fmt_string)->std::string {
+               std::string fmt_string) -> std::string {
                 std::string result;
                 if (fmt_string.empty()) {
                     result = units::to_string(measurement);

@@ -270,7 +270,7 @@ def test_format():
     s3 = f"the measurement is {m1:-kg}"
     assert "kg" not in s3
 
-    m3=u.Measurement("3.4")
+    m3 = u.Measurement("3.4")
 
     s4 = f"the measurement is {m3:-}"
     assert "3.4" in s4
