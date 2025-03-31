@@ -12,6 +12,9 @@ SPDX-License-Identifier: BSD-3-Clause
 
 #include "units/units.hpp"
 #include "units/units_math.hpp"
+#include <algorithm>
+#include <sstream>
+
 namespace nb = nanobind;
 
 using namespace nb::literals;
@@ -140,11 +143,12 @@ NB_MODULE(units_llnl_ext, mod)
             "__mul__",
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
-                std::vector<units::precise_measurement> results;
-                results.resize(mult.size());
-                for (std::size_t ii = 0; ii < mult.size(); ++ii) {
-                    results[ii] = mult[ii] * unit;
-                }
+                std::vector<units::precise_measurement> results(mult.size());
+                std::transform(
+                    mult.begin(),
+                    mult.end(),
+                    results.begin(),
+                    [&unit](double value) { return value * unit; });
                 return results;
             },
             nb::is_operator())
@@ -152,11 +156,12 @@ NB_MODULE(units_llnl_ext, mod)
             "__rmul__",
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
-                std::vector<units::precise_measurement> results;
-                results.resize(mult.size());
-                for (std::size_t ii = 0; ii < mult.size(); ++ii) {
-                    results[ii] = mult[ii] * unit;
-                }
+                std::vector<units::precise_measurement> results(mult.size());
+                std::transform(
+                    mult.begin(),
+                    mult.end(),
+                    results.begin(),
+                    [&unit](double value) { return value * unit; });
                 return results;
             },
             nb::is_operator())
@@ -164,11 +169,12 @@ NB_MODULE(units_llnl_ext, mod)
             "__rlshift__",
             [](const units::precise_unit& unit,
                const std::vector<double>& mult) {
-                std::vector<units::precise_measurement> results;
-                results.resize(mult.size());
-                for (std::size_t ii = 0; ii < mult.size(); ++ii) {
-                    results[ii] = mult[ii] * unit;
-                }
+                std::vector<units::precise_measurement> results(mult.size());
+                std::transform(
+                    mult.begin(),
+                    mult.end(),
+                    results.begin(),
+                    [&unit](double value) { return value * unit; });
                 return results;
             },
             nb::is_operator())
@@ -549,25 +555,48 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__format__",
             [](const units::precise_measurement& measurement,
-               std::string fmt_string) {
+               std::string fmt_string) -> std::string {
+                std::string result;
                 if (fmt_string.empty()) {
-                    return units::to_string(measurement);
-                }
-                if (fmt_string == "-") {
-                    return units::to_string(
-                        units::precise_measurement(
-                            measurement.value(), units::precise::one));
-                }
-                if (fmt_string.front() == '-') {
-                    return units::to_string(
-                        units::precise_measurement(
-                            measurement.value_as(
-                                units::unit_from_string(fmt_string.substr(1))),
-                            units::precise::one));
+                    result = units::to_string(measurement);
+                } else if (fmt_string == "-") {
+                    std::stringstream ss;
+                    ss.precision(12);
+                    ss << measurement.value();
+                    result = ss.str();
+                } else if (fmt_string.front() == '-') {
+                    auto target_unit =
+                        units::unit_from_string(fmt_string.substr(1));
+                    if (!units::is_valid(target_unit)) {
+                        throw std::invalid_argument(
+                            "Invalid unit in format string " +
+                            fmt_string.substr(1));
+                    }
+                    auto new_value = measurement.value_as(target_unit);
+                    if (std::isnan(new_value)) {
+                        throw std::invalid_argument(
+                            "Units are not compatible with given measurement " +
+                            fmt_string.substr(1));
+                    }
+                    std::stringstream ss;
+                    ss.precision(12);
+                    ss << new_value;
+                    result = ss.str();
                 } else {
-                    return units::to_string(measurement.convert_to(
-                        units::unit_from_string(fmt_string)));
+                    auto target_unit = units::unit_from_string(fmt_string);
+                    if (!units::is_valid(target_unit)) {
+                        throw std::invalid_argument(
+                            "Invalid unit in format string " + fmt_string);
+                    }
+                    auto new_meas = measurement.convert_to(target_unit);
+                    if (!units::is_valid(new_meas)) {
+                        throw std::invalid_argument(
+                            "Units are not compatible with given measurement " +
+                            fmt_string);
+                    }
+                    result = units::to_string(new_meas);
                 }
+                return result;
             })
         .def_prop_ro(
             "dimension",
@@ -588,6 +617,11 @@ NB_MODULE(units_llnl_ext, mod)
             "__neg__",
             [](const units::precise_measurement& measurement) {
                 return -measurement;
+            })
+        .def(
+            "__pos__",
+            [](const units::precise_measurement& measurement) {
+                return measurement;
             })
         .def(
             "__invert__",
@@ -707,14 +741,12 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__rtruediv__",
             [](const Dimension& dim1, double val) {
-                return Dimension{units::precise::one / dim1.base};
+                return Dimension{dim1.base.inv()};
             },
             nb::is_operator())
         .def(
             "__invert__",
-            [](const Dimension& dim) {
-                return Dimension{units::precise::one / dim.base};
-            })
+            [](const Dimension& dim) { return Dimension{dim.base.inv()}; })
         .def(
             "__pow__",
             [](const Dimension& dim, int power) {
