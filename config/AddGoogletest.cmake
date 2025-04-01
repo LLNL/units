@@ -37,13 +37,17 @@ set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
 
 if(NOT GTest_FOUND)
     add_subdirectory(
-        ${CMAKE_SOURCE_DIR}/ThirdParty/googletest ${CMAKE_BINARY_DIR}/ThirdParty/googletest
-        EXCLUDE_FROM_ALL
+        ${CMAKE_SOURCE_DIR}/ThirdParty/googletest
+        ${CMAKE_BINARY_DIR}/ThirdParty/googletest EXCLUDE_FROM_ALL
     )
 
     if(NOT MSVC)
-        target_compile_options(gtest PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions")
-        target_compile_options(gmock PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions")
+        target_compile_options(
+            gtest PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
+        )
+        target_compile_options(
+            gmock PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
+        )
         target_compile_options(
             gtest_main PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
         )
