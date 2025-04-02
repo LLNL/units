@@ -57,6 +57,10 @@ if(UNITS_BUILD_SHARED_LIBRARY)
     )
     target_link_libraries(units PRIVATE compile_flags_target)
 
+    set_target_properties(
+        units PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR}
+    )
+
     if(UNITS_NAMESPACE)
         target_compile_definitions(units PUBLIC -DUNITS_NAMESPACE=${UNITS_NAMESPACE})
     endif()
