@@ -13,7 +13,7 @@ SPDX-License-Identifier: BSD-3-Clause
 #include <tuple>
 #include <unordered_map>
 
-namespace units {
+namespace UNITS_NAMESPACE {
 namespace precise {
     using unitD = std::tuple<const char*, const char*, precise_unit>;
     static UNITS_CPP14_CONSTEXPR_OBJECT std::array<unitD, 2088> r20_units = {{
@@ -3171,4 +3171,4 @@ namespace detail {
 
 #endif
 
-}  // namespace units
+}  // namespace UNITS_NAMESPACE
