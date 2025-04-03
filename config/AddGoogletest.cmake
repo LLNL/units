@@ -14,7 +14,7 @@
 
 include(extraMacros)
 
-if(${PROJECT_NAME}_BUILD_GTEST AND NOT GTest_FOUND)
+if(UNITS_BUILD_GTEST AND NOT GTest_FOUND)
 
     set(CMAKE_WARN_DEPRECATED
         OFF
