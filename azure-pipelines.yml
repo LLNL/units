@@ -32,14 +32,26 @@ jobs:
       - script: git diff --exit-code --color
         displayName: Check tidy
 
-  - job: Native
+  - job: Native_gtest
     strategy:
       matrix:
         Linux14:
           vmImage: 'ubuntu-latest'
+          units.options: -DUNITS_BUILD_GTEST=OFF
         Linux14shared:
           vmImage: 'ubuntu-latest'
-          units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON
+          units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON -DUNITS_BUILD_GTEST=OFF
+    pool:
+      vmImage: $(vmImage)
+    steps:
+      - script: |
+        sudo apt-get install -qq -y libgtest-dev
+      - template: .ci/azure-build.yml
+      - template: .ci/azure-test.yml
+      
+  - job: Native
+    strategy:
+      matrix:
         macOS17:
           vmImage: 'macOS-latest'
           units.std: 17
