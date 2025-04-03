@@ -13,7 +13,7 @@ luminance,candela per square meter,cd/m^2
 angular velocity,radian per second,rad/s
 angular acceleration,radian per second squared,rad/s^2
 dynamic viscosity,pascal second,Pa.s
-moment of force,newton meter,N.m
+moment of force,newton meter per radian,N.m/rad
 surface tension,newton per meter,N/m
 heat flux density,watt per square meter,W/m^2
 radiant intensity,watt per steradian,W/sr

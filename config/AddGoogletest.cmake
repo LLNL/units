@@ -11,6 +11,8 @@
 # Add make check, as well, which gives output on failed tests without having to set an
 # environment variable.
 #
+
+if (${PROJECT_NAME}_USE_LOCAL_GTEST)
 include(extraMacros)
 set(CMAKE_WARN_DEPRECATED
     OFF
@@ -35,7 +37,6 @@ set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
     CACHE INTERNAL ""
 )
 
-if(NOT GTest_FOUND)
     add_subdirectory(
         ${CMAKE_SOURCE_DIR}/ThirdParty/googletest
         ${CMAKE_BINARY_DIR}/ThirdParty/googletest EXCLUDE_FROM_ALL
@@ -55,36 +56,6 @@ if(NOT GTest_FOUND)
             gmock_main PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
         )
     endif()
-endif()
-
-if(GOOGLE_TEST_INDIVIDUAL)
-    include(GoogleTest)
-endif()
-
-function(add_unit_test test_source_file)
-    get_filename_component(test_name "${test_source_file}" NAME_WE)
-    add_executable("${test_name}" "${test_source_file}")
-    target_link_libraries("${test_name}" gtest gmock gtest_main)
-    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}>)
-    set_target_properties(${test_name} PROPERTIES FOLDER "Tests")
-endfunction()
-
-# Target must already exist
-macro(add_gtest TESTNAME)
-    target_link_libraries(${TESTNAME} PUBLIC gtest gmock gtest_main)
-
-    if(GOOGLE_TEST_INDIVIDUAL)
-        gtest_discover_tests(
-            ${TESTNAME}
-            TEST_PREFIX "${TESTNAME}."
-            PROPERTIES FOLDER "Tests"
-        )
-    else()
-        add_test(${TESTNAME} ${TESTNAME})
-        set_target_properties(${TESTNAME} PROPERTIES FOLDER "Tests")
-    endif()
-
-endmacro()
 
 hide_variable(gmock_build_tests)
 hide_variable(gtest_build_samples)
@@ -117,3 +88,33 @@ if(MSVC)
         )
     endif()
 endif()
+endif()
+
+if(GOOGLE_TEST_INDIVIDUAL)
+    include(GoogleTest)
+endif()
+
+function(add_unit_test test_source_file)
+    get_filename_component(test_name "${test_source_file}" NAME_WE)
+    add_executable("${test_name}" "${test_source_file}")
+    target_link_libraries("${test_name}" gtest gmock gtest_main)
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}>)
+    set_target_properties(${test_name} PROPERTIES FOLDER "Tests")
+endfunction()
+
+# Target must already exist
+macro(add_gtest TESTNAME)
+    target_link_libraries(${TESTNAME} PUBLIC gtest gmock gtest_main)
+
+    if(GOOGLE_TEST_INDIVIDUAL)
+        gtest_discover_tests(
+            ${TESTNAME}
+            TEST_PREFIX "${TESTNAME}."
+            PROPERTIES FOLDER "Tests"
+        )
+    else()
+        add_test(${TESTNAME} ${TESTNAME})
+        set_target_properties(${TESTNAME} PROPERTIES FOLDER "Tests")
+    endif()
+
+endmacro()

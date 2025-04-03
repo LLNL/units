@@ -133,7 +133,7 @@ static std::pair<
         target = target.substr(param_mark + 1);
     } else {
         results.first = target;
-        target.clear();
+        target="";
     }
     if (results.first.starts_with('/')) {
         results.first.remove_prefix(1);
