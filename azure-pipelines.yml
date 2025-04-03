@@ -48,7 +48,7 @@ jobs:
         sudo apt-get install -qq -y libgtest-dev
       - template: .ci/azure-build.yml
       - template: .ci/azure-test.yml
-      
+
   - job: Native
     strategy:
       matrix:
