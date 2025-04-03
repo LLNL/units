@@ -208,15 +208,14 @@ mark_as_advanced(UNITS_LIBRARY_EXPORT_COMMAND)
 
 add_subdirectory(units)
 
-
 if(UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(FuzzTargets)
 elseif(UNITS_ENABLE_TESTS AND NOT CMAKE_VERSION VERSION_LESS 3.13)
     enable_testing()
-    set(UNITS_USE_LOCAL_TEST ON)
-    mark_as_advanced(UNITS_USE_LOCAL_TEST)
+    set(UNITS_BUILD_GTEST ON)
+    mark_as_advanced(UNITS_BUILD_GTEST)
 
-    if (UNITS_USE_LOCAL_GTEST)
+    if(UNITS_BUILD_GTEST)
         if(NOT EXISTS "${PROJECT_SOURCE_DIR}/ThirdParty/googletest/CMakeLists.txt")
             if(UNITS_ENABLE_SUBMODULE_UPDATE)
                 include(updateGitSubmodules)
