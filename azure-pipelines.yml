@@ -50,7 +50,7 @@ jobs:
         displayName: 'Install gtest' # Optional: Add a display name for the step
       - template: .ci/azure-build.yml
       - template: .ci/azure-test.yml
-      
+
   - job: Native
     strategy:
       matrix:
