@@ -225,7 +225,10 @@ elseif(UNITS_ENABLE_TESTS AND NOT CMAKE_VERSION VERSION_LESS 3.13)
                 find_package(GTest REQUIRED)
                 pkg_check_modules(GMock gmock REQUIRED)
                 if(NOT GTest_FOUND)
-                    message(ERROR "GTest not found, and submodule not found and unable to update install gtest or enable submodule updating to build a local copy of gtest")
+                    message(
+                        ERROR
+                        "GTest not found, and submodule not found and unable to update install gtest or enable submodule updating to build a local copy of gtest"
+                    )
                 endif()
             endif()
         endif()
