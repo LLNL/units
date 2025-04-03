@@ -59,7 +59,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake .. -DUNITS_BUILD_SHARED_LIBRARY=ON -DUNITS_BUILD_STATIC_LIBRARY=OFF -DUNITS_INSTALL=ON
+        cmake .. -DUNITS_BUILD_SHARED_LIBRARY=ON -DUNITS_BUILD_STATIC_LIBRARY=OFF -DUNITS_INSTALL=ON -DUNITS_ENABLE_TESTS=OFF
         make -j 4
         sudo make install
         cd ..

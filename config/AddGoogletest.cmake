@@ -12,8 +12,10 @@
 # environment variable.
 #
 
-if (${PROJECT_NAME}_USE_LOCAL_GTEST)
 include(extraMacros)
+
+if (${PROJECT_NAME}_USE_LOCAL_GTEST)
+
 set(CMAKE_WARN_DEPRECATED
     OFF
     CACHE INTERNAL "" FORCE
