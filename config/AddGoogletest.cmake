@@ -35,20 +35,26 @@ set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
     CACHE INTERNAL ""
 )
 
-add_subdirectory(
-    ${CMAKE_SOURCE_DIR}/ThirdParty/googletest ${CMAKE_BINARY_DIR}/ThirdParty/googletest
-    EXCLUDE_FROM_ALL
-)
+if(NOT GTest_FOUND)
+    add_subdirectory(
+        ${CMAKE_SOURCE_DIR}/ThirdParty/googletest
+        ${CMAKE_BINARY_DIR}/ThirdParty/googletest EXCLUDE_FROM_ALL
+    )
 
-if(NOT MSVC)
-    target_compile_options(gtest PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions")
-    target_compile_options(gmock PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions")
-    target_compile_options(
-        gtest_main PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
-    )
-    target_compile_options(
-        gmock_main PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
-    )
+    if(NOT MSVC)
+        target_compile_options(
+            gtest PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
+        )
+        target_compile_options(
+            gmock PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
+        )
+        target_compile_options(
+            gtest_main PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
+        )
+        target_compile_options(
+            gmock_main PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
+        )
+    endif()
 endif()
 
 if(GOOGLE_TEST_INDIVIDUAL)
@@ -90,7 +96,9 @@ hide_variable(BUILD_GTEST)
 hide_variable(INSTALL_GTEST)
 hide_variable(GTEST_HAS_ABSL)
 
-set_target_properties(gtest gtest_main gmock gmock_main PROPERTIES FOLDER "Extern")
+if(NOT GTest_FOUND)
+    set_target_properties(gtest gtest_main gmock gmock_main PROPERTIES FOLDER "Extern")
+endif()
 
 if(MSVC)
     # add_compile_options( /wd4459)
