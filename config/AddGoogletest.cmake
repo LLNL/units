@@ -12,30 +12,30 @@
 # environment variable.
 #
 
-if (${PROJECT_NAME}_USE_LOCAL_GTEST)
-include(extraMacros)
-set(CMAKE_WARN_DEPRECATED
-    OFF
-    CACHE INTERNAL "" FORCE
-)
-set(gtest_force_shared_crt
-    ON
-    CACHE INTERNAL ""
-)
+if(${PROJECT_NAME}_USE_LOCAL_GTEST)
+    include(extraMacros)
+    set(CMAKE_WARN_DEPRECATED
+        OFF
+        CACHE INTERNAL "" FORCE
+    )
+    set(gtest_force_shared_crt
+        ON
+        CACHE INTERNAL ""
+    )
 
-set(BUILD_SHARED_LIBS
-    OFF
-    CACHE INTERNAL ""
-)
-set(HAVE_STD_REGEX
-    ON
-    CACHE INTERNAL ""
-)
+    set(BUILD_SHARED_LIBS
+        OFF
+        CACHE INTERNAL ""
+    )
+    set(HAVE_STD_REGEX
+        ON
+        CACHE INTERNAL ""
+    )
 
-set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
-    1
-    CACHE INTERNAL ""
-)
+    set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
+        1
+        CACHE INTERNAL ""
+    )
 
     add_subdirectory(
         ${CMAKE_SOURCE_DIR}/ThirdParty/googletest
@@ -57,37 +57,39 @@ set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
         )
     endif()
 
-hide_variable(gmock_build_tests)
-hide_variable(gtest_build_samples)
-hide_variable(gtest_build_tests)
-hide_variable(gtest_disable_pthreads)
-hide_variable(gtest_hide_internal_symbols)
-hide_variable(BUILD_GMOCK)
-hide_variable(BUILD_GTEST)
-hide_variable(INSTALL_GTEST)
-hide_variable(GTEST_HAS_ABSL)
+    hide_variable(gmock_build_tests)
+    hide_variable(gtest_build_samples)
+    hide_variable(gtest_build_tests)
+    hide_variable(gtest_disable_pthreads)
+    hide_variable(gtest_hide_internal_symbols)
+    hide_variable(BUILD_GMOCK)
+    hide_variable(BUILD_GTEST)
+    hide_variable(INSTALL_GTEST)
+    hide_variable(GTEST_HAS_ABSL)
 
-if(NOT GTest_FOUND)
-    set_target_properties(gtest gtest_main gmock gmock_main PROPERTIES FOLDER "Extern")
-endif()
-
-if(MSVC)
-    # add_compile_options( /wd4459)
-    if(MSVC_VERSION GREATER_EQUAL 1900)
-        target_compile_definitions(
-            gtest PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
-        )
-        target_compile_definitions(
-            gtest_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
-        )
-        target_compile_definitions(
-            gmock PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
-        )
-        target_compile_definitions(
-            gmock_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+    if(NOT GTest_FOUND)
+        set_target_properties(
+            gtest gtest_main gmock gmock_main PROPERTIES FOLDER "Extern"
         )
     endif()
-endif()
+
+    if(MSVC)
+        # add_compile_options( /wd4459)
+        if(MSVC_VERSION GREATER_EQUAL 1900)
+            target_compile_definitions(
+                gtest PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+            )
+            target_compile_definitions(
+                gtest_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+            )
+            target_compile_definitions(
+                gmock PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+            )
+            target_compile_definitions(
+                gmock_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+            )
+        endif()
+    endif()
 endif()
 
 if(GOOGLE_TEST_INDIVIDUAL)

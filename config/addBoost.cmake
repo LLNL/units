@@ -140,22 +140,28 @@ endif()
 set(BOOST_MINIMUM_VERSION 1.70)
 
 if(BOOST_REQUIRED_LIBRARIES)
-    find_package(Boost ${BOOST_MINIMUM_VERSION} QUIET COMPONENTS ${BOOST_REQUIRED_LIBRARIES})
+    find_package(
+        Boost ${BOOST_MINIMUM_VERSION} QUIET COMPONENTS ${BOOST_REQUIRED_LIBRARIES}
+    )
 else()
     find_package(Boost ${BOOST_MINIMUM_VERSION} QUIET)
 endif()
 
 if(NOT Boost_FOUND)
     message(STATUS "in boost not found looking in ${Boost_ROOT} and ${BOOST_ROOT}")
-    find_path(Boost_INCLUDE_DIR NAMES boost/version.hpp boost/config.hpp PATHS ${BOOST_ROOT}
-                                                                               ${Boost_ROOT}
+    find_path(
+        Boost_INCLUDE_DIR
+        NAMES boost/version.hpp boost/config.hpp
+        PATHS ${BOOST_ROOT} ${Boost_ROOT}
     )
     message(STATUS "boost Include dir = ${Boost_INCLUDE_DIR}")
     if(Boost_INCLUDE_DIR)
 
         set(version_file ${Boost_INCLUDE_DIR}/boost/version.hpp)
         if(EXISTS "${version_file}")
-            file(STRINGS "${version_file}" contents REGEX "#define BOOST_(LIB_)?VERSION ")
+            file(STRINGS "${version_file}" contents
+                 REGEX "#define BOOST_(LIB_)?VERSION "
+            )
             if(contents MATCHES "#define BOOST_VERSION ([0-9]+)")
                 set(Boost_VERSION_MACRO "${CMAKE_MATCH_1}")
             endif()
@@ -175,7 +181,9 @@ if(NOT Boost_FOUND)
                                           "${Boost_INCLUDE_DIR}"
             )
             add_library(Boost::boost INTERFACE IMPORTED)
-            set_target_properties(Boost::boost PROPERTIES INTERFACE_LINK_LIBRARIES Boost::headers)
+            set_target_properties(
+                Boost::boost PROPERTIES INTERFACE_LINK_LIBRARIES Boost::headers
+            )
 
             set(Boost_FOUND ON)
             message(STATUS "Setting boost found to true")
