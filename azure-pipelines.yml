@@ -37,10 +37,10 @@ jobs:
       matrix:
         Linux14:
           vmImage: 'ubuntu-latest'
-          units.options: -DUNITS_BUILD_GTEST=OFF
+          units.options: -DUNITS_USE_EXTERNAL_GTEST=ON
         Linux14shared:
           vmImage: 'ubuntu-latest'
-          units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON -DUNITS_BUILD_GTEST=OFF
+          units.options: -DBUILD_SHARED_LIBS=ON -DUNITS_USE_EXTERNAL_GTEST=ON
     pool:
       vmImage: $(vmImage)
     steps:
@@ -62,7 +62,7 @@ jobs:
           units.std: 11
         Windows17:
           vmImage: 'windows-2019'
-          units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON
+          units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON -DUNITS_BUILD_STATIC_LIBRARY=OFF
           units.std: 17
         Windows32bit:
           vmImage: 'windows-2019'

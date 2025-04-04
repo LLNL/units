@@ -14,6 +14,7 @@ CMake variables
 -  `BUILD_SHARED_LIBS`:  Controls the defaults for the previous two options, overriding them takes precedence
 -  `UNITS_BUILD_FUZZ_TARGETS`:  If set to `ON`, the library will try to compile the fuzzing targets for clang libFuzzer
 -  `UNITS_BUILD_WEB_SERVER`:  If set to `ON`,  build a webserver,  This uses boost::beast and requires boost 1.70 or greater to build it also requires CMake 3.12 or greater
+-  `UNITS_USE_EXTERNAL_GTEST`: Defaults to `OFF` only used if `UNIT_ENABLE_TESTS` is also on, but if set to `ON` will search for an external Gtest and GMock libraries
 -  `UNITS_BUILD_CONVERTER_APP`: enables building a simple command line converter application that can convert units from the command line
 -  `UNITS_ENABLE_EXTRA_COMPILER_WARNINGS`: Turn on bunch of extra compiler warnings, on by default
 -  `UNITS_ENABLE_ERROR_ON_WARNINGS`:  Mostly useful in some testing contexts but will turn on `Werror` so any normal warnings generate an error.
@@ -31,7 +32,7 @@ CMake variables
    When compiling with C++17 (or higher), this can be set to, e.g., `mynamespace::units` to avoid name clashes with other libraries defining `units`.
 -  `UNITS_INSTALL`:  This is set to `ON` normally but defaults to `OFF` if used as a subproject.  This controls whether anything gets installed by the install target.
 -  `UNITS_CMAKE_PROJECT_NAME`:  This is set to `UNITS` by default.   If using this in a package manager or wish to rename the project this variable can be set to another name to change the name of the package.  This will change the install path and cmake target names. For example setting `-DUNITS_CMAKE_PROJECT_NAME=LLNL-UNITS` will create cmake project llnl-units::units, and llnl-units::header_only and will install in a llnl-units directory with appropriate cmake files.
-
+-  `${UNITS_CMAKE_PROJECT_NAME}_ENABLE_SUBMODULE_UPDATE` this can be set to off to disable submodule updates which impacts Gtest, in which case if this is off and the submodule is not preset it will try to find and external Gtest, similar to `UNITS_USE_EXTERNAL_GTEST`
 If compiling as part of a subproject then a few other options are useful
 
 -  `UNITS_HEADER_ONLY`:  Only generate the header only target, sets `UNITS_BUILD_STATIC_LIBRARY` and `UNITS_BUILD_SHARED_LIBRARY` to OFF
