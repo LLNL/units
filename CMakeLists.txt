@@ -212,7 +212,11 @@ if(UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(FuzzTargets)
 elseif(UNITS_ENABLE_TESTS AND NOT CMAKE_VERSION VERSION_LESS 3.13)
     enable_testing()
-    option(UNITS_USE_EXTERNAL_GTEST "use an installed or external version of GTest instead of the included submodule" OFF)
+    option(
+        UNITS_USE_EXTERNAL_GTEST
+        "use an installed or external version of GTest instead of the included submodule"
+        OFF
+    )
     mark_as_advanced(UNITS_USE_EXTERNAL_GTEST)
 
     if(UNITS_USE_EXTERNAL_GTEST)
