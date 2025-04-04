@@ -432,9 +432,7 @@ TEST_P(beaufort, beaufortTests)
 
     EXPECT_EQ(std::round(conv), std::floor(bnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::beaufort, precise::mph),
-        wspeed,
-        0.5);
+        convert(conv, precise::special::beaufort, precise::mph), wspeed, 0.5);
 }
 
 static const std::vector<std::pair<double, float>> testBValues{
@@ -482,9 +480,7 @@ TEST_P(fujita, fujitaTests)
 
     EXPECT_EQ(std::round(conv), std::floor(fnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::fujita, precise::mph),
-        wspeed,
-        0.5);
+        convert(conv, precise::special::fujita, precise::mph), wspeed, 0.5);
 }
 
 static const std::vector<std::pair<double, float>> testFValues{
