@@ -46,7 +46,7 @@ jobs:
     steps:
       - script: |
           sudo apt-get update -qq -y  # It's good practice to update before installing
-          sudo apt-get install -qq -y libgtest-dev
+          sudo apt-get install -qq -y libgtest-dev libgmock-dev
         displayName: 'Install gtest' # Optional: Add a display name for the step
       - template: .ci/azure-build.yml
       - template: .ci/azure-test.yml
