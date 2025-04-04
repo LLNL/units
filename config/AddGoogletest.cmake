@@ -11,31 +11,34 @@
 # Add make check, as well, which gives output on failed tests without having to set an
 # environment variable.
 #
+
 include(extraMacros)
-set(CMAKE_WARN_DEPRECATED
-    OFF
-    CACHE INTERNAL "" FORCE
-)
-set(gtest_force_shared_crt
-    ON
-    CACHE INTERNAL ""
-)
 
-set(BUILD_SHARED_LIBS
-    OFF
-    CACHE INTERNAL ""
-)
-set(HAVE_STD_REGEX
-    ON
-    CACHE INTERNAL ""
-)
+if(NOT UNITS_USE_EXTERNAL_GTEST AND NOT GTest_FOUND)
 
-set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
-    1
-    CACHE INTERNAL ""
-)
+    set(CMAKE_WARN_DEPRECATED
+        OFF
+        CACHE INTERNAL "" FORCE
+    )
+    set(gtest_force_shared_crt
+        ON
+        CACHE INTERNAL ""
+    )
 
-if(NOT GTest_FOUND)
+    set(BUILD_SHARED_LIBS
+        OFF
+        CACHE INTERNAL ""
+    )
+    set(HAVE_STD_REGEX
+        ON
+        CACHE INTERNAL ""
+    )
+
+    set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS
+        1
+        CACHE INTERNAL ""
+    )
+
     add_subdirectory(
         ${CMAKE_SOURCE_DIR}/ThirdParty/googletest
         ${CMAKE_BINARY_DIR}/ThirdParty/googletest EXCLUDE_FROM_ALL
@@ -54,6 +57,36 @@ if(NOT GTest_FOUND)
         target_compile_options(
             gmock_main PUBLIC "-Wno-undef" "-Wno-c++17-attribute-extensions"
         )
+    endif()
+
+    hide_variable(gmock_build_tests)
+    hide_variable(gtest_build_samples)
+    hide_variable(gtest_build_tests)
+    hide_variable(gtest_disable_pthreads)
+    hide_variable(gtest_hide_internal_symbols)
+    hide_variable(BUILD_GMOCK)
+    hide_variable(BUILD_GTEST)
+    hide_variable(INSTALL_GTEST)
+    hide_variable(GTEST_HAS_ABSL)
+
+    set_target_properties(gtest gtest_main gmock gmock_main PROPERTIES FOLDER "Extern")
+
+    if(MSVC)
+        # add_compile_options( /wd4459)
+        if(MSVC_VERSION GREATER_EQUAL 1900)
+            target_compile_definitions(
+                gtest PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+            )
+            target_compile_definitions(
+                gtest_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+            )
+            target_compile_definitions(
+                gmock PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+            )
+            target_compile_definitions(
+                gmock_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+            )
+        endif()
     endif()
 endif()
 
@@ -85,35 +118,3 @@ macro(add_gtest TESTNAME)
     endif()
 
 endmacro()
-
-hide_variable(gmock_build_tests)
-hide_variable(gtest_build_samples)
-hide_variable(gtest_build_tests)
-hide_variable(gtest_disable_pthreads)
-hide_variable(gtest_hide_internal_symbols)
-hide_variable(BUILD_GMOCK)
-hide_variable(BUILD_GTEST)
-hide_variable(INSTALL_GTEST)
-hide_variable(GTEST_HAS_ABSL)
-
-if(NOT GTest_FOUND)
-    set_target_properties(gtest gtest_main gmock gmock_main PROPERTIES FOLDER "Extern")
-endif()
-
-if(MSVC)
-    # add_compile_options( /wd4459)
-    if(MSVC_VERSION GREATER_EQUAL 1900)
-        target_compile_definitions(
-            gtest PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
-        )
-        target_compile_definitions(
-            gtest_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
-        )
-        target_compile_definitions(
-            gmock PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
-        )
-        target_compile_definitions(
-            gmock_main PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
-        )
-    endif()
-endif()

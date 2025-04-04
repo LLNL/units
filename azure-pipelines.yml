@@ -32,14 +32,28 @@ jobs:
       - script: git diff --exit-code --color
         displayName: Check tidy
 
-  - job: Native
+  - job: Native_gtest
     strategy:
       matrix:
         Linux14:
           vmImage: 'ubuntu-latest'
+          units.options: -DUNITS_USE_EXTERNAL_GTEST=ON
         Linux14shared:
           vmImage: 'ubuntu-latest'
-          units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON
+          units.options: -DBUILD_SHARED_LIBS=ON -DUNITS_USE_EXTERNAL_GTEST=ON
+    pool:
+      vmImage: $(vmImage)
+    steps:
+      - script: |
+          sudo apt-get update -qq -y  # It's good practice to update before installing
+          sudo apt-get install -qq -y libgtest-dev libgmock-dev
+        displayName: 'Install gtest' # Optional: Add a display name for the step
+      - template: .ci/azure-build.yml
+      - template: .ci/azure-test.yml
+
+  - job: Native
+    strategy:
+      matrix:
         macOS17:
           vmImage: 'macOS-latest'
           units.std: 17
@@ -48,7 +62,7 @@ jobs:
           units.std: 11
         Windows17:
           vmImage: 'windows-2019'
-          units.options: -DUNITS_BUILD_SHARED_LBIRARY=ON
+          units.options: -DUNITS_BUILD_SHARED_LIBRARY=ON -DUNITS_BUILD_STATIC_LIBRARY=OFF
           units.std: 17
         Windows32bit:
           vmImage: 'windows-2019'

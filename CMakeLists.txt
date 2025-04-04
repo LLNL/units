@@ -211,16 +211,36 @@ add_subdirectory(units)
 if(UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(FuzzTargets)
 elseif(UNITS_ENABLE_TESTS AND NOT CMAKE_VERSION VERSION_LESS 3.13)
-    include(updateGitSubmodules)
-    if(UNITS_ENABLE_SUBMODULE_UPDATE)
-        enable_testing()
-        if(NOT EXISTS "${PROJECT_SOURCE_DIR}/ThirdParty/googletest/CMakeLists.txt")
-            submod_update(ThirdParty/googletest)
-        endif()
-    else()
+    enable_testing()
+    option(
+        UNITS_USE_EXTERNAL_GTEST
+        "use an installed or external version of GTest instead of the included submodule"
+        OFF
+    )
+    mark_as_advanced(UNITS_USE_EXTERNAL_GTEST)
+
+    if(UNITS_USE_EXTERNAL_GTEST)
         include(FindPkgConfig)
         find_package(GTest REQUIRED)
         pkg_check_modules(GMock gmock REQUIRED)
+    else()
+        if(NOT EXISTS "${PROJECT_SOURCE_DIR}/ThirdParty/googletest/CMakeLists.txt")
+            include(updateGitSubmodules)
+            if(${UNITS_CMAKE_PROJECT_NAME}_ENABLE_SUBMODULE_UPDATE)
+                submod_update(ThirdParty/googletest)
+            else()
+                include(FindPkgConfig)
+                find_package(GTest REQUIRED)
+                pkg_check_modules(GMock gmock REQUIRED)
+                if(NOT GTest_FOUND)
+                    message(
+                        ERROR
+                        "GTest not found, and submodule not found and unable to update install gtest or enable submodule updating to build a local copy of gtest"
+                    )
+                endif()
+            endif()
+        endif()
+
     endif()
     if(BUILD_TESTING)
         add_subdirectory(test)

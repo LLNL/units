@@ -426,15 +426,13 @@ TEST_P(beaufort, beaufortTests)
 {
     auto p = GetParam();
     auto bnumber = p.first;
-    auto wspeed = p.second;
+    auto wspeed = static_cast<double>(p.second);
 
     auto conv = convert(wspeed, precise::mph, precise::special::beaufort);
 
     EXPECT_EQ(std::round(conv), std::floor(bnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::beaufort, precise::mph),
-        static_cast<double>(wspeed),
-        0.5);
+        convert(conv, precise::special::beaufort, precise::mph), wspeed, 0.5);
 }
 
 static const std::vector<std::pair<double, float>> testBValues{
@@ -476,15 +474,13 @@ TEST_P(fujita, fujitaTests)
 {
     auto p = GetParam();
     auto fnumber = p.first;
-    auto wspeed = p.second;
+    auto wspeed = static_cast<double>(p.second);
 
     auto conv = convert(wspeed, precise::mph, precise::special::fujita);
 
     EXPECT_EQ(std::round(conv), std::floor(fnumber));
     EXPECT_NEAR(
-        convert(conv, precise::special::fujita, precise::mph),
-        static_cast<double>(wspeed),
-        0.5);
+        convert(conv, precise::special::fujita, precise::mph), wspeed, 0.5);
 }
 
 static const std::vector<std::pair<double, float>> testFValues{
