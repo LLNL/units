@@ -236,7 +236,7 @@ elseif(UNITS_ENABLE_TESTS AND NOT CMAKE_VERSION VERSION_LESS 3.13)
                 endif()
             endif()
         endif()
-    
+
     endif()
     if(BUILD_TESTING)
         add_subdirectory(test)
