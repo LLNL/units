@@ -212,9 +212,7 @@ if(UNITS_BUILD_FUZZ_TARGETS)
     add_subdirectory(FuzzTargets)
 elseif(UNITS_ENABLE_TESTS AND NOT CMAKE_VERSION VERSION_LESS 3.13)
     enable_testing()
-    option(UNITS_BUILD_GTEST
-               "enable locally built google test" ON
-        )
+    option(UNITS_BUILD_GTEST "enable locally built google test" ON)
     mark_as_advanced(UNITS_BUILD_GTEST)
 
     if(UNITS_BUILD_GTEST)
