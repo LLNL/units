@@ -7,6 +7,7 @@ import units_llnl as u
 import math
 import copy
 
+
 def test_basic_measurement():
     m1 = u.Measurement("10 m")
     m2 = u.Measurement("2.5 s")
@@ -318,24 +319,26 @@ def test_to_dict():
 
 
 def test_copy():
-    m1=u.Measurement("10 m")
-    m2=copy.copy(m1)
-    assert m1==m2
-    
+    m1 = u.Measurement("10 m")
+    m2 = copy.copy(m1)
+    assert m1 == m2
+
+
 def test_deepcopy():
-    m1=u.Measurement("10 m")
-    m2=copy.deepcopy(m1)
-    assert m1==m2
-    
+    m1 = u.Measurement("10 m")
+    m2 = copy.deepcopy(m1)
+    assert m1 == m2
+
+
 def test_deepcopy_object():
     class val1:
-        value1=u.Measurement("10 m")
-        value2=u.Measurement("20 m")
-        value3=u.Measurement("30 m")
-        values=[value1,value2,value3]
-        
-    v=val1()
-    v2=copy.deepcopy(v)
-    assert v2.value1==v.value1 
-    v.value1=u.Measurement("50 m")
-    assert v2.value1==u.Measurement("10 m")
+        value1 = u.Measurement("10 m")
+        value2 = u.Measurement("20 m")
+        value3 = u.Measurement("30 m")
+        values = [value1, value2, value3]
+
+    v = val1()
+    v2 = copy.deepcopy(v)
+    assert v2.value1 == v.value1
+    v.value1 = u.Measurement("50 m")
+    assert v2.value1 == u.Measurement("10 m")

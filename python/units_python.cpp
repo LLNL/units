@@ -85,12 +85,14 @@ NB_MODULE(units_llnl_ext, mod)
             "multiplier"_a,
             "unit"_a,
             "commodity"_a)
-        .def("__copy__", [](const units::precise_unit* unit)
-            {
+        .def(
+            "__copy__",
+            [](const units::precise_unit* unit) {
                 return units::precise_unit(*unit);
             })
-        .def("__deepcopy__", [](const units::precise_unit* unit, nb::dict & /*memo*/)
-            {
+        .def(
+            "__deepcopy__",
+            [](const units::precise_unit* unit, nb::dict& /*memo*/) {
                 return units::precise_unit(*unit);
             })
         .def_prop_ro("multiplier", &units::precise_unit::multiplier)
@@ -380,12 +382,14 @@ NB_MODULE(units_llnl_ext, mod)
             },
             "value"_a,
             "unit"_a)
-        .def("__copy__", [](const units::precise_measurement& copy)
-            {
+        .def(
+            "__copy__",
+            [](const units::precise_measurement& copy) {
                 return units::precise_measurement(copy);
             })
-        .def("__deepcopy__", [](const units::precise_measurement& copy, nb::dict & /*memo*/)
-            {
+        .def(
+            "__deepcopy__",
+            [](const units::precise_measurement& copy, nb::dict& /*memo*/) {
                 return units::precise_measurement(copy);
             })
         .def_prop_ro(
@@ -734,12 +738,10 @@ NB_MODULE(units_llnl_ext, mod)
                 new (dim) Dimension{def};
             },
             "composition"_a)
-        .def("__copy__", [](const Dimension& copy)
-            {
-                return Dimension(copy);
-            })
-        .def("__deepcopy__", [](const Dimension* dim, nb::dict & /*memo*/)
-            {
+        .def("__copy__", [](const Dimension& copy) { return Dimension(copy); })
+        .def(
+            "__deepcopy__",
+            [](const Dimension* dim, nb::dict& /*memo*/) {
                 return Dimension(*dim);
             })
         .def_prop_ro(
