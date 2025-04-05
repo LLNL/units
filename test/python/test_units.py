@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 import units_llnl as u
-
+import copy
 
 def test_basic_unit():
     u1 = u.Unit("m")
@@ -246,3 +246,27 @@ def test_convert_string():
 
     v2 = u1.to(unit_out="mm", value=20)
     assert v2 == 20000
+
+def test_copy():
+    u1=u.Unit("10 m")
+    u2=copy.copy(u1)
+    assert u1==u2
+    
+def test_deepcopy():
+    u1=u.Unit("10 m")
+    u2=copy.deepcopy(u1)
+    assert u1==u2
+    
+def test_deepcopy_object():
+    class val1:
+        value1=u.Unit("10 m")
+        value2=u.Unit("20 m")
+        value3=u.Unit("30 m")
+        values=[value1,value2,value3]
+        
+    v=val1()
+    v2=copy.deepcopy(v)
+    assert v2.value1==v.value1 
+    v.value1=u.Unit("50 m")
+    assert v2.value1==u.Unit("10 m")
+        
