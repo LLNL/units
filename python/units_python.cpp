@@ -691,11 +691,10 @@ NB_MODULE(units_llnl_ext, mod)
             "dimension"_a)
         .def(
             "__init__",
-            [](Dimension* dim, const nb::dict &composition) {
+            [](Dimension* dim, const nb::dict& composition) {
                 units::precise_unit def;
 
-                for (const auto& element : composition)
-                {
+                for (const auto& element : composition) {
                     nb::handle key_handle = element.first;
                     nb::handle value_handle = element.second;
 
@@ -704,17 +703,16 @@ NB_MODULE(units_llnl_ext, mod)
 
                     // Convert the value handle to an int
                     int value = nb::cast<int>(value_handle);
-                    if (key == "custom")
-                    {
-                        def=def*units::precise::generate_custom_unit(static_cast<std::uint16_t>(value));
-                    }
-                    else if (key == "custom_count")
-                    {
-                        def=def*units::precise::generate_custom_count_unit(static_cast<std::uint16_t>(value));
-                    }
-                    else
-                    {
-                        def=def*(units::unit_from_string(key).pow(value));
+                    if (key == "custom") {
+                        def = def *
+                            units::precise::generate_custom_unit(
+                                  static_cast<std::uint16_t>(value));
+                    } else if (key == "custom_count") {
+                        def = def *
+                            units::precise::generate_custom_count_unit(
+                                  static_cast<std::uint16_t>(value));
+                    } else {
+                        def = def * (units::unit_from_string(key).pow(value));
                     }
                 }
                 new (dim) Dimension{def};
@@ -778,92 +776,75 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__invert__",
             [](const Dimension& dim) { return Dimension{dim.base.inv()}; })
-        .def("decompose",
-            [](const Dimension& dim) { 
+        .def(
+            "decompose",
+            [](const Dimension& dim) {
                 nb::dict dictionary;
-                auto base_units=dim.base;
-                units::detail::unit_data base=base_units.base_units();
+                auto base_units = dim.base;
+                units::detail::unit_data base = base_units.base_units();
                 bool custom{false};
-                if (units::precise::custom::is_custom_unit(base))
-                {
-                    dictionary["custom"]=units::precise::custom::custom_unit_number(base);
-                    if (units::precise::custom::is_custom_unit_inverted(base))
-                    {
-                        dictionary["inverted"]=1;
+                if (units::precise::custom::is_custom_unit(base)) {
+                    dictionary["custom"] =
+                        units::precise::custom::custom_unit_number(base);
+                    if (units::precise::custom::is_custom_unit_inverted(base)) {
+                        dictionary["inverted"] = 1;
                     }
-                    custom=true;
-                }
-                else if(units::precise::custom::is_custom_count_unit(base))
-                {
-                    dictionary["custom_count"]=units::precise::custom::custom_count_unit_number(base);
-                    if (units::precise::custom::is_custom_count_unit_inverted(base))
-                    {
-                        dictionary["inverted"]=1;
+                    custom = true;
+                } else if (units::precise::custom::is_custom_count_unit(base)) {
+                    dictionary["custom_count"] =
+                        units::precise::custom::custom_count_unit_number(base);
+                    if (units::precise::custom::is_custom_count_unit_inverted(
+                            base)) {
+                        dictionary["inverted"] = 1;
                     }
-                    custom=true;
+                    custom = true;
                 }
-                if (!custom)
-                {
-                    if (base.meter() != 0)
-                    {
+                if (!custom) {
+                    if (base.meter() != 0) {
                         dictionary["meters"] = base.meter();
                     }
-                    if (base.kg() != 0)
-                    {
+                    if (base.kg() != 0) {
                         dictionary["kilogram"] = base.kg();
                     }
-                    if (base.second() != 0)
-                    {
+                    if (base.second() != 0) {
                         dictionary["second"] = base.second();
                     }
-                    if (base.ampere() != 0)
-                    {
+                    if (base.ampere() != 0) {
                         dictionary["ampere"] = base.ampere();
                     }
-                    if (base.kelvin() != 0)
-                    {
+                    if (base.kelvin() != 0) {
                         dictionary["kelvin"] = base.kelvin();
                     }
-                    if (base.mole() != 0)
-                    {
+                    if (base.mole() != 0) {
                         dictionary["mole"] = base.mole();
                     }
-                    if (base.candela() != 0)
-                    {
+                    if (base.candela() != 0) {
                         dictionary["candela"] = base.candela();
                     }
-                    if (base.currency() != 0)
-                    {
+                    if (base.currency() != 0) {
                         dictionary["currency"] = base.currency();
                     }
-                    if (base.count() != 0)
-                    {
+                    if (base.count() != 0) {
                         dictionary["count"] = base.count();
                     }
-                    if (base.radian() != 0)
-                    {
+                    if (base.radian() != 0) {
                         dictionary["radian"] = base.radian();
                     }
-                    if (base.is_per_unit())
-                    {
+                    if (base.is_per_unit()) {
                         dictionary["per_unit"] = 1;
                     }
-                    if (base.has_i_flag())
-                    {
+                    if (base.has_i_flag()) {
                         dictionary["iflag"] = 1;
                     }
-                    if (base.has_e_flag())
-                    {
+                    if (base.has_e_flag()) {
                         dictionary["eflag"] = 1;
                     }
-                    
                 }
-                if (base.is_equation())
-                {
+                if (base.is_equation()) {
                     dictionary["equation"] = 1;
                 }
                 return dictionary;
-            } )
+            })
         .def(
             "__pow__",
             [](const Dimension& dim, int power) {
