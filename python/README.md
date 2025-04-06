@@ -47,7 +47,7 @@ A units library was needed to be able to represent units from a wide range of di
 3. Being able to associate a completely arbitrary unit given by users with a generic interface and support conversions between those user defined units and other units.
 4. The library has its origins in power systems so support for per-unit operations was also lacking in the alternatives.
 
-The python wrapper around the library is mainly intended to be able to handle various string representations and easily handle conversions, along with some support for commodities and packaging.  As it is being developed the Python library will maintain compatibility with [quantity-dev](https://github.com/quantity-dev/metrology-apis).   
+The python wrapper around the library is mainly intended to be able to handle various string representations and easily handle conversions, along with some support for commodities and packaging. As it is being developed the Python library will maintain compatibility with [quantity-dev](https://github.com/quantity-dev/metrology-apis).
 
 ### Basic use case
 
