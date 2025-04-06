@@ -7,6 +7,8 @@ import units_llnl as u
 
 from units_llnl import Unit, Measurement, Dimension, asdimension
 
+import copy
+
 
 def test_dimensions():
     d1 = Dimension("length")
@@ -70,3 +72,46 @@ def test_dimensions_units():
     d1 = Dimension("volume")
     u1 = Unit("m^3")
     assert d1.default_unit == u1
+
+
+def test_dimensions_decompose1():
+    d1 = Dimension("volume")
+    decomposition = d1.decompose()
+
+    assert decomposition["meters"] == 3
+
+
+def test_dimensions_decompose2():
+    u1 = Unit("$ per watt radian")
+    dim = u1.dimension
+    decomposition = dim.decompose()
+
+    dim2 = Dimension(decomposition)
+    assert dim2 == dim
+    assert dim2.default_unit == u1
+
+
+def test_copy():
+    m1 = u.Dimension("10 m")
+    m2 = copy.copy(m1)
+    assert m1 == m2
+
+
+def test_deepcopy():
+    m1 = u.Dimension("10 m")
+    m2 = copy.deepcopy(m1)
+    assert m1 == m2
+
+
+def test_deepcopy_object():
+    class val1:
+        value1 = u.Dimension("10 m")
+        value2 = u.Dimension("20 kg")
+        value3 = u.Dimension("30 A")
+        values = [value1, value2, value3]
+
+    v = val1()
+    v2 = copy.deepcopy(v)
+    assert v2.value1 == v.value1
+    v.value1 = u.Dimension("50 mol")
+    assert v2.value1 == u.Dimension("10 m")

@@ -85,6 +85,16 @@ NB_MODULE(units_llnl_ext, mod)
             "multiplier"_a,
             "unit"_a,
             "commodity"_a)
+        .def(
+            "__copy__",
+            [](const units::precise_unit* unit) {
+                return units::precise_unit(*unit);
+            })
+        .def(
+            "__deepcopy__",
+            [](const units::precise_unit* unit, nb::dict& /*memo*/) {
+                return units::precise_unit(*unit);
+            })
         .def_prop_ro("multiplier", &units::precise_unit::multiplier)
         .def_prop_ro(
             "commodity",
@@ -372,6 +382,16 @@ NB_MODULE(units_llnl_ext, mod)
             },
             "value"_a,
             "unit"_a)
+        .def(
+            "__copy__",
+            [](const units::precise_measurement& copy) {
+                return units::precise_measurement(copy);
+            })
+        .def(
+            "__deepcopy__",
+            [](const units::precise_measurement& copy, nb::dict& /*memo*/) {
+                return units::precise_measurement(copy);
+            })
         .def_prop_ro(
             "value",
             [](const units::precise_measurement& measurement) {
@@ -689,6 +709,41 @@ NB_MODULE(units_llnl_ext, mod)
                 new (dim) Dimension{def};
             },
             "dimension"_a)
+        .def(
+            "__init__",
+            [](Dimension* dim, const nb::dict& composition) {
+                units::precise_unit def;
+
+                for (const auto& element : composition) {
+                    nb::handle key_handle = element.first;
+                    nb::handle value_handle = element.second;
+
+                    // Convert the key handle to a std::string
+                    std::string key = nb::cast<std::string>(key_handle);
+
+                    // Convert the value handle to an int
+                    int value = nb::cast<int>(value_handle);
+                    if (key == "custom") {
+                        def = def *
+                            units::precise::generate_custom_unit(
+                                  static_cast<std::uint16_t>(value));
+                    } else if (key == "custom_count") {
+                        def = def *
+                            units::precise::generate_custom_count_unit(
+                                  static_cast<std::uint16_t>(value));
+                    } else {
+                        def = def * (units::unit_from_string(key).pow(value));
+                    }
+                }
+                new (dim) Dimension{def};
+            },
+            "composition"_a)
+        .def("__copy__", [](const Dimension& copy) { return Dimension(copy); })
+        .def(
+            "__deepcopy__",
+            [](const Dimension* dim, nb::dict& /*memo*/) {
+                return Dimension(*dim);
+            })
         .def_prop_ro(
             "default_unit",
             [](const Dimension& dim) { return (dim.base); },
@@ -747,6 +802,75 @@ NB_MODULE(units_llnl_ext, mod)
         .def(
             "__invert__",
             [](const Dimension& dim) { return Dimension{dim.base.inv()}; })
+        .def(
+            "decompose",
+            [](const Dimension& dim) {
+                nb::dict dictionary;
+                auto base_units = dim.base;
+                units::detail::unit_data base = base_units.base_units();
+                bool custom{false};
+                if (units::precise::custom::is_custom_unit(base)) {
+                    dictionary["custom"] =
+                        units::precise::custom::custom_unit_number(base);
+                    if (units::precise::custom::is_custom_unit_inverted(base)) {
+                        dictionary["inverted"] = 1;
+                    }
+                    custom = true;
+                } else if (units::precise::custom::is_custom_count_unit(base)) {
+                    dictionary["custom_count"] =
+                        units::precise::custom::custom_count_unit_number(base);
+                    if (units::precise::custom::is_custom_count_unit_inverted(
+                            base)) {
+                        dictionary["inverted"] = 1;
+                    }
+                    custom = true;
+                }
+                if (!custom) {
+                    if (base.meter() != 0) {
+                        dictionary["meters"] = base.meter();
+                    }
+                    if (base.kg() != 0) {
+                        dictionary["kilogram"] = base.kg();
+                    }
+                    if (base.second() != 0) {
+                        dictionary["second"] = base.second();
+                    }
+                    if (base.ampere() != 0) {
+                        dictionary["ampere"] = base.ampere();
+                    }
+                    if (base.kelvin() != 0) {
+                        dictionary["kelvin"] = base.kelvin();
+                    }
+                    if (base.mole() != 0) {
+                        dictionary["mole"] = base.mole();
+                    }
+                    if (base.candela() != 0) {
+                        dictionary["candela"] = base.candela();
+                    }
+                    if (base.currency() != 0) {
+                        dictionary["currency"] = base.currency();
+                    }
+                    if (base.count() != 0) {
+                        dictionary["count"] = base.count();
+                    }
+                    if (base.radian() != 0) {
+                        dictionary["radian"] = base.radian();
+                    }
+                    if (base.is_per_unit()) {
+                        dictionary["per_unit"] = 1;
+                    }
+                    if (base.has_i_flag()) {
+                        dictionary["iflag"] = 1;
+                    }
+                    if (base.has_e_flag()) {
+                        dictionary["eflag"] = 1;
+                    }
+                }
+                if (base.is_equation()) {
+                    dictionary["equation"] = 1;
+                }
+                return dictionary;
+            })
         .def(
             "__pow__",
             [](const Dimension& dim, int power) {
