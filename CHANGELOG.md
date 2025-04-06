@@ -12,12 +12,12 @@ The python library is working to match with [quantity-dev](https://github.com/qu
 
 ### Fixed
 
-- Fix segmentation fault in python library when used with shared units library [#373][]
-- Fix issue when using different namespace [#377][]
+- Fix segmentation fault in python library when used with units shared library [#373][]
+- Fix issue when using user-specified namespace [#377][]
 
 ### Added
 
-- Add additional methods for Python Dimension class, including copy,deep copy, additional math operations and decompose method on Dimension class [#371][],[379][]
+- Add additional methods for Python Dimension class, including copy, deepcopy, additional math operations and decompose method on Dimension class [#371][],[379][]
 - Added method of using installed GTest [#376][],[#378][]
 - Added SOVERSION for unix based shared libraries [#375][]
 
@@ -111,6 +111,7 @@ Python package release, documentation update, continued addition of new units an
 [#317]: https://github.com/LLNL/units/pull/317
 [#318]: https://github.com/LLNL/units/pull/318
 [#322]: https://github.com/LLNL/units/pull/322
+[#327]: https://github.com/LLNL/units/pull/327
 [#331]: https://github.com/LLNL/units/pull/331
 [#335]: https://github.com/LLNL/units/pull/335
 [#336]: https://github.com/LLNL/units/pull/336
