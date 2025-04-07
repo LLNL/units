@@ -16,6 +16,8 @@
 - [Peter Steneteg](https://github.com/petersteneteg)
 - [Jan-Lukas Wynen](https://github.com/jl-wynen) - Support for multi-digit power strings
 - [Jiahao Wen](https://github.com/wkindling) - Fixes for cmake standard condition
+- [Sandro penguinpee](https://github.com/penguinpee) - using installed Gtest and help debugging seg fault and other suggestions for installation
+- [Mridul Seth](https://github.com/MridulS) - Bug fix when using alternate namespaces
 
 ## Used Libraries or Code
 

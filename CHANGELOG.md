@@ -5,6 +5,30 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.0][] - 2025-04-05
+
+Updated installation, add means of using external gtest, some bug fixes, and addition methods on the Python library classes.
+The python library is working to match with [quantity-dev](https://github.com/quantity-dev/metrology-apis) Library.
+
+### Fixed
+
+- Fix segmentation fault in python library when used with units shared library [#373][]
+- Fix issue when using user-specified namespace [#377][]
+
+### Added
+
+- Add additional methods for Python Dimension class, including copy, deepcopy, additional math operations and decompose method on Dimension class [#371][],[379][]
+- Added method of using installed GTest [#376][],[#378][]
+- Added SOVERSION for unix based shared libraries [#375][]
+
+[#371]: https://github.com/LLNL/units/pull/371
+[#373]: https://github.com/LLNL/units/pull/373
+[#375]: https://github.com/LLNL/units/pull/375
+[#376]: https://github.com/LLNL/units/pull/376
+[#377]: https://github.com/LLNL/units/pull/377
+[#378]: https://github.com/LLNL/units/pull/378
+[#379]: https://github.com/LLNL/units/pull/379
+
 ## [0.12.3][] - 2025-03-04
 
 Tweaks to python packaging, add beta dimension output, and start moving some commodities to the constexpr mappings
@@ -87,6 +111,7 @@ Python package release, documentation update, continued addition of new units an
 [#317]: https://github.com/LLNL/units/pull/317
 [#318]: https://github.com/LLNL/units/pull/318
 [#322]: https://github.com/LLNL/units/pull/322
+[#327]: https://github.com/LLNL/units/pull/327
 [#331]: https://github.com/LLNL/units/pull/331
 [#335]: https://github.com/LLNL/units/pull/335
 [#336]: https://github.com/LLNL/units/pull/336
@@ -183,6 +208,8 @@ A few user suggested tweaks, and support additional unit string conversions supp
 [0.10.2]: https://github.com/LLNL/units/releases/tag/v0.10.2
 [0.11.0]: https://github.com/LLNL/units/releases/tag/v0.11.0
 [0.12.0]: https://github.com/LLNL/units/releases/tag/v0.12.0
+[0.12.3]: https://github.com/LLNL/units/releases/tag/v0.12.3
+[0.13.0]: https://github.com/LLNL/units/releases/tag/v0.13.0
 
 ## [0.7.0][] - 2022-12-17
 

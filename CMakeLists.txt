@@ -9,7 +9,7 @@
 # most of the policies, the new version is better (hence the change). We don't use the
 # 3.0...3.17 syntax because of a bug in an older MSVC's built-in and modified CMake 3.11
 if(${CMAKE_VERSION} VERSION_GREATER 3.22)
-    cmake_minimum_required(VERSION 3.22...3.31)
+    cmake_minimum_required(VERSION 3.22...4.0)
 else()
     cmake_minimum_required(VERSION 3.0)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
@@ -23,7 +23,7 @@ endif()
 project(
     ${UNITS_CMAKE_PROJECT_NAME}
     LANGUAGES C CXX
-    VERSION 0.12.3
+    VERSION 0.13.0
 )
 include(CMakeDependentOption)
 include(CTest)
