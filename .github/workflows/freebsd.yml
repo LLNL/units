@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: A job to run test in FreeBSD
+    steps:
+    - uses: actions/checkout@v4
+    - name: Test in FreeBSD
+      id: test
+      uses: vmactions/freebsd-vm@v1
+      with:
+        usesh: true
+        prepare: |
+          pkg install -y devel/googletest
+
+        run: |
+          cmake -S . -B build \
+          -DUNITS_ENABLE_TESTS=ON \
+          -DUNITS_USE_EXTERNAL_GTEST=ON
+          cmake --build build -j4
+          cd build
+          ctest --output-on-failure
