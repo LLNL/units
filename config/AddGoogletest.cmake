@@ -104,7 +104,9 @@ endfunction()
 
 # Target must already exist
 macro(add_gtest TESTNAME)
-    target_link_libraries(${TESTNAME} PUBLIC GTest::gtest GTest::gmock GTest::gtest_main)
+    target_link_libraries(
+        ${TESTNAME} PUBLIC GTest::gtest GTest::gmock GTest::gtest_main
+    )
 
     if(GOOGLE_TEST_INDIVIDUAL)
         gtest_discover_tests(
