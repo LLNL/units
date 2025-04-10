@@ -165,7 +165,7 @@ else()
         target_compile_options(test_all_unit_base PRIVATE /wd4459)
     endif()
     target_link_libraries(
-        test_all_unit_base gtest gmock gtest_main ${UNITS_LC_PROJECT_NAME}::units
+        test_all_unit_base GTest::gtest GTest::gmock GTest::gtest_main ${UNITS_LC_PROJECT_NAME}::units
         compile_flags_target
     )
     set_target_properties(test_all_unit_base PROPERTIES FOLDER "Tests")

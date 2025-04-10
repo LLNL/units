@@ -97,14 +97,14 @@ endif()
 function(add_unit_test test_source_file)
     get_filename_component(test_name "${test_source_file}" NAME_WE)
     add_executable("${test_name}" "${test_source_file}")
-    target_link_libraries("${test_name}" gtest gmock gtest_main)
+    target_link_libraries("${test_name}" GTest::gtest GTest::gmock GTest::gtest_main)
     add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}>)
     set_target_properties(${test_name} PROPERTIES FOLDER "Tests")
 endfunction()
 
 # Target must already exist
 macro(add_gtest TESTNAME)
-    target_link_libraries(${TESTNAME} PUBLIC gtest gmock gtest_main)
+    target_link_libraries(${TESTNAME} PUBLIC GTest::gtest GTest::gmock GTest::gtest_main)
 
     if(GOOGLE_TEST_INDIVIDUAL)
         gtest_discover_tests(
