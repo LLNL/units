@@ -1,4 +1,4 @@
-name: Test
+name: freebsd
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: A job to run test in FreeBSD
+    name: run test on FreeBSD
     steps:
     - uses: actions/checkout@v4
     - name: Test in FreeBSD
@@ -18,7 +18,7 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg install -y devel/googletest
+          pkg install -y devel/googletest gcc cmake
 
         run: |
           cmake -S . -B build \
