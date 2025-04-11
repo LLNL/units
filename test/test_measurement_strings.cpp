@@ -75,6 +75,29 @@ TEST(MeasurementToString, simple)
     EXPECT_EQ(to_string(meas), "45 m");
 }
 
+TEST(PreciseMeasurement, countAddition)
+{
+    auto m1 = 1.0 * precise::Hz;
+    auto m2 = 1.0 * unit_from_string("baud");
+    auto m3 = 1.0 * precise::Bq;
+
+    auto m4 = m1 + m2 + m3;
+    auto str = to_string(m4);
+}
+
+TEST(MeasurementToString, one)
+{
+    auto s1=to_string(units::precise_measurement(10, units::precise_unit(units::one)));
+    EXPECT_EQ(s1,"10");
+    auto s2=to_string(units::precise_measurement(0, units::precise_unit(units::one)));
+    EXPECT_EQ(s2,"0");
+
+    auto s3=to_string(units::measurement(10, units::unit(units::one)));
+    EXPECT_EQ(s3,"10");
+    auto s4=to_string(units::measurement(0, units::unit(units::one)));
+    EXPECT_EQ(s4,"0");
+}
+
 TEST(MeasurementToString, test)
 {
     measurement density = 10.0 * kg / m.pow(3);
