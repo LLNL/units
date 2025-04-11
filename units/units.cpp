@@ -1745,8 +1745,7 @@ std::string
     ss.precision(12);
     ss << measure.value();
     auto str = to_string(measure.units(), match_flags);
-    if (!str.empty())
-    {
+    if (!str.empty()) {
         ss << ' ';
         if (isNumericalStartCharacter(str.front())) {
             str.insert(str.begin(), '(');

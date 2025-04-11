@@ -87,15 +87,17 @@ TEST(PreciseMeasurement, countAddition)
 
 TEST(MeasurementToString, one)
 {
-    auto s1=to_string(units::precise_measurement(10, units::precise_unit(units::one)));
-    EXPECT_EQ(s1,"10");
-    auto s2=to_string(units::precise_measurement(0, units::precise_unit(units::one)));
-    EXPECT_EQ(s2,"0");
+    auto s1 = to_string(
+        units::precise_measurement(10, units::precise_unit(units::one)));
+    EXPECT_EQ(s1, "10");
+    auto s2 = to_string(
+        units::precise_measurement(0, units::precise_unit(units::one)));
+    EXPECT_EQ(s2, "0");
 
-    auto s3=to_string(units::measurement(10, units::unit(units::one)));
-    EXPECT_EQ(s3,"10");
-    auto s4=to_string(units::measurement(0, units::unit(units::one)));
-    EXPECT_EQ(s4,"0");
+    auto s3 = to_string(units::measurement(10, units::unit(units::one)));
+    EXPECT_EQ(s3, "10");
+    auto s4 = to_string(units::measurement(0, units::unit(units::one)));
+    EXPECT_EQ(s4, "0");
 }
 
 TEST(MeasurementToString, test)
