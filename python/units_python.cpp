@@ -827,34 +827,34 @@ NB_MODULE(units_llnl_ext, mod)
                 }
                 if (!custom) {
                     if (base.meter() != 0) {
-                        dictionary["meters"] = base.meter();
+                        dictionary["Length"] = base.meter();
                     }
                     if (base.kg() != 0) {
-                        dictionary["kilogram"] = base.kg();
+                        dictionary["Mass"] = base.kg();
                     }
                     if (base.second() != 0) {
-                        dictionary["second"] = base.second();
+                        dictionary["Time"] = base.second();
                     }
                     if (base.ampere() != 0) {
-                        dictionary["ampere"] = base.ampere();
+                        dictionary["Electric Current"] = base.ampere();
                     }
                     if (base.kelvin() != 0) {
-                        dictionary["kelvin"] = base.kelvin();
+                        dictionary["Temperature"] = base.kelvin();
                     }
                     if (base.mole() != 0) {
-                        dictionary["mole"] = base.mole();
+                        dictionary["Amount of Substance"] = base.mole();
                     }
                     if (base.candela() != 0) {
-                        dictionary["candela"] = base.candela();
+                        dictionary["Luminous Intensity"] = base.candela();
                     }
                     if (base.currency() != 0) {
-                        dictionary["currency"] = base.currency();
+                        dictionary["Currency"] = base.currency();
                     }
                     if (base.count() != 0) {
-                        dictionary["count"] = base.count();
+                        dictionary["Count"] = base.count();
                     }
                     if (base.radian() != 0) {
-                        dictionary["radian"] = base.radian();
+                        dictionary["Angle"] = base.radian();
                     }
                     if (base.is_per_unit()) {
                         dictionary["per_unit"] = 1;
