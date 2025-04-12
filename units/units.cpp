@@ -6174,9 +6174,8 @@ precise_unit default_unit(std::string unit_type)
                    unit_type.substr(0, unit_type.size() - strlen("rate"))) /
             precise::s;
     }
-    auto retunit=unit_from_string(unit_type);
-    if (is_valid(retunit))
-    {
+    auto retunit = unit_from_string(unit_type);
+    if (is_valid(retunit)) {
         return precise_unit(retunit.base_units());
     }
     return precise::invalid;

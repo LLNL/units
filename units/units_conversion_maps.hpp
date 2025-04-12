@@ -3498,9 +3498,9 @@ std::array<std::pair<const char*, precise_unit>, 251> defined_measurement_types{
         {"information", precise::bit},
         {"unitless", precise::one},
         {"numeric", precise::one},
-        {"currency",precise::currency},
-        {"value",precise::currency},
-        {"money",precise::currency},
-        {"count",precise::count},
+        {"currency", precise::currency},
+        {"value", precise::currency},
+        {"money", precise::currency},
+        {"count", precise::count},
     }};
 }  // namespace UNITS_NAMESPACE
