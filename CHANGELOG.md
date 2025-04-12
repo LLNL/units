@@ -22,7 +22,7 @@ Fix a bug in measurement to string operation with empty units, resolve some issu
 
 - update third party libraries (googletest and CLI11) [#385][]
 - update decompose operation on dimension and some further refinements in default_unit operations [#387][]
-  
+
 [#384]: https://github.com/LLNL/units/pull/384
 [#385]: https://github.com/LLNL/units/pull/385
 [#387]: https://github.com/LLNL/units/pull/387
