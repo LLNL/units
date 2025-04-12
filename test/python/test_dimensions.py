@@ -78,15 +78,16 @@ def test_dimensions_decompose1():
     d1 = Dimension("volume")
     decomposition = d1.decompose()
 
-    assert decomposition["meters"] == 3
+    assert decomposition["Length"] == 3
 
 
 def test_dimensions_decompose2():
     u1 = Unit("$ per watt radian")
     dim = u1.dimension
     decomposition = dim.decompose()
-
+    print(f"dim={decomposition}")
     dim2 = Dimension(decomposition)
+    print(f"dim2={dim2.decompose()}")
     assert dim2 == dim
     assert dim2.default_unit == u1
 

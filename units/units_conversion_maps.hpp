@@ -3248,7 +3248,7 @@ std::array<std::pair<const char*, precise_unit>, 233>
 
 // Mostly from https://en.wikipedia.org/wiki/International_System_of_Units
 UNITS_CPP14_CONSTEXPR_OBJECT
-std::array<std::pair<const char*, precise_unit>, 247> defined_measurement_types{
+std::array<std::pair<const char*, precise_unit>, 251> defined_measurement_types{
     {
         {"", precise::defunit},
         {"arb", precise::defunit},
@@ -3283,8 +3283,8 @@ std::array<std::pair<const char*, precise_unit>, 247> defined_measurement_types{
         {"temp", precise::K},
         {"thermodynamictemperature", precise::K},
         {"thermalconductivity", precise::W / precise::m / precise::K},
-        {"amount", precise::mol},
         {"amountofsubstance", precise::mol},
+        {"amount", precise::mol},
         {"substance", precise::mol},
         {"sub", precise::mol},
         {"luminousintensity", precise::cd},
@@ -3498,5 +3498,9 @@ std::array<std::pair<const char*, precise_unit>, 247> defined_measurement_types{
         {"information", precise::bit},
         {"unitless", precise::one},
         {"numeric", precise::one},
+        {"currency", precise::currency},
+        {"value", precise::currency},
+        {"money", precise::currency},
+        {"count", precise::count},
     }};
 }  // namespace UNITS_NAMESPACE
