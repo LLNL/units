@@ -4920,7 +4920,7 @@ static precise_unit
             return precise::m * bunit;
         }
     }
-    
+
     // detect another somewhat common situation often amphour or ampsecond
     if (unit_string.compare(0, 3, "amp") == 0) {
         bunit = unit_from_string_internal(
@@ -4930,8 +4930,7 @@ static precise_unit
         }
     }
     if (unit_string.front() == '%') {
-        if ((match_flags & no_default_units)==0)
-        {
+        if ((match_flags & no_default_units) == 0) {
             bunit = default_unit(unit_string.substr(1));
             if (is_valid(bunit)) {
                 return precise::percent * precise::pu * bunit;
@@ -4944,8 +4943,7 @@ static precise_unit
         }
     }
     if (unit_string.compare(0, 2, "pu") == 0) {
-        if ((match_flags & no_default_units) == 0)
-        {
+        if ((match_flags & no_default_units) == 0) {
             bunit = default_unit(unit_string.substr(2));
             if (is_valid(bunit)) {
                 return precise::pu * bunit;
@@ -5552,8 +5550,7 @@ static precise_unit unit_from_string_internal(
             if (!is_valid(b_unit)) {
                 if ((unit_string[sep] == '*') &&
                     (a_unit == precise::pu || a_unit == precise::percent)) {
-                    if ((match_flags & no_default_units) == 0)
-                    {
+                    if ((match_flags & no_default_units) == 0) {
                         b_unit = default_unit(unit_string.substr(sep + 1));
                         if (is_valid(b_unit)) {
                             return a_unit * b_unit;
@@ -6185,7 +6182,7 @@ precise_unit default_unit(std::string unit_type)
                    unit_type.substr(0, unit_type.size() - strlen("rate"))) /
             precise::s;
     }
-    auto retunit = unit_from_string(unit_type,no_default_units);
+    auto retunit = unit_from_string(unit_type, no_default_units);
     if (is_valid(retunit)) {
         return precise_unit(retunit.base_units());
     }
