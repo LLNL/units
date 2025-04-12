@@ -5,6 +5,29 @@ All notable changes to this project after the 0.2.0 release will be documented i
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.1][] - 2025-04-12
+
+Fix a bug in measurement to string operation with empty units, resolve some issues with external googletest usage on some platforms
+
+### Fixed
+
+- Fix bug when converting precise_measurement to a string where the unit was precise::one [#387][]
+- Fix issue when using external google test library on FreeBSD [#384][]
+
+### Added
+
+- Added FreeBSD github actions to test on FreeBSD and use GTest::XXX targets [#384][]
+
+### Changed
+
+- update third party libraries (googletest and CLI11) [#385][]
+- update decompose operation on dimension and some further refinements in default_unit operations [#387][]
+
+[#384]: https://github.com/LLNL/units/pull/384
+[#385]: https://github.com/LLNL/units/pull/385
+[#387]: https://github.com/LLNL/units/pull/387
+[0.13.1]: https://github.com/LLNL/units/releases/tag/v0.13.1
+
 ## [0.13.0][] - 2025-04-05
 
 Updated installation, add means of using external gtest, some bug fixes, and addition methods on the Python library classes.
