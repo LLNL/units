@@ -732,7 +732,7 @@ NB_MODULE(units_llnl_ext, mod)
                             units::precise::generate_custom_count_unit(
                                   static_cast<std::uint16_t>(value));
                     } else {
-                        def = def * (units::unit_from_string(key).pow(value));
+                        def = def * (units::default_unit(key).pow(value));
                     }
                 }
                 new (dim) Dimension{def};

@@ -6121,6 +6121,9 @@ precise_unit default_unit(std::string unit_type)
     if (unit_type.compare(0, 10, "quantityof") == 0) {
         return default_unit(unit_type.substr(10));
     }
+    if (unit_type.compare(0, 9, "measureof") == 0) {
+        return default_unit(unit_type.substr(9));
+    }
     if (unit_type.compare(0, 6, "rateof") == 0) {
         return default_unit(unit_type.substr(6)) / precise::s;
     }
@@ -6170,6 +6173,11 @@ precise_unit default_unit(std::string unit_type)
         return default_unit(
                    unit_type.substr(0, unit_type.size() - strlen("rate"))) /
             precise::s;
+    }
+    auto retunit=unit_from_string(unit_type);
+    if (is_valid(retunit))
+    {
+        return precise_unit(retunit.base_units());
     }
     return precise::invalid;
 }
