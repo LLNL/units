@@ -1933,7 +1933,8 @@ enum unit_conversion_flags : std::uint64_t {
         (1U << 24U),  // counter for skipping commodity check vi of
     // nothing at 25, 24 through 26 are connected
     no_commodities = (1U << 26U),  //!< skip commodity checks
-    // 27-31 are unused as of yet
+    no_default_units = (1U << 27U), //!< skip any check of default unit types
+    // 28-31 are unused as of yet
     partition_check1 = (1ULL << 32U),  //!< counter for skipping partitioning
     // nothing at 28, 27 through 29 are connected to limit partition
     // depth

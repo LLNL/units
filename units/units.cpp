@@ -4908,29 +4908,34 @@ static precise_unit
 static precise_unit
     checkSpecialUnits(const std::string& unit_string, std::uint64_t match_flags)
 {
+    precise_unit bunit;
     // lets try checking for meter next which is one of the most common
     // reasons for getting here
     auto fnd = findWordOperatorSep(unit_string, "meter");
     if (fnd != std::string::npos) {
         std::string ustring = unit_string;
         ustring.erase(fnd, 5);
-        auto bunit = unit_from_string_internal(ustring, match_flags);
+        bunit = unit_from_string_internal(ustring, match_flags);
         if (is_valid(bunit)) {
             return precise::m * bunit;
         }
     }
+    
     // detect another somewhat common situation often amphour or ampsecond
     if (unit_string.compare(0, 3, "amp") == 0) {
-        auto bunit = unit_from_string_internal(
+        bunit = unit_from_string_internal(
             unit_string.substr(3), match_flags | minimum_partition_size3);
         if (is_valid(bunit)) {
             return precise::A * bunit;
         }
     }
     if (unit_string.front() == '%') {
-        auto bunit = default_unit(unit_string.substr(1));
-        if (is_valid(bunit)) {
-            return precise::percent * precise::pu * bunit;
+        if ((match_flags & no_default_units)==0)
+        {
+            bunit = default_unit(unit_string.substr(1));
+            if (is_valid(bunit)) {
+                return precise::percent * precise::pu * bunit;
+            }
         }
         bunit = unit_from_string_internal(
             unit_string.substr(1), match_flags | minimum_partition_size3);
@@ -4939,9 +4944,12 @@ static precise_unit
         }
     }
     if (unit_string.compare(0, 2, "pu") == 0) {
-        auto bunit = default_unit(unit_string.substr(2));
-        if (is_valid(bunit)) {
-            return precise::pu * bunit;
+        if ((match_flags & no_default_units) == 0)
+        {
+            bunit = default_unit(unit_string.substr(2));
+            if (is_valid(bunit)) {
+                return precise::pu * bunit;
+            }
         }
         bunit = unit_from_string_internal(
             unit_string.substr(2), match_flags | minimum_partition_size3);
@@ -5544,9 +5552,12 @@ static precise_unit unit_from_string_internal(
             if (!is_valid(b_unit)) {
                 if ((unit_string[sep] == '*') &&
                     (a_unit == precise::pu || a_unit == precise::percent)) {
-                    b_unit = default_unit(unit_string.substr(sep + 1));
-                    if (is_valid(b_unit)) {
-                        return a_unit * b_unit;
+                    if ((match_flags & no_default_units) == 0)
+                    {
+                        b_unit = default_unit(unit_string.substr(sep + 1));
+                        if (is_valid(b_unit)) {
+                            return a_unit * b_unit;
+                        }
                     }
                 }
                 return precise::invalid;
@@ -6174,7 +6185,7 @@ precise_unit default_unit(std::string unit_type)
                    unit_type.substr(0, unit_type.size() - strlen("rate"))) /
             precise::s;
     }
-    auto retunit = unit_from_string(unit_type);
+    auto retunit = unit_from_string(unit_type,no_default_units);
     if (is_valid(retunit)) {
         return precise_unit(retunit.base_units());
     }
