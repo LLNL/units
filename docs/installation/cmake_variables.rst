@@ -12,8 +12,8 @@ CMake variables
 -  `UNITS_BUILD_STATIC_LIBRARY`:  Controls whether a static library should be built or not
 -  `UNITS_BUILD_SHARED_LIBRARY`:  Controls whether to build a shared library or not, only one or none of `UNITS_BUILD_STATIC_LIBRARY` and `UNITS_BUILD_SHARED_LIBRARY` can be enabled at one time.
 -  `BUILD_SHARED_LIBS`:  Controls the defaults for the previous two options, overriding them takes precedence
--  `UNITS_BUILD_FUZZ_TARGETS`:  If set to `ON`, the library will try to compile the fuzzing targets for clang libFuzzer
--  `UNITS_BUILD_WEB_SERVER`:  If set to `ON`,  build a webserver,  This uses boost::beast and requires boost 1.70 or greater to build it also requires CMake 3.12 or greater
+-  `UNITS_BUILD_FUZZ_TARGETS`:  If set to `ON`, the library will try to compile the fuzzing targets for clang libFuzzer, default `OFF`
+-  `UNITS_BUILD_WEB_SERVER`:  If set to `ON`,  build a webserver,  This uses boost::beast and requires boost 1.70 or greater to build it also requires CMake 3.12 or greater, default `ON`
 -  `UNITS_USE_EXTERNAL_GTEST`: Defaults to `OFF` only used if `UNIT_ENABLE_TESTS` is also on, but if set to `ON` will search for an external Gtest and GMock libraries
 -  `UNITS_BUILD_CONVERTER_APP`: enables building a simple command line converter application that can convert units from the command line
 -  `UNITS_ENABLE_EXTRA_COMPILER_WARNINGS`: Turn on bunch of extra compiler warnings, on by default
@@ -27,7 +27,9 @@ CMake variables
 -  `UNITS_DEFAULT_MATCH_FLAGS`: Specify an integer value for the default match flags to be used for conversion
 -  `UNITS_DISABLE_NON_ENGLISH_UNITS`: the library includes a number of non-english units that can be converted from strings, these can be disabled by setting `UNITS_DISABLE_NON_ENGLISH_UNITS` to ON or setting the definition in the C++ code.
 -  `UNITS_DISABLE_EXTRA_UNIT_STANDARDS`: If set to `ON` disables UN recommendation 12, X12(not implemented yet), DOD(not implemented yet), from being included in the compilation and generated from strings.
-
+-  `UNITS_BUILD_PYTHON_LIBRARY`: If set to true builds the python wrapper to the units library using nanobind
+-  `UNITS_PYTHON_INSTALL_SHARED_LIBRARY`: If set to true and `UNITS_BUILD_SHARED_LIBRARY` is also true will install the shared library alongside the python wrapper binary
+-  `UNITS_PYTHON_ONLY_INSTALL`: defaults to true if built with scikit otherwise false, if true only installs the components required for the python library otherwise normal installation occurs
 -  `UNITS_NAMESPACE`:  The top level namespace of the library, defaults to `units`.
    When compiling with C++17 (or higher), this can be set to, e.g., `mynamespace::units` to avoid name clashes with other libraries defining `units`.
 -  `UNITS_INSTALL`:  This is set to `ON` normally but defaults to `OFF` if used as a subproject.  This controls whether anything gets installed by the install target.
@@ -37,7 +39,7 @@ If compiling as part of a subproject then a few other options are useful
 
 -  `UNITS_HEADER_ONLY`:  Only generate the header only target, sets `UNITS_BUILD_STATIC_LIBRARY` and `UNITS_BUILD_SHARED_LIBRARY` to OFF
 -  `UNITS_INSTALL`:  enable the install instructions of the library
--  `UNITS_BUILD_OBJECT_LIBRARY`:  Generate an object library that can be used as part of other builds.  Only one of `UNITS_BUILD_SHARED_LIBRARY`, `UNITS_BUILD_STATIC_LIBRARY`, or `UNITS_BUILD_OBJECT_LIBRARY` can be set to `ON`.  If more than one are set,  the shared library and object library settings take precedence over the static library.
+-  `UNITS_BUILD_OBJECT_LIBRARY`:  Default `OFF`,Generate an object library that can be used as part of other builds.  Only one of `UNITS_BUILD_SHARED_LIBRARY`, `UNITS_BUILD_STATIC_LIBRARY`, or `UNITS_BUILD_OBJECT_LIBRARY` can be set to `ON`.  If more than one are set,  the shared library and object library settings take precedence over the static library.
 -  `UNITS_LIBRARY_EXPORT_COMMAND`:  If desired the targets for the units library can be merged into an root project target list by modifying this variable.  The use cases for this are rare, but if this is something you want to do this variable should be set to something like `EXPORT rootProjectTargets`.  It defaults to `"EXPORT unitsTargets"`
 
 CMake Targets

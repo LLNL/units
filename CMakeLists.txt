@@ -113,6 +113,11 @@ cmake_dependent_option(
     UNITS_BUILD_PYTHON_LIBRARY "Build the simplified python library" OFF
     "CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME" OFF
 )
+
+cmake_dependent_option(
+    UNITS_PYTHON_ONLY_INSTALL "Only install the python library" SKBUILD
+    "UNITS_BUILD_PYTHON_LIBRARY" OFF
+)
 set(UNITS_CLANG_TIDY_OPTIONS
     ""
     CACHE STRING "Clang tidy options, such as -fix, semicolon separated"
@@ -323,7 +328,7 @@ if(NOT UNITS_HEADER_ONLY AND UNITS_BUILD_PYTHON_LIBRARY)
     endif()
 endif()
 
-if(UNITS_INSTALL AND NOT SKBUILD)
+if(UNITS_INSTALL AND NOT UNITS_PYTHON_ONLY_INSTALL)
     if(UNITS_BUILD_STATIC_LIBRARY)
         install(TARGETS compile_flags_target ${UNITS_LIBRARY_EXPORT_COMMAND})
     endif()
