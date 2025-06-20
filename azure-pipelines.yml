@@ -61,18 +61,18 @@ jobs:
           vmImage: 'macOS-latest'
           units.std: 11
         Windows17:
-          vmImage: 'windows-2019'
+          vmImage: 'windows-2022'
           units.options: -DUNITS_BUILD_SHARED_LIBRARY=ON -DUNITS_BUILD_STATIC_LIBRARY=OFF
           units.std: 17
         Windows32bit:
-          vmImage: 'windows-2019'
+          vmImage: 'windows-2022'
           units.options: -A "Win32" -DUNITS_BUILD_WEBSERVER=OFF
           units.std: 14
         Windows11:
-          vmImage: 'windows-2019'
+          vmImage: 'windows-2022'
           units.std: 11
         Windowslatest:
-          vmImage: 'windows-2022'
+          vmImage: 'windows-2025'
           units.std: 23
           units.options: -DCMAKE_CXX_FLAGS="/std:c++latest"
     pool:
