@@ -18,7 +18,7 @@ jobs:
         std: ["11", "14", "17", "20"]
         unitBase: ["uint64_t", "uint32_t"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
