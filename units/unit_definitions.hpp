@@ -210,7 +210,7 @@ namespace precise {
     constexpr precise_unit nm{1e-9, m};
 
     // Volume units
-    constexpr precise_unit L{0.001, m* m* m};
+    constexpr precise_unit L{0.001, m * m * m};
     constexpr precise_unit mL{0.001, L};
     // mass units
     constexpr precise_unit g{0.001, kg};
@@ -240,7 +240,7 @@ namespace precise {
         constexpr precise_unit roentgen{2.58e-4, C / kg};
         constexpr precise_unit REM{0.01, precise::Sv};
         constexpr precise_unit RAD{100, erg / g};
-        constexpr precise_unit emu{0.001, A* m* m};
+        constexpr precise_unit emu{0.001, A * m * m};
         constexpr precise_unit langley{41840.0, J / m.pow(2)};
         constexpr precise_unit unitpole{1.256637061436e-7, Wb};
         constexpr precise_unit statC_charge{10.0 / c_const, C};
@@ -403,7 +403,7 @@ namespace precise {
         // volume
         constexpr precise_unit minim{61.611519921875, micro* L};
         constexpr precise_unit dram{60.0, minim};
-        constexpr precise_unit floz{29.5735295625e-6, m* m* m};
+        constexpr precise_unit floz{29.5735295625e-6, m * m * m};
         constexpr precise_unit tbsp{0.5, floz};
         constexpr precise_unit tsp{1.0 / 6.0, floz};
         constexpr precise_unit pinch{0.125, tsp};
@@ -1417,7 +1417,7 @@ namespace precise {
         constexpr precise_unit faraday{96485.3321233100184, C};
         // others
         constexpr precise_unit rpm{constants::pi / 30.0, rad* Hz};
-        constexpr precise_unit CFM(ft* ft* ft / minute);
+        constexpr precise_unit CFM(ft * ft * ft / minute);
 
         constexpr precise_unit MegaBuck{1000000.0, currency};
         constexpr precise_unit GigaBuck{1000.0, MegaBuck};
