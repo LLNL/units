@@ -23,7 +23,7 @@ jobs:
     - name: Check metadata
       run: pipx run twine check dist/*
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       with:
         name: dist-sdist
         path: dist/*.tar.gz
@@ -49,7 +49,7 @@ jobs:
       shell: bash
 
     - name: Upload wheels
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         path: wheelhouse/*.whl
         name: dist-${{ matrix.os }}
